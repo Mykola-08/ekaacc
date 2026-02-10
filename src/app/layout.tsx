@@ -1,9 +1,14 @@
 import type { Metadata, Viewport } from 'next';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import '@/styles/globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { AuthProvider } from '@/context/platform/auth-context';
 import { GlobalErrorReporter } from '@/components/observability/GlobalErrorReporter';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+import { MorphingToaster } from '@/components/ui/morphing-toaster';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'EKA Balance - Teràpies Integratives',
@@ -26,19 +31,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans">
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn("font-sans antialiased", GeistSans.variable, GeistMono.variable)}>
         <a href="#main-content" className="ux-skip-link">
           Skip to main content
         </a>
-        <AuthProvider>
-          <LanguageProvider>
-            <TooltipProvider>
-              <GlobalErrorReporter />
-              {children}
-            </TooltipProvider>
-          </LanguageProvider>
-        </AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <LanguageProvider>
+              <TooltipProvider>
+                <MorphingToaster />
+                <GlobalErrorReporter />
+                {children}
+              </TooltipProvider>
+            </LanguageProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

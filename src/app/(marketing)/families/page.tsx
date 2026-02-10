@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import FamiliesContent from '@/components/marketing/FamiliesContent';
-export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Bienestar para Familias | EKA Balance',

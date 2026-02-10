@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Plus, Target, CheckCircle2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { Input } from '@/components/ui/input';
 import {
   Dialog,
@@ -79,33 +79,33 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
       variant="default"
     >
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="rounded-[20px] sm:max-w-[425px]">
+        <DialogContent className="rounded-lg sm:max-w-106.25">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Set a New Goal</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">Set a New Goal</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <Input
-              className="bg-card border-border h-12 rounded-xl"
+              className="bg-card border-border h-9 rounded-lg"
               placeholder="Goal Title (e.g. Meditate Daily)"
               value={newGoal.title}
               onChange={(e) => setNewGoal({ ...newGoal, title: e.target.value })}
             />
             <div className="flex gap-4">
               <Input
-                className="bg-card border-border h-12 rounded-xl"
+                className="bg-card border-border h-9 rounded-lg"
                 type="number"
                 placeholder="Target"
                 value={newGoal.target}
                 onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
               />
               <Input
-                className="bg-card border-border h-12 rounded-xl"
+                className="bg-card border-border h-9 rounded-lg"
                 placeholder="Type (mood, sleep, activity, custom)"
                 value={newGoal.target_type}
                 onChange={(e) => setNewGoal({ ...newGoal, target_type: e.target.value })}
               />
             </div>
-            <Button onClick={addGoal} className="h-12 w-full rounded-xl text-lg font-bold">
+            <Button onClick={addGoal} className="h-9 w-full rounded-lg text-lg font-semibold">
               Create Goal
             </Button>
           </div>
@@ -114,7 +114,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
 
       <div className="mt-2 space-y-6">
         {goals.length === 0 && (
-          <div className="text-muted-foreground bg-card border-border rounded-xl border border-dashed py-6 text-center text-sm italic">
+          <div className="text-muted-foreground bg-card border-border rounded-lg border border-dashed py-6 text-center text-sm italic">
             No goals set yet. Start today!
           </div>
         )}
@@ -122,7 +122,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
           const progress = Math.min(100, (goal.current_value / goal.target_value) * 100);
           return (
             <div key={goal.id} className="group space-y-2">
-              <div className="text-foreground flex justify-between text-[13px] font-bold">
+              <div className="text-foreground flex justify-between text-[13px] font-semibold">
                 <span>{goal.title}</span>
                 <span className="text-muted-foreground">
                   {goal.current_value} / {goal.target_value} {goal.target_type}
@@ -137,7 +137,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
               <div className="flex justify-between pt-1 opacity-0 transition-opacity group-hover:opacity-100">
                 <button
                   onClick={() => updateProgress(goal, 1)}
-                  className="text-primary text-xs font-bold uppercase hover:underline"
+                  className="text-primary text-xs font-semibold uppercase hover:underline"
                 >
                   + Log Progress
                 </button>

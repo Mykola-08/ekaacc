@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Wallet, CreditCard, History, Plus, X, Check, AlertCircle } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
@@ -22,7 +22,9 @@ import { twMerge } from 'tailwind-merge';
 import { createWalletTopUpIntentAction } from '@/app/actions/wallet';
 import type { PlanUsage } from '@/app/actions/plans';
 import type { Transaction } from '@/app/actions/wallet';
+import { getPaymentMethods, type PaymentMethod } from '@/app/actions/billing';
 import { useToast } from '@/hooks/platform/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -111,7 +113,18 @@ export function WalletContentHeadless({
   const [balance, setBalance] = useState(initialBalance);
   const [topUpAmount, setTopUpAmount] = useState(50);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [pmLoading, setPmLoading] = useState(true);
   const { toast } = useToast();
+  const router = useRouter();
+
+  // Load real payment methods
+  useEffect(() => {
+    getPaymentMethods()
+      .then((methods) => setPaymentMethods(methods))
+      .catch(() => {})
+      .finally(() => setPmLoading(false));
+  }, []);
 
   // Dialog State
   const [isOpen, setIsOpen] = useState(false);
@@ -172,7 +185,7 @@ export function WalletContentHeadless({
         {/* Left Column: Balance & TopUp */}
         <div className="space-y-8 lg:col-span-2">
           {/* Balance Card */}
-          <div className="animate-slide-up relative overflow-hidden rounded-[24px] bg-foreground p-8 text-white shadow-xl">
+          <div className="animate-slide-up relative overflow-hidden rounded-3xl bg-foreground p-8 text-white shadow-sm">
             <div className="pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br from-foreground/80 to-foreground blur-3xl" />
 
             <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
@@ -205,7 +218,7 @@ export function WalletContentHeadless({
                 </div>
                 <button
                   onClick={handleTopUpClick}
-                  className="bg-card hover:bg-muted mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-bold text-black shadow-lg transition-colors"
+                  className="bg-card hover:bg-muted mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold text-black shadow-sm transition-colors"
                 >
                   <Plus className="h-5 w-5" />
                   Add Funds
@@ -220,7 +233,7 @@ export function WalletContentHeadless({
             className="animate-slide-up space-y-6"
             style={{ animationDelay: '100ms' }}
           >
-            <TabList className="bg-muted/80 flex w-fit space-x-2 rounded-[20px] p-1.5">
+            <TabList className="bg-muted/80 flex w-fit space-x-2 rounded-lg p-1.5">
               <Tab
                 className={({ selected }) =>
                   cn(
@@ -250,7 +263,7 @@ export function WalletContentHeadless({
             </TabList>
 
             <TabPanels>
-              <TabPanel className="bg-card min-h-100 rounded-[24px] border border-border p-8 shadow-sm focus:outline-none">
+              <TabPanel className="bg-card min-h-100 rounded-3xl border border-border p-8 shadow-sm focus:outline-none">
                 {initialTransactions.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
@@ -266,7 +279,7 @@ export function WalletContentHeadless({
                     {initialTransactions.slice(0, 10).map((tx) => (
                       <div
                         key={tx.id}
-                        className="hover:bg-muted/30 group flex items-center justify-between rounded-[20px] border border-transparent p-4 transition-colors hover:border-border"
+                        className="hover:bg-muted/30 group flex items-center justify-between rounded-lg border border-transparent p-4 transition-colors hover:border-border"
                       >
                         <div className="flex items-center gap-4">
                           <div
@@ -284,7 +297,7 @@ export function WalletContentHeadless({
                             )}
                           </div>
                           <div>
-                            <p className="text-foreground font-bold">
+                            <p className="text-foreground font-semibold">
                               {tx.description || 'Top Up'}
                             </p>
                             <p className="text-muted-foreground text-xs">
@@ -294,7 +307,7 @@ export function WalletContentHeadless({
                         </div>
                         <span
                           className={cn(
-                            'font-mono font-bold',
+                            'font-mono font-semibold',
                             tx.amount > 0 ? 'text-green-600' : 'text-foreground'
                           )}
                         >
@@ -307,7 +320,7 @@ export function WalletContentHeadless({
                 )}
               </TabPanel>
 
-              <TabPanel className="bg-card min-h-[400px] rounded-[20px] border border-border p-8 shadow-sm focus:outline-none">
+              <TabPanel className="bg-card min-h-100 rounded-lg border border-border p-8 shadow-sm focus:outline-none">
                 {initialPlans.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
@@ -321,10 +334,10 @@ export function WalletContentHeadless({
                     {initialPlans.map((plan) => (
                       <div
                         key={plan.id}
-                        className="bg-muted/30 relative overflow-hidden rounded-[20px] border border-border p-6"
+                        className="bg-muted/30 relative overflow-hidden rounded-lg border border-border p-6"
                       >
                         <div className="relative z-10">
-                          <h3 className="text-foreground mb-1 text-lg font-bold">
+                          <h3 className="text-foreground mb-1 text-lg font-semibold">
                             {plan.name || 'Standard Plan'}
                           </h3>
                           <p className="text-muted-foreground mb-4 text-sm">
@@ -353,36 +366,70 @@ export function WalletContentHeadless({
           className="animate-slide-up space-y-6 lg:col-span-1"
           style={{ animationDelay: '200ms' }}
         >
-          <div className="bg-card rounded-[24px] border border-border p-8 shadow-sm">
-            <h3 className="text-foreground mb-4 text-xl font-bold">Payment Methods</h3>
-            <div className="bg-muted/30 mb-4 flex items-center gap-3 rounded-[20px] border border-border p-4">
-              <div className="text-muted-foreground flex h-6 w-10 items-center justify-center rounded bg-muted text-xs font-bold">
-                VISA
+          <div className="bg-card rounded-3xl border border-border p-8 shadow-sm">
+            <h3 className="text-foreground mb-4 text-xl font-semibold">Payment Methods</h3>
+            {pmLoading ? (
+              <div className="space-y-3">
+                {[1, 2].map((i) => (
+                  <div key={i} className="h-16 animate-pulse rounded-lg bg-muted" />
+                ))}
               </div>
-              <div>
-                <p className="text-foreground text-sm font-bold">•••• 4242</p>
-                <p className="text-muted-foreground text-xs">Expires 12/28</p>
+            ) : paymentMethods.length > 0 ? (
+              <div className="space-y-3 mb-4">
+                {paymentMethods.map((pm) => (
+                  <div
+                    key={pm.id}
+                    className="bg-muted/30 flex items-center gap-3 rounded-lg border border-border p-4"
+                  >
+                    <div className="text-muted-foreground flex h-6 w-10 items-center justify-center rounded bg-muted text-xs font-semibold uppercase">
+                      {pm.brand}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-foreground text-sm font-semibold">•••• {pm.last4}</p>
+                      <p className="text-muted-foreground text-xs">
+                        Expires {String(pm.exp_month).padStart(2, '0')}/{pm.exp_year}
+                      </p>
+                    </div>
+                    {pm.is_default && (
+                      <span className="rounded-full bg-foreground/10 px-2.5 py-0.5 text-[10px] font-semibold text-foreground">
+                        Default
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
-            </div>
-            <button className="border-border text-foreground/90 hover:bg-muted/30 w-full rounded-xl border py-3 font-semibold transition-colors">
+            ) : (
+              <div className="bg-muted/30 mb-4 flex flex-col items-center justify-center rounded-lg border border-border py-8 text-center">
+                <CreditCard className="mb-2 h-8 w-8 text-muted-foreground/40" />
+                <p className="text-sm text-muted-foreground">No payment methods saved</p>
+                <p className="text-xs text-muted-foreground/70">Add a card by topping up your wallet</p>
+              </div>
+            )}
+            <button
+              onClick={() => router.push('/finances?tab=billing')}
+              className="border-border text-foreground/90 hover:bg-muted/30 w-full rounded-xl border py-3 font-semibold transition-colors"
+            >
               Manage Methods
             </button>
           </div>
 
-          <div className="rounded-[24px] border border-blue-100 bg-blue-50/50 p-8 shadow-sm">
+          <div className="rounded-3xl border border-primary/10 bg-primary/5 p-8 shadow-sm">
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100">
-                <AlertCircle className="h-5 w-5 text-blue-600" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                <AlertCircle className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h3 className="mb-2 text-lg font-bold text-blue-900">Need Help?</h3>
-                <p className="mb-4 text-sm leading-relaxed text-blue-800/80">
+                <h3 className="mb-2 text-lg font-semibold text-foreground">Need Help?</h3>
+                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
                   If you have questions about your balance or transactions, our support team is here
                   to help.
                 </p>
-                <button className="text-sm font-bold text-blue-700 underline hover:text-blue-800">
+                <a
+                  href="mailto:support@eka.care"
+                  className="text-sm font-semibold text-primary underline hover:text-primary/80"
+                >
                   Contact Support
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -415,10 +462,10 @@ export function WalletContentHeadless({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-[24px] p-8 text-left align-middle shadow-xl transition-all">
+                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-3xl p-8 text-left align-middle shadow-sm transition-all">
                   <DialogTitle
                     as="h3"
-                    className="text-foreground mb-6 flex items-center justify-between text-2xl leading-6 font-bold"
+                    className="text-foreground mb-6 flex items-center justify-between text-2xl leading-6 font-semibold"
                   >
                     <span>Secure Top Up</span>
                     <button
@@ -432,7 +479,7 @@ export function WalletContentHeadless({
                   <div className="mt-2">
                     <p className="text-muted-foreground mb-6 text-sm">
                       You are about to add{' '}
-                      <span className="text-foreground text-base font-bold">€{topUpAmount}</span> to
+                      <span className="text-foreground text-base font-semibold">€{topUpAmount}</span> to
                       your wallet.
                     </p>
 

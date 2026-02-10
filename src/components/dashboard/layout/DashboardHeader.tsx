@@ -25,17 +25,16 @@ export function DashboardHeader({
   return (
     <div
       className={cn(
-        'mb-8 flex flex-col items-end justify-between gap-4 pb-6 transition-all md:flex-row',
+        'mb-6 flex flex-col items-end justify-between gap-3 border-b border-border pb-4 transition-colors md:flex-row',
         className
       )}
     >
-      <div className="space-y-1">
-        {/* Clean, high-availability header style */}
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">{title}</h2>
-        {subtitle && <p className="text-sm font-medium text-muted-foreground">{subtitle}</p>}
+      <div className="space-y-0.5">
+        <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
+        {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
       </div>
 
-      <div className="flex w-full items-center gap-4 md:w-auto">{children}</div>
+      <div className="flex w-full items-center gap-3 md:w-auto">{children}</div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { format } from 'date-fns';
 import { ErrorLogDialog } from '@/components/admin/error-log-dialog';
@@ -25,12 +25,12 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
           <div className="bg-card border-border/60 text-muted-foreground flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium shadow-sm">
             <AlertTriangle className="h-4 w-4 text-amber-500" />
             <span>Total Events:</span>
-            <span className="text-foreground font-bold">{count}</span>
+            <span className="text-foreground font-semibold">{count}</span>
           </div>
         </div>
 
         {/* Table */}
-        <div className="bg-card border-border/60 overflow-hidden rounded-2xl border shadow-xl">
+        <div className="bg-card border-border/60 overflow-hidden rounded-lg border shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left text-sm">
               <thead>
@@ -62,7 +62,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                       </td>
                       <td className="p-6">
                         <div
-                          className="text-foreground max-w-75 truncate font-bold"
+                          className="text-foreground max-w-75 truncate font-semibold"
                           title={log.error_message}
                         >
                           {log.error_message}
@@ -78,7 +78,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                       </td>
                       <td className="p-6 font-mono text-xs">
                         {log.user_id ? (
-                          <span className="rounded-md bg-indigo-50 px-2 py-1 font-bold text-indigo-700">
+                          <span className="rounded-md bg-indigo-50 px-2 py-1 font-semibold text-indigo-700">
                             {log.user_id.slice(0, 8)}
                           </span>
                         ) : (

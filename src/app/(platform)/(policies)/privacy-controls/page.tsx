@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '@/context/platform/auth-context';
 import {
   Card,
@@ -32,7 +32,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import {
   Shield,
   Lock,
@@ -63,7 +63,7 @@ const SurfacePanel = ({ children, className }: any) => (
 );
 const PageHeader = ({ title, description }: any) => (
   <div className="mb-8">
-    <h1 className="text-3xl font-bold">{title}</h1>
+    <h1 className="text-3xl font-semibold">{title}</h1>
     <p className="text-muted-foreground">{description}</p>
   </div>
 );
@@ -401,7 +401,7 @@ export default function PrivacyControlsPage() {
             <Card className="border-muted">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
-                  <Shield className="mr-3 h-6 w-6 text-blue-600" />
+                  <Shield className="mr-3 h-6 w-6 text-primary" />
                   Privacy Overview
                 </CardTitle>
               </CardHeader>
@@ -417,8 +417,8 @@ export default function PrivacyControlsPage() {
                     </p>
                   </div>
                   <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-                      <Eye className="h-6 w-6 text-blue-600" />
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                      <Eye className="h-6 w-6 text-primary" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Transparency</h3>
                     <p className="text-muted-foreground text-sm">Full visibility into data usage</p>
@@ -449,7 +449,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Database className="mr-2 h-5 w-5 text-blue-600" />
+                      <Database className="mr-2 h-5 w-5 text-primary" />
                       Data Sharing Preferences
                     </CardTitle>
                     <CardDescription>Control how your data is shared and used</CardDescription>
@@ -807,7 +807,7 @@ export default function PrivacyControlsPage() {
                             key={audit.id}
                             className="bg-muted/40 flex items-start space-x-3 rounded-xl p-3"
                           >
-                            <div className="mt-2 h-2 w-2 rounded-full bg-blue-500"></div>
+                            <div className="mt-2 h-2 w-2 rounded-full bg-primary"></div>
                             <div className="flex-1">
                               <p className="text-foreground text-sm font-medium">
                                 {audit.action.replace('_', ' ').toUpperCase()}

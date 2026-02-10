@@ -5,7 +5,7 @@ import { Calendar, MessageCircle, X } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
 import PageLayout from './PageLayout';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 
 interface FormData {
@@ -141,10 +141,10 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-[400px] cursor-pointer flex-col items-center justify-center rounded-[20px] border border-amber-100 bg-amber-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-100 cursor-pointer flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-gray-50/50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-amber-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                <Calendar className="h-10 w-10 text-amber-700" strokeWidth={1.5} />
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-white text-marketing-accent shadow-sm transition-transform duration-300 group-hover:scale-110">
+                <Calendar className="h-10 w-10 text-primary" strokeWidth={1.5} />
               </div>
               <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
                 In-App Booking Flow
@@ -155,7 +155,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               <Link
                 href="/book"
                 onClick={() => logEvent('booking_page_app_flow_click')}
-                className="btn inline-flex w-full items-center justify-center rounded-xl bg-amber-500 py-4 font-bold tracking-wide text-white shadow-lg transition-all hover:bg-amber-600 hover:shadow-amber-500/30 active:scale-95"
+                className="btn inline-flex w-full items-center justify-center rounded-xl bg-primary py-4 font-bold tracking-wide text-white shadow-lg transition-all hover:bg-primary/90 hover:shadow-primary/30 active:scale-95"
               >
                 Start Booking Flow
               </Link>
@@ -166,10 +166,10 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-[400px] flex-col items-center justify-center rounded-[20px] border border-emerald-100 bg-emerald-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-100 flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-emerald-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                <MessageCircle className="h-10 w-10 text-emerald-600" strokeWidth={1.5} />
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-gray-50 text-emerald-600 transition-transform duration-300 group-hover:scale-110">
+                <MessageCircle className="h-10 w-10" strokeWidth={1.5} />
               </div>
               <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
                 {t('booking.direct.title')}
@@ -182,7 +182,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                 onClick={() => logEvent('booking_page_whatsapp_click')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn w-full rounded-xl bg-emerald-600 py-4 font-bold tracking-wide text-white shadow-lg transition-all hover:bg-emerald-700 hover:shadow-emerald-600/30 active:scale-95"
+                className="btn w-full rounded-xl border border-gray-200 bg-white py-4 font-bold tracking-wide text-gray-900 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md active:scale-95"
               >
                 {t('booking.direct.button')}
               </a>
@@ -193,10 +193,10 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-[400px] flex-col items-center justify-center rounded-[20px] border border-blue-100 bg-blue-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-100 flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-gray-50/50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-blue-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                <Calendar className="h-10 w-10 text-blue-600" strokeWidth={1.5} />
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+                <Calendar className="h-10 w-10 text-primary" strokeWidth={1.5} />
               </div>
               <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
                 {t('booking.form.title')}

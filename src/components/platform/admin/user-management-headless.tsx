@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect, Fragment } from 'react';
 import { listUsers, updateUserRole } from '@/app/actions/admin-users';
@@ -79,7 +79,7 @@ export function UserManagementHeadless() {
     <div className="space-y-6">
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h2 className="text-foreground text-xl font-bold">User Management</h2>
+          <h2 className="text-foreground text-xl font-semibold">User Management</h2>
           <p className="text-muted-foreground text-sm">
             Manage standard user accounts and permissions.
           </p>
@@ -87,7 +87,7 @@ export function UserManagementHeadless() {
         <button
           onClick={loadUsers}
           disabled={loading}
-          className="bg-card text-foreground/90 border-border hover:bg-muted/30 flex items-center gap-2 rounded-xl border px-4 py-2.5 shadow-sm transition-colors disabled:opacity-50"
+          className="bg-card text-foreground/90 border-border hover:bg-muted/30 flex items-center gap-2 rounded-lg border px-4 py-2.5 shadow-sm transition-colors disabled:opacity-50"
         >
           <RefreshCw className={cn('h-4 w-4', loading ? 'animate-spin' : '')} />
           <span>Refresh</span>
@@ -95,17 +95,17 @@ export function UserManagementHeadless() {
       </div>
 
       <div className="group relative w-full sm:w-96">
-        <Search className="text-muted-foreground/80 absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-blue-500" />
+        <Search className="text-muted-foreground/80 absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-primary" />
         <input
           type="text"
           placeholder="Search users by email or ID..."
-          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-[20px] border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
+          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-lg border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-primary"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="bg-card overflow-hidden rounded-[20px] shadow-xl ring-1 shadow-slate-200/50 ring-border">
+      <div className="bg-card overflow-hidden rounded-lg shadow-sm ring-1 ring-border">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
             <thead className="bg-muted/30/50">
@@ -148,7 +148,7 @@ export function UserManagementHeadless() {
                 <tr key={user.id} className="hover:bg-muted/30/50 group transition-colors">
                   <td className="py-4 pr-3 pl-6 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-linear-to-br from-blue-100 to-indigo-100 font-bold text-blue-700 shadow-sm">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-linear-to-br from-muted to-muted font-semibold text-primary shadow-sm">
                         {user.email?.charAt(0).toUpperCase() || <UserIcon className="h-5 w-5" />}
                       </div>
                       <div className="ml-4">
@@ -164,7 +164,7 @@ export function UserManagementHeadless() {
                         onChange={(val) => handleRoleChange(user.id, val)}
                       >
                         <div className="relative">
-                          <ListboxButton className="bg-card/50 hover:bg-card relative w-full cursor-default rounded-xl py-2 pr-10 pl-3 text-left shadow-sm ring-1 ring-border transition-colors ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
+                          <ListboxButton className="bg-card/50 hover:bg-card relative w-full cursor-default rounded-lg py-2 pr-10 pl-3 text-left shadow-sm ring-1 ring-border transition-colors ring-inset focus:ring-2 focus:ring-primary focus:outline-none sm:text-sm sm:leading-6">
                             <span className="text-foreground/90 block truncate font-medium">
                               {user.user_metadata?.role || 'User'}
                             </span>
@@ -181,13 +181,13 @@ export function UserManagementHeadless() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <ListboxOptions className="bg-card ring-opacity-5 absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-xl py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm">
+                            <ListboxOptions className="bg-card ring-opacity-5 absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg py-1 text-base shadow-sm ring-1 ring-black focus:outline-none sm:text-sm">
                               {Object.keys(SYSTEM_ROLES).map((role) => (
                                 <ListboxOption
                                   key={role}
                                   className={({ active }) =>
                                     cn(
-                                      active ? 'bg-blue-50 text-blue-900' : 'text-foreground',
+                                      active ? 'bg-primary/5 text-foreground' : 'text-foreground',
                                       'relative cursor-default py-2 pr-4 pl-10 select-none'
                                     )
                                   }
@@ -204,7 +204,7 @@ export function UserManagementHeadless() {
                                         {role}
                                       </span>
                                       {selected ? (
-                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
                                           <Check className="h-5 w-5" aria-hidden="true" />
                                         </span>
                                       ) : null}
@@ -235,7 +235,7 @@ export function UserManagementHeadless() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <MenuItems className="bg-card ring-opacity-5 absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-xl shadow-lg ring-1 ring-black focus:outline-none">
+                        <MenuItems className="bg-card ring-opacity-5 absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-lg shadow-sm ring-1 ring-black focus:outline-none">
                           <div className="p-1">
                             <MenuItem>
                               {({ active }) => (

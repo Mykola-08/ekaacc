@@ -200,7 +200,7 @@ export default function DisclaimerPage() {
       </div>
 
       <div className="prose dark:prose-invert max-w-none">
-        <h1 className="mb-2 text-3xl font-bold">{content[lang].title}</h1>
+        <h1 className="mb-2 text-3xl font-semibold">{content[lang].title}</h1>
         <p className="text-muted-foreground mb-8 text-sm">{content[lang].updated}</p>
 
         <div className="space-y-8">

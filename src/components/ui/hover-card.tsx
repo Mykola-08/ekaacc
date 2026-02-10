@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import * as React from 'react';
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
@@ -54,7 +54,7 @@ const HoverCardContent = React.forwardRef<
     forceMount
     asChild
     className={cn(
-      'bg-popover text-popover-foreground z-50 w-64 origin-[--radix-hover-card-content-transform-origin] rounded-[20px] border-none p-4 shadow-md outline-none',
+      'bg-popover text-popover-foreground z-50 w-64 origin-[--radix-hover-card-content-transform-origin] rounded-lg border-none p-4 shadow-md outline-none',
       className
     )}
     {...props}

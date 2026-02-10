@@ -5,9 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Globe } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
-import ToastContainer from '@/components/marketing/Toast';
 import { OfflineIndicator } from '@/components/marketing/OfflineIndicator';
 import { Language } from '@/context/marketing/LanguageTypes';
 import { useLanguage } from '@/context/marketing/LanguageContext';
@@ -138,7 +137,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             }`}
           >
             {/* Logo Only - Left Side */}
-            <Link href="/" className="group relative flex flex-shrink-0 items-center">
+            <Link href="/" className="group relative flex shrink-0 items-center">
               <div
                 className={`ease-in-out-quart relative transition-all duration-500 ${isScrolled ? 'h-8 w-8' : 'h-10 w-10'}`}
               >
@@ -236,7 +235,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         href={item.href}
                         className={`ease-out-quart rounded-apple px-5 py-3 font-medium transition-all duration-200 hover:bg-white/60 ${
                           item.isGold
-                            ? 'gold-shimmer border border-yellow-200/50 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 font-black hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
+                            ? 'gold-shimmer border border-yellow-200/50 bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 font-black hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
                             : isActivePath(item.href)
                               ? 'text-accent'
                               : 'text-eka-dark hover:text-accent'
@@ -252,7 +251,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </div>
 
             {/* Right side actions */}
-            <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
+            <div className="flex shrink-0 items-center space-x-2 sm:space-x-4">
               {/* Integrated Actions */}
               <div className="hidden items-center gap-1 sm:flex">
                 <Link
@@ -379,9 +378,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <main id="main-content" className="flex-1 w-full" tabIndex={-1}>
         {children}
       </main>
-
-      {/* Toast Notifications */}
-      <ToastContainer />
 
       {/* Cookie Banner */}
       <CookieBanner />

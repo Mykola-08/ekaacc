@@ -26,24 +26,24 @@ export function DashboardGreeting({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm',
+        'rounded-xl border border-border bg-card p-6 md:p-8',
         className
       )}
     >
-      <div className="relative z-10">
+      <div>
         {badge && (
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-primary">
-            <span className="text-[10px] font-bold tracking-wider uppercase">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-primary">
+            <span className="text-[10px] font-semibold tracking-wider uppercase">
               {badge}
             </span>
           </div>
         )}
-        <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="mb-1.5 text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
           {greeting},{' '}
           <span className="text-primary">{name}</span>
         </h1>
         {subtitle && (
-          <p className="max-w-lg font-medium text-muted-foreground">
+          <p className="max-w-lg text-sm font-medium text-muted-foreground">
             {subtitle}
           </p>
         )}

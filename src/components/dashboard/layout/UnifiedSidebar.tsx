@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -34,6 +35,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubItem,
   SidebarMenuSubButton,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -70,6 +72,7 @@ import {
   Sparkles,
   ChevronRight,
   CreditCard,
+  Heart,
 } from 'lucide-react';
 import {
   Collapsible,
@@ -87,6 +90,7 @@ const ICON_MAP: Record<string, { component: any; isLucide: boolean }> = {
   shield: { component: Shield01Icon, isLucide: false },
   'credit-card': { component: CreditCardIcon, isLucide: false },
   clock: { component: Clock01Icon, isLucide: false },
+  heart: { component: Heart, isLucide: true },
   users: { component: Users, isLucide: true },
   user: { component: UserCircleIcon, isLucide: false },
   settings: { component: Settings01Icon, isLucide: false },
@@ -124,17 +128,16 @@ interface SidebarSection {
 
 /**
  * Organize the flat SIDEBAR_NAV into grouped sections.
- * We split them into: Main, Therapist, Console, Admin, Account.
+ * We split them into: Main, Therapist, Console, Account.
  */
 function organizeSections(items: PageConfig[]): SidebarSection[] {
   const main: PageConfig[] = [];
   const therapist: PageConfig[] = [];
   const console: PageConfig[] = [];
-  const admin: PageConfig[] = [];
   const account: PageConfig[] = [];
 
   for (const item of items) {
-    if (item.path === '/profile' || item.path === '/settings') {
+    if (item.path === '/settings') {
       account.push(item);
     } else if (
       item.path.startsWith('/therapist') ||
@@ -143,10 +146,6 @@ function organizeSections(items: PageConfig[]): SidebarSection[] {
       therapist.push(item);
     } else if (item.path === '/console' || item.path.startsWith('/console/')) {
       console.push(item);
-    } else if (
-      ['/admin', '/integrations', '/ai-insights', '/forms'].includes(item.path)
-    ) {
-      admin.push(item);
     } else {
       main.push(item);
     }
@@ -157,7 +156,6 @@ function organizeSections(items: PageConfig[]): SidebarSection[] {
   if (main.length > 0) sections.push({ items: main });
   if (therapist.length > 0) sections.push({ label: 'Clinical', items: therapist });
   if (console.length > 0) sections.push({ label: 'Console', items: console });
-  if (admin.length > 0) sections.push({ label: 'Management', items: admin });
   if (account.length > 0) sections.push({ label: 'Account', items: account });
 
   return sections;
@@ -165,22 +163,38 @@ function organizeSections(items: PageConfig[]): SidebarSection[] {
 
 // ─── Main component ────────────────────────────────────────────────
 
-export function UnifiedSidebar({ profile }: { profile?: any }) {
+export function UnifiedSidebar({ 
+  profile,
+  permissions 
+}: { 
+  profile?: any; 
+  permissions?: any[] 
+}) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, hasPermission } = useAuth();
+  const { user } = useAuth(); // removed hasPermission from useAuth
   const { t } = useLanguage();
   const supabase = createClient();
+  const { state: sidebarState } = useSidebar();
+  const isCollapsed = sidebarState === 'collapsed';
 
   /** Check if the user has the permission needed for a nav item */
   const canAccess = useMemo(() => {
     return (permission: PagePermission | null): boolean => {
       if (permission === null) return true; // any auth user
-      if (!user) return false;
-      const permName = `${permission.group}.${permission.action}`;
-      return hasPermission(permName);
+      
+      // If permissions are provided via props (from DB), use them
+      if (permissions) {
+        return permissions.some(p => 
+          p.group === permission.group && 
+          p.action === permission.action
+        );
+      }
+      
+      // Fallback (or if user null? but this is sidebar, auth is checked)
+      return false; 
     };
-  }, [user, hasPermission]);
+  }, [permissions]);
 
   /** Filter nav items to only those the user can access */
   const visibleItems = useMemo(() => {
@@ -218,25 +232,36 @@ export function UnifiedSidebar({ profile }: { profile?: any }) {
 
   return (
     <Sidebar
-      variant="sidebar"
-      collapsible="offcanvas"
-      className="dashboard-sidebar-panel"
+      variant="floating"
+      collapsible="icon"
+      className="dashboard-sidebar-panel border-none"
     >
-      <SidebarHeader className="p-5 pb-2">
+      <SidebarHeader className="p-4 pb-2">
         <SidebarMenu>
           <SidebarMenuItem>
             <Link href="/dashboard" className="flex items-center gap-2 px-2">
-              <span className="dashboard-sidebar-brand">EKA</span>
+              <Image
+                src="/images/eka_logo.png"
+                alt="EKA"
+                width={28}
+                height={28}
+                className="shrink-0"
+              />
+              {!isCollapsed && (
+                <span className="text-lg font-bold tracking-tight text-foreground">
+                  EKA <span className="font-light">PLATFORM</span>
+                </span>
+              )}
             </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="px-3 py-3">
+      <SidebarContent className="px-3 py-2">
         {sections.map((section, si) => (
-          <SidebarGroup key={si} className={si > 0 ? 'mt-2' : ''}>
+          <SidebarGroup key={si} className={si > 0 ? 'mt-1' : ''}>
             {section.label && (
-              <SidebarGroupLabel className="mb-1 px-3 text-[10px] font-semibold tracking-widest text-muted-foreground/60 uppercase">
+              <SidebarGroupLabel className="mb-0.5 px-3 text-[11px] font-medium tracking-wide text-muted-foreground/70 uppercase">
                 {section.label}
               </SidebarGroupLabel>
             )}
@@ -344,25 +369,37 @@ export function UnifiedSidebar({ profile }: { profile?: any }) {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4 pt-2">
+      <SidebarFooter className="p-3 pt-1">
         <SidebarMenu>
           <SidebarMenuItem>
-            <div className="dashboard-user-block">
+            <div className={cn('dashboard-user-block', isCollapsed && 'justify-center')}>
               <div className="dashboard-avatar">
                 <img
-                  src={`https://api.dicebear.com/7.x/initials/svg?seed=${displayName}&backgroundColor=f0f0f0&textColor=333`}
-                  alt=""
+                  src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(displayName)}&backgroundColor=f0f0f0&textColor=333`}
+                  alt={displayName}
                   className="h-full w-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    const fallback = target.parentElement?.querySelector('.avatar-fallback') as HTMLElement;
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
                 />
+                <span className="avatar-fallback hidden h-full w-full items-center justify-center bg-muted text-xs font-semibold text-muted-foreground" style={{ display: 'none' }}>
+                  {displayName.slice(0, 2).toUpperCase()}
+                </span>
               </div>
-              <div className="min-w-0 flex-1">
-                <div className="truncate text-sm font-medium text-foreground">
-                  {displayName}
+              {!isCollapsed && (
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-sm font-medium text-foreground">
+                    {displayName}
+                  </div>
+                  <div className="truncate text-xs text-muted-foreground">
+                    {roleLabel}
+                  </div>
                 </div>
-                <div className="truncate text-xs text-muted-foreground">
-                  {roleLabel}
-                </div>
-              </div>
+              )}
             </div>
           </SidebarMenuItem>
           <SidebarMenuItem>

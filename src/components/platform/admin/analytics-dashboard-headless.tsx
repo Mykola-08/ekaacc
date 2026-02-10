@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { Tab } from '@headlessui/react';
@@ -193,14 +193,14 @@ export function AnalyticsDashboardHeadless() {
       {/* Header */}
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-foreground flex items-center gap-3 text-4xl font-bold tracking-tight">
+          <h1 className="text-foreground flex items-center gap-3 text-4xl font-semibold tracking-tight">
             <BarChartIcon className="text-muted-foreground/80 h-8 w-8" />
             Analytics
           </h1>
           <p className="text-muted-foreground mt-2 text-lg">System metrics and user analytics.</p>
         </div>
 
-        <div className="bg-card flex items-center gap-3 rounded-full p-1.5 shadow-sm ring-1 ring-slate-200">
+        <div className="bg-card flex items-center gap-3 rounded-full p-1.5 shadow-sm ring-1 ring-border">
           <select
             value={timeframe}
             onChange={(e) => {
@@ -215,7 +215,7 @@ export function AnalyticsDashboardHeadless() {
             <option value="90d">Last 90 days</option>
           </select>
 
-          <div className="h-6 w-px bg-slate-200" />
+          <div className="h-6 w-px bg-border" />
 
           <button
             onClick={handleRefresh}
@@ -226,7 +226,7 @@ export function AnalyticsDashboardHeadless() {
             <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
           </button>
 
-          <div className="h-6 w-px bg-slate-200" />
+          <div className="h-6 w-px bg-border" />
 
           <button
             onClick={() => handleExport('csv')}
@@ -239,12 +239,12 @@ export function AnalyticsDashboardHeadless() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Total Users</span>
-            <Users className="h-5 w-5 text-blue-500" />
+            <Users className="h-5 w-5 text-primary" />
           </div>
-          <div className="text-foreground mb-2 text-3xl font-bold">
+          <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.totalUsers.toLocaleString()}
           </div>
           <div className="flex items-center text-sm">
@@ -255,12 +255,12 @@ export function AnalyticsDashboardHeadless() {
           </div>
         </div>
 
-        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Active Users</span>
             <Activity className="h-5 w-5 text-emerald-500" />
           </div>
-          <div className="text-foreground mb-2 text-3xl font-bold">
+          <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.activeUsers.toLocaleString()}
           </div>
           <div className="text-muted-foreground text-sm">
@@ -269,12 +269,12 @@ export function AnalyticsDashboardHeadless() {
           </div>
         </div>
 
-        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Conversion Rate</span>
             <BarChartIcon className="h-5 w-5 text-amber-500" />
           </div>
-          <div className="text-foreground mb-2 text-3xl font-bold">
+          <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.conversionRate.toFixed(1)}%
           </div>
           <div className="flex items-center text-sm">
@@ -286,12 +286,12 @@ export function AnalyticsDashboardHeadless() {
           </div>
         </div>
 
-        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Avg Session</span>
             <Clock className="h-5 w-5 text-violet-500" />
           </div>
-          <div className="text-foreground mb-2 text-3xl font-bold">
+          <div className="text-foreground mb-2 text-3xl font-semibold">
             {Math.floor(analytics.overview.avgSessionDuration / 60)}m{' '}
             {analytics.overview.avgSessionDuration % 60}s
           </div>
@@ -300,17 +300,17 @@ export function AnalyticsDashboardHeadless() {
       </div>
 
       {/* System Health */}
-      <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+      <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <h3 className="text-foreground text-lg font-bold">System Health</h3>
+            <h3 className="text-foreground text-lg font-semibold">System Health</h3>
             <p className="text-muted-foreground text-sm">Real-time status metrics</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <StatusBadge status={analytics.systemHealth.status} />
 
-            <div className="hidden h-4 w-px bg-slate-200 md:block" />
+            <div className="hidden h-4 w-px bg-border md:block" />
 
             <div className="text-muted-foreground bg-muted/30 rounded-full px-3 py-1">
               <span className="font-medium">Uptime:</span>{' '}
@@ -360,9 +360,9 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="space-y-6 focus:outline-none">
             {/* Overview Panel Content */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+              <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
                 <div className="mb-6">
-                  <h3 className="text-foreground text-lg font-bold">User Growth Trend</h3>
+                  <h3 className="text-foreground text-lg font-semibold">User Growth Trend</h3>
                   <p className="text-muted-foreground text-sm">User acquisition over time</p>
                 </div>
                 <div className="h-[300px] w-full">
@@ -414,9 +414,9 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
 
-              <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+              <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
                 <div className="mb-6">
-                  <h3 className="text-foreground text-lg font-bold">Activity by Hour</h3>
+                  <h3 className="text-foreground text-lg font-semibold">Activity by Hour</h3>
                   <p className="text-muted-foreground text-sm">Peak usage times</p>
                 </div>
                 <div className="h-[300px] w-full">
@@ -457,9 +457,9 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Users Panel - just duplication for tabs demo */}
-            <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+            <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
               <div className="mb-6">
-                <h3 className="text-foreground text-lg font-bold">User Growth Details</h3>
+                <h3 className="text-foreground text-lg font-semibold">User Growth Details</h3>
                 <p className="text-muted-foreground text-sm">Detailed user acquisition metrics</p>
               </div>
               <div className="h-[400px] w-full">
@@ -502,9 +502,9 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Activity Panel */}
-            <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+            <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
               <div className="mb-6">
-                <h3 className="text-foreground text-lg font-bold">Hourly Activity Pattern</h3>
+                <h3 className="text-foreground text-lg font-semibold">Hourly Activity Pattern</h3>
                 <p className="text-muted-foreground text-sm">User activity throughout the day</p>
               </div>
               <div className="h-[400px] w-full">
@@ -527,9 +527,9 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Top Pages */}
-            <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+            <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
               <div className="mb-6">
-                <h3 className="text-foreground text-lg font-bold">Most Visited Pages</h3>
+                <h3 className="text-foreground text-lg font-semibold">Most Visited Pages</h3>
                 <p className="text-muted-foreground text-sm">Top performing content</p>
               </div>
               <div className="divide-y divide-border">
@@ -552,7 +552,7 @@ export function AnalyticsDashboardHeadless() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-foreground text-sm font-bold">
+                      <p className="text-foreground text-sm font-semibold">
                         {page.views.toLocaleString()}
                       </p>
                       <p className="text-muted-foreground text-xs">views</p>
@@ -566,9 +566,9 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="focus:outline-none">
             {/* Segments */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+              <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
                 <div className="mb-6">
-                  <h3 className="text-foreground text-lg font-bold">User Segments</h3>
+                  <h3 className="text-foreground text-lg font-semibold">User Segments</h3>
                   <p className="text-muted-foreground text-sm">User distribution by segment</p>
                 </div>
                 <div className="h-[300px] w-full">
@@ -606,16 +606,16 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
 
-              <div className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+              <div className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border">
                 <div className="mb-6">
-                  <h3 className="text-foreground text-lg font-bold">Segment Details</h3>
+                  <h3 className="text-foreground text-lg font-semibold">Segment Details</h3>
                   <p className="text-muted-foreground text-sm">Breakdown by user segments</p>
                 </div>
                 <div className="space-y-4">
                   {analytics.userSegments.map((segment, index) => (
                     <div
                       key={segment.segment}
-                      className="bg-muted/30 hover:bg-muted flex items-center justify-between rounded-[20px] p-3 transition-colors"
+                      className="bg-muted/30 hover:bg-muted flex items-center justify-between rounded-lg p-3 transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <div
@@ -627,7 +627,7 @@ export function AnalyticsDashboardHeadless() {
                         </span>
                       </div>
                       <div className="text-right">
-                        <p className="text-foreground text-sm font-bold">
+                        <p className="text-foreground text-sm font-semibold">
                           {segment.count.toLocaleString()}
                         </p>
                         <p className="text-muted-foreground text-xs">

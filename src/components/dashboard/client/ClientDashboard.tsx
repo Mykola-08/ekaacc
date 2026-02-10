@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { format } from 'date-fns';
+import React, { useState, useMemo } from 'react';
+import { format, isToday, isTomorrow, differenceInDays } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Calendar01Icon,
@@ -17,21 +19,68 @@ import {
 } from '@hugeicons/core-free-icons';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
-import { StatsCard } from '../widgets/StatsCard';
 import { RecentActivity } from '../widgets/RecentActivity';
 import { PlanUsageCard } from '@/components/plans/PlanUsageCard';
 import { PlanMarketplace } from '@/components/plans/PlanMarketplace';
 import { GoalTracker } from '@/components/dashboard/goals/GoalTracker';
 import { IdentityVerificationForm } from '@/components/identity/IdentityVerificationForm';
 import { MoodCheckIn } from '../widgets/MoodCheckIn';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, X } from 'lucide-react';
-import {
-  MotivationalQuote,
-} from '@/components/ui';
+import { motion, AnimatePresence } from 'motion/react';
+import { Shield, X, ArrowRight, Sparkles, TrendingUp, Calendar, Heart, ChevronRight } from 'lucide-react';
+import { MotivationalQuote } from '@/components/ui';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
+/* ─── Greeting logic ──────────────────────────────── */
+function getGreeting(t: (k: string) => string | undefined) {
+  const hour = new Date().getHours();
+  if (hour < 12) return { text: t('page.dashboard.goodMorning') || 'Good Morning', icon: Sun03Icon, period: 'morning' };
+  if (hour < 18) return { text: t('page.dashboard.goodAfternoon') || 'Good Afternoon', icon: Sun03Icon, period: 'afternoon' };
+  return { text: t('page.dashboard.goodEvening') || 'Good Evening', icon: Moon02Icon, period: 'evening' };
+}
+
+function formatBookingDate(dateStr: string) {
+  const date = new Date(dateStr);
+  if (isToday(date)) return `Today at ${format(date, 'h:mm a')}`;
+  if (isTomorrow(date)) return `Tomorrow at ${format(date, 'h:mm a')}`;
+  const days = differenceInDays(date, new Date());
+  if (days <= 7) return `${format(date, 'EEEE')} at ${format(date, 'h:mm a')}`;
+  return format(date, 'MMM d, yyyy @ h:mm a');
+}
+
+/* ─── Quick Actions ───────────────────────────────── */
+const QUICK_ACTIONS = (t: (k: string) => string | undefined) => [
+  {
+    title: t('page.dashboard.bookSession') || 'Book a Session',
+    description: t('page.bookings.subtitle') || 'Find availability and schedule your next visit.',
+    href: '/book',
+    icon: Calendar01Icon,
+    accent: 'group-hover:bg-blue-500/10 group-hover:text-blue-600',
+  },
+  {
+    title: t('nav.bookings') || 'My Bookings',
+    description: 'Review upcoming and past appointments.',
+    href: '/bookings',
+    icon: Clock01Icon,
+    accent: 'group-hover:bg-emerald-500/10 group-hover:text-emerald-600',
+  },
+  {
+    title: t('nav.journal') || 'Journal',
+    description: 'Track mood, progress, and personal notes.',
+    href: '/wellness',
+    icon: ActivityIcon,
+    accent: 'group-hover:bg-purple-500/10 group-hover:text-purple-600',
+  },
+  {
+    title: t('nav.subscriptions') || 'Plans',
+    description: 'Browse memberships and manage your benefits.',
+    href: '/finances?tab=plans',
+    icon: PlusSignIcon,
+    accent: 'group-hover:bg-amber-500/10 group-hover:text-amber-600',
+  },
+];
+
+/* ─── Client Dashboard ────────────────────────────── */
 export function ClientDashboard({
   profile,
   wallet,
@@ -44,297 +93,301 @@ export function ClientDashboard({
   const { t } = useLanguage();
   const router = useRouter();
   const [showIdentity, setShowIdentity] = useState(profile?.identity_status !== 'verified');
-  const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
-    'idle'
-  );
+  const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading'>('idle');
+
+  const greeting = useMemo(() => getGreeting(t), [t]);
+  const quickActions = useMemo(() => QUICK_ACTIONS(t), [t]);
+  const walletBalance = (wallet?.balance_cents || 0) / 100;
+  const hasActiveGoals = goals && goals.length > 0;
+  const goalProgress = hasActiveGoals 
+    ? Math.round((goals.filter((g: any) => g.status === 'completed').length / goals.length) * 100) 
+    : 0;
 
   const handleBookClick = () => {
     setBookingStatus('loading');
-    setTimeout(() => {
-      router.push('/book');
-    }, 800);
+    router.push('/book');
   };
-
-  const hour = new Date().getHours();
-  const greeting =
-    hour < 12
-      ? t('page.dashboard.goodMorning') || 'Good Morning'
-      : hour < 18
-        ? t('page.dashboard.goodAfternoon') || 'Good Afternoon'
-        : t('page.dashboard.goodEvening') || 'Good Evening';
-  const GreetingIcon = hour < 12 || hour < 18 ? Sun03Icon : Moon02Icon;
-  const quickActions = [
-    {
-      title: t('page.dashboard.bookSession') || 'Book a Session',
-      description: t('page.bookings.subtitle') || 'Find availability and schedule your next visit.',
-      href: '/book',
-      icon: Calendar01Icon,
-    },
-    {
-      title: t('nav.bookings') || 'My Bookings',
-      description: t('page.bookings.subtitle') || 'Review upcoming and past appointments.',
-      href: '/bookings',
-      icon: Clock01Icon,
-    },
-    {
-      title: t('nav.journal') || 'Journal',
-      description: 'Track mood, progress, and personal notes.',
-      href: '/wellness',
-      icon: ActivityIcon,
-    },
-    {
-      title: t('nav.subscriptions') || 'Plans',
-      description: 'Browse memberships and manage your benefits.',
-      href: '/finances?tab=plans',
-      icon: PlusSignIcon,
-    },
-  ];
 
   return (
     <motion.div
-      className="mx-auto max-w-7xl space-y-8 px-4 py-8 pb-20 font-sans md:px-8"
-      initial={{ opacity: 0, scale: 0.98, y: 10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{
-        duration: 0.4,
-        ease: [0.25, 1, 0.5, 1],
-      }}
+      className="mx-auto max-w-7xl space-y-8 px-2 py-6 font-sans sm:px-4 md:px-8"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
     >
-      {/* Header is now handled by Layout + Simplified Page Title */}
-      {/* <DashboardHeader title="Wellness Dashboard" showDate={true} /> */}
-
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        {/* Welcome & Main Action */}
-        <div className="space-y-8 lg:col-span-2">
-          {/* Hero Section - Clean White */}
-          <section className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm">
-            <div className="relative z-10">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-primary">
-                <HugeiconsIcon icon={GreetingIcon} className="size-4" strokeWidth={2.5} />
-                <span className="text-[11px] font-bold tracking-wider uppercase">{t('page.dashboard.dailyUpdate') || 'Daily Update'}</span>
-              </div>
-              <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
-                {greeting},{' '}
-                <span className="text-primary">{profile.first_name || 'Member'}</span>.
-              </h1>
-              <p className="mb-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
-                Your wellness journey is moving forward. You have{' '}
-                {wallet?.balance_cents ? 'funds available' : 'no active balance'} and{' '}
-                {nextBooking ? 'an upcoming session.' : 'no sessions scheduled today.'}
-              </p>
-
-              <div className="flex flex-wrap gap-4">
-                <Button
-                  onClick={handleBookClick}
-                  disabled={bookingStatus === 'loading'}
-                  size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 rounded-[20px] px-8 text-base font-bold shadow-lg transition-all"
-                >
-                  {bookingStatus === 'loading' ? 'Scheduling...' : t('page.dashboard.bookSession') || 'Book a Session'}
-                </Button>
-                <Link href="/finances">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="h-12 rounded-[20px] border-border px-6 text-base font-bold text-foreground hover:bg-secondary"
-                  >
-                    {t('page.dashboard.manageWallet') || 'Manage Wallet'}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {/* Next Session */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/20">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-                  {t('page.dashboard.nextUp') || 'NEXT UP'}
-                </span>
-                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-                  <HugeiconsIcon icon={Calendar01Icon} className="size-5" strokeWidth={2.5} />
-                </div>
-              </div>
-              {nextBooking ? (
-                <div className="space-y-4">
-                  <div>
-                    <div className="text-xl font-bold tracking-tight text-foreground">
-                      {nextBooking.service?.name}
-                    </div>
-                    <div className="mt-1 flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                      <HugeiconsIcon icon={Clock01Icon} className="size-4" strokeWidth={2.5} />
-                      <span>
-                        {format(new Date(nextBooking.start_time), 'EEEE, MMM d @ h:mm a')}
-                      </span>
-                    </div>
-                  </div>
-                  <Button
-                    asChild
-                    variant="secondary"
-                    className="h-10 w-full rounded-xl bg-secondary font-bold text-secondary-foreground hover:bg-secondary/80"
-                  >
-                    <Link href={`/bookings/${nextBooking.id}`}>{t('page.dashboard.viewDetails') || 'View Details'}</Link>
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex h-full flex-col justify-end">
-                  <p className="mb-4 font-medium text-muted-foreground">{t('page.dashboard.noSessions') || 'No confirmed sessions.'}</p>
-                  <Link
-                    href="/book"
-                    className="group/link flex items-center gap-1 text-sm font-bold text-primary hover:underline"
-                  >
-                    {t('page.dashboard.checkAvailability') || 'Check availability'}{' '}
-                    <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
-                  </Link>
-                </div>
-              )}
-            </Card>
-
-            {/* Wallet Balance */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/20">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-                  {t('page.dashboard.balance') || 'BALANCE'}
-                </span>
-                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-                  <HugeiconsIcon icon={Wallet01Icon} className="size-5" strokeWidth={2.5} />
-                </div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold tracking-tight text-foreground">
-                  €{(wallet?.balance_cents || 0) / 100}
-                </div>
-                <p className="mt-2 text-xs font-medium text-muted-foreground">{t('page.dashboard.availableFunds') || 'Available funds'}</p>
-              </div>
-              <div className="mt-4 border-t border-border pt-4">
-                <Link
-                  href="/finances"
-                  className="group/link flex items-center gap-1 text-sm font-bold text-primary hover:underline"
-                >
-                  {t('page.dashboard.addFunds') || 'Add funds'}{' '}
-                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
-                </Link>
-              </div>
-            </Card>
+      {/* ── Hero Section ─────────────────────────────── */}
+      <section className="rounded-xl border border-border bg-card p-6 sm:p-8 md:p-10">
+        <div>
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-1.5">
+            <HugeiconsIcon icon={greeting.icon} className="size-3.5 text-primary" strokeWidth={2.5} />
+            <span className="text-[11px] font-semibold tracking-wider text-primary uppercase">
+              {t('page.dashboard.dailyUpdate') || 'Daily Update'}
+            </span>
           </div>
 
+          <h1 className="mb-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            {greeting.text},{' '}
+            <span className="text-primary">{profile.first_name || 'Member'}</span>.
+          </h1>
+          <p className="mb-8 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            {nextBooking 
+              ? `Your next session is ${formatBookingDate(nextBooking.start_time)}.`
+              : 'You have no upcoming sessions. Ready to book one?'
+            }
+            {walletBalance > 0 && ` You have €${walletBalance.toFixed(2)} available.`}
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            <Button
+              onClick={handleBookClick}
+              disabled={bookingStatus === 'loading'}
+              className="h-10 gap-2 rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <Calendar className="h-4 w-4" />
+              {bookingStatus === 'loading' ? 'Opening...' : t('page.dashboard.bookSession') || 'Book a Session'}
+            </Button>
+            <Button
+              variant="outline"
+              className="h-10 gap-2 rounded-xl border-border px-6 text-sm font-semibold text-foreground hover:bg-secondary"
+              asChild
+            >
+              <Link href="/finances">
+                <HugeiconsIcon icon={Wallet01Icon} className="h-4 w-4" />
+                {t('page.dashboard.manageWallet') || 'Manage Wallet'}
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Stats Row ────────────────────────────────── */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {/* Next Session Card */}
+        <Card className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-colors">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
+              Next Session
+            </span>
+            <div className="rounded-lg bg-muted p-1.5 text-muted-foreground">
+              <HugeiconsIcon icon={Calendar01Icon} className="size-4" strokeWidth={2.5} />
+            </div>
+          </div>
+          {nextBooking ? (
+            <div>
+              <div className="text-lg font-semibold tracking-tight text-foreground">
+                {nextBooking.service?.name || 'Session'}
+              </div>
+              <div className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <HugeiconsIcon icon={Clock01Icon} className="size-3.5" strokeWidth={2.5} />
+                <span>{formatBookingDate(nextBooking.start_time)}</span>
+              </div>
+              <Link 
+                href={`/bookings/${nextBooking.id}`} 
+                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+              >
+                View Details <ChevronRight className="h-3 w-3" />
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <p className="text-sm text-muted-foreground">No confirmed sessions</p>
+              <Link 
+                href="/book" 
+                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+              >
+                Check availability <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+          )}
+        </Card>
+
+        {/* Wallet Balance */}
+        <Card className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-colors">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
+              Balance
+            </span>
+            <div className="rounded-lg bg-muted p-1.5 text-muted-foreground">
+              <HugeiconsIcon icon={Wallet01Icon} className="size-4" strokeWidth={2.5} />
+            </div>
+          </div>
+          <div className="text-3xl font-semibold tracking-tight text-foreground tabular-nums">
+            €{walletBalance.toFixed(2)}
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">Available funds</p>
+          <Link 
+            href="/finances" 
+            className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+          >
+            {walletBalance > 0 ? 'Manage' : 'Add funds'} <ArrowRight className="h-3 w-3" />
+          </Link>
+        </Card>
+
+        {/* Goals Progress */}
+        <Card className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-colors">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
+              Goals
+            </span>
+            <div className="rounded-lg bg-muted p-1.5 text-muted-foreground">
+              <TrendingUp className="size-4" strokeWidth={2} />
+            </div>
+          </div>
+          {hasActiveGoals ? (
+            <div>
+              <div className="text-3xl font-semibold tracking-tight text-foreground tabular-nums">
+                {goals.length}
+              </div>
+              <div className="mt-1 flex items-center gap-2">
+                <Progress value={goalProgress} className="h-1.5 flex-1" />
+                <span className="text-xs font-medium text-muted-foreground tabular-nums">{goalProgress}%</span>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p className="text-sm text-muted-foreground">No active goals</p>
+              <Link 
+                href="/wellness" 
+                className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+              >
+                Set a goal <Sparkles className="h-3 w-3" />
+              </Link>
+            </div>
+          )}
+        </Card>
+      </div>
+
+      {/* ── Main Grid ────────────────────────────────── */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* Left Column - Main Content */}
+        <div className="space-y-6 lg:col-span-2">
           {/* Goal Tracker */}
-          <div className="pt-2">
-            <div className="overflow-hidden rounded-[20px] border border-border bg-card p-2 shadow-sm">
-              <GoalTracker initialGoals={goals || []} />
-            </div>
-          </div>
+          {hasActiveGoals && (
+            <Card className="overflow-hidden rounded-xl border border-border bg-card p-5">
+              <GoalTracker initialGoals={goals} />
+            </Card>
+          )}
 
-          <section className="pt-2">
-            <h3 className="mb-4 px-1 text-lg font-bold text-foreground">{t('dashboard.user.quickActions') || 'Quick Actions'}</h3>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {/* Quick Actions */}
+          <section>
+            <h3 className="mb-3 text-sm font-semibold tracking-tight text-foreground">
+              {t('dashboard.user.quickActions') || 'Quick Actions'}
+            </h3>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {quickActions.map((action) => (
                 <Link
                   key={action.href}
                   href={action.href}
-                  className="group flex items-start gap-4 rounded-[20px] border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
+                  className="group flex items-start gap-3.5 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-secondary/50"
                 >
-                  <div className="rounded-xl bg-muted/50 p-3 text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-                    <HugeiconsIcon icon={action.icon} className="size-5" strokeWidth={2.5} />
+                  <div className={cn(
+                    'rounded-lg bg-muted p-2.5 text-muted-foreground transition-colors',
+                    action.accent
+                  )}>
+                    <HugeiconsIcon icon={action.icon} className="size-4" strokeWidth={2.5} />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-foreground">{action.title}</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-sm font-semibold text-foreground">{action.title}</h4>
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
                       {action.description}
                     </p>
                   </div>
+                  <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground/40 transition-colors group-hover:text-primary" />
                 </Link>
               ))}
             </div>
           </section>
+
+          {/* Plan Marketplace */}
+          {!activeUsage && plans && plans.length > 0 && (
+            <section>
+              <div className="mb-3 flex items-center justify-between">
+                <h3 className="text-sm font-semibold tracking-tight text-foreground">
+                  {t('page.dashboard.membershipPlans') || 'Membership Plans'}
+                </h3>
+                <Link href="/plans" className="text-xs font-semibold text-primary hover:underline">
+                  {t('page.dashboard.viewAll') || 'View all'}
+                </Link>
+              </div>
+              <PlanMarketplace plans={plans.slice(0, 2)} />
+            </section>
+          )}
+
+          {/* Recent Activity */}
+          <section>
+            <h3 className="mb-3 text-sm font-semibold tracking-tight text-foreground">
+              {t('page.dashboard.recentActivity') || 'Recent Activity'}
+            </h3>
+            <RecentActivity />
+          </section>
         </div>
 
-        {/* Sidebar / Secondary Actions */}
-        <div className="space-y-6">
-          {/* Daily Mood Check-In */}
-          <div className="rounded-[20px] border border-border bg-card p-6 shadow-sm">
-            <h3 className="mb-4 text-lg font-bold text-foreground">{t('page.dashboard.dailyCheckin') || 'Daily Check-in'}</h3>
-            <MoodCheckIn />
-          </div>
+        {/* Right Column - Sidebar Widgets */}
+        <div className="space-y-4">
+          {/* Mood Check-In */}
+          <MoodCheckIn />
 
+          {/* Identity Verification Banner */}
           <AnimatePresence>
             {showIdentity && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="relative overflow-hidden rounded-[20px] border border-primary/20 bg-primary/5 p-6"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
               >
-                <button
-                  onClick={() => setShowIdentity(false)}
-                  className="absolute top-4 right-4 z-10 rounded-full p-1 text-primary/60 transition-colors hover:text-primary"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-                <div className="mb-2 flex items-center gap-3 text-primary">
-                  <Shield className="h-5 w-5" />
-                  <h3 className="font-bold">Verify Identity</h3>
-                </div>
-                <p className="mb-4 text-xs leading-relaxed text-primary/80">
-                  Complete verification to unlock all features.
-                </p>
-                <IdentityVerificationForm currentStatus={profile?.identity_status || 'none'} />
-                </motion.div>
+                <Card className="relative border-primary/20 bg-primary/5 p-5">
+                  <button
+                    onClick={() => setShowIdentity(false)}
+                    className="absolute top-3 right-3 rounded-full p-1 text-primary/50 transition-colors hover:text-primary"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                  <div className="mb-3 flex items-center gap-2 text-primary">
+                    <Shield className="h-4 w-4" />
+                    <h3 className="text-sm font-semibold">Verify Identity</h3>
+                  </div>
+                  <p className="mb-3 text-xs leading-relaxed text-primary/80">
+                    Complete verification to unlock all features.
+                  </p>
+                  <IdentityVerificationForm currentStatus={profile?.identity_status || 'none'} />
+                </Card>
+              </motion.div>
             )}
           </AnimatePresence>
 
-          <div className="rounded-[20px] border border-border bg-card p-6 shadow-sm">
-            <div className="mb-4 flex items-center gap-2">
-              <HugeiconsIcon
-                icon={ActivityIcon}
-                className="h-4 w-4 text-muted-foreground"
-                strokeWidth={2.5}
-              />
-              <h3 className="text-lg font-bold text-foreground">{t('page.dashboard.systemStatus') || 'System Status'}</h3>
+          {/* System Status */}
+          <Card className="rounded-xl border border-border bg-card p-5">
+            <div className="mb-3 flex items-center gap-2">
+              <HugeiconsIcon icon={ActivityIcon} className="h-4 w-4 text-muted-foreground" strokeWidth={2.5} />
+              <h3 className="text-sm font-semibold text-foreground">
+                {t('page.dashboard.systemStatus') || 'System Status'}
+              </h3>
             </div>
             {recentErrors.length === 0 ? (
-              <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-600">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></span>
-                {t('page.dashboard.normalOp') || 'Normal Operation'}
+              <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2.5 text-sm font-medium text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                {t('page.dashboard.normalOp') || 'All Systems Normal'}
               </div>
             ) : (
-              <div className="space-y-3">
-                {recentErrors.map((error: any) => (
-                  <div key={error.id} className="rounded-xl border border-red-100 bg-red-50 p-3">
-                    <p className="text-xs leading-snug font-semibold text-red-900">
-                      {error.message}
-                    </p>
+              <div className="space-y-2">
+                {recentErrors.slice(0, 3).map((error: any) => (
+                  <div key={error.id} className="rounded-lg border border-destructive/15 bg-destructive/5 p-3">
+                    <p className="text-xs font-medium text-destructive">{error.message}</p>
+                    <p className="mt-1 text-[10px] text-destructive/60">{error.route}</p>
                   </div>
                 ))}
               </div>
             )}
-          </div>
+          </Card>
 
-          {/* Journal or Quote - Simplified */}
-          <div className="overflow-hidden rounded-[20px]">
+          {/* Motivational Quote */}
+          <div className="overflow-hidden rounded-xl">
             <MotivationalQuote />
           </div>
-        </div>
-      </div>
-
-      {/* Marketplace / History Section */}
-      <div className="border-t border-border pt-8">
-        {!activeUsage && plans && plans.length > 0 && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="font-serif text-xl font-bold">{t('page.dashboard.membershipPlans') || 'Membership Plans'}</h3>
-              <Link href="/plans" className="text-primary text-sm font-bold hover:underline">
-                {t('page.dashboard.viewAll') || 'View all'}
-              </Link>
-            </div>
-            <PlanMarketplace plans={plans.slice(0, 2)} />
-          </div>
-        )}
-
-        <div className="space-y-4">
-          <h3 className="px-1 text-lg font-bold tracking-tight">{t('page.dashboard.recentActivity') || 'Recent Activity'}</h3>
-          <RecentActivity />
         </div>
       </div>
     </motion.div>

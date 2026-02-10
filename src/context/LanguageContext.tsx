@@ -41,14 +41,22 @@ const getInitialLanguage = (): Language => {
 };
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  // Initialize with 'en' to match server rendering and avoid hydration mismatch
+  const [language, setLanguageState] = useState<Language>('en');
   const [showLanguagePopup, setShowLanguagePopup] = useState(false);
-  const [languageConfirmed, setLanguageConfirmed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('eka-language-confirmed') === 'true';
+  const [languageConfirmed, setLanguageConfirmed] = useState(false);
+
+  useEffect(() => {
+    // Hydrate state from local storage/browser on mount
+    const initialLang = getInitialLanguage();
+    if (initialLang !== 'en') {
+      setLanguageState(initialLang);
     }
-    return false;
-  });
+
+    if (localStorage.getItem('eka-language-confirmed') === 'true') {
+      setLanguageConfirmed(true);
+    }
+  }, []);
 
   const confirmLanguage = (lang: Language) => {
     setLanguage(lang);

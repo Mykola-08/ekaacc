@@ -1,5 +1,5 @@
 // Enhanced Motion Components using Framer Motion
-import { motion, useInView, useAnimation, Transition } from 'framer-motion';
+import { motion, useInView, useAnimation, Transition } from 'motion/react';
 import { useRef, useEffect, ReactNode } from 'react';
 import { cn } from '@/shared/marketing/utils';
 

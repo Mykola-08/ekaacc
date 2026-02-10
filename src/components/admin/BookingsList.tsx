@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Booking } from '@/types/booking';
 import { format } from 'date-fns';
@@ -66,7 +66,7 @@ function BookingRow({ booking }: { booking: Booking }) {
     <Card className="apple-card flex flex-col items-center gap-6 p-5 md:flex-row">
       {/* Date Block */}
       <div className="flex min-w-[100px] flex-row items-center gap-3 md:flex-col md:items-start md:gap-0">
-        <div className="text-foreground text-2xl font-bold tracking-tight">
+        <div className="text-foreground text-2xl font-semibold tracking-tight">
           {format(new Date(booking.startTime), 'MMM do')}
         </div>
         <div className="text-muted-foreground text-sm font-medium">
@@ -76,7 +76,7 @@ function BookingRow({ booking }: { booking: Booking }) {
 
       {/* Main Info */}
       <div className="w-full flex-1 space-y-1 text-center md:text-left">
-        <h3 className="text-foreground text-lg font-bold">{booking.serviceName}</h3>
+        <h3 className="text-foreground text-lg font-semibold">{booking.serviceName}</h3>
         <div className="flex flex-wrap items-center justify-center gap-4 md:justify-start">
           <span className="text-muted-foreground bg-muted/50 border-border flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-sm">
             <span className="bg-muted-foreground/50 h-1.5 w-1.5 rounded-full" />
@@ -93,7 +93,7 @@ function BookingRow({ booking }: { booking: Booking }) {
         <StatusBadge status={booking.status} />
 
         <div className="min-w-[80px] text-right">
-          <div className="text-foreground font-bold">
+          <div className="text-foreground font-semibold">
             {new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: booking.currency || 'EUR',

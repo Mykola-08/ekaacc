@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * Daily Summary Widget
@@ -12,7 +12,7 @@ import * as motion from "motion/react-client";
 import { Sun, Moon, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/morphing-toaster";
 
 export function DailySummaryWidget({ className }: { className?: string }) {
   const [summary, setSummary] = useState<string | null>(null);
@@ -56,7 +56,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
       className={cn(
-        "relative overflow-hidden rounded-2xl border p-5",
+        "relative overflow-hidden rounded-lg border p-5",
         "bg-linear-to-br from-primary/5 via-card to-card",
         className
       )}

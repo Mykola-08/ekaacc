@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload, ShieldCheck, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { useRouter } from 'next/navigation';
 
 export function IdentityVerificationForm({ currentStatus }: { currentStatus?: string }) {
@@ -65,7 +65,7 @@ export function IdentityVerificationForm({ currentStatus }: { currentStatus?: st
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
           <Clock className="h-8 w-8" />
         </div>
-        <h3 className="text-xl font-bold text-yellow-900">Under Review</h3>
+        <h3 className="text-xl font-semibold text-yellow-900">Under Review</h3>
         <p className="mt-2 text-yellow-700">
           Our team is verifying your documents. This usually takes 24 hours.
         </p>
@@ -79,7 +79,7 @@ export function IdentityVerificationForm({ currentStatus }: { currentStatus?: st
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
           <ShieldCheck className="h-8 w-8" />
         </div>
-        <h3 className="text-xl font-bold text-emerald-900">Identity Verified</h3>
+        <h3 className="text-xl font-semibold text-emerald-900">Identity Verified</h3>
         <p className="mt-2 text-emerald-700">Your account is fully verified and secure.</p>
       </Card>
     );
@@ -88,7 +88,7 @@ export function IdentityVerificationForm({ currentStatus }: { currentStatus?: st
   return (
     <Card className="p-6">
       <div className="mb-6">
-        <h3 className="flex items-center gap-2 text-lg font-bold">
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
           <ShieldCheck className="text-primary h-5 w-5" />
           Identity Verification
         </h3>

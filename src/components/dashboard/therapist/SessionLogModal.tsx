@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea'; // Assuming you have this or use standard textarea
 import { Slider } from '@/components/ui/slider'; // Assuming you have this
 import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { Loader2 } from 'lucide-react';
 
 interface SessionLogModalProps {
@@ -61,18 +61,18 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-background border-border rounded-[20px] p-8 shadow-2xl sm:max-w-md">
+      <DialogContent className="bg-background border-border rounded-lg p-8 sm:max-w-md">
         <DialogHeader className="mb-4">
-          <DialogTitle className="text-foreground text-2xl font-bold">Complete Session</DialogTitle>
+          <DialogTitle className="text-foreground text-2xl font-semibold">Complete Session</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-8">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <Label className="text-muted-foreground text-xs font-bold tracking-wider uppercase">
+              <Label className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
                 Initial Client Mood
               </Label>
-              <span className="text-primary bg-primary/10 rounded-full px-3 py-1 text-sm font-bold">
+              <span className="text-primary bg-primary/10 rounded-full px-3 py-1 text-sm font-semibold">
                 {initialMood[0]}/10
               </span>
             </div>
@@ -88,10 +88,10 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <Label className="text-muted-foreground text-xs font-bold tracking-wider uppercase">
+              <Label className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
                 Final Client Mood
               </Label>
-              <span className="rounded-full bg-emerald-50 px-3 py-1 text-sm font-bold text-emerald-600">
+              <span className="rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-600">
                 {finalMood[0]}/10
               </span>
             </div>
@@ -106,12 +106,12 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
           </div>
 
           {initialMood[0] !== undefined && initialMood[0] > 0 && (
-            <div className="bg-card border-border rounded-xl border p-4 text-center">
+            <div className="bg-card border-border rounded-lg border p-4 text-center">
               <span className="text-muted-foreground text-[13px] font-semibold">
                 Predicted Improvement:{' '}
               </span>
               <span
-                className={`ml-2 text-lg font-bold ${improvement > 0 ? 'text-emerald-600' : 'text-muted-foreground'}`}
+                className={`ml-2 text-lg font-semibold ${improvement > 0 ? 'text-emerald-600' : 'text-muted-foreground'}`}
               >
                 {improvement > 0 ? '+' : ''}
                 {improvement}%

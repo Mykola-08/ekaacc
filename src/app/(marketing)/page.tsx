@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import HomeContent from '@/components/marketing/HomeContent';
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: 'EKA Balance | Elena Kucherova - Teràpies Somàtiques a Barcelona',
   description:

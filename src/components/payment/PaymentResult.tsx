@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { CheckCircle2, AlertCircle, Home, Calendar } from 'lucide-react';
@@ -15,7 +15,7 @@ export function PaymentResult({ status }: PaymentResultProps) {
 
   return (
     <div className="bg-background flex min-h-screen items-center justify-center p-4">
-      <Card className="border-border animate-fade-in w-full max-w-lg p-12 text-center shadow-xl">
+      <Card className="border-border animate-fade-in w-full max-w-lg p-12 text-center shadow-sm">
         {/* Icon */}
         <div className="mb-8 flex justify-center">
           <div

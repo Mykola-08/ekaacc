@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { cn } from '@/lib/utils';
 import { User, Lock, Bell, Globe, Save, Clock, Calendar } from 'lucide-react';
@@ -65,7 +65,7 @@ function GeneralSettings() {
   return (
     <div className="animate-fade-in space-y-8">
       <div>
-        <h2 className="text-foreground mb-1 text-xl font-bold">Business Information</h2>
+        <h2 className="text-foreground mb-1 text-xl font-semibold">Business Information</h2>
         <p className="text-muted-foreground text-sm">
           This information is displayed on emails and the booking page.
         </p>
@@ -87,7 +87,7 @@ function GeneralSettings() {
       </div>
 
       <div className="border-border border-t pt-8">
-        <h2 className="text-foreground mb-4 text-xl font-bold">Localization</h2>
+        <h2 className="text-foreground mb-4 text-xl font-semibold">Localization</h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div className="space-y-2">
             <Label>Timezone</Label>
@@ -107,7 +107,7 @@ function BookingSettings() {
   return (
     <div className="animate-fade-in space-y-8">
       <div>
-        <h2 className="text-foreground mb-1 text-xl font-bold">Booking Configuration</h2>
+        <h2 className="text-foreground mb-1 text-xl font-semibold">Booking Configuration</h2>
         <p className="text-muted-foreground text-sm">Control how and when clients can book.</p>
       </div>
 
@@ -145,7 +145,7 @@ function NotificationSettings() {
   return (
     <div className="animate-fade-in space-y-8">
       <div>
-        <h2 className="text-foreground mb-1 text-xl font-bold">Email Notifications</h2>
+        <h2 className="text-foreground mb-1 text-xl font-semibold">Email Notifications</h2>
         <p className="text-muted-foreground text-sm">Manage automated email triggers.</p>
       </div>
 
@@ -173,7 +173,7 @@ function IntegrationSettings() {
       <div className="bg-muted mb-4 flex h-16 w-16 items-center justify-center rounded-full">
         <Lock className="text-muted-foreground/50 h-8 w-8" />
       </div>
-      <h3 className="text-foreground text-lg font-bold">Coming Soon</h3>
+      <h3 className="text-foreground text-lg font-semibold">Coming Soon</h3>
       <p className="text-muted-foreground mt-2 max-w-sm">
         Integration settings (Stripe, etc.) will be available in the next update.
       </p>

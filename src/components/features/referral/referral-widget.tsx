@@ -1,11 +1,11 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Copy, Gift, Share2, Award } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { Progress } from '@/components/ui/progress';
 
 export function ReferralWidget() {
@@ -25,7 +25,7 @@ export function ReferralWidget() {
       <CardHeader>
         <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500">
           <Gift className="h-5 w-5" />
-          <span className="text-sm font-bold tracking-widest uppercase">Rewards Program</span>
+          <span className="text-sm font-semibold tracking-widest uppercase">Rewards Program</span>
         </div>
         <CardTitle className="text-2xl">Invite Friends, Get Sessions</CardTitle>
         <CardDescription>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * Mood Trend Card
@@ -23,9 +23,9 @@ interface MoodTrendProps {
 }
 
 const trendConfig = {
-  improving: { label: "Improving", icon: "↗", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  declining: { label: "Declining", icon: "↘", color: "text-red-500", bg: "bg-red-500/10" },
-  stable: { label: "Stable", icon: "→", color: "text-blue-500", bg: "bg-blue-500/10" },
+  improving: { label: "Improving", icon: "â†—", color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  declining: { label: "Declining", icon: "â†˜", color: "text-red-500", bg: "bg-red-500/10" },
+  stable: { label: "Stable", icon: "â†’", color: "text-primary", bg: "bg-primary/10" },
 };
 
 function Sparkline({ data }: { data: number[] }) {
@@ -86,7 +86,7 @@ export function MoodTrendCard({ moods, averageScore, trend, days }: MoodTrendPro
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card rounded-2xl border p-4 w-full max-w-sm"
+      className="bg-card rounded-lg border p-4 w-full max-w-sm"
     >
       <div className="flex items-center justify-between mb-3">
         <div>
@@ -103,15 +103,15 @@ export function MoodTrendCard({ moods, averageScore, trend, days }: MoodTrendPro
 
       <div className="mt-3 grid grid-cols-3 gap-2 text-center">
         <div className="bg-muted/50 rounded-lg p-2">
-          <p className="text-foreground text-lg font-bold tabular-nums">{averageScore}</p>
+          <p className="text-foreground text-lg font-semibold tabular-nums">{averageScore}</p>
           <p className="text-muted-foreground text-[10px]">Avg Score</p>
         </div>
         <div className="bg-muted/50 rounded-lg p-2">
-          <p className="text-foreground text-lg font-bold tabular-nums">{moods.length}</p>
+          <p className="text-foreground text-lg font-semibold tabular-nums">{moods.length}</p>
           <p className="text-muted-foreground text-[10px]">Entries</p>
         </div>
         <div className="bg-muted/50 rounded-lg p-2">
-          <p className="text-foreground text-lg font-bold tabular-nums">
+          <p className="text-foreground text-lg font-semibold tabular-nums">
             {scores.length > 0 ? Math.max(...scores) : '-'}
           </p>
           <p className="text-muted-foreground text-[10px]">Best</p>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -69,7 +69,7 @@ export default function OnboardingForm() {
       onSubmit={handleSubmit}
       className="bg-card border-border mx-auto max-w-lg space-y-6 rounded-lg border p-8 shadow-md"
     >
-      <h2 className="text-foreground text-2xl font-bold">Tell Us About Yourself</h2>
+      <h2 className="text-foreground text-2xl font-semibold">Tell Us About Yourself</h2>
 
       <div className="space-y-2">
         <Label htmlFor="role">What is your primary role?</Label>

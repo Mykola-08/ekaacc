@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   ArrowRight01Icon,
@@ -65,7 +65,7 @@ export function BentoGrid() {
     >
       {/* Featured Service - Large Card */}
       <motion.div variants={item} className="row-span-2 md:col-span-2 lg:col-span-2">
-        <Card className="group relative h-full min-h-[400px] overflow-hidden rounded-[20px] border-none shadow-sm">
+        <Card className="group relative h-full min-h-100 overflow-hidden rounded-[20px] border-none shadow-sm">
           <div className="absolute inset-0 z-0">
             <Image
               src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
@@ -73,7 +73,7 @@ export function BentoGrid() {
               fill
               className="object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="from-background via-background/40 absolute inset-0 bg-gradient-to-t to-transparent" />
+            <div className="from-background via-background/40 absolute inset-0 bg-linear-to-t to-transparent" />
           </div>
           <div className="relative z-10 flex h-full flex-col p-8">
             <Badge className="bg-primary/10 text-primary mb-4 w-fit border-none px-3 py-1 text-xs">
@@ -154,7 +154,7 @@ export function BentoGrid() {
 
       {/* Quick Booking Calendar */}
       <motion.div variants={item} className="md:col-span-1 lg:col-span-1">
-        <Card className="group relative h-full overflow-hidden rounded-[20px] border-none bg-gradient-to-br from-blue-500 to-indigo-600 p-8 text-white transition-transform hover:scale-105">
+        <Card className="group relative h-full overflow-hidden rounded-[20px] border-none bg-linear-to-br from-blue-500 to-indigo-600 p-8 text-white transition-transform hover:scale-105">
           <div className="relative z-10 flex h-full flex-col">
             <IconCalendar01 size={32} className="mb-4" />
             <h4 className="mb-2 text-2xl font-bold">Check availability</h4>

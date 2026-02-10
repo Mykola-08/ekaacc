@@ -24,7 +24,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
         />
       </div>
 
-      <div className="flex flex-grow flex-col p-8">
+      <div className="flex grow flex-col p-8">
         <h3 className="heading-3 mb-3">{t(service.titleKey)}</h3>
 
         <p className="text-body mb-6 text-sm">{t(service.descriptionKey)}</p>
@@ -34,7 +34,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
           <ul className="mb-8 space-y-3">
             {service.benefitsKeys.map((key, i) => (
               <li key={i} className="flex items-start text-sm text-gray-700">
-                <span className="bg-accent mt-1.5 mr-3 h-2 w-2 flex-shrink-0 rounded-full" />
+                <span className="bg-accent mt-1.5 mr-3 h-2 w-2 shrink-0 rounded-full" />
                 {t(key)}
               </li>
             ))}

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Button } from '@/components/ui';
 import { Home, ArrowLeft } from 'lucide-react';
 
@@ -17,7 +17,7 @@ export default function NotFound() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="space-y-8 rounded-[24px] border border-white/40 bg-white/60 p-12 shadow-2xl backdrop-blur-2xl"
+          className="space-y-8 rounded-3xl border border-white/40 bg-white/60 p-12 shadow-sm backdrop-blur-2xl"
         >
           <div className="space-y-4">
             <h1 className="text-foreground/20 text-8xl font-light tracking-tighter">404</h1>

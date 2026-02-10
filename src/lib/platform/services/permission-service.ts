@@ -61,10 +61,11 @@ class PermissionService {
     context?: Record<string, any>
   ): PermissionCheckResult {
     const startTime = Date.now();
+    const normalizedRole = String(userRole).toLowerCase() as SystemRole;
 
     try {
       // Validate that the user role exists
-      const roleDefinition = SYSTEM_ROLES[userRole];
+      const roleDefinition = SYSTEM_ROLES[normalizedRole];
       if (!roleDefinition) {
         return {
           hasAccess: false,
@@ -81,11 +82,14 @@ class PermissionService {
       }
 
       // Check role-specific items
-      if (item.metadata?.roleSpecific && item.metadata.roleSpecific !== userRole) {
-        return {
-          hasAccess: false,
-          reason: `Role-specific item requires ${item.metadata.roleSpecific} role`,
-        };
+      if (item.metadata?.roleSpecific) {
+        const requiredRole = String(item.metadata.roleSpecific).toLowerCase();
+        if (requiredRole !== normalizedRole) {
+          return {
+            hasAccess: false,
+            reason: `Role-specific item requires ${item.metadata.roleSpecific} role`,
+          };
+        }
       }
 
       // Check each permission requirement

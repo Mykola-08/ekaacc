@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useState } from 'react';
 import { Menu, X, User, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';

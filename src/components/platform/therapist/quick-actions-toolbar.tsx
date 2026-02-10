@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 /**
  * Quick Actions Toolbar for Therapists
@@ -34,7 +34,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 
 interface QuickActionsToolbarProps {
   userId?: string;
@@ -105,7 +105,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       icon: FileText,
       label: 'Quick Note',
       description: 'Add a quick note to this session',
-      color: 'text-blue-500',
+      color: 'text-primary',
       dialog: true,
     },
     {

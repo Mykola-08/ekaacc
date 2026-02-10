@@ -5,13 +5,13 @@ import { useLanguage } from '@/context/marketing/LanguageContext';
 import Link from 'next/link';
 import Image from 'next/image';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function AdultsContent() {
   const { t } = useLanguage();
 
   const HeroCustom = (
-    <section className="relative overflow-hidden bg-gradient-to-br from-white via-amber-50/30 to-orange-50/50 py-20 sm:py-28">
+    <section className="relative overflow-hidden bg-linear-to-br from-white via-gray-50/50 to-white py-20 sm:py-28">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-4 text-center sm:px-8">
@@ -38,7 +38,7 @@ export default function AdultsContent() {
 
           <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
             {/* Kinesiology */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:border-amber-200 hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:border-marketing-accent hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2070&auto=format&fit=crop"
@@ -49,13 +49,13 @@ export default function AdultsContent() {
                 />
               </div>
               <div className="p-8">
-                <div className="mb-4 flex items-center gap-3 text-amber-600">
-                  <div className="rounded-full bg-amber-50 p-2">
+                <div className="mb-4 flex items-center gap-3 text-marketing-accent-dark">
+                  <div className="rounded-full bg-marketing-accent-light p-2">
                     <HeartPulse className="h-6 w-6" />
                   </div>
                   <span className="font-medium">Equilibrio Integral</span>
                 </div>
-                <h3 className="mb-3 text-2xl font-light text-gray-900 transition-colors group-hover:text-amber-700">
+                <h3 className="mb-3 text-2xl font-light text-gray-900 transition-colors group-hover:text-marketing-accent">
                   {t('services.kinesiology.title')}
                 </h3>
                 <p className="mb-8 line-clamp-3 font-light text-gray-600">
@@ -63,7 +63,7 @@ export default function AdultsContent() {
                 </p>
                 <Link
                   href="/services/kinesiology"
-                  className="inline-flex items-center font-medium text-amber-600 transition-colors hover:text-amber-700"
+                  className="inline-flex items-center font-medium text-marketing-accent-dark transition-colors hover:text-marketing-accent"
                 >
                   {t('common.moreInfo')} <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
@@ -112,7 +112,7 @@ export default function AdultsContent() {
           <h2 className="heading-2 mb-6 font-bold">{t('adult.cta.title')}</h2>
           <p className="mb-8 text-xl font-light text-gray-600">{t('adult.cta.desc')}</p>
           <Link href="/book">
-            <Button size="xl" className="btn btn-accent">
+            <Button size="lg" className="btn btn-accent">
               {t('common.bookNow')}
             </Button>
           </Link>

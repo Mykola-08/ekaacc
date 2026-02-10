@@ -5,13 +5,13 @@ import { useLanguage } from '@/context/marketing/LanguageContext';
 import Link from 'next/link';
 import Image from 'next/image';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function FamiliesContent() {
   const { t } = useLanguage();
 
   const Hero = (
-    <section className="relative overflow-hidden bg-gradient-to-br from-white via-green-50/30 to-emerald-50/50 py-12 sm:py-20">
+    <section className="relative overflow-hidden bg-linear-to-br from-white via-green-50/30 to-emerald-50/50 py-12 sm:py-20">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
@@ -33,7 +33,7 @@ export default function FamiliesContent() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link href="/book">
-                <Button size="xl" className="btn btn-accent px-8 py-4 normal-case">
+                <Button size="lg" className="btn btn-accent px-8 py-4 normal-case">
                   {t('common.reserveSession')}
                 </Button>
               </Link>

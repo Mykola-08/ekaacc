@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -160,7 +160,7 @@ export function Navigation({ className }: NavigationProps) {
         <div className="flex h-16 justify-between">
           <div className="flex items-center">
             <div className="shrink-0">
-              <Link href="/" className="text-foreground text-xl font-bold">
+              <Link href="/" className="text-foreground text-xl font-semibold">
                 EKA Account
               </Link>
             </div>

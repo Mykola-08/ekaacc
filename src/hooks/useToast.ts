@@ -1,25 +1,38 @@
-import type { Toast } from '@/components/marketing/Toast';
+import { toast } from '@/components/ui/morphing-toaster';
 
-type ToastApi = {
-  success?: (title: string, message?: string, options?: Partial<Toast>) => void;
-  error?: (title: string, message?: string, options?: Partial<Toast>) => void;
-  info?: (title: string, message?: string, options?: Partial<Toast>) => void;
-  warning?: (title: string, message?: string, options?: Partial<Toast>) => void;
-};
-
-type ToastWindow = Window & { toast?: ToastApi };
+export interface ToastOptions {
+  duration?: number;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+}
 
 export function useToast() {
-  const toastApi = typeof window !== 'undefined' ? (window as ToastWindow).toast : undefined;
-
   return {
-    success: (title: string, message?: string, options?: Partial<Toast>) =>
-      toastApi?.success?.(title, message, options),
-    error: (title: string, message?: string, options?: Partial<Toast>) =>
-      toastApi?.error?.(title, message, options),
-    info: (title: string, message?: string, options?: Partial<Toast>) =>
-      toastApi?.info?.(title, message, options),
-    warning: (title: string, message?: string, options?: Partial<Toast>) =>
-      toastApi?.warning?.(title, message, options),
+    success: (title: string, message?: string, options?: ToastOptions) => {
+      toast.success(title, {
+        description: message,
+        duration: options?.duration,
+      });
+    },
+    error: (title: string, message?: string, options?: ToastOptions) => {
+      toast.error(title, {
+        description: message,
+        duration: options?.duration,
+      });
+    },
+    info: (title: string, message?: string, options?: ToastOptions) => {
+      toast.info(title, {
+        description: message,
+        duration: options?.duration,
+      });
+    },
+    warning: (title: string, message?: string, options?: ToastOptions) => {
+      toast.warning(title, {
+        description: message,
+        duration: options?.duration,
+      });
+    },
   };
 }

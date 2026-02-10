@@ -1,11 +1,11 @@
-import React from 'react';
+﻿import React from 'react';
 import { FileText, Database, Lock, Globe, Users, Clock } from 'lucide-react';
 
 export default function RoPAPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="mb-12">
-        <h1 className="text-foreground mb-4 text-3xl font-bold">
+        <h1 className="text-foreground mb-4 text-3xl font-semibold">
           Record of Processing Activities (RoPA)
         </h1>
         <p className="text-muted-foreground text-lg">
@@ -154,12 +154,12 @@ export default function RoPAPage() {
         </div>
       </div>
 
-      <div className="mt-12 rounded-xl border border-blue-100 bg-blue-50 p-6">
+      <div className="mt-12 rounded-xl border border-primary/10 bg-primary/5 p-6">
         <div className="flex items-start gap-4">
-          <FileText className="mt-1 h-6 w-6 text-blue-600" />
+          <FileText className="mt-1 h-6 w-6 text-primary" />
           <div>
-            <h3 className="mb-2 font-semibold text-blue-900">Data Transfers</h3>
-            <p className="text-sm text-blue-800">
+            <h3 className="mb-2 font-semibold text-foreground">Data Transfers</h3>
+            <p className="text-sm text-primary">
               We may transfer data to service providers outside the EEA (e.g., USA). All such
               transfers are protected by Standard Contractual Clauses (SCCs) and Data Processing
               Agreements (DPAs) to ensure an adequate level of protection.

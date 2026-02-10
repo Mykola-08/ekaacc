@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import * as React from 'react';
 import * as SheetPrimitive from '@radix-ui/react-dialog';
@@ -58,7 +58,7 @@ const SheetOverlay = React.forwardRef<
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className={cn('fixed inset-0 z-50 bg-black/40 backdrop-blur-sm', className)}
+      className={cn('fixed inset-0 z-50 bg-black/10 backdrop-blur-xs', className)}
       {...(props as any)}
       ref={ref}
     />
@@ -66,7 +66,7 @@ const SheetOverlay = React.forwardRef<
 ));
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
-const sheetVariants = cva('fixed z-50 gap-4 bg-background p-6 shadow-lg', {
+const sheetVariants = cva('fixed z-50 gap-4 bg-background p-6 shadow-sm', {
   variants: {
     side: {
       top: 'inset-x-0 top-0 border-b',
@@ -100,7 +100,7 @@ const SheetContent = React.forwardRef<
           className={cn(
             sheetVariants({ side }),
             className,
-            'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-[20px]'
+            'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-lg'
           )}
           {...props}
         >
@@ -131,7 +131,7 @@ const SheetContent = React.forwardRef<
                 className={cn(
                   sheetVariants({ side }),
                   className,
-                  'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-[20px]'
+                  'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-lg'
                 )}
                 {...(props as any)}
               >
@@ -169,7 +169,7 @@ const SheetTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Title
     ref={ref}
-    className={cn('text-foreground text-lg font-semibold', className)}
+    className={cn('text-foreground text-base font-medium', className)}
     {...props}
   />
 ));

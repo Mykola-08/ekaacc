@@ -77,7 +77,7 @@ function DialogOverlay({ className, ...props }: DialogOverlayProps) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className={cn('fixed inset-0 z-50 bg-black/40 backdrop-blur-sm', className)}
+        className={cn('fixed inset-0 z-50 bg-black/10 backdrop-blur-xs', className)}
         {...(props as any)}
       />
     </DialogPrimitive.Overlay>
@@ -100,7 +100,7 @@ function DialogContent({
         <DialogOverlay />
         <DialogPrimitive.Content
           className={cn(
-            'bg-background fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-200 sm:rounded-lg',
+            'bg-background fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-sm duration-200 sm:rounded-xl',
             className
           )}
           {...props}
@@ -126,7 +126,7 @@ function DialogContent({
                 animate="visible"
                 exit="exit"
                 className={cn(
-                  'bg-background fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-[20px] border-none p-10 shadow-2xl sm:max-w-lg',
+                  'bg-background fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl ring-foreground/10 ring-1 border-none p-4 text-sm shadow-sm sm:max-w-sm',
                   className
                 )}
                 {...(props as any)}
@@ -154,7 +154,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn('flex flex-col gap-2 text-center sm:text-left', className)}
+      className={cn('gap-2 flex flex-col', className)}
       {...props}
     />
   );
@@ -164,7 +164,7 @@ function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="dialog-footer"
-      className={cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
+      className={cn('bg-muted/50 -mx-4 -mb-4 rounded-b-xl border-t p-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
       {...props}
     />
   );
@@ -174,7 +174,7 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn('text-lg leading-none font-semibold', className)}
+      className={cn('text-base leading-none font-medium', className)}
       {...props}
     />
   );

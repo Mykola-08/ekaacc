@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Loader2, Camera, Upload, CheckCircle2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import {
   Dialog,
   DialogContent,

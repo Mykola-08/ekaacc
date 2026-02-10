@@ -5,7 +5,7 @@ import { useBooking } from '@/hooks/marketing/useBooking';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import Link from 'next/link';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function ForAthletesContent() {
   const { navigateToBooking } = useBooking();
@@ -15,8 +15,8 @@ export default function ForAthletesContent() {
     <section className="relative overflow-hidden py-16 sm:py-24">
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8">
         <div className="mb-12 text-center">
-          <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-full border border-orange-100 bg-orange-100/50">
-            <Zap className="h-10 w-10 text-orange-600" />
+          <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-full bg-marketing-accent-light text-marketing-accent-dark">
+            <Zap className="h-10 w-10" />
           </div>
 
           <h1 className="heading-1 text-eka-dark mb-6 font-bold">
@@ -28,13 +28,13 @@ export default function ForAthletesContent() {
           </p>
 
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Button onClick={() => navigateToBooking()} size="xl" className="btn btn-accent">
+            <Button onClick={() => navigateToBooking()} size="lg" className="btn bg-primary text-white hover:bg-primary/90">
               {t('common.bookNow')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Link href="/contact">
               <Button
-                size="xl"
+                size="lg"
                 className="btn btn-outline border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
               >
                 {t('common.askQuestions')}
@@ -51,14 +51,14 @@ export default function ForAthletesContent() {
       {/* Understanding Section */}
       <section className="py-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-8">
-          <div className="card border-orange-100 bg-orange-50/50 p-8 sm:p-12">
+          <div className="card bg-gray-50/80 p-8 sm:p-12">
             <h2 className="heading-2 text-eka-dark mb-6 font-bold">
               {t('personalized.athletes.understanding.title')}
             </h2>
             <div className="space-y-4 text-lg leading-relaxed text-gray-700">
               <p>{t('personalized.athletes.understanding.description1')}</p>
               <p>{t('personalized.athletes.understanding.description2')}</p>
-              <p className="font-medium text-orange-900">
+              <p className="font-medium text-marketing-accent-dark">
                 {t('personalized.athletes.understanding.callToAction')}
               </p>
             </div>

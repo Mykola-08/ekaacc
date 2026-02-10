@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Check, X, Clock, Calendar as CalendarIcon, Save } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { StatsCard } from './StatsCard';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -70,9 +70,9 @@ export function AvailabilityManager() {
           onClick={handleSave}
           disabled={!hasChanges}
           className={cn(
-            'h-10 rounded-lg px-6 font-bold transition-all',
+            'h-10 rounded-lg px-6 font-semibold transition-all',
             hasChanges
-              ? 'bg-foreground text-background shadow-foreground/20 hover:bg-foreground/90 shadow-lg hover:scale-105 active:scale-95'
+              ? 'bg-foreground text-background hover:bg-foreground/90'
               : 'bg-secondary text-muted-foreground cursor-not-allowed opacity-50'
           )}
         >
@@ -97,18 +97,18 @@ export function AvailabilityManager() {
         />
       </div>
 
-      <div className="bg-card border-border overflow-hidden rounded-[20px] border p-6 shadow-sm md:p-8">
+      <div className="bg-card border-border overflow-hidden rounded-xl border p-6 md:p-8">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr>
-                <th className="text-muted-foreground w-20 pb-6 text-left text-xs font-bold tracking-wider uppercase">
+                <th className="text-muted-foreground w-20 pb-6 text-left text-xs font-semibold tracking-wider uppercase">
                   Time
                 </th>
                 {DAYS.map((day) => (
                   <th
                     key={day}
-                    className="text-foreground min-w-[80px] pb-6 text-center text-sm font-bold tracking-wider uppercase"
+                    className="text-foreground min-w-[80px] pb-6 text-center text-sm font-semibold tracking-wider uppercase"
                   >
                     {day}
                   </th>
@@ -118,7 +118,7 @@ export function AvailabilityManager() {
             <tbody className="divide-border divide-y">
               {HOURS.map((hour) => (
                 <tr key={hour} className="group hover:bg-secondary/50 transition-colors">
-                  <td className="text-muted-foreground group-hover:text-foreground py-4 font-mono text-xs font-bold transition-colors">
+                  <td className="text-muted-foreground group-hover:text-foreground py-4 font-mono text-xs font-semibold transition-colors">
                     {hour}
                   </td>
                   {DAYS.map((day) => {
@@ -149,7 +149,7 @@ export function AvailabilityManager() {
           </table>
         </div>
       </div>
-      <div className="text-muted-foreground mt-8 flex items-center justify-center gap-8 text-sm font-bold">
+      <div className="text-muted-foreground mt-8 flex items-center justify-center gap-8 text-sm font-semibold">
         <div className="flex items-center gap-3">
           <div className="bg-primary/10 border-primary/20 text-primary flex h-5 w-5 items-center justify-center rounded-md border-2">
             <Check className="h-3 w-3" strokeWidth={4} />

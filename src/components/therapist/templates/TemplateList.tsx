@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { SessionTemplate, deleteTemplate } from '@/server/therapist/templates';
 import {
@@ -21,7 +21,8 @@ import {
  SheetTrigger,
 } from '@/components/ui/sheet';
 import { TemplateForm } from './TemplateForm';
-import { toast } from 'sonner';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
+import { InlineFeedbackCompact } from '@/components/ui/inline-feedback';
 import { useRouter } from 'next/navigation';
 import {
  AlertDialog,
@@ -44,6 +45,7 @@ export function TemplateList({ templates }: TemplateListProps) {
  const [isSheetOpen, setIsSheetOpen] = useState(false);
  const [selectedTemplate, setSelectedTemplate] = useState<SessionTemplate | undefined>(undefined);
  const router = useRouter();
+ const deleteFeedback = useMorphingFeedback();
 
  const handleEdit = (template: SessionTemplate) => {
  setSelectedTemplate(template);
@@ -62,18 +64,19 @@ export function TemplateList({ templates }: TemplateListProps) {
 
  const handleDelete = async (id: string) => {
  try {
+ deleteFeedback.setLoading('Deleting...');
  await deleteTemplate(id);
- toast.success('Template deleted');
+ deleteFeedback.setSuccess('Template deleted');
  router.refresh();
  } catch (error) {
- toast.error('Failed to delete template');
+ deleteFeedback.setError('Failed to delete template');
  }
  };
 
  const getTypeColor = (type: string) => {
  switch (type) {
  case 'note':
- return 'bg-blue-100/80 text-blue-800 dark:text-blue-200';
+ return 'bg-primary/10 text-primary';
  case 'plan':
  return 'bg-green-100/80 text-green-800 dark:text-green-200';
  case 'email':

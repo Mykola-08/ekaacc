@@ -36,10 +36,10 @@ interface ScheduleTableProps {
 
 export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
   return (
-    <div className="bg-card border-border overflow-hidden rounded-[20px] border shadow-sm">
+    <div className="bg-card border-border overflow-hidden rounded-xl border">
       <div className="flex flex-col items-start justify-between gap-4 p-8 pb-6 md:flex-row md:items-center">
         <div>
-          <h2 className="text-foreground mb-2 text-[24px] font-bold tracking-tight">
+          <h2 className="text-foreground mb-2 text-[24px] font-semibold tracking-tight">
             Today's Schedule
           </h2>
           <p className="text-muted-foreground leading-relaxed font-medium">
@@ -48,7 +48,7 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
         </div>
         <Button
           onClick={onAddBlock}
-          className="bg-foreground text-background hover:bg-foreground/90 shadow-foreground/20 h-12 rounded-lg px-6 font-bold shadow-lg transition-all hover:scale-105 active:scale-95"
+          className="bg-foreground text-background hover:bg-foreground/90 h-9 rounded-lg px-6 font-semibold transition-colors"
         >
           <Plus className="mr-2 h-5 w-5" strokeWidth={2.5} />
           Add Time Block
@@ -57,10 +57,10 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
 
       {/* Search / Filter Bar */}
       <div className="flex gap-4 px-8 pb-8">
-        <div className="bg-secondary text-muted-foreground focus-within:border-foreground/10 focus-within:bg-card flex h-12 flex-1 items-center gap-3 rounded-lg border-2 border-transparent px-4 text-sm font-bold transition-all">
+        <div className="bg-secondary text-muted-foreground focus-within:border-foreground/10 focus-within:bg-card flex h-9 flex-1 items-center gap-3 rounded-lg border-2 border-transparent px-4 text-sm font-semibold transition-all">
           <Search className="h-4 w-4 opacity-70" strokeWidth={2.5} /> Search bookings...
         </div>
-        <div className="bg-secondary text-foreground hover:bg-secondary/70 flex h-12 cursor-pointer items-center justify-between gap-2 rounded-lg border-2 border-transparent px-4 text-sm font-bold transition-colors md:w-48">
+        <div className="bg-secondary text-foreground hover:bg-secondary/70 flex h-9 cursor-pointer items-center justify-between gap-2 rounded-lg border-2 border-transparent px-4 text-sm font-semibold transition-colors md:w-48">
           <span>All Statuses</span>{' '}
           <Filter className="text-muted-foreground h-4 w-4" strokeWidth={2.5} />
         </div>
@@ -72,7 +72,7 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
             <div className="bg-secondary text-muted-foreground mb-6 rounded-full p-6">
               <Calendar className="h-8 w-8" strokeWidth={1.5} />
             </div>
-            <p className="text-foreground mb-2 text-lg font-bold">
+            <p className="text-foreground mb-2 text-lg font-semibold">
               No bookings scheduled for today.
             </p>
             <p className="text-muted-foreground mx-auto max-w-xs text-sm">
@@ -82,7 +82,7 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
         ) : (
           // Table Header
           <div className="w-full">
-            <div className="bg-secondary text-muted-foreground border-border grid grid-cols-12 gap-4 border-b px-8 py-5 text-xs font-bold tracking-[0.1em] uppercase">
+            <div className="bg-secondary text-muted-foreground border-border grid grid-cols-12 gap-4 border-b px-8 py-5 text-xs font-semibold tracking-[0.1em] uppercase">
               <div className="col-span-4 md:col-span-3">Details</div>
               <div className="col-span-3 md:col-span-2">Status</div>
               <div className="hidden md:col-span-3 md:block">Client</div>
@@ -123,7 +123,7 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
     <div className="hover:bg-secondary group grid grid-cols-12 items-center gap-4 px-8 py-5 transition-colors">
       {/* Service & Title */}
       <div className="col-span-4 md:col-span-3">
-        <div className="text-foreground truncate text-[15px] font-bold">
+        <div className="text-foreground truncate text-[15px] font-semibold">
           {item.services?.title || 'Custom Session'}
         </div>
         <div className="text-muted-foreground text-xs font-medium md:hidden">{clientName}</div>
@@ -133,7 +133,7 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
       <div className="col-span-3 md:col-span-2">
         <span
           className={cn(
-            'inline-flex items-center rounded-full border px-3 py-1 text-xs font-bold tracking-wider uppercase',
+            'inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold tracking-wider uppercase',
             statusClass
           )}
         >
@@ -145,17 +145,17 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
       <div className="hidden md:col-span-3 md:block">
         <div className="flex items-center gap-3">
           <Avatar className="border-border h-9 w-9 border">
-            <AvatarFallback className="bg-secondary text-muted-foreground text-xs font-bold">
+            <AvatarFallback className="bg-secondary text-muted-foreground text-xs font-semibold">
               {(clientName?.substring(0, 2) || '??').toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <span className="text-muted-foreground text-[14px] font-bold">{clientName}</span>
+          <span className="text-muted-foreground text-[14px] font-semibold">{clientName}</span>
         </div>
       </div>
 
       {/* Time */}
       <div className="col-span-3 md:col-span-2">
-        <div className="text-foreground font-mono text-[14px] font-bold">
+        <div className="text-foreground font-mono text-[14px] font-semibold">
           {format(startTime, 'HH:mm')}
         </div>
         <div className="text-muted-foreground text-xs font-medium">
@@ -191,7 +191,7 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
                 <MoreVertical className="h-5 w-5" strokeWidth={2} />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="border-border rounded-xl p-2 shadow-lg">
+            <DropdownMenuContent align="end" className="border-border rounded-lg p-2">
               <DropdownMenuItem className="hover:bg-secondary focus:bg-secondary cursor-pointer rounded-lg px-4 py-2 text-[13px] font-medium transition-colors">
                 View Details
               </DropdownMenuItem>

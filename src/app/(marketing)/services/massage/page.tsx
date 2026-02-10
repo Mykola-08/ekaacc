@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import MassageContent from '@/components/marketing/MassageContent';
-export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Masaje Terapéutico y Relajante | EKA Balance',

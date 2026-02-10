@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -55,7 +55,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-zinc-900">Clinical Notes</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">Clinical Notes</h2>
           <p className="text-zinc-500">
             Secure medical records for Patient #{userId.substring(0, 6)}
           </p>
@@ -177,7 +177,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
 
                 <div className="grid grid-cols-1 gap-6 pl-[52px] md:grid-cols-2">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold tracking-wider text-zinc-400 uppercase">
+                    <span className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">
                       S/O (Observations)
                     </span>
                     <p className="rounded-lg border border-zinc-100/50 bg-zinc-50/50 p-3 text-sm leading-relaxed text-zinc-600">
@@ -187,7 +187,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-xs font-bold tracking-wider text-zinc-400 uppercase">
+                    <span className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">
                       A/P (Analysis)
                     </span>
                     <p className="rounded-lg border border-zinc-100/50 bg-zinc-50/50 p-3 text-sm leading-relaxed text-zinc-600">

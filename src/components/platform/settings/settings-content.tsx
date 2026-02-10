@@ -30,7 +30,7 @@ import {
   RefreshCw,
   Loader2,
 } from 'lucide-react';
-import { motion, type Variants, AnimatePresence } from 'framer-motion';
+import { motion, type Variants, AnimatePresence } from 'motion/react';
 import { ThemeSelector } from '@/components/platform/eka/settings/theme-selector';
 import { NotificationSwitch } from '@/components/platform/eka/settings/notification-switch';
 import { SettingsShell } from '@/components/platform/eka/settings/settings-shell';
@@ -139,7 +139,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
           category: 'notifications',
           subcategory: 'email',
           key: 'marketing',
-          icon: <Mail className="h-5 w-5 text-blue-600" />,
+          icon: <Mail className="h-5 w-5 text-primary" />,
         },
         {
           id: 'email-reminders',
@@ -337,7 +337,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
                   <h4 className="flex items-center gap-2 font-medium">
                     <RefreshCw
                       className={
-                        isSyncing ? 'h-4 w-4 animate-spin text-blue-500' : 'h-4 w-4 text-blue-500'
+                        isSyncing ? 'h-4 w-4 animate-spin text-primary' : 'h-4 w-4 text-primary'
                       }
                     />
                     Square & Stripe Sync
@@ -364,7 +364,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
         <AnimatePresence>
           {hasChanges && (
             <motion.div
-              className="fixed right-8 bottom-8 z-50 shadow-lg"
+              className="fixed right-8 bottom-8 z-50 shadow-sm"
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -374,7 +374,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
                 onClick={handleSave}
                 disabled={isLoading}
                 size="lg"
-                className="rounded-full shadow-xl"
+                className="rounded-full shadow-sm"
               >
                 {isLoading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -398,8 +398,8 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="flex items-center justify-center py-6">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
-              <Mail className="h-8 w-8 text-blue-600" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/5">
+              <Mail className="h-8 w-8 text-primary" />
             </div>
           </div>
           <DialogFooter className="gap-2 sm:gap-0">

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { X, MessageCircle, FileText, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface SmartBookingPopupProps {
   isOpen: boolean;

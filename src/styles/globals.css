@@ -1,164 +1,91 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
 @config '../../tailwind.config.ts';
 
 @custom-variant dark (&:is(.dark *));
 
-@plugin 'tailwindcss-animate';
-
 :root {
-  /* Unified Apple-like Design Tokens */
-  
-  /* Border Radius - Standardized to 20px Apple standard */
-  --radius: 1.25rem; /* 20px - Primary Apple standard */
-  --radius-sm: 0.75rem; /* 12px - Small elements */
-  --radius-md: 1rem; /* 16px - Medium elements */
-  --radius-lg: 1.25rem; /* 20px - Standard */
-  --radius-xl: 1.75rem; /* 28px - Large elements */
-  --radius-2xl: 2rem; /* 32px - Extra large */
-  --radius-3xl: 2.5rem; /* 40px - Hero sections */
-  
-  /* Shadows - Soft, premium elevation */
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
-  --shadow-base: 0 4px 20px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 6px 24px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 8px 30px rgba(15, 23, 42, 0.10);
-  --shadow-xl: 0 20px 60px rgba(15, 23, 42, 0.12);
-
-  /* Font stack */
-  font-family:
-    'SF Pro Text',
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    system-ui,
-    sans-serif;
-
-  /* Font Weights */
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-
-  /* EKA Balance Color Scheme - Premium Apple Style */
-  
-  /* Base colors */
-  --background: oklch(1 0 0); /* Pure White */
-  --foreground: oklch(0.145 0.03 260); /* Deep Slate */
-
-  --card: oklch(1 0 0); /* Pure White */
-  --card-foreground: oklch(0.145 0.03 260);
-
+  /* ─── Nova Design Tokens ─── */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0.03 260);
-
-  --primary: oklch(0.145 0.03 260); /* Deep Slate for text/primary actions - High contrast */
-  --primary-foreground: oklch(1 0 0);
-
-  --secondary: oklch(0.97 0 0); /* Crisp Off-White */
-  --secondary-foreground: oklch(0.145 0.03 260);
-
-  --muted: oklch(0.97 0 0); /* Crisp Off-White */
-  --muted-foreground: oklch(0.45 0 0); /* Neutral Gray */
-
-  --accent: oklch(0.97 0 0); /* Crisp Off-White */
-  --accent-foreground: oklch(0.145 0.03 260);
-
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.58 0.22 27);
   --destructive-foreground: oklch(0.985 0 0);
-
-  --border: oklch(0.91 0 0); /* Neutral Border */
-  --input: oklch(0.91 0 0);
-  --ring: oklch(0.145 0.03 260);
-
-  --chart-1: oklch(0.145 0.03 260); /* Primary */
-  --chart-2: oklch(0.45 0 0); /* Muted */
-  --chart-3: oklch(0.54 0.21 264); /* Accent Blue */
-  --chart-4: oklch(0.85 0.15 85); /* Accent Gold */
-  --chart-5: oklch(0.45 0.20 264);
-
-  --sidebar: oklch(0.98 0 0); /* Very light gray */
-  --sidebar-foreground: oklch(0.145 0.03 260);
-  --sidebar-primary: oklch(0.145 0.03 260);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.95 0 0);
-  --sidebar-accent-foreground: oklch(0.145 0.03 260);
-  --sidebar-border: oklch(0.91 0 0);
-  --sidebar-ring: oklch(0.145 0.03 260);
-
-  --surface: oklch(1 0 0);
-  --surface-container: oklch(0.98 0 0);
-  --surface-highlight: oklch(0.96 0 0);
-
-  /* Original EKA Website Variables */
-  --apple-gray: #f5f5f7;
-  --apple-gray-dark: #1d1d1f;
-  --apple-blue: #007aff;
-  --apple-purple: #5856d6;
-  --apple-border-radius: 20px;
-  --apple-border-radius-small: 12px;
-  --apple-border-radius-large: 28px;
-  --apple-border-radius-xl: 40px;
-
-  color-scheme: light;
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 .dark {
-  /* Unified design tokens - Dark Mode */
-  --background: oklch(0.13 0.03 260); /* EKA Dark */
-  --foreground: oklch(0.98 0 0); /* White */
-  
-  --card: oklch(0.15 0.03 260); /* Slightly lighter than background */
-  --card-foreground: oklch(0.98 0 0);
-  
-  --popover: oklch(0.15 0.03 260);
-  --popover-foreground: oklch(0.98 0 0);
-  
-  --primary: oklch(0.54 0.21 264); /* EKA Blue (Consistent) */
-  --primary-foreground: oklch(1 0 0);
-  
-  --secondary: oklch(0.25 0.03 260); /* Dark Slate Muted */
-  --secondary-foreground: oklch(0.98 0 0);
-  
-  --muted: oklch(0.20 0.03 260);
-  --muted-foreground: oklch(0.65 0 0);
-  
-  --accent: oklch(0.20 0.03 260); /* Dark Accents */
-  --accent-foreground: oklch(0.98 0 0);
-  
-  --destructive: oklch(0.58 0.22 27);
-  --destructive-foreground: oklch(0.98 0 0);
-  
-  --border: oklch(0.25 0.03 260);
-  --input: oklch(0.25 0.03 260);
-  --ring: oklch(0.54 0.21 264);
-  
-  --chart-1: oklch(0.54 0.21 264);
-  --chart-2: oklch(0.79 0.17 85);
-  --chart-3: oklch(0.65 0.15 260);
-  --chart-4: oklch(0.85 0.15 85);
-  --chart-5: oklch(0.45 0.20 264);
-  
-  --sidebar: oklch(0.13 0.03 260);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.54 0.21 264);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.20 0.03 260);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.25 0.03 260);
-  --sidebar-ring: oklch(0.54 0.21 264);
-  
-  --surface: oklch(0.13 0.03 260);
-  --surface-container: oklch(0.15 0.03 260);
-  --surface-highlight: oklch(0.18 0.03 260);
-
-  color-scheme: dark;
+  /* ─── Nova Design Tokens ─── */
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.87 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-geist-sans), 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), 'Geist Mono', monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -218,21 +145,19 @@
     outline-offset: 2px;
   }
 
-  /* Buttons: Premium Apple Feel */
+  /* Buttons: Clean Nova feel */
   button, [role="button"], .btn {
-    @apply transition-all duration-300;
+    @apply transition-colors duration-200;
   }
   
-  /* Hover effects */
+  /* Hover effects — Nova: subtle, no transforms */
   button:hover:not(:disabled), 
   [role="button"]:hover:not(:disabled) {
-    transform: translateY(-1px);
     filter: brightness(1.02);
   }
 
   button:active:not(:disabled),
   [role="button"]:active:not(:disabled) {
-    transform: scale(0.98);
     filter: brightness(0.98);
   }
 }
@@ -240,17 +165,6 @@
 @layer utilities {
   .app-shell {
     @apply bg-background min-h-screen p-2 md:p-4;
-    background-image:
-      radial-gradient(
-        circle at 0% 0%,
-        color-mix(in oklab, var(--primary) 8%, transparent) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 100% 100%,
-        color-mix(in oklab, var(--primary) 6%, transparent) 0%,
-        transparent 35%
-      );
   }
 
   .app-shell-inset {
@@ -259,11 +173,11 @@
 
   .app-shell-card {
     @apply bg-card border-border/60 relative flex flex-1 flex-col overflow-hidden border shadow-sm;
-    border-radius: 2rem; /* 32px - Apple XL standard for large containers */
+    border-radius: var(--radius-2xl);
   }
 
   .app-shell-header {
-    @apply border-border/50 bg-background/70 sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b px-6 backdrop-blur-md;
+    @apply border-border/50 bg-background/80 sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b px-6 backdrop-blur-md;
   }
 
   .app-shell-main {
@@ -272,7 +186,7 @@
 
   .ux-skip-link {
     @apply bg-background text-foreground absolute top-3 left-3 z-100 border px-3 py-2 text-sm font-semibold shadow;
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius);
     transform: translateY(-150%);
     transition: transform 0.15s ease;
   }
@@ -314,12 +228,13 @@
   }
 
   .dashboard-sidebar-brand {
-    @apply text-xl font-bold tracking-tight;
+    @apply text-xl font-semibold tracking-tight;
     color: var(--foreground);
   }
 
   .dashboard-nav-item {
-    @apply h-10 px-4 py-2 transition-all duration-200;
+    @apply h-9 px-3 py-2 transition-colors duration-150;
+    border-radius: var(--radius);
   }
 
   .dashboard-nav-item:hover {
@@ -327,19 +242,23 @@
   }
 
   .dashboard-nav-item-active {
-    @apply font-semibold;
-    background-color: color-mix(in oklab, var(--primary) 10%, transparent);
-    color: var(--primary);
+    @apply font-medium;
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  .dark .dashboard-nav-item-active {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
   }
 
   .dashboard-nav-item-inactive {
-    @apply font-medium;
+    @apply font-normal;
     color: var(--muted-foreground);
   }
 
   .dashboard-nav-label {
-    @apply text-xs tracking-wide uppercase;
-    font-size: 13px;
+    @apply text-[13px] tracking-normal;
   }
 
   .dashboard-icon {
@@ -355,43 +274,45 @@
   }
 
   .dashboard-header {
-    @apply flex h-20 shrink-0 items-center justify-between gap-2 px-8 py-6;
+    @apply flex h-14 shrink-0 items-center justify-between gap-2 px-6 py-4;
+    border-bottom: 1px solid var(--border);
   }
 
   .dashboard-header-title {
-    @apply text-xl font-bold tracking-tight;
+    @apply text-lg font-semibold tracking-tight;
     color: var(--foreground);
   }
 
   .dashboard-header-accent {
-    @apply h-8 w-1 rounded-full;
+    @apply h-6 w-0.5 rounded-full;
     background-color: var(--foreground);
   }
 
   .dashboard-main {
-    @apply flex flex-1 flex-col overflow-y-auto p-8 pt-0;
+    @apply flex flex-1 flex-col overflow-y-auto p-6 pt-4;
   }
 
   /* Dashboard user profile block in sidebar footer */
   .dashboard-user-block {
-    @apply flex cursor-pointer items-center gap-3 rounded-xl border border-transparent px-2 py-2 transition-colors;
+    @apply flex cursor-pointer items-center gap-3 px-2 py-2 transition-colors;
+    border-radius: var(--radius);
   }
 
   .dashboard-user-block:hover {
-    border-color: var(--border);
     background-color: var(--accent);
   }
 
   .dashboard-avatar {
-    @apply flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 shadow-sm;
-    border-color: var(--background);
-    background-color: var(--accent);
+    @apply flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border shadow-sm;
+    border-color: var(--border);
+    background-color: var(--muted);
   }
 
   /* Crisis support card */
   .crisis-support-card {
-    @apply rounded-xl border p-4;
-    background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+    @apply border p-4;
+    border-radius: var(--radius);
+    background-color: color-mix(in oklab, var(--destructive) 8%, transparent);
     color: var(--destructive);
   }
 
@@ -425,43 +346,45 @@
   }
 
   .platform-sidebar-brand-icon {
-    @apply flex size-9 items-center justify-center rounded-xl shadow-sm;
+    @apply flex size-8 items-center justify-center shadow-sm;
+    border-radius: var(--radius);
     background-color: var(--primary);
     color: var(--primary-foreground);
   }
 
   .platform-sidebar-group-label {
-    @apply mb-2 px-4 text-[10px] font-bold tracking-widest uppercase;
-    color: color-mix(in oklab, var(--muted-foreground) 70%, transparent);
+    @apply mb-2 px-4 text-[10px] font-semibold tracking-widest uppercase;
+    color: var(--muted-foreground);
   }
 
   .platform-nav-item {
-    @apply h-10 rounded-xl font-medium transition-all;
+    @apply h-9 font-normal transition-colors;
+    border-radius: var(--radius);
   }
 
   .platform-nav-item-active {
-    @apply shadow-sm;
-    background-color: color-mix(in oklab, var(--primary) 10%, transparent);
-    color: var(--primary);
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-primary);
   }
 
   .platform-nav-item-inactive:hover {
-    background-color: color-mix(in oklab, var(--secondary) 70%, transparent);
+    background-color: var(--accent);
   }
 
   .platform-signout-btn {
-    @apply h-11 rounded-xl transition-all;
+    @apply h-9 transition-colors;
+    border-radius: var(--radius);
   }
 
   .platform-signout-btn:hover {
-    background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+    background-color: color-mix(in oklab, var(--destructive) 8%, transparent);
     color: var(--destructive);
   }
 
   /* Auth pages */
   .auth-page {
     @apply relative flex min-h-svh flex-col items-center justify-center p-6 md:p-10;
-    background-color: var(--apple-gray);
+    background-color: var(--secondary);
   }
 
   :is(.dark) .auth-page {
@@ -474,18 +397,18 @@
   }
 
   .auth-submit-btn {
-    @apply h-12 w-full rounded-xl font-semibold shadow-lg transition-all;
+    @apply h-10 w-full font-medium shadow-sm transition-colors;
+    border-radius: var(--radius);
     background-color: var(--primary);
     color: var(--primary-foreground);
   }
 
   .auth-submit-btn:hover {
-    @apply scale-105 shadow-xl;
     filter: brightness(0.9);
   }
 
   .auth-submit-btn:active {
-    @apply scale-95;
+    filter: brightness(0.85);
   }
 }
 
@@ -507,81 +430,71 @@
    ============================================================ */
 
 @layer components {
-  /* UNIFIED CARD SYSTEM - Apple Standard */
+  /* UNIFIED CARD SYSTEM — Nova */
   .card,
   .apple-card {
-    @apply bg-white dark:bg-gray-900;
-    @apply border dark:border-gray-800/50;
-    @apply transition-all duration-500 ease-out;
+    @apply bg-card text-card-foreground;
+    @apply border;
+    @apply transition-colors duration-200;
     border-radius: var(--radius);
-    border-color: var(--border-subtle);
-    box-shadow: var(--shadow-base);
-  }
-
-  @media (min-width: 768px) {
-    .card,
-    .apple-card {
-      @apply hover:-translate-y-0.5 hover:scale-[1.005];
-    }
+    border-color: var(--border);
+    box-shadow: var(--shadow-sm);
   }
 
   .card:hover,
   .apple-card:hover {
     border-color: var(--border-strong);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
 
   .card-interactive {
-    @apply transition-all duration-300 ease-out;
+    @apply transition-colors duration-200;
   }
 
   .card-interactive:hover {
-    @apply -translate-y-1;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
 
   .apple-card-flat {
-    @apply bg-white dark:bg-gray-900;
-    @apply border border-gray-200/30 dark:border-gray-800/30;
-    @apply transition-all duration-300 ease-out;
+    @apply bg-card;
+    @apply border;
+    @apply transition-colors duration-200;
     border-radius: var(--radius);
+    border-color: var(--border);
     box-shadow: var(--shadow-sm);
   }
 
   .apple-card-glass {
-    @apply bg-white/80 dark:bg-gray-900/80;
-    @apply border border-white/20 dark:border-gray-800/20;
+    @apply bg-background/80;
+    @apply border;
     @apply backdrop-blur-xl;
-    @apply transition-all duration-500 ease-out;
+    @apply transition-colors duration-200;
     border-radius: var(--radius);
+    border-color: var(--border);
     box-shadow: var(--shadow-base);
   }
 
   .card-hover {
-    @apply hover:-translate-y-1;
-    transition: all 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    @apply transition-shadow duration-200;
   }
 
   .card-hover:hover {
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
 
-  /* UNIFIED BUTTON SYSTEM - Apple Standard */
+  /* UNIFIED BUTTON SYSTEM — Nova */
   .btn {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
-    @apply px-6 py-3 sm:px-8 sm:py-4;
-    @apply hover:scale-[1.01] active:scale-[0.99];
+    @apply inline-flex items-center justify-center font-medium transition-colors duration-200;
+    @apply px-4 py-2;
     border-radius: var(--radius);
     font-size: 14px;
-    letter-spacing: -0.016em;
-    min-height: 44px;
-    box-shadow: var(--shadow-base);
+    letter-spacing: -0.011em;
+    min-height: 36px;
   }
 
   @media (min-width: 640px) {
     .btn {
-      font-size: 16px;
-      min-height: 48px;
+      min-height: 40px;
     }
   }
 
@@ -590,13 +503,12 @@
   .btn-secondary,
   .btn-ghost,
   .btn-outline {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
-    @apply px-6 py-3 sm:px-8 sm:py-4;
-    @apply hover:scale-[1.01] active:scale-[0.99];
+    @apply inline-flex items-center justify-center font-medium transition-colors duration-200;
+    @apply px-4 py-2;
     border-radius: var(--radius);
     font-size: 14px;
-    letter-spacing: -0.016em;
-    min-height: 44px;
+    letter-spacing: -0.011em;
+    min-height: 36px;
   }
 
   @media (min-width: 640px) {
@@ -605,43 +517,56 @@
     .btn-secondary,
     .btn-ghost,
     .btn-outline {
-      font-size: 16px;
-      min-height: 48px;
+      min-height: 40px;
     }
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
-    box-shadow: var(--shadow-base);
+    background-color: var(--primary);
+    color: var(--primary-foreground);
   }
 
   .btn-primary:hover {
-    box-shadow: var(--shadow-lg);
+    filter: brightness(1.15);
   }
 
   .btn-accent {
     @apply text-[#000035];
     background-color: #ffb405;
-    box-shadow: var(--shadow-base);
   }
 
   .btn-accent:hover {
     background-color: #e8a204;
-    box-shadow: var(--shadow-lg);
   }
 
   .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700;
-    @apply text-gray-900 dark:text-gray-100;
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+
+  .btn-secondary:hover {
+    filter: brightness(0.97);
   }
 
   .btn-ghost {
-    @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300;
-    @apply hover:bg-blue-50 dark:hover:bg-blue-900/20;
+    @apply bg-transparent;
+    color: var(--foreground);
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
   }
 
   .btn-outline {
-    @apply border-2 border-gray-200 bg-transparent text-gray-700 hover:bg-gray-50 hover:text-gray-900;
+    @apply border bg-transparent;
+    border-color: var(--input);
+    color: var(--foreground);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
   }
 
   /* Utility Classes */
@@ -658,34 +583,34 @@
   }
 
   .text-body-lg {
-    @apply text-base leading-relaxed text-gray-600 sm:text-lg;
+    @apply text-base leading-relaxed text-muted-foreground sm:text-lg;
   }
 
-  /* Form elements - Apple Standard */
+  /* Form elements — Nova */
   .apple-input,
   .input-field {
-    @apply w-full px-4 py-4 text-lg;
-    @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
+    @apply w-full px-3 py-2 text-sm;
+    @apply border bg-transparent;
+    border-color: var(--input);
     border-radius: var(--radius);
-    @apply transition-all duration-200;
-    @apply focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
-    @apply placeholder-gray-400 dark:placeholder-gray-500;
+    @apply transition-colors duration-200;
+    @apply focus:border-ring focus:ring-2 focus:ring-ring/20 focus:outline-none;
+    @apply placeholder:text-muted-foreground;
     font-weight: 400;
-    letter-spacing: -0.003em;
   }
 
   .apple-select {
-    @apply w-full px-4 py-4 text-lg;
-    @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
+    @apply w-full px-3 py-2 text-sm;
+    @apply border bg-transparent;
+    border-color: var(--input);
     border-radius: var(--radius);
-    @apply transition-all duration-200;
-    @apply focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+    @apply transition-colors duration-200;
+    @apply focus:border-ring focus:ring-2 focus:ring-ring/20 focus:outline-none;
     font-weight: 400;
-    letter-spacing: -0.003em;
   }
 
   .label-text {
-    @apply mb-1 block text-sm font-medium text-gray-700;
+    @apply mb-1.5 block text-sm font-medium text-foreground;
   }
 
   /* Apple-style sections */
@@ -714,53 +639,39 @@
     max-width: 90rem;
   }
 
-  /* Typography System */
+  /* Typography System — Nova */
   .apple-headline,
   .heading-1 {
-    font-family: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    @apply text-2xl font-light text-gray-900 sm:text-4xl md:text-5xl lg:text-6xl dark:text-white;
-    font-weight: 300;
-    letter-spacing: -0.025em;
-    line-height: 0.95;
+    @apply text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl;
+    line-height: 1.1;
   }
 
   .apple-title,
   .heading-2 {
-    font-family: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    @apply text-xl font-medium text-gray-900 sm:text-2xl md:text-3xl dark:text-white;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
+    @apply text-xl font-semibold tracking-tight text-foreground sm:text-2xl;
+    line-height: 1.2;
   }
 
   .apple-subtitle,
   .heading-3 {
-    @apply text-base font-normal text-gray-600 sm:text-lg md:text-xl dark:text-gray-400;
-    font-weight: 400;
-    letter-spacing: -0.012em;
+    @apply text-base font-medium text-muted-foreground sm:text-lg;
     line-height: 1.5;
   }
 
   .apple-body,
   .text-body {
-    @apply text-sm font-normal text-gray-600 sm:text-base md:text-lg dark:text-gray-400;
+    @apply text-sm text-muted-foreground;
     font-weight: 400;
-    letter-spacing: -0.006em;
     line-height: 1.6;
   }
 
   .apple-caption {
-    @apply text-sm font-medium text-gray-500 dark:text-gray-500;
-    font-weight: 500;
-    letter-spacing: -0.008em;
+    @apply text-xs font-medium text-muted-foreground;
   }
 
   .apple-large-title {
-    font-family: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    @apply text-6xl font-light text-gray-900 md:text-7xl lg:text-8xl dark:text-white;
-    font-weight: 200;
-    letter-spacing: -0.035em;
-    line-height: 0.9;
+    @apply text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl;
+    line-height: 1;
   }
 
   /* Spacing utilities */
@@ -780,16 +691,16 @@
     @apply py-40;
   }
 
-  /* Utilities */
+  /* Glass panel — Nova */
   .glass-panel {
-    @apply border border-white/20 bg-white/70 shadow-xl backdrop-blur-md;
+    @apply border bg-background/70 shadow-sm backdrop-blur-md;
+    border-color: var(--border);
   }
 
   /* Interactive hover effect */
   .interactive-hover {
-    @apply transition-all duration-300 ease-out;
-    @apply hover:-translate-y-1 hover:scale-[1.02];
-    @apply hover:shadow-lg;
+    @apply transition-shadow duration-200;
+    @apply hover:shadow-md;
   }
 }
 
@@ -887,10 +798,10 @@
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
-.dark ::-webkit-scrollbar-thumb { background: #374151; }
-.dark ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+::-webkit-scrollbar-thumb { background: oklch(0.87 0 0); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.71 0 0); }
+.dark ::-webkit-scrollbar-thumb { background: oklch(0.37 0 0); }
+.dark ::-webkit-scrollbar-thumb:hover { background: oklch(0.44 0 0); }
 
 html { scroll-behavior: smooth; }
 
@@ -906,7 +817,7 @@ html { scroll-behavior: smooth; }
 
 .marketing body,
 .marketing > * {
-  @apply leading-relaxed text-gray-900;
+  @apply leading-relaxed text-foreground;
   font-weight: 400;
   letter-spacing: -0.003em;
 }
@@ -914,9 +825,9 @@ html { scroll-behavior: smooth; }
 /* Marketing background gradient */
 .marketing-bg {
   background:
-    radial-gradient(1200px 560px at -8% -10%, rgba(56, 189, 248, 0.1), transparent 60%),
-    radial-gradient(900px 420px at 105% 0%, rgba(251, 191, 36, 0.1), transparent 60%),
-    linear-gradient(180deg, #f8fafc 0%, #f9fafb 35%, #ffffff 70%, #ffffff 100%);
+    radial-gradient(1200px 560px at -8% -10%, oklch(0.85 0.06 210 / 0.1), transparent 60%),
+    radial-gradient(900px 420px at 105% 0%, oklch(0.85 0.06 80 / 0.1), transparent 60%),
+    linear-gradient(180deg, oklch(0.98 0 0) 0%, oklch(0.97 0 0) 35%, oklch(1 0 0) 70%, oklch(1 0 0) 100%);
   min-height: 100vh;
 }
 
@@ -926,8 +837,8 @@ html { scroll-behavior: smooth; }
 .marketing h4,
 .marketing h5,
 .marketing h6 {
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  color: var(--apple-gray-dark);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: var(--foreground);
   font-weight: var(--font-weight-semibold);
   text-wrap: balance;
   letter-spacing: -0.015em;
@@ -937,7 +848,7 @@ html { scroll-behavior: smooth; }
 .marketing p {
   font-weight: 400;
   line-height: 1.5;
-  color: #374151;
+  color: var(--muted-foreground);
 }
 
 /* Marketing - Full-Width Background Image Sections */
@@ -950,7 +861,7 @@ html { scroll-behavior: smooth; }
 
 .marketing .bg-overlay { @apply absolute inset-0 bg-black; opacity: 0.4; }
 .marketing .bg-overlay-dark {
-  @apply absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/60 mix-blend-multiply;
+  @apply absolute inset-0 bg-linear-to-b from-black/60 via-black/20 to-black/60 mix-blend-multiply;
 }
 .marketing .bg-overlay-light { @apply absolute inset-0 bg-black; opacity: 0.3; }
 
@@ -974,14 +885,14 @@ html { scroll-behavior: smooth; }
 
 /* Marketing - Navigation */
 .marketing .apple-nav {
-  @apply bg-white/80 backdrop-blur-2xl dark:bg-gray-950/80;
-  @apply border-b border-gray-100/50 dark:border-gray-800/50;
+  @apply bg-background/80 backdrop-blur-2xl;
+  @apply border-b border-border/50;
   @apply sticky top-0 z-50;
 }
 
 .marketing .liquid-glass-nav {
-  @apply bg-white/60 backdrop-blur-2xl;
-  @apply border-b border-gray-200/20;
+  @apply bg-background/60 backdrop-blur-2xl;
+  @apply border-b border-border/20;
   @apply sticky top-0 z-50;
   @apply transition-all duration-300 ease-out;
   backdrop-filter: blur(20px);
@@ -1000,8 +911,8 @@ html { scroll-behavior: smooth; }
 }
 
 .marketing .liquid-glass-nav-no-anim {
-  @apply bg-white/60 backdrop-blur-2xl;
-  @apply border-b border-gray-200/20;
+  @apply bg-background/60 backdrop-blur-2xl;
+  @apply border-b border-border/20;
   @apply sticky top-0 z-50;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1024,22 +935,22 @@ html { scroll-behavior: smooth; }
 .marketing .testimonial-indicators { @apply mt-8 flex justify-center space-x-2; }
 .marketing .testimonial-dot {
   @apply h-2 w-2 rounded-full transition-all duration-300;
-  @apply bg-gray-300 hover:bg-gray-400;
+  @apply bg-muted-foreground/30 hover:bg-muted-foreground/50;
 }
-.marketing .testimonial-dot.active { @apply w-6 bg-gray-900; }
+.marketing .testimonial-dot.active { @apply w-6 bg-foreground; }
 
 /* Marketing - FAQ */
 .marketing .faq-accordion { @apply space-y-4; }
 .marketing .faq-item {
-  @apply overflow-hidden border border-gray-200/50 transition-all duration-300;
+  @apply overflow-hidden border border-border/50 transition-all duration-300;
   border-radius: var(--radius);
 }
 .marketing .faq-question {
-  @apply w-full px-6 py-4 text-left font-medium text-gray-900;
-  @apply transition-colors duration-200 hover:bg-gray-50;
-  @apply focus:bg-gray-50 focus:outline-none;
+  @apply w-full px-6 py-4 text-left font-medium text-foreground;
+  @apply transition-colors duration-200 hover:bg-muted/50;
+  @apply focus:bg-muted/50 focus:outline-none;
 }
-.marketing .faq-answer { @apply px-6 pb-4 leading-relaxed text-gray-600; }
+.marketing .faq-answer { @apply px-6 pb-4 leading-relaxed text-muted-foreground; }
 
 /* Marketing - Navigation Dropdown */
 .marketing .nav-item { position: relative; }

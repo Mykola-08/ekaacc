@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import LanguageSelector from './LanguageSelector';

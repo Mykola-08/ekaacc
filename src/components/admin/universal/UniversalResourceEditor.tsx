@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Card } from '@/components/ui/card';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { Lock, Unlock, Save, Database, AlertTriangle } from 'lucide-react';
 
 export function UniversalResourceEditor({ table, id }: { table: string; id: string }) {
@@ -76,7 +76,7 @@ export function UniversalResourceEditor({ table, id }: { table: string; id: stri
         <div className="flex items-center gap-2">
           <Database className="h-5 w-5 text-red-500" />
           <div>
-            <h2 className="font-mono text-xl font-bold text-red-700 dark:text-red-400">
+            <h2 className="font-mono text-xl font-semibold text-red-700 dark:text-red-400">
               GOD MODE_
             </h2>
             <p className="text-muted-foreground font-mono text-xs uppercase">
@@ -86,7 +86,7 @@ export function UniversalResourceEditor({ table, id }: { table: string; id: stri
         </div>
         <div className="flex items-center gap-4">
           <div className="bg-background border-border flex items-center gap-2 rounded-full border px-4 py-2">
-            <span className="text-sm font-bold">{data.is_locked ? 'LOCKED' : 'UNLOCKED'}</span>
+            <span className="text-sm font-semibold">{data.is_locked ? 'LOCKED' : 'UNLOCKED'}</span>
             <Switch
               checked={data.is_locked}
               onCheckedChange={toggleLock}

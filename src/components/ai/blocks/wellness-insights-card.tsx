@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * Wellness Insights Card
@@ -26,7 +26,7 @@ const typeConfig: Record<string, { icon: typeof Brain; color: string }> = {
   therapy: { icon: Brain, color: "text-violet-500" },
   behavioral: { icon: Target, color: "text-amber-500" },
   progress: { icon: TrendingUp, color: "text-emerald-500" },
-  recommendation: { icon: Lightbulb, color: "text-blue-500" },
+  recommendation: { icon: Lightbulb, color: "text-primary" },
   mood: { icon: Zap, color: "text-orange-500" },
   engagement: { icon: TrendingUp, color: "text-cyan-500" },
 };
@@ -39,7 +39,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card w-full max-w-md space-y-3 rounded-2xl border p-4"
+      className="bg-card w-full max-w-md space-y-3 rounded-lg border p-4"
     >
       <div className="flex items-center gap-2">
         <Brain className="text-primary h-4 w-4" />

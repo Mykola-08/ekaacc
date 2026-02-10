@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { supabase } from '@/lib/platform/supabase';
@@ -54,7 +54,7 @@ export default function DataRequestPage() {
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50 p-4">
           <CheckCircle className="h-10 w-10 text-green-600" />
         </div>
-        <h1 className="text-foreground mb-4 text-3xl font-bold">Request Submitted</h1>
+        <h1 className="text-foreground mb-4 text-3xl font-semibold">Request Submitted</h1>
         <p className="text-muted-foreground mb-8 text-lg">
           We have received your data request. Our Data Protection Officer will review it and respond
           to you at <strong>{email}</strong> within 30 days.
@@ -77,17 +77,17 @@ export default function DataRequestPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <div className="mb-12 text-center">
-        <div className="mb-4 inline-flex items-center justify-center rounded-xl bg-blue-50 p-3">
+        <div className="mb-4 inline-flex items-center justify-center rounded-xl bg-primary/5 p-3">
           <Shield className="text-primary h-8 w-8" />
         </div>
-        <h1 className="text-foreground mb-4 text-3xl font-bold">Data Privacy Request</h1>
+        <h1 className="text-foreground mb-4 text-3xl font-semibold">Data Privacy Request</h1>
         <p className="text-muted-foreground text-lg">
           Exercise your rights under GDPR, CCPA, and other privacy laws. Use this form to request
           access, deletion, or correction of your personal data.
         </p>
       </div>
 
-      <div className="bg-card rounded-2xl border-none p-6 shadow-sm md:p-8">
+      <div className="bg-card rounded-lg border-none p-6 shadow-sm md:p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
             <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">

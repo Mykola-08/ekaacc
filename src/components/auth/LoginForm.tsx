@@ -6,7 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { Loader2, Mail, Lock } from 'lucide-react';
 import Link from 'next/link';
 
@@ -14,6 +15,7 @@ export function LoginForm() {
   const router = useRouter();
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
+  const { feedback, setSuccess, setError, reset } = useMorphingFeedback();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,15 +32,17 @@ export function LoginForm() {
       });
 
       if (error) {
-        toast.error(error.message);
+        setError(error.message);
         return;
       }
 
-      toast.success('Welcome back!');
-      router.push('/');
-      router.refresh();
+      setSuccess('Welcome back!');
+      setTimeout(() => {
+        router.push('/');
+        router.refresh();
+      }, 800);
     } catch (error) {
-      toast.error('An unexpected error occurred');
+      setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
@@ -82,6 +86,8 @@ export function LoginForm() {
           />
         </div>
       </div>
+
+      <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
 
       <Button
         type="submit"

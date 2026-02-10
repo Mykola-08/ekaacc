@@ -47,7 +47,7 @@ export default function GallerySection() {
           </p>
         </div>
 
-        <ImageGallery images={images} />
+        <ImageGallery images={images} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" />
       </div>
     </section>
   );

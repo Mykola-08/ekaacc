@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 
 interface JournalEntry {
   id: string;
@@ -95,12 +95,12 @@ export function JournalPage() {
       <DashboardHeader title="Reflections" subtitle="Your private wellness journal.">
           <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
             <DialogTrigger asChild>
-              <Button className="h-12 rounded-lg px-6 text-[15px] font-bold shadow-xl transition-all hover:scale-105 active:scale-95">
+              <Button className="h-12 rounded-lg px-6 text-[15px] font-semibold shadow-sm transition-all hover:scale-105 active:scale-95">
                 <Plus className="mr-2 h-5 w-5" strokeWidth={2.5} />
                 New Entry
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-card rounded-[20px] border-0 p-8 shadow-eka-xl sm:max-w-[525px]">
+            <DialogContent className="bg-card rounded-lg border-0 p-8 shadow-eka-xl sm:max-w-131.25">
               <DialogHeader>
                 <DialogTitle className="text-foreground text-2xl font-black tracking-tight">
                   New Reflection
@@ -134,19 +134,19 @@ export function JournalPage() {
                   placeholder="Title (optional)"
                   value={newEntry.title}
                   onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
-                  className="bg-secondary placeholder:text-muted-foreground text-foreground h-14 rounded-xl border-none px-6 py-4 text-lg font-bold focus-visible:ring-0"
+                  className="bg-secondary placeholder:text-muted-foreground text-foreground h-14 rounded-xl border-none px-6 py-4 text-lg font-semibold focus-visible:ring-0"
                 />
                 <Textarea
                   placeholder="How are you feeling today?"
                   value={newEntry.text}
                   onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
-                  className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-[200px] resize-none rounded-xl border-none p-6 text-base leading-relaxed focus-visible:ring-0"
+                  className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-50 resize-none rounded-xl border-none p-6 text-base leading-relaxed focus-visible:ring-0"
                 />
               </div>
               <DialogFooter>
                 <Button
                   onClick={handleSave}
-                  className="h-14 w-full rounded-xl text-lg font-bold shadow-xl transition-transform active:scale-95"
+                  className="h-14 w-full rounded-xl text-lg font-semibold shadow-sm transition-transform active:scale-95"
                 >
                   Save Entry
                 </Button>
@@ -158,7 +158,7 @@ export function JournalPage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-32 animate-pulse rounded-[20px] bg-muted" />
+            <div key={i} className="h-32 animate-pulse rounded-lg bg-muted" />
           ))}
         </div>
       ) : entries.length === 0 ? (
@@ -179,7 +179,7 @@ export function JournalPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={entry.id}
-                className="group rounded-[20px] border border-transparent bg-card p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-border hover:shadow-md"
+                className="group rounded-lg border border-transparent bg-card p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-border hover:shadow-md"
               >
                 <div className="mb-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-5">
@@ -192,17 +192,17 @@ export function JournalPage() {
                       <m.icon className={cn('h-7 w-7', m.color)} strokeWidth={2.5} />
                     </div>
                     <div>
-                      <h3 className="mb-1 text-xl font-bold tracking-tight text-foreground">
+                      <h3 className="mb-1 text-xl font-semibold tracking-tight text-foreground">
                         {title}
                       </h3>
-                      <div className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-muted-foreground">
+                      <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">
                         <Calendar className="h-3.5 w-3.5" strokeWidth={2.5} />
                         {new Date(entry.created_at).toLocaleDateString()}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="pl-0 md:pl-[76px]">
+                <div className="pl-0 md:pl-19">
                   <p className="text-[16px] font-medium leading-relaxed text-muted-foreground">
                     {entry.content}
                   </p>

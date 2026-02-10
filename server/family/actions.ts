@@ -18,11 +18,23 @@ export async function getFamilyMembers() {
 
   if (!user) return [];
 
-  // Fetch family members for this user
+  // 1. Get the current user's profile ID
+  const { data: userProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('auth_id', user.id)
+    .single();
+
+  if (!userProfile) {
+    console.error('No profile found for user:', user.id);
+    return [];
+  }
+
+  // 2. Fetch family members (profiles managed by this user)
   const { data: members, error } = await supabase
-    .from('family_members')
+    .from('profiles')
     .select('*')
-    .eq('user_id', user.id)
+    .eq('managed_by', userProfile.id)
     .order('created_at', { ascending: true });
 
   if (error) {
@@ -43,6 +55,17 @@ export async function addFamilyMember(prevState: any, formData: FormData) {
     return { success: false, message: 'Unauthorized' };
   }
 
+  // Get current user's profile
+  const { data: userProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('auth_id', user.id)
+    .single();
+
+  if (!userProfile) {
+    return { success: false, message: 'Profile not found' };
+  }
+
   const rawData = {
     full_name: formData.get('full_name'),
     dob: formData.get('dob'),
@@ -60,11 +83,13 @@ export async function addFamilyMember(prevState: any, formData: FormData) {
   }
 
   try {
-    const { error } = await supabase.from('family_members').insert({
+    // Create a new managed profile
+    const { error } = await supabase.from('profiles').insert({
       full_name: validated.data.full_name,
       dob: validated.data.dob || null, 
-      user_id: user.id,
-      relationship: validated.data.relationship,
+      managed_by: userProfile.id,
+      metadata: { relationship: validated.data.relationship },
+      role: 'client', // Default role
     });
 
     if (error) throw error;
@@ -84,11 +109,21 @@ export async function deleteFamilyMember(memberId: string) {
   } = await supabase.auth.getUser();
   if (!user) return { success: false, message: 'Unauthorized' };
 
+  // Get current user's profile
+  const { data: userProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('auth_id', user.id)
+    .single();
+
+  if (!userProfile) return { success: false, message: 'Profile not found' };
+
+  // Delete only if managed by the current user
   const { error } = await supabase
-    .from('family_members')
+    .from('profiles')
     .delete()
     .eq('id', memberId)
-    .eq('user_id', user.id); 
+    .eq('managed_by', userProfile.id); 
 
   if (error) return { success: false, message: error.message };
 

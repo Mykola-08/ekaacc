@@ -13,10 +13,10 @@ interface ServiceCardProps {
 export default function ServiceCard({ service }: ServiceCardProps) {
   const { t } = useLanguage();
   const colorStyles: Record<string, { text: string; dot: string }> = {
-    blue: { text: 'text-blue-600', dot: 'bg-blue-500' },
+    blue: { text: 'text-primary', dot: 'bg-primary' },
     purple: { text: 'text-purple-600', dot: 'bg-purple-500' },
-    green: { text: 'text-green-600', dot: 'bg-green-500' },
-    orange: { text: 'text-orange-600', dot: 'bg-orange-500' },
+    green: { text: 'text-emerald-600', dot: 'bg-emerald-500' },
+    orange: { text: 'text-marketing-accent-dark', dot: 'bg-marketing-accent' },
     indigo: { text: 'text-indigo-600', dot: 'bg-indigo-500' },
     pink: { text: 'text-pink-600', dot: 'bg-pink-500' },
     red: { text: 'text-red-600', dot: 'bg-red-500' },
@@ -32,7 +32,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           className="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
         />
       </div>
-      <div className="flex flex-grow flex-col p-6">
+      <div className="flex grow flex-col p-6">
         <h3 className="mb-2 text-xl font-semibold tracking-tight text-gray-900">{t(service.titleKey)}</h3>
         {/* Helper text/subtitle in color */}
         <p className={`mb-4 text-sm font-medium ${palette.text}`}>{t(service.subtitleKey)}</p>
@@ -49,7 +49,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
               {service.benefitsKeys.slice(0, 4).map((key, i) => (
                 <li key={i} className="flex items-start text-sm text-gray-600">
                   <span
-                    className={`mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full ${palette.dot}`}
+                    className={`mr-2 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${palette.dot}`}
                   />
                   {t(key)}
                 </li>

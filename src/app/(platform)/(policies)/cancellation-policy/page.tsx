@@ -17,7 +17,7 @@ export default function CancellationPolicy() {
       sections: [
         {
           title: '1. Cancellation Window',
-          icon: <Clock className="h-6 w-6 text-blue-600" />,
+          icon: <Clock className="h-6 w-6 text-primary" />,
           text: "We require at least 24 hours' notice for all cancellations. This allows us to offer the appointment slot to other clients who may need care. Cancellations made with less than 24 hours' notice are considered late cancellations.",
         },
         {
@@ -50,7 +50,7 @@ export default function CancellationPolicy() {
       sections: [
         {
           title: '1. Ventana de Cancelación',
-          icon: <Clock className="h-6 w-6 text-blue-600" />,
+          icon: <Clock className="h-6 w-6 text-primary" />,
           text: 'Requerimos un aviso de al menos 24 horas para todas las cancelaciones. Esto nos permite ofrecer el horario de la cita a otros clientes que puedan necesitar atención. Las cancelaciones realizadas con menos de 24 horas de antelación se consideran cancelaciones tardías.',
         },
         {
@@ -83,7 +83,7 @@ export default function CancellationPolicy() {
       sections: [
         {
           title: '1. Finestra de Cancel·lació',
-          icon: <Clock className="h-6 w-6 text-blue-600" />,
+          icon: <Clock className="h-6 w-6 text-primary" />,
           text: "Requerim un avís d'almenys 24 hores per a totes les cancel·lacions. Això ens permet oferir l'horari de la cita a altres clients que puguin necessitar atenció. Les cancel·lacions realitzades amb menys de 24 hores d'antelació es consideren cancel·lacions tardanes.",
         },
         {
@@ -116,7 +116,7 @@ export default function CancellationPolicy() {
       sections: [
         {
           title: '1. Срок отмены',
-          icon: <Clock className="h-6 w-6 text-blue-600" />,
+          icon: <Clock className="h-6 w-6 text-primary" />,
           text: 'Мы требуем уведомления об отмене не менее чем за 24 часа. Это позволяет нам предложить время встречи другим клиентам, которым может потребоваться помощь. Отмены, сделанные менее чем за 24 часа, считаются поздними отменами.',
         },
         {
@@ -145,21 +145,21 @@ export default function CancellationPolicy() {
 
   return (
     <div className="bg-muted/30 min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      <div className="bg-card mx-auto max-w-4xl overflow-hidden rounded-2xl shadow-xl">
-        <div className="flex items-center justify-between bg-blue-900 px-8 py-8 text-primary-foreground">
+      <div className="bg-card mx-auto max-w-4xl overflow-hidden rounded-lg shadow-sm">
+        <div className="flex items-center justify-between bg-primary px-8 py-8 text-primary-foreground">
           <div>
-            <h1 className="text-3xl font-bold">{content[language].title}</h1>
-            <p className="mt-2 text-blue-100">{content[language].lastUpdated}</p>
+            <h1 className="text-3xl font-semibold">{content[language].title}</h1>
+            <p className="mt-2 text-primary-foreground/80">{content[language].lastUpdated}</p>
           </div>
           <div className="flex space-x-2">
             {(['en', 'es', 'ca', 'ru'] as Language[]).map((lang) => (
               <button
                 key={lang}
                 onClick={() => setLanguage(lang)}
-                className={`rounded px-3 py-1 text-sm font-bold uppercase transition-colors ${
+                className={`rounded px-3 py-1 text-sm font-semibold uppercase transition-colors ${
                   language === lang
-                    ? 'bg-card text-blue-900'
-                    : 'bg-blue-800 text-blue-200 hover:bg-blue-700'
+                    ? 'bg-card text-primary'
+                    : 'bg-primary/80 text-primary-foreground/60 hover:bg-primary/70'
                 }`}
               >
                 {lang}
@@ -177,7 +177,7 @@ export default function CancellationPolicy() {
             {content[language].sections.map((section, index) => (
               <div
                 key={index}
-                className="bg-muted/30 flex items-start rounded-xl p-6 transition-shadow hover:shadow-md"
+                className="bg-muted/30 flex items-start rounded-lg p-6 transition-shadow hover:shadow-md"
               >
                 <div className="bg-card mt-1 shrink-0 rounded-full p-3 shadow-sm">
                   {section.icon}

@@ -26,7 +26,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { UserPlus, User, Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface FamilyMember {

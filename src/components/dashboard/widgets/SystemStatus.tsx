@@ -16,8 +16,8 @@ const statuses = [
     label: 'Auth Service',
     status: 'Active',
     icon: ShieldCheck,
-    color: 'text-blue-500',
-    bg: 'bg-blue-50',
+    color: 'text-primary',
+    bg: 'bg-primary/5',
   },
   {
     label: 'Edge Runtime',
@@ -44,14 +44,14 @@ export function SystemStatus() {
             key={idx}
             className="bg-secondary border-border flex items-center gap-3 rounded-xl border p-4 transition-colors hover:border-border"
           >
-            <div className={`rounded-lg p-2.5 ${s.bg} flex-shrink-0`}>
+            <div className={`rounded-lg p-2.5 ${s.bg} shrink-0`}>
               <s.icon className={`${s.color} h-4 w-4`} strokeWidth={2.5} />
             </div>
             <div className="min-w-0">
-              <div className="text-muted-foreground mb-0.5 text-xs font-bold tracking-wider uppercase">
+              <div className="text-muted-foreground mb-0.5 text-xs font-semibold tracking-wider uppercase">
                 {s.label}
               </div>
-              <div className="text-foreground truncate text-[13px] leading-none font-bold">
+              <div className="text-foreground truncate text-[13px] leading-none font-semibold">
                 {s.status}
               </div>
             </div>

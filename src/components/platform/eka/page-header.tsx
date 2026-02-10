@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 export function PageHeader({
   title,
@@ -20,7 +20,7 @@ export function PageHeader({
       <div className="flex items-center gap-2">
         {Icon && <Icon className="h-6 w-6" />}
         <div>
-          <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
+          <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
             {title}
             {badge && <span className="bg-muted rounded px-2 py-1 text-sm">{badge}</span>}
           </h2>

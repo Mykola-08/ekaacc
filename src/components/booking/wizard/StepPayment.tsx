@@ -24,8 +24,8 @@ export function StepPayment({
 }: StepPaymentProps) {
   return (
     <div className="space-y-6">
-      <div className="bg-card border-border rounded-[20px] border p-8 shadow-sm">
-        <h3 className="text-foreground mb-6 flex items-center gap-3 text-xl font-bold">
+      <div className="bg-card border-border rounded-lg border p-6 shadow-sm">
+        <h3 className="text-foreground mb-6 flex items-center gap-3 text-xl font-semibold">
           <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-full">
             <HugeiconsIcon icon={CreditCardIcon} className="h-5 w-5" />
           </div>
@@ -50,20 +50,20 @@ export function StepPayment({
           <TabsContent value="stripe" className="space-y-6">
             <div className="space-y-4">
               <Input
-                className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent"
+                className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent"
                 placeholder="Card number"
               />
               <div className="grid grid-cols-3 gap-4">
                 <Input
-                  className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent"
+                  className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent"
                   placeholder="MM/YY"
                 />
                 <Input
-                  className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent"
+                  className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent"
                   placeholder="CVC"
                 />
                 <Input
-                  className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent"
+                  className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent"
                   placeholder="Zip"
                 />
               </div>
@@ -76,11 +76,11 @@ export function StepPayment({
             {user ? (
               walletBalance !== null && walletBalance >= price ? (
                 <div className="space-y-4 py-4 text-center">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 p-4 text-emerald-600">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 p-4 text-emerald-600">
                     <HugeiconsIcon icon={Tick02Icon} className="h-8 w-8" strokeWidth={3} />
                   </div>
                   <div>
-                    <p className="text-foreground text-lg font-bold">Sufficient Balance</p>
+                    <p className="text-foreground text-lg font-semibold">Sufficient Balance</p>
                     <p className="text-muted-foreground text-sm">
                       €{price} will be deducted from your €{walletBalance} balance.
                     </p>
@@ -88,15 +88,15 @@ export function StepPayment({
                 </div>
               ) : (
                 <div className="space-y-6 py-4 text-center">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-500/10 p-4 text-amber-600">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10 p-4 text-amber-600">
                     <HugeiconsIcon icon={CreditCardIcon} className="h-8 w-8" strokeWidth={3} />
                   </div>
                   <div>
-                    <p className="text-foreground text-lg font-bold">Insufficient Balance</p>
+                    <p className="text-foreground text-lg font-semibold">Insufficient Balance</p>
                     <p className="text-muted-foreground mb-6 text-sm">
                       Your balance is €{walletBalance}. You need €{price}.
                     </p>
-                    <Button variant="outline" asChild className="rounded-full border-2 font-bold">
+                    <Button variant="outline" asChild className="rounded-full border-2 font-semibold">
                       <Link href="/wallet/top-up" target="_blank">
                         Top Up Wallet
                       </Link>

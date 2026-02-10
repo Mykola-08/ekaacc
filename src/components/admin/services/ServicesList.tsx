@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { AdminService } from '@/server/admin/actions';
 import { Plus, MoreHorizontal, Layers, Eye, EyeOff, Tag } from 'lucide-react';
@@ -44,7 +44,7 @@ export function ServicesList({ services }: ServicesListProps) {
         description="Manage offerings, pricing and visibility."
         actions={
           <Link href="/admin/services/new">
-            <Button className="rounded-full shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl">
+            <Button className="rounded-full shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-sm">
               <Plus className="mr-2 h-4 w-4" />
               Create Service
             </Button>
@@ -83,7 +83,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
       style={{ animationDelay: `${index * 50}ms` }}
     >
       <div className="flex flex-1 items-center gap-4">
-        <div className="bg-muted border-border relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border">
+        <div className="bg-muted border-border relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border">
           {service.imageUrl ? (
             <Image
               src={service.imageUrl}
@@ -97,7 +97,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
           )}
         </div>
         <div>
-          <h3 className="text-foreground mb-1 text-xl font-bold">{service.name}</h3>
+          <h3 className="text-foreground mb-1 text-xl font-semibold">{service.name}</h3>
           <p className="text-muted-foreground line-clamp-1 max-w-md text-sm">
             {service.description || 'No description provided'}
           </p>
@@ -130,7 +130,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
             <Badge
               key={tag}
               variant="outline"
-              className="text-xs font-bold tracking-wider uppercase"
+              className="text-xs font-semibold tracking-wider uppercase"
             >
               <Tag className="mr-1 h-2 w-2" />
               {tag}

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useTaskStore, Task } from '@/store/taskStore';
@@ -40,8 +40,8 @@ export function TaskManager() {
  };
 
  return (
- <div className="flex h-full flex-col rounded-[20px] border border-zinc-100 bg-card p-6 shadow-sm ">
- <h3 className="mb-6 flex items-center gap-2 text-xl font-bold">
+ <div className="flex h-full flex-col rounded-lg border border-zinc-100 bg-card p-6 shadow-sm ">
+ <h3 className="mb-6 flex items-center gap-2 text-xl font-semibold">
  <span className="bg-primary/10 text-primary rounded-xl p-2">
  <CheckCircle2 size={20} />
  </span>
@@ -55,7 +55,7 @@ export function TaskManager() {
  value={newTaskTitle}
  onChange={(e) => setNewTaskTitle(e.target.value)}
  placeholder="Add a new task..."
- className="bg-secondary/50 focus:ring-primary/20 flex-1 rounded-[20px] px-4 py-3 text-sm transition-all focus:ring-2 focus:outline-none"
+ className="bg-secondary/50 focus:ring-primary/20 flex-1 rounded-lg px-4 py-3 text-sm transition-all focus:ring-2 focus:outline-none"
  />
  <div className="shrink-0">
  <MorphingActionButton status={buttonStatus} onClick={handleAddTask} idleLabel="Add" />
@@ -83,7 +83,7 @@ export function TaskManager() {
  animate={{ opacity: 1, scale: 1, y: 0 }}
  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
  className={cn(
- 'group flex cursor-pointer items-center justify-between rounded-[20px] border p-4 transition-all',
+ 'group flex cursor-pointer items-center justify-between rounded-lg border p-4 transition-all',
  task.status === 'done'
  ? 'border-transparent bg-zinc-50 opacity-60 '
  : 'bg-card border-border hover:border-primary/30 hover:shadow-sm'
@@ -96,7 +96,7 @@ export function TaskManager() {
  task.status === 'done'
  ? 'bg-green-500/10 text-green-500'
  : task.status === 'in-progress'
- ? 'bg-blue-500/10 text-blue-500'
+ ? 'bg-primary/10 text-primary'
  : 'text-zinc-300'
  )}
  >

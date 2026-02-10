@@ -57,7 +57,7 @@ export function AdminSidebarContent({ onClick }: { onClick?: () => void }) {
   return (
     <div className="flex h-full flex-col py-4">
       <div className="px-6 pt-2 pb-6">
-        <h2 className="text-foreground px-2 text-xl font-bold tracking-tight">EKA STUDIO</h2>
+        <h2 className="text-foreground px-2 text-xl font-semibold tracking-tight">EKA STUDIO</h2>
       </div>
       <div className="scrollbar-none flex-1 space-y-1 overflow-x-hidden overflow-y-auto px-4">
         {sidebarItems.map((item) => {
@@ -90,7 +90,7 @@ export function AdminSidebarContent({ onClick }: { onClick?: () => void }) {
       </div>
       <div className="border-border/50 mt-auto border-t px-6 pt-4">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold">
+          <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
             AD
           </div>
           <div className="min-w-0">
@@ -107,7 +107,7 @@ export function AdminSidebar({ className }: { className?: string }) {
   return (
     <aside
       className={cn(
-        'bg-card border-border hidden w-[280px] shrink-0 flex-col overflow-hidden rounded-[20px] border md:flex',
+        'bg-card border-border hidden w-70 shrink-0 flex-col overflow-hidden rounded-lg border md:flex',
         className
       )}
     >

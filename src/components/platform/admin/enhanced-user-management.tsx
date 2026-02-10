@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -175,7 +175,7 @@ export function EnhancedUserManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-foreground text-2xl font-bold">User Management</h2>
+          <h2 className="text-foreground text-2xl font-semibold">User Management</h2>
           <p className="text-muted-foreground">Manage users, roles, and access permissions</p>
         </div>
         <div className="flex items-center gap-3">
@@ -248,8 +248,8 @@ export function EnhancedUserManagement() {
 
             {/* Bulk Operations */}
             {selectedUsers.length > 0 && (
-              <div className="flex items-center justify-between rounded-lg bg-blue-50 p-4">
-                <span className="text-sm text-blue-800">
+              <div className="flex items-center justify-between rounded-lg bg-primary/5 p-4">
+                <span className="text-sm text-primary">
                   {selectedUsers.length} user(s) selected
                 </span>
                 <div className="flex gap-2">

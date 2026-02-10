@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { createClient } from '@/lib/supabase/client'; // Client side client
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 

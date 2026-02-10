@@ -5,13 +5,13 @@ import Image from 'next/image';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import Link from 'next/link';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function ArtistsContent() {
   const { t } = useLanguage();
 
   const Hero = (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 lg:pt-48 lg:pb-32">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
@@ -32,7 +32,7 @@ export default function ArtistsContent() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link href="/book">
-                <Button size="xl" className="btn btn-accent">
+                <Button size="lg" className="btn btn-accent">
                   {t('common.reserveSession')}
                 </Button>
               </Link>
@@ -70,7 +70,7 @@ export default function ArtistsContent() {
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start rounded-[20px] bg-red-50 p-6">
-                  <AlertCircle className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-red-500" />
+                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-red-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">
                       {t('artists.challenge1.title')}
@@ -79,7 +79,7 @@ export default function ArtistsContent() {
                   </div>
                 </div>
                 <div className="flex items-start rounded-[20px] bg-red-50 p-6">
-                  <AlertCircle className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-red-500" />
+                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-red-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">
                       {t('artists.challenge2.title')}
@@ -88,7 +88,7 @@ export default function ArtistsContent() {
                   </div>
                 </div>
                 <div className="flex items-start rounded-[20px] bg-red-50 p-6">
-                  <AlertCircle className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-red-500" />
+                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-red-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">
                       {t('artists.challenge3.title')}
@@ -104,21 +104,21 @@ export default function ArtistsContent() {
               <h2 className="text-eka-dark mb-8 text-3xl font-bold">{t('artists.help.title')}</h2>
               <div className="space-y-6">
                 <div className="flex items-start rounded-[20px] bg-green-50 p-6">
-                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-green-500" />
+                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-green-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help1.title')}</h3>
                     <p className="font-light text-gray-600">{t('artists.help1.desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start rounded-[20px] bg-green-50 p-6">
-                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-green-500" />
+                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-green-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help2.title')}</h3>
                     <p className="font-light text-gray-600">{t('artists.help2.desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start rounded-[20px] bg-green-50 p-6">
-                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-green-500" />
+                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-green-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help3.title')}</h3>
                     <p className="font-light text-gray-600">{t('artists.help3.desc')}</p>
@@ -189,7 +189,7 @@ export default function ArtistsContent() {
               <div className="flex flex-col gap-4 sm:flex-row">
                 <Link href="/book">
                   <Button
-                    size="xl"
+                    size="lg"
                     className="btn btn-primary w-full bg-accent text-eka-dark hover:bg-accent/90 sm:w-auto"
                   >
                     {t('artists.session.cta')}
@@ -197,7 +197,7 @@ export default function ArtistsContent() {
                 </Link>
                 <Link href="/services">
                   <Button
-                    size="xl"
+                    size="lg"
                     className="btn btn-outline w-full border-gray-200 bg-white text-gray-700 hover:bg-gray-50 sm:w-auto"
                   >
                     {t('artists.session.other')}

@@ -40,7 +40,7 @@ export function NotificationDropdown() {
         <Button
           variant="outline"
           size="icon"
-          className="bg-card hover:bg-secondary relative h-10 w-10 rounded-full border-none shadow-sm transition-all hover:shadow-md"
+          className="bg-card hover:bg-secondary relative h-10 w-10 rounded-full border-none transition-colors"
         >
           <HugeiconsIcon
             icon={Notification01Icon}
@@ -54,9 +54,9 @@ export function NotificationDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="bg-card border-border mt-4 w-[360px] rounded-[24px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
+        className="bg-card border-border mt-4 w-90 rounded-xl border p-6"
       >
-        <DropdownMenuLabel className="text-foreground flex items-center justify-between px-2 py-3 text-base font-bold tracking-tight">
+        <DropdownMenuLabel className="text-foreground flex items-center justify-between px-2 py-3 text-base font-semibold tracking-tight">
           Notifications
           {unreadCount > 0 && (
             <span className="bg-foreground text-background rounded-full px-2 py-0.5 text-xs">
@@ -80,7 +80,7 @@ export function NotificationDropdown() {
               <DropdownMenuItem
                 key={n.id}
                 className={cn(
-                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-[20px] border border-transparent p-4 transition-all outline-none',
+                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-lg border border-transparent p-4 transition-all outline-none',
                   !n.read ? 'bg-secondary' : 'bg-transparent'
                 )}
               >
@@ -89,7 +89,7 @@ export function NotificationDropdown() {
                     <span
                       className={cn(
                         'text-foreground text-sm leading-tight',
-                        !n.read ? 'font-bold' : 'font-medium'
+                        !n.read ? 'font-semibold' : 'font-medium'
                       )}
                     >
                       {n.title}
@@ -101,7 +101,7 @@ export function NotificationDropdown() {
                   <span className="text-muted-foreground line-clamp-2 text-xs leading-relaxed font-normal">
                     {n.message}
                   </span>
-                  <span className="text-muted-foreground pt-1 text-xs font-bold tracking-wider uppercase">
+                  <span className="text-muted-foreground pt-1 text-xs font-semibold tracking-wider uppercase">
                     {formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}
                   </span>
                 </div>

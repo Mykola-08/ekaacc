@@ -14,7 +14,7 @@ import {
   Shield,
 } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 import PageLayout from '@/components/marketing/PageLayout';
 
 interface ProblemConfig {
@@ -103,7 +103,7 @@ export default function CasoDetailContent() {
     blue: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
     purple: { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
     green: { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
-    orange: { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
+    orange: { bg: 'bg-marketing-accent-light/50', text: 'text-marketing-accent-dark', border: 'border-marketing-accent-light' },
     indigo: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
     pink: { bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-200' },
     red: { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
@@ -151,7 +151,7 @@ export default function CasoDetailContent() {
         <div className="mb-20 grid grid-cols-1 gap-12 md:grid-cols-2">
           {/* Symptoms */}
           <div className="relative">
-            <div className="absolute top-0 bottom-0 -left-4 w-1 rounded-full bg-gradient-to-b from-red-200 to-transparent opacity-50" />
+            <div className="absolute top-0 bottom-0 -left-4 w-1 rounded-full bg-linear-to-b from-red-200 to-transparent opacity-50" />
             <h2 className="mb-6 flex items-center text-2xl font-light text-gray-900">
               <span className="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-red-50 text-sm font-bold text-red-500">
                 1
@@ -161,7 +161,7 @@ export default function CasoDetailContent() {
             <ul className="space-y-4">
               {symptoms.map((item, idx) => (
                 <li key={idx} className="flex items-start rounded-xl bg-gray-50 p-4">
-                  <span className="mt-2 mr-3 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-400" />
+                  <span className="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
                   <span className="text-gray-700">{item}</span>
                 </li>
               ))}
@@ -170,7 +170,7 @@ export default function CasoDetailContent() {
 
           {/* Causes */}
           <div className="relative">
-            <div className="absolute top-0 bottom-0 -left-4 w-1 rounded-full bg-gradient-to-b from-orange-200 to-transparent opacity-50" />
+            <div className="absolute top-0 bottom-0 -left-4 w-1 rounded-full bg-linear-to-b from-orange-200 to-transparent opacity-50" />
             <h2 className="mb-6 flex items-center text-2xl font-light text-gray-900">
               <span className="mr-3 flex h-8 w-8 items-center justify-center rounded-full bg-orange-50 text-sm font-bold text-orange-500">
                 2
@@ -180,7 +180,7 @@ export default function CasoDetailContent() {
             <ul className="space-y-4">
               {causes.map((item, idx) => (
                 <li key={idx} className="flex items-start rounded-xl bg-gray-50 p-4">
-                  <span className="mt-2 mr-3 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-400" />
+                  <span className="mt-2 mr-3 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400" />
                   <span className="text-gray-700">{item}</span>
                 </li>
               ))}
@@ -215,7 +215,7 @@ export default function CasoDetailContent() {
           <div className="mt-12 border-t border-white/10 pt-8 text-center">
             <Link href={config.href}>
               <Button
-                size="xl"
+                size="lg"
                 className="btn btn-primary bg-accent text-eka-dark hover:bg-accent/90"
               >
                 {t('common.bookNow')}

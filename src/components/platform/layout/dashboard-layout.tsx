@@ -5,7 +5,7 @@ import { AppSidebar } from '@/components/platform/navigation/app-sidebar';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppHeader } from '@/components/platform/eka/app-header';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -29,10 +29,10 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="hidden h-[calc(100vh-1.5rem)] shrink-0 md:block"
         >
-          <AppSidebar className="h-full rounded-[20px] border border-black/5 bg-card shadow-sm" />
+          <AppSidebar className="h-full rounded-lg border border-black/5 bg-card shadow-sm" />
         </motion.div>
 
-        <SidebarInset className="flex h-[calc(100vh-1.5rem)] flex-col overflow-hidden rounded-[20px] border border-black/5 bg-card shadow-sm">
+        <SidebarInset className="flex h-[calc(100vh-1.5rem)] flex-col overflow-hidden rounded-lg border border-black/5 bg-card shadow-sm">
           <AppHeader />
           <motion.main
             initial={{ opacity: 0, scale: 0.98 }}

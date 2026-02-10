@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from '@/components/ui/morphing-toaster';
+import { motion, AnimatePresence } from 'motion/react';
 import { Loader2, Mail, ArrowLeft, CheckCircle2, Sparkles } from 'lucide-react';
 
 export default function ForgotPasswordPage() {
@@ -46,10 +46,10 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-50 via-blue-50/30 to-purple-50/30 p-6 dark:from-indigo-950/30 dark:via-blue-950/30 dark:to-purple-950/30">
+    <div className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-linear-to-br from-primary/5 via-primary/3 to-primary/5 p-6">
       {/* Decorative background elements */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-100/20 via-transparent to-transparent dark:from-indigo-900/10" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-purple-100/20 via-transparent to-transparent dark:from-purple-900/10" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -57,10 +57,10 @@ export default function ForgotPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br shadow-2xl backdrop-blur-xl">
+        <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-lg border-0 bg-linear-to-br shadow-sm backdrop-blur-xl">
           {/* Decorative gradient overlay */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-blue-500/5 to-purple-500/5" />
-          <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 via-primary/5 to-primary/5" />
+          <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
 
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
@@ -72,12 +72,12 @@ export default function ForgotPasswordPage() {
             >
               <div className="relative">
                 <motion.div
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 opacity-30 blur-xl"
+                  className="absolute inset-0 rounded-lg bg-linear-to-br from-primary to-primary/70 opacity-30 blur-xl"
                   animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.4, 0.3] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 />
                 <motion.div
-                  className="relative rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-4 shadow-lg"
+                  className="relative rounded-lg bg-linear-to-br from-primary to-primary/70 p-4 shadow-sm"
                   animate={emailSent ? { scale: [1, 1.05, 1] } : {}}
                   transition={{ duration: 0.5 }}
                 >
@@ -107,7 +107,7 @@ export default function ForgotPasswordPage() {
                 </motion.div>
               </div>
               <div className="space-y-2">
-                <h1 className="from-foreground to-foreground/70 bg-gradient-to-br bg-clip-text text-3xl font-bold tracking-tight text-transparent">
+                <h1 className="from-foreground to-foreground/70 bg-linear-to-br bg-clip-text text-3xl font-semibold tracking-tight text-transparent">
                   {emailSent ? 'Check Your Email' : 'Forgot Password?'}
                 </h1>
                 <p className="text-muted-foreground max-w-sm text-sm font-medium">
@@ -132,7 +132,7 @@ export default function ForgotPasswordPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="text-muted-foreground rounded-xl border border-indigo-200/50 bg-indigo-50/50 p-4 text-center text-sm dark:border-indigo-800/50 dark:bg-indigo-950/20"
+                    className="text-muted-foreground rounded-lg border border-border/50 bg-muted/50 p-4 text-center text-sm"
                   >
                     <p className="font-medium">
                       Click the link in the email to reset your password.
@@ -142,7 +142,7 @@ export default function ForgotPasswordPage() {
                   <Button
                     variant="outline"
                     onClick={() => setEmailSent(false)}
-                    className="border-border/50 bg-muted/20 hover:bg-muted/40 h-11 w-full rounded-xl transition-all"
+                    className="border-border/50 bg-muted/20 hover:bg-muted/40 h-9 w-full rounded-lg transition-all"
                   >
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Try another email
@@ -178,7 +178,7 @@ export default function ForgotPasswordPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="bg-muted/40 border-border/50 focus:bg-background h-12 rounded-xl pl-10 transition-colors"
+                        className="bg-muted/40 border-border/50 focus:bg-background h-10 rounded-lg pl-10 transition-colors"
                       />
                     </div>
                   </motion.div>
@@ -214,7 +214,7 @@ export default function ForgotPasswordPage() {
             >
               <Link
                 href="/login"
-                className="text-foreground inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                className="text-foreground inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:text-primary"
               >
                 <ArrowLeft className="h-3 w-3" />
                 Back to Sign In

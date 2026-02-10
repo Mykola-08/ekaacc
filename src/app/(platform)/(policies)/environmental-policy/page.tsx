@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Globe, ArrowLeft, Leaf } from 'lucide-react';
@@ -64,20 +64,20 @@ export default function EnvironmentalPolicy() {
       ],
     },
     es: {
-      title: 'Política Ambiental',
-      lastUpdated: 'Última actualización: 15 de marzo de 2024',
+      title: 'PolÃ­tica Ambiental',
+      lastUpdated: 'Ãšltima actualizaciÃ³n: 15 de marzo de 2024',
       intro:
-        'EKA Balance reconoce que tiene una responsabilidad con el medio ambiente más allá de los requisitos legales y reglamentarios. Estamos comprometidos a reducir nuestro impacto ambiental y mejorar continuamente nuestro desempeño ambiental como parte integral de nuestra estrategia comercial y métodos operativos.',
+        'EKA Balance reconoce que tiene una responsabilidad con el medio ambiente mÃ¡s allÃ¡ de los requisitos legales y reglamentarios. Estamos comprometidos a reducir nuestro impacto ambiental y mejorar continuamente nuestro desempeÃ±o ambiental como parte integral de nuestra estrategia comercial y mÃ©todos operativos.',
       sections: [
         {
           title: '1. Responsabilidad',
           content:
-            'El CEO es responsable de garantizar que se implemente la política ambiental. Sin embargo, todos los empleados tienen la responsabilidad en su área de garantizar que se cumplan los objetivos de la política.',
+            'El CEO es responsable de garantizar que se implemente la polÃ­tica ambiental. Sin embargo, todos los empleados tienen la responsabilidad en su Ã¡rea de garantizar que se cumplan los objetivos de la polÃ­tica.',
         },
         {
-          title: '2. Objetivos de la Política',
+          title: '2. Objetivos de la PolÃ­tica',
           content:
-            'Nos esforzamos por:\n\n- Cumplir y superar todos los requisitos reglamentarios pertinentes.\n- Mejorar y monitorear continuamente el desempeño ambiental.\n- Mejorar y reducir continuamente los impactos ambientales.\n- Incorporar factores ambientales en las decisiones comerciales.\n- Aumentar la conciencia y la formación de los empleados.',
+            'Nos esforzamos por:\n\n- Cumplir y superar todos los requisitos reglamentarios pertinentes.\n- Mejorar y monitorear continuamente el desempeÃ±o ambiental.\n- Mejorar y reducir continuamente los impactos ambientales.\n- Incorporar factores ambientales en las decisiones comerciales.\n- Aumentar la conciencia y la formaciÃ³n de los empleados.',
         },
         {
           title: '3. Papel',
@@ -85,140 +85,140 @@ export default function EnvironmentalPolicy() {
             '- Minimizaremos el uso de papel en la oficina.\n- Reduciremos el embalaje tanto como sea posible.\n- Buscaremos comprar productos de papel reciclado y reciclable.\n- Reutilizaremos y reciclaremos todo el papel siempre que sea posible.',
         },
         {
-          title: '4. Energía y Agua',
+          title: '4. EnergÃ­a y Agua',
           content:
-            '- Buscaremos reducir la cantidad de energía utilizada tanto como sea posible.\n- Las luces y los equipos eléctricos se apagarán cuando no estén en uso.\n- La calefacción se ajustará teniendo en cuenta el consumo de energía.\n- El consumo de energía y la eficiencia de los nuevos productos se tendrán en cuenta al comprar.',
+            '- Buscaremos reducir la cantidad de energÃ­a utilizada tanto como sea posible.\n- Las luces y los equipos elÃ©ctricos se apagarÃ¡n cuando no estÃ©n en uso.\n- La calefacciÃ³n se ajustarÃ¡ teniendo en cuenta el consumo de energÃ­a.\n- El consumo de energÃ­a y la eficiencia de los nuevos productos se tendrÃ¡n en cuenta al comprar.',
         },
         {
           title: '5. Suministros de Oficina',
           content:
-            '- Evaluaremos si la necesidad se puede satisfacer de otra manera.\n- Evaluaremos si alquilar/compartir es una opción antes de comprar equipos.\n- Evaluaremos el impacto ambiental de cualquier producto nuevo que tengamos la intención de comprar.\n- Favoreceremos productos más ecológicos y eficientes siempre que sea posible.',
+            '- Evaluaremos si la necesidad se puede satisfacer de otra manera.\n- Evaluaremos si alquilar/compartir es una opciÃ³n antes de comprar equipos.\n- Evaluaremos el impacto ambiental de cualquier producto nuevo que tengamos la intenciÃ³n de comprar.\n- Favoreceremos productos mÃ¡s ecolÃ³gicos y eficientes siempre que sea posible.',
         },
         {
           title: '6. Transporte',
           content:
-            '- Reduciremos la necesidad de viajar, restringiéndonos solo a viajes necesarios.\n- Promoveremos el uso de alternativas de viaje como el correo electrónico o las videoconferencias/conferencias telefónicas.\n- Haremos esfuerzos adicionales para satisfacer las necesidades de quienes utilizan el transporte público o bicicletas.',
+            '- Reduciremos la necesidad de viajar, restringiÃ©ndonos solo a viajes necesarios.\n- Promoveremos el uso de alternativas de viaje como el correo electrÃ³nico o las videoconferencias/conferencias telefÃ³nicas.\n- Haremos esfuerzos adicionales para satisfacer las necesidades de quienes utilizan el transporte pÃºblico o bicicletas.',
         },
         {
           title: '7. Mantenimiento y Limpieza',
           content:
-            '- Los materiales de limpieza utilizados serán lo más ecológicos posible.\n- Los materiales utilizados en la remodelación de oficinas serán lo más ecológicos posible.\n- Solo utilizaremos organizaciones autorizadas y apropiadas para eliminar los residuos.',
+            '- Los materiales de limpieza utilizados serÃ¡n lo mÃ¡s ecolÃ³gicos posible.\n- Los materiales utilizados en la remodelaciÃ³n de oficinas serÃ¡n lo mÃ¡s ecolÃ³gicos posible.\n- Solo utilizaremos organizaciones autorizadas y apropiadas para eliminar los residuos.',
         },
         {
           title: '8. Monitoreo y Mejora',
           content:
-            '- Cumpliremos y superaremos todos los requisitos reglamentarios pertinentes.\n- Mejoraremos y monitorearemos continuamente el desempeño ambiental.\n- Mejoraremos y reduciremos continuamente los impactos ambientales.\n- Incorporaremos factores ambientales en las decisiones comerciales.\n- Aumentaremos la conciencia y la formación de los empleados.',
+            '- Cumpliremos y superaremos todos los requisitos reglamentarios pertinentes.\n- Mejoraremos y monitorearemos continuamente el desempeÃ±o ambiental.\n- Mejoraremos y reduciremos continuamente los impactos ambientales.\n- Incorporaremos factores ambientales en las decisiones comerciales.\n- Aumentaremos la conciencia y la formaciÃ³n de los empleados.',
         },
         {
           title: '9. Cultura',
           content:
-            '- Involucraremos al personal en la implementación de esta política, para un mayor compromiso y un mejor desempeño.\n- Actualizaremos esta política al menos una vez al año en consulta con el personal y otras partes interesadas cuando sea necesario.\n- Proporcionaremos al personal formación ambiental relevante.\n- Trabajaremos con proveedores, contratistas y subcontratistas para mejorar su desempeño ambiental.',
+            '- Involucraremos al personal en la implementaciÃ³n de esta polÃ­tica, para un mayor compromiso y un mejor desempeÃ±o.\n- Actualizaremos esta polÃ­tica al menos una vez al aÃ±o en consulta con el personal y otras partes interesadas cuando sea necesario.\n- Proporcionaremos al personal formaciÃ³n ambiental relevante.\n- Trabajaremos con proveedores, contratistas y subcontratistas para mejorar su desempeÃ±o ambiental.',
         },
       ],
     },
     ca: {
-      title: 'Política Ambiental',
-      lastUpdated: 'Última actualització: 15 de març de 2024',
+      title: 'PolÃ­tica Ambiental',
+      lastUpdated: 'Ãšltima actualitzaciÃ³: 15 de marÃ§ de 2024',
       intro:
-        'EKA Balance reconeix que té una responsabilitat amb el medi ambient més enllà dels requisits legals i reglamentaris. Estem compromesos a reduir el nostre impacte ambiental i millorar contínuament el nostre rendiment ambiental com a part integral de la nostra estratègia comercial i mètodes operatius.',
+        'EKA Balance reconeix que tÃ© una responsabilitat amb el medi ambient mÃ©s enllÃ  dels requisits legals i reglamentaris. Estem compromesos a reduir el nostre impacte ambiental i millorar contÃ­nuament el nostre rendiment ambiental com a part integral de la nostra estratÃ¨gia comercial i mÃ¨todes operatius.',
       sections: [
         {
           title: '1. Responsabilitat',
           content:
-            "El CEO és responsable de garantir que s'implementi la política ambiental. No obstant això, tots els empleats tenen la responsabilitat en la seva àrea de garantir que es compleixin els objectius de la política.",
+            "El CEO Ã©s responsable de garantir que s'implementi la polÃ­tica ambiental. No obstant aixÃ², tots els empleats tenen la responsabilitat en la seva Ã rea de garantir que es compleixin els objectius de la polÃ­tica.",
         },
         {
-          title: '2. Objectius de la Política',
+          title: '2. Objectius de la PolÃ­tica',
           content:
-            'Ens esforcem per:\n\n- Complir i superar tots els requisits reglamentaris pertinents.\n- Millorar i monitoritzar contínuament el rendiment ambiental.\n- Millorar i reduir contínuament els impactes ambientals.\n- Incorporar factors ambientals en les decisions comercials.\n- Augmentar la consciència i la formació dels empleats.',
+            'Ens esforcem per:\n\n- Complir i superar tots els requisits reglamentaris pertinents.\n- Millorar i monitoritzar contÃ­nuament el rendiment ambiental.\n- Millorar i reduir contÃ­nuament els impactes ambientals.\n- Incorporar factors ambientals en les decisions comercials.\n- Augmentar la consciÃ¨ncia i la formaciÃ³ dels empleats.',
         },
         {
           title: '3. Paper',
           content:
-            "- Minimitzarem l'ús de paper a l'oficina.\n- Reduirem l'embalatge tant com sigui possible.\n- Buscarem comprar productes de paper reciclat i reciclable.\n- Reutilitzarem i reciclarem tot el paper sempre que sigui possible.",
+            "- Minimitzarem l'Ãºs de paper a l'oficina.\n- Reduirem l'embalatge tant com sigui possible.\n- Buscarem comprar productes de paper reciclat i reciclable.\n- Reutilitzarem i reciclarem tot el paper sempre que sigui possible.",
         },
         {
           title: '4. Energia i Aigua',
           content:
-            "- Buscarem reduir la quantitat d'energia utilitzada tant com sigui possible.\n- Els llums i els equips elèctrics s'apagaran quan no estiguin en ús.\n- La calefacció s'ajustarà tenint en compte el consum d'energia.\n- El consum d'energia i l'eficiència dels nous productes es tindran en compte en comprar.",
+            "- Buscarem reduir la quantitat d'energia utilitzada tant com sigui possible.\n- Els llums i els equips elÃ¨ctrics s'apagaran quan no estiguin en Ãºs.\n- La calefacciÃ³ s'ajustarÃ  tenint en compte el consum d'energia.\n- El consum d'energia i l'eficiÃ¨ncia dels nous productes es tindran en compte en comprar.",
         },
         {
           title: "5. Subministraments d'Oficina",
           content:
-            "- Avaluarem si la necessitat es pot satisfer d'una altra manera.\n- Avaluarem si llogar/compartir és una opció abans de comprar equips.\n- Avaluarem l'impacte ambiental de qualsevol producte nou que tinguem la intenció de comprar.\n- Afavorirem productes més ecològics i eficients sempre que sigui possible.",
+            "- Avaluarem si la necessitat es pot satisfer d'una altra manera.\n- Avaluarem si llogar/compartir Ã©s una opciÃ³ abans de comprar equips.\n- Avaluarem l'impacte ambiental de qualsevol producte nou que tinguem la intenciÃ³ de comprar.\n- Afavorirem productes mÃ©s ecolÃ²gics i eficients sempre que sigui possible.",
         },
         {
           title: '6. Transport',
           content:
-            "- Reduirem la necessitat de viatjar, restringint-nos només a viatges necessaris.\n- Promourem l'ús d'alternatives de viatge com el correu electrònic o les videoconferències/conferències telefòniques.\n- Farem esforços addicionals per satisfer les necessitats dels qui utilitzen el transport públic o bicicletes.",
+            "- Reduirem la necessitat de viatjar, restringint-nos nomÃ©s a viatges necessaris.\n- Promourem l'Ãºs d'alternatives de viatge com el correu electrÃ²nic o les videoconferÃ¨ncies/conferÃ¨ncies telefÃ²niques.\n- Farem esforÃ§os addicionals per satisfer les necessitats dels qui utilitzen el transport pÃºblic o bicicletes.",
         },
         {
           title: '7. Manteniment i Neteja',
           content:
-            "- Els materials de neteja utilitzats seran el més ecològics possible.\n- Els materials utilitzats en la remodelació d'oficines seran el més ecològics possible.\n- Només utilitzarem organitzacions autoritzades i apropiades per eliminar els residus.",
+            "- Els materials de neteja utilitzats seran el mÃ©s ecolÃ²gics possible.\n- Els materials utilitzats en la remodelaciÃ³ d'oficines seran el mÃ©s ecolÃ²gics possible.\n- NomÃ©s utilitzarem organitzacions autoritzades i apropiades per eliminar els residus.",
         },
         {
-          title: '8. Monitorització i Millora',
+          title: '8. MonitoritzaciÃ³ i Millora',
           content:
-            '- Complirem i superarem tots els requisits reglamentaris pertinents.\n- Millorarem i monitoritzarem contínuament el rendiment ambiental.\n- Millorarem i reduirem contínuament els impactes ambientals.\n- Incorporarem factors ambientals en les decisions comercials.\n- Augmentarem la consciència i la formació dels empleats.',
+            '- Complirem i superarem tots els requisits reglamentaris pertinents.\n- Millorarem i monitoritzarem contÃ­nuament el rendiment ambiental.\n- Millorarem i reduirem contÃ­nuament els impactes ambientals.\n- Incorporarem factors ambientals en les decisions comercials.\n- Augmentarem la consciÃ¨ncia i la formaciÃ³ dels empleats.',
         },
         {
           title: '9. Cultura',
           content:
-            "- Involucrarem el personal en la implementació d'aquesta política, per a un major compromís i un millor rendiment.\n- Actualitzarem aquesta política almenys una vegada a l'any en consulta amb el personal i altres parts interessades quan sigui necessari.\n- Proporcionarem al personal formació ambiental rellevant.\n- Treballarem amb proveïdors, contractistes i subcontractistes per millorar el seu rendiment ambiental.",
+            "- Involucrarem el personal en la implementaciÃ³ d'aquesta polÃ­tica, per a un major compromÃ­s i un millor rendiment.\n- Actualitzarem aquesta polÃ­tica almenys una vegada a l'any en consulta amb el personal i altres parts interessades quan sigui necessari.\n- Proporcionarem al personal formaciÃ³ ambiental rellevant.\n- Treballarem amb proveÃ¯dors, contractistes i subcontractistes per millorar el seu rendiment ambiental.",
         },
       ],
     },
     ru: {
-      title: 'Экологическая политика',
-      lastUpdated: 'Последнее обновление: 15 марта 2024 г.',
+      title: 'Ð­ÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ°',
+      lastUpdated: 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: 15 Ð¼Ð°Ñ€Ñ‚Ð° 2024 Ð³.',
       intro:
-        'EKA Balance признает, что несет ответственность перед окружающей средой, выходящую за рамки законодательных и нормативных требований. Мы стремимся снизить наше воздействие на окружающую среду и постоянно улучшать наши экологические показатели как неотъемлемую часть нашей бизнес-стратегии и методов работы.',
+        'EKA Balance Ð¿Ñ€Ð¸Ð·Ð½Ð°ÐµÑ‚, Ñ‡Ñ‚Ð¾ Ð½ÐµÑÐµÑ‚ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð¿ÐµÑ€ÐµÐ´ Ð¾ÐºÑ€ÑƒÐ¶Ð°ÑŽÑ‰ÐµÐ¹ ÑÑ€ÐµÐ´Ð¾Ð¹, Ð²Ñ‹Ñ…Ð¾Ð´ÑÑ‰ÑƒÑŽ Ð·Ð° Ñ€Ð°Ð¼ÐºÐ¸ Ð·Ð°ÐºÐ¾Ð½Ð¾Ð´Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ… Ð¸ Ð½Ð¾Ñ€Ð¼Ð°Ñ‚Ð¸Ð²Ð½Ñ‹Ñ… Ñ‚Ñ€ÐµÐ±Ð¾Ð²Ð°Ð½Ð¸Ð¹. ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ ÑÐ½Ð¸Ð·Ð¸Ñ‚ÑŒ Ð½Ð°ÑˆÐµ Ð²Ð¾Ð·Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ Ð½Ð° Ð¾ÐºÑ€ÑƒÐ¶Ð°ÑŽÑ‰ÑƒÑŽ ÑÑ€ÐµÐ´Ñƒ Ð¸ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾ ÑƒÐ»ÑƒÑ‡ÑˆÐ°Ñ‚ÑŒ Ð½Ð°ÑˆÐ¸ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¿Ð¾ÐºÐ°Ð·Ð°Ñ‚ÐµÐ»Ð¸ ÐºÐ°Ðº Ð½ÐµÐ¾Ñ‚ÑŠÐµÐ¼Ð»ÐµÐ¼ÑƒÑŽ Ñ‡Ð°ÑÑ‚ÑŒ Ð½Ð°ÑˆÐµÐ¹ Ð±Ð¸Ð·Ð½ÐµÑ-ÑÑ‚Ñ€Ð°Ñ‚ÐµÐ³Ð¸Ð¸ Ð¸ Ð¼ÐµÑ‚Ð¾Ð´Ð¾Ð² Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹.',
       sections: [
         {
-          title: '1. Ответственность',
+          title: '1. ÐžÑ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ',
           content:
-            'Генеральный директор несет ответственность за обеспечение реализации экологической политики. Тем не менее, все сотрудники несут ответственность в своей области за обеспечение достижения целей и задач политики.',
+            'Ð“ÐµÐ½ÐµÑ€Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€ Ð½ÐµÑÐµÑ‚ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð¾Ð±ÐµÑÐ¿ÐµÑ‡ÐµÐ½Ð¸Ðµ Ñ€ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸. Ð¢ÐµÐ¼ Ð½Ðµ Ð¼ÐµÐ½ÐµÐµ, Ð²ÑÐµ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¸ Ð½ÐµÑÑƒÑ‚ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð² ÑÐ²Ð¾ÐµÐ¹ Ð¾Ð±Ð»Ð°ÑÑ‚Ð¸ Ð·Ð° Ð¾Ð±ÐµÑÐ¿ÐµÑ‡ÐµÐ½Ð¸Ðµ Ð´Ð¾ÑÑ‚Ð¸Ð¶ÐµÐ½Ð¸Ñ Ñ†ÐµÐ»ÐµÐ¹ Ð¸ Ð·Ð°Ð´Ð°Ñ‡ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸.',
         },
         {
-          title: '2. Цели политики',
+          title: '2. Ð¦ÐµÐ»Ð¸ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸',
           content:
-            'Мы стремимся:\n\n- Соблюдать и превосходить все соответствующие нормативные требования.\n- Постоянно улучшать и контролировать экологические показатели.\n- Постоянно улучшать и снижать воздействие на окружающую среду.\n- Включать экологические факторы в бизнес-решения.\n- Повышать осведомленность и обучение сотрудников.',
+            'ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ:\n\n- Ð¡Ð¾Ð±Ð»ÑŽÐ´Ð°Ñ‚ÑŒ Ð¸ Ð¿Ñ€ÐµÐ²Ð¾ÑÑ…Ð¾Ð´Ð¸Ñ‚ÑŒ Ð²ÑÐµ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ Ð½Ð¾Ñ€Ð¼Ð°Ñ‚Ð¸Ð²Ð½Ñ‹Ðµ Ñ‚Ñ€ÐµÐ±Ð¾Ð²Ð°Ð½Ð¸Ñ.\n- ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾ ÑƒÐ»ÑƒÑ‡ÑˆÐ°Ñ‚ÑŒ Ð¸ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¿Ð¾ÐºÐ°Ð·Ð°Ñ‚ÐµÐ»Ð¸.\n- ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾ ÑƒÐ»ÑƒÑ‡ÑˆÐ°Ñ‚ÑŒ Ð¸ ÑÐ½Ð¸Ð¶Ð°Ñ‚ÑŒ Ð²Ð¾Ð·Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ Ð½Ð° Ð¾ÐºÑ€ÑƒÐ¶Ð°ÑŽÑ‰ÑƒÑŽ ÑÑ€ÐµÐ´Ñƒ.\n- Ð’ÐºÐ»ÑŽÑ‡Ð°Ñ‚ÑŒ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ñ„Ð°ÐºÑ‚Ð¾Ñ€Ñ‹ Ð² Ð±Ð¸Ð·Ð½ÐµÑ-Ñ€ÐµÑˆÐµÐ½Ð¸Ñ.\n- ÐŸÐ¾Ð²Ñ‹ÑˆÐ°Ñ‚ÑŒ Ð¾ÑÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð¸ Ð¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð².',
         },
         {
-          title: '3. Бумага',
+          title: '3. Ð‘ÑƒÐ¼Ð°Ð³Ð°',
           content:
-            '- Мы сведем к минимуму использование бумаги в офисе.\n- Мы сократим упаковку, насколько это возможно.\n- Мы будем стремиться покупать переработанные и пригодные для вторичной переработки бумажные изделия.\n- Мы будем повторно использовать и перерабатывать всю бумагу, где это возможно.',
+            '- ÐœÑ‹ ÑÐ²ÐµÐ´ÐµÐ¼ Ðº Ð¼Ð¸Ð½Ð¸Ð¼ÑƒÐ¼Ñƒ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð±ÑƒÐ¼Ð°Ð³Ð¸ Ð² Ð¾Ñ„Ð¸ÑÐµ.\n- ÐœÑ‹ ÑÐ¾ÐºÑ€Ð°Ñ‚Ð¸Ð¼ ÑƒÐ¿Ð°ÐºÐ¾Ð²ÐºÑƒ, Ð½Ð°ÑÐºÐ¾Ð»ÑŒÐºÐ¾ ÑÑ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ñ‚ÑŒÑÑ Ð¿Ð¾ÐºÑƒÐ¿Ð°Ñ‚ÑŒ Ð¿ÐµÑ€ÐµÑ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð¸ Ð¿Ñ€Ð¸Ð³Ð¾Ð´Ð½Ñ‹Ðµ Ð´Ð»Ñ Ð²Ñ‚Ð¾Ñ€Ð¸Ñ‡Ð½Ð¾Ð¹ Ð¿ÐµÑ€ÐµÑ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ Ð±ÑƒÐ¼Ð°Ð¶Ð½Ñ‹Ðµ Ð¸Ð·Ð´ÐµÐ»Ð¸Ñ.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€Ð½Ð¾ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¸ Ð¿ÐµÑ€ÐµÑ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ñ‚ÑŒ Ð²ÑÑŽ Ð±ÑƒÐ¼Ð°Ð³Ñƒ, Ð³Ð´Ðµ ÑÑ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾.',
         },
         {
-          title: '4. Энергия и вода',
+          title: '4. Ð­Ð½ÐµÑ€Ð³Ð¸Ñ Ð¸ Ð²Ð¾Ð´Ð°',
           content:
-            '- Мы будем стремиться сократить количество потребляемой энергии, насколько это возможно.\n- Свет и электрооборудование будут выключаться, когда они не используются.\n- Отопление будет регулироваться с учетом потребления энергии.\n- Потребление энергии и эффективность новых продуктов будут учитываться при покупке.',
+            '- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ñ‚ÑŒÑÑ ÑÐ¾ÐºÑ€Ð°Ñ‚Ð¸Ñ‚ÑŒ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð»ÑÐµÐ¼Ð¾Ð¹ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸, Ð½Ð°ÑÐºÐ¾Ð»ÑŒÐºÐ¾ ÑÑ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾.\n- Ð¡Ð²ÐµÑ‚ Ð¸ ÑÐ»ÐµÐºÑ‚Ñ€Ð¾Ð¾Ð±Ð¾Ñ€ÑƒÐ´Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð±ÑƒÐ´ÑƒÑ‚ Ð²Ñ‹ÐºÐ»ÑŽÑ‡Ð°Ñ‚ÑŒÑÑ, ÐºÐ¾Ð³Ð´Ð° Ð¾Ð½Ð¸ Ð½Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÑŽÑ‚ÑÑ.\n- ÐžÑ‚Ð¾Ð¿Ð»ÐµÐ½Ð¸Ðµ Ð±ÑƒÐ´ÐµÑ‚ Ñ€ÐµÐ³ÑƒÐ»Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒÑÑ Ñ ÑƒÑ‡ÐµÑ‚Ð¾Ð¼ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð»ÐµÐ½Ð¸Ñ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸.\n- ÐŸÐ¾Ñ‚Ñ€ÐµÐ±Ð»ÐµÐ½Ð¸Ðµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð¸ ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ Ð½Ð¾Ð²Ñ‹Ñ… Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¾Ð² Ð±ÑƒÐ´ÑƒÑ‚ ÑƒÑ‡Ð¸Ñ‚Ñ‹Ð²Ð°Ñ‚ÑŒÑÑ Ð¿Ñ€Ð¸ Ð¿Ð¾ÐºÑƒÐ¿ÐºÐµ.',
         },
         {
-          title: '5. Офисные принадлежности',
+          title: '5. ÐžÑ„Ð¸ÑÐ½Ñ‹Ðµ Ð¿Ñ€Ð¸Ð½Ð°Ð´Ð»ÐµÐ¶Ð½Ð¾ÑÑ‚Ð¸',
           content:
-            '- Мы оценим, можно ли удовлетворить потребность другим способом.\n- Мы оценим, является ли аренда/совместное использование вариантом перед покупкой оборудования.\n- Мы оценим воздействие на окружающую среду любых новых продуктов, которые мы намерены приобрести.\n- Мы будем отдавать предпочтение более экологически чистым и эффективным продуктам, где это возможно.',
+            '- ÐœÑ‹ Ð¾Ñ†ÐµÐ½Ð¸Ð¼, Ð¼Ð¾Ð¶Ð½Ð¾ Ð»Ð¸ ÑƒÐ´Ð¾Ð²Ð»ÐµÑ‚Ð²Ð¾Ñ€Ð¸Ñ‚ÑŒ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑŒ Ð´Ñ€ÑƒÐ³Ð¸Ð¼ ÑÐ¿Ð¾ÑÐ¾Ð±Ð¾Ð¼.\n- ÐœÑ‹ Ð¾Ñ†ÐµÐ½Ð¸Ð¼, ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð»Ð¸ Ð°Ñ€ÐµÐ½Ð´Ð°/ÑÐ¾Ð²Ð¼ÐµÑÑ‚Ð½Ð¾Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ð¾Ð¼ Ð¿ÐµÑ€ÐµÐ´ Ð¿Ð¾ÐºÑƒÐ¿ÐºÐ¾Ð¹ Ð¾Ð±Ð¾Ñ€ÑƒÐ´Ð¾Ð²Ð°Ð½Ð¸Ñ.\n- ÐœÑ‹ Ð¾Ñ†ÐµÐ½Ð¸Ð¼ Ð²Ð¾Ð·Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ Ð½Ð° Ð¾ÐºÑ€ÑƒÐ¶Ð°ÑŽÑ‰ÑƒÑŽ ÑÑ€ÐµÐ´Ñƒ Ð»ÑŽÐ±Ñ‹Ñ… Ð½Ð¾Ð²Ñ‹Ñ… Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¾Ð², ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¼Ñ‹ Ð½Ð°Ð¼ÐµÑ€ÐµÐ½Ñ‹ Ð¿Ñ€Ð¸Ð¾Ð±Ñ€ÐµÑÑ‚Ð¸.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¾Ñ‚Ð´Ð°Ð²Ð°Ñ‚ÑŒ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ Ð±Ð¾Ð»ÐµÐµ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸ Ñ‡Ð¸ÑÑ‚Ñ‹Ð¼ Ð¸ ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ñ‹Ð¼ Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð°Ð¼, Ð³Ð´Ðµ ÑÑ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾.',
         },
         {
-          title: '6. Транспорт',
+          title: '6. Ð¢Ñ€Ð°Ð½ÑÐ¿Ð¾Ñ€Ñ‚',
           content:
-            '- Мы сократим необходимость в поездках, ограничиваясь только необходимыми поездками.\n- Мы будем поощрять использование альтернатив поездкам, таких как электронная почта или видео/телефонные конференции.\n- Мы приложим дополнительные усилия для удовлетворения потребностей тех, кто пользуется общественным транспортом или велосипедами.',
+            '- ÐœÑ‹ ÑÐ¾ÐºÑ€Ð°Ñ‚Ð¸Ð¼ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ÑÑ‚ÑŒ Ð² Ð¿Ð¾ÐµÐ·Ð´ÐºÐ°Ñ…, Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ð²Ð°ÑÑÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ð¼Ð¸ Ð¿Ð¾ÐµÐ·Ð´ÐºÐ°Ð¼Ð¸.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¿Ð¾Ð¾Ñ‰Ñ€ÑÑ‚ÑŒ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð°Ð»ÑŒÑ‚ÐµÑ€Ð½Ð°Ñ‚Ð¸Ð² Ð¿Ð¾ÐµÐ·Ð´ÐºÐ°Ð¼, Ñ‚Ð°ÐºÐ¸Ñ… ÐºÐ°Ðº ÑÐ»ÐµÐºÑ‚Ñ€Ð¾Ð½Ð½Ð°Ñ Ð¿Ð¾Ñ‡Ñ‚Ð° Ð¸Ð»Ð¸ Ð²Ð¸Ð´ÐµÐ¾/Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð½Ñ‹Ðµ ÐºÐ¾Ð½Ñ„ÐµÑ€ÐµÐ½Ñ†Ð¸Ð¸.\n- ÐœÑ‹ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶Ð¸Ð¼ Ð´Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑƒÑÐ¸Ð»Ð¸Ñ Ð´Ð»Ñ ÑƒÐ´Ð¾Ð²Ð»ÐµÑ‚Ð²Ð¾Ñ€ÐµÐ½Ð¸Ñ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÐµÐ¹ Ñ‚ÐµÑ…, ÐºÑ‚Ð¾ Ð¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð¾Ð±Ñ‰ÐµÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ð¼ Ñ‚Ñ€Ð°Ð½ÑÐ¿Ð¾Ñ€Ñ‚Ð¾Ð¼ Ð¸Ð»Ð¸ Ð²ÐµÐ»Ð¾ÑÐ¸Ð¿ÐµÐ´Ð°Ð¼Ð¸.',
         },
         {
-          title: '7. Техническое обслуживание и уборка',
+          title: '7. Ð¢ÐµÑ…Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ðµ Ð¸ ÑƒÐ±Ð¾Ñ€ÐºÐ°',
           content:
-            '- Используемые чистящие средства будут максимально экологически чистыми.\n- Материалы, используемые при ремонте офиса, будут максимально экологически чистыми.\n- Мы будем использовать только лицензированные и соответствующие организации для утилизации отходов.',
+            '- Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼Ñ‹Ðµ Ñ‡Ð¸ÑÑ‚ÑÑ‰Ð¸Ðµ ÑÑ€ÐµÐ´ÑÑ‚Ð²Ð° Ð±ÑƒÐ´ÑƒÑ‚ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸ Ñ‡Ð¸ÑÑ‚Ñ‹Ð¼Ð¸.\n- ÐœÐ°Ñ‚ÐµÑ€Ð¸Ð°Ð»Ñ‹, Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼Ñ‹Ðµ Ð¿Ñ€Ð¸ Ñ€ÐµÐ¼Ð¾Ð½Ñ‚Ðµ Ð¾Ñ„Ð¸ÑÐ°, Ð±ÑƒÐ´ÑƒÑ‚ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸ Ñ‡Ð¸ÑÑ‚Ñ‹Ð¼Ð¸.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð»Ð¸Ñ†ÐµÐ½Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¸ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ Ð¾Ñ€Ð³Ð°Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð´Ð»Ñ ÑƒÑ‚Ð¸Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð¾Ñ‚Ñ…Ð¾Ð´Ð¾Ð².',
         },
         {
-          title: '8. Мониторинг и улучшение',
+          title: '8. ÐœÐ¾Ð½Ð¸Ñ‚Ð¾Ñ€Ð¸Ð½Ð³ Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ',
           content:
-            '- Мы будем соблюдать и превосходить все соответствующие нормативные требования.\n- Мы будем постоянно улучшать и контролировать экологические показатели.\n- Мы будем постоянно улучшать и снижать воздействие на окружающую среду.\n- Мы будем включать экологические факторы в бизнес-решения.\n- Мы будем повышать осведомленность и обучение сотрудников.',
+            '- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ ÑÐ¾Ð±Ð»ÑŽÐ´Ð°Ñ‚ÑŒ Ð¸ Ð¿Ñ€ÐµÐ²Ð¾ÑÑ…Ð¾Ð´Ð¸Ñ‚ÑŒ Ð²ÑÐµ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ Ð½Ð¾Ñ€Ð¼Ð°Ñ‚Ð¸Ð²Ð½Ñ‹Ðµ Ñ‚Ñ€ÐµÐ±Ð¾Ð²Ð°Ð½Ð¸Ñ.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾ ÑƒÐ»ÑƒÑ‡ÑˆÐ°Ñ‚ÑŒ Ð¸ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¿Ð¾ÐºÐ°Ð·Ð°Ñ‚ÐµÐ»Ð¸.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾ ÑƒÐ»ÑƒÑ‡ÑˆÐ°Ñ‚ÑŒ Ð¸ ÑÐ½Ð¸Ð¶Ð°Ñ‚ÑŒ Ð²Ð¾Ð·Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ Ð½Ð° Ð¾ÐºÑ€ÑƒÐ¶Ð°ÑŽÑ‰ÑƒÑŽ ÑÑ€ÐµÐ´Ñƒ.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ‚ÑŒ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ñ„Ð°ÐºÑ‚Ð¾Ñ€Ñ‹ Ð² Ð±Ð¸Ð·Ð½ÐµÑ-Ñ€ÐµÑˆÐµÐ½Ð¸Ñ.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¿Ð¾Ð²Ñ‹ÑˆÐ°Ñ‚ÑŒ Ð¾ÑÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð¸ Ð¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð².',
         },
         {
-          title: '9. Культура',
+          title: '9. ÐšÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð°',
           content:
-            '- Мы будем привлекать персонал к реализации этой политики для большей приверженности и улучшения показателей.\n- Мы будем обновлять эту политику не реже одного раза в год после консультаций с персоналом и другими заинтересованными сторонами, где это необходимо.\n- Мы предоставим персоналу соответствующее экологическое обучение.\n- Мы будем работать с поставщиками, подрядчиками и субподрядчиками для улучшения их экологических показателей.',
+            '- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¿Ñ€Ð¸Ð²Ð»ÐµÐºÐ°Ñ‚ÑŒ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð» Ðº Ñ€ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ ÑÑ‚Ð¾Ð¹ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸ Ð´Ð»Ñ Ð±Ð¾Ð»ÑŒÑˆÐµÐ¹ Ð¿Ñ€Ð¸Ð²ÐµÑ€Ð¶ÐµÐ½Ð½Ð¾ÑÑ‚Ð¸ Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð¿Ð¾ÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÐµÐ¹.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÑ‚ÑŒ ÑÑ‚Ñƒ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÑƒ Ð½Ðµ Ñ€ÐµÐ¶Ðµ Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð·Ð° Ð² Ð³Ð¾Ð´ Ð¿Ð¾ÑÐ»Ðµ ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ð¹ Ñ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¾Ð¼ Ð¸ Ð´Ñ€ÑƒÐ³Ð¸Ð¼Ð¸ Ð·Ð°Ð¸Ð½Ñ‚ÐµÑ€ÐµÑÐ¾Ð²Ð°Ð½Ð½Ñ‹Ð¼Ð¸ ÑÑ‚Ð¾Ñ€Ð¾Ð½Ð°Ð¼Ð¸, Ð³Ð´Ðµ ÑÑ‚Ð¾ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾.\n- ÐœÑ‹ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð¸Ð¼ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ñƒ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰ÐµÐµ ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ.\n- ÐœÑ‹ Ð±ÑƒÐ´ÐµÐ¼ Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ñ Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ°Ð¼Ð¸, Ð¿Ð¾Ð´Ñ€ÑÐ´Ñ‡Ð¸ÐºÐ°Ð¼Ð¸ Ð¸ ÑÑƒÐ±Ð¿Ð¾Ð´Ñ€ÑÐ´Ñ‡Ð¸ÐºÐ°Ð¼Ð¸ Ð´Ð»Ñ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð¸Ñ… ÑÐºÐ¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¿Ð¾ÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÐµÐ¹.',
         },
       ],
     },
@@ -245,9 +245,9 @@ export default function EnvironmentalPolicy() {
               className="text-muted-foreground cursor-pointer border-none bg-transparent text-sm font-medium focus:ring-0"
             >
               <option value="en">English</option>
-              <option value="es">Español</option>
-              <option value="ca">Català</option>
-              <option value="ru">Русский</option>
+              <option value="es">EspaÃ±ol</option>
+              <option value="ca">CatalÃ </option>
+              <option value="ru">Ð ÑƒÑÑÐºÐ¸Ð¹</option>
             </select>
           </div>
         </div>
@@ -255,12 +255,12 @@ export default function EnvironmentalPolicy() {
 
       {/* Content */}
       <div className="mx-auto max-w-3xl px-4 py-12">
-        <div className="bg-card rounded-2xl p-8 shadow-sm md:p-12">
+        <div className="bg-card rounded-lg p-8 shadow-sm md:p-12">
           <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
             <Leaf className="h-8 w-8 text-green-600" />
           </div>
 
-          <h1 className="text-foreground mb-4 text-center text-3xl font-bold md:text-4xl">
+          <h1 className="text-foreground mb-4 text-center text-3xl font-semibold md:text-4xl">
             {content[language].title}
           </h1>
 
@@ -272,7 +272,7 @@ export default function EnvironmentalPolicy() {
             <div className="space-y-8">
               {content[language].sections.map((section, index) => (
                 <div key={index} className="border-b border-border pb-8 last:border-0">
-                  <h2 className="text-foreground mb-4 text-xl font-bold">{section.title}</h2>
+                  <h2 className="text-foreground mb-4 text-xl font-semibold">{section.title}</h2>
                   <p className="leading-relaxed whitespace-pre-line">{section.content}</p>
                 </div>
               ))}
@@ -284,7 +284,7 @@ export default function EnvironmentalPolicy() {
               {language === 'en' && 'We are committed to a sustainable future.'}
               {language === 'es' && 'Estamos comprometidos con un futuro sostenible.'}
               {language === 'ca' && 'Estem compromesos amb un futur sostenible.'}
-              {language === 'ru' && 'Мы стремимся к устойчивому будущему.'}
+              {language === 'ru' && 'ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ Ðº ÑƒÑÑ‚Ð¾Ð¹Ñ‡Ð¸Ð²Ð¾Ð¼Ñƒ Ð±ÑƒÐ´ÑƒÑ‰ÐµÐ¼Ñƒ.'}
             </p>
           </div>
         </div>

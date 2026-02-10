@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { type LucideIcon } from 'lucide-react';
+import { type LucideIcon, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface QuickLinkProps {
@@ -27,19 +27,20 @@ export function QuickLink({
     <Link
       href={href}
       className={cn(
-        'group flex items-start gap-4 rounded-[20px] border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/20 hover:shadow-md',
+        'group flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-colors duration-200 hover:bg-secondary/50',
         className
       )}
     >
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/8 text-primary">
         <Icon className="h-5 w-5" strokeWidth={2} />
       </div>
-      <div>
+      <div className="flex-1 min-w-0">
         <div className="text-sm font-semibold text-foreground">{label}</div>
         {desc && (
-          <div className="mt-0.5 text-xs text-muted-foreground">{desc}</div>
+          <div className="mt-0.5 truncate text-xs text-muted-foreground">{desc}</div>
         )}
       </div>
+      <ChevronRight className="h-4 w-4 text-muted-foreground/40 transition-all group-hover:translate-x-0.5 group-hover:text-muted-foreground" />
     </Link>
   );
 }

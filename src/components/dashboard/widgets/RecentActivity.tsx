@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { Activity } from 'lucide-react';
@@ -20,7 +20,7 @@ const TYPE_COLORS: Record<string, string> = {
   deposit: 'text-emerald-600',
   reward: 'text-emerald-600',
   payment: 'text-foreground',
-  refund: 'text-blue-600',
+  refund: 'text-primary',
   adjustment: 'text-amber-600',
   transfer: 'text-indigo-600',
 };
@@ -78,7 +78,7 @@ export function RecentActivity() {
                 className="-mx-4 flex cursor-pointer items-center justify-between rounded-xl border-b border-border p-4 px-8 transition-colors last:border-0 last:pb-2 hover:bg-secondary"
               >
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card text-sm font-bold uppercase text-foreground">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card text-sm font-semibold uppercase text-foreground">
                     {tx.type.slice(0, 2)}
                   </div>
                   <div>

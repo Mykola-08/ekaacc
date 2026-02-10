@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * AI Chat Message Component
@@ -77,7 +77,7 @@ export function ChatMessage({ message, isLast, onCopy, onRegenerate }: ChatMessa
           {textContent && (
             <div
               className={cn(
-                "rounded-2xl px-4 py-2.5",
+                "rounded-lg px-4 py-2.5",
                 isUser
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted/70"

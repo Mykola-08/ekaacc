@@ -17,7 +17,7 @@ import {
   Calendar01Icon,
 } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { cancelBookingAction } from '@/server/actions/booking-actions';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
@@ -74,7 +74,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
   if (!bookings || bookings.length === 0) {
     return (
-      <div className="bg-card/50 border-muted flex flex-col items-center justify-center rounded-[20px] border-2 border-dashed py-24 text-center">
+      <div className="bg-card/50 border-muted flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-24 text-center">
         <div className="bg-background mb-6 rounded-full p-6 shadow-sm">
           <HugeiconsIcon
             icon={Calendar03Icon}
@@ -82,7 +82,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
             strokeWidth={2}
           />
         </div>
-        <h3 className="text-foreground text-xl font-bold tracking-tight">No bookings yet</h3>
+        <h3 className="text-foreground text-xl font-semibold tracking-tight">No bookings yet</h3>
         <p className="text-muted-foreground mt-2 max-w-xs font-medium">
           Your wellness journey begins with your first session.
         </p>
@@ -97,9 +97,9 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
     <div className="animate-in fade-in slide-in-from-bottom-8 space-y-16 duration-700 ease-out">
       {upcoming.length > 0 && (
         <div className="space-y-8">
-          <h2 className="text-foreground flex items-center gap-3 text-xl font-bold">
+          <h2 className="text-foreground flex items-center gap-3 text-xl font-semibold">
             Upcoming
-            <span className="bg-foreground text-background rounded-lg px-2.5 py-1 font-mono text-xs font-bold">
+            <span className="bg-foreground text-background rounded-lg px-2.5 py-1 font-mono text-xs font-semibold">
               {upcoming.length}
             </span>
           </h2>
@@ -113,7 +113,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
       {past.length > 0 && (
         <div className="space-y-8">
-          <h2 className="text-muted-foreground text-xl font-bold">Past History</h2>
+          <h2 className="text-muted-foreground text-xl font-semibold">Past History</h2>
           <div className="grid gap-6 opacity-60 transition-opacity duration-500 hover:opacity-100">
             {past.map((booking) => (
               <BookingCard key={booking.id} booking={booking} userId={userId} />
@@ -150,9 +150,9 @@ function BookingCard({
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-[20px] transition-all duration-300',
+        'group relative overflow-hidden rounded-lg transition-all duration-300',
         isUpcoming
-          ? 'bg-card border border-transparent shadow-eka-base hover:-translate-y-1 hover:shadow-eka-lg'
+          ? 'bg-card border border-transparent shadow-sm hover:-translate-y-0.5 hover:shadow-md'
           : 'bg-card border-border border'
       )}
     >
@@ -161,7 +161,7 @@ function BookingCard({
           {/* Enhanced Date Block */}
           <div
             className={cn(
-              'flex h-[72px] min-w-[72px] flex-col items-center justify-center rounded-[20px]',
+              'flex h-18 min-w-18 flex-col items-center justify-center rounded-lg',
               isUpcoming ? 'bg-primary/10 text-primary' : 'bg-secondary/50 text-muted-foreground'
             )}
           >
@@ -177,7 +177,7 @@ function BookingCard({
             <div className="flex items-center justify-between md:justify-start md:gap-4">
               <StatusBadge status={booking.status} />
               {isUpcoming && (
-                <span className="text-muted-foreground flex items-center gap-1 text-xs font-bold">
+                <span className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
                   <HugeiconsIcon
                     icon={LocationFavouriteIcon}
                     className="h-3 w-3"
@@ -190,7 +190,7 @@ function BookingCard({
 
             <h3
               className={cn(
-                'text-xl font-bold tracking-tight transition-colors md:text-2xl',
+                'text-xl font-semibold tracking-tight transition-colors md:text-2xl',
                 isUpcoming ? 'text-foreground' : 'text-muted-foreground'
               )}
             >
@@ -212,7 +212,7 @@ function BookingCard({
             <Button
               variant="outline"
               size="sm"
-              className="h-9 w-full rounded-full border-rose-100 text-xs font-bold text-rose-600 hover:bg-rose-50 hover:text-rose-700 md:w-32"
+              className="h-9 w-full rounded-full border-rose-100 text-xs font-semibold text-rose-600 hover:bg-rose-50 hover:text-rose-700 md:w-32"
               onClick={handleCancel}
             >
               <HugeiconsIcon icon={UnavailableIcon} className="mr-2 h-3 w-3" strokeWidth={2.5} />
@@ -222,7 +222,7 @@ function BookingCard({
               variant="ghost"
               size="sm"
               onClick={() => toast.info('Rescheduling coming soon')}
-              className="text-muted-foreground hover:text-foreground h-9 w-full rounded-full text-xs font-bold md:w-32"
+              className="text-muted-foreground hover:text-foreground h-9 w-full rounded-full text-xs font-semibold md:w-32"
             >
               <HugeiconsIcon icon={Calendar01Icon} className="mr-2 h-3 w-3" strokeWidth={2.5} />
               Reschedule
@@ -231,7 +231,7 @@ function BookingCard({
               variant="link"
               size="sm"
               asChild
-              className="text-primary h-9 w-full p-0 text-xs font-bold hover:no-underline hover:opacity-80 md:w-32"
+              className="text-primary h-9 w-full p-0 text-xs font-semibold hover:no-underline hover:opacity-80 md:w-32"
             >
               <Link href="https://maps.google.com/?q=Main+Studio" target="_blank" rel="noreferrer">
                 <HugeiconsIcon icon={Navigation03Icon} className="mr-2 h-3 w-3" strokeWidth={2.5} />
@@ -246,7 +246,7 @@ function BookingCard({
             <Button
               variant="secondary"
               size="sm"
-              className="h-9 w-full rounded-full text-xs font-bold md:w-auto"
+              className="h-9 w-full rounded-full text-xs font-semibold md:w-auto"
             >
               <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 h-3 w-3" strokeWidth={2.5} />
               Book Again

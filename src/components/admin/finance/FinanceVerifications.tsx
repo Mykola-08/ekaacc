@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { format } from 'date-fns';
 import { CheckCircle, DollarSign, ShieldCheck } from 'lucide-react';
@@ -26,12 +26,12 @@ export function FinanceVerifications({ items }: FinanceVerificationsProps) {
         {/* Content */}
         <div className="space-y-4">
           <div className="mb-4 flex items-center gap-2">
-            <h2 className="text-foreground text-lg font-bold">Pending Verifications</h2>
+            <h2 className="text-foreground text-lg font-semibold">Pending Verifications</h2>
             <Badge variant="secondary">{items.length}</Badge>
           </div>
 
           {items.length === 0 ? (
-            <div className="bg-card border-border rounded-2xl border border-dashed py-20 text-center">
+            <div className="bg-card border-border rounded-lg border border-dashed py-20 text-center">
               <div className="bg-primary/10 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full">
                 <CheckCircle className="text-primary h-6 w-6" />
               </div>
@@ -64,10 +64,10 @@ function VerificationCard({ item }: { item: any }) {
           </div>
           <div>
             <div className="mb-1 flex items-center gap-2">
-              <span className="text-foreground text-lg font-bold">
+              <span className="text-foreground text-lg font-semibold">
                 ${((item.amount || 0) / 100).toFixed(2)}
               </span>
-              <span className="text-muted-foreground text-sm">•</span>
+              <span className="text-muted-foreground text-sm">â€¢</span>
               <span className="text-muted-foreground text-sm font-medium">
                 {item.service?.name}
               </span>

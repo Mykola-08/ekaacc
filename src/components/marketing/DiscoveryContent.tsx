@@ -587,7 +587,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
       <>
         {/* Replaced SEOHead with metadata in page.tsx */}
 
-        <section className="min-h-screen bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 py-16 sm:py-24">
+        <section className="min-h-screen bg-linear-to-br from-white via-gray-50/50 to-blue-50/30 py-16 sm:py-24">
           <div className="mx-auto max-w-4xl px-4 sm:px-8">
             <div className="mb-12 text-center">
               <div className="mb-8 inline-flex items-center rounded-full bg-green-100 px-6 py-3">
@@ -699,7 +699,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     <div className="grid grid-cols-2 gap-3">
                       {recommendation.benefits.map((benefit, index) => (
                         <div key={index} className="flex items-center text-gray-700">
-                          <div className="mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-gray-400"></div>
+                          <div className="mr-3 h-2 w-2 shrink-0 rounded-full bg-gray-400"></div>
                           {benefit}
                         </div>
                       ))}
@@ -849,7 +849,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
 
   return (
     <>
-      <section className="min-h-screen bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 py-16 sm:py-24">
+      <section className="min-h-screen bg-linear-to-br from-white via-gray-50/50 to-blue-50/30 py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-8">
           {/* Header */}
           <div className="mb-12 text-center">

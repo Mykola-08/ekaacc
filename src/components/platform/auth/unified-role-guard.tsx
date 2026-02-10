@@ -87,7 +87,7 @@ export function UnifiedRoleGuard({
     return loadingFallback ? (
       <>{loadingFallback}</>
     ) : (
-      <div className="flex min-h-[400px] items-center justify-center">
+      <div className="flex min-h-100 items-center justify-center">
         <LoadingSpinner />
       </div>
     );
@@ -97,7 +97,7 @@ export function UnifiedRoleGuard({
   if (!user) {
     return (
       fallback || (
-        <div className="flex min-h-[400px] items-center justify-center">
+        <div className="flex min-h-100 items-center justify-center">
           <Alert className="max-w-md">
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Authentication Required</AlertTitle>
@@ -116,7 +116,7 @@ export function UnifiedRoleGuard({
   if (!isAuthorized) {
     return (
       fallback || (
-        <div className="flex min-h-[400px] items-center justify-center">
+        <div className="flex min-h-100 items-center justify-center">
           <Alert className="max-w-md" variant="destructive">
             <Shield className="h-4 w-4" />
             <AlertTitle>Access Denied</AlertTitle>
@@ -168,7 +168,7 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
       case 'Admin':
         return 'bg-red-100 text-red-800 border-red-200';
       case 'Therapist':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-primary/10 text-primary border-primary/20';
       case 'Reception':
         return 'bg-green-100 text-green-800 border-green-200';
       case 'Patient':
@@ -184,7 +184,7 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
       case 'Accountant':
         return 'bg-orange-100 text-orange-800 border-orange-200';
       case 'Custom':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+        return 'bg-primary/10 text-primary border-primary/20';
       default:
         return 'bg-muted text-foreground border-border';
     }

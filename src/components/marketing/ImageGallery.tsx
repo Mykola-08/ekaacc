@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
 
 interface ImageGalleryProps {
   images: Array<{
@@ -144,20 +147,21 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
 
   return (
     <>
-      <div className={`grid gap-4 ${className}`}>
+      <div className={cn("grid gap-4", className)}>
         {images.map((image, index) => (
           <button
             key={image.url}
             type="button"
             aria-label={`Open image: ${image.alt}`}
-            className="group relative cursor-pointer overflow-hidden rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-[20px] focus:outline-none focus:ring-2 focus:ring-white/80"
             onClick={() => openLightbox(index)}
           >
-            <img
+            <Image
               src={image.url}
               alt={image.alt}
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/20">
               <div className="flex h-12 w-12 scale-90 items-center justify-center rounded-full bg-white/90 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
@@ -165,7 +169,7 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
               </div>
             </div>
             {image.caption && (
-              <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+              <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/60 to-transparent p-4">
                 <p className="text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   {image.caption}
                 </p>

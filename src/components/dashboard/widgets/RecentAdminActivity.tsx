@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -32,16 +32,16 @@ export function RecentAdminActivity() {
         {events.map((event, idx) => (
           <div
             key={idx}
-            className="bg-card border-border hover:border-primary/20 hover:bg-primary/5 flex items-center justify-between rounded-xl border p-3 transition-colors"
+            className="bg-card border-border hover:bg-secondary/50 flex items-center justify-between rounded-xl border p-3 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+              <div className="h-2.5 w-2.5 rounded-full bg-primary" />
               <div className="text-muted-foreground text-[13px] leading-snug">
-                <span className="text-foreground font-bold">{event.profiles?.first_name}</span>{' '}
+                <span className="text-foreground font-semibold">{event.profiles?.first_name}</span>{' '}
                 booked a session
               </div>
             </div>
-            <div className="text-muted-foreground ml-2 text-xs font-bold tracking-wider whitespace-nowrap uppercase">
+            <div className="text-muted-foreground ml-2 text-xs font-semibold tracking-wider whitespace-nowrap uppercase">
               {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
             </div>
           </div>

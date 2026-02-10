@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, Dna, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import PageLayout from '@/components/marketing/PageLayout';
 import { products, categories, getLocalized } from '@/app/(marketing)/products';
 
@@ -46,13 +46,13 @@ export default function AgenyzContent() {
 
             <div className="flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
               <Link href="/book">
-                <Button size="xl" className="btn btn-primary rounded-xl px-8">
+                <Button size="lg" className="btn btn-primary rounded-xl px-8">
                   {t('common.bookNow')}
                 </Button>
               </Link>
               <a href="https://agenyz.com" target="_blank" rel="noopener noreferrer">
                 <Button
-                  size="xl"
+                  size="lg"
                   className="btn btn-secondary bg-primary-600 hover:bg-primary-700 rounded-xl border-none px-8 text-white"
                 >
                   {t('agenyz.cta.visitStore') || 'Visit Agenyz Store'}
@@ -64,7 +64,7 @@ export default function AgenyzContent() {
 
           <div className="order-1 lg:order-2">
             <div className="group relative">
-              <div className="from-primary-200 transition-duration-500 absolute inset-0 rounded-[20px] bg-gradient-to-tr to-indigo-200 opacity-30 blur-xl group-hover:opacity-50" />
+              <div className="from-primary-200 transition-duration-500 absolute inset-0 rounded-[20px] bg-linear-to-tr to-indigo-200 opacity-30 blur-xl group-hover:opacity-50" />
               <div className="relative aspect-[4/3]">
                 <Image
                   src="/agenyz-products.png"
@@ -167,7 +167,7 @@ export default function AgenyzContent() {
                       {getLocalized(product.name, language)}
                     </h3>
 
-                    <p className="mb-6 line-clamp-3 flex-grow leading-relaxed font-light text-gray-600">
+                    <p className="mb-6 line-clamp-3 grow leading-relaxed font-light text-gray-600">
                       {getLocalized(product.shortDescription || product.description, language)}
                     </p>
 
@@ -175,7 +175,7 @@ export default function AgenyzContent() {
                       <ul className="mb-8 space-y-2">
                         {product.benefits.slice(0, 3).map((benefit, idx) => (
                           <li key={idx} className="flex items-center text-sm text-gray-500">
-                            <CheckCircle2 className="mr-2 h-4 w-4 flex-shrink-0 text-green-500" />
+                            <CheckCircle2 className="mr-2 h-4 w-4 shrink-0 text-green-500" />
                             {getLocalized(benefit, language)}
                           </li>
                         ))}

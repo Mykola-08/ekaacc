@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,15 +25,15 @@ export function CrisisPageContent() {
         }
       />
 
-      <Card className="rounded-[20px] border border-destructive/30 bg-destructive/5 shadow-sm">
+      <Card className="rounded-lg border border-destructive/30 bg-destructive/5">
         <CardContent className="space-y-6 p-8">
           <p className="text-base text-foreground">
             {t('page.crisis.description') ||
               'This space is for urgent support guidance. If this is an emergency, use emergency services in your area first.'}
           </p>
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-border bg-card p-5">
-              <h3 className="text-lg font-bold">
+            <div className="rounded-lg border border-border bg-card p-5">
+              <h3 className="text-lg font-semibold">
                 {t('page.crisis.emergency') || 'Emergency'}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -41,8 +41,8 @@ export function CrisisPageContent() {
                   'Call your local emergency number immediately.'}
               </p>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5">
-              <h3 className="text-lg font-bold">
+            <div className="rounded-lg border border-border bg-card p-5">
+              <h3 className="text-lg font-semibold">
                 {t('page.crisis.followUp') || 'Need Follow-up Care'}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">

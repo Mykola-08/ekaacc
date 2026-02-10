@@ -21,7 +21,7 @@ import {
 import { useLanguage } from '@/context/marketing/LanguageContext';
 // import { supabase } from '@/lib/marketing/supabase';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { z } from 'zod';
 
 // Zod Schema for Validation
@@ -218,7 +218,7 @@ export default function ContactFormOptimized() {
         animate={{ opacity: 1, scale: 1 }}
         className="mx-auto max-w-2xl"
       >
-        <div className="rounded-[20px] border border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-12 text-center shadow-lg">
+        <div className="rounded-[20px] border border-green-100 bg-linear-to-br from-green-50 to-emerald-50 p-12 text-center shadow-lg">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -292,7 +292,7 @@ export default function ContactFormOptimized() {
                 className="flex items-start space-x-4 rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
               >
                 <div
-                  className={`h-12 w-12 bg-${item.color}-50 flex flex-shrink-0 items-center justify-center rounded-xl`}
+                  className={`h-12 w-12 bg-${item.color}-50 flex shrink-0 items-center justify-center rounded-xl`}
                 >
                   <item.icon className={`h-6 w-6 text-${item.color}-600`} />
                 </div>
@@ -320,10 +320,10 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="rounded-[20px] border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6"
+            className="rounded-[20px] border border-blue-100 bg-linear-to-r from-blue-50 to-indigo-50 p-6"
           >
             <div className="flex items-start space-x-3">
-              <Clock className="mt-1 h-6 w-6 flex-shrink-0 text-blue-600" />
+              <Clock className="mt-1 h-6 w-6 shrink-0 text-blue-600" />
               <div>
                 <h4 className="mb-3 text-lg font-medium text-gray-900">
                   {t('contact.hours.title')}

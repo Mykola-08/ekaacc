@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -168,7 +168,7 @@ export function SystemConfiguration() {
 
   const renderConfigValue = (config: Configuration) => {
     if (config.isEncrypted) {
-      return <span className="text-muted-foreground/80 italic">••••••••</span>;
+      return <span className="text-muted-foreground/80 italic">â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>;
     }
 
     if (typeof config.value === 'boolean') {
@@ -231,7 +231,7 @@ export function SystemConfiguration() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-foreground text-2xl font-bold">System Configuration</h2>
+          <h2 className="text-foreground text-2xl font-semibold">System Configuration</h2>
           <p className="text-muted-foreground">Manage system settings and configurations</p>
         </div>
         <div className="flex items-center gap-3">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -6,7 +6,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { User, Trash2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { deleteFamilyMember } from '@/server/family/actions';
-import { toast } from 'sonner';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
+import { InlineFeedbackCompact } from '@/components/ui/inline-feedback';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,7 @@ import {
 
 export function FamilyList({ members }: { members: any[] }) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const deleteFeedback = useMorphingFeedback();
 
   if (!members || members.length === 0) {
     return (
@@ -34,11 +36,12 @@ export function FamilyList({ members }: { members: any[] }) {
   async function handleDelete() {
     if (!deletingId) return;
 
+    deleteFeedback.setLoading('Removing...');
     const res = await deleteFamilyMember(deletingId);
     if (res.success) {
-      toast.success('Family member removed');
+      deleteFeedback.setSuccess('Family member removed');
     } else {
-      toast.error(res.message || 'Failed to remove member');
+      deleteFeedback.setError(res.message || 'Failed to remove member');
     }
     setDeletingId(null);
   }
@@ -49,7 +52,7 @@ export function FamilyList({ members }: { members: any[] }) {
         {members.map((member) => (
           <div
             key={member.id}
-            className="group bg-card border-border/60 hover:border-border relative flex items-start gap-4 rounded-[20px] border p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+            className="group bg-card border-border/60 hover:border-border relative flex items-start gap-4 rounded-lg border p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
           >
             <Avatar className="border-border/60 bg-muted/40 h-12 w-12 border">
               <AvatarFallback className="bg-muted/50 text-muted-foreground font-serif text-lg">
@@ -65,7 +68,7 @@ export function FamilyList({ members }: { members: any[] }) {
                 </span>
                 {member.dob && (
                   <span className="text-muted-foreground/80">
-                    • Born {new Date(member.dob).getFullYear()}
+                    â€¢ Born {new Date(member.dob).getFullYear()}
                   </span>
                 )}
               </div>
@@ -84,7 +87,7 @@ export function FamilyList({ members }: { members: any[] }) {
       </div>
 
       <Dialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
-        <DialogContent className="bg-card overflow-hidden rounded-[20px] border-none p-0 shadow-2xl sm:max-w-100">
+        <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 shadow-sm sm:max-w-100">
           <div className="flex flex-col items-center p-8 pb-6 text-center">
             <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
               <AlertCircle className="h-8 w-8 text-red-500" />

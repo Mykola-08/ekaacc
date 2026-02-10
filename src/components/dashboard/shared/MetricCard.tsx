@@ -19,27 +19,29 @@ export function MetricCard({
   icon: Icon,
   label,
   value,
-  bg = 'bg-primary/10 text-primary',
+  bg = 'bg-primary/8 text-primary',
   className,
 }: MetricCardProps) {
   return (
     <div
       className={cn(
-        'flex items-center gap-4 rounded-[20px] border border-border bg-card p-5 shadow-sm transition-colors hover:border-primary/20',
+        'flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-colors duration-200',
         className
       )}
     >
       <div
         className={cn(
-          'flex h-10 w-10 items-center justify-center rounded-xl',
+          'flex h-10 w-10 items-center justify-center rounded-lg',
           bg
         )}
       >
         <Icon className="h-5 w-5" strokeWidth={2} />
       </div>
       <div>
-        <div className="text-xs font-medium text-muted-foreground">{label}</div>
-        <div className="text-xl font-bold tracking-tight text-foreground">
+        <div className="text-[11px] font-medium tracking-widest text-muted-foreground uppercase">
+          {label}
+        </div>
+        <div className="text-xl font-semibold tracking-tight text-foreground">
           {value}
         </div>
       </div>

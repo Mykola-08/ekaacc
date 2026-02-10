@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * AI Chat Input
@@ -82,7 +82,7 @@ export function ChatInput({
         value={value}
         onValueChange={onChange}
         onSubmit={handleSubmit}
-        className="bg-muted/50 border-border/50 rounded-2xl border backdrop-blur-sm transition-colors focus-within:border-primary/30"
+        className="bg-muted/50 border-border/50 rounded-lg border backdrop-blur-sm transition-colors focus-within:border-primary/30"
       >
         <PromptInputTextarea
           ref={textareaRef}

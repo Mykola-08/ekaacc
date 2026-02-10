@@ -68,26 +68,26 @@ export default function CookieConsent() {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-card/95 border-border animate-in slide-in-from-bottom-8 fixed right-6 bottom-6 left-6 z-50 rounded-[20px] border p-6 shadow-2xl backdrop-blur-md duration-700 ease-out md:p-8">
+    <div className="bg-card/95 border-border animate-in slide-in-from-bottom-8 fixed right-6 bottom-6 left-6 z-50 rounded-lg border p-6 shadow-sm backdrop-blur-md duration-700 ease-out md:p-8">
       <div className="mx-auto max-w-7xl">
         {!showDetails ? (
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div className="flex-1">
               <div className="mb-3 flex items-center gap-3">
-                <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-[20px]">
+                <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-lg">
                   <HugeiconsIcon icon={CookieIcon} className="text-primary h-5 w-5" />
                 </div>
-                <h3 className="text-foreground text-xl font-bold tracking-tight">
+                <h3 className="text-foreground text-xl font-semibold tracking-tight">
                   {t('cookie.title')}
                 </h3>
               </div>
               <p className="text-muted-foreground max-w-3xl text-[15px] leading-relaxed">
                 {t('cookie.intro')}{' '}
-                <Link href="/legal/privacy" className="text-primary font-bold hover:underline">
+                <Link href="/legal/privacy" className="text-primary font-semibold hover:underline">
                   {t('cookie.privacy')}
                 </Link>{' '}
                 {t('cookie.and')}{' '}
-                <Link href="/legal/cookies" className="text-primary font-bold hover:underline">
+                <Link href="/legal/cookies" className="text-primary font-semibold hover:underline">
                   {t('cookie.cookies')}
                 </Link>
                 .
@@ -96,19 +96,19 @@ export default function CookieConsent() {
             <div className="flex w-full flex-col gap-3 sm:flex-row md:w-auto">
               <button
                 onClick={() => setShowDetails(true)}
-                className="text-foreground/90 bg-secondary border-border hover:bg-muted/50 rounded-full border px-6 py-3 text-sm font-bold transition-all"
+                className="text-foreground/90 bg-secondary border-border hover:bg-muted/50 rounded-full border px-6 py-3 text-sm font-semibold transition-all"
               >
                 {t('cookie.customize')}
               </button>
               <button
                 onClick={handleRejectAll}
-                className="text-foreground/90 bg-secondary border-border hover:bg-muted/50 rounded-full border px-6 py-3 text-sm font-bold transition-all"
+                className="text-foreground/90 bg-secondary border-border hover:bg-muted/50 rounded-full border px-6 py-3 text-sm font-semibold transition-all"
               >
                 {t('cookie.rejectAll')}
               </button>
               <button
                 onClick={handleAcceptAll}
-                className="bg-primary hover:bg-primary/90 shadow-primary/20 rounded-full px-6 py-3 text-sm font-bold text-white shadow-lg transition-all"
+                className="bg-primary hover:bg-primary/90 shadow-primary/20 rounded-full px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-all"
               >
                 {t('cookie.acceptAll')}
               </button>
@@ -119,7 +119,7 @@ export default function CookieConsent() {
             <div className="border-border flex items-center justify-between border-b pb-4">
               <div className="flex items-center gap-3">
                 <HugeiconsIcon icon={Shield01Icon} className="text-primary h-5 w-5" />
-                <h3 className="text-foreground text-xl font-bold tracking-tight">
+                <h3 className="text-foreground text-xl font-semibold tracking-tight">
                   {t('cookie.details.title')}
                 </h3>
               </div>
@@ -134,16 +134,16 @@ export default function CookieConsent() {
 
             <div className="grid gap-4 md:grid-cols-2">
               {/* Essential */}
-              <div className="border-border bg-secondary/30 rounded-[24px] border p-6">
+              <div className="border-border bg-secondary/30 rounded-3xl border p-6">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-foreground font-bold">{t('cookie.type.essential')}</span>
+                    <span className="text-foreground font-semibold">{t('cookie.type.essential')}</span>
                     <div className="group relative">
                       <HugeiconsIcon
                         icon={Information}
                         className="text-muted-foreground/80 h-4 w-4 cursor-help"
                       />
-                      <div className="bg-foreground text-background absolute bottom-full left-1/2 z-20 mb-3 hidden w-64 -translate-x-1/2 rounded-[20px] p-3 text-xs shadow-xl group-hover:block">
+                      <div className="bg-foreground text-background absolute bottom-full left-1/2 z-20 mb-3 hidden w-64 -translate-x-1/2 rounded-lg p-3 text-xs shadow-sm group-hover:block">
                         {t('cookie.type.essentialDesc')}
                       </div>
                     </div>
@@ -158,10 +158,10 @@ export default function CookieConsent() {
               </div>
 
               {/* Analytics */}
-              <div className="border-border hover:border-primary/50 bg-card rounded-[24px] border p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="border-border hover:border-primary/50 bg-card rounded-3xl border p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-foreground font-bold">{t('cookie.type.analytics')}</span>
+                    <span className="text-foreground font-semibold">{t('cookie.type.analytics')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -176,10 +176,10 @@ export default function CookieConsent() {
               </div>
 
               {/* Marketing */}
-              <div className="border-border hover:border-primary/50 bg-card rounded-[24px] border p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="border-border hover:border-primary/50 bg-card rounded-3xl border p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-foreground font-bold">{t('cookie.type.marketing')}</span>
+                    <span className="text-foreground font-semibold">{t('cookie.type.marketing')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -194,10 +194,10 @@ export default function CookieConsent() {
               </div>
 
               {/* Functional */}
-              <div className="border-border hover:border-primary/50 bg-card rounded-[24px] border p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="border-border hover:border-primary/50 bg-card rounded-3xl border p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-foreground font-bold">{t('cookie.type.functional')}</span>
+                    <span className="text-foreground font-semibold">{t('cookie.type.functional')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -215,13 +215,13 @@ export default function CookieConsent() {
             <div className="border-border flex justify-end gap-3 border-t pt-6">
               <button
                 onClick={() => setShowDetails(false)}
-                className="text-foreground/90 bg-secondary border-border hover:bg-muted/50 rounded-full border px-6 py-3 text-sm font-bold transition-all"
+                className="text-foreground/90 bg-secondary border-border hover:bg-muted/50 rounded-full border px-6 py-3 text-sm font-semibold transition-all"
               >
                 {t('cookie.back')}
               </button>
               <button
                 onClick={handleSavePreferences}
-                className="bg-primary hover:bg-primary/90 shadow-primary/20 rounded-full px-8 py-3 text-sm font-bold text-white shadow-lg transition-all"
+                className="bg-primary hover:bg-primary/90 shadow-primary/20 rounded-full px-8 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-all"
               >
                 {t('cookie.saveParams')}
               </button>

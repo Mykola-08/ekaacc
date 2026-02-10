@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { cn } from '@/lib/utils';
 import { Crown, Star, Award } from 'lucide-react';
 import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
@@ -137,13 +137,13 @@ export function TierBadgeGradient({
   return (
     <div
       className={cn(
-        'inline-flex items-center justify-center rounded-full font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl',
+        'inline-flex items-center justify-center rounded-full font-semibold text-white shadow-sm transition-all duration-300 hover:shadow-sm',
         'bg-linear-to-r',
         config.gradient,
         sizeClasses.padding,
         sizeClasses.gap,
         sizeClasses.text,
-        animated && 'hover:bg-primary/90 animate-pulse hover:shadow-2xl',
+        animated && 'hover:bg-primary/90 animate-pulse hover:shadow-sm',
         className
       )}
     >

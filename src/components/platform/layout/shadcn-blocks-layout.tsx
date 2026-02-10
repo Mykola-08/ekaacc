@@ -35,15 +35,15 @@ interface StatsCardProps {
 
 function StatsCard({ title, value, change, trend, icon }: StatsCardProps) {
  return (
- <Card className="bg-card/60 group border-0 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-xl">
+ <Card className="bg-card/60 group border-0 shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-sm">
  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
  <CardTitle className="text-muted-foreground text-sm font-medium">{title}</CardTitle>
- <div className="rounded-full bg-linear-to-br from-blue-100 to-purple-100 p-2 text-blue-600 transition-all duration-300 group-hover:opacity-80 dark:to-purple-900/30 ">
+ <div className="rounded-full bg-linear-to-br from-muted to-muted p-2 text-primary transition-all duration-300 group-hover:opacity-80">
  {icon}
  </div>
  </CardHeader>
  <CardContent>
- <div className="mb-2 text-3xl font-bold">{value}</div>
+ <div className="mb-2 text-3xl font-semibold">{value}</div>
  <div className="flex items-center gap-2 text-xs">
  {trend === 'up' ? (
  <ArrowUpRight className="h-3 w-3 text-green-500" />
@@ -76,7 +76,7 @@ interface ActivityItemProps {
 
 function ActivityItem({ user, action, time, avatar }: ActivityItemProps) {
  return (
- <div className="hover:bg-muted/40 dark:hover:bg-primary/90/50 flex items-center gap-4 rounded-lg p-3 transition-colors duration-200">
+ <div className="hover:bg-muted/40 flex items-center gap-4 rounded-lg p-3 transition-colors duration-200">
  <Avatar className="h-10 w-10">
  <AvatarImage src={avatar} />
  <AvatarFallback>{user.charAt(0).toUpperCase()}</AvatarFallback>
@@ -94,12 +94,12 @@ function ActivityItem({ user, action, time, avatar }: ActivityItemProps) {
 
 export default function ShadcnBlocksLayout() {
  return (
- <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-6 dark:from-slate-900 dark:to-slate-800">
+ <div className="min-h-screen bg-linear-to-br from-background to-muted p-6">
  <div className="mx-auto max-w-7xl space-y-8">
  {/* Header Section */}
  <div className="flex items-center justify-between">
  <div className="space-y-2">
- <h1 className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-4xl font-bold text-transparent">
+ <h1 className="bg-linear-to-r from-primary to-primary/70 bg-clip-text text-4xl font-semibold text-transparent">
  Dashboard Overview
  </h1>
  <p className="text-muted-foreground text-lg">
@@ -113,7 +113,7 @@ export default function ShadcnBlocksLayout() {
  </Button>
  <Button
  size="default"
- className="bg-linear-to-r from-blue-600 to-purple-600 text-white shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
+ className="bg-linear-to-r from-primary to-primary/70 text-primary-foreground shadow-sm transition-all duration-300 hover:from-primary/90 hover:to-primary/60 hover:shadow-sm"
  >
  <Settings className="mr-2 h-4 w-4" />
  Settings
@@ -158,7 +158,7 @@ export default function ShadcnBlocksLayout() {
  {/* Left Column - Main Content */}
  <div className="space-y-6 lg:col-span-2">
  {/* Recent Activity */}
- <Card className="bg-card/60 border-0 shadow-lg backdrop-blur-sm">
+ <Card className="bg-card/60 border-0 shadow-sm backdrop-blur-sm">
  <CardHeader>
  <div className="flex items-center justify-between">
  <div>
@@ -200,13 +200,13 @@ export default function ShadcnBlocksLayout() {
  </Card>
 
  {/* Performance Chart */}
- <Card className="bg-card/60 border-0 shadow-lg backdrop-blur-sm">
+ <Card className="bg-card/60 border-0 shadow-sm backdrop-blur-sm">
  <CardHeader>
  <CardTitle className="text-xl font-semibold">Performance Overview</CardTitle>
  <CardDescription>Your business metrics over time</CardDescription>
  </CardHeader>
  <CardContent>
- <div className="flex h-64 items-center justify-center rounded-lg bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
+ <div className="flex h-64 items-center justify-center rounded-lg bg-linear-to-br from-primary/5 to-muted">
  <div className="text-center">
  <Activity className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
  <p className="text-muted-foreground">Chart visualization would go here</p>
@@ -222,7 +222,7 @@ export default function ShadcnBlocksLayout() {
  {/* Right Column - Sidebar */}
  <div className="space-y-6">
  {/* Quick Actions */}
- <Card className="bg-card/60 border-0 shadow-lg backdrop-blur-sm">
+ <Card className="bg-card/60 border-0 shadow-sm backdrop-blur-sm">
  <CardHeader>
  <CardTitle className="text-xl font-semibold">Quick Actions</CardTitle>
  <CardDescription>Common tasks and shortcuts</CardDescription>
@@ -248,7 +248,7 @@ export default function ShadcnBlocksLayout() {
  </Card>
 
  {/* Contact Info */}
- <Card className="bg-card/60 border-0 shadow-lg backdrop-blur-sm">
+ <Card className="bg-card/60 border-0 shadow-sm backdrop-blur-sm">
  <CardHeader>
  <CardTitle className="text-xl font-semibold">Contact Information</CardTitle>
  <CardDescription>Get in touch with support</CardDescription>

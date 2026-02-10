@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback } from 'react';
 import {
@@ -21,7 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 
 interface WalletTransaction {
   id: string;
@@ -92,7 +92,7 @@ export function WalletCard() {
           <span className="text-muted-foreground text-sm font-medium tracking-wider uppercase">
             Current Balance
           </span>
-          <span className="text-4xl font-bold tracking-tight">
+          <span className="text-4xl font-semibold tracking-tight">
             {formatCurrency(balance, currency)}
           </span>
         </div>
@@ -118,7 +118,7 @@ export function WalletCard() {
                   >
                     <div className="mb-1 flex items-center justify-between">
                       <span className="font-semibold">{product.title}</span>
-                      <span className="font-bold">
+                      <span className="font-semibold">
                         {formatCurrency(product.amountCents / 100, 'EUR')}
                       </span>
                     </div>

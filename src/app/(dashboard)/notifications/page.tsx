@@ -48,7 +48,7 @@ export default async function NotificationsPage() {
   const getIconStyles = (type: string) => {
     switch (type) {
       case 'info':
-        return 'border-blue-100 bg-blue-50 text-blue-600 dark:border-blue-900/50 dark:bg-blue-950/50 dark:text-blue-400';
+        return 'border-primary/20 bg-primary/5 text-primary';
       case 'success':
         return 'border-green-100 bg-green-50 text-green-600 dark:border-green-900/50 dark:bg-green-950/50 dark:text-green-400';
       case 'warning':
@@ -56,7 +56,7 @@ export default async function NotificationsPage() {
       case 'error':
         return 'border-red-100 bg-red-50 text-red-600 dark:border-red-900/50 dark:bg-red-950/50 dark:text-red-400';
       case 'reminder':
-        return 'border-purple-100 bg-purple-50 text-purple-600 dark:border-purple-900/50 dark:bg-purple-950/50 dark:text-purple-400';
+        return 'border-primary/20 bg-muted text-primary';
       default:
         return 'border-muted bg-muted text-muted-foreground';
     }
@@ -66,7 +66,7 @@ export default async function NotificationsPage() {
     <div className="space-y-8 px-4 py-8 md:px-8">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Notifications</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-foreground">Notifications</h2>
           <p className="text-sm font-medium text-muted-foreground">
             {unreadCount > 0
               ? `You have ${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}.`
@@ -87,8 +87,8 @@ export default async function NotificationsPage() {
           <div
             key={notification.id}
             className={cn(
-              'group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg',
-              !notification.is_read && 'border-primary/20 bg-primary/[0.02]'
+              'group relative overflow-hidden rounded-lg border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-sm',
+              !notification.is_read && 'border-primary/20 bg-primary/2'
             )}
           >
             <div className="flex gap-5">

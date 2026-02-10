@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
@@ -39,7 +39,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="px-4 text-[10px] font-bold tracking-widest uppercase opacity-50">
+      <SidebarGroupLabel className="px-4 text-[10px] font-semibold tracking-widest uppercase opacity-50">
         Platform
       </SidebarGroupLabel>
       <SidebarMenu className="gap-1 px-2">
@@ -56,7 +56,7 @@ export function NavMain({
                   <SidebarMenuButton
                     tooltip={item.title}
                     className={cn(
-                      'h-11 rounded-[20px] font-semibold transition-all',
+                      'h-11 rounded-lg font-semibold transition-all',
                       item.isActive ? 'bg-primary/10 text-primary shadow-sm' : 'hover:bg-secondary'
                     )}
                   >
@@ -100,7 +100,7 @@ export function NavMain({
                 tooltip={item.title}
                 isActive={item.isActive}
                 className={cn(
-                  'h-11 rounded-[20px] font-semibold transition-all',
+                  'h-11 rounded-lg font-semibold transition-all',
                   item.isActive ? 'bg-primary/10 text-primary shadow-sm' : 'hover:bg-secondary'
                 )}
               >

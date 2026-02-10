@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -138,7 +138,7 @@ export function AuditLogViewer() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-foreground text-2xl font-bold">Audit Log Viewer</h2>
+          <h2 className="text-foreground text-2xl font-semibold">Audit Log Viewer</h2>
           <p className="text-muted-foreground">Security monitoring and activity tracking</p>
         </div>
         <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ export function AuditLogViewer() {
               <AlertTriangle className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-red-600">
+              <div className="text-2xl font-semibold text-red-600">
                 {securityAnalysis.failedLogins.total}
               </div>
               <div className="text-muted-foreground text-sm">
@@ -191,10 +191,10 @@ export function AuditLogViewer() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Permission Changes</CardTitle>
-              <Shield className="h-4 w-4 text-blue-500" />
+              <Shield className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-semibold text-primary">
                 {securityAnalysis.permissionChanges}
               </div>
               <div className="text-muted-foreground text-sm">Role/permission modifications</div>
@@ -207,7 +207,7 @@ export function AuditLogViewer() {
               <AlertTriangle className="h-4 w-4 text-yellow-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-yellow-600">
+              <div className="text-2xl font-semibold text-yellow-600">
                 {securityAnalysis.suspiciousActivities.length}
               </div>
               <div className="text-muted-foreground text-sm">Security alerts detected</div>

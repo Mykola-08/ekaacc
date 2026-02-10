@@ -506,10 +506,15 @@ export function getNavigationItemsByCategory(category: NavigationCategory): Navi
 }
 
 export function getNavigationItemsByRole(role: SystemRole): NavigationItem[] {
+  const normalizedRole = String(role).toLowerCase();
+
   return NAVIGATION_CONFIG.items.filter((item) => {
     // Check if item has role-specific metadata
-    if (item.metadata?.roleSpecific && item.metadata.roleSpecific !== role) {
-      return false;
+    if (item.metadata?.roleSpecific) {
+      const requiredRole = String(item.metadata.roleSpecific).toLowerCase();
+      if (requiredRole !== normalizedRole) {
+        return false;
+      }
     }
 
     // Check if item is universal (accessible to all authenticated users)

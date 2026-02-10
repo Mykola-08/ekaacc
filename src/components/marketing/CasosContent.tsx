@@ -13,7 +13,7 @@ import {
   Search,
 } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 import PageLayout from '@/components/marketing/PageLayout';
 
 interface Problem {
@@ -196,7 +196,7 @@ export default function CasosContent() {
               >
                 {/* Hover Gradient Background */}
                 <div
-                  className={`absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-5 ${colors.bg.replace('bg-', 'to- bg-gradient-to-br from-white')}`}
+                  className={`absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-5 ${colors.bg.replace('bg-', 'to- bg-linear-to-br from-white')}`}
                 />
 
                 <div className="relative z-10">
@@ -250,7 +250,7 @@ export default function CasosContent() {
       </div>
 
       {/* CTA Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-eka-dark to-eka-dark/80 px-6 py-24">
+      <div className="relative overflow-hidden bg-linear-to-br from-eka-dark to-eka-dark/80 px-6 py-24">
         {/* Abstract Background Shapes */}
         <div className="absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
         <div className="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-purple-500/20 blur-3xl" />
@@ -265,7 +265,7 @@ export default function CasosContent() {
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href="/book">
               <Button
-                size="xl"
+                size="lg"
                 className="btn btn-primary bg-accent text-eka-dark hover:bg-accent/90"
               >
                 {t('casos.bookSession')}
@@ -273,7 +273,7 @@ export default function CasosContent() {
             </Link>
             <Link href="/services">
               <Button
-                size="xl"
+                size="lg"
                 className="btn btn-outline border-white/20 text-white hover:bg-white/10"
               >
                 {t('casos.discoverIdeal')}

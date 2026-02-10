@@ -6,7 +6,7 @@ import { useBooking } from '@/hooks/marketing/useBooking';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import Link from 'next/link';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function ForParentsContent() {
   const { navigateToBooking } = useBooking();
@@ -32,12 +32,12 @@ export default function ForParentsContent() {
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Button onClick={() => navigateToBooking()} size="xl" className="btn btn-accent">
+              <Button onClick={() => navigateToBooking()} size="lg" className="btn bg-primary text-white hover:bg-primary/90">
                 {t('common.bookNow')}
               </Button>
               <Link href="/contact">
                 <Button
-                  size="xl"
+                  size="lg"
                   className="btn btn-outline border-pink-100 text-pink-600 hover:border-pink-200 hover:bg-pink-50"
                 >
                   {t('common.askQuestions')}
@@ -47,7 +47,7 @@ export default function ForParentsContent() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <div className="rounded-apple-xl relative h-[400px] w-full overflow-hidden shadow-2xl sm:h-[500px]">
+            <div className="rounded-apple-xl relative h-100 w-full overflow-hidden shadow-2xl sm:h-125">
               <Image
                 src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=1920&h=1080&fit=crop"
                 alt={t('personalized.parents.hero.title')}

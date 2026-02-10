@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * Mood Logged Card
@@ -18,16 +18,16 @@ interface MoodLoggedProps {
 }
 
 const moodEmojis: Record<string, string> = {
-  excellent: "🌟",
-  good: "😊",
-  neutral: "😐",
-  bad: "😔",
-  terrible: "😢",
+  excellent: "ðŸŒŸ",
+  good: "ðŸ˜Š",
+  neutral: "ðŸ˜",
+  bad: "ðŸ˜”",
+  terrible: "ðŸ˜¢",
 };
 
 const moodColors: Record<string, string> = {
   excellent: "from-emerald-500/20 to-green-500/10 border-emerald-500/30",
-  good: "from-blue-500/20 to-cyan-500/10 border-blue-500/30",
+  good: "from-blue-500/20 to-cyan-500/10 border-primary/30",
   neutral: "from-amber-500/20 to-yellow-500/10 border-amber-500/30",
   bad: "from-orange-500/20 to-red-500/10 border-orange-500/30",
   terrible: "from-red-500/20 to-rose-500/10 border-red-500/30",
@@ -60,12 +60,12 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "rounded-2xl border bg-linear-to-br p-4 w-full max-w-sm",
+        "rounded-lg border bg-linear-to-br p-4 w-full max-w-sm",
         moodColors[mood] || moodColors.neutral
       )}
     >
       <div className="flex items-center gap-3 mb-3">
-        <span className="text-3xl">{moodEmojis[mood] || "📝"}</span>
+        <span className="text-3xl">{moodEmojis[mood] || "ðŸ“"}</span>
         <div>
           <p className="text-sm font-semibold capitalize">{mood}</p>
           <p className="text-muted-foreground text-xs">Mood logged</p>
@@ -79,7 +79,7 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
       </div>
 
       <p className="text-muted-foreground mt-3 text-[11px]">
-        ✓ Saved to your wellness journal
+        âœ“ Saved to your wellness journal
       </p>
     </motion.div>
   );

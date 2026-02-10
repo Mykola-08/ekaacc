@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { Heart, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { SERVICES_DATA } from '@/shared/marketing/constants';
-import { motion } from 'framer-motion';
-import { Button } from 'keep-react';
+import { motion } from 'motion/react';
+import { Button } from '@/components/ui/button';
 import ServiceCard from '@/components/marketing/ServiceCard';
 import PageLayout from './PageLayout';
 
@@ -24,7 +24,7 @@ export default function ServicesContent() {
       {/* Quick CTA */}
       <div className="relative z-20 -mt-8 mb-16 flex justify-center">
         <Link href="/book">
-          <Button size="xl" className="btn btn-accent rounded-xl border-none px-8 py-4 normal-case">
+          <Button size="lg" className="rounded-xl px-8 py-6 text-lg shadow-lg transition-all hover:scale-105 active:scale-95">
             {t('common.bookNow')}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>

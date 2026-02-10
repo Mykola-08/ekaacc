@@ -1,10 +1,10 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, X, Shield, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { DashboardCard } from '@/components/dashboard/shared/DashboardCard';
 
@@ -55,7 +55,7 @@ export function PermissionManager({
         {permissions.map((p) => (
           <div
             key={p.id}
-            className="bg-card border-border/60 group hover:bg-secondary/20 flex items-center justify-between rounded-2xl border p-4 transition-colors"
+            className="bg-card border-border/60 group hover:bg-secondary/20 flex items-center justify-between rounded-lg border p-4 transition-colors"
           >
             <div className="flex items-center gap-4">
               <div
@@ -70,12 +70,12 @@ export function PermissionManager({
                 <div className="text-foreground flex items-center gap-2 font-semibold">
                   {p.code}
                   {p.source === 'role' && (
-                    <span className="bg-secondary text-muted-foreground rounded-full px-2 py-0.5 text-xs font-bold uppercase">
+                    <span className="bg-secondary text-muted-foreground rounded-full px-2 py-0.5 text-xs font-semibold uppercase">
                       Role Default
                     </span>
                   )}
                   {p.source === 'override' && (
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700 uppercase">
+                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700 uppercase">
                       Override
                     </span>
                   )}

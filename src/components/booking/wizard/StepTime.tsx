@@ -26,17 +26,17 @@ export function StepTime({
 }: StepTimeProps) {
   return (
     <div className="flex flex-col gap-6">
-      <div className="bg-card border-border rounded-[20px] border p-4 shadow-sm">
+      <div className="bg-card border-border rounded-lg border p-4 shadow-sm">
         <Calendar
           mode="single"
           selected={date}
           onSelect={setDate}
           className="flex w-full justify-center"
-          disabled={(date) => date < new Date() || date.getDay() === 0}
+          disabled={(date) => date < new Date()}
         />
       </div>
       <div className="space-y-6">
-        <Label className="text-foreground text-lg font-bold">Available Slots</Label>
+        <Label className="text-foreground text-lg font-semibold">Available Slots</Label>
         {loadingSlots ? (
           <div className="text-muted-foreground flex items-center justify-center py-12">
             <HugeiconsIcon icon={Loading03Icon} className="mr-2 h-6 w-6 animate-spin" />
@@ -49,10 +49,10 @@ export function StepTime({
                 key={time}
                 variant="outline"
                 className={cn(
-                  'h-12 rounded-[20px] border-2 font-semibold transition-all',
+                  'h-9 rounded-lg border font-medium transition-all',
                   selectedTime === time
-                    ? 'bg-foreground text-background border-foreground hover:bg-foreground/90 scale-105 transform shadow-md'
-                    : 'bg-card border-border text-foreground hover:border-muted hover:bg-secondary'
+                    ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90 scale-[1.02] transform shadow-sm'
+                    : 'bg-card border-border text-foreground hover:border-primary/30 hover:bg-secondary'
                 )}
                 onClick={() => onTimeSelect(time)}
               >
@@ -61,7 +61,7 @@ export function StepTime({
             ))}
           </div>
         ) : (
-          <div className="bg-secondary border-border rounded-[20px] border py-12 text-center">
+          <div className="bg-secondary border-border rounded-lg border py-12 text-center">
             <p className="text-muted-foreground font-medium">No slots available for this date.</p>
             <p className="text-muted-foreground mt-2 text-xs">Try selecting another day.</p>
           </div>

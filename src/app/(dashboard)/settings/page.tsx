@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 import { SettingsPage } from '@/components/settings/SettingsPage';
 
 export default async function Page() {
@@ -17,6 +18,7 @@ export default async function Page() {
     ...user.user_metadata,
     email: user.email,
     id: user.id,
+    created_at: user.created_at,
   };
 
   // Fetch Identity Status
@@ -29,9 +31,11 @@ export default async function Page() {
     .single();
 
   return (
-    <SettingsPage
-      profile={profile}
-      identityStatus={identity?.status || 'none'}
-    />
+    <Suspense fallback={<div className="space-y-4 px-4 py-8"><div className="h-24 animate-pulse rounded-lg bg-muted" /></div>}>
+      <SettingsPage
+        profile={profile}
+        identityStatus={identity?.status || 'none'}
+      />
+    </Suspense>
   );
 }

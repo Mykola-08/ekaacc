@@ -33,7 +33,7 @@ export function ServiceGallery({ images, name }: ServiceGalleryProps) {
           {images.map((img, index) => (
             <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-2/3">
               <div className="p-1">
-                <div className="overflow-hidden rounded-[20px] shadow-eka-base">
+                <div className="overflow-hidden rounded-lg shadow-sm">
                   <div className="relative aspect-video w-full">
                     <Image
                       src={img}

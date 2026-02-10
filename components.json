@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "radix-vega",
+  "style": "radix-nova",
   "tailwind": {
     "config": "",
     "css": "src/styles/globals.css",
@@ -9,6 +9,9 @@
     "prefix": ""
   },
   "iconLibrary": "hugeicons",
+  "font": "geist",
+  "menuColor": "default",
+  "menuAccent": "subtle",
   "rsc": true,
   "tsx": true,
   "aliases": {

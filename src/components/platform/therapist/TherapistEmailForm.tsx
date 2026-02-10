@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/dialog';
 import { sendTherapistEmail, previewTherapistEmail } from '@/app/actions/therapist-email';
 import { TransactionalEmailType } from '@/lib/platform/services/transactional-email-service';
-import { toast } from 'sonner'; // Assuming sonner or use-toast
+import { toast } from '@/components/ui/morphing-toaster';
 
 interface Patient {
   id: string;
@@ -339,7 +339,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
               <DialogTitle>Email Preview</DialogTitle>
             </DialogHeader>
             <div
-              className="bg-card min-h-[400px] rounded-md border p-4 text-black"
+              className="bg-card min-h-100 rounded-md border p-4 text-black"
               dangerouslySetInnerHTML={{ __html: previewHtml }}
             />
           </DialogContent>

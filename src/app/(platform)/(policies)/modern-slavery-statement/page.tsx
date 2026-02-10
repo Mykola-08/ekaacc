@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Globe, ArrowLeft, Scale } from 'lucide-react';
@@ -49,116 +49,116 @@ export default function ModernSlaveryStatement() {
       ],
     },
     es: {
-      title: 'Declaración sobre la Esclavitud Moderna',
-      lastUpdated: 'Última actualización: 15 de marzo de 2024',
+      title: 'DeclaraciÃ³n sobre la Esclavitud Moderna',
+      lastUpdated: 'Ãšltima actualizaciÃ³n: 15 de marzo de 2024',
       intro:
-        'EKA Balance se compromete a prevenir que ocurran actos de esclavitud moderna y trata de personas dentro de su negocio y cadena de suministro, e impone los mismos altos estándares a sus proveedores.',
+        'EKA Balance se compromete a prevenir que ocurran actos de esclavitud moderna y trata de personas dentro de su negocio y cadena de suministro, e impone los mismos altos estÃ¡ndares a sus proveedores.',
       sections: [
         {
           title: '1. Estructura y Negocio',
           content:
-            'EKA Balance es una plataforma digital de salud mental que opera a nivel mundial. Trabajamos con una red de terapeutas, proveedores de tecnología y otros socios para prestar nuestros servicios.',
+            'EKA Balance es una plataforma digital de salud mental que opera a nivel mundial. Trabajamos con una red de terapeutas, proveedores de tecnologÃ­a y otros socios para prestar nuestros servicios.',
         },
         {
-          title: '2. Políticas',
+          title: '2. PolÃ­ticas',
           content:
-            'Hemos implementado políticas para garantizar que realizamos negocios de manera ética y transparente. Estas incluyen:\n\n- Política de Contratación: Operamos una política de contratación sólida, que incluye la realización de comprobaciones de elegibilidad para trabajar para todos los empleados con el fin de proteger contra la trata de personas o las personas obligadas a trabajar en contra de su voluntad.\n- Política de Denuncias: Operamos una política de denuncias para que todos los empleados sepan que pueden plantear inquietudes sobre cómo se trata a los colegas, o prácticas dentro de nuestro negocio o cadena de suministro, sin temor a represalias.\n- Código de Conducta: Este código explica la manera en que nos comportamos como organización y cómo esperamos que actúen nuestros empleados y proveedores.',
+            'Hemos implementado polÃ­ticas para garantizar que realizamos negocios de manera Ã©tica y transparente. Estas incluyen:\n\n- PolÃ­tica de ContrataciÃ³n: Operamos una polÃ­tica de contrataciÃ³n sÃ³lida, que incluye la realizaciÃ³n de comprobaciones de elegibilidad para trabajar para todos los empleados con el fin de proteger contra la trata de personas o las personas obligadas a trabajar en contra de su voluntad.\n- PolÃ­tica de Denuncias: Operamos una polÃ­tica de denuncias para que todos los empleados sepan que pueden plantear inquietudes sobre cÃ³mo se trata a los colegas, o prÃ¡cticas dentro de nuestro negocio o cadena de suministro, sin temor a represalias.\n- CÃ³digo de Conducta: Este cÃ³digo explica la manera en que nos comportamos como organizaciÃ³n y cÃ³mo esperamos que actÃºen nuestros empleados y proveedores.',
         },
         {
           title: '3. Cadena de Suministro',
           content:
-            'Nuestra cadena de suministro incluye proveedores de hardware y software de TI, servicios profesionales (legales, contables) y servicios de gestión de oficinas. Realizamos la debida diligencia con todos los proveedores antes de permitirles convertirse en proveedores preferentes.',
+            'Nuestra cadena de suministro incluye proveedores de hardware y software de TI, servicios profesionales (legales, contables) y servicios de gestiÃ³n de oficinas. Realizamos la debida diligencia con todos los proveedores antes de permitirles convertirse en proveedores preferentes.',
         },
         {
-          title: '4. Evaluación de Riesgos',
+          title: '4. EvaluaciÃ³n de Riesgos',
           content:
             'Consideramos que el riesgo de esclavitud moderna dentro de nuestro negocio es bajo. Sin embargo, nos mantenemos vigilantes y revisamos nuestros riesgos regularmente.',
         },
         {
-          title: '5. Formación',
+          title: '5. FormaciÃ³n',
           content:
-            'Para garantizar un alto nivel de comprensión de los riesgos de la esclavitud moderna y la trata de personas en nuestras cadenas de suministro y nuestro negocio, brindamos formación a nuestro personal.',
+            'Para garantizar un alto nivel de comprensiÃ³n de los riesgos de la esclavitud moderna y la trata de personas en nuestras cadenas de suministro y nuestro negocio, brindamos formaciÃ³n a nuestro personal.',
         },
         {
           title: '6. Pasos Futuros',
           content:
-            'Continuaremos revisando nuestras políticas y procedimientos para garantizar que sean efectivos para prevenir que ocurra la esclavitud moderna en nuestro negocio o cadena de suministro.',
+            'Continuaremos revisando nuestras polÃ­ticas y procedimientos para garantizar que sean efectivos para prevenir que ocurra la esclavitud moderna en nuestro negocio o cadena de suministro.',
         },
       ],
     },
     ca: {
-      title: "Declaració sobre l'Esclavitud Moderna",
-      lastUpdated: 'Última actualització: 15 de març de 2024',
+      title: "DeclaraciÃ³ sobre l'Esclavitud Moderna",
+      lastUpdated: 'Ãšltima actualitzaciÃ³: 15 de marÃ§ de 2024',
       intro:
-        "EKA Balance es compromet a prevenir que es produeixin actes d'esclavitud moderna i tràfic de persones dins del seu negoci i cadena de subministrament, i imposa els mateixos alts estàndards als seus proveïdors.",
+        "EKA Balance es compromet a prevenir que es produeixin actes d'esclavitud moderna i trÃ fic de persones dins del seu negoci i cadena de subministrament, i imposa els mateixos alts estÃ ndards als seus proveÃ¯dors.",
       sections: [
         {
           title: '1. Estructura i Negoci',
           content:
-            'EKA Balance és una plataforma digital de salut mental que opera a nivell mundial. Treballem amb una xarxa de terapeutes, proveïdors de tecnologia i altres socis per prestar els nostres serveis.',
+            'EKA Balance Ã©s una plataforma digital de salut mental que opera a nivell mundial. Treballem amb una xarxa de terapeutes, proveÃ¯dors de tecnologia i altres socis per prestar els nostres serveis.',
         },
         {
-          title: '2. Polítiques',
+          title: '2. PolÃ­tiques',
           content:
-            "Hem implementat polítiques per garantir que realitzem negocis de manera ètica i transparent. Aquestes inclouen:\n\n- Política de Contractació: Operem una política de contractació sòlida, que inclou la realització de comprovacions d'elegibilitat per treballar per a tots els empleats amb la finalitat de protegir contra el tràfic de persones o les persones obligades a treballar en contra de la seva voluntat.\n- Política de Denúncies: Operem una política de denúncies perquè tots els empleats sàpiguen que poden plantejar inquietuds sobre com es tracta els col·legues, o pràctiques dins del nostre negoci o cadena de subministrament, sense por a represàlies.\n- Codi de Conducta: Aquest codi explica la manera en què ens comportem com a organització i com esperem que actuïn els nostres empleats i proveïdors.",
+            "Hem implementat polÃ­tiques per garantir que realitzem negocis de manera Ã¨tica i transparent. Aquestes inclouen:\n\n- PolÃ­tica de ContractaciÃ³: Operem una polÃ­tica de contractaciÃ³ sÃ²lida, que inclou la realitzaciÃ³ de comprovacions d'elegibilitat per treballar per a tots els empleats amb la finalitat de protegir contra el trÃ fic de persones o les persones obligades a treballar en contra de la seva voluntat.\n- PolÃ­tica de DenÃºncies: Operem una polÃ­tica de denÃºncies perquÃ¨ tots els empleats sÃ piguen que poden plantejar inquietuds sobre com es tracta els colÂ·legues, o prÃ ctiques dins del nostre negoci o cadena de subministrament, sense por a represÃ lies.\n- Codi de Conducta: Aquest codi explica la manera en quÃ¨ ens comportem com a organitzaciÃ³ i com esperem que actuÃ¯n els nostres empleats i proveÃ¯dors.",
         },
         {
           title: '3. Cadena de Subministrament',
           content:
-            "La nostra cadena de subministrament inclou proveïdors de maquinari i programari de TI, serveis professionals (legals, comptables) i serveis de gestió d'oficines. Realitzem la deguda diligència amb tots els proveïdors abans de permetre'ls convertir-se en proveïdors preferents.",
+            "La nostra cadena de subministrament inclou proveÃ¯dors de maquinari i programari de TI, serveis professionals (legals, comptables) i serveis de gestiÃ³ d'oficines. Realitzem la deguda diligÃ¨ncia amb tots els proveÃ¯dors abans de permetre'ls convertir-se en proveÃ¯dors preferents.",
         },
         {
-          title: '4. Avaluació de Riscos',
+          title: '4. AvaluaciÃ³ de Riscos',
           content:
-            "Considerem que el risc d'esclavitud moderna dins del nostre negoci és baix. No obstant això, ens mantenim vigilants i revisem els nostres riscos regularment.",
+            "Considerem que el risc d'esclavitud moderna dins del nostre negoci Ã©s baix. No obstant aixÃ², ens mantenim vigilants i revisem els nostres riscos regularment.",
         },
         {
-          title: '5. Formació',
+          title: '5. FormaciÃ³',
           content:
-            "Per garantir un alt nivell de comprensió dels riscos de l'esclavitud moderna i el tràfic de persones en les nostres cadenes de subministrament i el nostre negoci, oferim formació al nostre personal.",
+            "Per garantir un alt nivell de comprensiÃ³ dels riscos de l'esclavitud moderna i el trÃ fic de persones en les nostres cadenes de subministrament i el nostre negoci, oferim formaciÃ³ al nostre personal.",
         },
         {
           title: '6. Passos Futurs',
           content:
-            "Continuarem revisant les nostres polítiques i procediments per garantir que siguin efectius per prevenir que es produeixi l'esclavitud moderna en el nostre negoci o cadena de subministrament.",
+            "Continuarem revisant les nostres polÃ­tiques i procediments per garantir que siguin efectius per prevenir que es produeixi l'esclavitud moderna en el nostre negoci o cadena de subministrament.",
         },
       ],
     },
     ru: {
-      title: 'Заявление о современном рабстве',
-      lastUpdated: 'Последнее обновление: 15 марта 2024 г.',
+      title: 'Ð—Ð°ÑÐ²Ð»ÐµÐ½Ð¸Ðµ Ð¾ ÑÐ¾Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¼ Ñ€Ð°Ð±ÑÑ‚Ð²Ðµ',
+      lastUpdated: 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: 15 Ð¼Ð°Ñ€Ñ‚Ð° 2024 Ð³.',
       intro:
-        'EKA Balance стремится предотвращать акты современного рабства и торговли людьми в рамках своего бизнеса и цепочки поставок и предъявляет такие же высокие требования к своим поставщикам.',
+        'EKA Balance ÑÑ‚Ñ€ÐµÐ¼Ð¸Ñ‚ÑÑ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰Ð°Ñ‚ÑŒ Ð°ÐºÑ‚Ñ‹ ÑÐ¾Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð±ÑÑ‚Ð²Ð° Ð¸ Ñ‚Ð¾Ñ€Ð³Ð¾Ð²Ð»Ð¸ Ð»ÑŽÐ´ÑŒÐ¼Ð¸ Ð² Ñ€Ð°Ð¼ÐºÐ°Ñ… ÑÐ²Ð¾ÐµÐ³Ð¾ Ð±Ð¸Ð·Ð½ÐµÑÐ° Ð¸ Ñ†ÐµÐ¿Ð¾Ñ‡ÐºÐ¸ Ð¿Ð¾ÑÑ‚Ð°Ð²Ð¾Ðº Ð¸ Ð¿Ñ€ÐµÐ´ÑŠÑÐ²Ð»ÑÐµÑ‚ Ñ‚Ð°ÐºÐ¸Ðµ Ð¶Ðµ Ð²Ñ‹ÑÐ¾ÐºÐ¸Ðµ Ñ‚Ñ€ÐµÐ±Ð¾Ð²Ð°Ð½Ð¸Ñ Ðº ÑÐ²Ð¾Ð¸Ð¼ Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ°Ð¼.',
       sections: [
         {
-          title: '1. Структура и бизнес',
+          title: '1. Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð° Ð¸ Ð±Ð¸Ð·Ð½ÐµÑ',
           content:
-            'EKA Balance — это цифровая платформа психического здоровья, работающая по всему миру. Мы работаем с сетью терапевтов, поставщиков технологий и других партнеров для предоставления наших услуг.',
+            'EKA Balance â€” ÑÑ‚Ð¾ Ñ†Ð¸Ñ„Ñ€Ð¾Ð²Ð°Ñ Ð¿Ð»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ð° Ð¿ÑÐ¸Ñ…Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ, Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽÑ‰Ð°Ñ Ð¿Ð¾ Ð²ÑÐµÐ¼Ñƒ Ð¼Ð¸Ñ€Ñƒ. ÐœÑ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÐ¼ Ñ ÑÐµÑ‚ÑŒÑŽ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¾Ð², Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ¾Ð² Ñ‚ÐµÑ…Ð½Ð¾Ð»Ð¾Ð³Ð¸Ð¹ Ð¸ Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð¿Ð°Ñ€Ñ‚Ð½ÐµÑ€Ð¾Ð² Ð´Ð»Ñ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð½Ð°ÑˆÐ¸Ñ… ÑƒÑÐ»ÑƒÐ³.',
         },
         {
-          title: '2. Политики',
+          title: '2. ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸',
           content:
-            'Мы внедрили политики, гарантирующие, что мы ведем бизнес этично и прозрачно. К ним относятся:\n\n- Политика найма: Мы проводим надежную политику найма, включая проверку права на работу для всех сотрудников, чтобы защитить от торговли людьми или принуждения людей к работе против их воли.\n- Политика информирования о нарушениях: Мы проводим политику информирования о нарушениях, чтобы все сотрудники знали, что они могут высказывать опасения по поводу того, как обращаются с коллегами, или практики в нашем бизнесе или цепочке поставок, не опасаясь репрессий.\n- Кодекс поведения: Этот кодекс объясняет, как мы ведем себя как организация и как мы ожидаем, что будут действовать наши сотрудники и поставщики.',
+            'ÐœÑ‹ Ð²Ð½ÐµÐ´Ñ€Ð¸Ð»Ð¸ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸, Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€ÑƒÑŽÑ‰Ð¸Ðµ, Ñ‡Ñ‚Ð¾ Ð¼Ñ‹ Ð²ÐµÐ´ÐµÐ¼ Ð±Ð¸Ð·Ð½ÐµÑ ÑÑ‚Ð¸Ñ‡Ð½Ð¾ Ð¸ Ð¿Ñ€Ð¾Ð·Ñ€Ð°Ñ‡Ð½Ð¾. Ðš Ð½Ð¸Ð¼ Ð¾Ñ‚Ð½Ð¾ÑÑÑ‚ÑÑ:\n\n- ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° Ð½Ð°Ð¹Ð¼Ð°: ÐœÑ‹ Ð¿Ñ€Ð¾Ð²Ð¾Ð´Ð¸Ð¼ Ð½Ð°Ð´ÐµÐ¶Ð½ÑƒÑŽ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÑƒ Ð½Ð°Ð¹Ð¼Ð°, Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÑƒ Ð¿Ñ€Ð°Ð²Ð° Ð½Ð° Ñ€Ð°Ð±Ð¾Ñ‚Ñƒ Ð´Ð»Ñ Ð²ÑÐµÑ… ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð², Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ñ‰Ð¸Ñ‚Ð¸Ñ‚ÑŒ Ð¾Ñ‚ Ñ‚Ð¾Ñ€Ð³Ð¾Ð²Ð»Ð¸ Ð»ÑŽÐ´ÑŒÐ¼Ð¸ Ð¸Ð»Ð¸ Ð¿Ñ€Ð¸Ð½ÑƒÐ¶Ð´ÐµÐ½Ð¸Ñ Ð»ÑŽÐ´ÐµÐ¹ Ðº Ñ€Ð°Ð±Ð¾Ñ‚Ðµ Ð¿Ñ€Ð¾Ñ‚Ð¸Ð² Ð¸Ñ… Ð²Ð¾Ð»Ð¸.\n- ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¾ Ð½Ð°Ñ€ÑƒÑˆÐµÐ½Ð¸ÑÑ…: ÐœÑ‹ Ð¿Ñ€Ð¾Ð²Ð¾Ð´Ð¸Ð¼ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÑƒ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¾ Ð½Ð°Ñ€ÑƒÑˆÐµÐ½Ð¸ÑÑ…, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²ÑÐµ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¸ Ð·Ð½Ð°Ð»Ð¸, Ñ‡Ñ‚Ð¾ Ð¾Ð½Ð¸ Ð¼Ð¾Ð³ÑƒÑ‚ Ð²Ñ‹ÑÐºÐ°Ð·Ñ‹Ð²Ð°Ñ‚ÑŒ Ð¾Ð¿Ð°ÑÐµÐ½Ð¸Ñ Ð¿Ð¾ Ð¿Ð¾Ð²Ð¾Ð´Ñƒ Ñ‚Ð¾Ð³Ð¾, ÐºÐ°Ðº Ð¾Ð±Ñ€Ð°Ñ‰Ð°ÑŽÑ‚ÑÑ Ñ ÐºÐ¾Ð»Ð»ÐµÐ³Ð°Ð¼Ð¸, Ð¸Ð»Ð¸ Ð¿Ñ€Ð°ÐºÑ‚Ð¸ÐºÐ¸ Ð² Ð½Ð°ÑˆÐµÐ¼ Ð±Ð¸Ð·Ð½ÐµÑÐµ Ð¸Ð»Ð¸ Ñ†ÐµÐ¿Ð¾Ñ‡ÐºÐµ Ð¿Ð¾ÑÑ‚Ð°Ð²Ð¾Ðº, Ð½Ðµ Ð¾Ð¿Ð°ÑÐ°ÑÑÑŒ Ñ€ÐµÐ¿Ñ€ÐµÑÑÐ¸Ð¹.\n- ÐšÐ¾Ð´ÐµÐºÑ Ð¿Ð¾Ð²ÐµÐ´ÐµÐ½Ð¸Ñ: Ð­Ñ‚Ð¾Ñ‚ ÐºÐ¾Ð´ÐµÐºÑ Ð¾Ð±ÑŠÑÑÐ½ÑÐµÑ‚, ÐºÐ°Ðº Ð¼Ñ‹ Ð²ÐµÐ´ÐµÐ¼ ÑÐµÐ±Ñ ÐºÐ°Ðº Ð¾Ñ€Ð³Ð°Ð½Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¸ ÐºÐ°Ðº Ð¼Ñ‹ Ð¾Ð¶Ð¸Ð´Ð°ÐµÐ¼, Ñ‡Ñ‚Ð¾ Ð±ÑƒÐ´ÑƒÑ‚ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ Ð½Ð°ÑˆÐ¸ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¸ Ð¸ Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ¸.',
         },
         {
-          title: '3. Цепочка поставок',
+          title: '3. Ð¦ÐµÐ¿Ð¾Ñ‡ÐºÐ° Ð¿Ð¾ÑÑ‚Ð°Ð²Ð¾Ðº',
           content:
-            'Наша цепочка поставок включает поставщиков ИТ-оборудования и программного обеспечения, профессиональные услуги (юридические, бухгалтерские) и услуги по управлению офисом. Мы проводим комплексную проверку всех поставщиков, прежде чем разрешить им стать предпочтительным поставщиком.',
+            'ÐÐ°ÑˆÐ° Ñ†ÐµÐ¿Ð¾Ñ‡ÐºÐ° Ð¿Ð¾ÑÑ‚Ð°Ð²Ð¾Ðº Ð²ÐºÐ»ÑŽÑ‡Ð°ÐµÑ‚ Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ¾Ð² Ð˜Ð¢-Ð¾Ð±Ð¾Ñ€ÑƒÐ´Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¸ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð½Ð¾Ð³Ð¾ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡ÐµÐ½Ð¸Ñ, Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸ (ÑŽÑ€Ð¸Ð´Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ, Ð±ÑƒÑ…Ð³Ð°Ð»Ñ‚ÐµÑ€ÑÐºÐ¸Ðµ) Ð¸ ÑƒÑÐ»ÑƒÐ³Ð¸ Ð¿Ð¾ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸ÑŽ Ð¾Ñ„Ð¸ÑÐ¾Ð¼. ÐœÑ‹ Ð¿Ñ€Ð¾Ð²Ð¾Ð´Ð¸Ð¼ ÐºÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½ÑƒÑŽ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÑƒ Ð²ÑÐµÑ… Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ¾Ð², Ð¿Ñ€ÐµÐ¶Ð´Ðµ Ñ‡ÐµÐ¼ Ñ€Ð°Ð·Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ Ð¸Ð¼ ÑÑ‚Ð°Ñ‚ÑŒ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼ Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ¾Ð¼.',
         },
         {
-          title: '4. Оценка рисков',
+          title: '4. ÐžÑ†ÐµÐ½ÐºÐ° Ñ€Ð¸ÑÐºÐ¾Ð²',
           content:
-            'Мы считаем риск современного рабства в нашем бизнесе низким. Тем не менее, мы сохраняем бдительность и регулярно пересматриваем наши риски.',
+            'ÐœÑ‹ ÑÑ‡Ð¸Ñ‚Ð°ÐµÐ¼ Ñ€Ð¸ÑÐº ÑÐ¾Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð±ÑÑ‚Ð²Ð° Ð² Ð½Ð°ÑˆÐµÐ¼ Ð±Ð¸Ð·Ð½ÐµÑÐµ Ð½Ð¸Ð·ÐºÐ¸Ð¼. Ð¢ÐµÐ¼ Ð½Ðµ Ð¼ÐµÐ½ÐµÐµ, Ð¼Ñ‹ ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÐµÐ¼ Ð±Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð¸ Ñ€ÐµÐ³ÑƒÐ»ÑÑ€Ð½Ð¾ Ð¿ÐµÑ€ÐµÑÐ¼Ð°Ñ‚Ñ€Ð¸Ð²Ð°ÐµÐ¼ Ð½Ð°ÑˆÐ¸ Ñ€Ð¸ÑÐºÐ¸.',
         },
         {
-          title: '5. Обучение',
+          title: '5. ÐžÐ±ÑƒÑ‡ÐµÐ½Ð¸Ðµ',
           content:
-            'Чтобы обеспечить высокий уровень понимания рисков современного рабства и торговли людьми в наших цепочках поставок и нашем бизнесе, мы проводим обучение для наших сотрудников.',
+            'Ð§Ñ‚Ð¾Ð±Ñ‹ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡Ð¸Ñ‚ÑŒ Ð²Ñ‹ÑÐ¾ÐºÐ¸Ð¹ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ Ð¿Ð¾Ð½Ð¸Ð¼Ð°Ð½Ð¸Ñ Ñ€Ð¸ÑÐºÐ¾Ð² ÑÐ¾Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð±ÑÑ‚Ð²Ð° Ð¸ Ñ‚Ð¾Ñ€Ð³Ð¾Ð²Ð»Ð¸ Ð»ÑŽÐ´ÑŒÐ¼Ð¸ Ð² Ð½Ð°ÑˆÐ¸Ñ… Ñ†ÐµÐ¿Ð¾Ñ‡ÐºÐ°Ñ… Ð¿Ð¾ÑÑ‚Ð°Ð²Ð¾Ðº Ð¸ Ð½Ð°ÑˆÐµÐ¼ Ð±Ð¸Ð·Ð½ÐµÑÐµ, Ð¼Ñ‹ Ð¿Ñ€Ð¾Ð²Ð¾Ð´Ð¸Ð¼ Ð¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð´Ð»Ñ Ð½Ð°ÑˆÐ¸Ñ… ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð².',
         },
         {
-          title: '6. Будущие шаги',
+          title: '6. Ð‘ÑƒÐ´ÑƒÑ‰Ð¸Ðµ ÑˆÐ°Ð³Ð¸',
           content:
-            'Мы продолжим пересматривать наши политики и процедуры, чтобы гарантировать их эффективность в предотвращении современного рабства в нашем бизнесе или цепочке поставок.',
+            'ÐœÑ‹ Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ð¼ Ð¿ÐµÑ€ÐµÑÐ¼Ð°Ñ‚Ñ€Ð¸Ð²Ð°Ñ‚ÑŒ Ð½Ð°ÑˆÐ¸ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸ Ð¸ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ñ‹, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¸Ñ… ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ Ð² Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ð¸ ÑÐ¾Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð±ÑÑ‚Ð²Ð° Ð² Ð½Ð°ÑˆÐµÐ¼ Ð±Ð¸Ð·Ð½ÐµÑÐµ Ð¸Ð»Ð¸ Ñ†ÐµÐ¿Ð¾Ñ‡ÐºÐµ Ð¿Ð¾ÑÑ‚Ð°Ð²Ð¾Ðº.',
         },
       ],
     },
@@ -185,9 +185,9 @@ export default function ModernSlaveryStatement() {
               className="text-muted-foreground cursor-pointer border-none bg-transparent text-sm font-medium focus:ring-0"
             >
               <option value="en">English</option>
-              <option value="es">Español</option>
-              <option value="ca">Català</option>
-              <option value="ru">Русский</option>
+              <option value="es">EspaÃ±ol</option>
+              <option value="ca">CatalÃ </option>
+              <option value="ru">Ð ÑƒÑÑÐºÐ¸Ð¹</option>
             </select>
           </div>
         </div>
@@ -195,12 +195,12 @@ export default function ModernSlaveryStatement() {
 
       {/* Content */}
       <div className="mx-auto max-w-3xl px-4 py-12">
-        <div className="bg-card rounded-2xl p-8 shadow-sm md:p-12">
+        <div className="bg-card rounded-lg p-8 shadow-sm md:p-12">
           <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100">
             <Scale className="h-8 w-8 text-indigo-600" />
           </div>
 
-          <h1 className="text-foreground mb-4 text-center text-3xl font-bold md:text-4xl">
+          <h1 className="text-foreground mb-4 text-center text-3xl font-semibold md:text-4xl">
             {content[language].title}
           </h1>
 
@@ -212,7 +212,7 @@ export default function ModernSlaveryStatement() {
             <div className="space-y-8">
               {content[language].sections.map((section, index) => (
                 <div key={index} className="border-b border-border pb-8 last:border-0">
-                  <h2 className="text-foreground mb-4 text-xl font-bold">{section.title}</h2>
+                  <h2 className="text-foreground mb-4 text-xl font-semibold">{section.title}</h2>
                   <p className="leading-relaxed whitespace-pre-line">{section.content}</p>
                 </div>
               ))}
@@ -224,11 +224,11 @@ export default function ModernSlaveryStatement() {
               {language === 'en' &&
                 'This statement is made pursuant to section 54(1) of the Modern Slavery Act 2015.'}
               {language === 'es' &&
-                'Esta declaración se realiza de conformidad con la sección 54(1) de la Ley de Esclavitud Moderna de 2015.'}
+                'Esta declaraciÃ³n se realiza de conformidad con la secciÃ³n 54(1) de la Ley de Esclavitud Moderna de 2015.'}
               {language === 'ca' &&
-                "Aquesta declaració es realitza de conformitat amb la secció 54(1) de la Llei d'Esclavitud Moderna de 2015."}
+                "Aquesta declaraciÃ³ es realitza de conformitat amb la secciÃ³ 54(1) de la Llei d'Esclavitud Moderna de 2015."}
               {language === 'ru' &&
-                'Это заявление сделано в соответствии с разделом 54(1) Закона о современном рабстве 2015 года.'}
+                'Ð­Ñ‚Ð¾ Ð·Ð°ÑÐ²Ð»ÐµÐ½Ð¸Ðµ ÑÐ´ÐµÐ»Ð°Ð½Ð¾ Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ð¸ Ñ Ñ€Ð°Ð·Ð´ÐµÐ»Ð¾Ð¼ 54(1) Ð—Ð°ÐºÐ¾Ð½Ð° Ð¾ ÑÐ¾Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¼ Ñ€Ð°Ð±ÑÑ‚Ð²Ðµ 2015 Ð³Ð¾Ð´Ð°.'}
             </p>
           </div>
         </div>

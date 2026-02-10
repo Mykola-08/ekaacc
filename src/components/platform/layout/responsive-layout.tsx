@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { MobileNavigation } from '@/components/platform/navigation/mobile-navigation';
 
@@ -207,7 +207,7 @@ export function ResponsiveCard({
 
   const variantClasses = {
     default: 'bg-card shadow-lg rounded-xl border border-border',
-    elevated: 'bg-card shadow-2xl rounded-[20px] border border-border',
+    elevated: 'bg-card shadow-sm rounded-lg border border-border',
     outlined: 'bg-transparent border-2 border-border rounded-xl',
     ghost: 'bg-transparent border-none rounded-xl',
   };
@@ -254,7 +254,7 @@ export function ResponsiveButton({
       'border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-200',
     ghost: 'bg-transparent text-primary hover:bg-primary/10 transition-all duration-200',
     elevated:
-      'bg-card text-foreground shadow-lg hover:shadow-xl border border-border transition-all duration-200',
+      'bg-card text-foreground shadow-lg hover:shadow-sm border border-border transition-all duration-200',
   };
 
   return (

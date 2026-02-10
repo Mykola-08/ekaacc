@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 
@@ -46,7 +46,7 @@ export function DebugStatus() {
  {isOpen && (
  <div className="mb-2 w-80 rounded-lg border border-border bg-card p-4 text-sm shadow-lg ">
  <div className="mb-3 flex items-center justify-between">
- <h3 className="font-bold text-foreground ">System Status</h3>
+ <h3 className="font-semibold text-foreground ">System Status</h3>
  <button
  onClick={checkHealth}
  className="rounded bg-muted px-2 py-1 text-xs hover:bg-muted dark:bg-foreground/90 dark:hover:bg-foreground/80"
@@ -106,7 +106,7 @@ export function DebugStatus() {
  : 'border border-border bg-card text-foreground hover:bg-muted/50 '
  } `}
  >
- {isOpen ? 'Close Debug' : '🐞 Debug'}
+ {isOpen ? 'Close Debug' : 'ðŸž Debug'}
  </button>
  </div>
  );

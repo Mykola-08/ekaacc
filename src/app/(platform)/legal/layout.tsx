@@ -19,7 +19,7 @@ export default function LegalLayout({
       <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 border-b backdrop-blur">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="text-foreground text-xl font-bold tracking-tight">
+            <Link href="/" className="text-foreground text-xl font-semibold tracking-tight">
               EKA Balance <span className="text-muted-foreground font-normal">| Legal</span>
             </Link>
             <nav className="text-muted-foreground hidden space-x-6 text-sm font-medium md:flex">
@@ -51,7 +51,7 @@ export default function LegalLayout({
         </div>
       </header>
 
-      <main className="container mx-auto max-w-5xl flex-grow px-4 py-12">
+      <main className="container mx-auto max-w-5xl grow px-4 py-12">
         <div className="bg-card rounded-xl border p-8 shadow-sm md:p-12">{children}</div>
       </main>
 
@@ -59,7 +59,7 @@ export default function LegalLayout({
         <div className="container mx-auto px-4">
           <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-4">
             <div>
-              <h3 className="mb-4 font-bold">EKA Balance</h3>
+              <h3 className="mb-4 font-semibold">EKA Balance</h3>
               <p className="text-muted-foreground text-sm">
                 Empowering your journey to mental wellness through technology and professional care.
               </p>

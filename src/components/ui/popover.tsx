@@ -63,7 +63,7 @@ function PopoverContent({
           align={align}
           sideOffset={sideOffset}
           className={cn(
-            'bg-popover text-popover-foreground z-50 w-72 rounded-[20px] border-none p-4 shadow-lg outline-none',
+            'bg-popover text-popover-foreground z-50 w-72 rounded-lg border-none p-4 shadow-sm outline-none',
             className
           )}
           {...props}
@@ -88,7 +88,7 @@ function PopoverContent({
               animate="visible"
               exit="exit"
               className={cn(
-                'bg-popover text-popover-foreground z-50 w-72 rounded-[20px] border-none p-4 shadow-lg outline-none',
+                'bg-popover text-popover-foreground z-50 w-72 rounded-lg ring-foreground/10 ring-1 p-4 shadow-md outline-none',
                 className
               )}
               {...(props as any)}

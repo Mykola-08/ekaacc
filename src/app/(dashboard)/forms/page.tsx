@@ -111,7 +111,7 @@ export default function FormsPage() {
   return (
     <div className="container mx-auto space-y-6 p-6">
       <div>
-        <h1 className="mb-2 text-3xl font-bold">EKA Forms</h1>
+        <h1 className="mb-2 text-3xl font-semibold">EKA Forms</h1>
         <p className="text-muted-foreground">
           Access all patient and therapist forms with integrated AI assistance
         </p>

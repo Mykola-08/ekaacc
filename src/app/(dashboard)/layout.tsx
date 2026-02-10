@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { UnifiedDashboardShell } from '@/components/dashboard/layout/UnifiedDashboardShell';
+import { getUserPermissions } from '@/lib/permissions/actions';
 
 /**
  * Unified Dashboard Layout
@@ -38,8 +39,10 @@ export default async function UnifiedDashboardLayout({
     ...user.user_metadata,
   };
 
+  const permissions = await getUserPermissions();
+
   return (
-    <UnifiedDashboardShell profile={profile}>
+    <UnifiedDashboardShell profile={profile} permissions={permissions}>
       {children}
     </UnifiedDashboardShell>
   );

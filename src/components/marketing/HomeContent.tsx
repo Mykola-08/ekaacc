@@ -2,12 +2,18 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Star, Globe, Users, Clock } from 'lucide-react';
 
 import AppleHero from '@/components/marketing/AppleHero';
-import CasosSection from '@/components/marketing/CasosSection';
-import FAQ from '@/components/marketing/FAQ';
+
+const CasosSection = dynamic(() => import('@/components/marketing/CasosSection'), { 
+  loading: () => <div className="h-96 w-full animate-pulse bg-muted/20" />
+});
+const FAQ = dynamic(() => import('@/components/marketing/FAQ'), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-muted/20" />
+});
 
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { SERVICES_DATA } from '@/shared/marketing/constants';
@@ -38,7 +44,7 @@ export default function HomeContent() {
           >
             {stats.map((stat, index) => (
               <div key={index} className="group flex flex-col items-center space-y-4 text-center">
-                <div className="bg-gray-50 text-foreground border-gray-100 rounded-2xl border p-4 shadow-sm transition-transform duration-300 group-hover:scale-105">
+                <div className="bg-blue-50/80 text-primary border-blue-100/50 rounded-2xl border p-4 shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:bg-primary group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/20">
                   <stat.icon size={28} strokeWidth={1.5} />
                 </div>
                 <div>
@@ -64,8 +70,8 @@ export default function HomeContent() {
               className="relative order-first flex justify-center lg:col-span-5"
             >
               <div className="group relative h-64 w-64 sm:h-80 sm:w-80 lg:h-96 lg:w-96">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-100 to-purple-100 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-60" />
-                <div className="relative aspect-square h-full w-full overflow-hidden rounded-full shadow-2xl">
+                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-purple-200 to-blue-300 opacity-60 blur-3xl transition-opacity duration-500 group-hover:opacity-80" />
+                <div className="relative aspect-square h-full w-full overflow-hidden rounded-full shadow-2xl ring-4 ring-white/50">
                   <Image
                     src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
                     alt={t('home.elenaAlt')}
@@ -107,8 +113,12 @@ export default function HomeContent() {
       </section>
 
       {/* Featured Services */}
-      <section className="bg-muted/30 py-24">
-        <div className="section-container">
+      <section className="bg-linear-to-b from-gray-50/50 via-blue-50/30 to-white py-24 relative overflow-hidden">
+        {/* Background Blob */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-blue-100/30 blur-3xl" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-purple-100/30 blur-3xl" />
+        
+        <div className="section-container relative z-10">
           <div className="mx-auto mb-16 max-w-3xl text-center">
             <h2 className="text-foreground mb-6 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               {t('services.featuredTitle')}

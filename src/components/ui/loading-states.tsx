@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -120,7 +120,7 @@ export function LoadingContainer({
 }: LoadingContainerProps) {
   if (isLoading) {
     return (
-      <div className={cn('flex min-h-[200px] items-center justify-center', className)}>
+      <div className={cn('flex min-h-50 items-center justify-center', className)}>
         <LoadingSpinner message={loadingMessage} />
       </div>
     );
@@ -128,7 +128,7 @@ export function LoadingContainer({
 
   if (isError) {
     return (
-      <div className={cn('flex min-h-[200px] items-center justify-center', className)}>
+      <div className={cn('flex min-h-50 items-center justify-center', className)}>
         <ErrorState title={errorTitle} message={errorMessage} error={error} onRetry={onRetry} />
       </div>
     );

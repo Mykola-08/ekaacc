@@ -5,7 +5,7 @@ import { ArrowRight, CheckCircle2, Clock, Leaf, Sprout } from 'lucide-react';
 import { useBooking } from '@/hooks/marketing/useBooking';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function NutritionContent() {
   const { navigateToBooking } = useBooking();
@@ -45,7 +45,7 @@ export default function NutritionContent() {
   ];
 
   const Hero = (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 px-6 pt-32 pb-20">
+    <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50 px-6 pt-32 pb-20">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
@@ -55,7 +55,7 @@ export default function NutritionContent() {
             <span className="font-medium">{t('nutrition.hero.badge')}</span>
           </div>
 
-          <h1 className="heading-1 mb-6 bg-gradient-to-r from-gray-900 via-green-800 to-gray-900 bg-clip-text text-transparent">
+          <h1 className="heading-1 mb-6 bg-linear-to-r from-gray-900 via-green-800 to-gray-900 bg-clip-text text-transparent">
             {t('nutrition.page.title')}
           </h1>
 
@@ -123,7 +123,7 @@ export default function NutritionContent() {
                 key={index}
                 className="flex gap-4 rounded-[20px] border border-green-100 bg-green-50/50 p-6 transition-colors hover:border-green-200"
               >
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
                   <CheckCircle2 className="h-5 w-5 text-green-600" />
                 </div>
                 <span className="pt-2 text-lg font-medium text-gray-700">{benefit}</span>
@@ -149,7 +149,7 @@ export default function NutritionContent() {
                 key={index}
                 className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
-                <div className="absolute top-0 left-0 h-1 w-full origin-left scale-x-0 transform bg-gradient-to-r from-green-400 to-emerald-500 transition-transform duration-300 group-hover:scale-x-100" />
+                <div className="absolute top-0 left-0 h-1 w-full origin-left scale-x-0 transform bg-linear-to-r from-green-400 to-emerald-500 transition-transform duration-300 group-hover:scale-x-100" />
 
                 <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-green-50 transition-colors group-hover:bg-green-100">
                   <Clock className="h-8 w-8 text-green-600" />
@@ -161,7 +161,7 @@ export default function NutritionContent() {
 
                 <p className="mb-4 text-center font-semibold text-green-600">{session.duration}</p>
 
-                <p className="mb-8 min-h-[3rem] text-center text-gray-600">{session.description}</p>
+                <p className="mb-8 min-h-12 text-center text-gray-600">{session.description}</p>
 
                 <Button
                   onClick={() => navigateToBooking()}

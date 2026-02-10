@@ -5,7 +5,7 @@ import { useBooking } from '@/hooks/marketing/useBooking';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import Link from 'next/link';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function ForOfficeWorkersContent() {
   const { navigateToBooking } = useBooking();
@@ -29,13 +29,13 @@ export default function ForOfficeWorkersContent() {
           </p>
 
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Button onClick={() => navigateToBooking()} size="xl" className="btn btn-accent">
+            <Button onClick={() => navigateToBooking()} size="lg" className="btn bg-primary text-white hover:bg-primary/90">
               {t('common.bookNow')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Link href="/contact">
               <Button
-                size="xl"
+                size="lg"
                 className="btn btn-outline border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
               >
                 {t('common.askQuestions')}

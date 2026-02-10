@@ -1,10 +1,9 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
-import { ArrowUpRight } from 'lucide-react';
-import { fadeInUpSmall } from '@/lib/motion';
+import { ChevronRight } from 'lucide-react';
 
 export interface DashboardCardProps {
   title?: string;
@@ -31,65 +30,59 @@ export function DashboardCard({
 }: DashboardCardProps) {
   return (
     <motion.div
-      variants={fadeInUpSmall}
-      initial="hidden"
-      animate="visible"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
       className={cn(
-        'bg-card border-border group relative flex h-full flex-col justify-between overflow-hidden border p-8 transition-shadow duration-300',
-        'rounded-[20px]', // Apple standard 20px radius
+        'group relative flex h-full flex-col justify-between overflow-hidden rounded-xl border border-border bg-card p-6 transition-colors duration-200',
         className
       )}
-      style={{ boxShadow: 'var(--shadow-base)' }} // Use CSS variable for shadow
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-base)';
-      }}
     >
-      <div className="relative z-10 w-full space-y-6">
+      <div className="relative z-10 w-full space-y-4">
         <header className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {Icon && (
-              <div className="bg-card text-foreground flex h-12 w-12 items-center justify-center rounded-lg">
-                <Icon className="h-6 w-6" strokeWidth={2} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/8 text-primary">
+                <Icon className="h-5 w-5" strokeWidth={2} />
               </div>
             )}
-            <h3 className="text-foreground text-[17px] font-semibold">{title}</h3>
+            {title && (
+              <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+            )}
           </div>
         </header>
 
         <div className="space-y-1">
           {value && (
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-5xl leading-none font-bold tracking-tight text-transparent">
+            <div className="text-3xl font-semibold tracking-tight text-foreground">
               {value}
             </div>
           )}
-          {subtext && <div className="text-muted-foreground text-lg font-semibold">{subtext}</div>}
+          {subtext && (
+            <div className="text-sm font-medium text-muted-foreground">
+              {subtext}
+            </div>
+          )}
         </div>
 
         {children}
       </div>
 
-      {/* "Squishy" Action Button at bottom of card */}
       {(actionLabel || onAction) && (
-        <div className="relative z-10 mt-8">
+        <div className="relative z-10 mt-4">
           <button
             onClick={onAction}
             className={cn(
-              'flex h-14 w-full items-center justify-center gap-2 text-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95',
-              'rounded-[20px]', // Apple standard 20px radius
+              'flex h-9 w-full items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.98]',
               variant === 'default'
-                ? 'from-secondary to-secondary/80 text-foreground hover:from-secondary/90 hover:to-secondary/70 bg-gradient-to-r'
+                ? 'bg-secondary text-foreground hover:bg-secondary/80'
                 : variant === 'primary'
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg'
-                  : 'bg-gradient-to-r from-red-50 to-rose-50 text-destructive hover:from-red-100 hover:to-rose-100 dark:from-red-900/40 dark:to-rose-900/40 dark:text-destructive dark:hover:from-red-900/60 dark:hover:to-rose-900/60'
+                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                  : 'bg-destructive/10 text-destructive hover:bg-destructive/15'
             )}
-            style={{
-              boxShadow: variant === 'primary' ? 'var(--shadow-lg)' : 'var(--shadow-md)',
-            }}
           >
             {actionLabel || 'Manage'}
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
       )}

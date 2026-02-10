@@ -29,8 +29,8 @@ export interface PageSectionProps {
 }
 
 const headingStyles = {
-  h1: 'text-3xl font-bold tracking-tight',
-  h2: 'text-2xl font-bold tracking-tight',
+  h1: 'text-3xl font-semibold tracking-tight',
+  h2: 'text-2xl font-semibold tracking-tight',
   h3: 'text-xl font-semibold tracking-tight',
 } as const;
 

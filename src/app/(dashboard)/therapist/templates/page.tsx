@@ -46,7 +46,7 @@ import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { format } from 'date-fns';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import {
   TherapistTemplate,
   AutofillData,
@@ -223,8 +223,8 @@ export default function TherapistTemplatesPage() {
   };
 
   const categoryColors: { [key: string]: string } = {
-    progress: 'bg-blue-500/10 text-blue-700 dark:text-blue-400',
-    assessment: 'bg-purple-500/10 text-purple-700 dark:text-purple-400',
+    progress: 'bg-primary/10 text-primary',
+    assessment: 'bg-muted text-primary',
     'treatment-plan': 'bg-green-500/10 text-green-700 dark:text-green-400',
     'session-notes': 'bg-orange-500/10 text-orange-700 dark:text-orange-400',
     discharge: 'bg-red-500/10 text-red-700 dark:text-red-400',
@@ -292,7 +292,7 @@ export default function TherapistTemplatesPage() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-2xl font-bold">Report Templates</h3>
+              <h3 className="text-2xl font-semibold">Report Templates</h3>
               <p className="text-muted-foreground mt-1">
                 Professional templates with smart autofill from client data
               </p>
@@ -344,10 +344,10 @@ export default function TherapistTemplatesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
             >
-              <Card className="flex h-full cursor-pointer flex-col transition-shadow hover:shadow-lg">
+              <Card className="flex h-full cursor-pointer flex-col transition-shadow hover:shadow-sm">
                 <CardHeader>
                   <div className="flex items-start justify-between">
-                    <FileText className="mb-2 h-8 w-8 text-blue-500" />
+                    <FileText className="mb-2 h-8 w-8 text-primary" />
                     <Badge
                       color={
                         template.category === 'progress'
@@ -537,7 +537,7 @@ export default function TherapistTemplatesPage() {
           <DialogHeader>
             <DialogTitle>Generated Report Preview</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="bg-muted/30 h-96 rounded-xl border p-4">
+          <ScrollArea className="bg-muted/30 h-96 rounded-lg border p-4">
             <p className="text-sm whitespace-pre-wrap">{previewContent}</p>
           </ScrollArea>
           <DialogFooter>

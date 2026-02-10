@@ -54,19 +54,19 @@ export default function PrivacyPolicyContent() {
             </h2>
             <div className="space-y-4 rounded-[20px] bg-gray-50 p-6">
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Name:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Name:</span>
                 <span className="text-gray-700">Olena Kucherova Dryzhak (EKA Balance)</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Address:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Address:</span>
                 <span className="text-gray-700">Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Phone:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Phone:</span>
                 <span className="text-gray-700">+34 658 867 133</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Email:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Email:</span>
                 <a
                   href="mailto:legal@ekabalance.com"
                   className="text-blue-600 transition-colors hover:text-blue-800"
@@ -84,15 +84,15 @@ export default function PrivacyPolicyContent() {
             </h2>
             <div className="space-y-4 rounded-[20px] border border-blue-100 bg-blue-50/50 p-6">
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Name:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Name:</span>
                 <span className="text-gray-700">Olena Kucherova Dryzhak</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Address:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Address:</span>
                 <span className="text-gray-700">Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Email:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Email:</span>
                 <a
                   href="mailto:dpo@ekabalance.com"
                   className="text-blue-600 transition-colors hover:text-blue-800"
@@ -101,7 +101,7 @@ export default function PrivacyPolicyContent() {
                 </a>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center">
-                <span className="w-32 flex-shrink-0 font-medium text-gray-900">Phone:</span>
+                <span className="w-32 shrink-0 font-medium text-gray-900">Phone:</span>
                 <span className="text-gray-700">+34 658 867 133</span>
               </div>
             </div>
@@ -128,27 +128,27 @@ export default function PrivacyPolicyContent() {
                 </h3>
                 <ul className="space-y-3 text-gray-700">
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-blue-400"></span>
                     Full name
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-blue-400"></span>
                     Username
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-blue-400"></span>
                     Email address
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-blue-400"></span>
                     Phone number
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-blue-400"></span>
                     Postal address
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-blue-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-blue-400"></span>
                     Date of birth
                   </li>
                 </ul>
@@ -164,19 +164,19 @@ export default function PrivacyPolicyContent() {
                 </p>
                 <ul className="space-y-3 text-gray-700">
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-rose-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-rose-400"></span>
                     Health information
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-rose-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-rose-400"></span>
                     Physical condition, pain indicators, wellness data
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-rose-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-rose-400"></span>
                     Biometric identifiers
                   </li>
                   <li className="flex items-start">
-                    <span className="mt-2 mr-3 h-2 w-2 flex-shrink-0 rounded-full bg-rose-400"></span>
+                    <span className="mt-2 mr-3 h-2 w-2 shrink-0 rounded-full bg-rose-400"></span>
                     Mental and emotional health insights
                   </li>
                 </ul>

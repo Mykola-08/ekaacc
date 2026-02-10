@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { addFamilyMember } from '@/server/family/actions';
@@ -22,29 +22,32 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { PlusCircle, UserPlus, Calendar, User } from 'lucide-react';
-import { toast } from 'sonner';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { cn } from '@/lib/utils';
 
 export function AddFamilyDialog() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const feedback = useMorphingFeedback();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    feedback.setLoading('Adding member...');
     const formData = new FormData(e.currentTarget);
 
     try {
       const res = await addFamilyMember(null, formData);
 
       if (res.success) {
-        setOpen(false);
-        toast.success('Family member added successfully');
+        feedback.setSuccess('Member added successfully');
+        setTimeout(() => setOpen(false), 1200);
       } else {
-        toast.error(res.message);
+        feedback.setError(res.message);
       }
     } catch (err) {
-      toast.error('Something went wrong');
+      feedback.setError('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -53,12 +56,12 @@ export function AddFamilyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-primary hover:bg-primary/90 rounded-xl px-5 py-6 text-white shadow-lg shadow-slate-200 transition-all hover:scale-105 active:scale-95">
+        <Button className="bg-primary hover:bg-primary/90 rounded-lg px-5 py-6 text-white shadow-sm transition-all ">
           <UserPlus className="mr-2 h-4 w-4" />
           Add Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card overflow-hidden rounded-[20px] border-none p-0 shadow-2xl sm:max-w-106.25">
+      <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 shadow-sm sm:max-w-106.25">
         <div className="bg-muted/40 border-border/60 border-b p-6 pb-4">
           <DialogHeader className="space-y-1 text-left">
             <DialogTitle className="text-foreground font-serif text-xl">
@@ -83,7 +86,7 @@ export function AddFamilyDialog() {
                   name="full_name"
                   required
                   placeholder="e.g. Maya V."
-                  className="bg-muted/40 border-border h-12 rounded-xl pl-10 focus:ring-slate-900/10 focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border h-9 rounded-lg pl-10 focus:ring-slate-900/10 focus-visible:ring-offset-0"
                 />
               </div>
             </div>
@@ -98,7 +101,7 @@ export function AddFamilyDialog() {
                   id="dob"
                   name="dob"
                   type="date"
-                  className="bg-muted/40 border-border block h-12 w-full rounded-xl pl-10 focus:ring-slate-900/10 focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border block h-9 w-full rounded-lg pl-10 focus:ring-slate-900/10 focus-visible:ring-offset-0"
                 />
               </div>
             </div>
@@ -108,10 +111,10 @@ export function AddFamilyDialog() {
                 Relationship
               </Label>
               <Select name="relationship" required defaultValue="child">
-                <SelectTrigger className="bg-muted/40 border-border h-12 rounded-xl focus:ring-slate-900/10">
+                <SelectTrigger className="bg-muted/40 border-border h-9 rounded-lg focus:ring-slate-900/10">
                   <SelectValue placeholder="Select relationship" />
                 </SelectTrigger>
-                <SelectContent className="border-border/60 rounded-xl shadow-xl">
+                <SelectContent className="border-border/60 rounded-lg shadow-sm">
                   <SelectItem value="child">Child</SelectItem>
                   <SelectItem value="spouse">Spouse</SelectItem>
                   <SelectItem value="parent">Parent</SelectItem>
@@ -122,11 +125,16 @@ export function AddFamilyDialog() {
             </div>
           </div>
 
-          <DialogFooter className="pt-2">
+          <DialogFooter className="flex flex-col gap-2 pt-2">
+            <InlineFeedback
+              status={feedback.status}
+              message={feedback.message}
+              onDismiss={feedback.reset}
+            />
             <Button
               type="submit"
               disabled={loading}
-              className="bg-primary h-12 w-full rounded-xl text-base font-medium text-white shadow-lg shadow-slate-200 hover:bg-black"
+              className="bg-primary h-9 w-full rounded-lg text-base font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
             >
               {loading ? (
                 <>

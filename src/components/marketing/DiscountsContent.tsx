@@ -6,7 +6,7 @@ import { useDiscount } from '@/context/marketing/DiscountContext';
 import { Tag, Users, Percent, Gift, Check, X } from 'lucide-react';
 import { useState } from 'react';
 import PageLayout from './PageLayout';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function DiscountsContent() {
   const { t } = useLanguage();
@@ -91,11 +91,11 @@ export default function DiscountsContent() {
                 className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
                 {/* Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {/* Header */}
                 <div className="relative mb-6 flex items-start justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 transition-transform duration-300 group-hover:scale-110">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-linear-to-br from-blue-100 to-blue-50 text-blue-600 transition-transform duration-300 group-hover:scale-110">
                     <Percent className="h-7 w-7" />
                   </div>
                   {discount.isActive && (
@@ -121,7 +121,7 @@ export default function DiscountsContent() {
                   <div className="relative space-y-3">
                     <div className="flex items-center justify-between rounded-xl border border-dashed border-gray-200 bg-gray-50 p-3 transition-colors group-hover:border-blue-200">
                       <div className="flex items-center space-x-2 overflow-hidden">
-                        <Gift className="h-4 w-4 flex-shrink-0 text-blue-500" />
+                        <Gift className="h-4 w-4 shrink-0 text-blue-500" />
                         <code className="truncate rounded bg-blue-50 px-2 py-0.5 text-sm font-bold text-blue-700">
                           {discount.code}
                         </code>

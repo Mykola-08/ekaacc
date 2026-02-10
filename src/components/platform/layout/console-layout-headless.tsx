@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { Fragment, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -107,7 +107,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                   {/* Mobile Sidebar Content */}
                   <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 ring-1 ring-white/10">
                     <div className="flex h-16 shrink-0 items-center">
-                      <span className="text-2xl font-bold tracking-widest text-white">
+                      <span className="text-2xl font-semibold tracking-widest text-white">
                         CONSOLE<span className="text-emerald-500">.</span>
                       </span>
                     </div>
@@ -149,9 +149,9 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 shadow-xl">
+          <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 shadow-sm">
             <div className="flex h-16 shrink-0 items-center">
-              <span className="text-2xl font-bold tracking-widest text-white">
+              <span className="text-2xl font-semibold tracking-widest text-white">
                 CONSOLE<span className="text-emerald-500">.</span>
               </span>
             </div>
@@ -173,7 +173,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                               isActive
                                 ? 'bg-linear-to-r from-emerald-500/20 to-transparent text-emerald-400 ring-1 ring-emerald-500/50'
                                 : 'text-muted-foreground/80 hover:bg-card/5 hover:text-white',
-                              'group flex gap-x-3 rounded-[20px] p-3 text-sm leading-6 font-medium transition-all duration-200'
+                              'group flex gap-x-3 rounded-lg p-3 text-sm leading-6 font-medium transition-all duration-200'
                             )}
                           >
                             <item.icon
@@ -194,10 +194,10 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                 </li>
 
                 <li className="mt-auto">
-                  <div className="bg-card/5 rounded-[20px] p-4 ring-1 ring-white/10">
+                  <div className="bg-card/5 rounded-lg p-4 ring-1 ring-white/10">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/20 ring-1 ring-emerald-500/50">
-                        <span className="text-xs font-bold text-emerald-400">SU</span>
+                        <span className="text-xs font-semibold text-emerald-400">SU</span>
                       </div>
                       <div className="flex flex-col">
                         <span className="text-xs font-medium text-white">Super Admin</span>
@@ -249,7 +249,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                   <MenuButton className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 ring-1 ring-emerald-200">
-                      <span className="text-sm font-bold text-emerald-700">
+                      <span className="text-sm font-semibold text-emerald-700">
                         {user?.user_metadata?.full_name?.[0] || 'A'}
                       </span>
                     </div>
@@ -275,10 +275,10 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <MenuItems className="bg-card. absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-[20px] p-1 py-2 shadow-2xl ring-1 shadow-sm ring-border/20 focus:outline-none">
+                    <MenuItems className="bg-card. absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-lg p-1 py-2 shadow-sm ring-1 ring-border/20 focus:outline-none">
                       <div className="mb-1 border-b border-border px-3 py-2">
                         <p className="text-muted-foreground text-xs font-medium">Signed in as</p>
-                        <p className="text-foreground truncate text-sm font-bold">
+                        <p className="text-foreground truncate text-sm font-semibold">
                           {user?.email || 'admin@example.com'}
                         </p>
                       </div>

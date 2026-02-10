@@ -13,13 +13,13 @@ import { CheckCircle2 } from 'lucide-react';
 export default function LogoutPage() {
   return (
     <div className="bg-muted/30 flex min-h-screen items-center justify-center p-4 dark:bg-background">
-      <Card className="w-full max-w-md text-center shadow-lg">
+      <Card className="w-full max-w-md text-center shadow-sm">
         <CardHeader className="flex flex-col items-center space-y-4 pb-2">
           <div className="rounded-full bg-green-100 p-3 dark:bg-green-900/20">
             <CheckCircle2 className="h-12 w-12 text-green-600 dark:text-green-500" />
           </div>
           <div className="space-y-2">
-            <CardTitle className="text-2xl font-bold">Signed Out</CardTitle>
+            <CardTitle className="text-2xl font-semibold">Signed Out</CardTitle>
             <CardDescription className="text-base">
               You have been successfully signed out of your account.
             </CardDescription>

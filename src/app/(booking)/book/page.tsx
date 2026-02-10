@@ -21,22 +21,22 @@ export default async function BookIndexPage() {
   const services = normalizeServices(data);
 
   return (
-    <main id="main-content" className="bg-background min-h-screen py-10">
-      <div className="container mx-auto space-y-8 px-4 md:px-6">
-        <header className="border-border flex flex-wrap items-center justify-between gap-3 border-b pb-6">
+    <main id="main-content" className="bg-background min-h-screen py-8">
+      <div className="container mx-auto space-y-6 px-4 md:px-6">
+        <header className="border-border flex flex-wrap items-center justify-between gap-3 border-b pb-4">
           <div>
-            <h1 className="text-foreground text-3xl font-semibold tracking-tight">
+            <h1 className="text-foreground text-2xl font-semibold tracking-tight">
               Book a Session
             </h1>
-            <p className="text-muted-foreground mt-2 text-sm">Select a service to continue.</p>
+            <p className="text-muted-foreground mt-1.5 text-sm">Select a service to continue.</p>
           </div>
-          <Button asChild variant="outline">
+          <Button asChild variant="outline" size="sm">
             <Link href="/">Back</Link>
           </Button>
         </header>
 
         {error || services.length === 0 ? (
-          <section className="border-border bg-card text-muted-foreground rounded-2xl border p-6 text-sm">
+          <section className="border-border bg-card text-muted-foreground rounded-lg border p-6 text-sm">
             Unable to load services right now. Please try again shortly.
           </section>
         ) : (

@@ -29,7 +29,7 @@ export function StepDetails({
   setFormData,
 }: StepDetailsProps) {
   return (
-    <div className="bg-card border-border rounded-[20px] border p-8 shadow-sm">
+    <div className="bg-card border-border rounded-lg border p-6 shadow-sm">
       <Tabs defaultValue="guest" value={user ? 'guest' : undefined} className="w-full">
         {!user && (
           <TabsList className="bg-secondary mb-8 grid h-12 w-full grid-cols-2 rounded-full p-1">
@@ -51,12 +51,12 @@ export function StepDetails({
         <TabsContent value="guest" className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="firstName" className="text-foreground font-bold">
+              <Label htmlFor="firstName" className="text-foreground font-semibold">
                 First name
               </Label>
               <Input
                 id="firstName"
-                className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent transition-all"
+                className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent transition-all"
                 placeholder="Jane"
                 disabled={!!user}
                 defaultValue={user?.user_metadata?.first_name}
@@ -65,12 +65,12 @@ export function StepDetails({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="lastName" className="text-foreground font-bold">
+              <Label htmlFor="lastName" className="text-foreground font-semibold">
                 Last name
               </Label>
               <Input
                 id="lastName"
-                className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent transition-all"
+                className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent transition-all"
                 placeholder="Doe"
                 disabled={!!user}
                 defaultValue={user?.user_metadata?.last_name}
@@ -80,13 +80,13 @@ export function StepDetails({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground font-bold">
+            <Label htmlFor="email" className="text-foreground font-semibold">
               Email
             </Label>
             <Input
               id="email"
               type="email"
-              className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent transition-all"
+              className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent transition-all"
               placeholder="jane@example.com"
               disabled={!!user}
               defaultValue={user?.email}
@@ -95,13 +95,13 @@ export function StepDetails({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-foreground font-bold">
+            <Label htmlFor="phone" className="text-foreground font-semibold">
               Phone
             </Label>
             <Input
               id="phone"
               type="tel"
-              className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-12 border-transparent transition-all"
+              className="bg-secondary focus:bg-background text-foreground placeholder:text-muted-foreground h-9 border-transparent transition-all"
               placeholder="+1234567890"
               value={formData.phone}
               onChange={handleInputChange}
@@ -120,7 +120,7 @@ export function StepDetails({
               <div className="grid gap-1.5 leading-none">
                 <Label
                   htmlFor="createAccount"
-                  className="text-foreground cursor-pointer text-sm font-bold"
+                  className="text-foreground cursor-pointer text-sm font-semibold"
                 >
                   Create an account for easier booking next time
                 </Label>
@@ -141,7 +141,7 @@ export function StepDetails({
               <Button
                 variant="outline"
                 asChild
-                className="h-12 rounded-full border-2 px-8 font-bold hover:bg-transparent"
+                className="h-9 rounded-full border-2 px-8 font-semibold hover:bg-transparent"
               >
                 <Link href={`/login?returnTo=/book/${serviceId}`}>Sign In</Link>
               </Button>

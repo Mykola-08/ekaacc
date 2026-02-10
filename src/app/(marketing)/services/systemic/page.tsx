@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import KinesiologyContent from '@/components/marketing/KinesiologyContent';
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: 'Kinesiología Sistémica | EKA Balance',
   description: 'Enfoque sistémico para el bienestar integral.',

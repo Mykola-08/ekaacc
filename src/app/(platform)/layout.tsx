@@ -1,4 +1,4 @@
-import { Toaster } from '@/components/ui/sonner';
+import { MorphingToaster } from '@/components/ui/morphing-toaster';
 import { ThemeProvider } from '@/components/platform/providers/theme-provider';
 import { LanguageProvider } from '@/context/LanguageContext';
 
@@ -30,7 +30,7 @@ export default function PlatformLayout({
         <main id="main-content" tabIndex={-1}>
           {children}
         </main>
-        <Toaster />
+        <MorphingToaster />
       </ThemeProvider>
     </LanguageProvider>
   );

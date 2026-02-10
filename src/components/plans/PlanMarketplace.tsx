@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Star, Shield, Zap, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { buyPlan } from '@/server/plans/actions';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
@@ -45,7 +45,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
             key={plan.id}
             className={cn(
               'group relative flex flex-col justify-between overflow-hidden transition-all duration-300',
-              'rounded-[20px] border p-6 shadow-sm hover:shadow-xl',
+              'rounded-lg border p-6 shadow-sm hover:shadow-sm',
               isVIP
                 ? 'bg-card border-amber-200 shadow-amber-100/50 hover:-translate-y-1 hover:shadow-amber-200/50'
                 : 'bg-card border-border hover:-translate-y-1 hover:shadow-md'
@@ -70,15 +70,15 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                   )}
                 </div>
                 <div>
-                  <h3 className="text-foreground text-xl font-bold tracking-tight">{plan.name}</h3>
+                  <h3 className="text-foreground text-xl font-semibold tracking-tight">{plan.name}</h3>
                   <div className="mt-0.5 flex items-center gap-1.5">
                     <div
                       className={cn(
                         'h-1.5 w-1.5 rounded-full',
-                        isVIP ? 'bg-amber-500' : 'bg-blue-500'
+                        isVIP ? 'bg-amber-500' : 'bg-primary'
                       )}
                     />
-                    <span className="text-muted-foreground text-[13px] font-bold tracking-wider uppercase">
+                    <span className="text-muted-foreground text-[13px] font-semibold tracking-wider uppercase">
                       {plan.credits_total} Sessions
                     </span>
                   </div>
@@ -92,22 +92,22 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
               <div className="flex items-center gap-2 py-2">
                 <span
                   className={cn(
-                    'text-4xl font-bold tracking-tighter',
+                    'text-4xl font-semibold tracking-tighter',
                     isVIP ? 'text-amber-950' : 'text-foreground'
                   )}
                 >
                   €{plan.price_cents / 100}
                 </span>
-                <span className="text-muted-foreground text-sm font-bold">/ bundle</span>
+                <span className="text-muted-foreground text-sm font-semibold">/ bundle</span>
               </div>
             </div>
 
             <div className="relative z-10 mt-6">
               <Button
                 className={cn(
-                  'h-12 w-full rounded-lg text-base font-bold transition-all active:scale-95',
+                  'h-12 w-full rounded-lg text-base font-semibold transition-all active:scale-95',
                   isVIP
-                    ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/25 hover:from-amber-600 hover:to-amber-700'
+                    ? 'bg-linear-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/25 hover:from-amber-600 hover:to-amber-700'
                     : 'bg-foreground text-background hover:bg-foreground/90 shadow-lg'
                 )}
                 onClick={() => handlePurchase(plan)}

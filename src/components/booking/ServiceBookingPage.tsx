@@ -14,7 +14,7 @@ import {
   Loading03Icon,
 } from '@hugeicons/core-free-icons';
 import { format } from 'date-fns';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import {
@@ -227,7 +227,7 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
     <div className="bg-background min-h-screen">
       
       {/* --- HERO SECTION --- */}
-      <div className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
+      <div className="relative h-[40vh] min-h-60 w-full overflow-hidden lg:h-[50vh] lg:min-h-80">
         {service.image_url ? (
           <Image
             src={service.image_url}
@@ -239,33 +239,33 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
         ) : (
           <div className="bg-muted h-full w-full" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent" />
         
-        <div className="container relative z-10 flex h-full flex-col justify-end px-4 pb-16 md:px-6">
-           <Link href="/book" className="text-muted-foreground hover:text-foreground absolute top-8 left-4 flex items-center md:left-6">
-              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 h-5 w-5" />
+        <div className="container relative z-10 flex h-full flex-col justify-end px-4 pb-12 md:px-6">
+           <Link href="/book" className="text-muted-foreground hover:text-foreground absolute top-6 left-4 flex items-center text-sm md:left-6">
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-1.5 h-4 w-4" />
               All Services
            </Link>
 
-           <div className="animate-in slide-in-from-bottom-8 fade-in duration-700">
-             <Badge variant="secondary" className="mb-4 text-xs font-bold tracking-wider uppercase backdrop-blur-md">
+           <div className="animate-in fade-in duration-300">
+             <Badge variant="secondary" className="mb-3 text-xs font-medium tracking-wide uppercase backdrop-blur-md">
                {service.category || 'Wellness'}
              </Badge>
-             <h1 className="text-foreground max-w-3xl text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">
+             <h1 className="text-foreground max-w-3xl text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
                {service.name}
              </h1>
-             <p className="text-muted-foreground/90 mt-4 max-w-2xl text-xl leading-relaxed">
+             <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
                {service.description?.slice(0, 150)}...
              </p>
            </div>
         </div>
       </div>
 
-      <div className="container relative z-20 -mt-12 px-4 pb-24 md:px-6">
-        <div className="grid gap-12 lg:grid-cols-[1fr_400px]">
+      <div className="container relative z-20 -mt-8 px-4 pb-16 md:px-6">
+        <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
           
           {/* --- LEFT COLUMN: DETAILS & GALLERY --- */}
-          <div className="space-y-12">
+          <div className="order-last space-y-8 lg:order-first">
             
             {/* Gallery */}
             {service.images && service.images.length > 0 && (
@@ -273,17 +273,17 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
             )}
 
             {/* Description */}
-            <div className="prose dark:prose-invert prose-lg max-w-none">
-                <h3 className="font-sans text-2xl font-bold">About this session</h3>
-                <p className="text-muted-foreground whitespace-pre-line leading-relaxed">
+            <div className="prose dark:prose-invert max-w-none">
+                <h3 className="text-lg font-semibold">About this session</h3>
+                <p className="text-muted-foreground whitespace-pre-line text-sm leading-relaxed">
                     {service.description}
                 </p>
             </div>
 
             {/* Benefits */}
-            <div className="bg-card border-border rounded-[20px] border p-8 shadow-sm">
-               <h3 className="text-foreground mb-6 font-sans text-xl font-bold">What to expect</h3>
-               <div className="grid gap-4 sm:grid-cols-2">
+            <div className="bg-card border-border rounded-lg border p-6">
+               <h3 className="text-foreground mb-4 text-lg font-semibold">What to expect</h3>
+               <div className="grid gap-3 sm:grid-cols-2">
                   {features && features.map((feature, i) => (
                       <div key={i} className="flex items-start gap-3">
                           <div className="bg-primary/10 text-primary mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
@@ -298,33 +298,33 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
           </div>
 
 
-          {/* --- RIGHT COLUMN: BOOKING WIDGET (Sticky) --- */}
-          <div className="relative">
-             <div className="sticky top-24 space-y-6" id="booking-wizard-container">
+          {/* --- RIGHT COLUMN: BOOKING WIDGET (Sticky) — shown first on mobile --- */}
+          <div className="relative order-first lg:order-last">
+             <div className="sticky top-20 space-y-4" id="booking-wizard-container">
                 
                 {/* Booking Card */}
-                <div className="bg-card border-border overflow-hidden rounded-[20px] border shadow-eka-lg">
+                <div className="bg-card border-border overflow-hidden rounded-lg border shadow-sm">
                     
                     {/* Header / Variant Selection */}
-                    <div className="bg-secondary/30 border-border border-b p-6">
+                    <div className="border-border border-b p-5">
                         {step === 'info' ? (
                            <>
-                             <div className="mb-6 flex items-baseline justify-between">
-                                <span className="text-muted-foreground font-medium">Price</span>
-                                <span className="text-foreground text-3xl font-bold">€{currentPrice}</span>
+                             <div className="mb-4 flex items-baseline justify-between">
+                                <span className="text-muted-foreground text-sm font-medium">Price</span>
+                                <span className="text-foreground text-2xl font-semibold">€{currentPrice}</span>
                              </div>
 
                              {service.variants && service.variants.length > 1 && (
-                                <div className="space-y-3">
-                                   <label className="text-muted-foreground text-xs font-bold uppercase tracking-wider">Select Option</label>
-                                   <div className="grid gap-3">
+                                <div className="space-y-2">
+                                   <label className="text-muted-foreground text-xs font-medium uppercase tracking-wider">Select Option</label>
+                                   <div className="grid gap-2">
                                       {service.variants.map((variant) => (
                                           <div 
                                             key={variant.id}
                                             onClick={() => handleVariantChange(variant.id)}
                                             className={cn(
-                                                "border-border group flex cursor-pointer items-center justify-between rounded-[16px] border p-4 transition-all hover:border-primary/50",
-                                                selectedVariantId === variant.id ? "bg-primary/5 border-primary ring-1 ring-primary" : "bg-background"
+                                                "border-border group flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors hover:border-foreground/30",
+                                                selectedVariantId === variant.id ? "bg-accent border-foreground/20" : "bg-background"
                                             )}
                                           >
                                               <div className="flex items-center gap-3">
@@ -335,12 +335,12 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
                                                     {selectedVariantId === variant.id && <div className="bg-background h-2 w-2 rounded-full" />}
                                                  </div>
                                                  <div>
-                                                     <p className="text-foreground font-bold">{variant.name}</p>
+                                                     <p className="text-foreground font-medium">{variant.name}</p>
                                                      {variant.description && <p className="text-muted-foreground text-xs">{variant.description}</p>}
                                                  </div>
                                               </div>
                                               <div className="text-right">
-                                                  <p className="text-foreground font-bold">€{variant.price}</p>
+                                                  <p className="text-foreground font-medium">€{variant.price}</p>
                                                   <p className="text-muted-foreground text-xs">{variant.duration} min</p>
                                               </div>
                                           </div>
@@ -358,7 +358,7 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
                            </>
                         ) : (
                            <div className="flex items-center justify-between">
-                              <h3 className="text-foreground text-lg font-bold">
+                              <h3 className="text-foreground text-base font-semibold">
                                 {step === 'time' && 'Select Time'}
                                 {step === 'addons' && 'Add-ons'}
                                 {step === 'details' && 'Details'}
@@ -372,15 +372,15 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
                     </div>
 
                     {/* Content Area */}
-                    <div className="p-6">
+                    <div className="p-5">
                         {step === 'info' && (
-                            <Button size="lg" className="w-full rounded-full text-lg font-bold shadow-lg" onClick={handleStartBooking}>
+                            <Button size="default" className="w-full font-medium" onClick={handleStartBooking}>
                                 Book Session
                             </Button>
                         )}
 
                         {step === 'time' && (
-                             <div className="space-y-6">
+                             <div className="space-y-4">
                                 <StepTime 
                                    date={date}
                                    setDate={setDate}
@@ -389,23 +389,23 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
                                    selectedTime={selectedTime}
                                    onTimeSelect={setSelectedTime}
                                 />
-                                <Button size="lg" className="w-full rounded-full font-bold" onClick={handleNext} disabled={!selectedTime}>
+                                <Button className="w-full font-medium" onClick={handleNext} disabled={!selectedTime}>
                                     Next Step
                                 </Button>
                              </div>
                         )}
 
                         {step === 'addons' && (
-                             <div className="space-y-6">
+                             <div className="space-y-4">
                                 <StepAddons />
-                                <Button size="lg" className="w-full rounded-full font-bold" onClick={handleNext}>
+                                <Button className="w-full font-medium" onClick={handleNext}>
                                     Continue
                                 </Button>
                              </div>
                         )}
 
                         {step === 'details' && (
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 <StepDetails 
                                    user={user}
                                    formData={formData}
@@ -413,14 +413,14 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
                                    handleInputChange={handleInputChange}
                                    setFormData={setFormData}
                                 />
-                                <Button size="lg" className="w-full rounded-full font-bold" onClick={handleNext}>
+                                <Button className="w-full font-medium" onClick={handleNext}>
                                     To Payment
                                 </Button>
                             </div>
                         )}
 
                         {step === 'payment' && (
-                             <div className="space-y-6">
+                             <div className="space-y-4">
                                 <StepPayment 
                                    paymentMethod={paymentMethod}
                                    setPaymentMethod={setPaymentMethod}
@@ -428,8 +428,8 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
                                    walletBalance={walletBalance}
                                    price={currentPrice}
                                 />
-                                <Button size="lg" className="w-full rounded-full font-bold shadow-lg" onClick={handleBooking} disabled={loading}>
-                                    {loading ? <HugeiconsIcon icon={Loading03Icon} className="mr-2 h-5 w-5 animate-spin"/> : null}
+                                <Button className="w-full font-medium" onClick={handleBooking} disabled={loading}>
+                                    {loading ? <HugeiconsIcon icon={Loading03Icon} className="mr-2 h-4 w-4 animate-spin"/> : null}
                                     Pay €{currentPrice} & Book
                                 </Button>
                              </div>
@@ -437,19 +437,19 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
                     </div>
 
                     {/* Footer */}
-                    <div className="bg-secondary/30 border-border flex items-center justify-center gap-2 border-t p-4 text-xs font-medium text-muted-foreground">
-                        <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-4 w-4 text-emerald-500" />
+                    <div className="border-border flex items-center justify-center gap-2 border-t px-4 py-3 text-xs text-muted-foreground">
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-3.5 w-3.5 text-emerald-500" />
                         <span>Instant Confirmation</span>
-                        <span className="text-border mx-2">|</span>
-                        <HugeiconsIcon icon={StarIcon} className="h-4 w-4 text-amber-500" />
+                        <span className="text-border mx-1.5">|</span>
+                        <HugeiconsIcon icon={StarIcon} className="h-3.5 w-3.5 text-amber-500" />
                         <span>Trusted by 500+ clients</span>
                     </div>
 
                 </div>
 
                 {/* Help Card */}
-                <div className="bg-secondary/20 rounded-[20px] p-6 text-center">
-                   <p className="text-foreground text-sm font-bold">Need help booking?</p>
+                <div className="bg-secondary rounded-lg p-5 text-center">
+                   <p className="text-foreground text-sm font-medium">Need help booking?</p>
                    <p className="text-muted-foreground mt-1 text-xs">Call us at +359 88 123 4567</p>
                 </div>
 

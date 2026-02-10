@@ -13,7 +13,7 @@ import {
   CheckCircle,
   ArrowLeft,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 // import { useSupabaseAuth } from '@/context/marketing/SupabaseAuthContext';
 // import { supabase } from '@/lib/marketing/supabase';
@@ -328,7 +328,7 @@ export default function PersonalizedOnboarding() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50 px-4"
+        className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-slate-50 to-blue-50 px-4"
       >
         {/* Decorative elements */}
         <div className="pointer-events-none absolute top-0 left-0 h-full w-full overflow-hidden">
@@ -564,7 +564,7 @@ export default function PersonalizedOnboarding() {
                     <div className="relative z-10 flex w-full items-center space-x-4">
                       {option.icon && (
                         <div
-                          className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
+                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
                             isSelected
                               ? 'scale-110 transform bg-accent text-eka-dark shadow-md'
                               : 'bg-gray-50 text-gray-400 group-hover:bg-accent/10 group-hover:text-accent'

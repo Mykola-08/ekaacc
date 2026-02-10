@@ -18,7 +18,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Loader2 } from 'lucide-react';
 import { fadeInUpLarge, scaleIn, fadeInLeft, fadeInUpSmall, fadeIn, withDelay } from '@/lib/motion';
 
@@ -85,9 +85,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  variants={fadeInUpLarge}
  initial="hidden"
  animate="visible"
- className="mx-auto w-full max-w-[480px]"
+ className="mx-auto w-full max-w-120"
  >
- <Card className="relative overflow-hidden rounded-[24px] border border-border/20 bg-card/70 shadow-xl backdrop-blur-2xl ">
+ <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl ">
  <CardContent className="relative p-8 md:p-10">
  {/* Header */}
  <motion.div
@@ -324,13 +324,15 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  animate="visible"
  className="mt-6 text-center"
  >
- <p className="text-xs text-muted-foreground">
- By creating an account, you agree to our{' '}
- <Link href="/terms" className="underline hover:text-foreground dark:hover:text-white">Terms of Service</Link>
- {' '}and{' '}
- <Link href="/privacy" className="underline hover:text-foreground dark:hover:text-white">Privacy Policy</Link>.
- </p>
- </motion.div>
- </motion.div>
- );
+        <p className="text-xs text-muted-foreground px-4">
+          By creating an account, you agree to our{' '}
+          <Link href="/terms" className="underline hover:text-foreground dark:hover:text-white">Terms of Service</Link>
+          ,{' '}
+          <Link href="/privacy" className="underline hover:text-foreground dark:hover:text-white">Privacy Policy</Link>
+          {' '}and{' '}
+          <Link href="/cookie-policy" className="underline hover:text-foreground dark:hover:text-white">Cookie Policy</Link>.
+        </p>
+      </motion.div>
+    </motion.div>
+  );
 }

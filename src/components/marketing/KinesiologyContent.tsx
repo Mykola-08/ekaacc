@@ -5,7 +5,7 @@ import { ArrowRight, Brain, CheckCircle2, Clock, Zap } from 'lucide-react';
 import { useBooking } from '@/hooks/marketing/useBooking';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function KinesiologiaContent() {
   const { navigateToBooking } = useBooking();
@@ -34,7 +34,7 @@ export default function KinesiologiaContent() {
   const durations = [60, 90];
 
   const Hero = (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 px-6 pt-32 pb-20">
+    <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50 px-6 pt-32 pb-20">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
@@ -44,7 +44,7 @@ export default function KinesiologiaContent() {
             <span className="font-medium">{t('kinesiology.hero.badge')}</span>
           </div>
 
-          <h1 className="heading-1 mb-6 bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
+          <h1 className="heading-1 mb-6 bg-linear-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
             {t('kinesiology.page.title')}
           </h1>
 
@@ -112,7 +112,7 @@ export default function KinesiologiaContent() {
                 key={index}
                 className="flex gap-4 rounded-[20px] border border-blue-100 bg-blue-50/50 p-6 transition-colors hover:border-blue-200"
               >
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100">
                   <CheckCircle2 className="h-5 w-5 text-blue-600" />
                 </div>
                 <span className="pt-2 text-lg font-medium text-gray-700">{benefit}</span>
@@ -138,7 +138,7 @@ export default function KinesiologiaContent() {
                 key={duration}
                 className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
-                <div className="absolute top-0 left-0 h-1 w-full origin-left scale-x-0 transform bg-gradient-to-r from-blue-400 to-indigo-500 transition-transform duration-300 group-hover:scale-x-100" />
+                <div className="absolute top-0 left-0 h-1 w-full origin-left scale-x-0 transform bg-linear-to-r from-blue-400 to-indigo-500 transition-transform duration-300 group-hover:scale-x-100" />
 
                 <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-blue-50 transition-colors group-hover:bg-blue-100">
                   <Clock className="h-8 w-8 text-blue-600" />
@@ -148,7 +148,7 @@ export default function KinesiologiaContent() {
                   {duration} {t('common.minutes') || 'min'}
                 </h3>
 
-                <p className="mb-8 min-h-[3rem] text-center text-gray-600">
+                <p className="mb-8 min-h-12 text-center text-gray-600">
                   {duration === 60
                     ? t('kinesiology.page.duration60')
                     : t('kinesiology.page.duration90')}

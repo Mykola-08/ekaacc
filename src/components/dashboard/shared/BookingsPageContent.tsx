@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { BookingHistoryList } from '@/components/booking/BookingHistoryList';
 import { Button } from '@/components/ui/button';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -29,7 +29,7 @@ export function BookingsPageContent({
         title={t('page.bookings.title') || 'Your Bookings'}
         subtitle={t('page.bookings.subtitle') || 'View your session history and upcoming appointments.'}
       >
-        <Button asChild variant="default" className="shadow-primary/20 shadow-lg">
+        <Button asChild variant="default">
           <Link href="/book">
             <HugeiconsIcon icon={Add01Icon} className="mr-2 h-4 w-4" strokeWidth={2.5} />
             {t('page.bookings.newBooking') || 'New Booking'}
@@ -37,7 +37,7 @@ export function BookingsPageContent({
         </Button>
       </DashboardHeader>
 
-      <div className="overflow-hidden rounded-[20px] border border-border bg-card p-1 shadow-sm">
+      <div className="overflow-hidden rounded-lg border border-border bg-card p-1">
         <div className="p-6 md:p-8">
           <BookingHistoryList bookings={bookings} userId={userId} />
         </div>

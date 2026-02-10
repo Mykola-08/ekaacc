@@ -3,9 +3,9 @@
 import ContactFormOptimized from '@/components/marketing/ContactFormOptimized';
 import { MessageCircle, Phone, HelpCircle } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 import PageLayout from './PageLayout';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 export default function ContactContent() {
   const { t } = useLanguage();
@@ -26,7 +26,7 @@ export default function ContactContent() {
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a href="https://wa.me/34658867133" target="_blank" rel="noopener noreferrer">
             <Button
-              size="xl"
+              size="lg"
               className="rounded-apple border-none bg-[#25D366] px-8 py-4 font-medium text-white normal-case shadow-xl hover:bg-[#128C7E]"
             >
               <MessageCircle className="mr-2 h-6 w-6" />
@@ -35,8 +35,8 @@ export default function ContactContent() {
           </a>
           <a href="tel:+34658867133">
             <Button
-              size="xl"
-              className="bg-primary-600 hover:bg-primary-700 rounded-apple border-none px-8 py-4 font-medium text-white normal-case shadow-xl"
+              size="lg"
+              className="bg-primary hover:bg-primary/90 rounded-apple border-none px-8 py-4 font-medium text-white normal-case shadow-xl"
             >
               <Phone className="mr-2 h-6 w-6" />
               {t('contact.callNow')}

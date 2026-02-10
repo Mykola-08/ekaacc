@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Check, X, RefreshCw, Banknote } from 'lucide-react';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { formatCurrency } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -69,7 +69,7 @@ export function TherapistPaymentTerminal({ staffId }: { staffId?: string }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Payment Verification</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">Payment Verification</h2>
         <Button variant="outline" size="sm" onClick={fetchProofs}>
           <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
           Refresh

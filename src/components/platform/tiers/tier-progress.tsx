@@ -47,7 +47,7 @@ export function TierProgressIndicator({
           <div
             className={cn(
               'absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-out',
-              isComplete ? 'bg-green-500' : 'bg-linear-to-r from-blue-500 to-purple-500',
+              isComplete ? 'bg-green-500' : 'bg-linear-to-r from-primary to-primary/70',
               animated && 'animate-pulse'
             )}
             style={{ width: `${progressPercentage}%` }}
@@ -62,7 +62,7 @@ export function TierProgressIndicator({
 
         <div className="text-muted-foreground flex justify-between text-xs">
           <span>0%</span>
-          <span className={cn('font-semibold', isComplete ? 'text-green-600' : 'text-blue-600')}>
+          <span className={cn('font-semibold', isComplete ? 'text-green-600' : 'text-primary')}>
             {Math.round(progressPercentage)}%
           </span>
           <span>100%</span>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import * as React from 'react';
 import {
@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>({
         )}
         <DataTableViewOptions table={table} />
       </div>
-      <div className="overflow-hidden rounded-[20px] border-none">
+      <div className="overflow-hidden rounded-lg border-none">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

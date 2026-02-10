@@ -1,4 +1,4 @@
-import {
+﻿import {
   Table,
   TableBody,
   TableCell,
@@ -25,24 +25,24 @@ interface TransactionHistoryProps {
 export function TransactionHistory({ transactions }: TransactionHistoryProps) {
   if (!transactions.length) {
     return (
-      <div className="bg-card/50 text-muted-foreground rounded-[20px] py-20 text-center">
+      <div className="bg-card/50 text-muted-foreground rounded-lg py-20 text-center">
         <span className="text-lg font-medium">No transactions found.</span>
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-[20px]">
+    <div className="overflow-hidden rounded-lg">
       <Table>
         <TableHeader>
           <TableRow className="border-border border-b hover:bg-transparent">
-            <TableHead className="text-muted-foreground py-6 pl-8 text-xs font-bold tracking-widest uppercase">
+            <TableHead className="text-muted-foreground py-6 pl-8 text-xs font-semibold tracking-widest uppercase">
               Date
             </TableHead>
-            <TableHead className="text-muted-foreground py-6 text-xs font-bold tracking-widest uppercase">
+            <TableHead className="text-muted-foreground py-6 text-xs font-semibold tracking-widest uppercase">
               Description
             </TableHead>
-            <TableHead className="text-muted-foreground py-6 pr-8 text-right text-xs font-bold tracking-widest uppercase">
+            <TableHead className="text-muted-foreground py-6 pr-8 text-right text-xs font-semibold tracking-widest uppercase">
               Amount
             </TableHead>
           </TableRow>
@@ -81,7 +81,7 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
                   </div>
                 </TableCell>
                 <TableCell
-                  className={`py-6 pr-8 text-right text-lg font-bold tracking-tight ${isPositive ? 'text-emerald-600' : 'text-foreground'}`}
+                  className={`py-6 pr-8 text-right text-lg font-semibold tracking-tight ${isPositive ? 'text-emerald-600' : 'text-foreground'}`}
                 >
                   {isPositive ? '+' : ''}
                   {new Intl.NumberFormat('en-IE', {

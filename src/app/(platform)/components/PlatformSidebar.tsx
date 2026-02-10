@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import * as React from 'react';
 import Link from 'next/link';
@@ -86,7 +86,7 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
             <HugeiconsIcon icon={ActivityIcon} className="size-5" strokeWidth={2.5} />
           </div>
           <div className="grid text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="text-foreground truncate font-bold">EKA Console</span>
+            <span className="text-foreground truncate font-semibold">EKA Console</span>
             <span className="text-muted-foreground truncate text-xs">Platform Admin</span>
           </div>
         </div>

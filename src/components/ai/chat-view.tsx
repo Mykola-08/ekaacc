@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * AI Chat View
@@ -24,7 +24,7 @@ import { ConversationList } from "@/components/ai/conversation-list";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { PanelLeft } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/morphing-toaster";
 
 interface Conversation {
   id: string;
@@ -152,7 +152,7 @@ export function AIChatView() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex h-[calc(100dvh-6rem)] max-h-225 overflow-hidden rounded-2xl border">
+    <div className="flex h-[calc(100dvh-6rem)] max-h-225 overflow-hidden rounded-lg border">
       {/* Desktop sidebar */}
       <div className="bg-muted/30 hidden w-64 shrink-0 border-r lg:block">
         <ConversationList

@@ -4,8 +4,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { motion } from 'motion/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
 import Link from 'next/link';
 
 export default function BookingSuccessPage() {
@@ -30,16 +31,16 @@ export default function BookingSuccessPage() {
             stiffness: 260,
             damping: 20,
           }}
-          className="bg-green-100 text-green-600 mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full"
+          className="bg-emerald-100 text-emerald-600 mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full"
         >
-          <Check className="h-12 w-12" strokeWidth={3} />
+          <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-12 w-12" strokeWidth={3} />
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-foreground mb-4 text-3xl font-bold"
+          className="text-foreground mb-4 text-3xl font-semibold"
         >
           Booking Confirmed!
         </motion.h1>

@@ -23,6 +23,9 @@ const appBuildTimestamp = new Date().toISOString();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    cacheComponents: true,
+  },
   reactStrictMode: true,
   generateBuildId: async () => appBuildId,
   env: {

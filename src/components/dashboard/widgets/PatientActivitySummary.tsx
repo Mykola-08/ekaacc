@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -70,16 +70,16 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
           activities.map((activity, idx) => (
             <div
               key={idx}
-              className="bg-card border-border hover:border-primary/20 hover:bg-card flex items-start gap-3 rounded-xl border p-3 shadow-sm transition-all"
+              className="bg-card border-border flex items-start gap-3 rounded-xl border p-3 transition-colors"
             >
-              <Avatar className="h-10 w-10 border border-border shadow-sm">
-                <AvatarFallback className="bg-primary/5 text-xs font-bold text-primary">
+              <Avatar className="h-10 w-10 border border-border">
+                <AvatarFallback className="bg-primary/5 text-xs font-semibold text-primary">
                   {activity.profile?.full_name?.[0] || 'P'}
                 </AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center justify-between">
-                  <span className="text-foreground truncate text-[13px] font-bold">
+                  <span className="text-foreground truncate text-[13px] font-semibold">
                     {activity.profile?.full_name || 'Patient'}
                   </span>
                   <span className="text-muted-foreground text-xs whitespace-nowrap">
@@ -89,7 +89,7 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
                 <div className="flex items-center gap-2">
                   <div
                     className={cn(
-                      'flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-bold tracking-tight uppercase',
+                      'flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold tracking-tight uppercase',
                       activity.mood >= 7
                         ? 'bg-emerald-500/10 text-emerald-600'
                         : activity.mood >= 4

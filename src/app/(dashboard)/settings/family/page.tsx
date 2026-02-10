@@ -19,7 +19,7 @@ export default async function FamilySettingsPage() {
         </Link>
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="space-y-1">
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            <h2 className="text-2xl font-semibold tracking-tight text-foreground">
               Family &amp; Dependents
             </h2>
             <p className="text-sm font-medium text-muted-foreground">

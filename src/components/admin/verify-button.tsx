@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { verifyBookingIdentity } from '@/server/finance/actions';
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { CheckCircle } from 'lucide-react';
 
 export function VerifyButton({ bookingId }: { bookingId: string }) {

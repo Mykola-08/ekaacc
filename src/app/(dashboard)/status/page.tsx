@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -70,7 +70,7 @@ const StatusBadge = ({ status }: { status: Status }) => {
     operational: 'text-green-400 bg-green-400/10 border-green-400/20',
     maintenance: 'text-red-400 bg-red-400/10 border-red-400/20',
     building: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
-    'coming-soon': 'text-blue-400 bg-blue-400/10 border-blue-400/20',
+    'coming-soon': 'text-primary bg-primary/10 border-primary/20',
     degraded: 'text-orange-400 bg-orange-400/10 border-orange-400/20',
   };
 
@@ -107,7 +107,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
   const Icon = iconMap[service.icon] || Activity;
 
   return (
-    <div className="rounded-[20px] border-none border-white/10 bg-black/40 p-6 backdrop-blur-sm transition-colors hover:border-white/20">
+    <div className="rounded-lg border-none border-white/10 bg-black/40 p-6 backdrop-blur-sm transition-colors hover:border-white/20">
       <div className="mb-4 flex items-start justify-between">
         <div className="bg-card/5 rounded-[12px] p-2 text-white">
           <Icon className="h-5 w-5" />
@@ -147,12 +147,12 @@ const MetricCard = ({ metric }: { metric: Metric }) => {
   const Icon = iconMap[metric.icon] || Activity;
 
   return (
-    <div className="rounded-[20px] border-none border-white/10 bg-black/40 p-6 backdrop-blur-sm">
+    <div className="rounded-lg border-none border-white/10 bg-black/40 p-6 backdrop-blur-sm">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-sm text-zinc-400">{metric.label}</span>
         <Icon className={cn('h-4 w-4', metric.color || 'text-white')} />
       </div>
-      <div className="font-mono text-2xl font-bold text-white">{metric.value}</div>
+      <div className="font-mono text-2xl font-semibold text-white">{metric.value}</div>
     </div>
   );
 };
@@ -204,7 +204,7 @@ export default function StatusPage() {
         <div className="space-y-2">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">System Status</h1>
+              <h1 className="text-3xl font-semibold tracking-tight">System Status</h1>
               <p className="text-zinc-400">
                 Real-time status of all LLM Council services and live system metrics
               </p>
@@ -220,7 +220,7 @@ export default function StatusPage() {
         {/* Overall Status Banner */}
         <div
           className={cn(
-            'flex items-center gap-4 rounded-[20px] border-none p-6',
+            'flex items-center gap-4 rounded-lg border-none p-6',
             overallStatus === 'operational'
               ? 'border-green-500/20 bg-green-500/10'
               : 'border-yellow-500/20 bg-yellow-500/10'
@@ -292,7 +292,7 @@ export default function StatusPage() {
               <span className="text-zinc-500">- Active development or enhancement</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-blue-400" />
+              <Clock className="h-4 w-4 text-primary" />
               <span className="font-medium text-white">Coming Soon</span>
               <span className="text-zinc-500">- Planned for future release</span>
             </div>

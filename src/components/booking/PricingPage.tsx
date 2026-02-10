@@ -2,7 +2,8 @@
 
 import { Service } from '@/types/database';
 import Link from 'next/link';
-import { Clock, ArrowRight, Sparkles, Check } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Clock01Icon, ArrowRight01Icon, SparklesIcon, CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
@@ -30,11 +31,11 @@ export function PricingPage({ services }: PricingPageProps) {
           {/* Main Sessions List */}
           <div className="space-y-8 lg:col-span-2">
             <div className="mb-2 flex items-center gap-3">
-              <div className="bg-border h-[1px] flex-1"></div>
+              <div className="bg-border h-px flex-1"></div>
               <span className="text-muted-foreground text-sm font-medium tracking-widest uppercase">
                 Standard Sessions
               </span>
-              <div className="bg-border h-[1px] flex-1"></div>
+              <div className="bg-border h-px flex-1"></div>
             </div>
 
             <div className="space-y-4">
@@ -51,7 +52,7 @@ export function PricingPage({ services }: PricingPageProps) {
                       </h3>
                       <div className="text-muted-foreground flex items-center gap-4 text-sm">
                         <span className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
+                          <HugeiconsIcon icon={Clock01Icon} className="h-4 w-4" />
                           {service.duration} Minutes
                         </span>
                         <span>•</span>
@@ -62,8 +63,8 @@ export function PricingPage({ services }: PricingPageProps) {
                     <div className="border-border flex min-w-max items-center gap-6 sm:border-l sm:pl-6">
                       <span className="text-foreground font-serif text-3xl">€{service.price}</span>
                       <Link href={`/book/${service.slug || service.id}`}>
-                        <Button size="icon" className="h-12 w-12 rounded-full shadow-lg">
-                          <ArrowRight className="h-5 w-5" />
+                        <Button size="icon" className="h-9 w-9 rounded-full shadow-sm">
+                          <HugeiconsIcon icon={ArrowRight01Icon} className="h-5 w-5" />
                         </Button>
                       </Link>
                     </div>
@@ -76,10 +77,10 @@ export function PricingPage({ services }: PricingPageProps) {
           {/* Membership / Featured Card */}
           <div className="lg:col-span-1">
             <div className="sticky top-32">
-              <Card className="bg-primary text-primary-foreground relative overflow-hidden border-none shadow-xl">
+              <Card className="bg-primary text-primary-foreground relative overflow-hidden border-none shadow-sm">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 p-8 opacity-10">
-                  <Sparkles className="h-32 w-32" />
+                  <HugeiconsIcon icon={SparklesIcon} className="h-32 w-32" />
                 </div>
 
                 <CardContent className="relative z-10 p-8">
@@ -87,7 +88,7 @@ export function PricingPage({ services }: PricingPageProps) {
                     variant="outline"
                     className="border-primary-foreground/20 text-primary-foreground bg-primary-foreground/10 mb-6 gap-2 tracking-widest uppercase"
                   >
-                    <Sparkles className="h-3 w-3" />
+                    <HugeiconsIcon icon={SparklesIcon} className="h-3 w-3" />
                     Best Value
                   </Badge>
 
@@ -110,14 +111,14 @@ export function PricingPage({ services }: PricingPageProps) {
                         className="text-primary-foreground/90 flex items-center gap-3 text-sm"
                       >
                         <div className="bg-primary-foreground/20 flex h-5 w-5 shrink-0 items-center justify-center rounded-full">
-                          <Check className="text-primary-foreground h-3 w-3" />
+                          <HugeiconsIcon icon={CheckmarkCircle02Icon} className="text-primary-foreground h-3 w-3" />
                         </div>
                         {feature}
                       </div>
                     ))}
                   </div>
 
-                  <div className="bg-primary-foreground/10 border-primary-foreground/10 mb-8 rounded-[20px] border p-4">
+                  <div className="bg-primary-foreground/10 border-primary-foreground/10 mb-8 rounded-lg border p-4">
                     <div className="mb-1 flex items-end gap-2">
                       <span className="font-serif text-4xl">
                         €{(services[0]?.price || 100) * 4}
@@ -137,7 +138,7 @@ export function PricingPage({ services }: PricingPageProps) {
                       size="lg"
                     >
                       Inquire Now
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </CardContent>

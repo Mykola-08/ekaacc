@@ -1,16 +1,15 @@
 import { useState, useCallback } from 'react';
-import { useToast } from '@/hooks/useToast';
 
 export function useCopyToClipboard() {
   const [isCopied, setIsCopied] = useState(false);
-  const toast = useToast();
+  const [error, setError] = useState(false);
 
   const copyToClipboard = useCallback(
-    async (text: string, successMessage?: string) => {
+    async (text: string, _successMessage?: string) => {
+      setError(false);
       try {
         await navigator.clipboard.writeText(text);
         setIsCopied(true);
-        toast.success('Copiat!', successMessage || "S'ha copiat al porta-retalls");
 
         // Reset after 2 seconds
         setTimeout(() => setIsCopied(false), 2000);
@@ -28,17 +27,17 @@ export function useCopyToClipboard() {
         try {
           document.execCommand('copy');
           setIsCopied(true);
-          toast.success('Copiat!', successMessage || "S'ha copiat al porta-retalls");
           setTimeout(() => setIsCopied(false), 2000);
         } catch {
-          toast.error('Error', "No s'ha pogut copiar al porta-retalls");
+          setError(true);
+          setTimeout(() => setError(false), 3000);
         }
 
         document.body.removeChild(textArea);
       }
     },
-    [toast]
+    []
   );
 
-  return { copyToClipboard, isCopied };
+  return { copyToClipboard, isCopied, error };
 }

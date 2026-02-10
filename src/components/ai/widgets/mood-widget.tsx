@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * Mood Tracker Widget
@@ -11,7 +11,7 @@ import { useState, useEffect, useCallback } from "react";
 import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/morphing-toaster";
 
 interface MoodEntry {
   mood: string;
@@ -28,18 +28,18 @@ interface MoodTrendData {
 }
 
 const MOOD_OPTIONS = [
-  { emoji: "😢", label: "Sad", score: 2 },
-  { emoji: "😔", label: "Low", score: 3 },
-  { emoji: "😐", label: "Okay", score: 5 },
-  { emoji: "🙂", label: "Good", score: 7 },
-  { emoji: "😊", label: "Great", score: 8 },
-  { emoji: "🤩", label: "Amazing", score: 10 },
+  { emoji: "ðŸ˜¢", label: "Sad", score: 2 },
+  { emoji: "ðŸ˜”", label: "Low", score: 3 },
+  { emoji: "ðŸ˜", label: "Okay", score: 5 },
+  { emoji: "ðŸ™‚", label: "Good", score: 7 },
+  { emoji: "ðŸ˜Š", label: "Great", score: 8 },
+  { emoji: "ðŸ¤©", label: "Amazing", score: 10 },
 ];
 
 const trendConfig = {
-  improving: { label: "Improving", icon: "↗", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  declining: { label: "Needs attention", icon: "↘", color: "text-red-500", bg: "bg-red-500/10" },
-  stable: { label: "Stable", icon: "→", color: "text-blue-500", bg: "bg-blue-500/10" },
+  improving: { label: "Improving", icon: "â†—", color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  declining: { label: "Needs attention", icon: "â†˜", color: "text-red-500", bg: "bg-red-500/10" },
+  stable: { label: "Stable", icon: "â†’", color: "text-primary", bg: "bg-primary/10" },
 };
 
 function MiniSparkline({ scores }: { scores: number[] }) {
@@ -139,7 +139,7 @@ export function MoodWidget({ className }: { className?: string }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-      className={cn("bg-card rounded-2xl border p-5", className)}
+      className={cn("bg-card rounded-lg border p-5", className)}
     >
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold">How are you feeling?</h3>
@@ -182,7 +182,7 @@ export function MoodWidget({ className }: { className?: string }) {
           <MiniSparkline scores={recentScores} />
           <div className="mt-2 flex items-center justify-between text-[10px]">
             <span className="text-muted-foreground">
-              {trendData!.moods.length} entries · {14} days
+              {trendData!.moods.length} entries Â· {14} days
             </span>
             <span className="text-muted-foreground">
               Avg: {trendData!.averageScore.toFixed(1)} / 10

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * Services List Card
@@ -36,7 +36,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-card rounded-2xl border p-4 w-full max-w-sm"
+        className="bg-card rounded-lg border p-4 w-full max-w-sm"
       >
         <p className="text-muted-foreground text-sm">No services found.</p>
       </motion.div>
@@ -48,7 +48,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card rounded-2xl border p-4 w-full max-w-md"
+      className="bg-card rounded-lg border p-4 w-full max-w-md"
     >
       <div className="flex items-center gap-2 mb-3">
         <Sparkles className="text-primary h-4 w-4" />

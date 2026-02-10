@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Button } from 'keep-react';
+import { motion } from 'motion/react';
+import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { Heart, Star } from 'lucide-react';
 
@@ -38,7 +38,7 @@ export default function AboutElenaContent() {
               transition={{ duration: 0.8 }}
             >
               <div className="group relative mx-auto h-64 w-64 sm:h-80 sm:w-80">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-100 to-purple-100 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-60" />
+                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-blue-100 to-purple-100 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-60" />
                 <div className="relative h-full w-full overflow-hidden rounded-full shadow-2xl">
                   <Image
                     src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
@@ -78,13 +78,13 @@ export default function AboutElenaContent() {
               {/* Buttons */}
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link href="/book">
-                  <Button size="xl" className="btn btn-accent border-none px-10 py-4 normal-case">
+                  <Button size="lg" className="btn btn-accent border-none px-10 py-4 normal-case">
                     {t('common.bookNow')}
                   </Button>
                 </Link>
                 <Link href="/contact">
                   <Button
-                    size="xl"
+                    size="lg"
                     variant="outline"
                     className="btn btn-outline border-2 border-gray-200 bg-white px-10 py-4 normal-case"
                   >
@@ -169,7 +169,7 @@ export default function AboutElenaContent() {
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Link href="/book">
                 <Button
-                  size="xl"
+                  size="lg"
                   className="rounded-[20px] border-none bg-accent px-10 py-4 font-medium text-eka-dark normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-accent/90"
                 >
                   {t('common.bookNow')}
@@ -177,7 +177,7 @@ export default function AboutElenaContent() {
               </Link>
               <Link href="/contact">
                 <Button
-                  size="xl"
+                  size="lg"
                   variant="outline"
                   className="rounded-[20px] border-gray-200 bg-white px-10 py-4 font-medium text-gray-900 normal-case hover:bg-gray-100"
                 >

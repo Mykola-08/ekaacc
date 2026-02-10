@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -15,15 +15,15 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
 
   if (compact) {
     return (
-      <Card className="bg-background border-border group overflow-hidden rounded-[20px] p-5 shadow-sm transition-all hover:shadow-md">
+      <Card className="bg-background border-border group overflow-hidden rounded-lg p-5 shadow-sm transition-all hover:shadow-md">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Zap className="text-foreground h-4 w-4" strokeWidth={2.5} />
-            <span className="text-muted-foreground text-xs font-bold tracking-wider uppercase">
+            <span className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
               Credits
             </span>
           </div>
-          <span className="text-foreground text-[15px] font-bold">
+          <span className="text-foreground text-[15px] font-semibold">
             {remaining}/{total}
           </span>
         </div>
@@ -33,7 +33,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
   }
 
   return (
-    <Card className="bg-background border-border relative overflow-hidden rounded-[20px] p-6 shadow-sm transition-all hover:shadow-md">
+    <Card className="bg-background border-border relative overflow-hidden rounded-lg p-6 shadow-sm transition-all hover:shadow-md">
       <div className="from-primary/10 pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-tr-[32px] bg-linear-to-bl to-transparent" />
 
       <div className="relative z-10 mb-6 flex items-start justify-between">
@@ -48,20 +48,20 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
             )}
           </div>
           <div>
-            <div className="text-foreground text-lg leading-tight font-bold tracking-tight">
+            <div className="text-foreground text-lg leading-tight font-semibold tracking-tight">
               {usage.name}
             </div>
             <div className="text-muted-foreground mt-0.5 text-[13px] font-medium">Active Plan</div>
           </div>
         </div>
-        <div className="text-foreground text-3xl font-bold tracking-tight">
+        <div className="text-foreground text-3xl font-semibold tracking-tight">
           {remaining}
           <span className="text-muted-foreground ml-1 text-base font-medium">/{total}</span>
         </div>
       </div>
 
       <div className="relative z-10 space-y-2">
-        <div className="text-muted-foreground flex justify-between text-xs font-bold tracking-wider uppercase">
+        <div className="text-muted-foreground flex justify-between text-xs font-semibold tracking-wider uppercase">
           <span>Usage</span>
           <span>{Math.round(percent)}%</span>
         </div>
@@ -75,7 +75,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
       <div className="border-border relative z-10 mt-6 border-t pt-4">
         <p className="text-muted-foreground bg-secondary rounded-lg py-2 text-center text-[13px] font-medium">
           Expires on{' '}
-          <span className="text-foreground font-bold">
+          <span className="text-foreground font-semibold">
             {new Date(usage.expires_at).toLocaleDateString()}
           </span>
         </p>

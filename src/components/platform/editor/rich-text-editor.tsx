@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useCallback, useMemo, useState } from 'react';
 // @ts-ignore - slate modules not installed
@@ -203,19 +203,19 @@ const Element = ({ attributes, children, element }: RenderElementProps) => {
       );
     case 'heading-one':
       return (
-        <h1 style={style} {...attributes} className="mt-6 mb-4 text-3xl font-bold">
+        <h1 style={style} {...attributes} className="mt-6 mb-4 text-3xl font-semibold">
           {children}
         </h1>
       );
     case 'heading-two':
       return (
-        <h2 style={style} {...attributes} className="mt-5 mb-3 text-2xl font-bold">
+        <h2 style={style} {...attributes} className="mt-5 mb-3 text-2xl font-semibold">
           {children}
         </h2>
       );
     case 'heading-three':
       return (
-        <h3 style={style} {...attributes} className="mt-4 mb-2 text-xl font-bold">
+        <h3 style={style} {...attributes} className="mt-4 mb-2 text-xl font-semibold">
           {children}
         </h3>
       );

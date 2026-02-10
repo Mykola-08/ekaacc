@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import {
   Dialog,
@@ -26,7 +26,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
           View Details
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card max-h-[85vh] max-w-3xl gap-0 overflow-hidden rounded-[20px] border-none p-0 shadow-2xl">
+      <DialogContent className="bg-card max-h-[85vh] max-w-3xl gap-0 overflow-hidden rounded-lg border-none p-0 shadow-sm">
         <div className="bg-muted/30 flex h-full flex-col">
           <DialogHeader className="bg-card border-border/60 border-b p-8 pb-6">
             <div className="flex items-center gap-4">
@@ -41,7 +41,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
                   <span className="bg-muted text-muted-foreground rounded px-2 py-0.5 font-mono">
                     ID: {log.id}
                   </span>
-                  <span>•</span>
+                  <span>â€¢</span>
                   <span>{new Date(log.created_at).toLocaleString()}</span>
                 </DialogDescription>
               </div>

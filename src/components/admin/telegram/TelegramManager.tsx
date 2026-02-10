@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Send, Users, RefreshCcw, Trash2 } from 'lucide-react';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { DashboardCard } from '@/components/dashboard/shared/DashboardCard';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { cn } from '@/lib/utils';
 
 type TelegramChat = {
@@ -69,26 +69,26 @@ export function TelegramManager({ chats }: TelegramManagerProps) {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         {/* Chat List */}
         <div className="space-y-4 lg:col-span-1">
-          <h3 className="text-foreground px-1 text-lg font-bold">Active Channels & Groups</h3>
+          <h3 className="text-foreground px-1 text-lg font-semibold">Active Channels & Groups</h3>
           <div className="space-y-2">
             {chats.map((chat) => (
               <div
                 key={chat.chat_id}
                 onClick={() => setSelectedChat(chat)}
                 className={cn(
-                  'hover:bg-secondary/40 cursor-pointer rounded-2xl border p-4 transition-all',
+                  'hover:bg-secondary/40 cursor-pointer rounded-lg border p-4 transition-all',
                   selectedChat?.chat_id === chat.chat_id
                     ? 'bg-primary/5 border-primary shadow-sm'
                     : 'bg-card border-border/60'
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-500">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/5 text-primary">
                     <Users className="h-5 w-5" />
                   </div>
                   <div className="overflow-hidden">
                     <div className="text-foreground truncate font-semibold">{chat.title}</div>
-                    <div className="text-muted-foreground text-xs font-bold tracking-wider uppercase">
+                    <div className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
                       {chat.type}
                     </div>
                   </div>
@@ -96,7 +96,7 @@ export function TelegramManager({ chats }: TelegramManagerProps) {
               </div>
             ))}
             {chats.length === 0 && (
-              <div className="text-muted-foreground bg-card border-border rounded-2xl border border-dashed p-8 text-center">
+              <div className="text-muted-foreground bg-card border-border rounded-lg border border-dashed p-8 text-center">
                 No chats found. Add bot to a group first.
               </div>
             )}
@@ -116,7 +116,7 @@ export function TelegramManager({ chats }: TelegramManagerProps) {
                 </div>
                 <Textarea
                   placeholder="Type your broadcast message here... (supports HTML)"
-                  className="bg-background border-border min-h-[150px] resize-none rounded-2xl p-4 text-base"
+                  className="bg-background border-border min-h-[150px] resize-none rounded-lg p-4 text-base"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
@@ -139,11 +139,11 @@ export function TelegramManager({ chats }: TelegramManagerProps) {
               </div>
             </DashboardCard>
           ) : (
-            <div className="bg-card border-border/60 flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl border p-8 text-center">
+            <div className="bg-card border-border/60 flex h-full min-h-[300px] flex-col items-center justify-center rounded-lg border p-8 text-center">
               <div className="bg-secondary text-muted-foreground mb-4 flex h-16 w-16 items-center justify-center rounded-full">
                 <Send className="h-8 w-8" />
               </div>
-              <h3 className="text-foreground text-xl font-bold">Select a Group</h3>
+              <h3 className="text-foreground text-xl font-semibold">Select a Group</h3>
               <p className="text-muted-foreground mt-2 max-w-sm">
                 Choose a channel or group from the list to send a broadcast message or manage
                 settings.

@@ -10,7 +10,7 @@ export function AdminHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-card border-border flex h-16 shrink-0 items-center justify-between rounded-[20px] border px-6">
+    <header className="bg-card border-border flex h-16 shrink-0 items-center justify-between rounded-lg border px-6">
       <div className="flex items-center gap-4">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -21,7 +21,7 @@ export function AdminHeader() {
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="bg-card border-border w-[280px] rounded-r-[36px] border-r p-0"
+            className="bg-card border-border w-70 rounded-r-[36px] border-r p-0"
           >
             {/* Pass onClick to close the sheet when a link is clicked */}
             <AdminSidebarContent onClick={() => setOpen(false)} />

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/shared/marketing/utils';
 
@@ -109,7 +109,7 @@ export function AccordionTrigger({ children, className, value: itemValue }: Acco
       {children}
       <ChevronDown
         className={cn(
-          'h-5 w-5 flex-shrink-0 text-gray-500 transition-transform duration-300',
+          'h-5 w-5 shrink-0 text-gray-500 transition-transform duration-300',
           isOpen && 'text-primary-600 rotate-180'
         )}
       />

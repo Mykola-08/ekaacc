@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import {
@@ -70,12 +70,12 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
       {/* Header */}
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-foreground text-4xl font-bold tracking-tight">Settings</h1>
+          <h1 className="text-foreground text-4xl font-semibold tracking-tight">Settings</h1>
           <p className="text-muted-foreground mt-2 text-lg">
             Manage your account preferences and settings.
           </p>
         </div>
-        <button className="flex items-center gap-2 rounded-[20px] bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-200 transition-colors hover:bg-blue-700">
+        <button className="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90">
           <Save className="h-5 w-5" />
           <span>Save Changes</span>
         </button>
@@ -91,9 +91,9 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                   key={name}
                   className={({ selected }) =>
                     cn(
-                      'flex w-full items-center gap-3 rounded-[20px] px-4 py-3 text-sm font-medium transition-all duration-200 outline-none',
+                      'flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 outline-none',
                       selected
-                        ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
+                        ? 'bg-primary/5 text-primary shadow-sm ring-1 ring-primary/10'
                         : 'text-muted-foreground hover:bg-card hover:text-foreground'
                     )
                   }
@@ -109,17 +109,17 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           <div className="col-span-12 md:col-span-9">
             <TabPanels>
               {/* Profile Panel */}
-              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-foreground text-xl font-bold">Personal Information</h2>
+                    <h2 className="text-foreground text-xl font-semibold">Personal Information</h2>
                     <p className="text-muted-foreground mt-1 text-sm">
                       Update your photo and personal details.
                     </p>
                   </div>
 
                   <div className="flex items-center gap-6 border-b border-border pb-6">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-600">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-2xl font-semibold text-primary">
                       {currentUser.initials || 'U'}
                     </div>
                     <div className="space-y-2">
@@ -144,7 +144,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-xl p-3 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
                       />
                     </div>
                     <div className="space-y-2">
@@ -160,7 +160,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-xl p-3 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
                       />
                     </div>
                     <div className="col-span-full space-y-2">
@@ -173,7 +173,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         rows={4}
                         value={formData.bio}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-xl p-3 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
                         placeholder="Write a few sentences about yourself."
                       />
                     </div>
@@ -182,10 +182,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Notifications Panel */}
-              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-foreground text-xl font-bold">Notifications</h2>
+                    <h2 className="text-foreground text-xl font-semibold">Notifications</h2>
                     <p className="text-muted-foreground mt-1 text-sm">
                       Manage how you want to be notified.
                     </p>
@@ -205,8 +205,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         checked={formData.marketingEmails}
                         onChange={() => handleToggle('marketingEmails')}
                         className={cn(
-                          formData.marketingEmails ? 'bg-blue-600' : 'bg-muted',
-                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
+                          formData.marketingEmails ? 'bg-primary' : 'bg-muted',
+                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
                         )}
                       >
                         <span
@@ -232,8 +232,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         checked={formData.securityEmails}
                         onChange={() => handleToggle('securityEmails')}
                         className={cn(
-                          formData.securityEmails ? 'bg-blue-600' : 'bg-muted',
-                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
+                          formData.securityEmails ? 'bg-primary' : 'bg-muted',
+                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
                         )}
                       >
                         <span
@@ -259,8 +259,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         checked={formData.activityEmails}
                         onChange={() => handleToggle('activityEmails')}
                         className={cn(
-                          formData.activityEmails ? 'bg-blue-600' : 'bg-muted',
-                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
+                          formData.activityEmails ? 'bg-primary' : 'bg-muted',
+                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
                         )}
                       >
                         <span
@@ -277,10 +277,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Security Panel */}
-              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-foreground text-xl font-bold">Security</h2>
+                    <h2 className="text-foreground text-xl font-semibold">Security</h2>
                     <p className="text-muted-foreground mt-1 text-sm">
                       Update your password and security settings.
                     </p>
@@ -322,10 +322,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Preferences Panel */}
-              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-foreground text-xl font-bold">Preferences</h2>
+                    <h2 className="text-foreground text-xl font-semibold">Preferences</h2>
                     <p className="text-muted-foreground mt-1 text-sm">Customize your experience.</p>
                   </div>
 
@@ -342,7 +342,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="language"
                         value={formData.language}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-xl p-3 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
                       >
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
@@ -361,7 +361,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="timezone"
                         value={formData.timezone}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-xl p-3 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
                       >
                         <option value="UTC">UTC</option>
                         <option value="EST">Eastern Time</option>
@@ -380,8 +380,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                           checked={formData.darkMode}
                           onChange={() => handleToggle('darkMode')}
                           className={cn(
-                            formData.darkMode ? 'bg-blue-600' : 'bg-muted',
-                            'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
+                            formData.darkMode ? 'bg-primary' : 'bg-muted',
+                            'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
                           )}
                         >
                           <span

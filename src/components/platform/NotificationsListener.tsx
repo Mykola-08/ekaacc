@@ -1,10 +1,10 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { useNotifications } from '@/hooks/useNotifications';
 import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { Bell, Info, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 
 export function NotificationsListener(): any {
@@ -35,15 +35,28 @@ export function NotificationsListener(): any {
         case 'warning':
           return <AlertTriangle className="h-5 w-5 text-amber-500" />;
         default:
-          return <Info className="h-5 w-5 text-blue-500" />;
+          return <Info className="h-5 w-5 text-primary" />;
       }
     };
 
-    toast(newNotification.title, {
+    const opts = {
       description: newNotification.message,
-      icon: getIcon(newNotification.type),
       duration: 5000,
-    });
+    };
+
+    switch (newNotification.type) {
+      case 'success':
+        toast.success(newNotification.title, opts);
+        break;
+      case 'error':
+        toast.error(newNotification.title, opts);
+        break;
+      case 'warning':
+        toast.warning(newNotification.title, opts);
+        break;
+      default:
+        toast.info(newNotification.title, opts);
+    }
 
     // Optionally perform other actions like playing a sound
   }, [newNotification]);

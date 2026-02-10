@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { LoadingSpinner } from '@/components/ui/loading-states';
@@ -173,7 +173,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                 <Users className="text-muted-foreground h-4 w-4" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{analytics?.totalTierUsers || 150}</div>
+                <div className="text-2xl font-semibold">{analytics?.totalTierUsers || 150}</div>
               </CardContent>
             </Card>
 
@@ -183,7 +183,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                 <Crown className="text-muted-foreground h-4 w-4" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">
+                <div className="text-2xl font-semibold">
                   {analytics
                     ? analytics.tierDistribution.vip.silver +
                       analytics.tierDistribution.vip.gold +
@@ -199,7 +199,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                 <Star className="text-muted-foreground h-4 w-4" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">
+                <div className="text-2xl font-semibold">
                   {analytics
                     ? analytics.tierDistribution.loyalty.member +
                       analytics.tierDistribution.loyalty.elite
@@ -376,7 +376,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                     </div>
                     <div>
                       <label className="text-foreground/90 text-sm font-medium">Total Spend</label>
-                      <p className="text-lg font-semibold text-green-600">€250.00</p>
+                      <p className="text-lg font-semibold text-green-600">â‚¬250.00</p>
                     </div>
                     <div>
                       <label className="text-foreground/90 text-sm font-medium">

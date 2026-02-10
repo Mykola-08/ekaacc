@@ -13,12 +13,14 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Loader2, Mail, Lock, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -37,26 +39,27 @@ function SubmitButton() {
 export function LoginPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
+  const { feedback, setSuccess, setError, reset } = useMorphingFeedback();
 
   async function clientAction(formData: FormData) {
     setErrorMessage('');
 
     const result = await login(null, formData);
     if (result?.success) {
-      toast.success('Welcome back!');
-      router.push('/dashboard');
+      setSuccess('Welcome back!');
+      setTimeout(() => router.push('/dashboard'), 800);
       return;
     }
 
     if (result && !result.success) {
       setErrorMessage(result.message || 'An error occurred');
-      toast.error('Login Failed', { description: result.message });
+      setError(result.message || 'Login failed');
     }
   }
 
   return (
     <div className="bg-muted/30 flex min-h-screen items-center justify-center p-4">
-      <div className="from-primary/10 via-background to-background absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]"></div>
+      <div className="from-primary/10 via-background to-background absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))]"></div>
 
       <div className="w-full max-w-sm space-y-8">
         <div className="flex flex-col items-center gap-2 text-center">
@@ -66,14 +69,14 @@ export function LoginPage() {
             </div>
           </Link>
           <div className="space-y-1">
-            <h1 className="text-foreground text-2xl font-bold tracking-tight">Welcome back</h1>
+            <h1 className="text-foreground text-2xl font-semibold tracking-tight">Welcome back</h1>
             <p className="text-muted-foreground text-sm">
               Enter your credentials to access your account
             </p>
           </div>
         </div>
 
-        <Card className="border-border bg-surface/50 rounded-[20px] border shadow-sm backdrop-blur-sm">
+        <Card className="border-border bg-surface/50 rounded-lg border shadow-sm backdrop-blur-sm">
           <CardContent className="pt-6">
             <form action={clientAction} className="space-y-4">
               <div className="space-y-2">
@@ -108,9 +111,11 @@ export function LoginPage() {
               </div>
 
               {errorMessage && (
-                <div className="bg-destructive/10 text-destructive border-destructive/20 rounded-md border p-3 text-sm font-medium">
-                  {errorMessage}
-                </div>
+                <InlineFeedback status="error" message={errorMessage} onDismiss={() => setErrorMessage('')} />
+              )}
+
+              {feedback.status !== 'idle' && feedback.status !== 'error' && (
+                <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
               )}
 
               <SubmitButton />

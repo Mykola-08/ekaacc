@@ -16,10 +16,11 @@ import {
   Loader2,
   Wallet,
 } from 'lucide-react';
+// TODO: Migrate remaining Lucide icons to Hugeicons when this component is actively used
 import { useState, useEffect, useCallback } from 'react';
 import { format, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { createClient } from '@/lib/supabase/client';
 import { Calendar } from '@/components/ui/calendar';
 import { AvailabilitySlot } from '@/types/booking';
@@ -285,7 +286,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
             {/* Image */}
             {(service.images?.[0] || service.image_url) && (
-              <div className="bg-muted relative mb-10 aspect-video overflow-hidden rounded-[20px] border border-black/5 shadow-sm">
+              <div className="bg-muted relative mb-10 aspect-video overflow-hidden rounded-lg border border-black/5 shadow-sm">
                 <Image
                   src={service.images?.[0] || service.image_url || ''}
                   alt={service.name}
@@ -319,10 +320,10 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                         href={`/book/${service.id}?variantId=${variant.id}`}
                         scroll={false}
                         className={cn(
-                          'group flex cursor-pointer items-center justify-between rounded-[20px] border p-5 transition-all',
+                          'group flex cursor-pointer items-center justify-between rounded-lg border p-5 transition-all',
                           isActive
                             ? 'bg-primary/5 border-primary/20 shadow-sm'
-                            : 'border-white/20 bg-white/40 backdrop-blur-xl hover:border-black/5 hover:bg-white/60'
+                            : 'border-white/20 bg-card/40 backdrop-blur-xl hover:border-black/5 hover:bg-card/60'
                         )}
                       >
                         <div className="flex items-center gap-4">
@@ -357,7 +358,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
               </div>
             )}
 
-            <div className="rounded-[20px] border border-white/20 bg-white/40 p-8 shadow-sm backdrop-blur-xl">
+            <div className="rounded-lg border border-white/20 bg-card/40 p-8 shadow-sm backdrop-blur-xl">
               <h3 className="text-foreground mb-4 text-lg font-semibold tracking-tight">
                 What to expect
               </h3>
@@ -379,7 +380,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
           {/* Right Column: Sticky Booking Card */}
           <div className="animate-in slide-in-from-bottom-12 w-full shrink-0 delay-100 duration-500 lg:sticky lg:top-24 lg:w-105">
-            <div className="rounded-[20px] border border-white/40 bg-white/60 p-8 shadow-eka-md backdrop-blur-2xl">
+            <div className="rounded-lg border border-white/40 bg-card/60 p-8 shadow-eka-md backdrop-blur-2xl">
               {/* Family / User Selection */}
               {!loadingUser && userProfile && familyMembers.length > 0 && (
                 <div className="mb-6 inline-flex w-full rounded-full border border-black/5 bg-black/5 p-1">
@@ -411,7 +412,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
               {bookingFor === 'dependent' && (
                 <div className="mb-6">
                   <Select value={selectedDependentId} onValueChange={setSelectedDependentId}>
-                    <SelectTrigger className="h-11 w-full rounded-xl border-black/5 bg-white/50">
+                    <SelectTrigger className="h-9 w-full rounded-lg border-black/5 bg-card/50">
                       <SelectValue placeholder="Select Member" />
                     </SelectTrigger>
                     <SelectContent>
@@ -436,7 +437,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your Name"
-                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-11 w-full rounded-xl border border-black/5 bg-white/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
+                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-9 w-full rounded-lg border border-black/5 bg-card/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
                   />
                 </div>
                 <div>
@@ -448,7 +449,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-11 w-full rounded-xl border border-black/5 bg-white/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
+                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-9 w-full rounded-lg border border-black/5 bg-card/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
                   />
                 </div>
               </div>
@@ -461,17 +462,17 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                   Select Date & Time
                 </h3>
 
-                <div className="mb-6 rounded-[20px] border border-white/20 bg-white/40 p-4 shadow-sm">
+                <div className="mb-6 rounded-lg border border-white/20 bg-card/40 p-4 shadow-sm">
                   <Calendar
                     mode="single"
                     selected={date}
                     onSelect={setDate}
                     disabled={(day) => day < new Date() || day > addDays(new Date(), 90)}
-                    className="pointer-events-auto flex w-full justify-center rounded-xl border-none bg-transparent p-0"
+                    className="pointer-events-auto flex w-full justify-center rounded-lg border-none bg-transparent p-0"
                     classNames={{
                       day_selected:
-                        'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground shadow-md',
-                      day_today: 'bg-white/50 text-foreground font-bold',
+                        'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground shadow-sm',
+                      day_today: 'bg-card/50 text-foreground font-semibold',
                       head_cell: 'text-muted-foreground font-medium text-[0.8rem] w-8',
                       cell: 'text-center text-sm p-0 relative [&:has([aria-selected])]:bg-transparent h-8 w-8',
                       day: 'h-8 w-8 p-0 font-normal aria-selected:opacity-100 rounded-full hover:bg-black/5 transition-colors',
@@ -481,7 +482,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
                 {date && (
                   <div className="animate-in fade-in slide-in-from-top-4">
-                    <h4 className="text-muted-foreground mb-3 ml-1 block text-xs font-bold tracking-wider uppercase">
+                    <h4 className="text-muted-foreground mb-3 ml-1 block text-xs font-semibold tracking-wider uppercase">
                       Available Slots — {format(date, 'MMM do')}
                     </h4>
                     {loadingSlots ? (
@@ -496,10 +497,10 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             key={i}
                             onClick={() => setSelectedSlot(slot)}
                             className={cn(
-                              'rounded-xl border px-3 py-2.5 text-center text-sm transition-all',
+                              'rounded-lg border px-3 py-2.5 text-center text-sm transition-all',
                               selectedSlot === slot
-                                ? 'bg-primary text-primary-foreground border-primary font-semibold shadow-md'
-                                : 'text-foreground type-tabular border-transparent bg-white/50 font-light hover:bg-background hover:shadow-sm'
+                                ? 'bg-primary text-primary-foreground border-primary font-semibold shadow-sm'
+                                : 'text-foreground type-tabular border-transparent bg-card/50 font-light hover:bg-background hover:shadow-sm'
                             )}
                           >
                             {format(new Date(slot.startTime), 'h:mm a')}
@@ -507,7 +508,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                         ))}
                       </div>
                     ) : (
-                      <div className="rounded-xl border border-dashed border-black/5 bg-white/30 py-6 text-center">
+                      <div className="rounded-lg border border-dashed border-black/5 bg-card/30 py-6 text-center">
                         <p className="text-muted-foreground text-sm font-light">
                           No slots available
                         </p>
@@ -520,7 +521,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
               <div className="space-y-4 border-t border-black/5 pt-6">
                 {/* Payment Method Selection */}
                 {walletBalance !== null && walletBalance >= depositAmount && (
-                  <div className="rounded-xl border border-black/5 bg-white/50 p-1">
+                  <div className="rounded-lg border border-black/5 bg-card/50 p-1">
                     <div className="grid grid-cols-2 gap-1">
                       <button
                         onClick={() => setPaymentMethod('stripe')}
@@ -560,7 +561,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                 <button
                   onClick={handleBooking}
                   disabled={isSubmitting || !selectedSlot || !name || !email}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/20 flex w-full items-center justify-center gap-2 rounded-lg py-4 text-lg font-semibold shadow-lg transition-all hover:scale-105 active:scale-95 disabled:pointer-events-none disabled:opacity-70"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/20 flex w-full items-center justify-center gap-2 rounded-lg py-4 text-lg font-semibold shadow-sm transition-all hover:scale-105 active:scale-95 disabled:pointer-events-none disabled:opacity-70"
                 >
                   {isSubmitting ? (
                     <>

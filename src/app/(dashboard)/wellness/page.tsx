@@ -3,8 +3,10 @@
 import dynamic from 'next/dynamic';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, BarChart3 } from 'lucide-react';
+import { BookOpen, BarChart3, Library } from 'lucide-react';
 import { Suspense } from 'react';
+import { motion } from 'motion/react';
+import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 
 const JournalTab = dynamic(
   () => import('./tabs/JournalTab').then((m) => ({ default: m.JournalTab })),
@@ -16,11 +18,16 @@ const ProgressTab = dynamic(
   { loading: () => <TabSkeleton /> }
 );
 
+const ResourcesTab = dynamic(
+  () => import('./tabs/ResourcesTab').then((m) => ({ default: m.ResourcesTab })),
+  { loading: () => <TabSkeleton /> }
+);
+
 function TabSkeleton() {
   return (
     <div className="space-y-4 py-6">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="h-24 animate-pulse rounded-2xl bg-muted" />
+        <div key={i} className="h-24 animate-pulse rounded-lg bg-muted" />
       ))}
     </div>
   );
@@ -39,16 +46,19 @@ function WellnessContent() {
   };
 
   return (
-    <div className="space-y-6 px-4 py-8 md:px-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Wellness</h1>
-        <p className="mt-1 text-muted-foreground">
-          Track your journey, reflect, and see your progress over time.
-        </p>
-      </div>
+    <motion.div 
+      className="space-y-8 px-4 py-8 md:px-8"
+      initial={{ opacity: 0, scale: 0.98, y: 10 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+    >
+      <DashboardHeader
+        title="Wellness"
+        subtitle="Track your journey, explore resources, and see your progress."
+      />
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="grid w-full max-w-md grid-cols-2">
+        <TabsList className="grid w-full max-w-md grid-cols-3">
           <TabsTrigger value="journal" className="gap-2">
             <BookOpen className="h-4 w-4" />
             Journal
@@ -56,6 +66,10 @@ function WellnessContent() {
           <TabsTrigger value="progress" className="gap-2">
             <BarChart3 className="h-4 w-4" />
             Progress
+          </TabsTrigger>
+          <TabsTrigger value="resources" className="gap-2">
+            <Library className="h-4 w-4" />
+            Resources
           </TabsTrigger>
         </TabsList>
 
@@ -65,8 +79,11 @@ function WellnessContent() {
         <TabsContent value="progress" className="mt-6">
           <ProgressTab />
         </TabsContent>
+        <TabsContent value="resources" className="mt-6">
+          <ResourcesTab />
+        </TabsContent>
       </Tabs>
-    </div>
+    </motion.div>
   );
 }
 

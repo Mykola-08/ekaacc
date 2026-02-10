@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Loader2 } from 'lucide-react';
 import { fadeInUpLarge, scaleIn, fadeInLeft, fadeInUpSmall, fadeIn, withDelay } from '@/lib/motion';
 
@@ -64,10 +64,10 @@ export function LoginForm({
  variants={fadeInUpLarge}
  initial="hidden"
  animate="visible"
- className={cn('mx-auto flex w-full max-w-[400px] flex-col gap-6', className)}
+ className={cn('mx-auto flex w-full max-w-100 flex-col gap-6', className)}
  {...props}
  >
- <Card className="relative overflow-hidden rounded-[24px] border border-border/20 bg-card/70 shadow-xl backdrop-blur-2xl ">
+ <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl ">
  <CardContent className="relative p-8 md:p-10">
  <form onSubmit={handleLogin} className="flex flex-col gap-5">
  {/* Header */}
@@ -211,6 +211,22 @@ export function LoginForm({
  </Link>
  </p>
  </motion.div>
- </motion.div>
- );
+
+      <motion.div
+        variants={withDelay(fadeIn, 0.6)}
+        initial="hidden"
+        animate="visible"
+        className="mt-6 text-center"
+      >
+        <p className="text-xs text-muted-foreground px-4">
+          By logging in, you agree to our{' '}
+          <Link href="/terms" className="underline hover:text-foreground dark:hover:text-white">Terms of Service</Link>
+          ,{' '}
+          <Link href="/privacy" className="underline hover:text-foreground dark:hover:text-white">Privacy Policy</Link>
+          {' '}and{' '}
+          <Link href="/cookie-policy" className="underline hover:text-foreground dark:hover:text-white">Cookie Policy</Link>.
+        </p>
+      </motion.div>
+    </motion.div>
+  );
 }

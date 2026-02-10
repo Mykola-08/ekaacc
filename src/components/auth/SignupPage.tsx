@@ -13,12 +13,12 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { toast } from 'sonner';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Loader2, Mail, Lock, User, Sparkles, CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -47,10 +47,8 @@ export function SignupPage() {
       const result = await signup(null, formData);
       if (result.success) {
         setSuccessMessage(result.message);
-        toast.success('Account Created', { description: result.message });
       } else {
         setErrorMessage(result.message);
-        toast.error('Signup Failed', { description: result.message });
       }
     } catch (e) {
       setErrorMessage('An error occurred');
@@ -59,7 +57,7 @@ export function SignupPage() {
 
   return (
     <div className="bg-muted/30 flex min-h-screen items-center justify-center p-4">
-      <div className="from-primary/10 via-background to-background absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]"></div>
+      <div className="from-primary/10 via-background to-background absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))]"></div>
 
       <div className="w-full max-w-sm space-y-8">
         <div className="flex flex-col items-center gap-2 text-center">
@@ -69,12 +67,12 @@ export function SignupPage() {
             </div>
           </Link>
           <div className="space-y-1">
-            <h1 className="text-foreground text-2xl font-bold tracking-tight">Create account</h1>
+            <h1 className="text-foreground text-2xl font-semibold tracking-tight">Create account</h1>
             <p className="text-muted-foreground text-sm">Join EKA Balance today</p>
           </div>
         </div>
 
-        <Card className="border-border bg-surface/50 rounded-[20px] border shadow-sm backdrop-blur-sm">
+        <Card className="border-border bg-surface/50 rounded-lg border shadow-sm backdrop-blur-sm">
           <CardContent className="pt-6">
             {successMessage ? (
               <div className="flex flex-col items-center justify-center space-y-6 py-8">
@@ -82,7 +80,7 @@ export function SignupPage() {
                   <CheckCircle2 className="text-success h-10 w-10" />
                 </div>
                 <div className="space-y-3 text-center">
-                  <h3 className="text-foreground text-xl font-bold">Check your email</h3>
+                  <h3 className="text-foreground text-xl font-semibold">Check your email</h3>
                   <p className="text-muted-foreground max-w-sm text-sm">{successMessage}</p>
                 </div>
                 <Button asChild variant="outline" className="mt-4 w-full">
@@ -127,9 +125,7 @@ export function SignupPage() {
                 </div>
 
                 {errorMessage && (
-                  <div className="bg-destructive/10 text-destructive border-destructive/20 rounded-md border p-3 text-sm font-medium">
-                    {errorMessage}
-                  </div>
+                  <InlineFeedback status="error" message={errorMessage} onDismiss={() => setErrorMessage('')} />
                 )}
 
                 <SubmitButton />

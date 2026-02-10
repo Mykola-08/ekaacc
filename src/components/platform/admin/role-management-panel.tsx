@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -299,7 +299,7 @@ export function RoleManagementPanel() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Role Management</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Role Management</h1>
           <p className="text-muted-foreground">
             Manage user roles and permissions across the system
           </p>
@@ -473,11 +473,11 @@ export function RoleManagementPanel() {
                     <p className="font-medium">{log.userEmail}</p>
                     <p className="text-muted-foreground text-sm">
                       {log.oldRole
-                        ? `${log.oldRole} → ${log.newRole}`
+                        ? `${log.oldRole} â†’ ${log.newRole}`
                         : `Assigned as ${log.newRole}`}
                     </p>
                     <p className="text-muted-foreground text-xs">
-                      By {log.assignedByEmail} • {new Date(log.createdAt).toLocaleString()}
+                      By {log.assignedByEmail} â€¢ {new Date(log.createdAt).toLocaleString()}
                     </p>
                   </div>
                   <div className="text-right">

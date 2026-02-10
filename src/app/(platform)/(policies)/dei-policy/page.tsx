@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { Users, Heart, Scale, Briefcase, Smile } from 'lucide-react';
@@ -22,7 +22,7 @@ export default function DeiPolicy() {
         },
         {
           title: '2. Equal Opportunity',
-          icon: <Scale className="h-6 w-6 text-blue-600" />,
+          icon: <Scale className="h-6 w-6 text-primary" />,
           text: 'We provide equal opportunities for employment, advancement, and development to all qualified individuals. Our hiring and promotion decisions are based on merit, qualifications, and business needs.',
         },
         {
@@ -43,25 +43,25 @@ export default function DeiPolicy() {
       ],
     },
     es: {
-      title: 'Política de Diversidad, Equidad e Inclusión',
-      lastUpdated: 'Última actualización: 10 de marzo de 2025',
+      title: 'PolÃ­tica de Diversidad, Equidad e InclusiÃ³n',
+      lastUpdated: 'Ãšltima actualizaciÃ³n: 10 de marzo de 2025',
       intro:
         'En EKA Balance, creemos que la diversidad es nuestra fortaleza. Estamos comprometidos a crear un entorno inclusivo donde todos se sientan valorados, respetados y empoderados para contribuir con su mejor trabajo.',
       sections: [
         {
           title: '1. Nuestro Compromiso',
           icon: <Heart className="h-6 w-6 text-red-600" />,
-          text: 'Estamos dedicados a fomentar un lugar de trabajo que refleje las diversas comunidades a las que servimos. No discriminamos por motivos de raza, color, religión, género, identidad de género, orientación sexual, origen nacional, edad, discapacidad o cualquier otra característica protegida.',
+          text: 'Estamos dedicados a fomentar un lugar de trabajo que refleje las diversas comunidades a las que servimos. No discriminamos por motivos de raza, color, religiÃ³n, gÃ©nero, identidad de gÃ©nero, orientaciÃ³n sexual, origen nacional, edad, discapacidad o cualquier otra caracterÃ­stica protegida.',
         },
         {
           title: '2. Igualdad de Oportunidades',
-          icon: <Scale className="h-6 w-6 text-blue-600" />,
-          text: 'Brindamos igualdad de oportunidades de empleo, avance y desarrollo a todas las personas calificadas. Nuestras decisiones de contratación y promoción se basan en el mérito, las calificaciones y las necesidades comerciales.',
+          icon: <Scale className="h-6 w-6 text-primary" />,
+          text: 'Brindamos igualdad de oportunidades de empleo, avance y desarrollo a todas las personas calificadas. Nuestras decisiones de contrataciÃ³n y promociÃ³n se basan en el mÃ©rito, las calificaciones y las necesidades comerciales.',
         },
         {
           title: '3. Cultura Inclusiva',
           icon: <Users className="h-6 w-6 text-green-600" />,
-          text: 'Nos esforzamos por crear una cultura de pertenencia donde todos puedan ser auténticos en el trabajo. Fomentamos el diálogo abierto, la escucha activa y el respeto mutuo. Brindamos capacitación y recursos para apoyar comportamientos inclusivos.',
+          text: 'Nos esforzamos por crear una cultura de pertenencia donde todos puedan ser autÃ©nticos en el trabajo. Fomentamos el diÃ¡logo abierto, la escucha activa y el respeto mutuo. Brindamos capacitaciÃ³n y recursos para apoyar comportamientos inclusivos.',
         },
         {
           title: '4. Accesibilidad en el Lugar de Trabajo',
@@ -71,30 +71,30 @@ export default function DeiPolicy() {
         {
           title: '5. Bienestar de los Empleados',
           icon: <Smile className="h-6 w-6 text-orange-600" />,
-          text: 'Priorizamos el bienestar físico y mental de nuestros empleados. Ofrecemos beneficios integrales, acuerdos de trabajo flexibles y programas de apoyo para ayudar a los miembros de nuestro equipo a prosperar tanto personal como profesionalmente.',
+          text: 'Priorizamos el bienestar fÃ­sico y mental de nuestros empleados. Ofrecemos beneficios integrales, acuerdos de trabajo flexibles y programas de apoyo para ayudar a los miembros de nuestro equipo a prosperar tanto personal como profesionalmente.',
         },
       ],
     },
     ca: {
-      title: 'Política de Diversitat, Equitat i Inclusió',
-      lastUpdated: 'Darrera actualització: 10 de març de 2025',
+      title: 'PolÃ­tica de Diversitat, Equitat i InclusiÃ³',
+      lastUpdated: 'Darrera actualitzaciÃ³: 10 de marÃ§ de 2025',
       intro:
-        'A EKA Balance, creiem que la diversitat és la nostra fortalesa. Ens comprometem a crear un entorn inclusiu on tothom se senti valorat, respectat i empoderat per contribuir amb el seu millor treball.',
+        'A EKA Balance, creiem que la diversitat Ã©s la nostra fortalesa. Ens comprometem a crear un entorn inclusiu on tothom se senti valorat, respectat i empoderat per contribuir amb el seu millor treball.',
       sections: [
         {
-          title: '1. El Nostre Compromís',
+          title: '1. El Nostre CompromÃ­s',
           icon: <Heart className="h-6 w-6 text-red-600" />,
-          text: 'Estem dedicats a fomentar un lloc de treball que reflecteixi les diverses comunitats a les quals servim. No discriminem per motius de raça, color, religió, gènere, identitat de gènere, orientació sexual, origen nacional, edat, discapacitat o qualsevol altra característica protegida.',
+          text: 'Estem dedicats a fomentar un lloc de treball que reflecteixi les diverses comunitats a les quals servim. No discriminem per motius de raÃ§a, color, religiÃ³, gÃ¨nere, identitat de gÃ¨nere, orientaciÃ³ sexual, origen nacional, edat, discapacitat o qualsevol altra caracterÃ­stica protegida.',
         },
         {
           title: "2. Igualtat d'Oportunitats",
-          icon: <Scale className="h-6 w-6 text-blue-600" />,
-          text: "Oferim igualtat d'oportunitats d'ocupació, avançament i desenvolupament a totes les persones qualificades. Les nostres decisions de contractació i promoció es basen en el mèrit, les qualificacions i les necessitats comercials.",
+          icon: <Scale className="h-6 w-6 text-primary" />,
+          text: "Oferim igualtat d'oportunitats d'ocupaciÃ³, avanÃ§ament i desenvolupament a totes les persones qualificades. Les nostres decisions de contractaciÃ³ i promociÃ³ es basen en el mÃ¨rit, les qualificacions i les necessitats comercials.",
         },
         {
           title: '3. Cultura Inclusiva',
           icon: <Users className="h-6 w-6 text-green-600" />,
-          text: "Ens esforcem per crear una cultura de pertinença on tothom pugui ser autèntic a la feina. Fomentem el diàleg obert, l'escolta activa i el respecte mutu. Oferim formació i recursos per donar suport a comportaments inclusius.",
+          text: "Ens esforcem per crear una cultura de pertinenÃ§a on tothom pugui ser autÃ¨ntic a la feina. Fomentem el diÃ leg obert, l'escolta activa i el respecte mutu. Oferim formaciÃ³ i recursos per donar suport a comportaments inclusius.",
         },
         {
           title: '4. Accessibilitat al Lloc de Treball',
@@ -104,40 +104,40 @@ export default function DeiPolicy() {
         {
           title: '5. Benestar dels Empleats',
           icon: <Smile className="h-6 w-6 text-orange-600" />,
-          text: 'Prioritzem el benestar físic i mental dels nostres empleats. Oferim beneficis integrals, acords de treball flexibles i programes de suport per ajudar els membres del nostre equip a prosperar tant personalment com professionalment.',
+          text: 'Prioritzem el benestar fÃ­sic i mental dels nostres empleats. Oferim beneficis integrals, acords de treball flexibles i programes de suport per ajudar els membres del nostre equip a prosperar tant personalment com professionalment.',
         },
       ],
     },
     ru: {
-      title: 'Политика разнообразия, равенства и инклюзивности',
-      lastUpdated: 'Последнее обновление: 10 марта 2025 г.',
+      title: 'ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° Ñ€Ð°Ð·Ð½Ð¾Ð¾Ð±Ñ€Ð°Ð·Ð¸Ñ, Ñ€Ð°Ð²ÐµÐ½ÑÑ‚Ð²Ð° Ð¸ Ð¸Ð½ÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾ÑÑ‚Ð¸',
+      lastUpdated: 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: 10 Ð¼Ð°Ñ€Ñ‚Ð° 2025 Ð³.',
       intro:
-        'В EKA Balance мы верим, что разнообразие — это наша сила. Мы стремимся создать инклюзивную среду, в которой каждый чувствует, что его ценят, уважают и наделяют полномочиями вносить свой вклад в работу.',
+        'Ð’ EKA Balance Ð¼Ñ‹ Ð²ÐµÑ€Ð¸Ð¼, Ñ‡Ñ‚Ð¾ Ñ€Ð°Ð·Ð½Ð¾Ð¾Ð±Ñ€Ð°Ð·Ð¸Ðµ â€” ÑÑ‚Ð¾ Ð½Ð°ÑˆÐ° ÑÐ¸Ð»Ð°. ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ Ð¸Ð½ÐºÐ»ÑŽÐ·Ð¸Ð²Ð½ÑƒÑŽ ÑÑ€ÐµÐ´Ñƒ, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¹ ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ñ‡ÑƒÐ²ÑÑ‚Ð²ÑƒÐµÑ‚, Ñ‡Ñ‚Ð¾ ÐµÐ³Ð¾ Ñ†ÐµÐ½ÑÑ‚, ÑƒÐ²Ð°Ð¶Ð°ÑŽÑ‚ Ð¸ Ð½Ð°Ð´ÐµÐ»ÑÑŽÑ‚ Ð¿Ð¾Ð»Ð½Ð¾Ð¼Ð¾Ñ‡Ð¸ÑÐ¼Ð¸ Ð²Ð½Ð¾ÑÐ¸Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Ð²ÐºÐ»Ð°Ð´ Ð² Ñ€Ð°Ð±Ð¾Ñ‚Ñƒ.',
       sections: [
         {
-          title: '1. Наше обязательство',
+          title: '1. ÐÐ°ÑˆÐµ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²Ð¾',
           icon: <Heart className="h-6 w-6 text-red-600" />,
-          text: 'Мы стремимся создать рабочее место, отражающее разнообразные сообщества, которым мы служим. Мы не допускаем дискриминации по признаку расы, цвета кожи, религии, пола, гендерной идентичности, сексуальной ориентации, национального происхождения, возраста, инвалидности или любой другой защищенной характеристики.',
+          text: 'ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐµ Ð¼ÐµÑÑ‚Ð¾, Ð¾Ñ‚Ñ€Ð°Ð¶Ð°ÑŽÑ‰ÐµÐµ Ñ€Ð°Ð·Ð½Ð¾Ð¾Ð±Ñ€Ð°Ð·Ð½Ñ‹Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÑÑ‚Ð²Ð°, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¼ Ð¼Ñ‹ ÑÐ»ÑƒÐ¶Ð¸Ð¼. ÐœÑ‹ Ð½Ðµ Ð´Ð¾Ð¿ÑƒÑÐºÐ°ÐµÐ¼ Ð´Ð¸ÑÐºÑ€Ð¸Ð¼Ð¸Ð½Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾ Ð¿Ñ€Ð¸Ð·Ð½Ð°ÐºÑƒ Ñ€Ð°ÑÑ‹, Ñ†Ð²ÐµÑ‚Ð° ÐºÐ¾Ð¶Ð¸, Ñ€ÐµÐ»Ð¸Ð³Ð¸Ð¸, Ð¿Ð¾Ð»Ð°, Ð³ÐµÐ½Ð´ÐµÑ€Ð½Ð¾Ð¹ Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ‡Ð½Ð¾ÑÑ‚Ð¸, ÑÐµÐºÑÑƒÐ°Ð»ÑŒÐ½Ð¾Ð¹ Ð¾Ñ€Ð¸ÐµÐ½Ñ‚Ð°Ñ†Ð¸Ð¸, Ð½Ð°Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾Ð¸ÑÑ…Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ, Ð²Ð¾Ð·Ñ€Ð°ÑÑ‚Ð°, Ð¸Ð½Ð²Ð°Ð»Ð¸Ð´Ð½Ð¾ÑÑ‚Ð¸ Ð¸Ð»Ð¸ Ð»ÑŽÐ±Ð¾Ð¹ Ð´Ñ€ÑƒÐ³Ð¾Ð¹ Ð·Ð°Ñ‰Ð¸Ñ‰ÐµÐ½Ð½Ð¾Ð¹ Ñ…Ð°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð¸ÑÑ‚Ð¸ÐºÐ¸.',
         },
         {
-          title: '2. Равные возможности',
-          icon: <Scale className="h-6 w-6 text-blue-600" />,
-          text: 'Мы предоставляем равные возможности для трудоустройства, продвижения по службе и развития всем квалифицированным лицам. Наши решения о найме и продвижении по службе основаны на заслугах, квалификации и деловых потребностях.',
+          title: '2. Ð Ð°Ð²Ð½Ñ‹Ðµ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸',
+          icon: <Scale className="h-6 w-6 text-primary" />,
+          text: 'ÐœÑ‹ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼ Ñ€Ð°Ð²Ð½Ñ‹Ðµ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ð´Ð»Ñ Ñ‚Ñ€ÑƒÐ´Ð¾ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°, Ð¿Ñ€Ð¾Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¿Ð¾ ÑÐ»ÑƒÐ¶Ð±Ðµ Ð¸ Ñ€Ð°Ð·Ð²Ð¸Ñ‚Ð¸Ñ Ð²ÑÐµÐ¼ ÐºÐ²Ð°Ð»Ð¸Ñ„Ð¸Ñ†Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð»Ð¸Ñ†Ð°Ð¼. ÐÐ°ÑˆÐ¸ Ñ€ÐµÑˆÐµÐ½Ð¸Ñ Ð¾ Ð½Ð°Ð¹Ð¼Ðµ Ð¸ Ð¿Ñ€Ð¾Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ð¸ Ð¿Ð¾ ÑÐ»ÑƒÐ¶Ð±Ðµ Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ñ‹ Ð½Ð° Ð·Ð°ÑÐ»ÑƒÐ³Ð°Ñ…, ÐºÐ²Ð°Ð»Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸Ð¸ Ð¸ Ð´ÐµÐ»Ð¾Ð²Ñ‹Ñ… Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑÑ….',
         },
         {
-          title: '3. Инклюзивная культура',
+          title: '3. Ð˜Ð½ÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð°Ñ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ð°',
           icon: <Users className="h-6 w-6 text-green-600" />,
-          text: 'Мы стремимся создать культуру принадлежности, в которой каждый может быть самим собой на работе. Мы поощряем открытый диалог, активное слушание и взаимное уважение. Мы предоставляем обучение и ресурсы для поддержки инклюзивного поведения.',
+          text: 'ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ ÐºÑƒÐ»ÑŒÑ‚ÑƒÑ€Ñƒ Ð¿Ñ€Ð¸Ð½Ð°Ð´Ð»ÐµÐ¶Ð½Ð¾ÑÑ‚Ð¸, Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¹ ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ ÑÐ°Ð¼Ð¸Ð¼ ÑÐ¾Ð±Ð¾Ð¹ Ð½Ð° Ñ€Ð°Ð±Ð¾Ñ‚Ðµ. ÐœÑ‹ Ð¿Ð¾Ð¾Ñ‰Ñ€ÑÐµÐ¼ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ Ð´Ð¸Ð°Ð»Ð¾Ð³, Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾Ðµ ÑÐ»ÑƒÑˆÐ°Ð½Ð¸Ðµ Ð¸ Ð²Ð·Ð°Ð¸Ð¼Ð½Ð¾Ðµ ÑƒÐ²Ð°Ð¶ÐµÐ½Ð¸Ðµ. ÐœÑ‹ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼ Ð¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð¸ Ñ€ÐµÑÑƒÑ€ÑÑ‹ Ð´Ð»Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð¸Ð½ÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾Ð³Ð¾ Ð¿Ð¾Ð²ÐµÐ´ÐµÐ½Ð¸Ñ.',
         },
         {
-          title: '4. Доступность рабочего места',
+          title: '4. Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ÑÑ‚ÑŒ Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐ³Ð¾ Ð¼ÐµÑÑ‚Ð°',
           icon: <Briefcase className="h-6 w-6 text-purple-600" />,
-          text: 'Мы стремимся обеспечить рабочее место, доступное для всех. Мы предоставляем разумные приспособления для сотрудников с ограниченными возможностями, чтобы они могли выполнять свои основные должностные обязанности.',
+          text: 'ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡Ð¸Ñ‚ÑŒ Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐµ Ð¼ÐµÑÑ‚Ð¾, Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾Ðµ Ð´Ð»Ñ Ð²ÑÐµÑ…. ÐœÑ‹ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼ Ñ€Ð°Ð·ÑƒÐ¼Ð½Ñ‹Ðµ Ð¿Ñ€Ð¸ÑÐ¿Ð¾ÑÐ¾Ð±Ð»ÐµÐ½Ð¸Ñ Ð´Ð»Ñ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð² Ñ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð½Ñ‹Ð¼Ð¸ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑÐ¼Ð¸, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¾Ð½Ð¸ Ð¼Ð¾Ð³Ð»Ð¸ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÑÑ‚ÑŒ ÑÐ²Ð¾Ð¸ Ð¾ÑÐ½Ð¾Ð²Ð½Ñ‹Ðµ Ð´Ð¾Ð»Ð¶Ð½Ð¾ÑÑ‚Ð½Ñ‹Ðµ Ð¾Ð±ÑÐ·Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸.',
         },
         {
-          title: '5. Благополучие сотрудников',
+          title: '5. Ð‘Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð²',
           icon: <Smile className="h-6 w-6 text-orange-600" />,
-          text: 'Мы уделяем приоритетное внимание физическому и психическому благополучию наших сотрудников. Мы предлагаем комплексные льготы, гибкий график работы и программы поддержки, чтобы помочь членам нашей команды процветать как в личном, так и в профессиональном плане.',
+          text: 'ÐœÑ‹ ÑƒÐ´ÐµÐ»ÑÐµÐ¼ Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ð½Ð¾Ðµ Ð²Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð¼Ñƒ Ð¸ Ð¿ÑÐ¸Ñ…Ð¸Ñ‡ÐµÑÐºÐ¾Ð¼Ñƒ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ Ð½Ð°ÑˆÐ¸Ñ… ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð². ÐœÑ‹ Ð¿Ñ€ÐµÐ´Ð»Ð°Ð³Ð°ÐµÐ¼ ÐºÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ñ‹Ðµ Ð»ÑŒÐ³Ð¾Ñ‚Ñ‹, Ð³Ð¸Ð±ÐºÐ¸Ð¹ Ð³Ñ€Ð°Ñ„Ð¸Ðº Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ð¸ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¸, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ Ñ‡Ð»ÐµÐ½Ð°Ð¼ Ð½Ð°ÑˆÐµÐ¹ ÐºÐ¾Ð¼Ð°Ð½Ð´Ñ‹ Ð¿Ñ€Ð¾Ñ†Ð²ÐµÑ‚Ð°Ñ‚ÑŒ ÐºÐ°Ðº Ð² Ð»Ð¸Ñ‡Ð½Ð¾Ð¼, Ñ‚Ð°Ðº Ð¸ Ð² Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¼ Ð¿Ð»Ð°Ð½Ðµ.',
         },
       ],
     },
@@ -166,11 +166,11 @@ export default function DeiPolicy() {
         </div>
       </div>
 
-      <div className="bg-card overflow-hidden rounded-2xl shadow-xl">
+      <div className="bg-card overflow-hidden rounded-lg shadow-sm">
         <div className="bg-linear-to-r from-purple-600 to-pink-600 px-8 py-12 text-primary-foreground">
           <div className="mb-4 flex items-center gap-4">
             <Users className="h-12 w-12 opacity-90" />
-            <h1 className="text-3xl font-bold">{t.title}</h1>
+            <h1 className="text-3xl font-semibold">{t.title}</h1>
           </div>
           <p className="max-w-2xl opacity-90">{t.intro}</p>
           <p className="mt-4 text-sm opacity-75">{t.lastUpdated}</p>
@@ -180,7 +180,7 @@ export default function DeiPolicy() {
           {t.sections.map((section, index) => (
             <div
               key={index}
-              className="bg-muted/30 hover:bg-muted flex gap-4 rounded-2xl p-6 transition-colors"
+              className="bg-muted/30 hover:bg-muted flex gap-4 rounded-lg p-6 transition-colors"
             >
               <div className="mt-1 shrink-0">{section.icon}</div>
               <div>
@@ -193,7 +193,7 @@ export default function DeiPolicy() {
 
         <div className="bg-muted/30 border-t border-border px-8 py-6">
           <p className="text-muted-foreground text-center text-sm">
-            © {new Date().getFullYear()} EKA Balance. All rights reserved.
+            Â© {new Date().getFullYear()} EKA Balance. All rights reserved.
           </p>
         </div>
       </div>

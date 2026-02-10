@@ -23,7 +23,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { createTemplate, updateTemplate, SessionTemplate } from '@/server/therapist/templates';
-import { toast } from 'sonner';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
+import { InlineFeedbackCompact } from '@/components/ui/inline-feedback';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -47,6 +48,7 @@ interface TemplateFormProps {
 export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const saveFeedback = useMorphingFeedback();
 
   // Parse existing content if it's JSON
   let defaultContent = '';
@@ -71,6 +73,7 @@ export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
 
   async function onSubmit(values: FormValues) {
     setIsSubmitting(true);
+    saveFeedback.setLoading('Saving...');
     try {
       const formData = new FormData();
       formData.append('name', values.name);
@@ -79,18 +82,18 @@ export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
 
       if (template) {
         await updateTemplate(template.id, formData);
-        toast.success('Template updated successfully');
+        saveFeedback.setSuccess('Template updated');
       } else {
         await createTemplate(formData);
-        toast.success('Template created successfully');
+        saveFeedback.setSuccess('Template created');
       }
 
       router.refresh();
       if (onSuccess) {
-        onSuccess();
+        setTimeout(onSuccess, 1000);
       }
     } catch (error) {
-      toast.error('Something went wrong');
+      saveFeedback.setError('Something went wrong');
       console.error(error);
     } finally {
       setIsSubmitting(false);
@@ -148,7 +151,7 @@ export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
               <FormControl>
                 <Textarea
                   placeholder="Enter template content or structure..."
-                  className="min-h-[200px] font-mono text-sm"
+                  className="min-h-50 font-mono text-sm"
                   {...field}
                 />
               </FormControl>
@@ -158,7 +161,12 @@ export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
           )}
         />
 
-        <div className="flex justify-end gap-2">
+        <div className="flex items-center justify-end gap-3">
+          <InlineFeedbackCompact
+            status={saveFeedback.status}
+            message={saveFeedback.message}
+            onDismiss={saveFeedback.reset}
+          />
           <Button type="button" variant="outline" onClick={onSuccess}>
             Cancel
           </Button>

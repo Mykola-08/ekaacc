@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * AI Chat Welcome Screen
@@ -59,11 +59,11 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl"
+          className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg"
         >
           <Sparkles className="text-primary h-8 w-8" />
         </motion.div>
-        <h1 className="text-foreground mb-1 text-2xl font-bold tracking-tight">
+        <h1 className="text-foreground mb-1 text-2xl font-semibold tracking-tight">
           {greeting}{userName ? `, ${userName}` : ""}
         </h1>
         <p className="text-muted-foreground text-sm">

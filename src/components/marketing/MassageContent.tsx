@@ -5,7 +5,7 @@ import { ArrowRight, CheckCircle2, Clock, Heart } from 'lucide-react';
 import { useBooking } from '@/hooks/marketing/useBooking';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import PageLayout from '@/components/marketing/PageLayout';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 
 export default function MassageContent() {
   const { navigateToBooking } = useBooking();
@@ -34,17 +34,17 @@ export default function MassageContent() {
   const durations = [60, 90, 120];
 
   const Hero = (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 px-6 pt-32 pb-20">
+    <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50 px-6 pt-32 pb-20">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
         <div>
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-orange-100 bg-white/80 px-3 py-1 text-sm text-orange-600 shadow-sm backdrop-blur-sm">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-gray-100 bg-white/80 px-3 py-1 text-sm text-primary shadow-sm backdrop-blur-sm">
             <Heart className="h-4 w-4" />
             <span className="font-medium">{t('massage.hero.badge')}</span>
           </div>
 
-          <h1 className="heading-1 mb-6 bg-gradient-to-r from-gray-900 via-orange-800 to-gray-900 bg-clip-text text-transparent">
+          <h1 className="heading-1 mb-6 bg-linear-to-r from-gray-900 via-primary to-gray-900 bg-clip-text text-transparent">
             {t('massage.page.title')}
           </h1>
 
@@ -55,7 +55,7 @@ export default function MassageContent() {
           <div className="flex flex-wrap gap-4">
             <Button
               onClick={() => navigateToBooking()}
-              className="h-14 rounded-[20px] border-none bg-accent px-8 text-lg font-semibold text-eka-dark shadow-lg shadow-amber-200/50 hover:bg-accent/90"
+              className="h-14 rounded-[20px] border-none bg-primary px-8 text-lg font-semibold text-white shadow-lg shadow-primary/20 hover:bg-primary/90"
             >
               {t('common.bookNow')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -76,8 +76,8 @@ export default function MassageContent() {
           {/* Floating Card */}
           <div className="absolute -bottom-6 -left-6 max-w-xs rounded-[20px] border border-gray-100 bg-white p-4 shadow-xl">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100">
-                <Clock className="h-5 w-5 text-orange-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-marketing-accent-light text-marketing-accent-dark">
+                <Clock className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900">
@@ -110,10 +110,10 @@ export default function MassageContent() {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex gap-4 rounded-[20px] border border-orange-100 bg-orange-50/50 p-6 transition-colors hover:border-orange-200"
+                className="flex gap-4 rounded-[20px] border border-gray-100 bg-gray-50/50 p-6 transition-colors hover:border-marketing-accent-light"
               >
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-orange-100">
-                  <CheckCircle2 className="h-5 w-5 text-orange-600" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-marketing-accent-light text-marketing-accent-dark">
+                  <CheckCircle2 className="h-5 w-5" />
                 </div>
                 <span className="pt-2 text-lg font-medium text-gray-700">{benefit}</span>
               </div>
@@ -138,17 +138,17 @@ export default function MassageContent() {
                 key={duration}
                 className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
-                <div className="absolute top-0 left-0 h-1 w-full origin-left scale-x-0 transform bg-gradient-to-r from-orange-400 to-amber-500 transition-transform duration-300 group-hover:scale-x-100" />
+                <div className="absolute top-0 left-0 h-1 w-full origin-left scale-x-0 transform bg-linear-to-r from-marketing-accent to-marketing-accent-dark transition-transform duration-300 group-hover:scale-x-100" />
 
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-orange-50 transition-colors group-hover:bg-orange-100">
-                  <Clock className="h-8 w-8 text-orange-600" />
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-marketing-accent-light transition-colors group-hover:bg-marketing-accent/20">
+                  <Clock className="h-8 w-8 text-marketing-accent-dark" />
                 </div>
 
                 <h3 className="mb-2 text-center text-2xl font-bold text-gray-900">
                   {duration} {t('common.minutes') || 'min'}
                 </h3>
 
-                <p className="mb-8 min-h-[3rem] text-center text-gray-600">
+                <p className="mb-8 min-h-12 text-center text-gray-600">
                   {duration === 60
                     ? t('massage.page.duration60')
                     : duration === 90
@@ -158,7 +158,7 @@ export default function MassageContent() {
 
                 <Button
                   onClick={() => navigateToBooking()}
-                  className="h-12 w-full rounded-xl border-none bg-gray-900 text-white hover:bg-gray-800"
+                  className="h-12 w-full rounded-xl border-none bg-primary text-white hover:bg-primary/90"
                 >
                   {t('common.bookNow')}
                 </Button>
@@ -178,12 +178,12 @@ export default function MassageContent() {
           <div className="grid gap-8 md:grid-cols-2">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="relative rounded-[20px] bg-gray-50 p-10">
-                <div className="absolute top-8 left-8 font-serif text-6xl text-orange-200 opacity-50">
+                <div className="absolute top-8 left-8 font-serif text-6xl text-marketing-accent opacity-30">
                   "
                 </div>
                 <div className="relative z-10 mb-6 flex gap-1">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Heart key={i} className="h-5 w-5 fill-orange-400 text-orange-400" />
+                    <Heart key={i} className="h-5 w-5 fill-marketing-accent text-marketing-accent" />
                   ))}
                 </div>
                 <p className="relative z-10 mb-6 text-lg leading-relaxed text-gray-700 italic">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import {
@@ -56,7 +56,7 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+            <h1 className="text-3xl font-semibold tracking-tight">Admin Dashboard</h1>
             <p className="text-muted-foreground">
               Welcome back, {user?.email || 'Admin'}. System administration and role management
             </p>
@@ -84,7 +84,7 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
               <Users className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalUsers.toLocaleString()}</div>
+              <div className="text-2xl font-semibold">{stats.totalUsers.toLocaleString()}</div>
               <p className="text-muted-foreground text-xs">
                 {stats.usersGrowth > 0 ? '+' : ''}
                 {stats.usersGrowth}% from last month
@@ -98,7 +98,7 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
               <Activity className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">€{stats.revenueMtd.toLocaleString()}</div>
+              <div className="text-2xl font-semibold">â‚¬{stats.revenueMtd.toLocaleString()}</div>
               <p className="text-muted-foreground text-xs">Plan & Service Revenue</p>
             </CardContent>
           </Card>
@@ -109,7 +109,7 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
               <BarChart3 className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.revenueGrowth}%</div>
+              <div className="text-2xl font-semibold">{stats.revenueGrowth}%</div>
               <p className="text-muted-foreground text-xs">Revenue Growth MoM</p>
             </CardContent>
           </Card>
@@ -120,7 +120,7 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
               <Shield className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold capitalize">{stats.systemHealth}</div>
+              <div className="text-2xl font-semibold capitalize">{stats.systemHealth}</div>
               <p className="text-muted-foreground text-xs">All services operational</p>
             </CardContent>
           </Card>

@@ -1,9 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { OnboardingQuestion } from '@/types/personalization';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 // import { submitOnboarding } from '@/server/personalization/actions';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Check, ChevronLeft, CheckCircle2 } from 'lucide-react';
@@ -125,7 +125,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
             transition={{ duration: 0.3 }}
             className="w-full"
           >
-            <div className="text-primary mb-2 text-sm font-bold tracking-widest uppercase">
+            <div className="text-primary mb-2 text-sm font-semibold tracking-widest uppercase">
               Question {currentIndex + 1} of {questions.length}
             </div>
 
@@ -141,7 +141,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                       key={option.value}
                       onClick={() => handleAnswer(option.value)}
                       className={cn(
-                        'group glass-card flex w-full cursor-pointer items-center justify-between rounded-[20px] border p-6 text-left transition-all hover:bg-white/80',
+                        'group glass-card flex w-full cursor-pointer items-center justify-between rounded-lg border p-6 text-left transition-all hover:bg-white/80',
                         answers[currentQuestion.id] === option.value
                           ? 'border-primary ring-primary ring-1'
                           : 'hover:border-primary/50 border-white/40'
@@ -183,7 +183,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                           handleAnswer(newAnswers);
                         }}
                         className={cn(
-                          'group glass-card flex w-full cursor-pointer items-center justify-between rounded-[20px] border p-6 text-left transition-all hover:bg-white/80',
+                          'group glass-card flex w-full cursor-pointer items-center justify-between rounded-lg border p-6 text-left transition-all hover:bg-white/80',
                           isSelected
                             ? 'border-primary bg-primary/5'
                             : 'hover:border-primary/50 border-white/40'
@@ -212,13 +212,13 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
               )}
 
               {questionType === 'scale' && (
-                <div className="glass-panel flex items-center justify-between rounded-[20px] p-8">
+                <div className="glass-panel flex items-center justify-between rounded-lg p-8">
                   {[1, 2, 3, 4, 5].map((val) => (
                     <button
                       key={val}
                       onClick={() => handleAnswer(val)}
                       className={cn(
-                        'flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold transition-all md:h-16 md:w-16',
+                        'flex h-12 w-12 items-center justify-center rounded-full text-xl font-semibold transition-all md:h-16 md:w-16',
                         answers[currentQuestion.id] === val
                           ? 'bg-primary shadow-primary/20 scale-110 text-white shadow-lg'
                           : 'text-muted-foreground bg-black/5 hover:bg-black/10'
@@ -259,7 +259,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                 onClick={handleNext}
                 disabled={isSubmitting}
                 size="lg"
-                className="h-14 rounded-full px-8 text-lg shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="h-14 rounded-full px-8 text-lg shadow-lg transition-all hover:-translate-y-1 hover:shadow-sm"
               >
                 {isLast ? (isSubmitting ? 'Saving...' : 'Complete Profile') : 'Continue'}
                 {!isLast && <ArrowRight className="ml-2 h-5 w-5" />}

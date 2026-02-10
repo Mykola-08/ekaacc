@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import { getAdminBookings, adminCancelBooking } from '@/app/actions/admin';
@@ -81,11 +81,11 @@ export function AdminBookingTableHeadless() {
       {/* Controls */}
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="group relative w-full sm:w-96">
-          <Search className="text-muted-foreground/80 absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-blue-500" />
+          <Search className="text-muted-foreground/80 absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-primary" />
           <input
             type="text"
             placeholder="Search bookings..."
-            className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-[20px] border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
+            className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-lg border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-primary"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -93,7 +93,7 @@ export function AdminBookingTableHeadless() {
 
         <Listbox value={filterStatus} onChange={setFilterStatus}>
           <div className="relative z-20 mt-1 w-full sm:w-48">
-            <ListboxButton className="bg-card relative w-full cursor-pointer rounded-[20px] py-3 pr-10 pl-4 text-left shadow-sm ring-1 ring-border ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
+            <ListboxButton className="bg-card relative w-full cursor-pointer rounded-lg py-3 pr-10 pl-4 text-left shadow-sm ring-1 ring-border ring-inset focus:ring-2 focus:ring-ring focus:outline-none sm:text-sm sm:leading-6">
               <span className="block truncate capitalize">
                 {statusOptions.find((o) => o.id === filterStatus)?.name || 'Filter'}
               </span>
@@ -107,13 +107,13 @@ export function AdminBookingTableHeadless() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <ListboxOptions className="bg-card ring-opacity-5 absolute mt-1 max-h-60 w-full overflow-auto rounded-[20px] py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm">
+              <ListboxOptions className="bg-card ring-opacity-5 absolute mt-1 max-h-60 w-full overflow-auto rounded-lg py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm">
                 {statusOptions.map((opt) => (
                   <ListboxOption
                     key={opt.id}
                     className={({ active }) =>
                       cn(
-                        active ? 'bg-blue-50 text-blue-900' : 'text-foreground',
+                        active ? 'bg-primary/5 text-foreground' : 'text-foreground',
                         'relative cursor-default py-2 pr-4 pl-10 select-none'
                       )
                     }
@@ -127,7 +127,7 @@ export function AdminBookingTableHeadless() {
                           {opt.name}
                         </span>
                         {selected ? (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
                             <Check className="h-5 w-5" aria-hidden="true" />
                           </span>
                         ) : null}
@@ -142,10 +142,10 @@ export function AdminBookingTableHeadless() {
       </div>
 
       {/* Table */}
-      <div className="bg-card overflow-hidden rounded-[20px] ring-1 ring-border">
+      <div className="bg-card overflow-hidden rounded-lg ring-1 ring-border">
         {loading ? (
           <div className="flex items-center justify-center p-20">
-            <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : bookings.length === 0 ? (
           <div className="text-muted-foreground p-20 text-center">No bookings found.</div>
@@ -237,7 +237,7 @@ export function AdminBookingTableHeadless() {
       </div>
 
       {/* Pagination */}
-      <div className="border-border bg-card flex items-center justify-between rounded-[20px] border-t px-4 py-3 ring-1 ring-border sm:px-6">
+      <div className="border-border bg-card flex items-center justify-between rounded-lg border-t px-4 py-3 ring-1 ring-border sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -288,7 +288,7 @@ export function AdminBookingTableHeadless() {
                     onClick={() => setPage(pNum)}
                     className={cn(
                       pNum === page
-                        ? 'z-10 bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
+                        ? 'z-10 bg-primary text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
                         : 'text-foreground hover:bg-muted/30 ring-1 ring-border ring-inset focus:outline-offset-0',
                       'relative inline-flex items-center px-4 py-2 text-sm font-semibold'
                     )}

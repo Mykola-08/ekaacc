@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { Shield, Lock, EyeOff, UserMinus, AlertCircle } from 'lucide-react';
@@ -22,7 +22,7 @@ export default function ChildrensPrivacyPolicy() {
         },
         {
           title: '2. Parental Consent',
-          icon: <Shield className="h-6 w-6 text-blue-600" />,
+          icon: <Shield className="h-6 w-6 text-primary" />,
           text: 'In the event that we discover we have collected information from a child without parental consent, we will delete that information as quickly as possible. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.',
         },
         {
@@ -43,101 +43,101 @@ export default function ChildrensPrivacyPolicy() {
       ],
     },
     es: {
-      title: 'Política de Privacidad para Niños',
-      lastUpdated: 'Última actualización: 10 de marzo de 2025',
+      title: 'PolÃ­tica de Privacidad para NiÃ±os',
+      lastUpdated: 'Ãšltima actualizaciÃ³n: 10 de marzo de 2025',
       intro:
-        'EKA Balance se compromete a proteger la privacidad de los niños. Esta política explica nuestras prácticas con respecto a la recopilación, el uso y la divulgación de información personal de niños menores de 13 años (o la edad aplicable en su jurisdicción).',
+        'EKA Balance se compromete a proteger la privacidad de los niÃ±os. Esta polÃ­tica explica nuestras prÃ¡cticas con respecto a la recopilaciÃ³n, el uso y la divulgaciÃ³n de informaciÃ³n personal de niÃ±os menores de 13 aÃ±os (o la edad aplicable en su jurisdicciÃ³n).',
       sections: [
         {
-          title: '1. No Recopilación de Datos de Niños',
+          title: '1. No RecopilaciÃ³n de Datos de NiÃ±os',
           icon: <UserMinus className="h-6 w-6 text-red-600" />,
-          text: 'No recopilamos, utilizamos ni divulgamos a sabiendas información personal de niños menores de 13 años. Si cree que hemos recopilado información personal de un niño menor de 13 años, contáctenos de inmediato.',
+          text: 'No recopilamos, utilizamos ni divulgamos a sabiendas informaciÃ³n personal de niÃ±os menores de 13 aÃ±os. Si cree que hemos recopilado informaciÃ³n personal de un niÃ±o menor de 13 aÃ±os, contÃ¡ctenos de inmediato.',
         },
         {
           title: '2. Consentimiento de los Padres',
-          icon: <Shield className="h-6 w-6 text-blue-600" />,
-          text: 'En el caso de que descubramos que hemos recopilado información de un niño sin el consentimiento de los padres, eliminaremos esa información lo más rápido posible. Alentamos a los padres y tutores a observar, participar y/o monitorear y guiar su actividad en línea.',
+          icon: <Shield className="h-6 w-6 text-primary" />,
+          text: 'En el caso de que descubramos que hemos recopilado informaciÃ³n de un niÃ±o sin el consentimiento de los padres, eliminaremos esa informaciÃ³n lo mÃ¡s rÃ¡pido posible. Alentamos a los padres y tutores a observar, participar y/o monitorear y guiar su actividad en lÃ­nea.',
         },
         {
           title: '3. Restricciones de Edad',
           icon: <AlertCircle className="h-6 w-6 text-orange-600" />,
-          text: 'Nuestros servicios están destinados a una audiencia general y no están dirigidos a niños. Los usuarios deben tener al menos 18 años para registrarse en una cuenta. Cualquier cuenta que se descubra que ha sido creada por un niño será cancelada.',
+          text: 'Nuestros servicios estÃ¡n destinados a una audiencia general y no estÃ¡n dirigidos a niÃ±os. Los usuarios deben tener al menos 18 aÃ±os para registrarse en una cuenta. Cualquier cuenta que se descubra que ha sido creada por un niÃ±o serÃ¡ cancelada.',
         },
         {
           title: '4. Servicios de Terceros',
           icon: <EyeOff className="h-6 w-6 text-purple-600" />,
-          text: 'No permitimos que las redes publicitarias de terceros recopilen información sobre niños en nuestro sitio. Examinamos cuidadosamente a nuestros proveedores de servicios para asegurarnos de que cumplan con las leyes de privacidad infantil aplicables.',
+          text: 'No permitimos que las redes publicitarias de terceros recopilen informaciÃ³n sobre niÃ±os en nuestro sitio. Examinamos cuidadosamente a nuestros proveedores de servicios para asegurarnos de que cumplan con las leyes de privacidad infantil aplicables.',
         },
         {
           title: '5. Contacto para Padres',
           icon: <Lock className="h-6 w-6 text-green-600" />,
-          text: 'Si usted es padre o tutor y cree que su hijo nos ha proporcionado información personal, comuníquese con nuestro Oficial de Privacidad en privacy@eka-balance.com para solicitar la eliminación.',
+          text: 'Si usted es padre o tutor y cree que su hijo nos ha proporcionado informaciÃ³n personal, comunÃ­quese con nuestro Oficial de Privacidad en privacy@eka-balance.com para solicitar la eliminaciÃ³n.',
         },
       ],
     },
     ca: {
-      title: 'Política de Privacitat per a Menors',
-      lastUpdated: 'Darrera actualització: 10 de març de 2025',
+      title: 'PolÃ­tica de Privacitat per a Menors',
+      lastUpdated: 'Darrera actualitzaciÃ³: 10 de marÃ§ de 2025',
       intro:
-        "EKA Balance es compromet a protegir la privacitat dels menors. Aquesta política explica les nostres pràctiques pel que fa a la recopilació, l'ús i la divulgació d'informació personal de menors de 13 anys (o l'edat aplicable a la vostra jurisdicció).",
+        "EKA Balance es compromet a protegir la privacitat dels menors. Aquesta polÃ­tica explica les nostres prÃ ctiques pel que fa a la recopilaciÃ³, l'Ãºs i la divulgaciÃ³ d'informaciÃ³ personal de menors de 13 anys (o l'edat aplicable a la vostra jurisdicciÃ³).",
       sections: [
         {
-          title: '1. No Recopilació de Dades de Menors',
+          title: '1. No RecopilaciÃ³ de Dades de Menors',
           icon: <UserMinus className="h-6 w-6 text-red-600" />,
-          text: "No recopilem, utilitzem ni divulguem conscientment informació personal de menors de 13 anys. Si creieu que hem recopilat informació personal d'un menor de 13 anys, poseu-vos en contacte amb nosaltres immediatament.",
+          text: "No recopilem, utilitzem ni divulguem conscientment informaciÃ³ personal de menors de 13 anys. Si creieu que hem recopilat informaciÃ³ personal d'un menor de 13 anys, poseu-vos en contacte amb nosaltres immediatament.",
         },
         {
           title: '2. Consentiment dels Pares',
-          icon: <Shield className="h-6 w-6 text-blue-600" />,
-          text: "En el cas que descobrim que hem recopilat informació d'un menor sense el consentiment dels pares, eliminarem aquesta informació el més ràpid possible. Encoratgem els pares i tutors a observar, participar i/o supervisar i guiar la seva activitat en línia.",
+          icon: <Shield className="h-6 w-6 text-primary" />,
+          text: "En el cas que descobrim que hem recopilat informaciÃ³ d'un menor sense el consentiment dels pares, eliminarem aquesta informaciÃ³ el mÃ©s rÃ pid possible. Encoratgem els pares i tutors a observar, participar i/o supervisar i guiar la seva activitat en lÃ­nia.",
         },
         {
           title: "3. Restriccions d'Edat",
           icon: <AlertCircle className="h-6 w-6 text-orange-600" />,
-          text: 'Els nostres serveis estan destinats a un públic general i no estan dirigits a menors. Els usuaris han de tenir almenys 18 anys per registrar-se en un compte. Qualsevol compte que es descobreixi que ha estat creat per un menor serà cancel·lat.',
+          text: 'Els nostres serveis estan destinats a un pÃºblic general i no estan dirigits a menors. Els usuaris han de tenir almenys 18 anys per registrar-se en un compte. Qualsevol compte que es descobreixi que ha estat creat per un menor serÃ  cancelÂ·lat.',
         },
         {
           title: '4. Serveis de Tercers',
           icon: <EyeOff className="h-6 w-6 text-purple-600" />,
-          text: 'No permetem que les xarxes publicitàries de tercers recopilin informació sobre menors al nostre lloc. Examinem acuradament els nostres proveïdors de serveis per assegurar-nos que compleixin amb les lleis de privacitat infantil aplicables.',
+          text: 'No permetem que les xarxes publicitÃ ries de tercers recopilin informaciÃ³ sobre menors al nostre lloc. Examinem acuradament els nostres proveÃ¯dors de serveis per assegurar-nos que compleixin amb les lleis de privacitat infantil aplicables.',
         },
         {
           title: '5. Contacte per a Pares',
           icon: <Lock className="h-6 w-6 text-green-600" />,
-          text: "Si sou pare o tutor i creieu que el vostre fill ens ha proporcionat informació personal, poseu-vos en contacte amb el nostre Oficial de Privacitat a privacy@eka-balance.com per sol·licitar l'eliminació.",
+          text: "Si sou pare o tutor i creieu que el vostre fill ens ha proporcionat informaciÃ³ personal, poseu-vos en contacte amb el nostre Oficial de Privacitat a privacy@eka-balance.com per solÂ·licitar l'eliminaciÃ³.",
         },
       ],
     },
     ru: {
-      title: 'Политика конфиденциальности для детей',
-      lastUpdated: 'Последнее обновление: 10 марта 2025 г.',
+      title: 'ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð´Ð»Ñ Ð´ÐµÑ‚ÐµÐ¹',
+      lastUpdated: 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: 10 Ð¼Ð°Ñ€Ñ‚Ð° 2025 Ð³.',
       intro:
-        'EKA Balance обязуется защищать конфиденциальность детей. Эта политика объясняет наши методы сбора, использования и раскрытия личной информации детей в возрасте до 13 лет (или соответствующего возраста в вашей юрисдикции).',
+        'EKA Balance Ð¾Ð±ÑÐ·ÑƒÐµÑ‚ÑÑ Ð·Ð°Ñ‰Ð¸Ñ‰Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð´ÐµÑ‚ÐµÐ¹. Ð­Ñ‚Ð° Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° Ð¾Ð±ÑŠÑÑÐ½ÑÐµÑ‚ Ð½Ð°ÑˆÐ¸ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ ÑÐ±Ð¾Ñ€Ð°, Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¸ Ñ€Ð°ÑÐºÑ€Ñ‹Ñ‚Ð¸Ñ Ð»Ð¸Ñ‡Ð½Ð¾Ð¹ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð´ÐµÑ‚ÐµÐ¹ Ð² Ð²Ð¾Ð·Ñ€Ð°ÑÑ‚Ðµ Ð´Ð¾ 13 Ð»ÐµÑ‚ (Ð¸Ð»Ð¸ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰ÐµÐ³Ð¾ Ð²Ð¾Ð·Ñ€Ð°ÑÑ‚Ð° Ð² Ð²Ð°ÑˆÐµÐ¹ ÑŽÑ€Ð¸ÑÐ´Ð¸ÐºÑ†Ð¸Ð¸).',
       sections: [
         {
-          title: '1. Отсутствие сбора данных о детях',
+          title: '1. ÐžÑ‚ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ ÑÐ±Ð¾Ñ€Ð° Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð¾ Ð´ÐµÑ‚ÑÑ…',
           icon: <UserMinus className="h-6 w-6 text-red-600" />,
-          text: 'Мы сознательно не собираем, не используем и не раскрываем личную информацию детей в возрасте до 13 лет. Если вы считаете, что мы собрали личную информацию ребенка в возрасте до 13 лет, немедленно свяжитесь с нами.',
+          text: 'ÐœÑ‹ ÑÐ¾Ð·Ð½Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð½Ðµ ÑÐ¾Ð±Ð¸Ñ€Ð°ÐµÐ¼, Ð½Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ Ð¸ Ð½Ðµ Ñ€Ð°ÑÐºÑ€Ñ‹Ð²Ð°ÐµÐ¼ Ð»Ð¸Ñ‡Ð½ÑƒÑŽ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð´ÐµÑ‚ÐµÐ¹ Ð² Ð²Ð¾Ð·Ñ€Ð°ÑÑ‚Ðµ Ð´Ð¾ 13 Ð»ÐµÑ‚. Ð•ÑÐ»Ð¸ Ð²Ñ‹ ÑÑ‡Ð¸Ñ‚Ð°ÐµÑ‚Ðµ, Ñ‡Ñ‚Ð¾ Ð¼Ñ‹ ÑÐ¾Ð±Ñ€Ð°Ð»Ð¸ Ð»Ð¸Ñ‡Ð½ÑƒÑŽ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ñ€ÐµÐ±ÐµÐ½ÐºÐ° Ð² Ð²Ð¾Ð·Ñ€Ð°ÑÑ‚Ðµ Ð´Ð¾ 13 Ð»ÐµÑ‚, Ð½ÐµÐ¼ÐµÐ´Ð»ÐµÐ½Ð½Ð¾ ÑÐ²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸.',
         },
         {
-          title: '2. Согласие родителей',
-          icon: <Shield className="h-6 w-6 text-blue-600" />,
-          text: 'В случае, если мы обнаружим, что собрали информацию от ребенка без согласия родителей, мы удалим эту информацию как можно быстрее. Мы призываем родителей и опекунов наблюдать, участвовать и/или контролировать и направлять их деятельность в Интернете.',
+          title: '2. Ð¡Ð¾Ð³Ð»Ð°ÑÐ¸Ðµ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹',
+          icon: <Shield className="h-6 w-6 text-primary" />,
+          text: 'Ð’ ÑÐ»ÑƒÑ‡Ð°Ðµ, ÐµÑÐ»Ð¸ Ð¼Ñ‹ Ð¾Ð±Ð½Ð°Ñ€ÑƒÐ¶Ð¸Ð¼, Ñ‡Ñ‚Ð¾ ÑÐ¾Ð±Ñ€Ð°Ð»Ð¸ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¾Ñ‚ Ñ€ÐµÐ±ÐµÐ½ÐºÐ° Ð±ÐµÐ· ÑÐ¾Ð³Ð»Ð°ÑÐ¸Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹, Ð¼Ñ‹ ÑƒÐ´Ð°Ð»Ð¸Ð¼ ÑÑ‚Ñƒ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ ÐºÐ°Ðº Ð¼Ð¾Ð¶Ð½Ð¾ Ð±Ñ‹ÑÑ‚Ñ€ÐµÐµ. ÐœÑ‹ Ð¿Ñ€Ð¸Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹ Ð¸ Ð¾Ð¿ÐµÐºÑƒÐ½Ð¾Ð² Ð½Ð°Ð±Ð»ÑŽÐ´Ð°Ñ‚ÑŒ, ÑƒÑ‡Ð°ÑÑ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ Ð¸/Ð¸Ð»Ð¸ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¸ Ð½Ð°Ð¿Ñ€Ð°Ð²Ð»ÑÑ‚ÑŒ Ð¸Ñ… Ð´ÐµÑÑ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð² Ð˜Ð½Ñ‚ÐµÑ€Ð½ÐµÑ‚Ðµ.',
         },
         {
-          title: '3. Возрастные ограничения',
+          title: '3. Ð’Ð¾Ð·Ñ€Ð°ÑÑ‚Ð½Ñ‹Ðµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ',
           icon: <AlertCircle className="h-6 w-6 text-orange-600" />,
-          text: 'Наши услуги предназначены для широкой аудитории и не направлены на детей. Пользователям должно быть не менее 18 лет для регистрации учетной записи. Любая учетная запись, созданная ребенком, будет аннулирована.',
+          text: 'ÐÐ°ÑˆÐ¸ ÑƒÑÐ»ÑƒÐ³Ð¸ Ð¿Ñ€ÐµÐ´Ð½Ð°Ð·Ð½Ð°Ñ‡ÐµÐ½Ñ‹ Ð´Ð»Ñ ÑˆÐ¸Ñ€Ð¾ÐºÐ¾Ð¹ Ð°ÑƒÐ´Ð¸Ñ‚Ð¾Ñ€Ð¸Ð¸ Ð¸ Ð½Ðµ Ð½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ñ‹ Ð½Ð° Ð´ÐµÑ‚ÐµÐ¹. ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑÐ¼ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð½Ðµ Ð¼ÐµÐ½ÐµÐµ 18 Ð»ÐµÑ‚ Ð´Ð»Ñ Ñ€ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ð¸ ÑƒÑ‡ÐµÑ‚Ð½Ð¾Ð¹ Ð·Ð°Ð¿Ð¸ÑÐ¸. Ð›ÑŽÐ±Ð°Ñ ÑƒÑ‡ÐµÑ‚Ð½Ð°Ñ Ð·Ð°Ð¿Ð¸ÑÑŒ, ÑÐ¾Ð·Ð´Ð°Ð½Ð½Ð°Ñ Ñ€ÐµÐ±ÐµÐ½ÐºÐ¾Ð¼, Ð±ÑƒÐ´ÐµÑ‚ Ð°Ð½Ð½ÑƒÐ»Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð°.',
         },
         {
-          title: '4. Сторонние сервисы',
+          title: '4. Ð¡Ñ‚Ð¾Ñ€Ð¾Ð½Ð½Ð¸Ðµ ÑÐµÑ€Ð²Ð¸ÑÑ‹',
           icon: <EyeOff className="h-6 w-6 text-purple-600" />,
-          text: 'Мы не разрешаем сторонним рекламным сетям собирать информацию о детях на нашем сайте. Мы тщательно проверяем наших поставщиков услуг, чтобы убедиться, что они соблюдают применимые законы о конфиденциальности детей.',
+          text: 'ÐœÑ‹ Ð½Ðµ Ñ€Ð°Ð·Ñ€ÐµÑˆÐ°ÐµÐ¼ ÑÑ‚Ð¾Ñ€Ð¾Ð½Ð½Ð¸Ð¼ Ñ€ÐµÐºÐ»Ð°Ð¼Ð½Ñ‹Ð¼ ÑÐµÑ‚ÑÐ¼ ÑÐ¾Ð±Ð¸Ñ€Ð°Ñ‚ÑŒ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¾ Ð´ÐµÑ‚ÑÑ… Ð½Ð° Ð½Ð°ÑˆÐµÐ¼ ÑÐ°Ð¹Ñ‚Ðµ. ÐœÑ‹ Ñ‚Ñ‰Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð½Ð°ÑˆÐ¸Ñ… Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ¾Ð² ÑƒÑÐ»ÑƒÐ³, Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÑƒÐ±ÐµÐ´Ð¸Ñ‚ÑŒÑÑ, Ñ‡Ñ‚Ð¾ Ð¾Ð½Ð¸ ÑÐ¾Ð±Ð»ÑŽÐ´Ð°ÑŽÑ‚ Ð¿Ñ€Ð¸Ð¼ÐµÐ½Ð¸Ð¼Ñ‹Ðµ Ð·Ð°ÐºÐ¾Ð½Ñ‹ Ð¾ ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð´ÐµÑ‚ÐµÐ¹.',
         },
         {
-          title: '5. Контакт для родителей',
+          title: '5. ÐšÐ¾Ð½Ñ‚Ð°ÐºÑ‚ Ð´Ð»Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹',
           icon: <Lock className="h-6 w-6 text-green-600" />,
-          text: 'Если вы являетесь родителем или опекуном и считаете, что ваш ребенок предоставил нам личную информацию, свяжитесь с нашим сотрудником по вопросам конфиденциальности по адресу privacy@eka-balance.com, чтобы запросить удаление.',
+          text: 'Ð•ÑÐ»Ð¸ Ð²Ñ‹ ÑÐ²Ð»ÑÐµÑ‚ÐµÑÑŒ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¼ Ð¸Ð»Ð¸ Ð¾Ð¿ÐµÐºÑƒÐ½Ð¾Ð¼ Ð¸ ÑÑ‡Ð¸Ñ‚Ð°ÐµÑ‚Ðµ, Ñ‡Ñ‚Ð¾ Ð²Ð°Ñˆ Ñ€ÐµÐ±ÐµÐ½Ð¾Ðº Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð¸Ð» Ð½Ð°Ð¼ Ð»Ð¸Ñ‡Ð½ÑƒÑŽ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ, ÑÐ²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°ÑˆÐ¸Ð¼ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¾Ð¼ Ð¿Ð¾ Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ°Ð¼ ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¿Ð¾ Ð°Ð´Ñ€ÐµÑÑƒ privacy@eka-balance.com, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð¿Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ðµ.',
         },
       ],
     },
@@ -166,11 +166,11 @@ export default function ChildrensPrivacyPolicy() {
         </div>
       </div>
 
-      <div className="bg-card overflow-hidden rounded-2xl shadow-xl">
+      <div className="bg-card overflow-hidden rounded-lg shadow-sm">
         <div className="bg-linear-to-r from-pink-500 to-rose-500 px-8 py-12 text-primary-foreground">
           <div className="mb-4 flex items-center gap-4">
             <Shield className="h-12 w-12 opacity-90" />
-            <h1 className="text-3xl font-bold">{t.title}</h1>
+            <h1 className="text-3xl font-semibold">{t.title}</h1>
           </div>
           <p className="max-w-2xl opacity-90">{t.intro}</p>
           <p className="mt-4 text-sm opacity-75">{t.lastUpdated}</p>
@@ -180,7 +180,7 @@ export default function ChildrensPrivacyPolicy() {
           {t.sections.map((section, index) => (
             <div
               key={index}
-              className="bg-muted/30 hover:bg-muted flex gap-4 rounded-2xl p-6 transition-colors"
+              className="bg-muted/30 hover:bg-muted flex gap-4 rounded-lg p-6 transition-colors"
             >
               <div className="mt-1 shrink-0">{section.icon}</div>
               <div>
@@ -193,7 +193,7 @@ export default function ChildrensPrivacyPolicy() {
 
         <div className="bg-muted/30 border-t border-border px-8 py-6">
           <p className="text-muted-foreground text-center text-sm">
-            © {new Date().getFullYear()} EKA Balance. All rights reserved.
+            Â© {new Date().getFullYear()} EKA Balance. All rights reserved.
           </p>
         </div>
       </div>

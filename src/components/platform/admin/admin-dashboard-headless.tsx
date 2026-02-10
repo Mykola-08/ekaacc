@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
@@ -64,7 +64,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
       {/* Header */}
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-foreground text-4xl font-bold tracking-tight">Admin Console</h1>
+          <h1 className="text-foreground text-4xl font-semibold tracking-tight">Admin Console</h1>
           <p className="text-muted-foreground mt-2 text-lg">
             System administration and performance monitoring.
           </p>
@@ -87,14 +87,14 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
 
       {/* KPIs */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-card group relative overflow-hidden rounded-[20px] p-6 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
-          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-50/50 blur-2xl" />
+        <div className="bg-card group relative overflow-hidden rounded-lg p-6 shadow-sm ring-1 ring-border">
+          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-2xl" />
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-muted-foreground text-sm font-medium">Total Users</h3>
-              <Users className="h-5 w-5 text-blue-500" />
+              <Users className="h-5 w-5 text-primary" />
             </div>
-            <div className="text-foreground text-3xl font-bold">
+            <div className="text-foreground text-3xl font-semibold">
               {stats.totalUsers.toLocaleString()}
             </div>
             <div className="mt-2 flex items-center text-xs font-medium text-green-600">
@@ -103,40 +103,40 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
           </div>
         </div>
 
-        <div className="bg-card group relative overflow-hidden rounded-[20px] p-6 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+        <div className="bg-card group relative overflow-hidden rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-green-50/50 blur-2xl" />
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-muted-foreground text-sm font-medium">Revenue (MTD)</h3>
               <DollarSign className="h-5 w-5 text-green-500" />
             </div>
-            <div className="text-foreground text-3xl font-bold">
-              €{stats.revenueMtd.toLocaleString()}
+            <div className="text-foreground text-3xl font-semibold">
+              â‚¬{stats.revenueMtd.toLocaleString()}
             </div>
             <div className="text-muted-foreground/80 mt-2 text-xs">Plan & Service Revenue</div>
           </div>
         </div>
 
-        <div className="bg-card group relative overflow-hidden rounded-[20px] p-6 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+        <div className="bg-card group relative overflow-hidden rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-50/50 blur-2xl" />
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-muted-foreground text-sm font-medium">Growth</h3>
               <BarChart3 className="h-5 w-5 text-purple-500" />
             </div>
-            <div className="text-foreground text-3xl font-bold">{stats.revenueGrowth}%</div>
+            <div className="text-foreground text-3xl font-semibold">{stats.revenueGrowth}%</div>
             <div className="text-muted-foreground/80 mt-2 text-xs">Revenue Growth MoM</div>
           </div>
         </div>
 
-        <div className="bg-card group relative overflow-hidden rounded-[20px] p-6 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100">
+        <div className="bg-card group relative overflow-hidden rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-50/50 blur-2xl" />
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-muted-foreground text-sm font-medium">System Status</h3>
               <Shield className="h-5 w-5 text-orange-500" />
             </div>
-            <div className="text-foreground text-3xl font-bold capitalize">
+            <div className="text-foreground text-3xl font-semibold capitalize">
               {stats.systemHealth}
             </div>
             <div className="text-muted-foreground/80 mt-2 text-xs">All services operational</div>
@@ -145,7 +145,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
       </div>
 
       <TabGroup>
-        <TabList className="bg-card/50 flex w-fit space-x-2 rounded-[20px] border border-border p-1 backdrop-blur-sm">
+        <TabList className="bg-card/50 flex w-fit space-x-2 rounded-lg border border-border p-1 backdrop-blur-sm">
           {tabs.map(({ name, icon: Icon }) => (
             <Tab
               key={name}
@@ -164,23 +164,23 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
           ))}
         </TabList>
         <TabPanels className="mt-6">
-          <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
-            <h2 className="text-foreground mb-6 text-xl font-bold">Recent Bookings</h2>
+          <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
+            <h2 className="text-foreground mb-6 text-xl font-semibold">Recent Bookings</h2>
             <AdminBookingTable />
           </TabPanel>
 
-          <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
-            <div className="mb-6 rounded-[20px] bg-amber-50 p-4 text-sm text-amber-800">
+          <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
+            <div className="mb-6 rounded-lg bg-amber-50 p-4 text-sm text-amber-800">
               Bookings management is also available in the Overview tab.
             </div>
             <AdminBookingTable />
           </TabPanel>
 
-          <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+          <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
             <RoleManagementPanel />
           </TabPanel>
 
-          <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+          <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
             <div className="text-muted-foreground/80 flex h-48 items-center justify-center">
               Audit logs implementation coming soon in next update.
             </div>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { UserProfile } from '@/server/admin/user-actions';
 import { Plus, MoreHorizontal, User, Shield, Phone, Mail, Building } from 'lucide-react';
@@ -77,7 +77,7 @@ function UserRow({ user, index }: { user: UserProfile; index: number }) {
 
   return (
     <Card
-      className="apple-card flex flex-col items-start gap-6 p-5 lg:flex-row lg:items-center"
+      className="bg-card border-border rounded-lg border p-5 shadow-sm flex flex-col items-start gap-6 lg:flex-row lg:items-center"
       style={{ animationDelay: `${index * 50}ms` }}
     >
       <div className="flex flex-1 items-center gap-4">
@@ -90,7 +90,7 @@ function UserRow({ user, index }: { user: UserProfile; index: number }) {
           <AvatarFallback
             className={cn(
               isLead
-                ? 'bg-primary/10 text-primary font-bold'
+                ? 'bg-primary/10 text-primary font-semibold'
                 : 'bg-secondary text-muted-foreground font-medium'
             )}
           >
@@ -98,7 +98,7 @@ function UserRow({ user, index }: { user: UserProfile; index: number }) {
           </AvatarFallback>
         </Avatar>
         <div>
-          <h3 className="text-foreground flex items-center gap-2 text-lg font-bold">
+          <h3 className="text-foreground flex items-center gap-2 text-lg font-semibold">
             {user.fullName || 'Unnamed User'}
             {isLead && <Shield className="text-primary fill-primary/20 h-3 w-3" />}
           </h3>
@@ -109,7 +109,7 @@ function UserRow({ user, index }: { user: UserProfile; index: number }) {
             </span>
             {user.phone && (
               <>
-                <span className="text-muted-foreground/30">•</span>
+                <span className="text-muted-foreground/30">â€¢</span>
                 <span className="flex items-center gap-1">
                   <Phone className="h-3 w-3" />
                   {user.phone}

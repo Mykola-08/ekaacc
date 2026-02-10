@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 interface ProgressRingProps {
   progress: number; // 0 to 100
@@ -57,7 +57,7 @@ export const ProgressRing = ({
         </svg>
         {showValue && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-foreground text-2xl font-bold tracking-tighter tabular-nums">
+            <span className="text-foreground text-2xl font-semibold tracking-tighter tabular-nums">
               {Math.round(progress)}%
             </span>
           </div>

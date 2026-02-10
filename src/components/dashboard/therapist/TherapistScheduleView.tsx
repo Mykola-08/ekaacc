@@ -1,11 +1,11 @@
-'use client';
+﻿'use client';
 
 import { useMemo } from 'react';
 import { ListTodo, Users, CheckSquare } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBookingRealtime } from '@/hooks/useBookingRealtime';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/morphing-toaster';
 import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { StatsCard } from '../widgets/StatsCard';
@@ -40,7 +40,7 @@ export function TherapistScheduleView({ schedule, profile }: { schedule: any[]; 
             icon={ListTodo}
             label={t('therapist.total_bookings')}
             value={stats.total}
-            colorClass="bg-blue-50 text-blue-600"
+            colorClass="bg-primary/5 text-primary"
           />
 
           {/* Pending Action */}
@@ -51,7 +51,7 @@ export function TherapistScheduleView({ schedule, profile }: { schedule: any[]; 
             colorClass="bg-amber-50 text-amber-600"
             action={
               stats.pending > 0 ? (
-                <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-700 uppercase">
+                <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700 uppercase">
                   Action Needed
                 </span>
               ) : undefined

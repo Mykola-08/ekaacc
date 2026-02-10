@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useMemo } from 'react';
 import { format } from 'date-fns';
@@ -36,7 +36,7 @@ function MinimalStatCard({
         {icon}
       </div>
       <div className="space-y-2">
-        <p className="text-foreground text-2xl font-bold">{value}</p>
+        <p className="text-foreground text-2xl font-semibold">{value}</p>
         <p className="text-muted-foreground text-sm">{description}</p>
         {trend && trend !== 'neutral' && (
           <div className={`flex items-center text-sm ${trendInfo.color}`}>

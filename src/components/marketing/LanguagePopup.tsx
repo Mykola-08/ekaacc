@@ -1,7 +1,7 @@
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { Language } from '@/context/marketing/LanguageTypes';
 import { X, Globe } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function LanguagePopup() {
   const { showLanguagePopup, setShowLanguagePopup, confirmLanguage, t } = useLanguage();

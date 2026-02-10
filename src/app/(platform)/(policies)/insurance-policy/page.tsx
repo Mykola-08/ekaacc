@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { Shield, FileCheck, Umbrella, AlertOctagon, CreditCard } from 'lucide-react';
@@ -17,7 +17,7 @@ export default function InsurancePolicy() {
       sections: [
         {
           title: '1. Insurance Coverage',
-          icon: <Umbrella className="h-6 w-6 text-blue-600" />,
+          icon: <Umbrella className="h-6 w-6 text-primary" />,
           text: 'We accept a variety of insurance plans. However, coverage varies significantly by plan and provider. It is your responsibility to understand your specific benefits, including deductibles, copays, and covered services.',
         },
         {
@@ -43,101 +43,101 @@ export default function InsurancePolicy() {
       ],
     },
     es: {
-      title: 'Política de Seguros',
-      lastUpdated: 'Última actualización: 10 de marzo de 2025',
+      title: 'PolÃ­tica de Seguros',
+      lastUpdated: 'Ãšltima actualizaciÃ³n: 10 de marzo de 2025',
       intro:
-        'Esta política describe cómo EKA Balance interactúa con los proveedores de seguros, las limitaciones de cobertura y sus responsabilidades con respecto a las reclamaciones y pagos de seguros.',
+        'Esta polÃ­tica describe cÃ³mo EKA Balance interactÃºa con los proveedores de seguros, las limitaciones de cobertura y sus responsabilidades con respecto a las reclamaciones y pagos de seguros.',
       sections: [
         {
           title: '1. Cobertura de Seguro',
-          icon: <Umbrella className="h-6 w-6 text-blue-600" />,
-          text: 'Aceptamos una variedad de planes de seguro. Sin embargo, la cobertura varía significativamente según el plan y el proveedor. Es su responsabilidad comprender sus beneficios específicos, incluidos los deducibles, copagos y servicios cubiertos.',
+          icon: <Umbrella className="h-6 w-6 text-primary" />,
+          text: 'Aceptamos una variedad de planes de seguro. Sin embargo, la cobertura varÃ­a significativamente segÃºn el plan y el proveedor. Es su responsabilidad comprender sus beneficios especÃ­ficos, incluidos los deducibles, copagos y servicios cubiertos.',
         },
         {
-          title: '2. Verificación de Beneficios',
+          title: '2. VerificaciÃ³n de Beneficios',
           icon: <FileCheck className="h-6 w-6 text-green-600" />,
-          text: 'Intentaremos verificar sus beneficios de seguro antes de su primera cita. Sin embargo, la verificación no es una garantía de pago. Usted es responsable de cualquier cargo no cubierto por su seguro.',
+          text: 'Intentaremos verificar sus beneficios de seguro antes de su primera cita. Sin embargo, la verificaciÃ³n no es una garantÃ­a de pago. Usted es responsable de cualquier cargo no cubierto por su seguro.',
         },
         {
           title: '3. Procesamiento de Reclamaciones',
           icon: <Shield className="h-6 w-6 text-purple-600" />,
-          text: 'Como cortesía, presentaremos reclamaciones a su proveedor de seguros en su nombre. Debe proporcionar información de seguro precisa y actualizada. Si se deniega una reclamación, usted será responsable del saldo total.',
+          text: 'Como cortesÃ­a, presentaremos reclamaciones a su proveedor de seguros en su nombre. Debe proporcionar informaciÃ³n de seguro precisa y actualizada. Si se deniega una reclamaciÃ³n, usted serÃ¡ responsable del saldo total.',
         },
         {
           title: '4. Beneficios Fuera de la Red',
           icon: <CreditCard className="h-6 w-6 text-orange-600" />,
-          text: "Si no estamos dentro de la red de su proveedor de seguros, es posible que aún pueda utilizar los beneficios fuera de la red. Podemos proporcionarle una 'Superfactura' para enviar a su seguro para un posible reembolso.",
+          text: "Si no estamos dentro de la red de su proveedor de seguros, es posible que aÃºn pueda utilizar los beneficios fuera de la red. Podemos proporcionarle una 'Superfactura' para enviar a su seguro para un posible reembolso.",
         },
         {
-          title: '5. Responsabilidad y Obligación',
+          title: '5. Responsabilidad y ObligaciÃ³n',
           icon: <AlertOctagon className="h-6 w-6 text-red-600" />,
-          text: 'Usted es, en última instancia, financieramente responsable de todos los servicios prestados. Si su cobertura de seguro cambia o termina, debe notificarnos de inmediato para evitar costos inesperados.',
+          text: 'Usted es, en Ãºltima instancia, financieramente responsable de todos los servicios prestados. Si su cobertura de seguro cambia o termina, debe notificarnos de inmediato para evitar costos inesperados.',
         },
       ],
     },
     ca: {
-      title: "Política d'Assegurances",
-      lastUpdated: 'Darrera actualització: 10 de març de 2025',
+      title: "PolÃ­tica d'Assegurances",
+      lastUpdated: 'Darrera actualitzaciÃ³: 10 de marÃ§ de 2025',
       intro:
-        "Aquesta política descriu com EKA Balance interactua amb els proveïdors d'assegurances, les limitacions de cobertura i les vostres responsabilitats pel que fa a les reclamacions i pagaments d'assegurances.",
+        "Aquesta polÃ­tica descriu com EKA Balance interactua amb els proveÃ¯dors d'assegurances, les limitacions de cobertura i les vostres responsabilitats pel que fa a les reclamacions i pagaments d'assegurances.",
       sections: [
         {
-          title: "1. Cobertura d'Assegurança",
-          icon: <Umbrella className="h-6 w-6 text-blue-600" />,
-          text: "Acceptem una varietat de plans d'assegurança. No obstant això, la cobertura varia significativament segons el pla i el proveïdor. És la vostra responsabilitat comprendre els vostres beneficis específics, inclosos els deduïbles, copagaments i serveis coberts.",
+          title: "1. Cobertura d'AsseguranÃ§a",
+          icon: <Umbrella className="h-6 w-6 text-primary" />,
+          text: "Acceptem una varietat de plans d'asseguranÃ§a. No obstant aixÃ², la cobertura varia significativament segons el pla i el proveÃ¯dor. Ã‰s la vostra responsabilitat comprendre els vostres beneficis especÃ­fics, inclosos els deduÃ¯bles, copagaments i serveis coberts.",
         },
         {
-          title: '2. Verificació de Beneficis',
+          title: '2. VerificaciÃ³ de Beneficis',
           icon: <FileCheck className="h-6 w-6 text-green-600" />,
-          text: "Intentarem verificar els vostres beneficis d'assegurança abans de la vostra primera cita. No obstant això, la verificació no és una garantia de pagament. Sou responsable de qualsevol càrrec no cobert per la vostra assegurança.",
+          text: "Intentarem verificar els vostres beneficis d'asseguranÃ§a abans de la vostra primera cita. No obstant aixÃ², la verificaciÃ³ no Ã©s una garantia de pagament. Sou responsable de qualsevol cÃ rrec no cobert per la vostra asseguranÃ§a.",
         },
         {
           title: '3. Processament de Reclamacions',
           icon: <Shield className="h-6 w-6 text-purple-600" />,
-          text: "Com a cortesia, presentarem reclamacions al vostre proveïdor d'assegurances en nom vostre. Heu de proporcionar informació d'assegurança precisa i actualitzada. Si es denega una reclamació, sereu responsable del saldo total.",
+          text: "Com a cortesia, presentarem reclamacions al vostre proveÃ¯dor d'assegurances en nom vostre. Heu de proporcionar informaciÃ³ d'asseguranÃ§a precisa i actualitzada. Si es denega una reclamaciÃ³, sereu responsable del saldo total.",
         },
         {
           title: '4. Beneficis Fora de la Xarxa',
           icon: <CreditCard className="h-6 w-6 text-orange-600" />,
-          text: "Si no estem dins de la xarxa del vostre proveïdor d'assegurances, és possible que encara pugueu utilitzar els beneficis fora de la xarxa. Podem proporcionar-vos una 'Superfactura' per enviar a la vostra assegurança per a un possible reemborsament.",
+          text: "Si no estem dins de la xarxa del vostre proveÃ¯dor d'assegurances, Ã©s possible que encara pugueu utilitzar els beneficis fora de la xarxa. Podem proporcionar-vos una 'Superfactura' per enviar a la vostra asseguranÃ§a per a un possible reemborsament.",
         },
         {
-          title: '5. Responsabilitat i Obligació',
+          title: '5. Responsabilitat i ObligaciÃ³',
           icon: <AlertOctagon className="h-6 w-6 text-red-600" />,
-          text: "Sou, en última instància, financerament responsable de tots els serveis prestats. Si la vostra cobertura d'assegurança canvia o finalitza, heu de notificar-nos immediatament per evitar costos inesperats.",
+          text: "Sou, en Ãºltima instÃ ncia, financerament responsable de tots els serveis prestats. Si la vostra cobertura d'asseguranÃ§a canvia o finalitza, heu de notificar-nos immediatament per evitar costos inesperats.",
         },
       ],
     },
     ru: {
-      title: 'Страховая политика',
-      lastUpdated: 'Последнее обновление: 10 марта 2025 г.',
+      title: 'Ð¡Ñ‚Ñ€Ð°Ñ…Ð¾Ð²Ð°Ñ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ°',
+      lastUpdated: 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: 10 Ð¼Ð°Ñ€Ñ‚Ð° 2025 Ð³.',
       intro:
-        'Эта политика описывает, как EKA Balance взаимодействует со страховыми компаниями, ограничения покрытия и ваши обязанности в отношении страховых требований и платежей.',
+        'Ð­Ñ‚Ð° Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° Ð¾Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÑ‚, ÐºÐ°Ðº EKA Balance Ð²Ð·Ð°Ð¸Ð¼Ð¾Ð´ÐµÐ¹ÑÑ‚Ð²ÑƒÐµÑ‚ ÑÐ¾ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ñ‹Ð¼Ð¸ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸ÑÐ¼Ð¸, Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ Ð¿Ð¾ÐºÑ€Ñ‹Ñ‚Ð¸Ñ Ð¸ Ð²Ð°ÑˆÐ¸ Ð¾Ð±ÑÐ·Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸ Ð² Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ð¸ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ñ‹Ñ… Ñ‚Ñ€ÐµÐ±Ð¾Ð²Ð°Ð½Ð¸Ð¹ Ð¸ Ð¿Ð»Ð°Ñ‚ÐµÐ¶ÐµÐ¹.',
       sections: [
         {
-          title: '1. Страховое покрытие',
-          icon: <Umbrella className="h-6 w-6 text-blue-600" />,
-          text: 'Мы принимаем различные планы страхования. Однако покрытие значительно варьируется в зависимости от плана и провайдера. Вы несете ответственность за понимание ваших конкретных льгот, включая франшизы, доплаты и покрываемые услуги.',
+          title: '1. Ð¡Ñ‚Ñ€Ð°Ñ…Ð¾Ð²Ð¾Ðµ Ð¿Ð¾ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ',
+          icon: <Umbrella className="h-6 w-6 text-primary" />,
+          text: 'ÐœÑ‹ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÐ¼ Ñ€Ð°Ð·Ð»Ð¸Ñ‡Ð½Ñ‹Ðµ Ð¿Ð»Ð°Ð½Ñ‹ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ð°Ð½Ð¸Ñ. ÐžÐ´Ð½Ð°ÐºÐ¾ Ð¿Ð¾ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ Ð·Ð½Ð°Ñ‡Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð²Ð°Ñ€ÑŒÐ¸Ñ€ÑƒÐµÑ‚ÑÑ Ð² Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ Ð¿Ð»Ð°Ð½Ð° Ð¸ Ð¿Ñ€Ð¾Ð²Ð°Ð¹Ð´ÐµÑ€Ð°. Ð’Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð¿Ð¾Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ Ð²Ð°ÑˆÐ¸Ñ… ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ñ… Ð»ÑŒÐ³Ð¾Ñ‚, Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ Ñ„Ñ€Ð°Ð½ÑˆÐ¸Ð·Ñ‹, Ð´Ð¾Ð¿Ð»Ð°Ñ‚Ñ‹ Ð¸ Ð¿Ð¾ÐºÑ€Ñ‹Ð²Ð°ÐµÐ¼Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸.',
         },
         {
-          title: '2. Проверка льгот',
+          title: '2. ÐŸÑ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð»ÑŒÐ³Ð¾Ñ‚',
           icon: <FileCheck className="h-6 w-6 text-green-600" />,
-          text: 'Мы попытаемся проверить ваши страховые льготы до вашей первой встречи. Однако проверка не является гарантией оплаты. Вы несете ответственность за любые расходы, не покрываемые вашей страховкой.',
+          text: 'ÐœÑ‹ Ð¿Ð¾Ð¿Ñ‹Ñ‚Ð°ÐµÐ¼ÑÑ Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ Ð²Ð°ÑˆÐ¸ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ñ‹Ðµ Ð»ÑŒÐ³Ð¾Ñ‚Ñ‹ Ð´Ð¾ Ð²Ð°ÑˆÐµÐ¹ Ð¿ÐµÑ€Ð²Ð¾Ð¹ Ð²ÑÑ‚Ñ€ÐµÑ‡Ð¸. ÐžÐ´Ð½Ð°ÐºÐ¾ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð½Ðµ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸ÐµÐ¹ Ð¾Ð¿Ð»Ð°Ñ‚Ñ‹. Ð’Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð»ÑŽÐ±Ñ‹Ðµ Ñ€Ð°ÑÑ…Ð¾Ð´Ñ‹, Ð½Ðµ Ð¿Ð¾ÐºÑ€Ñ‹Ð²Ð°ÐµÐ¼Ñ‹Ðµ Ð²Ð°ÑˆÐµÐ¹ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²ÐºÐ¾Ð¹.',
         },
         {
-          title: '3. Обработка претензий',
+          title: '3. ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð¿Ñ€ÐµÑ‚ÐµÐ½Ð·Ð¸Ð¹',
           icon: <Shield className="h-6 w-6 text-purple-600" />,
-          text: 'В качестве любезности мы подадим претензии вашему страховому провайдеру от вашего имени. Вы должны предоставить точную и актуальную информацию о страховании. Если в претензии будет отказано, вы несете ответственность за полную оплату.',
+          text: 'Ð’ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ðµ Ð»ÑŽÐ±ÐµÐ·Ð½Ð¾ÑÑ‚Ð¸ Ð¼Ñ‹ Ð¿Ð¾Ð´Ð°Ð´Ð¸Ð¼ Ð¿Ñ€ÐµÑ‚ÐµÐ½Ð·Ð¸Ð¸ Ð²Ð°ÑˆÐµÐ¼Ñƒ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ð¾Ð¼Ñƒ Ð¿Ñ€Ð¾Ð²Ð°Ð¹Ð´ÐµÑ€Ñƒ Ð¾Ñ‚ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¸Ð¼ÐµÐ½Ð¸. Ð’Ñ‹ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ñ‚Ð¾Ñ‡Ð½ÑƒÑŽ Ð¸ Ð°ÐºÑ‚ÑƒÐ°Ð»ÑŒÐ½ÑƒÑŽ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¾ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ð°Ð½Ð¸Ð¸. Ð•ÑÐ»Ð¸ Ð² Ð¿Ñ€ÐµÑ‚ÐµÐ½Ð·Ð¸Ð¸ Ð±ÑƒÐ´ÐµÑ‚ Ð¾Ñ‚ÐºÐ°Ð·Ð°Ð½Ð¾, Ð²Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð¿Ð¾Ð»Ð½ÑƒÑŽ Ð¾Ð¿Ð»Ð°Ñ‚Ñƒ.',
         },
         {
-          title: '4. Льготы вне сети',
+          title: '4. Ð›ÑŒÐ³Ð¾Ñ‚Ñ‹ Ð²Ð½Ðµ ÑÐµÑ‚Ð¸',
           icon: <CreditCard className="h-6 w-6 text-orange-600" />,
-          text: "Если мы не входим в сеть вашего страхового провайдера, вы все равно можете воспользоваться льготами вне сети. Мы можем предоставить вам 'Суперсчет' для отправки в вашу страховую компанию для возможного возмещения.",
+          text: "Ð•ÑÐ»Ð¸ Ð¼Ñ‹ Ð½Ðµ Ð²Ñ…Ð¾Ð´Ð¸Ð¼ Ð² ÑÐµÑ‚ÑŒ Ð²Ð°ÑˆÐµÐ³Ð¾ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾Ð²Ð°Ð¹Ð´ÐµÑ€Ð°, Ð²Ñ‹ Ð²ÑÐµ Ñ€Ð°Ð²Ð½Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð²Ð¾ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒÑÑ Ð»ÑŒÐ³Ð¾Ñ‚Ð°Ð¼Ð¸ Ð²Ð½Ðµ ÑÐµÑ‚Ð¸. ÐœÑ‹ Ð¼Ð¾Ð¶ÐµÐ¼ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ð²Ð°Ð¼ 'Ð¡ÑƒÐ¿ÐµÑ€ÑÑ‡ÐµÑ‚' Ð´Ð»Ñ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²ÐºÐ¸ Ð² Ð²Ð°ÑˆÑƒ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²ÑƒÑŽ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸ÑŽ Ð´Ð»Ñ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾Ð³Ð¾ Ð²Ð¾Ð·Ð¼ÐµÑ‰ÐµÐ½Ð¸Ñ.",
         },
         {
-          title: '5. Ответственность и обязательства',
+          title: '5. ÐžÑ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð¸ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²Ð°',
           icon: <AlertOctagon className="h-6 w-6 text-red-600" />,
-          text: 'В конечном итоге вы несете финансовую ответственность за все оказанные услуги. Если ваше страховое покрытие изменится или прекратится, вы должны немедленно уведомить нас, чтобы избежать непредвиденных расходов.',
+          text: 'Ð’ ÐºÐ¾Ð½ÐµÑ‡Ð½Ð¾Ð¼ Ð¸Ñ‚Ð¾Ð³Ðµ Ð²Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ Ñ„Ð¸Ð½Ð°Ð½ÑÐ¾Ð²ÑƒÑŽ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð²ÑÐµ Ð¾ÐºÐ°Ð·Ð°Ð½Ð½Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸. Ð•ÑÐ»Ð¸ Ð²Ð°ÑˆÐµ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð²Ð¾Ðµ Ð¿Ð¾ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑÑ Ð¸Ð»Ð¸ Ð¿Ñ€ÐµÐºÑ€Ð°Ñ‚Ð¸Ñ‚ÑÑ, Ð²Ñ‹ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ Ð½ÐµÐ¼ÐµÐ´Ð»ÐµÐ½Ð½Ð¾ ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð¸Ñ‚ÑŒ Ð½Ð°Ñ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸Ð·Ð±ÐµÐ¶Ð°Ñ‚ÑŒ Ð½ÐµÐ¿Ñ€ÐµÐ´Ð²Ð¸Ð´ÐµÐ½Ð½Ñ‹Ñ… Ñ€Ð°ÑÑ…Ð¾Ð´Ð¾Ð².',
         },
       ],
     },
@@ -145,21 +145,21 @@ export default function InsurancePolicy() {
 
   return (
     <div className="bg-muted/30 min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      <div className="bg-card mx-auto max-w-4xl overflow-hidden rounded-2xl shadow-xl">
-        <div className="flex items-center justify-between bg-blue-900 px-8 py-8 text-primary-foreground">
+      <div className="bg-card mx-auto max-w-4xl overflow-hidden rounded-lg shadow-sm">
+        <div className="flex items-center justify-between bg-primary px-8 py-8 text-primary-foreground">
           <div>
-            <h1 className="text-3xl font-bold">{content[language].title}</h1>
-            <p className="mt-2 text-blue-100">{content[language].lastUpdated}</p>
+            <h1 className="text-3xl font-semibold">{content[language].title}</h1>
+            <p className="mt-2 text-primary-foreground/80">{content[language].lastUpdated}</p>
           </div>
           <div className="flex space-x-2">
             {(['en', 'es', 'ca', 'ru'] as Language[]).map((lang) => (
               <button
                 key={lang}
                 onClick={() => setLanguage(lang)}
-                className={`rounded px-3 py-1 text-sm font-bold uppercase transition-colors ${
+                className={`rounded px-3 py-1 text-sm font-semibold uppercase transition-colors ${
                   language === lang
-                    ? 'bg-card text-blue-900'
-                    : 'bg-blue-800 text-blue-200 hover:bg-blue-700'
+                    ? 'bg-card text-foreground'
+                    : 'bg-primary/90 text-primary-foreground hover:bg-primary/90'
                 }`}
               >
                 {lang}

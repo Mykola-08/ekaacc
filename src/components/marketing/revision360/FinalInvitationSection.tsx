@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { CalendarCheck2, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 
@@ -9,7 +9,7 @@ export default function FinalInvitationSection() {
     <section className="relative py-20 sm:py-24">
       <div className="section-container">
         <motion.div
-          className="rounded-3xl border border-amber-300/30 bg-gradient-to-br from-amber-300/15 via-amber-200/10 to-transparent p-8 text-center sm:p-12"
+          className="rounded-3xl border border-amber-300/30 bg-linear-to-br from-amber-300/15 via-amber-200/10 to-transparent p-8 text-center sm:p-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

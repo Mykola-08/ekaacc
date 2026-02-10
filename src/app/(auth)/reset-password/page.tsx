@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from '@/components/ui/morphing-toaster';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { motion, AnimatePresence } from 'motion/react';
 import { Loader2, Lock, CheckCircle2, ArrowLeft, Sparkles, Shield } from 'lucide-react';
 
 export default function ResetPasswordPage() {
@@ -18,6 +20,7 @@ export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isValidSession, setIsValidSession] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const { feedback, setSuccess, setError, setWarning, reset } = useMorphingFeedback();
 
   useEffect(() => {
     // Check if we have a valid session for password reset
@@ -28,7 +31,7 @@ export default function ResetPasswordPage() {
       if (session) {
         setIsValidSession(true);
       } else {
-        toast.error('Invalid or expired reset link');
+        setWarning('Invalid or expired reset link');
         setTimeout(() => router.push('/forgot-password'), 2000);
       }
       setIsCheckingSession(false);
@@ -40,12 +43,12 @@ export default function ResetPasswordPage() {
     e.preventDefault();
 
     if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      setError('Password must be at least 6 characters');
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
 
@@ -57,15 +60,15 @@ export default function ResetPasswordPage() {
       });
 
       if (error) {
-        toast.error(error.message);
+        setError(error.message);
       } else {
-        toast.success('Password updated successfully!');
+        setSuccess('Password updated successfully!');
         // Sign out and redirect to login
         await supabase.auth.signOut();
-        router.push('/login?message=password_updated');
+        setTimeout(() => router.push('/login?message=password_updated'), 1500);
       }
     } catch (error) {
-      toast.error('An unexpected error occurred');
+      setError('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -73,26 +76,26 @@ export default function ResetPasswordPage() {
 
   if (isCheckingSession || !isValidSession) {
     return (
-      <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 p-6 dark:from-slate-950 dark:via-blue-950/30 dark:to-purple-950/30">
+      <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-linear-to-br from-primary/5 via-primary/3 to-primary/5 p-6">
         {/* Decorative background */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/20 via-transparent to-transparent dark:from-blue-900/10" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="relative z-10"
         >
-          <Card className="bg-card/95 mx-auto w-full max-w-md rounded-2xl border-0 shadow-2xl backdrop-blur-xl">
+          <Card className="bg-card/95 mx-auto w-full max-w-md rounded-lg border-0 shadow-sm backdrop-blur-xl">
             <CardContent className="p-10">
               <div className="flex flex-col items-center gap-4 text-center">
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                  className="rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 p-4 shadow-lg"
+                  className="rounded-lg bg-linear-to-br from-primary to-primary/70 p-4 shadow-sm"
                 >
                   <Shield className="h-8 w-8 text-white" />
                 </motion.div>
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-2xl font-semibold">
                   {isCheckingSession ? 'Verifying...' : 'Redirecting...'}
                 </h2>
                 <p className="text-muted-foreground">
@@ -109,10 +112,10 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-gradient-to-br from-teal-50/50 via-blue-50/30 to-cyan-50/30 p-6 dark:from-teal-950/30 dark:via-blue-950/30 dark:to-cyan-950/30">
+    <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-linear-to-br from-primary/5 via-primary/3 to-primary/5 p-6">
       {/* Decorative background elements */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-teal-100/20 via-transparent to-transparent dark:from-teal-900/10" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-cyan-100/20 via-transparent to-transparent dark:from-cyan-900/10" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -120,10 +123,10 @@ export default function ResetPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br shadow-2xl backdrop-blur-xl">
+        <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-lg border-0 bg-linear-to-br shadow-sm backdrop-blur-xl">
           {/* Decorative gradient overlay */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-teal-500/5 via-blue-500/5 to-cyan-500/5" />
-          <div className="pointer-events-none absolute top-0 left-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-teal-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 via-primary/5 to-primary/5" />
+          <div className="pointer-events-none absolute top-0 left-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
 
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
@@ -135,16 +138,16 @@ export default function ResetPasswordPage() {
             >
               <div className="relative">
                 <motion.div
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-600 opacity-30 blur-xl"
+                  className="absolute inset-0 rounded-lg bg-linear-to-br from-primary to-primary/70 opacity-30 blur-xl"
                   animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.4, 0.3] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                 />
-                <div className="relative rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-600 p-4 shadow-lg">
+                <div className="relative rounded-lg bg-linear-to-br from-primary to-primary/70 p-4 shadow-sm">
                   <Shield className="h-8 w-8 text-white" />
                 </div>
               </div>
               <div className="space-y-2">
-                <h1 className="from-foreground to-foreground/70 bg-gradient-to-br bg-clip-text text-3xl font-bold tracking-tight text-transparent">
+                <h1 className="from-foreground to-foreground/70 bg-linear-to-br bg-clip-text text-3xl font-semibold tracking-tight text-transparent">
                   Reset Password
                 </h1>
                 <p className="text-muted-foreground text-sm font-medium">
@@ -178,7 +181,7 @@ export default function ResetPasswordPage() {
                     required
                     minLength={6}
                     autoComplete="new-password"
-                    className="bg-muted/40 border-border/50 focus:bg-background h-12 rounded-xl pl-10 transition-colors"
+                    className="bg-muted/40 border-border/50 focus:bg-background h-10 rounded-lg pl-10 transition-colors"
                   />
                 </div>
                 <p className="text-muted-foreground text-xs font-medium">
@@ -210,7 +213,7 @@ export default function ResetPasswordPage() {
                     required
                     minLength={6}
                     autoComplete="new-password"
-                    className="bg-muted/40 border-border/50 focus:bg-background h-12 rounded-xl pl-10 transition-colors"
+                    className="bg-muted/40 border-border/50 focus:bg-background h-10 rounded-lg pl-10 transition-colors"
                   />
                 </div>
               </motion.div>
@@ -219,8 +222,9 @@ export default function ResetPasswordPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="pt-2"
+                className="space-y-3 pt-2"
               >
+                <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
                 <Button
                   type="submit"
                   className="auth-submit-btn"
@@ -246,7 +250,7 @@ export default function ResetPasswordPage() {
             >
               <Link
                 href="/login"
-                className="text-foreground inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:text-teal-600 dark:hover:text-teal-400"
+                className="text-foreground inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:text-primary"
               >
                 <ArrowLeft className="h-3 w-3" />
                 Back to Sign In

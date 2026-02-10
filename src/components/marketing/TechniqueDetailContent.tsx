@@ -1,7 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/context/marketing/LanguageContext';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -52,7 +52,7 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="mb-6 bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+          <h1 className="mb-6 bg-linear-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
             {t(`${baseKey}.title`)}
           </h1>
 

@@ -27,14 +27,14 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
  <div className="animate-in fade-in mx-auto grid max-w-7xl grid-cols-1 gap-4 p-4 pb-20 duration-300 md:grid-cols-3 lg:grid-cols-4">
  {/* Welcome Card - Large */}
  <div
- className="from-card via-card to-card/95 group hover:shadow-3xl animate-in slide-in-from-bottom-4 relative col-span-1 row-span-1 flex flex-col justify-between overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm transition-all duration-500 md:col-span-2 lg:col-span-2"
+ className="from-card via-card to-card/95 group hover:shadow-md animate-in slide-in-from-bottom-4 relative col-span-1 row-span-1 flex flex-col justify-between overflow-hidden rounded-lg border-0 bg-linear-to-br p-8 shadow-sm backdrop-blur-sm transition-all duration-500 md:col-span-2 lg:col-span-2"
  style={{ animationDelay: '0.1s' }}
  >
- <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5" />
- <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-blue-500/5 blur-3xl" />
- <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-purple-500/5 blur-2xl" />
+ <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 to-muted" />
+ <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
+ <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-muted blur-2xl" />
  <div className="relative z-10">
- <h2 className="from-foreground to-foreground/70 mb-3 bg-gradient-to-r bg-clip-text text-4xl font-bold tracking-tight text-balance text-transparent">
+ <h2 className="from-foreground to-foreground/70 mb-3 bg-linear-to-r bg-clip-text text-4xl font-semibold tracking-tight text-balance text-transparent">
  Welcome back, {user?.name || 'Guest'}
  </h2>
  <p className="text-muted-foreground text-lg font-medium">
@@ -42,7 +42,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
  </p>
  </div>
  <div className="relative z-10 mt-8 flex gap-3">
- <Button className="text-md h-14 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-8 font-bold text-white shadow-xl shadow-blue-500/25 transition-all hover:scale-105 hover:from-blue-700 hover:to-purple-700 hover:shadow-2xl hover:shadow-blue-500/30">
+ <Button className="text-md h-10 rounded-full bg-linear-to-r from-primary to-primary/70 px-8 font-semibold text-primary-foreground shadow-sm transition-all hover:scale-105 hover:from-primary/90 hover:to-primary/60 hover:shadow-md">
  Book New Session
  </Button>
  <Button
@@ -56,24 +56,24 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
  {/* Stats Card - Small */}
  <div
- className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-2xl"
+ className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-lg border-0 bg-linear-to-br p-6 shadow-sm backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-md"
  style={{ animationDelay: '0.2s' }}
  >
- <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5" />
- <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
+ <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 to-primary/5" />
+ <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-primary/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
  <div className="relative z-10 flex items-start justify-between">
- <div className="rounded-[20px] bg-gradient-to-br from-blue-100 to-indigo-100 p-3 text-blue-600 shadow-lg dark:to-indigo-900/40 ">
+ <div className="rounded-lg bg-linear-to-br from-muted to-muted p-3 text-primary shadow-sm ">
  <TrendingUp size={24} />
  </div>
- <span className="rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 text-xs font-bold text-blue-600 shadow-md dark:from-blue-900/50 dark:to-indigo-900/50 ">
+ <span className="rounded-full bg-linear-to-r from-primary/5 to-primary/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm ">
  +12%
  </span>
  </div>
  <div className="relative z-10">
- <div className="mb-2 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-5xl font-bold tracking-tight text-transparent">
+ <div className="mb-2 bg-linear-to-r from-primary to-primary bg-clip-text text-5xl font-semibold tracking-tight text-transparent">
  24
  </div>
- <div className="text-muted-foreground text-sm font-bold tracking-wide uppercase">
+ <div className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
  Sessions Completed
  </div>
  </div>
@@ -81,21 +81,21 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
  {/* Wallet Card - Small */}
  <div
- className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-2xl"
+ className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-lg border-0 bg-linear-to-br p-6 shadow-sm backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-md"
  style={{ animationDelay: '0.3s' }}
  >
- <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5" />
+ <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-emerald-500/5 to-teal-500/5" />
  <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-emerald-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
  <div className="relative z-10 flex items-start justify-between">
- <div className="rounded-[20px] bg-gradient-to-br from-emerald-100 to-teal-100 p-3 text-emerald-600 shadow-lg dark:from-emerald-900/40 dark:to-teal-900/40 dark:text-emerald-400">
+ <div className="rounded-lg bg-linear-to-br from-emerald-100 to-teal-100 p-3 text-emerald-600 shadow-lg dark:from-emerald-900/40 dark:to-teal-900/40 dark:text-emerald-400">
  <CreditCard size={24} />
  </div>
  </div>
  <div className="relative z-10">
- <div className="mb-2 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-5xl font-bold tracking-tight text-transparent">
+ <div className="mb-2 bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-5xl font-semibold tracking-tight text-transparent">
  €120
  </div>
- <div className="text-muted-foreground text-sm font-bold tracking-wide uppercase">
+ <div className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
  Balance Available
  </div>
  </div>
@@ -103,34 +103,34 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
  {/* Upcoming Session - Tall */}
  <div
- className="from-card via-card to-card/90 text-foreground animate-in slide-in-from-bottom-4 group relative col-span-1 row-span-2 flex flex-col overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm duration-500 md:col-span-1"
+ className="from-card via-card to-card/90 text-foreground animate-in slide-in-from-bottom-4 group relative col-span-1 row-span-2 flex flex-col overflow-hidden rounded-lg border-0 bg-linear-to-br p-8 shadow-sm backdrop-blur-sm duration-500 md:col-span-1"
  style={{ animationDelay: '0.4s' }}
  >
- <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
- <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl transition-all duration-500 group-hover:bg-indigo-500/15" />
- <div className="pointer-events-none absolute bottom-0 left-0 h-48 w-48 rounded-full bg-purple-500/10 blur-2xl" />
+ <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 to-muted" />
+ <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl transition-all duration-500 group-hover:bg-primary/15" />
+ <div className="pointer-events-none absolute bottom-0 left-0 h-48 w-48 rounded-full bg-muted blur-2xl" />
 
  <div className="relative z-10 mb-8 flex items-center gap-2">
- <div className="rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 p-2 shadow-lg backdrop-blur-md dark:from-indigo-900/40 dark:to-purple-900/40">
- <Clock className="text-indigo-600 " size={20} />
+ <div className="rounded-lg bg-linear-to-br from-muted to-muted p-2 shadow-sm backdrop-blur-md dark:from-indigo-900/40 dark:to-purple-900/40">
+ <Clock className="text-primary " size={20} />
  </div>
- <span className="text-muted-foreground text-sm font-bold tracking-wide uppercase">
+ <span className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
  Next Session
  </span>
  </div>
 
  <div className="relative z-10 flex flex-1 flex-col justify-center">
- <div className="mb-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-6xl font-bold tracking-tighter text-transparent">
+ <div className="mb-2 bg-linear-to-r from-primary to-primary/70 bg-clip-text text-6xl font-semibold tracking-tighter text-transparent">
  14:00
  </div>
  <div className="text-muted-foreground mb-8 text-xl font-semibold">Tomorrow</div>
  <div className="mt-auto space-y-1">
- <div className="text-2xl font-bold">Integrative Therapy</div>
+ <div className="text-2xl font-semibold">Integrative Therapy</div>
  <div className="text-muted-foreground text-md font-medium">with Dr. Sarah Smith</div>
  </div>
  </div>
 
- <button className="text-md relative z-10 mt-8 w-full cursor-pointer rounded-[20px] bg-gradient-to-r from-indigo-600 to-purple-600 py-4 font-bold text-white shadow-xl shadow-indigo-500/25 transition-all hover:scale-105 hover:from-indigo-700 hover:to-purple-700 hover:shadow-2xl hover:shadow-indigo-500/30 active:scale-95">
+ <button className="text-md relative z-10 mt-8 w-full cursor-pointer rounded-lg bg-linear-to-r from-primary to-primary/70 py-4 font-semibold text-primary-foreground shadow-sm transition-all hover:scale-105 hover:from-primary/90 hover:to-primary/60 hover:shadow-md active:scale-95">
  Reschedule
  </button>
  </div>
@@ -148,11 +148,11 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
 function ActionButton({ icon: Icon, label }: { icon: any; label: string }) {
  return (
- <button className="group flex cursor-pointer flex-col items-center justify-center rounded-[20px] bg-zinc-50 p-4 transition-all duration-200 hover:bg-zinc-100 dark:bg-muted/50 dark:hover:bg-zinc-800">
+ <button className="group flex cursor-pointer flex-col items-center justify-center rounded-lg bg-muted p-4 transition-all duration-200 hover:bg-muted dark:bg-muted/50">
  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-card shadow-sm transition-transform group-hover:scale-110 dark:bg-muted/80">
- <Icon size={20} className="text-zinc-700 " />
+ <Icon size={20} className="text-foreground " />
  </div>
- <span className="text-sm font-medium text-zinc-600 ">{label}</span>
+ <span className="text-sm font-medium text-muted-foreground ">{label}</span>
  </button>
  );
 }

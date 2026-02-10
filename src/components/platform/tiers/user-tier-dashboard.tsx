@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { LoadingSpinner } from '@/components/ui/loading-states';
 import {
   Card,
@@ -233,7 +233,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
     return (
       <div className={cn('space-y-6', className)}>
         <div className="flex items-center justify-between">
-          <h2 className="text-foreground text-2xl font-bold">Your Membership</h2>
+          <h2 className="text-foreground text-2xl font-semibold">Your Membership</h2>
         </div>
         <Card>
           <CardContent className="flex h-64 items-center justify-center">
@@ -271,7 +271,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-foreground text-2xl font-bold">Your Membership</h2>
+          <h2 className="text-foreground text-2xl font-semibold">Your Membership</h2>
           <p className="text-muted-foreground">Track your tier status and benefits</p>
         </div>
         <Button variant="outline" size="sm">
@@ -313,7 +313,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                   <Badge variant="secondary">
                     {(tierData.usage as any).vip.sessionsUsed} /{' '}
                     {(tierData.usage as any).vip.sessionsRemaining === -1
-                      ? '∞'
+                      ? 'âˆž'
                       : (tierData.usage as any).vip.sessionsRemaining +
                         (tierData.usage as any).vip.sessionsUsed}
                   </Badge>
@@ -324,7 +324,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                   <Badge variant="secondary">
                     {(tierData.usage as any).vip.storageUsed}GB /{' '}
                     {(tierData.usage as any).vip.storageLimit === -1
-                      ? '∞'
+                      ? 'âˆž'
                       : (tierData.usage as any).vip.storageLimit + 'GB'}
                   </Badge>
                 </div>
@@ -446,7 +446,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
               className={cn(
                 'group inline-flex h-auto items-center rounded-none border-b-2 px-1 py-2 text-sm font-medium transition-colors duration-200 hover:bg-transparent',
                 activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600'
+                  ? 'border-primary text-primary'
                   : 'text-muted-foreground hover:text-foreground/90 border-transparent hover:border-border'
               )}
             >
@@ -454,7 +454,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                 className={cn(
                   'mr-2',
                   activeTab === tab.id
-                    ? 'text-blue-500'
+                    ? 'text-primary'
                     : 'text-muted-foreground/80 group-hover:text-muted-foreground'
                 )}
               >

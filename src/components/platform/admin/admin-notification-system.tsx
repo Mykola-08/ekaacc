@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -209,7 +209,7 @@ export function AdminNotificationSystem() {
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'info':
-        return <Bell className="h-4 w-4 text-blue-500" />;
+        return <Bell className="h-4 w-4 text-primary" />;
       case 'warning':
         return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
       case 'error':
@@ -248,7 +248,7 @@ export function AdminNotificationSystem() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-foreground text-2xl font-bold">Notification System</h2>
+          <h2 className="text-foreground text-2xl font-semibold">Notification System</h2>
           <p className="text-muted-foreground">Manage system notifications and alerts</p>
         </div>
         <div className="flex items-center gap-3">

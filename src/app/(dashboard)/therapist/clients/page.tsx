@@ -32,7 +32,7 @@ function StatCard({ title, value, icon }: { title: string; value: string; icon: 
         <span className="text-muted-foreground text-sm">{title}</span>
         {icon}
       </div>
-      <div className="text-2xl font-bold">{value}</div>
+      <div className="text-2xl font-semibold">{value}</div>
     </Card>
   );
 }

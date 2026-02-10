@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /**
  * AI Insights Panel Widget
@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
+import { toast } from "@/components/ui/morphing-toaster";
 
 interface Insight {
   id: string;
@@ -40,7 +40,7 @@ const typeConfig: Record<string, { icon: typeof Brain; color: string; bg: string
   therapy: { icon: Brain, color: "text-violet-500", bg: "bg-violet-500/10" },
   behavioral: { icon: Target, color: "text-amber-500", bg: "bg-amber-500/10" },
   progress: { icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  recommendation: { icon: Lightbulb, color: "text-blue-500", bg: "bg-blue-500/10" },
+  recommendation: { icon: Lightbulb, color: "text-primary", bg: "bg-primary/10" },
   mood: { icon: Zap, color: "text-orange-500", bg: "bg-orange-500/10" },
   engagement: { icon: TrendingUp, color: "text-cyan-500", bg: "bg-cyan-500/10" },
 };
@@ -90,7 +90,7 @@ export function InsightsPanel({ className }: { className?: string }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={cn("bg-card rounded-2xl border p-5", className)}
+      className={cn("bg-card rounded-lg border p-5", className)}
     >
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">

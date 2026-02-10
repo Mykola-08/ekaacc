@@ -64,15 +64,14 @@ function getClientNav(t: (k: string) => string): NavGroup[] {
       items: [
         { label: t('nav.dashboard') || 'Home', href: '/dashboard', icon: Layout01Icon },
         { label: t('nav.bookings') || 'Bookings', href: '/bookings', icon: Calendar03Icon },
-        { label: t('nav.journal') || 'Journal', href: '/journal', icon: BookOpen01Icon },
-        { label: t('nav.wallet') || 'Wallet', href: '/wallet', icon: Wallet01Icon },
+        { label: t('nav.journal') || 'Wellness', href: '/wellness', icon: BookOpen01Icon },
+        { label: t('nav.wallet') || 'Finances', href: '/finances', icon: Wallet01Icon },
       ],
     },
     {
       label: 'More',
       items: [
         { label: t('nav.resources') || 'Resources', href: '/resources', icon: Shield01Icon },
-        { label: t('nav.subscriptions') || 'Plans', href: '/subscriptions', icon: Shield01Icon },
       ],
     },
     {

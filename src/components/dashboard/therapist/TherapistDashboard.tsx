@@ -1,6 +1,5 @@
 'use client';
 
-import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Card } from '@/components/ui/card';
@@ -10,7 +9,7 @@ import { Calendar, Clock, CheckCircle, MoreVertical, Star, Activity, Plus } from
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { SessionLogModal } from './SessionLogModal';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { StatsCard } from '../widgets/StatsCard';
 import { ScheduleTable } from '../widgets/ScheduleTable';
 import { PatientActivitySummary } from '../widgets/PatientActivitySummary';
@@ -44,19 +43,18 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
   }, []);
 
   return (
-    <DashboardLayout profile={profile}>
-      <div className="animate-in fade-in space-y-8 font-sans duration-500">
+    <div className="space-y-8 px-4 py-8 font-sans md:px-8">
         {/* Hero / Welcome */}
         <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm md:flex-row md:items-center">
           <div className="relative z-10">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-amber-600">
-              <Star className="h-3.5 w-3.5 fill-amber-600" />
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-marketing-accent/20 bg-marketing-accent/10 px-3 py-1 text-marketing-accent-dark">
+              <Star className="h-3.5 w-3.5 fill-marketing-accent" />
               <span className="text-[10px] font-bold tracking-wider uppercase">
                 Professional Portal
               </span>
             </div>
             <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
-              Welcome back, <span className="text-indigo-600">{profile.first_name || 'Dr.'}</span>
+              Welcome back, <span className="text-primary">{profile.first_name || 'Dr.'}</span>
             </h1>
             <p className="max-w-lg font-medium text-muted-foreground">
               You have <span className="font-bold text-foreground">{bookings.length}</span> sessions
@@ -71,27 +69,27 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
               icon={Calendar}
               label="Today's Sessions"
               value={String(bookings.length)}
-              bg="bg-blue-50 text-blue-600"
+              bg="bg-primary/10 text-primary"
             />
             <MetricCard
               icon={Activity}
               label="Avg. Improvement"
               value="+18%"
-              bg="bg-emerald-50 text-emerald-600"
+              bg="bg-primary/10 text-primary"
             />
-            <MetricCard icon={Star} label="Rating" value="4.9" bg="bg-amber-50 text-amber-600" />
+            <MetricCard icon={Star} label="Rating" value="4.9" bg="bg-primary/10 text-primary" />
           </div>
           {/* Quick Action Column */}
           <Link href="/availability" className="h-full">
-            <Button className="group relative flex h-full min-h-[120px] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[20px] border-0 bg-indigo-600 p-6 shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700">
+            <Button className="group relative flex h-full min-h-[120px] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[20px] border-0 bg-primary p-6 shadow-lg transition-all hover:bg-primary/90">
               <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 transition-transform group-hover:rotate-90">
                 <Plus className="h-5 w-5 text-white" strokeWidth={3} />
               </div>
               <div className="relative z-10 text-center">
-                <span className="text-[10px] font-bold tracking-widest text-indigo-200 uppercase">
+                <span className="text-[10px] font-bold tracking-widest text-primary-foreground/80 uppercase">
                   Availability
                 </span>
-                <div className="mt-1 text-base font-bold tracking-tight text-white">
+                <div className="mt-1 text-base font-bold tracking-tight text-primary-foreground">
                   Update Schedule
                 </div>
               </div>
@@ -107,7 +105,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
               <Button
                 variant="ghost"
                 size="sm"
-                className="rounded-full px-4 text-xs font-bold text-muted-foreground hover:bg-indigo-50 hover:text-indigo-600"
+                className="rounded-full px-4 text-xs font-bold text-muted-foreground hover:bg-primary/10 hover:text-primary"
               >
                 View Calendar
               </Button>
@@ -120,7 +118,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
             ) : bookings.length === 0 ? (
               <div className="rounded-[20px] border border-dashed border-border bg-muted/50 p-12 text-center">
                 <p className="font-medium text-muted-foreground">No sessions scheduled for today.</p>
-                <Button variant="link" className="mt-2 font-bold text-indigo-600" asChild>
+                <Button variant="link" className="mt-2 font-bold text-primary" asChild>
                   <Link href="/availability">Update your hours</Link>
                 </Button>
               </div>
@@ -133,10 +131,10 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
                   >
-                    <Card className="group rounded-[28px] border border-border bg-card p-6 shadow-sm transition-all hover:border-indigo-100 hover:shadow-md">
+                    <Card className="group rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
                       <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
                         <div className="flex flex-1 items-center gap-5">
-                          <div className="flex h-16 w-16 flex-col items-center justify-center rounded-[20px] border border-border bg-muted transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600">
+                          <div className="flex h-16 w-16 flex-col items-center justify-center rounded-[20px] border border-border bg-muted transition-colors group-hover:bg-primary/10 group-hover:text-primary">
                             <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">
                               {format(new Date(booking.start_time), 'MMM')}
                             </span>
@@ -145,7 +143,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                             </span>
                           </div>
                           <div>
-                            <h4 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-indigo-600">
+                            <h4 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
                               {booking.services?.title || 'Session'}
                             </h4>
                             <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
@@ -162,7 +160,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          <Badge className="rounded-full border-0 bg-emerald-50 px-3 py-1 text-[10px] font-bold tracking-wider text-emerald-600 uppercase hover:bg-emerald-50">
+                          <Badge className="rounded-full border-0 bg-primary/10 px-3 py-1 text-[10px] font-bold tracking-wider text-primary uppercase hover:bg-primary/10">
                             Confirmed
                           </Badge>
                           <Button
@@ -171,7 +169,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                               setIsLogModalOpen(true);
                             }}
                             variant="outline"
-                            className="h-10 rounded-xl border-border px-5 font-bold text-muted-foreground transition-all hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
+                            className="h-10 rounded-xl border-border px-5 font-bold text-muted-foreground transition-all hover:border-primary/30 hover:bg-primary/10 hover:text-primary"
                           >
                             Review
                           </Button>
@@ -194,7 +192,6 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
             </div>
           </div>
         </div>
-      </div>
 
       {selectedBooking && (
         <SessionLogModal
@@ -204,13 +201,13 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
           onSuccess={fetchBookings}
         />
       )}
-    </DashboardLayout>
+    </div>
   );
 }
 
 function MetricCard({ icon: Icon, label, value, bg }: any) {
   return (
-    <div className="flex cursor-default items-center gap-5 rounded-[28px] border border-border bg-card p-6 shadow-sm transition-all hover:border-border">
+    <div className="flex cursor-default items-center gap-5 rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-border">
       <div className={`flex h-12 w-12 items-center justify-center rounded-[20px] ${bg}`}>
         <Icon className="h-6 w-6" strokeWidth={2.5} />
       </div>

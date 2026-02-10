@@ -12,14 +12,12 @@ export default async function Page() {
     redirect('/login');
   }
 
-  // Fetch Profile extended info
-  const { data: profile } = await supabase
-    .from('auth.users')
-    .select('*')
-    .eq('id', user.id)
-    .single();
-  // In Supabase, auth.users is protected. We usually query a public profiles table OR use getUser() metadata.
-  // Let's use user.user_metadata merged with any public profile data.
+  // Use user metadata (auth.users is not accessible via PostgREST)
+  const profile = {
+    ...user.user_metadata,
+    email: user.email,
+    id: user.id,
+  };
 
   // Fetch Identity Status
   const { data: identity } = await supabase
@@ -32,7 +30,7 @@ export default async function Page() {
 
   return (
     <SettingsPage
-      profile={{ ...user.user_metadata, email: user.email }}
+      profile={profile}
       identityStatus={identity?.status || 'none'}
     />
   );

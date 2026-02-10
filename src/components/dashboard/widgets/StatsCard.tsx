@@ -17,14 +17,14 @@ export function StatsCard({
   icon: Icon,
   label,
   value,
-  colorClass = 'bg-surface-container text-primary',
+  colorClass = 'bg-muted text-primary',
   className,
   action,
 }: StatsCardProps) {
   return (
     <div
       className={cn(
-        'bg-surface border-border group flex h-44 flex-col justify-between border p-6 transition-all',
+        'bg-card border-border group flex h-44 flex-col justify-between border p-6 transition-all',
         'rounded-[20px]', // Apple standard 20px radius
         className
       )}
@@ -50,7 +50,7 @@ export function StatsCard({
         )}
       </div>
       <div className="space-y-1">
-        <div className="text-muted text-xs font-bold tracking-[0.1em] uppercase">{label}</div>
+        <div className="text-muted-foreground text-xs font-bold tracking-[0.1em] uppercase">{label}</div>
         <div className="text-primary text-3xl leading-none font-bold tracking-tight tabular-nums">
           {value}
         </div>

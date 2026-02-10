@@ -20,169 +20,175 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 async function reviseServices() {
   console.log('Starting service revision...');
 
-  // 1. Deactivate ALL existing services first to start clean
+  // 1. Deactivate ALL existing services first
   console.log('Deactivating existing services...');
   const { error: deactivateError } = await supabase
     .from('service')
     .update({ active: false })
-    .neq('id', '00000000-0000-0000-0000-000000000000'); // update all
+    .neq('id', '00000000-0000-0000-0000-000000000000'); // update all safe guard
 
   if (deactivateError) {
     console.error('Error deactivating services:', deactivateError);
-    return;
+    // Continue anyway
   }
 
-  // 2. Create the main "Personalized Session" service
-  console.log('Creating "Personalized Session"...');
-  const personalizedService = {
-    name: 'Personalized Session',
-    description: 'A tailored therapy session designed to address your unique needs, whether it be anxiety, stress, personal growth, or emotional balance. We adapt the approach to you.',
-    category: 'individual',
-    duration: 50,
-    price: 10000,
-    active: true,
-    image_url: 'https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2070&auto=format&fit=crop', // Soothing image
+  // --- DEFINITIONS ---
+
+  // 1. Separate 360 Review
+  const service360 = {
+    slug: 'revisio360',
+    name: '360° Review',
+    description: 'Comprehensive assessment of your physical and emotional well-being.',
+    duration: 90, 
+    price: 12000, 
+    image_url: 'https://images.pexels.com/photos/4099304/pexels-photo-4099304.jpeg?auto=compress&cs=tinysrgb&w=800',
+    category: 'review',
+    active: true
   };
 
-  // Upsert logic for Personalized Session
-  let serviceData, serviceError;
-  const { data: existingService } = await supabase
-    .from('service')
-    .select('id')
-    .eq('name', personalizedService.name)
-    .maybeSingle();
-
-  if (existingService) {
-    ({ data: serviceData, error: serviceError } = await supabase
-      .from('service')
-      .update(personalizedService)
-      .eq('id', existingService.id)
-      .select()
-      .single());
-  } else {
-    ({ data: serviceData, error: serviceError } = await supabase
-      .from('service')
-      .insert(personalizedService)
-      .select()
-      .single());
-  }
-
-  if (serviceError) {
-    console.error('Error creating/updating Personalized Session:', serviceError);
-    return;
-  }
-
-  const serviceId = serviceData.id;
-  console.log(`Personalized Session ID: ${serviceId}`);
-
-  // 3. Create Variants for Personalized Session
-  const variants = [
+  // 2. Main Services (from Booking Website)
+  const mainServices = [
     {
-      service_id: serviceId,
-      name: 'Standard Session',
-      description: '50-minute focused session.',
-      duration_min: 50,
-      price_amount: 10000, // 100.00 EUR
-      currency: 'EUR',
-      active: true,
-      comparison_label: 'Standard'
+      slug: 'massatge',
+      name: 'Therapeutic Massage',
+      description: 'Relieves stress and improves circulation with specialized techniques.',
+      duration: 60,
+      price: 6000,
+      image_url: 'https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg?auto=compress&cs=tinysrgb&w=800',
+      category: 'therapy'
     },
     {
-      service_id: serviceId,
-      name: 'Deep Dive Session',
-      description: '80-minute extended session for deeper exploration.',
-      duration_min: 80,
-      price_amount: 15000, // 150.00 EUR
-      currency: 'EUR',
-      active: true,
-      comparison_label: 'Extended'
+      slug: 'kinesiologia',
+      name: 'Holistic Kinesiology',
+      description: 'Identifies blockages and restores balance through muscle testing.',
+      duration: 60,
+      price: 7000,
+      image_url: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=800',
+      category: 'therapy'
+    },
+    {
+      slug: 'nutritio',
+      name: 'Conscious Nutrition',
+      description: 'Personalized nutritional guidance for long-term vitality.',
+      duration: 60,
+      price: 6000,
+      image_url: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800',
+      category: 'nutrition'
+    },
+    {
+      slug: 'suplements',
+      name: 'Supplements Guidance',
+      description: 'Expert advice on supplementation to support your health goals.',
+      duration: 45,
+      price: 4500,
+      image_url: 'https://images.pexels.com/photos/8845019/pexels-photo-8845019.jpeg?auto=compress&cs=tinysrgb&w=800',
+      category: 'nutrition'
+    },
+    {
+      slug: 'sistemica',
+      name: 'Systemic Therapy',
+      description: 'Addresses deep-rooted patterns and emotional blockages.',
+      duration: 60,
+      price: 7500,
+      image_url: 'https://images.pexels.com/photos/7176036/pexels-photo-7176036.jpeg?auto=compress&cs=tinysrgb&w=800',
+      category: 'therapy'
     }
   ];
 
-  for (const v of variants) {
-    const { error: matchError } = await supabase
-      .from('service_variant')
-      .delete()
-      .match({ service_id: serviceId, name: v.name });
+  // 3. Grouped Personalized Services
+  const personalizedGroup = {
+    slug: 'personalized-session',
+    name: 'Personalized Session',
+    description: 'Tailored therapies for specific professions and lifestyles.',
+    duration: 60,
+    price: 7000,
+    image_url: 'https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2070&auto=format&fit=crop',
+    category: 'individual',
+    active: true
+  };
 
-    const { error: varError } = await supabase
-      .from('service_variant')
-      .insert(v);
-      
-    if (varError) {
-      console.error(`Error creating variant ${v.name}:`, varError);
+  const personalizedVariants = [
+    { name: 'Office Workers', description: 'Relief for sedentary work tensions.', price: 7000 },
+    { name: 'Athletes', description: 'Recovery and performance optimization.', price: 7000 },
+    { name: 'Artists', description: 'Care for creative physical demands.', price: 7000 },
+    { name: 'Musicians', description: 'Technique and posture support.', price: 7000 },
+    { name: 'Students', description: 'Focus and stress management.', price: 6000 },
+    { name: 'Parents', description: 'Support for the demands of parenthood.', price: 6500 }
+  ];
+
+  // --- UPSERT FUNCTIONS ---
+
+  async function upsertService(service: any) {
+    // Try to find by slug first
+    const { data: existing } = await supabase
+      .from('service')
+      .select('id')
+      .eq('slug', service.slug)
+      .maybeSingle();
+
+    let serviceId;
+    if (existing) {
+      const { data } = await supabase
+        .from('service')
+        .update({ ...service, active: true })
+        .eq('id', existing.id)
+        .select()
+        .single();
+      serviceId = data.id;
     } else {
-      console.log(`Created variant: ${v.name}`);
+      const { data, error } = await supabase
+        .from('service')
+        .insert({ ...service, active: true })
+        .select()
+        .single();
+      
+      if (error) {
+        console.error(`Error creating ${service.name}:`, error);
+        return null;
+      }
+      serviceId = data.id;
+    }
+    return serviceId;
+  }
+
+  // EXECUTION
+
+  // 1. Upsert 360 Review
+  console.log('Upserting 360 Review...');
+  await upsertService(service360);
+
+  // 2. Upsert Main Services
+  console.log('Upserting Main Services...');
+  for (const s of mainServices) {
+    await upsertService(s);
+  }
+
+  // 3. Upsert Personalized Group and Variants
+  console.log('Upserting Personalized Group...');
+  const pId = await upsertService(personalizedGroup);
+  
+  if (pId) {
+    // Create variants
+    console.log('Creating variants for Personalized Session...');
+    
+    // Deactivate old variants for this service
+    await supabase.from('service_variant').update({ active: false }).eq('service_id', pId);
+
+    for (const v of personalizedVariants) {
+      await supabase.from('service_variant').insert({
+        service_id: pId,
+        name: v.name,
+        description: v.description,
+        price_amount: v.price,
+        currency: 'EUR',
+        duration_min: 60,
+        active: true,
+        comparison_label: 'Specialized'
+      });
     }
   }
 
-  // 4. Create "Couples Therapy" (Grouped)
-  console.log('Creating "Couples Therapy"...');
-  const couplesService = {
-    name: 'Couples Therapy',
-    description: 'A safe space for partners to improve communication and resolve conflict.',
-    category: 'couples',
-    duration: 50,
-    price: 14000,
-    active: true,
-    image_url: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=2070&auto=format&fit=crop',
-  };
-
-  let couplesData, couplesError;
-  const { data: existingCouples } = await supabase
-    .from('service')
-    .select('id')
-    .eq('name', couplesService.name)
-    .maybeSingle();
-
-  if (existingCouples) {
-    ({ data: couplesData, error: couplesError } = await supabase
-      .from('service')
-      .update(couplesService)
-      .eq('id', existingCouples.id)
-      .select()
-      .single());
-  } else {
-    ({ data: couplesData, error: couplesError } = await supabase
-      .from('service')
-      .insert(couplesService)
-      .select()
-      .single());
-  }
-
-  if (couplesError) {
-     console.error('Error creating Couples Therapy:', couplesError);
-  } else {
-     const cId = couplesData.id;
-     // Variants
-     const cVariants = [
-        {
-          service_id: cId,
-          name: 'Standard Couples Session',
-          description: '50-minute session for two.',
-          duration_min: 50,
-          price_amount: 14000, 
-          currency: 'EUR',
-          active: true
-        },
-        {
-          service_id: cId,
-          name: 'Extended Couples Session',
-          description: '90-minute session for complex issues.',
-          duration_min: 90,
-          price_amount: 20000,
-          currency: 'EUR',
-          active: true
-        }
-     ];
-
-     for (const v of cVariants) {
-        await supabase.from('service_variant').delete().match({ service_id: cId, name: v.name });
-        await supabase.from('service_variant').insert(v);
-     }
-  }
-  
   console.log('Service revision complete.');
 }
 
-reviseServices();
+reviseServices().catch(console.error);

@@ -209,7 +209,7 @@ export function ProgressContent({ reports }: ProgressContentProps) {
           variant="outline"
           size="default"
           className="hover:bg-card/60"
-          onClick={() => (window.location.href = '/progress-reports')}
+          onClick={() => (window.location.href = '/wellness?tab=progress')}
         >
           View Detailed Reports
         </Button>

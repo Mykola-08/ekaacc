@@ -21,7 +21,7 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
       // 1. Get unique user_ids from recent bookings for this therapist
       const { data: recentPatients } = await supabase
         .from('booking')
-        .select('user_id')
+        .select('customer_reference_id')
         .eq('staff_id', userId)
         .limit(20);
 
@@ -30,12 +30,12 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
         return;
       }
 
-      const uniqueUserIds = [...new Set(recentPatients.map((p: any) => p.user_id))];
+      const uniqueUserIds = [...new Set(recentPatients.map((p: any) => p.customer_reference_id).filter(Boolean))];
 
-      // 2. Fetch recent mood check-ins for these patients
+      // 2. Fetch recent wellness entries for these patients
       const { data: moodData } = await supabase
-        .from('mood_tracking')
-        .select('*, profile:user_id(first_name, last_name)')
+        .from('wellness_entries')
+        .select('*, profile:user_id(full_name)')
         .in('user_id', uniqueUserIds)
         .order('created_at', { ascending: false })
         .limit(5);
@@ -72,15 +72,15 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
               key={idx}
               className="bg-card border-border hover:border-primary/20 hover:bg-card flex items-start gap-3 rounded-xl border p-3 shadow-sm transition-all"
             >
-              <Avatar className="h-10 w-10 border border-white shadow-sm">
-                <AvatarFallback className="bg-gradient-to-br from-blue-50 to-indigo-50 text-xs font-bold text-blue-600">
-                  {activity.profile?.first_name?.[0] || 'P'}
+              <Avatar className="h-10 w-10 border border-border shadow-sm">
+                <AvatarFallback className="bg-primary/5 text-xs font-bold text-primary">
+                  {activity.profile?.full_name?.[0] || 'P'}
                 </AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center justify-between">
                   <span className="text-foreground truncate text-[13px] font-bold">
-                    {activity.profile?.first_name} {activity.profile?.last_name}
+                    {activity.profile?.full_name || 'Patient'}
                   </span>
                   <span className="text-muted-foreground text-xs whitespace-nowrap">
                     {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
@@ -91,10 +91,10 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
                     className={cn(
                       'flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-bold tracking-tight uppercase',
                       activity.mood >= 7
-                        ? 'bg-emerald-50 text-emerald-700'
+                        ? 'bg-emerald-500/10 text-emerald-600'
                         : activity.mood >= 4
-                          ? 'bg-amber-50 text-amber-700'
-                          : 'bg-red-50 text-destructive'
+                          ? 'bg-amber-500/10 text-amber-600'
+                          : 'bg-destructive/10 text-destructive'
                     )}
                   >
                     Mood: {activity.mood}/10

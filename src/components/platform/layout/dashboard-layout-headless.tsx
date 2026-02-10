@@ -36,7 +36,7 @@ function cn(...inputs: (string | undefined | null | false)[]) {
 const navigation = [
   { name: 'Dashboard', href: '/home', icon: Home },
   { name: 'Progress', href: '/progress', icon: Brain },
-  { name: 'Wallet', href: '/wallet', icon: Wallet },
+  { name: 'Finances', href: '/finances', icon: Wallet },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 

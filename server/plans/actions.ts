@@ -26,7 +26,7 @@ export async function buyPlan(planId: string) {
     }
 
     revalidatePath('/dashboard');
-    revalidatePath('/wallet');
+    revalidatePath('/finances');
     return { success: true, planUsageId: data };
   } catch (e: any) {
     return { error: e.message || 'Transaction failed' };

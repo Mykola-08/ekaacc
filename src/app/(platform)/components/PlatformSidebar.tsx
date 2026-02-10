@@ -43,22 +43,18 @@ const navGroups: { label: string; items: NavItem[] }[] = [
     label: 'Overview',
     items: [
       { title: 'Console Home', url: '/console', icon: DashboardSquare01Icon, exact: true },
-      { title: 'Feature Directory', url: '/features', icon: Layout01Icon },
     ],
   },
   {
     label: 'Operations',
     items: [
       { title: 'Services', url: '/console/services', icon: Layout01Icon },
-      { title: 'Subscriptions', url: '/console/subscriptions', icon: Calendar03Icon },
-      { title: 'Payments', url: '/console/payments', icon: CreditCardIcon },
     ],
   },
   {
     label: 'Content',
     items: [
       { title: 'CMS', url: '/console/cms', icon: Book01Icon },
-      { title: 'Community', url: '/console/community', icon: Notification03Icon },
     ],
   },
   {

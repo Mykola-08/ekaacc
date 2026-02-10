@@ -104,14 +104,15 @@ export async function middleware(request: NextRequest) {
       return rewriteResponse;
     }
   } else if (isAdminSubdomain) {
-    // Rewrite admin subdomain requests to /admin/* routes
-    // Skip if already accessing /admin path or static/api routes
+    // Admin subdomain → redirect to unified dashboard
+    // The dashboard page renders AdminDashboard for admin users automatically
     if (
-      !pathname.startsWith('/admin') &&
+      !pathname.startsWith('/dashboard') &&
+      !pathname.startsWith('/console') &&
       !pathname.startsWith('/_next') &&
       !pathname.startsWith('/api')
     ) {
-      const newPath = pathname === '/' ? '/admin' : `/admin${pathname}`;
+      const newPath = pathname === '/' ? '/dashboard' : pathname;
       const url = request.nextUrl.clone();
       url.pathname = newPath;
 
@@ -132,19 +133,18 @@ export async function middleware(request: NextRequest) {
     '/insights',
     '/settings',
     '/profile',
-    '/admin',
-    '/journal',
-    '/wallet',
+    '/wellness',
+    '/finances',
     '/therapist',
     '/console',
-    '/features',
     '/resources',
     '/crisis',
     '/book',
     '/notifications',
-    '/subscriptions',
     '/availability',
-    '/progress-reports',
+    '/ai-insights',
+    '/onboarding',
+    '/status',
   ];
 
   const isProtectedRoute = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));

@@ -66,12 +66,11 @@ export function MoodCheckIn() {
       } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { error } = await supabase.from('mood_tracking').insert({
+      const { error } = await supabase.from('wellness_entries').insert({
         user_id: user.id,
         mood: score,
-        energy: 5, // Default/Placeholder
-        stress: 5,
-        sleep_quality: 5,
+        energy: 'moderate',
+        stress: 'mild',
       });
 
       if (error) throw error;
@@ -84,14 +83,14 @@ export function MoodCheckIn() {
   };
 
   return (
-    <Card className="border-border bg-surface group relative overflow-hidden rounded-[20px] border p-8 shadow-sm transition-all hover:shadow-md">
+    <Card className="border-border bg-card group relative overflow-hidden rounded-[20px] border p-8 shadow-sm transition-all hover:shadow-md">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h3 className="text-primary text-xl font-bold tracking-tighter">Daily Check-in</h3>
-          <p className="text-muted text-sm font-medium">How are you feeling right now?</p>
+          <p className="text-muted-foreground text-sm font-medium">How are you feeling right now?</p>
         </div>
-        <div className="bg-surface-container flex h-10 w-10 items-center justify-center rounded-lg">
-          <Heart className="text-accent h-5 w-5" strokeWidth={2} />
+        <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+          <Heart className="text-primary h-5 w-5" strokeWidth={2} />
         </div>
       </div>
 

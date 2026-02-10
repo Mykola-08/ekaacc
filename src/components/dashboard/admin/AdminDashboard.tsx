@@ -5,10 +5,8 @@ import {
   Folder,
   DollarSign,
   Activity,
-  ShieldCheck,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import { MetricCard, QuickLink } from '@/components/dashboard/shared';
 
 export function AdminDashboard({ profile, stats }: any) {
   return (
@@ -39,58 +37,18 @@ export function AdminDashboard({ profile, stats }: any) {
 
       {/* Metrics */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <MetricCard icon={Users} label="Total Users" value={stats?.users_total || 0} accent="blue" />
-        <MetricCard icon={Folder} label="Active Plans" value={stats?.active_plans || 0} accent="violet" />
-        <MetricCard icon={DollarSign} label="Revenue" value={stats?.revenue || '€0'} accent="emerald" />
-        <MetricCard icon={Activity} label="Sessions Today" value={stats?.sessions_today || 0} accent="amber" />
+        <MetricCard icon={Users} label="Total Users" value={stats?.users_total || 0} />
+        <MetricCard icon={Folder} label="Active Plans" value={stats?.active_plans || 0} />
+        <MetricCard icon={DollarSign} label="Revenue" value={stats?.revenue || '€0'} />
+        <MetricCard icon={Activity} label="Sessions Today" value={stats?.sessions_today || 0} />
       </div>
 
       {/* Quick links */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <QuickLink href="/console/users" icon={Users} label="Manage Users" desc="View & edit user accounts" accent="blue" />
-        <QuickLink href="/console/services" icon={Folder} label="Services" desc="Configure offerings" accent="violet" />
-        <QuickLink href="/console/payments" icon={DollarSign} label="Payments" desc="Review transactions" accent="emerald" />
+        <QuickLink href="/console/users" icon={Users} label="Manage Users" desc="View & edit user accounts" />
+        <QuickLink href="/console/services" icon={Folder} label="Services" desc="Configure offerings" />
+        <QuickLink href="/console/payments" icon={DollarSign} label="Payments" desc="Review transactions" />
       </div>
     </div>
-  );
-}
-
-const accentColors: Record<string, { bg: string; text: string }> = {
-  blue: { bg: 'bg-blue-50', text: 'text-blue-600' },
-  violet: { bg: 'bg-violet-50', text: 'text-violet-600' },
-  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600' },
-  amber: { bg: 'bg-amber-50', text: 'text-amber-600' },
-};
-
-function MetricCard({ icon: Icon, label, value, accent }: any) {
-  const c = accentColors[accent] || accentColors.blue;
-  return (
-    <div className="flex items-center gap-4 rounded-xl border border-border bg-card p-5 transition-colors hover:border-border/80">
-      <div className={cn('flex h-10 w-10 items-center justify-center rounded-lg', c.bg, c.text)}>
-        <Icon className="h-5 w-5" strokeWidth={2} />
-      </div>
-      <div>
-        <div className="text-xs font-medium text-muted-foreground">{label}</div>
-        <div className="text-xl font-bold tracking-tight text-foreground">{value}</div>
-      </div>
-    </div>
-  );
-}
-
-function QuickLink({ href, icon: Icon, label, desc, accent }: any) {
-  const c = accentColors[accent] || accentColors.blue;
-  return (
-    <Link
-      href={href}
-      className="group flex items-start gap-4 rounded-xl border border-border bg-card p-5 transition-all hover:border-border/80 hover:shadow-sm"
-    >
-      <div className={cn('flex h-10 w-10 items-center justify-center rounded-lg', c.bg, c.text)}>
-        <Icon className="h-5 w-5" strokeWidth={2} />
-      </div>
-      <div>
-        <div className="text-sm font-semibold text-foreground">{label}</div>
-        <div className="text-xs text-muted-foreground">{desc}</div>
-      </div>
-    </Link>
   );
 }

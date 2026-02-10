@@ -1,42 +1,110 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Activity } from 'lucide-react';
 import Link from 'next/link';
 import { DashboardCard } from '@/components/dashboard/shared/DashboardCard';
+import { createClient } from '@/lib/supabase/client';
+import { formatDistanceToNow } from 'date-fns';
+
+interface Transaction {
+  id: string;
+  amount: number;
+  currency: string;
+  type: string;
+  description: string | null;
+  created_at: string;
+}
+
+const TYPE_COLORS: Record<string, string> = {
+  deposit: 'text-emerald-600',
+  reward: 'text-emerald-600',
+  payment: 'text-foreground',
+  refund: 'text-blue-600',
+  adjustment: 'text-amber-600',
+  transfer: 'text-indigo-600',
+};
 
 export function RecentActivity() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setLoading(false); return; }
+
+      // Get wallet for this user
+      const { data: wallet } = await supabase
+        .from('wallets')
+        .select('profile_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (!wallet) { setLoading(false); return; }
+
+      const { data } = await supabase
+        .from('wallet_transactions')
+        .select('*')
+        .eq('wallet_id', wallet.profile_id)
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      if (data) setTransactions(data);
+      setLoading(false);
+    };
+    fetchTransactions();
+  }, []);
+
   return (
     <div className="grid grid-cols-1">
       <DashboardCard title="Recent Transactions" icon={Activity}>
         <div className="mt-4 space-y-1">
-          {[1, 2, 3].map((_, i) => (
-            <div
-              key={i}
-              className="hover:bg-secondary group border-border -mx-4 flex cursor-pointer items-center justify-between rounded-xl border-b p-4 px-8 transition-colors last:border-0 last:pb-2"
-            >
-              <div className="flex items-center gap-4">
-                <div className="bg-card text-foreground flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold">
-                  {i === 0 ? 'DT' : i === 1 ? 'RE' : 'YO'}
-                </div>
-                <div>
-                  <p className="text-foreground text-[15px] font-semibold">
-                    {i === 0 ? 'Deep Tissue Massage' : i === 1 ? 'Reflexology' : 'Yoga Class'}
-                  </p>
-                  <p className="text-muted-foreground text-[13px] font-medium">
-                    Oct 2{i}, 2023 • 1 hour
-                  </p>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-foreground block text-[15px] font-semibold">-1 Credit</span>
-                <span className="text-[12px] font-medium text-emerald-600">Completed</span>
-              </div>
+          {loading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-14 animate-pulse rounded-xl bg-muted" />
+              ))}
             </div>
-          ))}
-          <div className="border-border border-t pt-4 text-center">
+          ) : transactions.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-border bg-muted/30 py-8 text-center text-sm italic text-muted-foreground">
+              No transactions yet.
+            </div>
+          ) : (
+            transactions.map((tx) => (
+              <div
+                key={tx.id}
+                className="-mx-4 flex cursor-pointer items-center justify-between rounded-xl border-b border-border p-4 px-8 transition-colors last:border-0 last:pb-2 hover:bg-secondary"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card text-sm font-bold uppercase text-foreground">
+                    {tx.type.slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="text-[15px] font-semibold text-foreground">
+                      {tx.description || tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
+                    </p>
+                    <p className="text-[13px] font-medium text-muted-foreground">
+                      {formatDistanceToNow(new Date(tx.created_at), { addSuffix: true })}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className={`block text-[15px] font-semibold ${TYPE_COLORS[tx.type] || 'text-foreground'}`}>
+                    {tx.type === 'payment' ? '-' : '+'}{(tx.amount / 100).toFixed(2)} {tx.currency}
+                  </span>
+                  <span className="text-[12px] font-medium capitalize text-muted-foreground">
+                    {tx.type}
+                  </span>
+                </div>
+              </div>
+            ))
+          )}
+          <div className="border-t border-border pt-4 text-center">
             <Link
-              href="/wallet"
-              className="text-primary hover:text-primary/80 text-sm font-semibold transition-colors"
+              href="/finances"
+              className="text-sm font-semibold text-primary transition-colors hover:text-primary/80"
             >
               View All Transactions
             </Link>

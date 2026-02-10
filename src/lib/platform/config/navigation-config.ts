@@ -246,7 +246,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'journal',
       label: 'Journal',
-      href: '/journal',
+      href: '/wellness',
       icon: 'BookOpen',
       category: 'therapy',
       order: 2,
@@ -294,7 +294,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'progress-reports',
       label: 'Progress Reports',
-      href: '/progress-reports',
+      href: '/wellness?tab=progress',
       icon: 'TrendingUp',
       category: 'reports',
       order: 2,
@@ -400,7 +400,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'subscription-settings',
       label: 'Subscription',
-      href: '/subscriptions',
+      href: '/finances?tab=plans',
       icon: 'CreditCard',
       category: 'settings',
       order: 4,

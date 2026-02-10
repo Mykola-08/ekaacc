@@ -52,7 +52,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
   ];
 
   return (
-    <div className="animate-in fade-in mx-auto max-w-6xl space-y-10 pb-20 duration-500">
+    <div className="mx-auto max-w-6xl space-y-10 px-4 py-8 pb-20 md:px-8">
       <DashboardHeader
         title="Materials Library"
         subtitle="Curated resources to support your progress between sessions."

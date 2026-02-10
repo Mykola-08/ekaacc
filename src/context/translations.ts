@@ -6042,6 +6042,18 @@ export const translations: Record<Language, Record<string, string>> = {
     'cookie.type.analytics': 'Analítica',
     'cookie.type.analyticsDesc':
       'Nos ayudan a entender cómo los visitantes interactúan con el sitio.',
+    'cookie.type.marketing': 'Marketing',
+    'cookie.type.marketingDesc': 'Utilizadas para mostrar anuncios relevantes y atractivos.',
+    'cookie.type.functional': 'Funcional',
+    'cookie.type.functionalDesc': 'Permiten funcionalidades mejoradas y personalización.',
+    'cookie.saveParams': 'Guardar Preferencias',
+    'cookie.back': 'Atrás',
+
+    'finalCta.title': '¿Listo?',
+    'finalCta.subtitle': 'Reserva ya',
+  },
+
+  ru: {
     'nav.dashboard': 'Панель',
     'nav.profile': 'Профиль',
     'nav.adminDashboard': 'Админ-панель',
@@ -6108,18 +6120,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'page.dashboard.membershipPlans': 'Планы Подписки',
     'page.dashboard.viewAll': 'Смотреть все',
     'page.dashboard.recentActivity': 'Недавняя Активность',
-    'cookie.type.marketing': 'Marketing',
-    'cookie.type.marketingDesc': 'Utilizadas para mostrar anuncios relevantes y atractivos.',
-    'cookie.type.functional': 'Funcional',
-    'cookie.type.functionalDesc': 'Permiten funcionalidades mejoradas y personalización.',
-    'cookie.saveParams': 'Guardar Preferencias',
-    'cookie.back': 'Atrás',
 
-    'finalCta.title': '¿Listo?',
-    'finalCta.subtitle': 'Reserva ya',
-  },
-
-  ru: {
     // Navigation
     'nav.home': 'Главная',
     'nav.services': 'Услуги',

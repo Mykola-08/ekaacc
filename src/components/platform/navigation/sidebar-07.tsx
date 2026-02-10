@@ -88,7 +88,7 @@ const patientNavigation: NavGroup[] = [
     items: [
       {
         title: 'Journal',
-        url: '/journal',
+        url: '/wellness',
         icon: BookOpen,
       },
       {
@@ -148,7 +148,7 @@ const patientNavigation: NavGroup[] = [
     items: [
       {
         title: 'Subscription',
-        url: '/subscriptions',
+        url: '/finances?tab=plans',
         icon: CreditCard,
       },
       {

@@ -20,7 +20,6 @@ import { IdentityVerificationForm } from '@/components/identity/IdentityVerifica
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { DashboardLayout } from '../dashboard/layout/DashboardLayout';
 import { DashboardHeader } from '../dashboard/layout/DashboardHeader';
 import { motion } from 'motion/react';
 
@@ -46,8 +45,7 @@ export function SettingsPage({
   };
 
   return (
-    <DashboardLayout profile={profile}>
-      <div className="mx-auto max-w-5xl space-y-8 pb-20">
+      <div className="animate-in fade-in slide-in-from-bottom-2 mx-auto max-w-5xl space-y-8 px-4 py-8 pb-20 duration-700 md:px-8">
         <DashboardHeader
           title="Settings"
           subtitle="Manage your profile, security, and preferences."
@@ -279,6 +277,5 @@ export function SettingsPage({
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
   );
 }

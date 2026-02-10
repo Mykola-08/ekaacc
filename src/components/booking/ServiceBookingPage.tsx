@@ -207,7 +207,7 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
 
       if (res.success) {
         toast.success('Booking confirmed!');
-        router.push('/bookings');
+        router.push('/book/success');
       } else {
         toast.error('Booking failed: ' + res.error);
       }
@@ -316,7 +316,7 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
 
                              {service.variants && service.variants.length > 1 && (
                                 <div className="space-y-3">
-                                   <label className="text-muted-foreground text-xs font-bold uppercase tracking-wider">Select Duration</label>
+                                   <label className="text-muted-foreground text-xs font-bold uppercase tracking-wider">Select Option</label>
                                    <div className="grid gap-3">
                                       {service.variants.map((variant) => (
                                           <div 

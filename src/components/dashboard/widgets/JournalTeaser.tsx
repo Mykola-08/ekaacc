@@ -35,7 +35,7 @@ export function JournalTeaser() {
     <DashboardCard
       title="My Journal"
       icon={BookOpen}
-      onAction={() => router.push('/journal')}
+      onAction={() => router.push('/wellness')}
       actionLabel={lastEntry ? 'View Journal' : 'Write First Entry'}
       variant="default"
     >

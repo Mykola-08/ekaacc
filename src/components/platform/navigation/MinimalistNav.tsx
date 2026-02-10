@@ -37,7 +37,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
             whileHover={{ y: -2, opacity: 0.95 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
-            <Link href="/home" className="text-foreground text-xl font-semibold">
+            <Link href="/dashboard" className="text-foreground text-xl font-semibold">
               EKA
             </Link>
           </motion.div>

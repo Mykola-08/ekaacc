@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Calendar01Icon,
@@ -11,16 +11,12 @@ import {
   PlusSignIcon,
   ArrowUpRight01Icon,
   Wallet01Icon,
-  Shield01Icon,
-  Cancel01Icon,
   ActivityIcon,
   Moon02Icon,
   Sun03Icon,
 } from '@hugeicons/core-free-icons';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
-import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
-import { WelcomeBanner } from '../widgets/WelcomeBanner';
 import { StatsCard } from '../widgets/StatsCard';
 import { RecentActivity } from '../widgets/RecentActivity';
 import { PlanUsageCard } from '@/components/plans/PlanUsageCard';
@@ -28,14 +24,10 @@ import { PlanMarketplace } from '@/components/plans/PlanMarketplace';
 import { GoalTracker } from '@/components/dashboard/goals/GoalTracker';
 import { IdentityVerificationForm } from '@/components/identity/IdentityVerificationForm';
 import { MoodCheckIn } from '../widgets/MoodCheckIn';
-import { JournalTeaser } from '../widgets/JournalTeaser';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertTriangle, Shield, X } from 'lucide-react';
+import { Shield, X } from 'lucide-react';
 import {
-  MorphingActionButton,
-  ProgressRing,
   MotivationalQuote,
-  CountdownTimer,
 } from '@/components/ui';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -87,26 +79,20 @@ export function ClientDashboard({
     {
       title: t('nav.journal') || 'Journal',
       description: 'Track mood, progress, and personal notes.',
-      href: '/journal',
+      href: '/wellness',
       icon: ActivityIcon,
     },
     {
       title: t('nav.subscriptions') || 'Plans',
       description: 'Browse memberships and manage your benefits.',
-      href: '/plans',
+      href: '/finances?tab=plans',
       icon: PlusSignIcon,
-    },
-    {
-      title: t('nav.features') || 'All Features',
-      description: t('page.features.subtitle') || 'Explore all available tools and pages in one place.',
-      href: '/features',
-      icon: ActivityIcon,
     },
   ];
 
   return (
     <motion.div
-      className="mx-auto max-w-7xl space-y-8 pb-20 font-sans"
+      className="mx-auto max-w-7xl space-y-8 px-4 py-8 pb-20 font-sans md:px-8"
       initial={{ opacity: 0, scale: 0.98, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{
@@ -123,13 +109,13 @@ export function ClientDashboard({
           {/* Hero Section - Clean White */}
           <section className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm">
             <div className="relative z-10">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-blue-600">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-primary">
                 <HugeiconsIcon icon={GreetingIcon} className="size-4" strokeWidth={2.5} />
                 <span className="text-[11px] font-bold tracking-wider uppercase">{t('page.dashboard.dailyUpdate') || 'Daily Update'}</span>
               </div>
               <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
                 {greeting},{' '}
-                <span className="text-blue-600">{profile.first_name || 'Member'}</span>.
+                <span className="text-primary">{profile.first_name || 'Member'}</span>.
               </h1>
               <p className="mb-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
                 Your wellness journey is moving forward. You have{' '}
@@ -142,15 +128,15 @@ export function ClientDashboard({
                   onClick={handleBookClick}
                   disabled={bookingStatus === 'loading'}
                   size="lg"
-                  className="h-12 rounded-[20px] bg-blue-600 px-8 text-base font-bold shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-700"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 rounded-[20px] px-8 text-base font-bold shadow-lg transition-all"
                 >
                   {bookingStatus === 'loading' ? 'Scheduling...' : t('page.dashboard.bookSession') || 'Book a Session'}
                 </Button>
-                <Link href="/wallet">
+                <Link href="/finances">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="h-12 rounded-[20px] border-border px-6 text-base font-bold text-foreground hover:bg-muted"
+                    className="h-12 rounded-[20px] border-border px-6 text-base font-bold text-foreground hover:bg-secondary"
                   >
                     {t('page.dashboard.manageWallet') || 'Manage Wallet'}
                   </Button>
@@ -161,12 +147,12 @@ export function ClientDashboard({
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Next Session */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-blue-100">
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/20">
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
                   {t('page.dashboard.nextUp') || 'NEXT UP'}
                 </span>
-                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-blue-50 group-hover:text-blue-500">
+                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
                   <HugeiconsIcon icon={Calendar01Icon} className="size-5" strokeWidth={2.5} />
                 </div>
               </div>
@@ -186,7 +172,7 @@ export function ClientDashboard({
                   <Button
                     asChild
                     variant="secondary"
-                    className="h-10 w-full rounded-xl bg-muted font-bold text-foreground hover:bg-blue-50 hover:text-blue-600"
+                    className="h-10 w-full rounded-xl bg-secondary font-bold text-secondary-foreground hover:bg-secondary/80"
                   >
                     <Link href={`/bookings/${nextBooking.id}`}>{t('page.dashboard.viewDetails') || 'View Details'}</Link>
                   </Button>
@@ -196,7 +182,7 @@ export function ClientDashboard({
                   <p className="mb-4 font-medium text-muted-foreground">{t('page.dashboard.noSessions') || 'No confirmed sessions.'}</p>
                   <Link
                     href="/book"
-                    className="group/link flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline"
+                    className="group/link flex items-center gap-1 text-sm font-bold text-primary hover:underline"
                   >
                     {t('page.dashboard.checkAvailability') || 'Check availability'}{' '}
                     <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
@@ -206,12 +192,12 @@ export function ClientDashboard({
             </Card>
 
             {/* Wallet Balance */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-emerald-100">
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/20">
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
                   {t('page.dashboard.balance') || 'BALANCE'}
                 </span>
-                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-emerald-50 group-hover:text-emerald-500">
+                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
                   <HugeiconsIcon icon={Wallet01Icon} className="size-5" strokeWidth={2.5} />
                 </div>
               </div>
@@ -223,8 +209,8 @@ export function ClientDashboard({
               </div>
               <div className="mt-4 border-t border-border pt-4">
                 <Link
-                  href="/wallet"
-                  className="group/link flex items-center gap-1 text-sm font-bold text-emerald-600 hover:underline"
+                  href="/finances"
+                  className="group/link flex items-center gap-1 text-sm font-bold text-primary hover:underline"
                 >
                   {t('page.dashboard.addFunds') || 'Add funds'}{' '}
                   <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
@@ -247,9 +233,9 @@ export function ClientDashboard({
                 <Link
                   key={action.href}
                   href={action.href}
-                  className="group flex items-start gap-4 rounded-[20px] border border-border bg-card p-5 shadow-sm transition-all hover:border-blue-100 hover:shadow-md"
+                  className="group flex items-start gap-4 rounded-[20px] border border-border bg-card p-5 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
                 >
-                  <div className="rounded-xl bg-muted p-3 text-muted-foreground transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                  <div className="rounded-xl bg-muted/50 p-3 text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
                     <HugeiconsIcon icon={action.icon} className="size-5" strokeWidth={2.5} />
                   </div>
                   <div>
@@ -278,23 +264,23 @@ export function ClientDashboard({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="relative overflow-hidden rounded-[20px] border border-blue-100 bg-blue-50 p-6"
+                className="relative overflow-hidden rounded-[20px] border border-primary/20 bg-primary/5 p-6"
               >
                 <button
                   onClick={() => setShowIdentity(false)}
-                  className="absolute top-4 right-4 z-10 rounded-full p-1 text-blue-400 transition-colors hover:text-blue-600"
+                  className="absolute top-4 right-4 z-10 rounded-full p-1 text-primary/60 transition-colors hover:text-primary"
                 >
                   <X className="h-4 w-4" />
                 </button>
-                <div className="mb-2 flex items-center gap-3 text-blue-700">
+                <div className="mb-2 flex items-center gap-3 text-primary">
                   <Shield className="h-5 w-5" />
                   <h3 className="font-bold">Verify Identity</h3>
                 </div>
-                <p className="mb-4 text-xs leading-relaxed text-blue-600/80">
+                <p className="mb-4 text-xs leading-relaxed text-primary/80">
                   Complete verification to unlock all features.
                 </p>
                 <IdentityVerificationForm currentStatus={profile?.identity_status || 'none'} />
-              </motion.div>
+                </motion.div>
             )}
           </AnimatePresence>
 

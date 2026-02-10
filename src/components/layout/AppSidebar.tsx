@@ -34,7 +34,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     { title: 'Dashboard', url: '/', icon: Home01Icon },
     { title: 'Bookings', url: '/bookings', icon: Calendar03Icon },
     { title: 'Book Now', url: '/book', icon: Calendar03Icon },
-    { title: 'Wallet', url: '/wallet', icon: Wallet01Icon },
+    { title: 'Finances', url: '/finances', icon: Wallet01Icon },
     { title: 'Resources', url: '/resources', icon: GridViewIcon },
     { title: 'Profile', url: '/profile', icon: UserCircleIcon },
     { title: 'Settings', url: '/settings', icon: Settings01Icon },

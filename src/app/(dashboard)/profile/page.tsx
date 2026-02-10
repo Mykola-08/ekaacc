@@ -25,9 +25,17 @@ export default async function ProfilePage() {
     .eq('auth_id', user.id)
     .single();
 
-  if (!profile) {
-    redirect('/onboarding');
-  }
+  // Fallback to user metadata if no profile row
+  const displayProfile = profile || {
+    id: user.id,
+    first_name: user.user_metadata?.first_name || user.user_metadata?.full_name?.split(' ')[0] || '',
+    last_name: user.user_metadata?.last_name || user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '',
+    email: user.email,
+    phone: user.user_metadata?.phone || '',
+    avatar_url: user.user_metadata?.avatar_url || '',
+    username: user.user_metadata?.username || '',
+    created_at: user.created_at || new Date().toISOString(),
+  };
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 space-y-10 px-4 py-8 pb-20 duration-700 md:px-8">
@@ -45,10 +53,10 @@ export default async function ProfilePage() {
             <div className="flex flex-col items-center space-y-6 py-4 text-center">
               <div className="group relative">
                 <Avatar className="h-40 w-40 rounded-2xl border-8 border-muted shadow-2xl">
-                  <AvatarImage src={profile.avatar_url} />
+                  <AvatarImage src={displayProfile.avatar_url} />
                   <AvatarFallback className="rounded-2xl bg-muted text-4xl font-black text-foreground">
-                    {profile.first_name?.[0]}
-                    {profile.last_name?.[0]}
+                    {displayProfile.first_name?.[0]}
+                    {displayProfile.last_name?.[0]}
                   </AvatarFallback>
                 </Avatar>
                 <Badge className="absolute right-4 -bottom-2 rounded-full border-4 border-card bg-primary px-4 py-1.5 text-xs font-bold tracking-wider text-primary-foreground uppercase shadow-lg">
@@ -57,10 +65,10 @@ export default async function ProfilePage() {
               </div>
               <div className="space-y-1">
                 <h2 className="text-3xl font-black tracking-tight text-foreground">
-                  {profile.first_name} {profile.last_name}
+                  {displayProfile.first_name} {displayProfile.last_name}
                 </h2>
                 <p className="text-lg font-medium text-muted-foreground">
-                  @{profile.username || 'username'}
+                  @{displayProfile.username || 'username'}
                 </p>
               </div>
               <Button
@@ -94,7 +102,7 @@ export default async function ProfilePage() {
                   </label>
                   <div className="flex items-center gap-4 rounded-xl bg-muted p-5 text-lg font-bold text-foreground">
                     <Mail className="h-5 w-5 text-primary" strokeWidth={2.5} />
-                    {profile.email}
+                    {displayProfile.email}
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -103,7 +111,7 @@ export default async function ProfilePage() {
                   </label>
                   <div className="flex items-center gap-4 rounded-xl bg-muted p-5 text-lg font-bold text-foreground">
                     <Phone className="h-5 w-5 text-primary" strokeWidth={2.5} />
-                    {profile.phone || 'Not provided'}
+                    {displayProfile.phone || 'Not provided'}
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -112,7 +120,7 @@ export default async function ProfilePage() {
                   </label>
                   <div className="flex items-center gap-4 rounded-xl bg-muted p-5 text-lg font-bold text-foreground">
                     <Calendar className="h-5 w-5 text-primary" strokeWidth={2.5} />
-                    {new Date(profile.created_at).toLocaleDateString()}
+                    {new Date(displayProfile.created_at).toLocaleDateString()}
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -121,7 +129,7 @@ export default async function ProfilePage() {
                   </label>
                   <div className="flex items-center gap-4 rounded-xl bg-muted p-5 font-mono text-base text-lg font-bold text-foreground">
                     <Shield className="h-5 w-5 text-primary" strokeWidth={2.5} />
-                    {profile.id.substring(0, 8)}...
+                    {displayProfile.id?.substring(0, 8)}...
                   </div>
                 </div>
               </div>

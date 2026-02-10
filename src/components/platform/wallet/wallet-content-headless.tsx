@@ -154,7 +154,7 @@ export function WalletContentHeadless({
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-8 pb-12">
+    <div className="mx-auto w-full max-w-7xl space-y-8 px-4 py-8 pb-12 md:px-8">
       {/* Header */}
       <div className="animate-fade-in flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div>

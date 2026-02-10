@@ -3,7 +3,7 @@ export const ROUTES = {
   home: '/home',
   therapistDashboard: '/therapist/dashboard',
   sessions: '/sessions',
-  journal: '/journal',
+  wellness: '/wellness',
   settings: '/settings',
   login: '/login',
   signupParam: '/login?tab=signup',
@@ -12,7 +12,7 @@ export const ROUTES = {
   terms: '/terms',
   cookies: '/cookies',
   privacyControls: '/privacy-controls',
-  subscriptions: '/subscriptions',
+  finances: '/finances',
 } as const;
 
 export type RouteKey = keyof typeof ROUTES;

@@ -8,7 +8,7 @@ export default async function FamilySettingsPage() {
   const members = await getFamilyMembers();
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-2 space-y-8 px-4 py-8 duration-700 md:px-8">
+    <div className="space-y-8 px-4 py-8 md:px-8">
       <div className="space-y-4">
         <Link
           href="/settings"

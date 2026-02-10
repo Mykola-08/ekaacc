@@ -69,8 +69,8 @@ const navigationItems = [
     roles: ['user', 'patient', 'therapist'],
   },
   {
-    name: 'Billing',
-    href: '/billing',
+    name: 'Finances',
+    href: '/finances?tab=billing',
     icon: CreditCard,
     roles: ['user', 'patient', 'therapist'],
   },

@@ -15,13 +15,14 @@ export function MainLayout({ children, header, footer }: MainLayoutProps) {
   const isMinimal = pathname?.startsWith('/telegram');
 
   // Routes that use the internal DashboardLayout (Sidebar) and shouldn't show the global SiteHeader/Footer
-  const appRoutes = ['/dashboard', '/settings', '/wallet', '/bookings', '/profile', '/resources'];
+  const appRoutes = ['/dashboard', '/settings', '/finances', '/bookings', '/profile', '/resources', '/wellness'];
   const isAppRoute =
     appRoutes.includes(pathname) ||
     pathname?.startsWith('/dashboard') ||
     pathname?.startsWith('/settings') ||
     pathname?.startsWith('/bookings') ||
-    pathname?.startsWith('/wallet') ||
+    pathname?.startsWith('/finances') ||
+    pathname?.startsWith('/wellness') ||
     pathname?.startsWith('/profile') ||
     pathname?.startsWith('/resources');
 

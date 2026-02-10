@@ -21,22 +21,25 @@ interface Goal {
   title: string;
   target_value: number;
   current_value: number;
-  unit: string;
+  target_type: string;
 }
 
 export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
   const [goals, setGoals] = useState<Goal[]>(initialGoals || []);
   const [open, setOpen] = useState(false);
-  const [newGoal, setNewGoal] = useState({ title: '', target: '10', unit: 'sessions' });
+  const [newGoal, setNewGoal] = useState({ title: '', target: '10', target_type: 'custom' });
   const supabase = createClient();
 
   const addGoal = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { toast.error('Not authenticated'); return; }
     const { data, error } = await supabase
       .from('wellness_goals')
       .insert({
+        user_id: user.id,
         title: newGoal.title,
         target_value: parseInt(newGoal.target),
-        unit: newGoal.unit,
+        target_type: newGoal.target_type,
         current_value: 0,
         status: 'active',
       })
@@ -97,9 +100,9 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
               />
               <Input
                 className="bg-card border-border h-12 rounded-xl"
-                placeholder="Unit"
-                value={newGoal.unit}
-                onChange={(e) => setNewGoal({ ...newGoal, unit: e.target.value })}
+                placeholder="Type (mood, sleep, activity, custom)"
+                value={newGoal.target_type}
+                onChange={(e) => setNewGoal({ ...newGoal, target_type: e.target.value })}
               />
             </div>
             <Button onClick={addGoal} className="h-12 w-full rounded-xl text-lg font-bold">
@@ -122,7 +125,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
               <div className="text-foreground flex justify-between text-[13px] font-bold">
                 <span>{goal.title}</span>
                 <span className="text-muted-foreground">
-                  {goal.current_value} / {goal.target_value} {goal.unit}
+                  {goal.current_value} / {goal.target_value} {goal.target_type}
                 </span>
               </div>
               <div className="bg-card border-border relative h-3 overflow-hidden rounded-full border">

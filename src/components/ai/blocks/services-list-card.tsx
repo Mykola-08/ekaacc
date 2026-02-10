@@ -71,7 +71,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
                 <span>{s.duration} min</span>
               </div>
             </div>
-            <div className="text-primary ml-3 flex-shrink-0 text-sm font-semibold">
+            <div className="text-primary ml-3 shrink-0 text-sm font-semibold">
               {formatCurrency(s.price, s.currency)}
             </div>
           </motion.div>

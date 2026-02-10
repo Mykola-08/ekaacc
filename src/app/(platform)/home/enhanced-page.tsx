@@ -27,6 +27,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { motion } from 'framer-motion';
+import { fadeInUp, fadeInUpLarge, staggerContainer, withDelay } from '@/lib/motion';
 
 export default function PatientDashboardPage() {
   const { user } = useSimpleAuth();
@@ -128,9 +129,9 @@ export default function PatientDashboardPage() {
       <SurfacePanel className="py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            variants={withDelay(fadeInUp, 0.3)}
+            initial="hidden"
+            animate="visible"
           >
             <div className="mb-12 text-center">
               <h2 className="text-foreground mb-4 text-3xl font-bold">Quick Actions</h2>
@@ -177,9 +178,9 @@ export default function PatientDashboardPage() {
       <SurfacePanel className="py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+            variants={withDelay(fadeInUp, 0.8)}
+            initial="hidden"
+            animate="visible"
           >
             <div className="mb-12 text-center">
               <h2 className="text-foreground mb-4 text-3xl font-bold">Your Progress</h2>
@@ -217,9 +218,9 @@ export default function PatientDashboardPage() {
       <SurfacePanel className="py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
+            variants={withDelay(fadeInUp, 1.2)}
+            initial="hidden"
+            animate="visible"
           >
             <div className="mb-16 text-center">
               <h2 className="text-foreground mb-6 text-4xl font-bold">Your Wellness Toolkit</h2>

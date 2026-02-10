@@ -28,7 +28,7 @@ export function WalletBalanceCard({ balance, currency }: WalletBalanceProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="relative overflow-hidden rounded-2xl border bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-4 w-full max-w-sm"
+      className="relative overflow-hidden rounded-2xl border bg-linear-to-br from-primary/10 via-primary/5 to-transparent p-4 w-full max-w-sm"
     >
       {/* Decorative circle */}
       <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/5" />

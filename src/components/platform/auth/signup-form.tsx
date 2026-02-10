@@ -20,6 +20,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import { fadeInUpLarge, scaleIn, fadeInLeft, fadeInUpSmall, fadeIn, withDelay } from '@/lib/motion';
 
 const signUpSchema = z
  .object({
@@ -81,18 +82,18 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
 
  return (
  <motion.div
- initial={{ opacity: 0, y: 30 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+ variants={fadeInUpLarge}
+ initial="hidden"
+ animate="visible"
  className="mx-auto w-full max-w-[480px]"
  >
  <Card className="relative overflow-hidden rounded-[24px] border border-border/20 bg-card/70 shadow-xl backdrop-blur-2xl ">
  <CardContent className="relative p-8 md:p-10">
  {/* Header */}
  <motion.div
- initial={{ opacity: 0, scale: 0.95 }}
- animate={{ opacity: 1, scale: 1 }}
- transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(scaleIn, 0.1)}
+ initial="hidden"
+ animate="visible"
  className="mb-8 flex flex-col items-center gap-4 text-center"
  >
  <div className="relative mb-2">
@@ -121,9 +122,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  {/* Full Name & Username */}
  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
  <motion.div
- initial={{ opacity: 0, x: -10 }}
- animate={{ opacity: 1, x: 0 }}
- transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInLeft, 0.2)}
+ initial="hidden"
+ animate="visible"
  >
  <FormField
  control={form.control}
@@ -148,9 +149,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  </motion.div>
 
  <motion.div
- initial={{ opacity: 0, x: -10 }}
- animate={{ opacity: 1, x: 0 }}
- transition={{ delay: 0.25, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInLeft, 0.25)}
+ initial="hidden"
+ animate="visible"
  >
  <FormField
  control={form.control}
@@ -176,9 +177,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  </div>
 
  <motion.div
- initial={{ opacity: 0, x: -10 }}
- animate={{ opacity: 1, x: 0 }}
- transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInLeft, 0.3)}
+ initial="hidden"
+ animate="visible"
  >
  <FormField
  control={form.control}
@@ -205,9 +206,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
 
  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
  <motion.div
- initial={{ opacity: 0, x: -10 }}
- animate={{ opacity: 1, x: 0 }}
- transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInLeft, 0.35)}
+ initial="hidden"
+ animate="visible"
  >
  <FormField
  control={form.control}
@@ -233,9 +234,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  </motion.div>
 
  <motion.div
- initial={{ opacity: 0, x: -10 }}
- animate={{ opacity: 1, x: 0 }}
- transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInLeft, 0.4)}
+ initial="hidden"
+ animate="visible"
  >
  <FormField
  control={form.control}
@@ -277,9 +278,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  </AnimatePresence>
 
  <motion.div
- initial={{ opacity: 0, y: 10 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ delay: 0.45, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInUpSmall, 0.45)}
+ initial="hidden"
+ animate="visible"
  className="pt-2"
  >
  <Button
@@ -298,9 +299,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  </Form>
 
  <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- transition={{ delay: 0.5, duration: 0.5 }}
+ variants={withDelay(fadeIn, 0.5)}
+ initial="hidden"
+ animate="visible"
  className="mt-6 text-center"
  >
  <p className="text-sm text-muted-foreground">
@@ -318,9 +319,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  
  {/* Footer / Terms */}
  <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- transition={{ delay: 0.6, duration: 0.5 }}
+ variants={withDelay(fadeIn, 0.6)}
+ initial="hidden"
+ animate="visible"
  className="mt-6 text-center"
  >
  <p className="text-xs text-muted-foreground">

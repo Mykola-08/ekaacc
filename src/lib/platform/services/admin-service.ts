@@ -13,17 +13,22 @@ export interface AdminUser {
 export class AdminService {
   async listUsers(page: number, perPage: number): Promise<AdminUser[]> {
     try {
-      const { data, error } = await supabaseAdmin
-        .from('profiles')
-        .select('id, email, role, created_at')
-        .range((page - 1) * perPage, page * perPage - 1);
+      const { data: { users }, error } = await supabaseAdmin.auth.admin.listUsers({
+        page: page,
+        perPage: perPage
+      });
 
       if (error) {
         console.error('Error listing users:', error);
         return [];
       }
 
-      return (data || []) as AdminUser[];
+      return users.map(u => ({
+        id: u.id,
+        email: u.email || '',
+        role: (u.app_metadata?.role as string) || (u.user_metadata?.role as string) || 'user',
+        created_at: u.created_at
+      }));
     } catch {
       return [];
     }
@@ -34,7 +39,9 @@ export class AdminService {
     role: string
   ): Promise<{ success: boolean; error?: string }> {
     try {
-      const { error } = await supabaseAdmin.from('profiles').update({ role }).eq('id', userId);
+      const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+        app_metadata: { role }
+      });
 
       if (error) {
         return { success: false, error: error.message };

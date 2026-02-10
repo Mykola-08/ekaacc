@@ -13,13 +13,15 @@ export type MarkdownProps = {
 
 function Markdown({ children, className, ...props }: MarkdownProps) {
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm, remarkBreaks]}
+    <div
       className={cn(
         "prose dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 break-words",
         className
       )}
-      components={{
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkBreaks]}
+        components={{
         p({ children: pChildren }) {
           return <p className="mb-2 last:mb-0">{pChildren}</p>
         },
@@ -68,6 +70,7 @@ function Markdown({ children, className, ...props }: MarkdownProps) {
     >
       {children}
     </ReactMarkdown>
+    </div>
   )
 }
 

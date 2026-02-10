@@ -69,7 +69,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
               <ul className="space-y-1">
                 {insight.actionItems.map((item, j) => (
                   <li key={j} className="flex items-start gap-1.5 text-xs">
-                    <ChevronRight className="text-primary mt-0.5 h-3 w-3 flex-shrink-0" />
+                    <ChevronRight className="text-primary mt-0.5 h-3 w-3 shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}

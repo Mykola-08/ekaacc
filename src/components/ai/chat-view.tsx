@@ -7,8 +7,9 @@
  * and visual blocks into a complete AI chat experience.
  */
 
-import { useState, useCallback, useEffect, useRef } from "react";
-import { useChat, type UseChatOptions } from "@ai-sdk/react";
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import {
   ChatContainerRoot,
   ChatContainerContent,
@@ -35,32 +36,34 @@ export function AIChatView() {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [input, setInput] = useState("");
 
-  const chatOptions: UseChatOptions = {
-    api: "/api/ai/chat",
-    body: { conversationId },
-    onResponse: (response) => {
-      // Capture conversation ID from response header
-      const newId = response.headers.get("X-Conversation-Id");
-      if (newId && !conversationId) {
-        setConversationId(newId);
-      }
-    },
-    onError: (err) => {
-      toast.error(err.message || "Failed to get AI response");
-    },
-  };
+  // Memoize transport so it updates when conversationId changes
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/ai/chat",
+        body: { conversationId },
+      }),
+    [conversationId]
+  );
 
   const {
     messages,
-    input,
-    setInput,
-    handleSubmit,
-    isLoading,
+    sendMessage,
+    status,
     stop,
     setMessages,
-    reload,
-  } = useChat(chatOptions);
+    regenerate,
+    error,
+  } = useChat({
+    transport,
+    onError: (err) => {
+      toast.error(err.message || "Failed to get AI response");
+    },
+  });
+
+  const isLoading = status === "submitted" || status === "streaming";
 
   // Load conversations on mount
   useEffect(() => {
@@ -82,6 +85,7 @@ export function AIChatView() {
   const handleNewConversation = useCallback(() => {
     setConversationId(null);
     setMessages([]);
+    setInput("");
     setSidebarOpen(false);
   }, [setMessages]);
 
@@ -92,13 +96,13 @@ export function AIChatView() {
         if (res.ok) {
           const data = await res.json();
           setConversationId(id);
-          // Convert DB messages to chat format
+          // Convert DB messages to UIMessage format with parts
           const chatMessages = (data.messages || [])
             .filter((m: any) => m.role !== "system")
             .map((m: any) => ({
               id: m.id,
               role: m.role,
-              content: m.content,
+              parts: [{ type: "text" as const, text: m.content }],
             }));
           setMessages(chatMessages);
         }
@@ -126,19 +130,18 @@ export function AIChatView() {
   );
 
   const handleSend = useCallback(() => {
-    if (!input.trim()) return;
-    handleSubmit();
-  }, [input, handleSubmit]);
+    const text = input.trim();
+    if (!text) return;
+    setInput("");
+    sendMessage({ text });
+  }, [input, sendMessage]);
 
   const handleSuggestion = useCallback(
     (text: string) => {
-      setInput(text);
-      // Auto-submit after a brief delay so the user sees the text
-      setTimeout(() => {
-        handleSubmit();
-      }, 100);
+      setInput("");
+      sendMessage({ text });
     },
-    [setInput, handleSubmit]
+    [sendMessage]
   );
 
   const handleCopy = useCallback((content: string) => {
@@ -149,9 +152,9 @@ export function AIChatView() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex h-[calc(100dvh-6rem)] max-h-[900px] overflow-hidden rounded-2xl border">
+    <div className="flex h-[calc(100dvh-6rem)] max-h-225 overflow-hidden rounded-2xl border">
       {/* Desktop sidebar */}
-      <div className="bg-muted/30 hidden w-64 flex-shrink-0 border-r lg:block">
+      <div className="bg-muted/30 hidden w-64 shrink-0 border-r lg:block">
         <ConversationList
           conversations={conversations}
           activeId={conversationId}
@@ -201,7 +204,7 @@ export function AIChatView() {
                     message={message}
                     isLast={i === messages.length - 1 && message.role === "assistant"}
                     onCopy={handleCopy}
-                    onRegenerate={reload}
+                    onRegenerate={() => regenerate()}
                   />
                 ))}
 

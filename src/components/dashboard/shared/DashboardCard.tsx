@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ArrowUpRight } from 'lucide-react';
+import { fadeInUpSmall } from '@/lib/motion';
 
 export interface DashboardCardProps {
   title?: string;
@@ -30,12 +31,9 @@ export function DashboardCard({
 }: DashboardCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.4,
-        ease: [0.25, 1, 0.5, 1],
-      }}
+      variants={fadeInUpSmall}
+      initial="hidden"
+      animate="visible"
       className={cn(
         'bg-card border-border group relative flex h-full flex-col justify-between overflow-hidden border p-8 transition-shadow duration-300',
         'rounded-[20px]', // Apple standard 20px radius

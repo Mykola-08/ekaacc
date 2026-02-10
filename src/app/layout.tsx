@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { AuthProvider } from '@/context/platform/auth-context';
 import { GlobalErrorReporter } from '@/components/observability/GlobalErrorReporter';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 export const metadata: Metadata = {
   title: 'EKA Balance - Teràpies Integratives',
@@ -32,8 +33,10 @@ export default function RootLayout({
         </a>
         <AuthProvider>
           <LanguageProvider>
-            <GlobalErrorReporter />
-            {children}
+            <TooltipProvider>
+              <GlobalErrorReporter />
+              {children}
+            </TooltipProvider>
           </LanguageProvider>
         </AuthProvider>
       </body>

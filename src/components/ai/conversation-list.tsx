@@ -59,7 +59,7 @@ export function ConversationList({
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
-              <MessageSquare className="h-3.5 w-3.5 flex-shrink-0" />
+              <MessageSquare className="h-3.5 w-3.5 shrink-0" />
               <span className="min-w-0 flex-1 truncate">
                 {conv.title || "New conversation"}
               </span>
@@ -68,7 +68,7 @@ export function ConversationList({
                   e.stopPropagation();
                   onDelete(conv.id);
                 }}
-                className="text-muted-foreground hover:text-destructive flex-shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                className="text-muted-foreground hover:text-destructive shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <Trash2 className="h-3 w-3" />
               </button>

@@ -12,11 +12,15 @@ export default async function Layout({ children }: { children: React.ReactNode }
     redirect('/login');
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('auth_id', user.id)
-    .single();
+  const profile = {
+    id: user.id,
+    full_name: user.user_metadata?.full_name,
+    email: user.email,
+    phone: user.user_metadata?.phone,
+    avatar_url: user.user_metadata?.avatar_url,
+    role: user.app_metadata?.role || user.user_metadata?.role,
+    ...user.user_metadata
+  };
 
   return <DashboardLayout profile={profile}>{children}</DashboardLayout>;
 }

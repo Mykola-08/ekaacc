@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { BookingWizard } from '@/components/booking/BookingWizard';
+import { ServiceBookingPage } from '@/components/booking/ServiceBookingPage';
 import { fetchService } from '@/server/booking/service';
 import type { Service } from '@/types/database';
 
@@ -54,8 +54,8 @@ export default async function BookServicePage({ params, searchParams }: BookServ
   const service = data as Service;
 
   return (
-    <main id="main-content" className="bg-background min-h-screen">
-      <BookingWizard service={service} variantId={variantId} />
+    <main id="main-content">
+      <ServiceBookingPage service={service} initialVariantId={variantId} />
     </main>
   );
 }

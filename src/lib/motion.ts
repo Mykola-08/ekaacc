@@ -12,7 +12,7 @@ import { type Transition, type Variants } from 'motion/react';
    ---------------------------------------------------------------- */
 
 /** Apple HIG Quint-out — primary entrance ease */
-export const appleEase = [0.16, 1, 0.3, 1] as const;
+export const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ----------------------------------------------------------------
    SPRING PRESETS
@@ -46,17 +46,17 @@ export const SPRING_SLOW: Transition = {
 
 export const quickTransition: Transition = {
   duration: 0.3,
-  ease: appleEase as unknown as number[],
+  ease: appleEase,
 };
 
 export const standardTransition: Transition = {
   duration: 0.5,
-  ease: appleEase as unknown as number[],
+  ease: appleEase,
 };
 
 export const slowTransition: Transition = {
   duration: 0.6,
-  ease: appleEase as unknown as number[],
+  ease: appleEase,
 };
 
 /* ----------------------------------------------------------------
@@ -99,6 +99,12 @@ export const fadeInRight: Variants = {
 export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: { opacity: 1, scale: 1, transition: standardTransition },
+};
+
+/** Scale-in + slide up — auth wrappers, modals */
+export const scaleInUp: Variants = {
+  hidden: { opacity: 0, scale: 0.95, y: 20 },
+  visible: { opacity: 1, scale: 1, y: 0, transition: slowTransition },
 };
 
 /** Simple fade — overlays, background elements */

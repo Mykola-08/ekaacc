@@ -2,5 +2,11 @@
   "outputDirectory": ".next",
   "buildCommand": "npm run build",
   "installCommand": "npm install --legacy-peer-deps",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/ai/cron",
+      "schedule": "0 6 * * *"
+    }
+  ]
 }

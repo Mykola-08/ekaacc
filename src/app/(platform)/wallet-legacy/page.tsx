@@ -20,11 +20,15 @@ export default async function WalletPage() {
   }
 
   // Fetch full profile for layout
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('auth_id', user.id)
-    .single();
+  const profile = {
+    id: user.id,
+    full_name: user.user_metadata?.full_name,
+    email: user.email,
+    phone: user.user_metadata?.phone,
+    avatar_url: user.user_metadata?.avatar_url,
+    role: user.app_metadata?.role || user.user_metadata?.role,
+    ...user.user_metadata
+  };
 
   const walletService = new WalletService();
   const [balance, transactions] = await Promise.all([

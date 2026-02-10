@@ -18,20 +18,11 @@ export async function getFamilyMembers() {
 
   if (!user) return [];
 
-  // Get current profile id first
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('auth_id', user.id)
-    .single();
-
-  if (!profile) return [];
-
-  // Fetch profiles managed by this user
+  // Fetch family members for this user
   const { data: members, error } = await supabase
-    .from('profiles')
+    .from('family_members')
     .select('*')
-    .eq('managed_by', profile.id)
+    .eq('user_id', user.id)
     .order('created_at', { ascending: true });
 
   if (error) {
@@ -52,17 +43,6 @@ export async function addFamilyMember(prevState: any, formData: FormData) {
     return { success: false, message: 'Unauthorized' };
   }
 
-  // Get parent profile
-  const { data: parent } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('auth_id', user.id)
-    .single();
-
-  if (!parent) {
-    return { success: false, message: 'Parent profile not found' };
-  }
-
   const rawData = {
     full_name: formData.get('full_name'),
     dob: formData.get('dob'),
@@ -80,12 +60,11 @@ export async function addFamilyMember(prevState: any, formData: FormData) {
   }
 
   try {
-    const { error } = await supabase.from('profiles').insert({
+    const { error } = await supabase.from('family_members').insert({
       full_name: validated.data.full_name,
-      dob: validated.data.dob || null, // Ensure date format or null
-      managed_by: parent.id,
-      role: 'client', // Dependents are clients
-      metadata: { relationship: validated.data.relationship },
+      dob: validated.data.dob || null, 
+      user_id: user.id,
+      relationship: validated.data.relationship,
     });
 
     if (error) throw error;
@@ -105,19 +84,11 @@ export async function deleteFamilyMember(memberId: string) {
   } = await supabase.auth.getUser();
   if (!user) return { success: false, message: 'Unauthorized' };
 
-  const { data: parent } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('auth_id', user.id)
-    .single();
-
-  if (!parent) return { success: false, message: 'Parent not found' };
-
   const { error } = await supabase
-    .from('profiles')
+    .from('family_members')
     .delete()
     .eq('id', memberId)
-    .eq('managed_by', parent.id); // Ensure ownership
+    .eq('user_id', user.id); 
 
   if (error) return { success: false, message: error.message };
 

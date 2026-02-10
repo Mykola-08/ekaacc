@@ -87,31 +87,37 @@ export function ChatInput({
         <PromptInputTextarea
           ref={textareaRef}
           placeholder="Ask EKA anything..."
-          className="min-h-[44px] resize-none bg-transparent px-4 pt-3 pb-0 text-sm"
+          className="min-h-11 resize-none bg-transparent px-4 pt-3 pb-0 text-sm"
         />
         <PromptInputActions className="px-3 pb-2">
-          <PromptInputAction tooltip="Attach file" className="text-muted-foreground hover:text-foreground">
-            <Paperclip className="h-4 w-4" />
+          <PromptInputAction tooltip="Attach file">
+            <button type="button" className="text-muted-foreground hover:text-foreground cursor-pointer p-1 rounded">
+              <Paperclip className="h-4 w-4" />
+            </button>
           </PromptInputAction>
 
           <div className="flex-1" />
 
           {isLoading ? (
-            <PromptInputAction
-              tooltip="Stop generating"
-              onClick={onStop}
-              className="bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-lg px-2"
-            >
-              <Square className="h-3.5 w-3.5" />
+            <PromptInputAction tooltip="Stop generating">
+              <button
+                type="button"
+                onClick={onStop}
+                className="bg-destructive/10 text-destructive hover:bg-destructive/20 cursor-pointer rounded-lg px-2 py-1"
+              >
+                <Square className="h-3.5 w-3.5" />
+              </button>
             </PromptInputAction>
           ) : (
-            <PromptInputAction
-              tooltip="Send message"
-              onClick={handleSubmit}
-              disabled={!value.trim()}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-40 rounded-lg px-2"
-            >
-              <Send className="h-3.5 w-3.5" />
+            <PromptInputAction tooltip="Send message">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!value.trim()}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-40 cursor-pointer rounded-lg px-2 py-1"
+              >
+                <Send className="h-3.5 w-3.5" />
+              </button>
             </PromptInputAction>
           )}
         </PromptInputActions>

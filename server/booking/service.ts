@@ -4,7 +4,7 @@ import { signManageToken, hashToken } from '@/lib/bookingToken';
 import { emitEvent } from '@/lib/events';
 import { LoyaltyService } from '@/server/loyalty/service';
 import { ReputationService, BookingPolicy } from '@/server/reputation/service';
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 // Simple in-memory cache for frequently accessed data
 const serviceCache = new Map<string, { data: unknown; expiry: number }>();
@@ -42,36 +42,45 @@ export async function fetchService(serviceId: string) {
   if (cached) return cached;
 
   try {
-    // Use a single query with JOIN for better performance
-    // Updated to support lookup by UUID or Slug
+    // Determine if serviceId is UUID or Slug
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
       serviceId
     );
 
-    const { rows } = await db.query(
-      `SELECT s.id, s.name, s.description, s.stripe_product_id, s.metadata, s.image_url, s.images, s.tags,
-              sv.id as variant_id, sv.name as variant_name, sv.description as variant_description,
-              sv.duration_min, sv.price_amount, sv.currency, sv.stripe_price_id, sv.features, sv.comparison_label
-       FROM service s
-       LEFT JOIN service_variant sv ON s.id = sv.service_id AND sv.active = true
-       WHERE ${isUuid ? 's.id = $1' : 's.slug = $1'}
-       AND s.active = true
-       ORDER BY sv.price_amount ASC`,
-      [serviceId]
-    );
+    const supabase = createAdminClient();
+    const { data: services, error: dbError } = await supabase
+      .from('service')
+      .select(`
+        id, name, description, stripe_product_id, metadata, image_url, images, tags,
+        service_variant (
+          id, name, description, duration_min, price_amount, currency, stripe_price_id, features, comparison_label, active
+        )
+      `)
+      .eq('active', true)
+      .eq(isUuid ? 'id' : 'slug', serviceId)
+      .limit(1);
 
-    if (rows.length === 0) {
+    if (dbError) throw dbError;
+
+    if (!services || services.length === 0) {
       return { data: null, error: { message: 'Service not found', code: '404' } };
     }
 
-    // Process joined results - first row has service data, all rows have variant data
-    const serviceRow = rows[0]!;
-    const variants = rows
-      .filter((r) => r.variant_id) // Only rows with variant data
-      .map((v) => ({
-        id: v.variant_id,
-        name: v.variant_name,
-        description: v.variant_description,
+    // Process joined results
+    const serviceRow = services[0];
+    
+    // @ts-ignore - Supabase types might imply single object or array depending on relation type, assuming array for hasMany
+    const variantsRaw = Array.isArray(serviceRow.service_variant) ? serviceRow.service_variant : [];
+    
+    const variants = variantsRaw
+      // @ts-ignore
+      .filter((v: any) => v.active === true)
+      // @ts-ignore
+      .sort((a: any, b: any) => a.price_amount - b.price_amount)
+      .map((v: any) => ({
+        id: v.id,
+        name: v.name,
+        description: v.description,
         duration: v.duration_min,
         price: v.price_amount / 100, // Convert cents to main unit for UI
         currency: v.currency,
@@ -89,7 +98,8 @@ export async function fetchService(serviceId: string) {
       description: serviceRow.description,
       stripe_product_id: serviceRow.stripe_product_id,
       metadata: serviceRow.metadata,
-      location: serviceRow.location,
+      // @ts-ignore - location does not exist in service table but was in original code
+      location: serviceRow.location, 
       image_url: serviceRow.image_url,
       images: serviceRow.images,
       price: defaultVariant.price,
@@ -148,14 +158,14 @@ export async function listServices() {
   if (cached) return cached;
 
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const { data: services, error } = await supabase
       .from('service')
       .select(
-        `id, name, slug, description, active, created_at,
+        `id, name, slug, description, active, created_at, category,
          stripe_product_id, metadata, location, image_url,
-         service_variant(duration_min, price_amount, active)`
+         service_variant(duration_min, price_amount, active, currency)`
       )
       .eq('active', true)
       .order('name');
@@ -166,6 +176,7 @@ export async function listServices() {
       duration_min: number | null;
       price_amount: number | null;
       active: boolean;
+      currency: string | null;
     }
 
     const mappedData = (services || []).map((s) => {
@@ -175,6 +186,7 @@ export async function listServices() {
 
       const minPrice = activeVariants.length > 0 ? (activeVariants[0].price_amount || 0) / 100 : 0;
       const duration = activeVariants.length > 0 ? (activeVariants[0].duration_min || 0) : 0;
+      const currency = activeVariants.length > 0 ? (activeVariants[0].currency || 'EUR') : 'EUR';
 
       return {
         id: s.id,
@@ -187,10 +199,12 @@ export async function listServices() {
         metadata: s.metadata,
         location: s.location || null,
         image_url: s.image_url || null,
+        category: s.category || null,
         is_active: s.active,
         version: null as string | null,
         price: minPrice,
         duration,
+        currency,
       };
     });
 

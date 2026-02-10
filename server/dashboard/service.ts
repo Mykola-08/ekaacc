@@ -1,8 +1,8 @@
 import { db } from '@/lib/db';
 
-export async function getWallet(profileId: string) {
+export async function getWallet(userId: string) {
   try {
-    const { rows } = await db.query(`SELECT * FROM wallets WHERE profile_id = $1`, [profileId]);
+    const { rows } = await db.query(`SELECT * FROM wallets WHERE user_id = $1`, [userId]);
     if (rows.length === 0) return { balanceCents: 0, pointsBalance: 0 };
     return {
       balanceCents: rows[0]!.balance_cents,
@@ -15,19 +15,18 @@ export async function getWallet(profileId: string) {
   }
 }
 
-export async function getUpcomingBookings(profileId: string) {
+export async function getUpcomingBookings(userId: string) {
   try {
-    // Join with service to get name
     const { rows } = await db.query(
       `SELECT b.*, s.name as service_name 
        FROM booking b
        JOIN service s ON b.service_id = s.id
-       WHERE b.profile_id = $1 
+       WHERE b.customer_reference_id = $1 
          AND b.start_time > NOW() 
          AND b.status IN ('scheduled', 'confirmed')
        ORDER BY b.start_time ASC
        LIMIT 1`,
-      [profileId]
+      [userId]
     );
 
     if (rows.length === 0) return null;
@@ -37,7 +36,7 @@ export async function getUpcomingBookings(profileId: string) {
       id: row.id,
       serviceId: row.service_id,
       serviceName: row.service_name,
-      startTime: row.start_time.toISOString(), // Ensure dates are serializable
+      startTime: row.start_time.toISOString(),
       endTime: row.end_time.toISOString(),
       status: row.status,
       services: {
@@ -50,15 +49,15 @@ export async function getUpcomingBookings(profileId: string) {
   }
 }
 
-export async function getBookingsHistory(profileId: string) {
+export async function getBookingsHistory(userId: string) {
   try {
     const { rows } = await db.query(
       `SELECT b.*, s.name as service_name 
        FROM booking b
        JOIN service s ON b.service_id = s.id
-       WHERE b.profile_id = $1 
+       WHERE b.customer_reference_id = $1 
        ORDER BY b.start_time DESC`,
-      [profileId]
+      [userId]
     );
 
     return rows.map((row: any) => ({
@@ -78,21 +77,25 @@ export async function getBookingsHistory(profileId: string) {
   }
 }
 
-export async function getTherapistDailySchedule(profileId: string) {
+export async function getTherapistDailySchedule(userId: string) {
   try {
+    // Assuming auth.users is accessible. If not, fallback to metadata stored in booking (if any)
     const { rows } = await db.query(
       `SELECT b.*, s.name as service_name, s.duration as service_duration, 
-                  p.first_name, p.last_name, p.email, p.phone, p.full_name as client_name
+                  u.email, 
+                  u.raw_user_meta_data->>'first_name' as first_name,
+                  u.raw_user_meta_data->>'last_name' as last_name,
+                  u.raw_user_meta_data->>'full_name' as client_name,
+                  u.raw_user_meta_data->>'phone' as phone
            FROM booking b
            JOIN service s ON b.service_id = s.id
-           LEFT JOIN profiles p ON b.profile_id = p.id
+           LEFT JOIN auth.users u ON b.customer_reference_id = u.id
            WHERE b.start_time >= CURRENT_DATE 
              AND b.start_time < CURRENT_DATE + INTERVAL '1 day'
            ORDER BY b.start_time ASC`,
       []
     );
 
-    // Transform to nested structure for component compatibility
     return rows.map((row) => ({
       ...row,
       services: {
@@ -100,8 +103,8 @@ export async function getTherapistDailySchedule(profileId: string) {
         duration: row.service_duration,
       },
       profiles: {
-        first_name: row.first_name || row.client_name?.split(' ')[0] || '',
-        last_name: row.last_name || row.client_name?.split(' ')[1] || '',
+        first_name: row.first_name || '',
+        last_name: row.last_name || '',
         email: row.email,
         phone: row.phone,
       },
@@ -114,11 +117,10 @@ export async function getTherapistDailySchedule(profileId: string) {
 
 export async function cancelBooking(bookingId: string, userId: string) {
   try {
-    // In a real app, check cancellation policy window (e.g. 24h)
     const { rows } = await db.query(
       `UPDATE booking 
        SET status = 'cancelled', updated_at = NOW()
-       WHERE id = $1 AND profile_id = $2
+       WHERE id = $1 AND customer_reference_id = $2
        RETURNING id, status, payment_status, base_price_cents`,
       [bookingId, userId]
     );
@@ -128,10 +130,6 @@ export async function cancelBooking(bookingId: string, userId: string) {
     }
 
     const booking = rows[0]!;
-
-    // TODO: Trigger Refund if payment_status === 'paid'
-    // if (booking.payment_status === 'paid') { ... }
-
     return { success: true, bookingId: booking.id };
   } catch (error) {
     console.error('Error cancelling booking', error);
@@ -141,14 +139,13 @@ export async function cancelBooking(bookingId: string, userId: string) {
 
 export async function getPendingVerifications(therapistId: string) {
   try {
-    // Fetch payments where method='manual' and status='pending'
-    // This assumes a 'payment_proofs' table or similar logic
-    // For now, we mock or query booking directly
     const { rows } = await db.query(
-      `SELECT b.id, b.start_time, s.name as service_name, p.full_name, b.base_price_cents
+      `SELECT b.id, b.start_time, s.name as service_name, 
+              u.raw_user_meta_data->>'full_name' as full_name, 
+              b.base_price_cents
         FROM booking b
         JOIN service s ON b.service_id = s.id
-        LEFT JOIN profiles p ON b.profile_id = p.id
+        LEFT JOIN auth.users u ON b.customer_reference_id = u.id
         WHERE b.payment_status = 'pending' AND b.payment_mode = 'manual'
         ORDER BY b.created_at ASC`
     );

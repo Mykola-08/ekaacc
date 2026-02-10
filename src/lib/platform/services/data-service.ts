@@ -35,13 +35,20 @@ export interface Donation {
 const dataService = {
   getAllUsers: async (): Promise<DataUser[]> => {
     try {
+      // Use admin_user_lookup view
       const { data, error } = await supabaseAdmin
-        .from('profiles')
-        .select('id, email, name, created_at')
+        .from('admin_user_lookup')
+        .select('id, email, raw_user_meta_data, created_at')
         .order('created_at', { ascending: false });
 
       if (error) return [];
-      return (data || []) as DataUser[];
+      
+      return (data || []).map((u: any) => ({
+        id: u.id,
+        email: u.email,
+        name: u.raw_user_meta_data?.full_name || u.raw_user_meta_data?.name,
+        created_at: u.created_at
+      })) as DataUser[];
     } catch {
       return [];
     }
@@ -105,7 +112,11 @@ const dataService = {
     data: Partial<DataUser>
   ): Promise<{ success: boolean; error?: string }> => {
     try {
-      const { error } = await supabaseAdmin.from('profiles').update(data).eq('id', userId);
+      const updates: any = {};
+      if (data.name) updates.user_metadata = { full_name: data.name };
+      if (data.email) updates.email = data.email;
+
+      const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, updates);
 
       if (error) return { success: false, error: error.message };
       return { success: true };

@@ -12,6 +12,7 @@ import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
+import { fadeInUpLarge, scaleIn, fadeInLeft, fadeInUpSmall, fadeIn, withDelay } from '@/lib/motion';
 
 type LoginFormProps = React.ComponentProps<'div'> & {
  enabledProviders?: {
@@ -35,7 +36,7 @@ export function LoginForm({
 
  useEffect(() => {
  if (!authLoading && isAuthenticated) {
- router.push('/');
+ router.push('/dashboard');
  }
  }, [authLoading, isAuthenticated, router]);
 
@@ -49,7 +50,7 @@ export function LoginForm({
  if (error) {
  setError(error.message);
  } else {
- router.push('/');
+ router.push('/dashboard');
  }
  } catch (err) {
  setError('An unexpected error occurred');
@@ -60,9 +61,9 @@ export function LoginForm({
 
  return (
  <motion.div
- initial={{ opacity: 0, y: 30 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Apple-like ease
+ variants={fadeInUpLarge}
+ initial="hidden"
+ animate="visible"
  className={cn('mx-auto flex w-full max-w-[400px] flex-col gap-6', className)}
  {...props}
  >
@@ -71,9 +72,9 @@ export function LoginForm({
  <form onSubmit={handleLogin} className="flex flex-col gap-5">
  {/* Header */}
  <motion.div
- initial={{ opacity: 0, scale: 0.95 }}
- animate={{ opacity: 1, scale: 1 }}
- transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(scaleIn, 0.1)}
+ initial="hidden"
+ animate="visible"
  className="mb-4 flex flex-col items-center gap-4 text-center"
  >
  <div className="relative mb-2">
@@ -101,9 +102,9 @@ export function LoginForm({
  {/* Form Fields */}
  <div className="space-y-5">
  <motion.div
- initial={{ opacity: 0, x: -10 }}
- animate={{ opacity: 1, x: 0 }}
- transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInLeft, 0.2)}
+ initial="hidden"
+ animate="visible"
  className="space-y-1.5"
  >
  <Label
@@ -126,9 +127,9 @@ export function LoginForm({
  </motion.div>
 
  <motion.div
- initial={{ opacity: 0, x: -10 }}
- animate={{ opacity: 1, x: 0 }}
- transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInLeft, 0.3)}
+ initial="hidden"
+ animate="visible"
  className="space-y-1.5"
  >
  <div className="flex items-center justify-between">
@@ -173,9 +174,9 @@ export function LoginForm({
 
  {/* Submit Button */}
  <motion.div
- initial={{ opacity: 0, y: 10 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+ variants={withDelay(fadeInUpSmall, 0.4)}
+ initial="hidden"
+ animate="visible"
  >
  <Button
  type="submit"
@@ -195,9 +196,9 @@ export function LoginForm({
 
  {/* Sign Up Link */}
  <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- transition={{ delay: 0.5, duration: 0.5 }}
+ variants={withDelay(fadeIn, 0.5)}
+ initial="hidden"
+ animate="visible"
  className="text-center"
  >
  <p className="text-sm text-muted-foreground">

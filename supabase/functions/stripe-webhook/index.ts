@@ -83,29 +83,32 @@ serve(async (req) => {
         const email = customer.email;
         if (!email) break;
 
-        // 1. Try to find profile by email
-        const { data: existingProfile } = await supabase
-          .from('profiles')
-          .select('id')
-          .eq('email', email)
-          .single();
+        // 1. Try to find user by email
+        let userId = null;
+        const { data: userLookup } = await supabase
+            .from('admin_user_lookup')
+            .select('id')
+            .eq('email', email)
+            .single();
 
-        if (existingProfile) {
-          // Update existing profile
-          await supabase
-            .from('profiles')
-            .update({
-              full_name: customer.name || undefined,
-              phone: customer.phone || undefined,
-              ...systemFlag,
-            })
-            .eq('id', existingProfile.id);
+        if (userLookup) {
+          userId = userLookup.id;
+          
+          // Update existing user metadata
+          await supabase.auth.admin.updateUserById(userId, {
+              user_metadata: {
+                  full_name: customer.name || undefined,
+                  phone: customer.phone || undefined,
+                  stripe_customer_id: customer.id,
+                  ...systemFlag,
+              }
+          });
 
           // Link in sync_metadata
           await supabase.from('sync_metadata').upsert(
             {
               entity_type: 'customer',
-              local_id: existingProfile.id,
+              local_id: userId,
               external_id: customer.id,
               external_system: 'stripe',
               sync_status: 'synced',

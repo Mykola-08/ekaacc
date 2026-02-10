@@ -8,7 +8,7 @@
  * Body: { messages, conversationId? }
  */
 
-import { streamText, type CoreMessage } from 'ai';
+import { streamText, stepCountIs, type ModelMessage } from 'ai';
 import { NextRequest } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import {
@@ -20,6 +20,19 @@ import {
 } from '@/server/ai';
 
 export const maxDuration = 60;
+
+/** Extract text from a ModelMessage's content (string or parts array). */
+function extractTextFromMessage(msg: ModelMessage): string | null {
+  if (typeof msg.content === 'string') return msg.content;
+  if (Array.isArray(msg.content)) {
+    const text = msg.content
+      .filter((p): p is { type: 'text'; text: string } => (p as any).type === 'text')
+      .map((p) => p.text)
+      .join('');
+    return text || null;
+  }
+  return null;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,7 +53,7 @@ export async function POST(req: NextRequest) {
     // ── Parse request ────────────────────────────────────────────
     const body = await req.json();
     const { messages, conversationId } = body as {
-      messages: CoreMessage[];
+      messages: ModelMessage[];
       conversationId?: string;
     };
 
@@ -61,16 +74,20 @@ export async function POST(req: NextRequest) {
 
       // Generate title from first user message (background)
       const firstUserMsg = messages.find((m) => m.role === 'user');
-      if (firstUserMsg && typeof firstUserMsg.content === 'string') {
-        conversationService.generateTitle(convId, firstUserMsg.content).catch(() => {});
+      if (firstUserMsg) {
+        const firstText = extractTextFromMessage(firstUserMsg);
+        if (firstText) {
+          conversationService.generateTitle(convId, firstText).catch(() => {});
+        }
       }
     }
 
     // Persist the latest user message
     const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user');
-    if (lastUserMsg && typeof lastUserMsg.content === 'string') {
+    const lastUserText = lastUserMsg ? extractTextFromMessage(lastUserMsg) : null;
+    if (lastUserText) {
       await conversationService
-        .addMessage(convId, 'user', lastUserMsg.content)
+        .addMessage(convId, 'user', lastUserText)
         .catch(() => {});
     }
 
@@ -89,7 +106,7 @@ export async function POST(req: NextRequest) {
       system: systemPrompt,
       messages,
       tools,
-      maxSteps: 5,
+      stopWhen: stepCountIs(5),
       onFinish: async ({ text }) => {
         if (!text) return;
 
@@ -99,15 +116,15 @@ export async function POST(req: NextRequest) {
           .catch(() => {});
 
         // Background memory extraction
-        if (lastUserMsg && typeof lastUserMsg.content === 'string') {
+        if (lastUserText) {
           conversationService
-            .extractMemories(user.id, lastUserMsg.content, text)
+            .extractMemories(user.id, lastUserText, text)
             .catch(() => {});
         }
       },
     });
 
-    return result.toDataStreamResponse({
+    return result.toUIMessageStreamResponse({
       headers: {
         'X-Conversation-Id': convId,
       },

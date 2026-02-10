@@ -59,19 +59,24 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         )}
 
         <div className="mt-auto flex gap-3 border-t border-gray-100 pt-5">
-          <Link href={service.href} className="flex-1">
-            <Button
-              variant="outline"
-              className="w-full rounded-[20px] border border-gray-200 bg-transparent p-3 text-sm font-medium normal-case text-gray-700 transition-all duration-300 hover:bg-gray-50 hover:text-gray-900"
-            >
+          <Button
+            asChild
+            variant="outline"
+            className="flex-1 w-full rounded-[20px] border border-gray-200 bg-transparent p-3 text-sm font-medium normal-case text-gray-700 transition-all duration-300 hover:bg-gray-50 hover:text-gray-900"
+          >
+            <Link href={service.href}>
               {t('common.readMore') || 'Read More'}
-            </Button>
-          </Link>
-          <Link href="/book" className="flex-1">
-            <Button className="w-full rounded-[20px] border-none bg-accent p-3 text-sm font-semibold normal-case text-eka-dark transition-all duration-300 hover:bg-accent/90">
+            </Link>
+          </Button>
+
+          <Button 
+            asChild
+            className="flex-1 w-full rounded-[20px] border-none bg-accent p-3 text-sm font-semibold normal-case text-eka-dark transition-all duration-300 hover:bg-accent/90"
+          >
+            <Link href="/book">
               {t('nav.bookNow')}
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

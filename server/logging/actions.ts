@@ -95,13 +95,10 @@ export async function getErrorLogs(page = 1, pageSize = 20) {
   }
 
   // Authorization check
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
+  // Role is now in app_metadata or user_metadata
+  const role = user.app_metadata?.role || user.user_metadata?.role;
 
-  if (profile?.role !== 'therapist') {
+  if (role !== 'therapist') {
     throw new Error('Unauthorized: Insufficient permissions');
   }
 

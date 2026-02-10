@@ -89,7 +89,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
               onClick={() => onSuggestion(action.prompt)}
               className="bg-muted/50 hover:bg-muted group flex items-start gap-3 rounded-xl border p-3 text-left transition-all hover:border-primary/20 hover:shadow-sm"
             >
-              <div className="bg-primary/10 group-hover:bg-primary/20 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-colors">
+              <div className="bg-primary/10 group-hover:bg-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors">
                 <Icon className="text-primary h-4 w-4" />
               </div>
               <div className="min-w-0">

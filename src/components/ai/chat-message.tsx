@@ -43,12 +43,12 @@ export function ChatMessage({ message, isLast, onCopy, onRegenerate }: ChatMessa
     }
   }
 
-  // Get text content
+  // Get text content from parts (v6 UIMessage has no `.content`)
   const textContent =
     message.parts
       ?.filter((p) => p.type === "text")
       .map((p) => (p as any).text)
-      .join("") || message.content;
+      .join("") || "";
 
   return (
     <motion.div
@@ -65,6 +65,7 @@ export function ChatMessage({ message, isLast, onCopy, onRegenerate }: ChatMessa
       >
         {!isUser && (
           <MessageAvatar
+            alt="EKA Assistant"
             src="/images/eka-avatar.png"
             fallback="E"
             className="bg-primary/10 text-primary"
@@ -101,21 +102,26 @@ export function ChatMessage({ message, isLast, onCopy, onRegenerate }: ChatMessa
           {/* Message actions for assistant messages */}
           {!isUser && textContent && (
             <MessageActions className="opacity-0 transition-opacity group-hover:opacity-100">
-              <MessageAction
-                tooltip="Copy"
-                onClick={() => onCopy?.(textContent)}
-              >
-                <Copy className="h-3.5 w-3.5" />
+              <MessageAction tooltip="Copy">
+                <button type="button" onClick={() => onCopy?.(textContent)} className="cursor-pointer p-1 rounded hover:bg-muted">
+                  <Copy className="h-3.5 w-3.5" />
+                </button>
               </MessageAction>
               <MessageAction tooltip="Good response">
-                <ThumbsUp className="h-3.5 w-3.5" />
+                <button type="button" className="cursor-pointer p-1 rounded hover:bg-muted">
+                  <ThumbsUp className="h-3.5 w-3.5" />
+                </button>
               </MessageAction>
               <MessageAction tooltip="Bad response">
-                <ThumbsDown className="h-3.5 w-3.5" />
+                <button type="button" className="cursor-pointer p-1 rounded hover:bg-muted">
+                  <ThumbsDown className="h-3.5 w-3.5" />
+                </button>
               </MessageAction>
               {isLast && (
-                <MessageAction tooltip="Regenerate" onClick={onRegenerate}>
-                  <RotateCcw className="h-3.5 w-3.5" />
+                <MessageAction tooltip="Regenerate">
+                  <button type="button" onClick={onRegenerate} className="cursor-pointer p-1 rounded hover:bg-muted">
+                    <RotateCcw className="h-3.5 w-3.5" />
+                  </button>
                 </MessageAction>
               )}
             </MessageActions>

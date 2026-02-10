@@ -27,9 +27,9 @@ export default async function AuthDispatchPage() {
   const roleName = Array.isArray(userRoles) ? userRoles[0]?.name : userRoles?.name;
 
   if (roleName === 'admin') {
-    redirect('/console');
+    redirect('/dashboard');
   } else if (roleName === 'therapist') {
-    redirect('/therapist/dashboard');
+    redirect('/dashboard');
   } else {
     // Default to patient dashboard
     redirect('/dashboard');

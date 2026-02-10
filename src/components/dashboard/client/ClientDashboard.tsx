@@ -64,36 +64,41 @@ export function ClientDashboard({
   };
 
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Morning' : hour < 18 ? 'Afternoon' : 'Evening';
+  const greeting =
+    hour < 12
+      ? t('page.dashboard.goodMorning') || 'Good Morning'
+      : hour < 18
+        ? t('page.dashboard.goodAfternoon') || 'Good Afternoon'
+        : t('page.dashboard.goodEvening') || 'Good Evening';
   const GreetingIcon = hour < 12 || hour < 18 ? Sun03Icon : Moon02Icon;
   const quickActions = [
     {
-      title: 'Book a Session',
-      description: 'Find availability and schedule your next visit.',
+      title: t('page.dashboard.bookSession') || 'Book a Session',
+      description: t('page.bookings.subtitle') || 'Find availability and schedule your next visit.',
       href: '/book',
       icon: Calendar01Icon,
     },
     {
-      title: 'My Bookings',
-      description: 'Review upcoming and past appointments.',
+      title: t('nav.bookings') || 'My Bookings',
+      description: t('page.bookings.subtitle') || 'Review upcoming and past appointments.',
       href: '/bookings',
       icon: Clock01Icon,
     },
     {
-      title: 'Journal',
+      title: t('nav.journal') || 'Journal',
       description: 'Track mood, progress, and personal notes.',
       href: '/journal',
       icon: ActivityIcon,
     },
     {
-      title: 'Plans',
+      title: t('nav.subscriptions') || 'Plans',
       description: 'Browse memberships and manage your benefits.',
       href: '/plans',
       icon: PlusSignIcon,
     },
     {
-      title: 'All Features',
-      description: 'Explore all available tools and pages in one place.',
+      title: t('nav.features') || 'All Features',
+      description: t('page.features.subtitle') || 'Explore all available tools and pages in one place.',
       href: '/features',
       icon: ActivityIcon,
     },
@@ -120,10 +125,10 @@ export function ClientDashboard({
             <div className="relative z-10">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-blue-600">
                 <HugeiconsIcon icon={GreetingIcon} className="size-4" strokeWidth={2.5} />
-                <span className="text-[11px] font-bold tracking-wider uppercase">Daily Update</span>
+                <span className="text-[11px] font-bold tracking-wider uppercase">{t('page.dashboard.dailyUpdate') || 'Daily Update'}</span>
               </div>
               <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
-                Good {greeting},{' '}
+                {greeting},{' '}
                 <span className="text-blue-600">{profile.first_name || 'Member'}</span>.
               </h1>
               <p className="mb-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
@@ -139,7 +144,7 @@ export function ClientDashboard({
                   size="lg"
                   className="h-12 rounded-[20px] bg-blue-600 px-8 text-base font-bold shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-700"
                 >
-                  {bookingStatus === 'loading' ? 'Scheduling...' : 'Book a Session'}
+                  {bookingStatus === 'loading' ? 'Scheduling...' : t('page.dashboard.bookSession') || 'Book a Session'}
                 </Button>
                 <Link href="/wallet">
                   <Button
@@ -147,7 +152,7 @@ export function ClientDashboard({
                     size="lg"
                     className="h-12 rounded-[20px] border-border px-6 text-base font-bold text-foreground hover:bg-muted"
                   >
-                    Manage Wallet
+                    {t('page.dashboard.manageWallet') || 'Manage Wallet'}
                   </Button>
                 </Link>
               </div>
@@ -159,7 +164,7 @@ export function ClientDashboard({
             <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-blue-100">
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-                  NEXT UP
+                  {t('page.dashboard.nextUp') || 'NEXT UP'}
                 </span>
                 <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-blue-50 group-hover:text-blue-500">
                   <HugeiconsIcon icon={Calendar01Icon} className="size-5" strokeWidth={2.5} />
@@ -183,17 +188,17 @@ export function ClientDashboard({
                     variant="secondary"
                     className="h-10 w-full rounded-xl bg-muted font-bold text-foreground hover:bg-blue-50 hover:text-blue-600"
                   >
-                    <Link href={`/bookings/${nextBooking.id}`}>View Details</Link>
+                    <Link href={`/bookings/${nextBooking.id}`}>{t('page.dashboard.viewDetails') || 'View Details'}</Link>
                   </Button>
                 </div>
               ) : (
                 <div className="flex h-full flex-col justify-end">
-                  <p className="mb-4 font-medium text-muted-foreground">No confirmed sessions.</p>
+                  <p className="mb-4 font-medium text-muted-foreground">{t('page.dashboard.noSessions') || 'No confirmed sessions.'}</p>
                   <Link
                     href="/book"
                     className="group/link flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline"
                   >
-                    Check availability{' '}
+                    {t('page.dashboard.checkAvailability') || 'Check availability'}{' '}
                     <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
                   </Link>
                 </div>
@@ -204,7 +209,7 @@ export function ClientDashboard({
             <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-emerald-100">
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-                  BALANCE
+                  {t('page.dashboard.balance') || 'BALANCE'}
                 </span>
                 <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-emerald-50 group-hover:text-emerald-500">
                   <HugeiconsIcon icon={Wallet01Icon} className="size-5" strokeWidth={2.5} />
@@ -214,14 +219,14 @@ export function ClientDashboard({
                 <div className="text-4xl font-bold tracking-tight text-foreground">
                   €{(wallet?.balance_cents || 0) / 100}
                 </div>
-                <p className="mt-2 text-xs font-medium text-muted-foreground">Available funds</p>
+                <p className="mt-2 text-xs font-medium text-muted-foreground">{t('page.dashboard.availableFunds') || 'Available funds'}</p>
               </div>
               <div className="mt-4 border-t border-border pt-4">
                 <Link
                   href="/wallet"
                   className="group/link flex items-center gap-1 text-sm font-bold text-emerald-600 hover:underline"
                 >
-                  Add funds{' '}
+                  {t('page.dashboard.addFunds') || 'Add funds'}{' '}
                   <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
                 </Link>
               </div>
@@ -236,7 +241,7 @@ export function ClientDashboard({
           </div>
 
           <section className="pt-2">
-            <h3 className="mb-4 px-1 text-lg font-bold text-foreground">Quick Actions</h3>
+            <h3 className="mb-4 px-1 text-lg font-bold text-foreground">{t('dashboard.user.quickActions') || 'Quick Actions'}</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {quickActions.map((action) => (
                 <Link
@@ -263,7 +268,7 @@ export function ClientDashboard({
         <div className="space-y-6">
           {/* Daily Mood Check-In */}
           <div className="rounded-[20px] border border-border bg-card p-6 shadow-sm">
-            <h3 className="mb-4 text-lg font-bold text-foreground">Daily Check-in</h3>
+            <h3 className="mb-4 text-lg font-bold text-foreground">{t('page.dashboard.dailyCheckin') || 'Daily Check-in'}</h3>
             <MoodCheckIn />
           </div>
 
@@ -300,12 +305,12 @@ export function ClientDashboard({
                 className="h-4 w-4 text-muted-foreground"
                 strokeWidth={2.5}
               />
-              <h3 className="text-lg font-bold text-foreground">System Status</h3>
+              <h3 className="text-lg font-bold text-foreground">{t('page.dashboard.systemStatus') || 'System Status'}</h3>
             </div>
             {recentErrors.length === 0 ? (
               <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-600">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></span>
-                Normal Operation
+                {t('page.dashboard.normalOp') || 'Normal Operation'}
               </div>
             ) : (
               <div className="space-y-3">
@@ -332,9 +337,9 @@ export function ClientDashboard({
         {!activeUsage && plans && plans.length > 0 && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="font-serif text-xl font-bold">Membership Plans</h3>
+              <h3 className="font-serif text-xl font-bold">{t('page.dashboard.membershipPlans') || 'Membership Plans'}</h3>
               <Link href="/plans" className="text-primary text-sm font-bold hover:underline">
-                View all
+                {t('page.dashboard.viewAll') || 'View all'}
               </Link>
             </div>
             <PlanMarketplace plans={plans.slice(0, 2)} />
@@ -342,7 +347,7 @@ export function ClientDashboard({
         )}
 
         <div className="space-y-4">
-          <h3 className="px-1 text-lg font-bold tracking-tight">Recent Activity</h3>
+          <h3 className="px-1 text-lg font-bold tracking-tight">{t('page.dashboard.recentActivity') || 'Recent Activity'}</h3>
           <RecentActivity />
         </div>
       </div>

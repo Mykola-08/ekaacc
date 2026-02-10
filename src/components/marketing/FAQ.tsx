@@ -6,7 +6,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/marketing/Accordion';
+} from '@/components/ui/accordion';
 
 interface FAQItem {
   id: string;
@@ -55,11 +55,17 @@ const FAQ = () => {
           <p className="text-lg text-gray-600">{t('faq.subtitle')}</p>
         </div>
 
-        <Accordion type="single" defaultValue="item-1">
+        <Accordion type="single" collapsible defaultValue="item-1" className="space-y-4">
           {faqItems.map((item) => (
-            <AccordionItem key={item.id} value={item.id}>
-              <AccordionTrigger>{item.question}</AccordionTrigger>
-              <AccordionContent>
+            <AccordionItem 
+              key={item.id} 
+              value={item.id} 
+              className="rounded-[20px] border-none bg-gray-50 px-2 hover:bg-gray-100 data-[state=open]:bg-white data-[state=open]:shadow-sm transition-all"
+            >
+              <AccordionTrigger className="px-4 py-4 hover:no-underline text-lg font-medium text-left">
+                {item.question}
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-4 text-gray-600">
                 <p className="text-sm leading-relaxed">{item.answer}</p>
               </AccordionContent>
             </AccordionItem>

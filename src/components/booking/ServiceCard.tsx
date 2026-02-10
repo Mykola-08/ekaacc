@@ -15,6 +15,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { Clock01Icon, ArrowRight01Icon, CreditCardIcon } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface ServiceCardProps {
   service: Service;
@@ -37,11 +38,23 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
         {/* Image Placeholder or Header Gradient */}
         <div
           className={cn(
-            'bg-secondary border-border relative w-full border-b',
+            'bg-secondary border-border relative w-full overflow-hidden border-b',
             isCompact ? 'h-24' : 'h-48'
           )}
         >
-          {/* Abstract minimalist shape/gradient if needed, but keeping it clean porcelain gray/white */}
+          {service.image_url ? (
+            <Image
+              src={service.image_url}
+              alt={service.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <>
+              {/* Abstract minimalist shape/gradient if needed, but keeping it clean porcelain gray/white */}
+              <div className="via-background absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white to-transparent opacity-80" />
+            </>
+          )}
           <div className="via-background absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-white to-transparent opacity-80" />
 
           <div className="absolute bottom-4 left-6">
@@ -90,7 +103,12 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
                 className="text-muted-foreground/60 h-4 w-4"
                 strokeWidth={2.75}
               />
-              <span>{service.price}</span>
+              <span>
+                {new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: service.currency || 'EUR',
+                }).format(service.price)}
+              </span>
             </div>
           </div>
         </CardContent>

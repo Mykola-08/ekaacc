@@ -163,10 +163,18 @@ Generate 2-4 personalized wellness insights.`,
       // Store insights in the database
       for (const insight of insights) {
         await db.query(
-          `INSERT INTO ai_insights (user_id, insight_id, type, title, description, confidence, action_items)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)
-           ON CONFLICT DO NOTHING`,
-          [userId, insight.id, insight.type, insight.title, insight.description, insight.confidence, JSON.stringify(insight.actionItems)]
+          `INSERT INTO ai_insights (user_id, type, title, description, confidence, action_items, metadata)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [
+            userId,
+            // Fall back to 'wellness' if type not in the DB enum
+            ['wellness', 'therapy', 'behavioral', 'progress', 'recommendation'].includes(insight.type) ? insight.type : 'wellness',
+            insight.title,
+            insight.description,
+            insight.confidence,
+            JSON.stringify(insight.actionItems),
+            JSON.stringify({ originalType: insight.type }),
+          ]
         ).catch(() => {}); // Best-effort
       }
 

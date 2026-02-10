@@ -18,9 +18,9 @@ export async function sendTherapistEmail(formData: FormData) {
     return { success: false, error: 'Unauthorized' };
   }
 
-  // TODO: Verify user is a therapist
-  // const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  // if (profile?.role !== 'therapist') { return { success: false, error: 'Forbidden' }; }
+  // Verify user is a therapist
+  const role = user.app_metadata?.role || user.user_metadata?.role;
+  if (role !== 'therapist') { return { success: false, error: 'Forbidden' }; }
 
   const patientId = formData.get('patientId') as string;
   const type = formData.get('type') as TransactionalEmailType;

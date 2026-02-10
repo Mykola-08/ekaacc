@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { ArrowRight, Activity, Brain, Heart, Zap, Moon } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
-import AnimateIn from './AnimateIn';
 
 interface Problem {
   id: string;
@@ -85,15 +84,15 @@ export default function CasosSection() {
     <section className="bg-gray-50 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="mb-16 text-center">
-          <div className="bg-primary-50 border-primary-100 mb-8 inline-flex items-center rounded-full border px-6 py-2">
-            <span className="text-primary-700 text-sm font-medium tracking-wide uppercase">
+          <div className="bg-white border-gray-100 mb-8 inline-flex items-center rounded-full border px-6 py-2 shadow-sm">
+            <span className="text-gray-600 text-sm font-medium tracking-wide uppercase">
               {t('casos.section.badge')}
             </span>
           </div>
 
-          <h2 className="text-eka-dark mb-6 text-3xl font-bold sm:text-4xl lg:text-5xl">
+          <h2 className="text-gray-900 mb-6 text-3xl font-bold sm:text-4xl lg:text-5xl">
             {t('casos.section.title')}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-gray-900">
               {t('casos.section.titleHighlight')}
             </span>
           </h2>
@@ -105,7 +104,7 @@ export default function CasosSection() {
           {featuredProblems.map((problem, index) => {
             const ProblemIcon = problem.icon;
             return (
-              <AnimateIn key={problem.id} delay={index * 0.1}>
+              <div key={problem.id}>
                 <Link
                   href={problem.href}
                   className="group ease-out-quart block rounded-[20px] border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 hover:shadow-lg"
@@ -116,7 +115,7 @@ export default function CasosSection() {
                     <ProblemIcon className="h-7 w-7" />
                   </div>
 
-                  <h3 className="text-eka-dark group-hover:text-primary-600 ease-out-quart mb-3 text-xl font-semibold transition-colors duration-200">
+                  <h3 className="text-eka-dark group-hover:text-accent-dark ease-out-quart mb-3 text-xl font-semibold transition-colors duration-200">
                     {t(problem.titleKey)}
                   </h3>
 
@@ -124,12 +123,12 @@ export default function CasosSection() {
                     {t(problem.descriptionKey)}
                   </p>
 
-                  <div className="text-primary-600 flex items-center font-medium">
+                  <div className="text-accent-dark flex items-center font-medium">
                     {t('casos.section.readMore')}
                     <ArrowRight className="ease-out-quart ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                   </div>
                 </Link>
-              </AnimateIn>
+              </div>
             );
           })}
         </div>

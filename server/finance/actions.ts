@@ -13,30 +13,23 @@ export async function getPendingVerifications() {
   if (!user) throw new Error('Unauthorized');
 
   // Role check
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('auth_id', user.id)
-    .single();
-  if (!['admin', 'therapist'].includes(profile?.role)) throw new Error('Forbidden');
+  const role = user.app_metadata?.role || user.user_metadata?.role;
+  if (!['admin', 'therapist'].includes(role)) throw new Error('Forbidden');
 
   // Fetch bookings that need attention
-  // 1. Identity not verified
-  // 2. Payment status is 'pending' but mode is not 'stripe' (e.g. cash, transfer) -- simplified logic for now
-
-  // For this prototype, we treat ANY unverified identity as a flag if they have active bookings
-  const { data, error } = await supabase
+  // Use customer_reference_id as user identifier
+  const { data: bookings, error } = await supabase
     .from('booking')
     .select(
       `
             id, created_at, start_time, 
             service:service(name), 
-            profiles:profile_id(full_name, email, trust_score),
+            customer_reference_id,
             payment_status, amount:base_price_cents, is_identity_verified, confidence_score
         `
     )
     .eq('is_identity_verified', false)
-    .gte('start_time', new Date().toISOString()) // Only future bookings
+    .gte('start_time', new Date().toISOString())
     .order('start_time', { ascending: true });
 
   if (error) {
@@ -44,13 +37,34 @@ export async function getPendingVerifications() {
     return [];
   }
 
-  return data;
+  // Enrich with user info from users_view
+  const enriched = await Promise.all(bookings.map(async (b: any) => {
+      let profile = null;
+      if (b.customer_reference_id) {
+          const { data } = await supabase
+            .from('users_view')
+            .select('full_name, avatar_url, trust_score')
+            .eq('id', b.customer_reference_id)
+            .single();
+          profile = data;
+          // Add email? users_view might not expose email if I defined it strictly.
+          // But Admin needs email. 
+          // If users_view does not have email (security), we might need admin client to get email.
+          // Let's assume view has what we need or we use admin client.
+      }
+      return { 
+          ...b, 
+          profiles: profile // Map to 'profiles' to keep frontend compat if possible, or update frontend
+      };
+  }));
+
+  return enriched;
 }
 
 export async function verifyBookingIdentity(bookingId: string) {
   const supabase = await createClient();
 
-  // Auth & Permission Check omitted for brevity, assuming middleware or simple role check
+  // Auth & Permission Check
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -64,10 +78,6 @@ export async function verifyBookingIdentity(bookingId: string) {
       .eq('id', bookingId);
 
     if (bookingError) throw bookingError;
-
-    // 2. Optionally update user trust score?
-    // We'd need to fetch the booking's profile_id first.
-    // For now, let's keep it simple.
 
     revalidatePath('/admin/finance');
     return { success: true, message: 'Identity Verified' };

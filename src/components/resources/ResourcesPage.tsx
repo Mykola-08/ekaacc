@@ -24,6 +24,7 @@ import {
   Image01Icon,
 } from '@hugeicons/core-free-icons';
 import { motion } from 'motion/react';
+import { scaleIn } from '@/lib/motion';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 
 interface ResourcesPageProps {
@@ -94,11 +95,12 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
         {filtered.map((resource) => (
           <motion.div
             layout
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            variants={scaleIn}
+            initial="hidden"
+            animate="visible"
             key={resource.id}
           >
-            <Card className="bg-card text-foreground group border-border/50 relative flex h-full flex-col overflow-hidden rounded-[20px] border border-none shadow-[0_4px_24px_rgba(0,0,0,0.02)] transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)]">
+            <Card className="bg-card text-foreground group border-border/50 relative flex h-full flex-col overflow-hidden rounded-[20px] border border-none shadow-eka-sm transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)]">
               <div className="bg-muted relative h-64 overflow-hidden">
                 {resource.imageUrl ? (
                   <Image

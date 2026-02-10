@@ -46,7 +46,7 @@ export function createTools(userId: string) {
     logMood: tool({
       description:
         'Log the user\'s current mood. Use when the user shares how they feel. Mood score is 1-10 (1=terrible, 10=excellent).',
-      parameters: z.object({
+      inputSchema: z.object({
         mood: z.enum(['excellent', 'good', 'neutral', 'bad', 'terrible']),
         score: z.number().min(1).max(10),
         energy: z.number().min(1).max(10).optional(),
@@ -79,7 +79,7 @@ export function createTools(userId: string) {
     getMoodTrend: tool({
       description:
         'Get the user\'s mood trend over a period. Use when they ask about their mood history or patterns.',
-      parameters: z.object({
+      inputSchema: z.object({
         days: z.number().min(1).max(90).default(14),
       }),
       execute: async ({ days }) => {
@@ -103,7 +103,7 @@ export function createTools(userId: string) {
 
     getUpcomingBookings: tool({
       description: 'Get the user\'s upcoming therapy/wellness bookings.',
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => {
         const { rows } = await db.query<BookingRow>(
           `SELECT id, service_name, start_time, status, therapist_name
@@ -137,7 +137,7 @@ export function createTools(userId: string) {
 
     getWalletBalance: tool({
       description: 'Get the user\'s wallet balance.',
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => {
         const { rows } = await db.query<WalletRow>(
           `SELECT balance, currency FROM wallets WHERE user_id = $1 LIMIT 1`,
@@ -160,7 +160,7 @@ export function createTools(userId: string) {
     browseServices: tool({
       description:
         'Browse available wellness and therapy services. Use when a user asks what services or sessions are available.',
-      parameters: z.object({
+      inputSchema: z.object({
         search: z.string().optional().describe('Optional search term'),
       }),
       execute: async ({ search }) => {
@@ -197,7 +197,7 @@ export function createTools(userId: string) {
     saveMemory: tool({
       description:
         'Save an important piece of information about the user for future reference. Use when the user shares preferences, goals, or important facts.',
-      parameters: z.object({
+      inputSchema: z.object({
         content: z.string().describe('The information to remember'),
         type: z
           .enum(['preference', 'fact', 'goal', 'mood', 'observation'])
@@ -213,7 +213,7 @@ export function createTools(userId: string) {
     generateInsights: tool({
       description:
         'Generate personalized wellness insights based on the user\'s data. Use when they ask for analysis or recommendations.',
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => {
         const insights = await personalizationService.generateInsights(userId);
         return {

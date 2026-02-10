@@ -20,7 +20,7 @@ export const glassEffect =
  * Returns properties for a subtle Apple-like shadow
  */
 export const appleShadow =
-  'shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow duration-300';
+  'shadow-eka-base hover:shadow-eka-md transition-shadow duration-300';
 
 /**
  * Common motion variants for dashboard items

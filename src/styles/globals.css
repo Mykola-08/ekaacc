@@ -14,17 +14,17 @@
   --radius: 1.25rem; /* 20px - Primary Apple standard */
   --radius-sm: 0.75rem; /* 12px - Small elements */
   --radius-md: 1rem; /* 16px - Medium elements */
-  --radius-lg: 1.25rem; /* 20px - Standard (same as --radius for compatibility) */
+  --radius-lg: 1.25rem; /* 20px - Standard */
   --radius-xl: 1.75rem; /* 28px - Large elements */
   --radius-2xl: 2rem; /* 32px - Extra large */
   --radius-3xl: 2.5rem; /* 40px - Hero sections */
   
-  /* Shadows - Apple-style elevation system */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.02);
-  --shadow-base: 0 4px 20px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.08);
+  /* Shadows - Soft, premium elevation */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+  --shadow-base: 0 4px 20px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 6px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 8px 30px rgba(15, 23, 42, 0.10);
+  --shadow-xl: 0 20px 60px rgba(15, 23, 42, 0.12);
 
   /* Font stack */
   font-family:
@@ -42,7 +42,57 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Apple brand colors */
+  /* EKA Balance Color Scheme - Premium Apple Style */
+  
+  /* Base colors */
+  --background: oklch(1 0 0); /* Pure White */
+  --foreground: oklch(0.145 0.03 260); /* Deep Slate */
+
+  --card: oklch(1 0 0); /* Pure White */
+  --card-foreground: oklch(0.145 0.03 260);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0.03 260);
+
+  --primary: oklch(0.145 0.03 260); /* Deep Slate for text/primary actions - High contrast */
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.97 0 0); /* Crisp Off-White */
+  --secondary-foreground: oklch(0.145 0.03 260);
+
+  --muted: oklch(0.97 0 0); /* Crisp Off-White */
+  --muted-foreground: oklch(0.45 0 0); /* Neutral Gray */
+
+  --accent: oklch(0.97 0 0); /* Crisp Off-White */
+  --accent-foreground: oklch(0.145 0.03 260);
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.91 0 0); /* Neutral Border */
+  --input: oklch(0.91 0 0);
+  --ring: oklch(0.145 0.03 260);
+
+  --chart-1: oklch(0.145 0.03 260); /* Primary */
+  --chart-2: oklch(0.45 0 0); /* Muted */
+  --chart-3: oklch(0.54 0.21 264); /* Accent Blue */
+  --chart-4: oklch(0.85 0.15 85); /* Accent Gold */
+  --chart-5: oklch(0.45 0.20 264);
+
+  --sidebar: oklch(0.98 0 0); /* Very light gray */
+  --sidebar-foreground: oklch(0.145 0.03 260);
+  --sidebar-primary: oklch(0.145 0.03 260);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.95 0 0);
+  --sidebar-accent-foreground: oklch(0.145 0.03 260);
+  --sidebar-border: oklch(0.91 0 0);
+  --sidebar-ring: oklch(0.145 0.03 260);
+
+  --surface: oklch(1 0 0);
+  --surface-container: oklch(0.98 0 0);
+  --surface-highlight: oklch(0.96 0 0);
+
+  /* Original EKA Website Variables */
   --apple-gray: #f5f5f7;
   --apple-gray-dark: #1d1d1f;
   --apple-blue: #007aff;
@@ -51,112 +101,58 @@
   --apple-border-radius-small: 12px;
   --apple-border-radius-large: 28px;
   --apple-border-radius-xl: 40px;
-  --apple-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  --apple-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --apple-shadow-large: 0 20px 60px rgba(0, 0, 0, 0.08);
-  --surface-primary: #ffffff;
-  --surface-muted: #f8fafc;
-  --surface-elevated: #f1f5f9;
-  --border-subtle: rgba(148, 163, 184, 0.24);
-  --border-strong: rgba(148, 163, 184, 0.44);
-
-  /* Animation Easings */
-  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
-  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
-  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
-  --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
-  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
-  --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
-  --ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
-  --ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
-  --ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
-  --ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  --ease-in-quart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
-  --ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-  --ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
-  --ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.335);
-  
-  /* Base colors */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.58 0.22 27);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --surface: oklch(1 0 0);
-  --surface-container: oklch(0.97 0 0);
-  --surface-highlight: oklch(0.95 0 0);
 
   color-scheme: light;
 }
 
 .dark {
-  /* Unified design tokens apply to both light and dark modes */
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.424 0.199 265.638);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.623 0.214 259.815);
-  --chart-5: oklch(0.809 0.105 251.813);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
-  --surface: oklch(0.205 0 0);
-  --surface-container: oklch(0.269 0 0);
-  --surface-highlight: oklch(0.3 0 0);
+  /* Unified design tokens - Dark Mode */
+  --background: oklch(0.13 0.03 260); /* EKA Dark */
+  --foreground: oklch(0.98 0 0); /* White */
+  
+  --card: oklch(0.15 0.03 260); /* Slightly lighter than background */
+  --card-foreground: oklch(0.98 0 0);
+  
+  --popover: oklch(0.15 0.03 260);
+  --popover-foreground: oklch(0.98 0 0);
+  
+  --primary: oklch(0.54 0.21 264); /* EKA Blue (Consistent) */
+  --primary-foreground: oklch(1 0 0);
+  
+  --secondary: oklch(0.25 0.03 260); /* Dark Slate Muted */
+  --secondary-foreground: oklch(0.98 0 0);
+  
+  --muted: oklch(0.20 0.03 260);
+  --muted-foreground: oklch(0.65 0 0);
+  
+  --accent: oklch(0.20 0.03 260); /* Dark Accents */
+  --accent-foreground: oklch(0.98 0 0);
+  
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  --border: oklch(0.25 0.03 260);
+  --input: oklch(0.25 0.03 260);
+  --ring: oklch(0.54 0.21 264);
+  
+  --chart-1: oklch(0.54 0.21 264);
+  --chart-2: oklch(0.79 0.17 85);
+  --chart-3: oklch(0.65 0.15 260);
+  --chart-4: oklch(0.85 0.15 85);
+  --chart-5: oklch(0.45 0.20 264);
+  
+  --sidebar: oklch(0.13 0.03 260);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.54 0.21 264);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.20 0.03 260);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.25 0.03 260);
+  --sidebar-ring: oklch(0.54 0.21 264);
+  
+  --surface: oklch(0.13 0.03 260);
+  --surface-container: oklch(0.15 0.03 260);
+  --surface-highlight: oklch(0.18 0.03 260);
 
   color-scheme: dark;
 }
@@ -222,10 +218,22 @@
     outline-offset: 2px;
   }
 
-  button,
-  [role='button'],
-  a[data-ux-action='true'] {
-    min-height: 44px;
+  /* Buttons: Premium Apple Feel */
+  button, [role="button"], .btn {
+    @apply transition-all duration-300;
+  }
+  
+  /* Hover effects */
+  button:hover:not(:disabled), 
+  [role="button"]:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(1.02);
+  }
+
+  button:active:not(:disabled),
+  [role="button"]:active:not(:disabled) {
+    transform: scale(0.98);
+    filter: brightness(0.98);
   }
 }
 
@@ -941,7 +949,9 @@ html { scroll-behavior: smooth; }
 }
 
 .marketing .bg-overlay { @apply absolute inset-0 bg-black; opacity: 0.4; }
-.marketing .bg-overlay-dark { @apply absolute inset-0 bg-black; opacity: 0.5; }
+.marketing .bg-overlay-dark {
+  @apply absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/60 mix-blend-multiply;
+}
 .marketing .bg-overlay-light { @apply absolute inset-0 bg-black; opacity: 0.3; }
 
 /* Marketing - Service Category Pills */

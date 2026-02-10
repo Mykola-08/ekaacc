@@ -43,7 +43,7 @@ function Gauge({ label, value, max = 10 }: { label: string; value: number; max?:
       </div>
       <div className="bg-muted h-1.5 rounded-full overflow-hidden">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-primary to-primary/70"
+          className="h-full rounded-full bg-linear-to-r from-primary to-primary/70"
           initial={{ width: 0 }}
           animate={{ width: `${pct}%` }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -60,7 +60,7 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "rounded-2xl border bg-gradient-to-br p-4 w-full max-w-sm",
+        "rounded-2xl border bg-linear-to-br p-4 w-full max-w-sm",
         moodColors[mood] || moodColors.neutral
       )}
     >

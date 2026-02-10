@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Heart, Brain, Shield, Zap } from 'lucide-react';
+import { fadeIn, fadeInUp, fadeInUpLarge, withDelay } from '@/lib/motion';
 import { useAuth } from '@/lib/platform/supabase/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -48,9 +49,9 @@ export default function MinimalistHomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <motion.div
               className="bg-muted text-foreground/90 mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
+              variants={fadeInUp}
+              initial="hidden"
+              animate="visible"
             >
               <Sparkles className="h-4 w-4 text-blue-500" />
               Welcome back
@@ -58,9 +59,9 @@ export default function MinimalistHomePage() {
 
             <motion.h1
               className="text-foreground text-4xl font-semibold tracking-tight sm:text-6xl lg:text-7xl"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+              variants={withDelay(fadeInUpLarge, 0.2)}
+              initial="hidden"
+              animate="visible"
             >
               Your wellness
               <span className="block text-blue-600">journey continues</span>
@@ -68,18 +69,18 @@ export default function MinimalistHomePage() {
 
             <motion.p
               className="text-muted-foreground mt-6 text-lg leading-8 sm:text-xl"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+              variants={withDelay(fadeInUp, 0.4)}
+              initial="hidden"
+              animate="visible"
             >
               Track your progress, gain insights, and grow with personalized AI-powered guidance.
             </motion.p>
 
             <motion.div
               className="mt-10 flex items-center justify-center gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+              variants={withDelay(fadeInUp, 0.6)}
+              initial="hidden"
+              animate="visible"
             >
               <motion.button
                 className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-blue-700"
@@ -145,10 +146,10 @@ export default function MinimalistHomePage() {
               <motion.div
                 key={feature.title}
                 className="group bg-card hover: rounded-2xl border-none p-6 transition-all duration-200 hover:shadow-sm"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                variants={fadeInUpLarge}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ y: -4 }}
               >
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 transition-colors group-hover:bg-blue-200">
@@ -170,28 +171,28 @@ export default function MinimalistHomePage() {
           <div className="mx-auto max-w-2xl text-center">
             <motion.h2
               className="text-foreground text-3xl font-semibold tracking-tight sm:text-4xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
             >
               Ready to continue?
             </motion.h2>
             <motion.p
               className="text-muted-foreground mt-6 text-lg leading-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              variants={withDelay(fadeInUp, 0.2)}
+              initial="hidden"
+              whileInView="visible"
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
             >
               Pick up where you left off or explore something new.
             </motion.p>
             <motion.div
               className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              variants={withDelay(fadeInUp, 0.4)}
+              initial="hidden"
+              whileInView="visible"
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
             >
               <motion.button
                 className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-blue-700"

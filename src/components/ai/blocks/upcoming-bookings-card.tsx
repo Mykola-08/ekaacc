@@ -70,7 +70,7 @@ export function UpcomingBookingsCard({ bookings }: UpcomingBookingsProps) {
               transition={{ duration: 0.3, delay: i * 0.08 }}
               className="bg-muted/50 flex items-center gap-3 rounded-xl p-3"
             >
-              <div className="bg-primary/10 text-primary flex h-10 w-10 flex-shrink-0 flex-col items-center justify-center rounded-lg">
+              <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg">
                 <span className="text-sm font-bold leading-none">{day}</span>
                 <span className="text-[9px] uppercase leading-none">{month}</span>
               </div>

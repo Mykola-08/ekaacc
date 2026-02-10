@@ -17,6 +17,8 @@ export type { WellnessInsight } from './personalization-service';
 export { conversationService } from './conversation-service';
 export type { Conversation, Message } from './conversation-service';
 
+export { backgroundAnalysis } from './background-analysis';
+
 export { createTools } from './tools';
 
 export { buildSystemPrompt } from './system-prompt';

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
@@ -19,8 +19,18 @@ export default function AppleHero() {
   const { t } = useLanguage();
   const { logEvent } = useAnalytics();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [hasSeenIntro, setHasSeenIntro] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const seen = sessionStorage.getItem('hasSeenIntro');
+      if (seen) {
+        setHasSeenIntro(true);
+      } else {
+        sessionStorage.setItem('hasSeenIntro', 'true');
+      }
+    }
+
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
     }, 12000);
@@ -40,36 +50,37 @@ export default function AppleHero() {
         ))}
       </div>
 
-      {/* Overlay for text readability */}
-      <div className="bg-overlay-dark" />
+      {/* Overlay for text readability with refined gradient */}
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-6xl px-6 py-20 text-center text-white">
+      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-32 text-center text-white">
         {/* Badge - Glassy Style with Apple standard radius */}
-        <AnimateIn delay={0.2} from="top">
-          <div className="animate-fade-in mb-10 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-sm">
-            <span className="text-sm font-medium tracking-wide text-white/90 md:text-base">
+        <AnimateIn delay={0.2} from="top" disabled={hasSeenIntro}>
+          <div className="animate-fade-in mb-8 inline-flex items-center rounded-full border border-white/30 bg-white/10 px-6 py-2 backdrop-blur-md transition-colors hover:bg-white/20">
+            <span className="text-sm font-medium tracking-wide text-white drop-shadow-sm md:text-base">
               {t('hero.badge')}
             </span>
           </div>
         </AnimateIn>
 
         {/* Main Title - Apple-like typography with accessibility */}
-        <AnimateIn delay={0.4} duration={0.8}>
-          <h1 className="mb-10 text-6xl font-normal tracking-tight text-white drop-shadow-2xl md:text-8xl lg:text-9xl">
+        <AnimateIn delay={0.4} duration={0.8} disabled={hasSeenIntro}>
+          <h1 className="font-display mb-8 text-5xl font-medium tracking-tight text-white drop-shadow-xl md:text-7xl lg:text-8xl leading-[1.1]">
             {t('hero.title')}
           </h1>
         </AnimateIn>
 
         {/* Subtitle - Improved spacing */}
-        <AnimateIn delay={0.6}>
-          <p className="mx-auto mb-14 max-w-3xl text-balance text-lg leading-relaxed text-white/90 md:text-xl lg:text-2xl">
+        <AnimateIn delay={0.6} disabled={hasSeenIntro}>
+          <p className="mx-auto mb-12 max-w-2xl text-balance text-lg font-light leading-relaxed text-white/90 drop-shadow-md md:text-xl lg:text-2xl">
             {t('hero.subtitle')}
           </p>
         </AnimateIn>
 
         {/* CTA Buttons - Consistent Apple style */}
-        <AnimateIn delay={0.8}>
+        <AnimateIn delay={0.8} disabled={hasSeenIntro}>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
             <Link
               href="/first-time"
@@ -77,8 +88,8 @@ export default function AppleHero() {
               onClick={() => logEvent('hero_first_time_click')}
             >
               <Button
-                size="xl"
-                className="rounded-[20px] bg-blue-600 px-8 py-4 text-base font-semibold normal-case text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-blue-700 hover:shadow-xl active:scale-[0.98]"
+                size="lg"
+                className="h-14 min-w-[200px] rounded-full border border-white bg-white px-8 text-base font-semibold text-black transition-all duration-300 hover:bg-white/90 hover:scale-[1.02] active:scale-[0.95]"
               >
                 {t('hero.firstTime')}
               </Button>
@@ -90,8 +101,9 @@ export default function AppleHero() {
               onClick={() => logEvent('hero_services_click')}
             >
               <Button
-                size="xl"
-                className="rounded-[20px] bg-accent px-8 py-4 text-base font-semibold normal-case text-eka-dark shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl active:scale-[0.98]"
+                size="lg"
+                variant="outline"
+                className="h-14 min-w-[200px] rounded-full border border-white/30 bg-white/10 px-8 text-base font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:scale-[1.02] active:scale-[0.95]"
               >
                 {t('hero.discoverServices')}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />

@@ -10,6 +10,7 @@ interface AnimateInProps {
   className?: string;
   from?: 'bottom' | 'left' | 'right' | 'top';
   amount?: number; // Distance to move
+  disabled?: boolean;
 }
 
 export default function AnimateIn({
@@ -19,7 +20,12 @@ export default function AnimateIn({
   className = '',
   from = 'bottom',
   amount = 20,
+  disabled = false,
 }: AnimateInProps) {
+  if (disabled) {
+    return <div className={className}>{children}</div>;
+  }
+
   const variants: Variants = {
     hidden: {
       opacity: 0,

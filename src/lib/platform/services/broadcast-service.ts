@@ -31,17 +31,18 @@ export class BroadcastService {
     try {
       // Build query for target users
       let query = supabaseAdmin
-        .from('profiles')
-        .select('id, email, name')
-        .eq('email_notifications', true);
+        .from('admin_user_lookup')
+        .select('id, email, raw_user_meta_data, last_sign_in_at')
+        // Filter: email_notifications == true in metadata
+        .filter('raw_user_meta_data->>email_notifications', 'eq', 'true');
 
       if (audience === 'subscribers') {
-        query = query.not('subscription_tier', 'is', null);
+        query = query.not('raw_user_meta_data->>subscription_tier', 'is', null);
       } else if (audience === 'active') {
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-        query = query.gte('last_active_at', thirtyDaysAgo);
+        query = query.gte('last_sign_in_at', thirtyDaysAgo);
       } else if (audience === 'tier' && tierFilter) {
-        query = query.eq('subscription_tier', tierFilter);
+        query = query.filter('raw_user_meta_data->>subscription_tier', 'eq', tierFilter);
       }
 
       const { data: users, error } = await query;

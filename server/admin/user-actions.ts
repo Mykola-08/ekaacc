@@ -25,24 +25,13 @@ async function logAdminAction(action: string, targetId: string, details: any) {
 
   if (!user) return;
 
-  // Get profile ID for the actor
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('auth_id', user.id)
-    .single();
-
-  if (!profile) {
-    console.error('Admin profile not found for logging');
-    return;
-  }
-
+  // Use user.id as actor_id directly
   await db.query(
     `
         INSERT INTO activity_logs (actor_id, action, target_type, target_id, metadata)
         VALUES ($1, $2, $3, $4, $5)
     `,
-    [profile.id, action, 'user', targetId, JSON.stringify(details)]
+    [user.id, action, 'user', targetId, JSON.stringify(details)]
   );
 }
 

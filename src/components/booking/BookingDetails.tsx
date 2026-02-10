@@ -80,45 +80,36 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
           data: { user },
         } = await supabase.auth.getUser();
         if (user) {
-          // Fetch Profile
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('auth_id', user.id)
-            .single();
-
+          // Construct profile from user metadata
+          const profile = {
+             id: user.id, 
+             full_name: user.user_metadata?.full_name,
+             email: user.email,
+             ...user.user_metadata
+          };
+          
           setUserProfile(profile);
+          setName(profile.full_name || '');
+          setEmail(profile.email || '');
 
-          if (profile) {
-            // Fetch Wallet
-            const { data: wallet } = await supabase
+          // Fetch Wallet (using user_id)
+          const { data: wallet } = await supabase
               .from('wallets')
               .select('balance_cents')
-              .eq('profile_id', profile.id)
+              .eq('user_id', user.id)
               .single();
 
-            if (wallet) {
+          if (wallet) {
               setWalletBalance(wallet.balance_cents / 100);
-            }
-
-            setName(profile.full_name || '');
-            setEmail(profile.email || user.email || '');
           }
 
-          // Helper to get family
-          // We call the server action via an API route or just client-side query if RLS permits
-          // For now, let's assume client-side query is fine for own family
+          // Fetch Family Members
           const { data: members } = await supabase
             .from('family_members')
             .select('*')
-            .eq('parent_id', profile?.id);
+            .eq('user_id', user.id);
 
           setFamilyMembers(members || []);
-
-          if (profile) {
-            setName(profile.full_name || '');
-            setEmail(profile.email || user.email || '');
-          }
         }
       } catch (error) {
         console.error('Error fetching user:', error);
@@ -388,7 +379,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
           {/* Right Column: Sticky Booking Card */}
           <div className="animate-in slide-in-from-bottom-12 w-full shrink-0 delay-100 duration-500 lg:sticky lg:top-24 lg:w-105">
-            <div className="rounded-[20px] border border-white/40 bg-white/60 p-8 shadow-[0_8px_40px_rgba(0,0,0,0.04)] backdrop-blur-2xl">
+            <div className="rounded-[20px] border border-white/40 bg-white/60 p-8 shadow-eka-md backdrop-blur-2xl">
               {/* Family / User Selection */}
               {!loadingUser && userProfile && familyMembers.length > 0 && (
                 <div className="mb-6 inline-flex w-full rounded-full border border-black/5 bg-black/5 p-1">

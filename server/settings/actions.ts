@@ -38,21 +38,16 @@ export async function updateProfile(prevState: any, formData: FormData) {
   }
 
   try {
-    // 1. Update Profile Table
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({
+    // 1. Update Auth Metadata
+    const { error: updateError } = await supabase.auth.updateUser({
+      data: {
         full_name: validated.data.full_name,
-        // We assume phone/bio exist in profiles, or metadata jsonb
-        // Let's safe update only known fields. If schema differs, we might need to adjust.
-        // For now, let's update full_name and store phone/bio in a 'metadata' column if it exists,
-        // or just try to update them if we are sure.
-        // Given I don't see the schema, I'll assume standard columns or put extras in metadata.
-        metadata: { phone: validated.data.phone, bio: validated.data.bio },
-      })
-      .eq('auth_id', user.id);
+        phone: validated.data.phone,
+        bio: validated.data.bio,
+      }
+    });
 
-    if (profileError) throw profileError;
+    if (updateError) throw updateError;
 
     revalidatePath('/settings');
     revalidatePath('/profile');
@@ -72,11 +67,13 @@ export async function getUserSettings() {
 
   if (!user) return null;
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('auth_id', user.id)
-    .single();
-
-  return profile;
+  return {
+    id: user.id,
+    email: user.email,
+    created_at: user.created_at,
+    full_name: user.user_metadata?.full_name,
+    phone: user.user_metadata?.phone,
+    bio: user.user_metadata?.bio,
+    ...user.user_metadata
+  };
 }

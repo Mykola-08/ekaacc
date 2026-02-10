@@ -86,10 +86,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
   const navigation: NavItem[] = [
     {
-      name: 'Features',
-      href: '/features',
-    },
-    {
       name: t('nav.services'),
       href: '/services',
     },
@@ -258,30 +254,18 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             {/* Right side actions */}
             <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
               {/* Integrated Actions */}
-              <div className="hidden items-center gap-2 sm:flex">
+              <div className="hidden items-center gap-1 sm:flex">
                 <Link
                   href="/login"
-                  data-ux-action="true"
-                  className="text-eka-dark ease-out-quart inline-flex rounded-full border border-gray-300/80 bg-white/70 px-5 py-3 font-semibold transition-colors duration-200 hover:bg-white"
-                  suppressHydrationWarning
+                  className="text-eka-dark hover:text-accent ease-out-quart inline-flex rounded-full px-5 py-2.5 font-medium transition-colors duration-200"
                 >
-                  Login
-                </Link>
-                <Link
-                  href="/dashboard"
-                  data-ux-action="true"
-                  className="text-eka-dark ease-out-quart inline-flex rounded-full border border-gray-300/80 bg-white/70 px-5 py-3 font-semibold transition-colors duration-200 hover:bg-white"
-                  suppressHydrationWarning
-                >
-                  Dashboard
+                  {t('nav.login')}
                 </Link>
                 <Link
                   href="/book"
-                  data-ux-action="true"
-                  className="bg-accent hover:bg-accent-dark text-eka-dark ease-out-quart inline-flex rounded-full px-6 py-3 font-semibold shadow-sm transition-colors duration-200 hover:shadow-md"
-                  suppressHydrationWarning
+                  className="bg-accent hover:bg-accent-dark text-eka-dark ease-out-quart inline-flex rounded-full px-6 py-2.5 font-semibold shadow-sm transition-transform duration-200 hover:shadow-md hover:scale-105"
                 >
-                  Book
+                  {t('nav.bookNow')}
                 </Link>
               </div>
 
@@ -331,9 +315,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           onClick={() => setIsMenuOpen(false)}
                           className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors duration-200 ${
                             item.isGold
-                              ? 'border border-amber-100 bg-amber-50 font-bold text-amber-600'
+                              ? 'border border-gray-100 bg-gray-50 font-bold text-gray-900 ring-1 ring-gray-200'
                               : isActivePath(item.href)
-                                ? 'bg-accent/10 text-accent'
+                                ? 'bg-primary/5 text-primary'
                                 : 'text-gray-700 hover:bg-gray-50'
                           }`}
                         >

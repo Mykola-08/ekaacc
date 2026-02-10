@@ -152,7 +152,7 @@ function BookingCard({
       className={cn(
         'group relative overflow-hidden rounded-[20px] transition-all duration-300',
         isUpcoming
-          ? 'bg-card border border-transparent shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]'
+          ? 'bg-card border border-transparent shadow-eka-base hover:-translate-y-1 hover:shadow-eka-lg'
           : 'bg-card border-border border'
       )}
     >

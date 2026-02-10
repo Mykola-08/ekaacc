@@ -135,8 +135,16 @@ export async function middleware(request: NextRequest) {
     '/admin',
     '/journal',
     '/wallet',
-    '/therapist', // If not handled by subdomain
+    '/therapist',
     '/console',
+    '/features',
+    '/resources',
+    '/crisis',
+    '/book',
+    '/notifications',
+    '/subscriptions',
+    '/availability',
+    '/progress-reports',
   ];
 
   const isProtectedRoute = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));

@@ -47,7 +47,6 @@ export async function getProvider() {
   _provider = createOpenAI({
     apiKey: key,
     baseURL: 'https://openrouter.ai/api/v1',
-    compatibility: 'compatible',
     headers: {
       'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://eka.care',
       'X-Title': 'EKA Wellness Platform',

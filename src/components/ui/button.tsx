@@ -74,14 +74,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
 
-    if (typeof window === 'undefined') {
-      return (
-        <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} disabled={isDisabled} {...props}>
-          {content}
-        </button>
-      );
-    }
-
     return (
       <motion.button
         className={cn(buttonVariants({ variant, size, className }))}

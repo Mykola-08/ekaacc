@@ -192,7 +192,7 @@ export default function PricingSection() {
                 <div className="p-8">
                   {/* Icon & Title */}
                   <div className="mb-8 text-center">
-                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-warning/20">
+                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-warning/20">
                       <Icon className="h-8 w-8 text-warning" />
                     </div>
 
@@ -244,7 +244,7 @@ export default function PricingSection() {
                       });
                       navigateToBooking(plan.name);
                     }}
-                    className={`w-full rounded-[20px] py-4 text-center font-medium transition-all duration-200 ${
+                    className={`w-full rounded-2xl py-4 text-center font-medium transition-all duration-200 ${
                       plan.popular
                         ? 'text-foreground bg-warning shadow-sm hover:bg-warning/90 hover:shadow-md'
                         : 'bg-muted text-foreground hover:bg-muted'
@@ -261,8 +261,8 @@ export default function PricingSection() {
         {/* Features Grid */}
         <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
-            <div key={feature.title} className="bg-muted/30 rounded-[20px] p-6 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[20px] bg-warning/20">
+            <div key={feature.title} className="bg-muted/30 rounded-2xl p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-warning/20">
                 <CheckCircle className="h-6 w-6 text-warning" />
               </div>
               <h4 className="text-foreground mb-2 font-medium">{feature.title}</h4>
@@ -273,7 +273,7 @@ export default function PricingSection() {
 
         {/* Bottom CTA */}
         <div className="text-center">
-          <div className="bg-muted/30 rounded-[20px] p-8">
+          <div className="bg-muted/30 rounded-2xl p-8">
             <h3 className="text-foreground mb-4 text-2xl font-medium">
               No estàs segur quin pla triar?
             </h3>
@@ -294,3 +294,4 @@ export default function PricingSection() {
     </section>
   );
 }
+

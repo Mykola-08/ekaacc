@@ -96,7 +96,7 @@ export default function AboutElenaContent() {
               {/* Quote */}
               <div className="mx-auto mt-12 max-w-3xl">
                 <blockquote className="relative text-xl leading-relaxed font-light text-foreground italic sm:text-2xl">
-                  <span className="text-primary-200 absolute -top-8 -left-4 font-serif text-6xl">
+                  <span className="text-primary/30 absolute -top-8 -left-4 font-serif text-6xl">
                     "
                   </span>
                   <span className="relative z-10">{t('elena.quote')}</span>
@@ -153,7 +153,7 @@ export default function AboutElenaContent() {
                     visible: { opacity: 1, y: 0 },
                   }}
                   whileHover={{ scale: 1.05 }}
-                  className="cursor-default rounded-[20px] border border-border bg-card px-8 py-4 font-medium text-foreground shadow-sm transition-all hover:border-info hover:text-info-foreground hover:shadow-md"
+                  className="cursor-default rounded-2xl border border-border bg-card px-8 py-4 font-medium text-foreground shadow-sm transition-all hover:border-info hover:text-info-foreground hover:shadow-md"
                 >
                   {tech.name}
                 </motion.div>
@@ -170,7 +170,7 @@ export default function AboutElenaContent() {
               <Link href="/book">
                 <Button
                   size="lg"
-                  className="rounded-[20px] border-none bg-accent px-10 py-4 font-medium text-eka-dark normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-accent/90"
+                  className="rounded-2xl border-none bg-accent px-10 py-4 font-medium text-eka-dark normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-accent/90"
                 >
                   {t('common.bookNow')}
                 </Button>
@@ -179,7 +179,7 @@ export default function AboutElenaContent() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="rounded-[20px] border-border bg-card px-10 py-4 font-medium text-foreground normal-case hover:bg-muted"
+                  className="rounded-2xl border-border bg-card px-10 py-4 font-medium text-foreground normal-case hover:bg-muted"
                 >
                   {t('nav.contact')}
                 </Button>

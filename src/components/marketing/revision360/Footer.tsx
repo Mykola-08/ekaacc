@@ -71,7 +71,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="group flex items-center space-x-3 text-muted-foreground/40"
                 whileHover={{
-                  color: 'oklch(0.88 0.12 90)',
+                  color: 'var(--vip-gold-2)',
                   x: 5,
                 }}
                 transition={{ duration: 0.2 }}
@@ -84,7 +84,7 @@ export default function Footer() {
                 href="mailto:info@ekabalance.com"
                 className="group flex items-center space-x-3 text-muted-foreground/40"
                 whileHover={{
-                  color: 'oklch(0.88 0.12 90)',
+                  color: 'var(--vip-gold-2)',
                   x: 5,
                 }}
                 transition={{ duration: 0.2 }}
@@ -96,7 +96,7 @@ export default function Footer() {
               <motion.div
                 className="flex items-start space-x-3 text-muted-foreground/40"
                 whileHover={{
-                  color: 'oklch(0.88 0.12 90)',
+                  color: 'var(--vip-gold-2)',
                 }}
                 transition={{ duration: 0.2 }}
               >
@@ -134,7 +134,7 @@ export default function Footer() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.02 }}
                   whileHover={{
-                    color: 'oklch(0.88 0.12 90)',
+                    color: 'var(--vip-gold-2)',
                     x: 5,
                   }}
                   viewport={{ once: true }}

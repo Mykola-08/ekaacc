@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * Daily Summary Widget
@@ -72,7 +72,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
             </div>
             <div>
               <h3 className="text-sm font-semibold">{greeting}</h3>
-              <p className="text-muted-foreground text-[10px]">Your daily wellness brief</p>
+              <p className="text-muted-foreground text-2xs">Your daily wellness brief</p>
             </div>
           </div>
           <Button

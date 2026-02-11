@@ -55,7 +55,7 @@ export default function KinesiologiaContent() {
           <div className="flex flex-wrap gap-4">
             <Button
               onClick={() => navigateToBooking()}
-              className="h-14 rounded-[20px] border-none bg-accent px-8 text-lg font-semibold text-eka-dark shadow-lg shadow-warning/20 hover:bg-accent/90"
+              className="h-14 rounded-2xl border-none bg-accent px-8 text-lg font-semibold text-eka-dark shadow-lg shadow-warning/20 hover:bg-accent/90"
             >
               {t('common.bookNow')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -64,7 +64,7 @@ export default function KinesiologiaContent() {
         </div>
 
         <div className="relative">
-          <div className="relative aspect-video overflow-hidden rounded-[20px] border-4 border-white shadow-2xl">
+          <div className="relative aspect-video overflow-hidden rounded-2xl border-4 border-background shadow-2xl">
             <Image
               src="https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1200"
               alt={t('kinesiology.page.imageAlt') || 'Kinesiologia Session'}
@@ -74,7 +74,7 @@ export default function KinesiologiaContent() {
             />
           </div>
           {/* Floating Card */}
-          <div className="absolute -bottom-6 -left-6 max-w-xs rounded-[20px] border border-border bg-card p-4 shadow-xl">
+          <div className="absolute -bottom-6 -left-6 max-w-xs rounded-2xl border border-border bg-card p-4 shadow-xl">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-info/20">
                 <Zap className="h-5 w-5 text-primary" />
@@ -110,7 +110,7 @@ export default function KinesiologiaContent() {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex gap-4 rounded-[20px] border border-info bg-info/50 p-6 transition-colors hover:border-info"
+                className="flex gap-4 rounded-2xl border border-info bg-info/50 p-6 transition-colors hover:border-info"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-info/20">
                   <CheckCircle2 className="h-5 w-5 text-primary" />
@@ -136,11 +136,11 @@ export default function KinesiologiaContent() {
             {durations.map((duration) => (
               <div
                 key={duration}
-                className="group relative overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
                 <div className="absolute top-0 left-0 h-1 w-full origin-left scale-x-0 transform bg-linear-to-r from-info to-accent/100 transition-transform duration-300 group-hover:scale-x-100" />
 
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-info transition-colors group-hover:bg-info/20">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-info transition-colors group-hover:bg-info/20">
                   <Clock className="h-8 w-8 text-primary" />
                 </div>
 
@@ -156,7 +156,7 @@ export default function KinesiologiaContent() {
 
                 <Button
                   onClick={() => navigateToBooking()}
-                  className="h-12 w-full rounded-xl border-none bg-background text-white hover:bg-card"
+                  className="h-12 w-full rounded-xl border-none bg-foreground text-background hover:bg-foreground/90"
                 >
                   {t('common.bookNow')}
                 </Button>
@@ -175,7 +175,7 @@ export default function KinesiologiaContent() {
 
           <div className="grid gap-8 md:grid-cols-2">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="relative rounded-[20px] bg-muted p-10">
+              <div key={index} className="relative rounded-2xl bg-muted p-10">
                 <div className="absolute top-8 left-8 font-serif text-6xl text-info/80 opacity-50">
                   "
                 </div>
@@ -199,7 +199,7 @@ export default function KinesiologiaContent() {
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
 
         <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
+          <h2 className="mb-6 text-4xl font-bold text-primary-foreground md:text-5xl">
             {t('services.readyToStart')}
           </h2>
           <p className="mx-auto mb-10 max-w-2xl text-xl font-light text-muted-foreground/40">
@@ -207,7 +207,7 @@ export default function KinesiologiaContent() {
           </p>
           <Button
             onClick={() => navigateToBooking()}
-            className="h-14 rounded-[20px] border-none bg-accent px-10 text-lg font-bold text-eka-dark hover:bg-accent/90"
+            className="h-14 rounded-2xl border-none bg-accent px-10 text-lg font-bold text-eka-dark hover:bg-accent/90"
           >
             {t('common.bookNow')}
           </Button>
@@ -216,3 +216,4 @@ export default function KinesiologiaContent() {
     </PageLayout>
   );
 }
+

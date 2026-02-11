@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 import CasoDetailContent from '@/components/marketing/CasoDetailContent';
 
-export const dynamic = 'force-dynamic';
-
 // Note: generateStaticParams logic would depend on the data source for cases.
 // For now, we rely on dynamic rendering.
 

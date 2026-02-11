@@ -249,7 +249,7 @@ export function ResponsiveButton({
 
   const variantClasses = {
     default:
-      'bg-linear-to-r from-primary to-accent text-white hover:shadow-lg transition-all duration-200',
+      'bg-linear-to-r from-primary to-accent text-primary-foreground hover:shadow-lg transition-all duration-200',
     outline:
       'border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200',
     ghost: 'bg-transparent text-primary hover:bg-primary/10 transition-all duration-200',

@@ -71,7 +71,7 @@ export function AdminSidebarContent({ onClick }: { onClick?: () => void }) {
               onClick={onClick}
               prefetch={true}
               className={cn(
-                'flex items-center gap-3 rounded-full px-4 py-3 text-[15px] font-medium transition-colors duration-200',
+                'flex items-center gap-3 rounded-full px-4 py-3 text-sm font-medium transition-colors duration-200',
                 isActive
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-secondary hover:text-foreground bg-transparent'

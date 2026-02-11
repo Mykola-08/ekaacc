@@ -49,8 +49,8 @@ function Sparkline({ data }: { data: number[] }) {
     <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-10" preserveAspectRatio="none">
       <defs>
         <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
         </linearGradient>
       </defs>
       {/* Fill area */}
@@ -65,7 +65,7 @@ function Sparkline({ data }: { data: number[] }) {
       <motion.polyline
         points={points.join(" ")}
         fill="none"
-        stroke="hsl(var(--primary))"
+        stroke="var(--primary)"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -104,17 +104,17 @@ export function MoodTrendCard({ moods, averageScore, trend, days }: MoodTrendPro
       <div className="mt-3 grid grid-cols-3 gap-2 text-center">
         <div className="bg-muted/50 rounded-lg p-2">
           <p className="text-foreground text-lg font-semibold tabular-nums">{averageScore}</p>
-          <p className="text-muted-foreground text-[10px]">Avg Score</p>
+          <p className="text-muted-foreground text-2xs">Avg Score</p>
         </div>
         <div className="bg-muted/50 rounded-lg p-2">
           <p className="text-foreground text-lg font-semibold tabular-nums">{moods.length}</p>
-          <p className="text-muted-foreground text-[10px]">Entries</p>
+          <p className="text-muted-foreground text-2xs">Entries</p>
         </div>
         <div className="bg-muted/50 rounded-lg p-2">
           <p className="text-foreground text-lg font-semibold tabular-nums">
             {scores.length > 0 ? Math.max(...scores) : '-'}
           </p>
-          <p className="text-muted-foreground text-[10px]">Best</p>
+          <p className="text-muted-foreground text-2xs">Best</p>
         </div>
       </div>
     </motion.div>

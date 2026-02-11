@@ -11,7 +11,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { backgroundAnalysis } from '@/server/ai';
 
 export const maxDuration = 300; // 5 minute timeout for background work
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   try {

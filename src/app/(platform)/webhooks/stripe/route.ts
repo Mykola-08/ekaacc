@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 
-// Ensure Next.js treats this route as fully dynamic and Node runtime.
-export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
 // Lazy import of services inside handler to avoid build-time side effects.
 
 /**

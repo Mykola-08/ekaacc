@@ -82,19 +82,19 @@ export function RecentActivity() {
                     {tx.type.slice(0, 2)}
                   </div>
                   <div>
-                    <p className="text-[15px] font-semibold text-foreground">
+                    <p className="text-sm font-semibold text-foreground">
                       {tx.description || tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
                     </p>
-                    <p className="text-[13px] font-medium text-muted-foreground">
+                    <p className="text-xs font-medium text-muted-foreground">
                       {formatDistanceToNow(new Date(tx.created_at), { addSuffix: true })}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className={`block text-[15px] font-semibold ${TYPE_COLORS[tx.type] || 'text-foreground'}`}>
+                  <span className={`block text-sm font-semibold ${TYPE_COLORS[tx.type] || 'text-foreground'}`}>
                     {tx.type === 'payment' ? '-' : '+'}{(tx.amount / 100).toFixed(2)} {tx.currency}
                   </span>
-                  <span className="text-[12px] font-medium capitalize text-muted-foreground">
+                  <span className="text-xs font-medium capitalize text-muted-foreground">
                     {tx.type}
                   </span>
                 </div>

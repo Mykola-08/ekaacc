@@ -113,7 +113,7 @@ export default function HomeContent() {
       </section>
 
       {/* Featured Services */}
-      <section className="bg-linear-to-b from-muted/50 via-info/10 to-white py-24 relative overflow-hidden">
+      <section className="bg-linear-to-b from-muted/50 via-info/10 to-background py-24 relative overflow-hidden">
         {/* Background Blob */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-info/20/30 blur-3xl" />
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-accent/20/30 blur-3xl" />

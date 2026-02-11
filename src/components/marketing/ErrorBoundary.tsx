@@ -50,7 +50,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="flex min-h-screen items-center justify-center bg-muted p-4">
-          <div className="w-full max-w-md rounded-[20px] bg-card p-8 text-center shadow-xl">
+          <div className="w-full max-w-md rounded-2xl bg-card p-8 text-center shadow-xl">
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-destructive/20">
               <AlertTriangle className="h-10 w-10 text-destructive" />
             </div>
@@ -109,7 +109,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 // Simple error fallback component
 export function ErrorFallback({ error, resetError }: { error: Error; resetError: () => void }) {
   return (
-    <div className="rounded-[20px] border border-destructive/30 bg-destructive/10 p-8">
+    <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-8">
       <div className="mb-4 flex items-center">
         <AlertTriangle className="mr-3 h-6 w-6 text-destructive" />
         <h2 className="text-lg font-medium text-destructive">Error en aquesta secció</h2>
@@ -119,7 +119,7 @@ export function ErrorFallback({ error, resetError }: { error: Error; resetError:
 
       <button
         onClick={resetError}
-        className="rounded-lg bg-destructive px-4 py-2 text-white transition-colors hover:bg-destructive/90"
+        className="rounded-lg bg-destructive px-4 py-2 text-destructive-foreground transition-colors hover:bg-destructive/90"
       >
         Tornar a intentar
       </button>
@@ -133,3 +133,4 @@ export function ErrorFallback({ error, resetError }: { error: Error; resetError:
     </div>
   );
 }
+

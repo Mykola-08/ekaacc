@@ -72,7 +72,7 @@ export default function FamiliesContent() {
 
           <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
             {/* Kinesiology */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop"
@@ -105,7 +105,7 @@ export default function FamiliesContent() {
             </div>
 
             {/* Nutrition */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=2070&auto=format&fit=crop"
@@ -142,3 +142,4 @@ export default function FamiliesContent() {
     </PageLayout>
   );
 }
+

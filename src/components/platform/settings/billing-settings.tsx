@@ -286,7 +286,7 @@ export function BillingSettings() {
                       <div className="mt-0.5">
                         <Badge
                           variant={invoice.status === 'paid' ? 'secondary' : 'outline'}
-                          className="text-[10px] capitalize"
+                          className="text-2xs capitalize"
                         >
                           {invoice.status}
                         </Badge>

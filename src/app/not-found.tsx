@@ -10,7 +10,7 @@ export default function NotFound() {
     <div className="bg-background relative flex min-h-screen items-center justify-center overflow-hidden px-4">
       {/* Background blobs for "sensations" */}
       <div className="bg-primary/20 absolute top-1/4 -left-20 h-80 w-80 rounded-full blur-3xl" />
-      <div className="absolute -right-20 bottom-1/4 h-80 w-80 rounded-full bg-accent0/10 blur-3xl" />
+      <div className="absolute -right-20 bottom-1/4 h-80 w-80 rounded-full bg-accent/10 blur-3xl" />
 
       <div className="relative z-10 w-full max-w-md text-center">
         <motion.div
@@ -34,7 +34,7 @@ export default function NotFound() {
             <Link href="/">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 shadow-primary/25 w-full rounded-[16px] border-none py-6 text-primary-foreground shadow-lg"
+                className="bg-primary hover:bg-primary/90 shadow-primary/25 w-full rounded-lg border-none py-6 text-primary-foreground shadow-lg"
               >
                 <Home className="mr-2 h-5 w-5" />
                 Back to Home

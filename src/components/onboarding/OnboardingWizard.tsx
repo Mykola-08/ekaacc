@@ -200,7 +200,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                         <div
                           className={cn(
                             'flex h-6 w-6 items-center justify-center rounded-full border transition-colors',
-                            isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-black/20'
+                            isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-border'
                           )}
                         >
                           {isSelected && <Check className="h-3 w-3" />}

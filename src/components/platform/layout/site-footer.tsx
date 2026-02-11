@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ROUTES } from '@/lib/platform/config/routes';
+import { CurrentYear } from '@/components/shared/CurrentYear';
 
 export default function SiteFooter() {
   return (
@@ -10,7 +11,7 @@ export default function SiteFooter() {
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-start">
           <div className="text-center md:text-left">
             <p className="text-muted-foreground text-sm">
-              <span suppressHydrationWarning>© {new Date().getFullYear()} EKA Account</span>
+              © <CurrentYear /> EKA Account
             </p>
             <p className="text-muted-foreground text-xs">
               For informational purposes only. Not medical advice.

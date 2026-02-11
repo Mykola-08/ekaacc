@@ -137,7 +137,7 @@ export function TierBadgeGradient({
   return (
     <div
       className={cn(
-        'inline-flex items-center justify-center rounded-full font-semibold text-white shadow-sm transition-all duration-300 hover:shadow-sm',
+        'inline-flex items-center justify-center rounded-full font-semibold text-primary-foreground shadow-sm transition-all duration-300 hover:shadow-sm',
         'bg-linear-to-r',
         config.gradient,
         sizeClasses.padding,

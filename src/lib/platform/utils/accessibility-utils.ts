@@ -119,7 +119,7 @@ export function checkTouchTarget(
 export const FOCUS_STATES = {
   width: 3,
   offset: 2,
-  color: 'hsl(var(--primary))',
+  color: 'var(--primary)',
   style: 'solid',
 };
 

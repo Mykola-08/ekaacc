@@ -221,23 +221,23 @@ export function ProgressTab() {
                 >
                   <defs>
                     <linearGradient id="colorMood" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
                   <XAxis 
                     dataKey="date" 
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                    tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }}
                     minTickGap={30}
                   />
                   <YAxis 
                     domain={[0, 10]} 
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+                    tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }}
                     tickCount={6}
                   />
                   <Tooltip
@@ -258,7 +258,7 @@ export function ProgressTab() {
                   <Area
                     type="monotone"
                     dataKey="mood"
-                    stroke="hsl(var(--primary))"
+                    stroke="var(--primary)"
                     strokeWidth={2}
                     fillOpacity={1}
                     fill="url(#colorMood)"

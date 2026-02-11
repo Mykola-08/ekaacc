@@ -42,7 +42,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                   <th className="text-muted-foreground p-6 text-right font-semibold">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-y divide-border">
                 {logs.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="p-12 text-center">

@@ -339,7 +339,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
               <DialogTitle>Email Preview</DialogTitle>
             </DialogHeader>
             <div
-              className="bg-card min-h-100 rounded-md border p-4 text-black"
+              className="bg-card min-h-100 rounded-md border p-4 text-foreground"
               dangerouslySetInnerHTML={{ __html: previewHtml }}
             />
           </DialogContent>

@@ -47,7 +47,7 @@ export function TierProgressIndicator({
           <div
             className={cn(
               'absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-out',
-              isComplete ? 'bg-success0' : 'bg-linear-to-r from-primary to-primary/70',
+              isComplete ? 'bg-success' : 'bg-linear-to-r from-primary to-primary/70',
               animated && 'animate-pulse'
             )}
             style={{ width: `${progressPercentage}%` }}
@@ -55,7 +55,7 @@ export function TierProgressIndicator({
 
           {isComplete && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <CheckCircle className="h-4 w-4 animate-bounce text-white" />
+              <CheckCircle className="h-4 w-4 animate-bounce text-primary-foreground" />
             </div>
           )}
         </div>
@@ -185,7 +185,7 @@ export function CircularTierProgress({
           cx={diameter / 2}
           cy={diameter / 2}
           r={radius}
-          stroke="hsl(var(--border))"
+          stroke="var(--border)"
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -207,8 +207,8 @@ export function CircularTierProgress({
         {/* Gradient definition */}
         <defs>
           <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" />
-            <stop offset="100%" stopColor="hsl(var(--chart-5))" />
+            <stop offset="0%" stopColor="var(--primary)" />
+            <stop offset="100%" stopColor="var(--chart-5)" />
           </linearGradient>
         </defs>
       </svg>

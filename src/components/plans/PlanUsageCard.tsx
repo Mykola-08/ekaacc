@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -23,7 +23,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
               Credits
             </span>
           </div>
-          <span className="text-foreground text-[15px] font-semibold">
+          <span className="text-foreground text-sm font-semibold">
             {remaining}/{total}
           </span>
         </div>
@@ -51,7 +51,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
             <div className="text-foreground text-lg leading-tight font-semibold tracking-tight">
               {usage.name}
             </div>
-            <div className="text-muted-foreground mt-0.5 text-[13px] font-medium">Active Plan</div>
+            <div className="text-muted-foreground mt-0.5 text-xs font-medium">Active Plan</div>
           </div>
         </div>
         <div className="text-foreground text-3xl font-semibold tracking-tight">
@@ -73,7 +73,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
       </div>
 
       <div className="border-border relative z-10 mt-6 border-t pt-4">
-        <p className="text-muted-foreground bg-secondary rounded-lg py-2 text-center text-[13px] font-medium">
+        <p className="text-muted-foreground bg-secondary rounded-lg py-2 text-center text-xs font-medium">
           Expires on{' '}
           <span className="text-foreground font-semibold">
             {new Date(usage.expires_at).toLocaleDateString()}

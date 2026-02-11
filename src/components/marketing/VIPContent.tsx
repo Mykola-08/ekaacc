@@ -222,7 +222,7 @@ const ComparativeTable = () => {
           </h2>
         </div>
 
-        <div className="overflow-x-auto rounded-[20px] border border-border bg-card shadow-xl">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card shadow-xl">
           <table className="w-full min-w-[600px] border-collapse">
             <thead>
               <tr className="bg-muted/50">
@@ -291,7 +291,7 @@ export default function VIPContent() {
             </p>
 
             <Link href="#pricing">
-              <button className="h-16 rounded-full border-none bg-linear-to-r from-warning to-warning px-10 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:from-warning/90 hover:to-warning/80 hover:shadow-warning/20">
+              <button className="h-16 rounded-full border-none bg-linear-to-r from-warning to-warning px-10 text-lg font-medium text-warning-foreground shadow-lg transition-all duration-300 hover:from-warning/90 hover:to-warning/80 hover:shadow-warning/20">
                 {t('vip.cta.apply')}
               </button>
             </Link>
@@ -308,9 +308,9 @@ export default function VIPContent() {
               return (
                 <div
                   key={idx}
-                  className="group rounded-[20px] border border-border bg-muted p-8 transition-colors hover:border-warning/20"
+                  className="group rounded-2xl border border-border bg-muted p-8 transition-colors hover:border-warning/20"
                 >
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-[20px] border border-border bg-card shadow-sm transition-transform group-hover:scale-110">
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-card shadow-sm transition-transform group-hover:scale-110">
                     <Icon className="h-7 w-7 text-warning" />
                   </div>
                   <h3 className="mb-3 text-xl font-bold text-foreground">{t(feature.title)}</h3>
@@ -341,7 +341,7 @@ export default function VIPContent() {
                 className="rounded-apple-xl border border-border bg-card p-10 shadow-sm transition-shadow duration-300 hover:shadow-xl"
               >
                 <div className="flex items-start gap-6">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[20px] bg-warning/10">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-warning/10">
                     <service.icon className="h-8 w-8 text-warning" />
                   </div>
                   <div>
@@ -382,7 +382,7 @@ export default function VIPContent() {
                 className={`rounded-apple-xl relative border bg-card p-8 ${plan.popular ? 'border-warning shadow-2xl shadow-warning/20' : 'border-border shadow-lg'}`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 rounded-full bg-warning px-6 py-2 text-sm font-bold tracking-wide text-white shadow-md">
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 rounded-full bg-warning px-6 py-2 text-sm font-bold tracking-wide text-warning-foreground shadow-md">
                     MOST POPULAR
                   </div>
                 )}
@@ -406,9 +406,9 @@ export default function VIPContent() {
                 </div>
 
                 <button
-                  className={`h-14 w-full rounded-[20px] border-none text-lg font-bold transition-all ${
+                  className={`h-14 w-full rounded-2xl border-none text-lg font-bold transition-all ${
                     plan.popular
-                      ? 'bg-warning text-white hover:bg-warning'
+                      ? 'bg-warning text-warning-foreground hover:bg-warning'
                       : 'bg-muted text-foreground hover:bg-muted'
                   }`}
                 >
@@ -423,7 +423,7 @@ export default function VIPContent() {
       <ComparativeTable />
 
       {/* Testimonials */}
-      <section className="relative overflow-hidden bg-background py-24 text-white">
+      <section className="relative overflow-hidden bg-background py-24 text-primary-foreground">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="mb-16 text-center">
@@ -434,7 +434,7 @@ export default function VIPContent() {
             {testimonials.map((test, i) => (
               <div
                 key={i}
-                className="rounded-[20px] border border-border/10 bg-white/5 p-8 backdrop-blur-md"
+                className="rounded-2xl border border-border/10 bg-background/5 p-8 backdrop-blur-md"
               >
                 <div className="mb-6 flex gap-1">
                   {[...Array(test.rating)].map((_, j) => (
@@ -443,7 +443,7 @@ export default function VIPContent() {
                 </div>
                 <p className="mb-8 leading-relaxed text-muted-foreground/40 italic">"{t(test.comment)}"</p>
                 <div>
-                  <p className="font-bold text-white">{test.name}</p>
+                  <p className="font-bold text-primary-foreground">{test.name}</p>
                   <p className="text-sm text-warning/80">{t(test.role)}</p>
                 </div>
               </div>
@@ -454,3 +454,4 @@ export default function VIPContent() {
     </div>
   );
 }
+

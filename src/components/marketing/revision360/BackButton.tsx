@@ -26,8 +26,6 @@ export default function BackButton() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
       whileHover={{
-        backgroundColor: 'oklch(0.274 0.006 286 / 0.95)',
-        borderColor: 'oklch(0.78 0.155 75 / 0.5)',
         scale: 1.02,
       }}
       whileTap={{ scale: 0.98 }}

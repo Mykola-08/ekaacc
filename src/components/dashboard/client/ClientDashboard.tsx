@@ -120,7 +120,7 @@ export function ClientDashboard({
         <div>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-1.5">
             <HugeiconsIcon icon={greeting.icon} className="size-3.5 text-primary" strokeWidth={2.5} />
-            <span className="text-[11px] font-semibold tracking-wider text-primary uppercase">
+            <span className="text-xs font-semibold tracking-wider text-primary uppercase">
               {t('page.dashboard.dailyUpdate') || 'Daily Update'}
             </span>
           </div>
@@ -165,7 +165,7 @@ export function ClientDashboard({
         {/* Next Session Card */}
         <Card className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-colors">
           <div className="mb-3 flex items-center justify-between">
-            <span className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
+            <span className="text-2xs font-semibold tracking-widest text-muted-foreground uppercase">
               Next Session
             </span>
             <div className="rounded-lg bg-muted p-1.5 text-muted-foreground">
@@ -204,7 +204,7 @@ export function ClientDashboard({
         {/* Wallet Balance */}
         <Card className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-colors">
           <div className="mb-3 flex items-center justify-between">
-            <span className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
+            <span className="text-2xs font-semibold tracking-widest text-muted-foreground uppercase">
               Balance
             </span>
             <div className="rounded-lg bg-muted p-1.5 text-muted-foreground">
@@ -226,7 +226,7 @@ export function ClientDashboard({
         {/* Goals Progress */}
         <Card className="group relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-colors">
           <div className="mb-3 flex items-center justify-between">
-            <span className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
+            <span className="text-2xs font-semibold tracking-widest text-muted-foreground uppercase">
               Goals
             </span>
             <div className="rounded-lg bg-muted p-1.5 text-muted-foreground">
@@ -377,7 +377,7 @@ export function ClientDashboard({
                 {recentErrors.slice(0, 3).map((error: any) => (
                   <div key={error.id} className="rounded-lg border border-destructive/15 bg-destructive/5 p-3">
                     <p className="text-xs font-medium text-destructive">{error.message}</p>
-                    <p className="mt-1 text-[10px] text-destructive/60">{error.route}</p>
+                    <p className="mt-1 text-2xs text-destructive/60">{error.route}</p>
                   </div>
                 ))}
               </div>

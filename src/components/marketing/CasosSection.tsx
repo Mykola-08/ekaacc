@@ -107,10 +107,10 @@ export default function CasosSection() {
               <div key={problem.id}>
                 <Link
                   href={problem.href}
-                  className="group ease-out-quart block rounded-[20px] border border-border bg-card p-6 transition-all duration-300 hover:border-border hover:shadow-lg"
+                  className="group ease-out-quart block rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-border hover:shadow-lg"
                 >
                   <div
-                    className={`h-14 w-14 rounded-[20px] ${getColorClasses(problem.color)} ease-out-quart mb-6 flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110`}
+                    className={`h-14 w-14 rounded-2xl ${getColorClasses(problem.color)} ease-out-quart mb-6 flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110`}
                   >
                     <ProblemIcon className="h-7 w-7" />
                   </div>
@@ -147,7 +147,7 @@ export default function CasosSection() {
             ].map((key) => (
               <span
                 key={key}
-                className="hover:border-primary-200 hover:text-primary-600 ease-out-quart cursor-default rounded-full border border-border bg-card px-6 py-3 text-muted-foreground shadow-sm transition-all duration-200 hover:shadow-md"
+                className="hover:border-primary/30 hover:text-primary ease-out-quart cursor-default rounded-full border border-border bg-card px-6 py-3 text-muted-foreground shadow-sm transition-all duration-200 hover:shadow-md"
               >
                 {t(key)}
               </span>
@@ -177,3 +177,4 @@ export default function CasosSection() {
     </section>
   );
 }
+

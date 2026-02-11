@@ -165,36 +165,28 @@ interface RoleBadgeProps {
 export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
   const getRoleColor = (role: SystemRole) => {
     switch (role) {
-      case 'Admin':
+      case 'admin':
         return 'bg-destructive/20 text-destructive border-destructive';
-      case 'Therapist':
+      case 'therapist':
         return 'bg-primary/10 text-primary border-primary/20';
-      case 'Reception':
+      case 'reception':
         return 'bg-success/20 text-success border-success';
-      case 'Patient':
+      case 'patient':
         return 'bg-muted text-foreground border-border';
-      case 'VIP Patient':
-        return 'bg-warning/20 text-warning-foreground border-warning/30';
-      case 'Corporate Client':
-        return 'bg-accent/20 text-accent-foreground border-accent';
-      case 'Content Manager':
-        return 'bg-accent/20 text-accent-foreground border-accent/30';
-      case 'Marketing':
-        return 'bg-accent/20 text-accent-foreground border-accent/30';
-      case 'Accountant':
-        return 'bg-warning/20 text-warning border-warning';
-      case 'Custom':
-        return 'bg-primary/10 text-primary border-primary/20';
+      case 'client':
+        return 'bg-muted text-foreground border-border';
       default:
         return 'bg-muted text-foreground border-border';
     }
   };
 
+  const displayName = role.charAt(0).toUpperCase() + role.slice(1);
+
   return (
     <span
       className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${getRoleColor(role)} ${className}`}
     >
-      {role}
+      {displayName}
     </span>
   );
 }
@@ -267,14 +259,14 @@ export function useHasRole(role: SystemRole): boolean {
  * Hook for checking if current user is admin
  */
 export function useIsAdmin(): boolean {
-  return useHasRole('Admin');
+  return useHasRole('admin');
 }
 
 /**
  * Hook for checking if current user is therapist
  */
 export function useIsTherapist(): boolean {
-  return useHasRole('Therapist');
+  return useHasRole('therapist');
 }
 
 /**
@@ -294,5 +286,5 @@ export function useIsStaff(): boolean {
     return user?.role?.name ? [user.role.name] : [];
   }, [user]);
 
-  return effectiveRoles.includes('Admin') || effectiveRoles.includes('Therapist');
+  return effectiveRoles.includes('admin') || effectiveRoles.includes('therapist');
 }

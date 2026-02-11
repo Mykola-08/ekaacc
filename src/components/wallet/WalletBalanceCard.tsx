@@ -1,4 +1,4 @@
-﻿import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -19,11 +19,11 @@ export function WalletBalanceCard({ balanceCents, currency = 'EUR' }: WalletBala
     <Card className="bg-background border-border overflow-hidden rounded-lg shadow-sm">
       <CardContent className="p-10">
         <div className="flex flex-col gap-2">
-          <span className="text-muted-foreground text-[13px] font-semibold tracking-wider uppercase">
+          <span className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
             Current Balance
           </span>
           <div className="text-foreground text-6xl font-black tracking-tight">{formatted}</div>
-          <p className="text-muted-foreground mt-3 text-[15px] font-medium opacity-80">
+          <p className="text-muted-foreground mt-3 text-sm font-medium opacity-80">
             Available for bookings and products
           </p>
         </div>

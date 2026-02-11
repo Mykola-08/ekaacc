@@ -100,14 +100,14 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                         onClick={() => setSidebarOpen(false)}
                       >
                         <span className="sr-only">Close sidebar</span>
-                        <X className="h-6 w-6 text-white" aria-hidden="true" />
+                        <X className="h-6 w-6 text-primary-foreground" aria-hidden="true" />
                       </button>
                     </div>
                   </TransitionChild>
                   {/* Mobile Sidebar Content */}
                   <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 ring-1 ring-border/10">
                     <div className="flex h-16 shrink-0 items-center">
-                      <span className="text-2xl font-semibold tracking-widest text-white">
+                      <span className="text-2xl font-semibold tracking-widest text-primary-foreground">
                         CONSOLE<span className="text-success">.</span>
                       </span>
                     </div>
@@ -125,7 +125,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                                     href={item.href}
                                     className={cn(
                                       isActive
-                                        ? 'bg-card/10 text-white'
+                                        ? 'bg-card/10 text-primary-foreground'
                                         : 'text-muted-foreground/80 hover:bg-card/5 hover:text-foreground',
                                       'group flex gap-x-3 rounded-xl p-3 text-sm leading-6 font-semibold transition-all'
                                     )}
@@ -151,7 +151,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 shadow-sm">
             <div className="flex h-16 shrink-0 items-center">
-              <span className="text-2xl font-semibold tracking-widest text-white">
+              <span className="text-2xl font-semibold tracking-widest text-primary-foreground">
                 CONSOLE<span className="text-success">.</span>
               </span>
             </div>
@@ -200,7 +200,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                         <span className="text-xs font-semibold text-success">SU</span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-xs font-medium text-white">Super Admin</span>
+                        <span className="text-xs font-medium text-primary-foreground">Super Admin</span>
                         <span className="text-muted-foreground/80 text-xs">System Access</span>
                       </div>
                     </div>

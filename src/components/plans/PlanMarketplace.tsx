@@ -78,7 +78,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                         isVIP ? 'bg-warning' : 'bg-primary'
                       )}
                     />
-                    <span className="text-muted-foreground text-[13px] font-semibold tracking-wider uppercase">
+                    <span className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
                       {plan.credits_total} Sessions
                     </span>
                   </div>
@@ -107,7 +107,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                 className={cn(
                   'h-12 w-full rounded-lg text-base font-semibold transition-all active:scale-95',
                   isVIP
-                    ? 'bg-linear-to-r from-warning to-warning text-white shadow-lg shadow-warning/25 hover:from-warning/90 hover:to-warning/80'
+                    ? 'bg-linear-to-r from-warning to-warning text-warning-foreground shadow-lg shadow-warning/25 hover:from-warning/90 hover:to-warning/80'
                     : 'bg-foreground text-background hover:bg-foreground/90 shadow-lg'
                 )}
                 onClick={() => handlePurchase(plan)}

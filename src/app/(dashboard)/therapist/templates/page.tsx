@@ -225,9 +225,9 @@ export default function TherapistTemplatesPage() {
   const categoryColors: { [key: string]: string } = {
     progress: 'bg-primary/10 text-primary',
     assessment: 'bg-muted text-primary',
-    'treatment-plan': 'bg-success0/10 text-success-foreground dark:text-success',
-    'session-notes': 'bg-warning0/10 text-warning-foreground dark:text-warning',
-    discharge: 'bg-destructive/100/10 text-destructive dark:text-destructive',
+    'treatment-plan': 'bg-success/10 text-success-foreground dark:text-success',
+    'session-notes': 'bg-warning/10 text-warning-foreground dark:text-warning',
+    discharge: 'bg-destructive/10 text-destructive dark:text-destructive',
   };
 
   if (isLoading) {

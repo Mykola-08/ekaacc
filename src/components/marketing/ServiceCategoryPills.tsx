@@ -29,9 +29,9 @@ export default function ServiceCategoryPills() {
         s.color === 'orange'
           ? 'from-warning to-destructive'
           : s.color === 'blue'
-            ? 'from-info to-accent/100'
+            ? 'from-info to-accent'
             : s.color === 'green'
-              ? 'from-success to-info0'
+              ? 'from-success to-info'
               : 'from-accent to-destructive',
       number: `0${index + 1}`,
       name: t(s.titleKey),
@@ -63,16 +63,16 @@ export default function ServiceCategoryPills() {
                 backgroundImage: `url(${service.image})`,
               }}
             >
-              <div className="relative z-10 flex h-full flex-col justify-between p-8 text-white">
+              <div className="relative z-10 flex h-full flex-col justify-between p-8 text-primary-foreground">
                 <div className="flex items-start justify-between">
                   <div
-                    className={`inline-flex h-16 w-16 items-center justify-center rounded-[20px] bg-linear-to-br ${service.color} shadow-md`}
+                    className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br ${service.color} shadow-md`}
                   >
                     <span className="text-2xl font-light">{service.number}</span>
                   </div>
 
                   <div className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <HugeiconsIcon icon={ArrowRight01Icon} size={24} className="text-white" />
+                    <HugeiconsIcon icon={ArrowRight01Icon} size={24} className="text-primary-foreground" />
                   </div>
                 </div>
 
@@ -90,7 +90,7 @@ export default function ServiceCategoryPills() {
         </div>
 
         <div className="mt-16 text-center">
-          <Button asChild className="rounded-[20px] px-8 py-6 text-base shadow-md hover:shadow-lg">
+          <Button asChild className="rounded-2xl px-8 py-6 text-base shadow-md hover:shadow-lg">
             <Link href="/services" className="inline-flex items-center gap-2">
               Veure tots els serveis
               <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
@@ -101,3 +101,4 @@ export default function ServiceCategoryPills() {
     </section>
   );
 }
+

@@ -359,7 +359,7 @@ export function DebugStatus() {
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setAutoRefresh(!autoRefresh)}
-                className={`rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors ${
+                className={`rounded px-1.5 py-0.5 text-2xs font-medium transition-colors ${
                   autoRefresh
                     ? 'bg-success/20 text-success dark:bg-success/10 dark:text-success'
                     : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -371,7 +371,7 @@ export function DebugStatus() {
               <button
                 onClick={refreshAll}
                 disabled={loading}
-                className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground hover:bg-muted/80 disabled:opacity-50"
+                className="rounded bg-muted px-1.5 py-0.5 text-2xs font-medium text-muted-foreground hover:bg-muted/80 disabled:opacity-50"
               >
                 {loading ? '…' : '↻'}
               </button>
@@ -435,7 +435,7 @@ export function DebugStatus() {
           </div>
 
           {/* ── Footer ─────────────────────────────────── */}
-          <div className="flex items-center justify-between border-t border-border px-3 py-1.5 text-[10px] text-muted-foreground/60">
+          <div className="flex items-center justify-between border-t border-border px-3 py-1.5 text-2xs text-muted-foreground/60">
             <span>Ctrl+Shift+D to toggle</span>
             <span>{pathname}</span>
           </div>
@@ -483,7 +483,7 @@ function Row({
 }) {
   return (
     <div className="flex items-center justify-between gap-2 py-0.5">
-      <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+      <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
         {ok !== undefined && statusDot(ok)}
         {label}
         {hint && (
@@ -496,7 +496,7 @@ function Row({
         )}
       </span>
       <span
-        className={`max-w-[220px] truncate text-right text-[11px] ${
+        className={`max-w-[220px] truncate text-right text-xs ${
           className ||
           (ok !== undefined
             ? ok
@@ -516,7 +516,7 @@ function Row({
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className="text-2xs font-semibold uppercase tracking-wider text-muted-foreground">
       {children}
     </div>
   );
@@ -583,7 +583,7 @@ function HealthTab({
             Object.entries(dbHealth.database.errors).map(([table, error]) => (
               <div
                 key={table}
-                className="rounded bg-destructive/10 p-1.5 text-[10px] text-destructive dark:bg-destructive/10 dark:text-destructive"
+                className="rounded bg-destructive/10 p-1.5 text-2xs text-destructive dark:bg-destructive/10 dark:text-destructive"
               >
                 <strong>{table}:</strong> {error}
               </div>
@@ -592,12 +592,12 @@ function HealthTab({
       )}
 
       {health?.error && (
-        <div className="break-all rounded bg-destructive/10 p-2 text-[11px] text-destructive dark:bg-destructive/10 dark:text-destructive">
+        <div className="break-all rounded bg-destructive/10 p-2 text-xs text-destructive dark:bg-destructive/10 dark:text-destructive">
           {health.error}
         </div>
       )}
 
-      <div className="pt-1 text-[10px] text-muted-foreground/60">
+      <div className="pt-1 text-2xs text-muted-foreground/60">
         Last check:{' '}
         {health ? new Date(health.timestamp).toLocaleTimeString() : '—'}
       </div>
@@ -906,7 +906,7 @@ function ErrorsTab({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <span className="text-2xs font-semibold uppercase tracking-wider text-muted-foreground">
           {errors.length} error{errors.length !== 1 ? 's' : ''} captured
         </span>
         <button
@@ -914,7 +914,7 @@ function ErrorsTab({
             collectedErrors.length = 0;
             setErrors([]);
           }}
-          className="text-[10px] text-muted-foreground hover:text-foreground"
+          className="text-2xs text-muted-foreground hover:text-foreground"
         >
           Clear
         </button>
@@ -924,7 +924,7 @@ function ErrorsTab({
         return (
           <div
             key={`${err.timestamp}-${i}`}
-            className={`rounded border p-2 text-[11px] ${
+            className={`rounded border p-2 text-xs ${
               isWarn
                 ? 'border-warning/30 bg-warning/10 dark:border-warning/80 dark:bg-warning/10'
                 : 'border-destructive/30 bg-destructive/10 dark:border-destructive/30 dark:bg-destructive/10'
@@ -989,7 +989,7 @@ function NetworkTab({
         {requests.map((req, i) => (
           <div
             key={`${req.url}-${i}`}
-            className="flex items-center gap-2 rounded border border-border/50 px-2 py-1 text-[10px]"
+            className="flex items-center gap-2 rounded border border-border/50 px-2 py-1 text-2xs"
           >
             <span
               className={`shrink-0 font-mono font-medium ${

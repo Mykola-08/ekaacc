@@ -155,7 +155,7 @@ export function InsightsPanel({ className }: { className?: string }) {
                       <Icon className={cn("h-3.5 w-3.5", cfg.color)} />
                     </div>
                     <p className="flex-1 text-sm font-medium">{insight.title}</p>
-                    <span className="text-muted-foreground text-[10px]">
+                    <span className="text-muted-foreground text-2xs">
                       {Math.round(insight.confidence * 100)}%
                     </span>
                   </div>

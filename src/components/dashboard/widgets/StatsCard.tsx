@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { LucideIcon, ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -42,7 +42,7 @@ export function StatsCard({
         )}
       </div>
       <div className="space-y-0.5">
-        <div className="text-[11px] font-medium tracking-widest text-muted-foreground uppercase">
+        <div className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
           {label}
         </div>
         <div className="text-2xl font-semibold leading-none tracking-tight text-foreground tabular-nums">

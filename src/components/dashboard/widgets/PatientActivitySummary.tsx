@@ -79,7 +79,7 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
               </Avatar>
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center justify-between">
-                  <span className="text-foreground truncate text-[13px] font-semibold">
+                  <span className="text-foreground truncate text-xs font-semibold">
                     {activity.profile?.full_name || 'Patient'}
                   </span>
                   <span className="text-muted-foreground text-xs whitespace-nowrap">

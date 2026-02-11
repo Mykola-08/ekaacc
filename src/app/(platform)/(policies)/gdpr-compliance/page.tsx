@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Globe, UserCheck, Database, Lock, FileText } from 'lucide-react';
+import { CurrentYear } from '@/components/shared/CurrentYear';
 
 type Language = 'en' | 'es' | 'ca' | 'ru';
 
@@ -199,7 +200,7 @@ export default function GdprCompliance() {
 
         <div className="bg-muted/30 border-t border-border px-8 py-6">
           <p className="text-muted-foreground text-center text-sm">
-            � {new Date().getFullYear()} EKA Balance. All rights reserved.
+            � <CurrentYear /> EKA Balance. All rights reserved.
           </p>
         </div>
       </div>

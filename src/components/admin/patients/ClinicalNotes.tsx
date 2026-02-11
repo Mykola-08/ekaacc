@@ -62,7 +62,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
         </div>
         <Button
           onClick={() => setIsEditing(true)}
-          className="rounded-xl bg-card text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
+          className="rounded-xl bg-primary text-primary-foreground shadow-lg transition-transform hover:bg-primary/90 active:scale-95"
         >
           <Plus className="mr-2 h-4 w-4" />
           New SOAP Note
@@ -135,7 +135,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                   </Button>
                   <Button
                     onClick={handleSave}
-                    className="rounded-lg bg-accent text-white hover:bg-accent/90"
+                    className="rounded-lg bg-accent text-accent-foreground hover:bg-accent/90"
                   >
                     Sign & Save Note
                   </Button>

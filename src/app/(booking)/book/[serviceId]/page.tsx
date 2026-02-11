@@ -4,8 +4,6 @@ import { ServiceBookingPage } from '@/components/booking/ServiceBookingPage';
 import { fetchService } from '@/server/booking/service';
 import type { Service } from '@/types/database';
 
-export const dynamic = 'force-dynamic';
-
 type BookServiceParams = {
   serviceId: string;
 };

@@ -72,7 +72,7 @@ export default function ChildrenContent() {
 
           <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
             {/* Kinesiology - Focusing on emotions/learning */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-info hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-info hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=2072&auto=format&fit=crop"
@@ -105,7 +105,7 @@ export default function ChildrenContent() {
             </div>
 
             {/* Kinesiology - General checkup/Health - using same service link but focused content card */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-info hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-info hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop"
@@ -142,3 +142,4 @@ export default function ChildrenContent() {
     </PageLayout>
   );
 }
+

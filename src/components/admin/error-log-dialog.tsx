@@ -113,8 +113,8 @@ export function ErrorLogDialog({ log }: { log: any }) {
 
             {log.stack_trace && (
               <div className="bg-primary rounded-xl p-6 shadow-sm">
-                <div className="mb-4 flex items-center gap-3 text-white">
-                  <Terminal className="text-muted-foreground/80 h-5 w-5" />
+                <div className="mb-4 flex items-center gap-3 text-primary-foreground">
+                  <Terminal className="text-primary-foreground/60 h-5 w-5" />
                   <h4 className="font-semibold">Stack Trace</h4>
                 </div>
                 <pre className="text-muted-foreground/50 custom-scrollbar max-h-[300px] overflow-x-auto font-mono text-xs leading-relaxed whitespace-pre-wrap">
@@ -125,8 +125,8 @@ export function ErrorLogDialog({ log }: { log: any }) {
 
             {log.component_stack && (
               <div className="bg-primary rounded-xl p-6 shadow-sm">
-                <div className="mb-4 flex items-center gap-3 text-white">
-                  <Code className="text-muted-foreground/80 h-5 w-5" />
+                <div className="mb-4 flex items-center gap-3 text-primary-foreground">
+                  <Code className="text-primary-foreground/60 h-5 w-5" />
                   <h4 className="font-semibold">Component Stack</h4>
                 </div>
                 <pre className="text-muted-foreground/50 custom-scrollbar max-h-[300px] overflow-x-auto font-mono text-xs leading-relaxed whitespace-pre-wrap">

@@ -88,7 +88,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
       >
         {loading ? (
           <>
-            <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+            <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent"></div>
             Processing...
           </>
         ) : (
@@ -218,7 +218,7 @@ export function WalletContentHeadless({
                 </div>
                 <button
                   onClick={handleTopUpClick}
-                  className="bg-card hover:bg-muted mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold text-black shadow-sm transition-colors"
+                  className="bg-card hover:bg-muted mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold text-foreground shadow-sm transition-colors"
                 >
                   <Plus className="h-5 w-5" />
                   Add Funds
@@ -238,7 +238,7 @@ export function WalletContentHeadless({
                 className={({ selected }) =>
                   cn(
                     'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
-                    'focus:ring-2 focus:ring-black/5',
+                    'focus:ring-2 focus:ring-ring/5',
                     selected
                       ? 'bg-card text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
@@ -251,7 +251,7 @@ export function WalletContentHeadless({
                 className={({ selected }) =>
                   cn(
                     'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
-                    'focus:ring-2 focus:ring-black/5',
+                    'focus:ring-2 focus:ring-ring/5',
                     selected
                       ? 'bg-card text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
@@ -391,7 +391,7 @@ export function WalletContentHeadless({
                       </p>
                     </div>
                     {pm.is_default && (
-                      <span className="rounded-full bg-foreground/10 px-2.5 py-0.5 text-[10px] font-semibold text-foreground">
+                      <span className="rounded-full bg-foreground/10 px-2.5 py-0.5 text-2xs font-semibold text-foreground">
                         Default
                       </span>
                     )}
@@ -492,7 +492,7 @@ export function WalletContentHeadless({
                       </Elements>
                     ) : (
                       <div className="flex justify-center py-12">
-                        <div className="border-border h-8 w-8 animate-spin rounded-full border-4 border-t-black"></div>
+                        <div className="border-border h-8 w-8 animate-spin rounded-full border-4 border-t-foreground"></div>
                       </div>
                     )}
                   </div>

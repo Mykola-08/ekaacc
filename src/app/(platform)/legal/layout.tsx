@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { CurrentYear } from '@/components/shared/CurrentYear';
 
 export const metadata: Metadata = {
   title: 'EKA Balance - Legal Center',
@@ -112,7 +113,7 @@ export default function LegalLayout({
             </div>
           </div>
           <div className="text-muted-foreground/80 border-t pt-8 text-center text-sm">
-            &copy; {new Date().getFullYear()} EKA Balance. All rights reserved.
+            &copy; <CurrentYear /> EKA Balance. All rights reserved.
           </div>
         </div>
       </footer>

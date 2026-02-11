@@ -75,7 +75,7 @@ export default function TermsContent() {
                 Policy
               </li>
             </ul>
-            <div className="rounded-[20px] border border-info bg-info/50 p-6">
+            <div className="rounded-2xl border border-info bg-info/50 p-6">
               <p className="text-foreground">
                 <strong>Parental Consent:</strong> If you are under 16 years of age, you may not use
                 our Services. If you are between 16-18 years of age, you may only use our Services
@@ -99,7 +99,7 @@ export default function TermsContent() {
               <li>Not intended to diagnose, treat, cure, or prevent disease</li>
               <li>Not a substitute for licensed medical or mental-health care</li>
             </ul>
-            <div className="rounded-[20px] border border-warning/30 bg-warning p-6">
+            <div className="rounded-2xl border border-warning/30 bg-warning p-6">
               <p className="text-foreground">
                 <strong>Important:</strong> Keep following your physician or licensed clinician
                 recommendations. If you have urgent symptoms, contact emergency services
@@ -137,7 +137,7 @@ export default function TermsContent() {
             </p>
 
             <div className="grid gap-6">
-              <div className="rounded-[20px] border border-info bg-info/50 p-6">
+              <div className="rounded-2xl border border-info bg-info/50 p-6">
                 <h3 className="mb-4 text-lg font-medium text-foreground">
                   Data Protection Officer (DPO)
                 </h3>
@@ -166,7 +166,7 @@ export default function TermsContent() {
                 </p>
               </div>
 
-              <div className="rounded-[20px] bg-muted p-6">
+              <div className="rounded-2xl bg-muted p-6">
                 <h3 className="mb-4 text-lg font-medium text-foreground">
                   Legal and General Inquiries
                 </h3>
@@ -203,3 +203,4 @@ export default function TermsContent() {
     </PageLayout>
   );
 }
+

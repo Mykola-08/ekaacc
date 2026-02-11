@@ -23,9 +23,9 @@ export default function AgenyzContent() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="order-2 text-center lg:order-1 lg:text-left">
-            <div className="bg-primary-100/50 border-primary-100 mb-8 inline-flex items-center rounded-full border py-2">
-              <Dna className="text-primary-600 mr-2 h-4 w-4" />
-              <span className="text-primary-700 text-sm font-medium tracking-wide uppercase">
+            <div className="bg-primary/10 border-primary/20 mb-8 inline-flex items-center rounded-full border py-2">
+              <Dna className="text-primary mr-2 h-4 w-4" />
+              <span className="text-primary text-sm font-medium tracking-wide uppercase">
                 {t('agenyz.hero.biohacking') || 'Bio-Innovation'}
               </span>
             </div>
@@ -53,7 +53,7 @@ export default function AgenyzContent() {
               <a href="https://agenyz.com" target="_blank" rel="noopener noreferrer">
                 <Button
                   size="lg"
-                  className="btn btn-secondary bg-primary-600 hover:bg-primary-700 rounded-xl border-none px-8 text-white"
+                  className="btn btn-secondary bg-primary hover:bg-primary/90 rounded-xl border-none px-8 text-primary-foreground"
                 >
                   {t('agenyz.cta.visitStore') || 'Visit Agenyz Store'}
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -64,7 +64,7 @@ export default function AgenyzContent() {
 
           <div className="order-1 lg:order-2">
             <div className="group relative">
-              <div className="from-primary-200 transition-duration-500 absolute inset-0 rounded-[20px] bg-linear-to-tr to-accent/30 opacity-30 blur-xl group-hover:opacity-50" />
+              <div className="from-primary/30 transition-duration-500 absolute inset-0 rounded-2xl bg-linear-to-tr to-accent/30 opacity-30 blur-xl group-hover:opacity-50" />
               <div className="relative aspect-[4/3]">
                 <Image
                   src="/agenyz-products.png"
@@ -74,11 +74,11 @@ export default function AgenyzContent() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 z-10 rounded-[20px] border border-border/20 bg-card/90 p-4 shadow-xl backdrop-blur-md">
+              <div className="absolute -bottom-6 -left-6 z-10 rounded-2xl border border-border/20 bg-card/90 p-4 shadow-xl backdrop-blur-md">
                 <div className="flex items-center space-x-3">
                   <span className="relative flex h-3 w-3">
-                    <span className="bg-primary-400 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
-                    <span className="bg-primary-500 relative inline-flex h-3 w-3 rounded-full"></span>
+                    <span className="bg-primary/60 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+                    <span className="bg-primary relative inline-flex h-3 w-3 rounded-full"></span>
                   </span>
                   <span className="text-sm font-medium text-foreground">
                     {t('agenyz.hero.science') || 'Powered by Science'}
@@ -97,7 +97,7 @@ export default function AgenyzContent() {
       <section className="py-24" id="catalogue">
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="mb-16 text-center">
-            <span className="text-primary-600 mb-4 block text-sm font-semibold tracking-wider uppercase">
+            <span className="text-primary mb-4 block text-sm font-semibold tracking-wider uppercase">
               {t('agenyz.catalogue.subtitle') || 'Our Collection'}
             </span>
             <h2 className="text-eka-dark mb-6 text-4xl font-light md:text-5xl">
@@ -117,7 +117,7 @@ export default function AgenyzContent() {
                 onClick={() => setSelectedCategory(category)}
                 className={`rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 ${
                   selectedCategory === category
-                    ? 'bg-primary-600 scale-105 text-white shadow-lg'
+                    ? 'bg-primary scale-105 text-primary-foreground shadow-lg'
                     : 'border border-border bg-card text-muted-foreground hover:bg-muted'
                 }`}
               >
@@ -137,15 +137,15 @@ export default function AgenyzContent() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
-                    className="card card-interactive group flex h-full flex-col rounded-[20px] p-8"
+                    className="card card-interactive group flex h-full flex-col rounded-2xl p-8"
                   >
                     <div className="mb-4 flex items-start justify-between">
-                      <span className="bg-primary-50 text-primary-700 rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase">
+                      <span className="bg-primary/10 text-primary rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase">
                         {t(`agenyz.category.${product.category}`) || product.category}
                       </span>
                     </div>
 
-                    <div className="relative mb-6 flex h-56 w-full items-center justify-center rounded-[20px] bg-card p-4">
+                    <div className="relative mb-6 flex h-56 w-full items-center justify-center rounded-2xl bg-card p-4">
                       {product.image ? (
                         <div className="relative h-full w-full">
                           <Image
@@ -163,7 +163,7 @@ export default function AgenyzContent() {
                       )}
                     </div>
 
-                    <h3 className="text-eka-dark group-hover:text-primary-700 mb-4 text-2xl font-light transition-colors">
+                    <h3 className="text-eka-dark group-hover:text-primary mb-4 text-2xl font-light transition-colors">
                       {getLocalized(product.name, language)}
                     </h3>
 
@@ -188,7 +188,7 @@ export default function AgenyzContent() {
                       </span>
                       <Button
                         size="sm"
-                        className="btn btn-outline border-primary-200 text-primary-600 hover:bg-primary-50 pointer-events-none rounded-xl"
+                        className="btn btn-outline border-primary/30 text-primary hover:bg-primary/10 pointer-events-none rounded-xl"
                       >
                         <ArrowRight className="h-4 w-4" />
                       </Button>

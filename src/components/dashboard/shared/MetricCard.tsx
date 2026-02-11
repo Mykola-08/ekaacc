@@ -38,7 +38,7 @@ export function MetricCard({
         <Icon className="h-5 w-5" strokeWidth={2} />
       </div>
       <div>
-        <div className="text-[11px] font-medium tracking-widest text-muted-foreground uppercase">
+        <div className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
           {label}
         </div>
         <div className="text-xl font-semibold tracking-tight text-foreground">

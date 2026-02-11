@@ -16,6 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
@@ -33,6 +34,7 @@ const signUpSchema = z
  email: z.string().email('Please enter a valid email address'),
  password: z.string().min(6, 'Password must be at least 6 characters'),
  confirmPassword: z.string(),
+ referralCode: z.string().optional(),
  })
  .refine((data) => data.password === data.confirmPassword, {
  message: "Passwords don't match",
@@ -49,6 +51,8 @@ interface SignUpFormProps {
 
 export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  const { signUp, isLoading } = useSimpleAuth();
+ const searchParams = useSearchParams();
+ const refCode = searchParams.get('ref') || '';
 
  const form = useForm<SignUpFormValues>({
  resolver: zodResolver(signUpSchema),
@@ -58,6 +62,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  email: '',
  password: '',
  confirmPassword: '',
+ referralCode: refCode,
  },
  });
 
@@ -139,7 +144,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  <Input
  placeholder="John Doe"
  autoComplete="name"
- className="h-11 rounded-[14px] border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
+ className="h-11 rounded-md border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
  {...field}
  />
  </FormControl>
@@ -166,7 +171,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  <Input
  placeholder="johndoe"
  autoComplete="username"
- className="h-11 rounded-[14px] border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
+ className="h-11 rounded-md border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
  {...field}
  />
  </FormControl>
@@ -195,7 +200,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  type="email"
  placeholder="name@example.com"
  autoComplete="email"
- className="h-11 rounded-[14px] border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
+ className="h-11 rounded-md border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
  {...field}
  />
  </FormControl>
@@ -224,7 +229,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  type="password"
  placeholder="••••••••"
  autoComplete="new-password"
- className="h-11 rounded-[14px] border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
+ className="h-11 rounded-md border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
  {...field}
  />
  </FormControl>
@@ -252,7 +257,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  type="password"
  placeholder="••••••••"
  autoComplete="new-password"
- className="h-11 rounded-[14px] border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
+ className="h-11 rounded-md border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10  "
  {...field}
  />
  </FormControl>
@@ -263,6 +268,37 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  </motion.div>
  </div>
 
+ {/* Referral Code */}
+ <motion.div
+ variants={withDelay(fadeInLeft, 0.42)}
+ initial="hidden"
+ animate="visible"
+ >
+ <FormField
+ control={form.control}
+ name="referralCode"
+ render={({ field }) => (
+ <FormItem className="space-y-1.5">
+ <FormLabel className="text-sm font-medium text-foreground">
+ Referral Code <span className="text-muted-foreground font-normal">(optional)</span>
+ </FormLabel>
+ <FormControl>
+ <Input
+ placeholder="ABCD1234"
+ className="h-11 rounded-md border-input bg-muted/50 px-4 font-mono text-base uppercase tracking-wider transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10"
+ {...field}
+ onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+ />
+ </FormControl>
+ <FormDescription className="text-xs">
+ Have a friend&apos;s referral code? Enter it to earn rewards.
+ </FormDescription>
+ <FormMessage />
+ </FormItem>
+ )}
+ />
+ </motion.div>
+
  <AnimatePresence mode="wait">
  {form.formState.errors.root && (
  <motion.div
@@ -271,7 +307,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  exit={{ opacity: 0, height: 0 }}
  transition={{ duration: 0.2 }}
  >
- <FormMessage className="rounded-[14px] bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive dark:bg-destructive/10 dark:text-destructive">
+ <FormMessage className="rounded-md bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive dark:bg-destructive/10 dark:text-destructive">
  {form.formState.errors.root.message}
  </FormMessage>
  </motion.div>
@@ -286,7 +322,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
  >
  <Button
  type="submit"
- className="h-12 w-full rounded-full bg-primary text-[15px] font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow active:scale-[0.98] disabled:opacity-70"
+ className="h-12 w-full rounded-full bg-primary text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow active:scale-[0.98] disabled:opacity-70"
  disabled={isLoading}
  >
  {isLoading ? (

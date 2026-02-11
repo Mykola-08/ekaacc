@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -41,17 +41,17 @@ export function JournalTeaser() {
     >
       <div className="flex flex-1 flex-col justify-center">
         {lastEntry ? (
-          <div className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--secondary))] p-4">
-            <div className="relative line-clamp-3 text-[15px] leading-relaxed text-[hsl(var(--muted-foreground))] italic">
-              <span className="absolute -top-3 -left-2 text-4xl leading-none text-[hsl(var(--muted))]">
-                “
+          <div className="rounded-xl border border-border bg-secondary p-4">
+            <div className="relative line-clamp-3 text-sm leading-relaxed text-muted-foreground italic">
+              <span className="absolute -top-3 -left-2 text-4xl leading-none text-muted">
+                "
               </span>
               {lastEntry.content}
-              <span className="absolute -right-1 -bottom-5 text-4xl leading-none text-[hsl(var(--muted))]">
-                ”
+              <span className="absolute -right-1 -bottom-5 text-4xl leading-none text-muted">
+                "
               </span>
             </div>
-            <div className="mt-3 text-right text-xs font-semibold tracking-wider text-[hsl(var(--muted-foreground))] uppercase">
+            <div className="mt-3 text-right text-xs font-semibold tracking-wider text-muted-foreground uppercase">
               {new Date(lastEntry.created_at).toLocaleDateString()}
             </div>
           </div>

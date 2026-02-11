@@ -160,7 +160,7 @@ export default function TestimonialSlider({
         <div className="mx-auto max-w-7xl px-4">
           {/* Header */}
           <div className="mb-16 text-center">
-            <h2 className="mb-6 text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
+            <h2 className="mb-6 text-4xl font-semibold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl">
               {t('testimonials.sliderTitle')}
             </h2>
             <p className="text-muted-foreground mx-auto max-w-3xl text-lg text-primary-foreground/90 md:text-xl">
@@ -178,7 +178,7 @@ export default function TestimonialSlider({
               >
                 {testimonials.map((testimonial) => (
                   <div key={testimonial.id} className="w-full shrink-0 px-4">
-                    <div className="bg-card/95 rounded-[20px] border border-white/50 p-8 text-center shadow-sm backdrop-blur-sm md:p-12">
+                    <div className="bg-card/95 rounded-2xl border border-background/50 p-8 text-center shadow-sm backdrop-blur-sm md:p-12">
                       {/* Rating */}
                       <div className="mb-6 flex justify-center">
                         {[...Array(testimonial.rating)].map((_, i) => (
@@ -211,9 +211,9 @@ export default function TestimonialSlider({
             <div className="mt-8 flex items-center justify-center space-x-4">
               <button
                 onClick={prevSlide}
-                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-border/30 text-white backdrop-blur-sm transition-colors"
+                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-border/30 text-primary-foreground backdrop-blur-sm transition-colors"
               >
-                <div className="h-3 w-3 -rotate-45 transform border-t-2 border-l-2 border-white"></div>
+                <div className="h-3 w-3 -rotate-45 transform border-t-2 border-l-2 border-background"></div>
               </button>
 
               <div className="flex space-x-2">
@@ -229,9 +229,9 @@ export default function TestimonialSlider({
 
               <button
                 onClick={nextSlide}
-                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-border/30 text-white backdrop-blur-sm transition-colors"
+                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-border/30 text-primary-foreground backdrop-blur-sm transition-colors"
               >
-                <div className="h-3 w-3 rotate-45 transform border-t-2 border-r-2 border-white"></div>
+                <div className="h-3 w-3 rotate-45 transform border-t-2 border-r-2 border-background"></div>
               </button>
             </div>
           </div>
@@ -240,3 +240,4 @@ export default function TestimonialSlider({
     </section>
   );
 }
+

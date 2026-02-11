@@ -69,7 +69,7 @@ export default function ArtistsContent() {
                 {t('artists.challenges.title')}
               </h2>
               <div className="space-y-6">
-                <div className="flex items-start rounded-[20px] bg-destructive/10 p-6">
+                <div className="flex items-start rounded-2xl bg-destructive/10 p-6">
                   <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-destructive" />
                   <div>
                     <h3 className="mb-2 font-semibold text-foreground">
@@ -78,7 +78,7 @@ export default function ArtistsContent() {
                     <p className="text-muted-foreground">{t('artists.challenge1.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-destructive/10 p-6">
+                <div className="flex items-start rounded-2xl bg-destructive/10 p-6">
                   <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-destructive" />
                   <div>
                     <h3 className="mb-2 font-semibold text-foreground">
@@ -87,7 +87,7 @@ export default function ArtistsContent() {
                     <p className="text-muted-foreground">{t('artists.challenge2.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-destructive/10 p-6">
+                <div className="flex items-start rounded-2xl bg-destructive/10 p-6">
                   <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-destructive" />
                   <div>
                     <h3 className="mb-2 font-semibold text-foreground">
@@ -103,21 +103,21 @@ export default function ArtistsContent() {
             <div>
               <h2 className="text-eka-dark mb-8 text-3xl font-bold">{t('artists.help.title')}</h2>
               <div className="space-y-6">
-                <div className="flex items-start rounded-[20px] bg-success p-6">
+                <div className="flex items-start rounded-2xl bg-success p-6">
                   <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-success" />
                   <div>
                     <h3 className="mb-2 font-semibold text-foreground">{t('artists.help1.title')}</h3>
                     <p className="font-light text-muted-foreground">{t('artists.help1.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-success p-6">
+                <div className="flex items-start rounded-2xl bg-success p-6">
                   <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-success" />
                   <div>
                     <h3 className="mb-2 font-semibold text-foreground">{t('artists.help2.title')}</h3>
                     <p className="font-light text-muted-foreground">{t('artists.help2.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-success p-6">
+                <div className="flex items-start rounded-2xl bg-success p-6">
                   <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-success" />
                   <div>
                     <h3 className="mb-2 font-semibold text-foreground">{t('artists.help3.title')}</h3>
@@ -211,3 +211,4 @@ export default function ArtistsContent() {
     </PageLayout>
   );
 }
+

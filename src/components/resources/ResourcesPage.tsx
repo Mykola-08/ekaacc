@@ -59,7 +59,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
       />
 
       {/* Search & Filter Bar */}
-      <div className="bg-background/80 sticky top-4 z-20 flex flex-col items-center justify-between gap-6 rounded-[40px] px-2 py-4 backdrop-blur-xl md:flex-row">
+      <div className="bg-background/80 sticky top-4 z-20 flex flex-col items-center justify-between gap-6 rounded-full px-2 py-4 backdrop-blur-xl md:flex-row">
         <div className="relative w-full md:w-120">
           <HugeiconsIcon
             icon={Search01Icon}
@@ -115,7 +115,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                   </div>
                 )}
                 <div className="absolute top-6 left-6">
-                  <Badge className="text-primary flex items-center rounded-full border-0 bg-card/90 px-4 py-2 text-[10px] font-semibold tracking-widest uppercase shadow-lg backdrop-blur-md">
+                  <Badge className="text-primary flex items-center rounded-full border-0 bg-card/90 px-4 py-2 text-2xs font-semibold tracking-widest uppercase shadow-lg backdrop-blur-md">
                     {resource.category === 'video' && (
                       <HugeiconsIcon icon={PlayIcon} size={14} className="mr-2" strokeWidth={2.5} />
                     )}
@@ -164,3 +164,4 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
     </div>
   );
 }
+

@@ -291,7 +291,7 @@ export function UserImpersonationDialog({
           >
             {isImpersonating ? (
               <>
-                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white" />
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-primary-foreground" />
                 Starting Impersonation...
               </>
             ) : (

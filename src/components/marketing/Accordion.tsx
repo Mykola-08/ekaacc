@@ -100,7 +100,7 @@ export function AccordionTrigger({ children, className, value: itemValue }: Acco
   return (
     <button
       className={cn(
-        'group hover:text-primary-600 flex w-full flex-1 items-center justify-between px-6 py-5 text-left font-medium transition-all focus:outline-none',
+        'group hover:text-primary flex w-full flex-1 items-center justify-between px-6 py-5 text-left font-medium transition-all focus:outline-none',
         className
       )}
       onClick={() => context.onValueChange(itemValue!)}
@@ -110,7 +110,7 @@ export function AccordionTrigger({ children, className, value: itemValue }: Acco
       <ChevronDown
         className={cn(
           'h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300',
-          isOpen && 'text-primary-600 rotate-180'
+          isOpen && 'text-primary rotate-180'
         )}
       />
     </button>

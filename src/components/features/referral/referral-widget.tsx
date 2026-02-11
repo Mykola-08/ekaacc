@@ -21,7 +21,7 @@ export function ReferralWidget() {
   const progress = (points / nextReward) * 100;
 
   return (
-    <Card className="dark:from-background border-success/20 bg-linear-to-b from-white to-success/10 dark:border-success/20 dark:to-success/10">
+    <Card className="dark:from-background border-success/20 bg-linear-to-b from-card to-success/10 dark:border-success/20 dark:to-success/10">
       <CardHeader>
         <div className="flex items-center gap-2 text-success dark:text-success">
           <Gift className="h-5 w-5" />
@@ -59,7 +59,7 @@ export function ReferralWidget() {
           <Button onClick={copyToClipboard} size="icon" variant="outline">
             <Copy className="h-4 w-4" />
           </Button>
-          <Button className="bg-success text-white hover:bg-success/90">
+          <Button className="bg-success text-success-foreground hover:bg-success/90">
             <Share2 className="mr-2 h-4 w-4" /> Share
           </Button>
         </div>

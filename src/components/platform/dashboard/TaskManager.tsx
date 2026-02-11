@@ -94,7 +94,7 @@ export function TaskManager() {
  className={cn(
  'flex h-6 w-6 items-center justify-center rounded-full transition-colors',
  task.status === 'done'
- ? 'bg-success0/10 text-success'
+ ? 'bg-success/10 text-success'
  : task.status === 'in-progress'
  ? 'bg-primary/10 text-primary'
  : 'text-muted-foreground/40'

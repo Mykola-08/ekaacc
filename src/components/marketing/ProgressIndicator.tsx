@@ -46,7 +46,7 @@ export default function ProgressIndicator({
                 <div
                   className={`flex h-10 w-10 transform items-center justify-center rounded-full transition-all duration-500 ${
                     isCompleted
-                      ? 'scale-110 bg-success0 text-white'
+                      ? 'scale-110 bg-success text-success-foreground'
                       : isCurrent
                         ? 'animate-pulse bg-primary text-primary-foreground ring-4 ring-info/30'
                         : 'text-muted-foreground bg-muted'
@@ -60,7 +60,7 @@ export default function ProgressIndicator({
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`mt-2 h-12 w-0.5 transition-all duration-500 ${isCompleted ? 'bg-success0' : 'bg-muted'} `}
+                    className={`mt-2 h-12 w-0.5 transition-all duration-500 ${isCompleted ? 'bg-success' : 'bg-muted'} `}
                   />
                 )}
               </div>
@@ -102,7 +102,7 @@ export default function ProgressIndicator({
               <div
                 className={`flex h-10 w-10 transform items-center justify-center rounded-full transition-all duration-500 ${
                   isCompleted
-                    ? 'scale-110 bg-success0 text-white'
+                    ? 'scale-110 bg-success text-success-foreground'
                     : isCurrent
                       ? 'animate-pulse bg-primary text-primary-foreground ring-4 ring-info/30'
                       : 'text-muted-foreground bg-muted'
@@ -134,9 +134,9 @@ export default function ProgressIndicator({
 
             {index < steps.length - 1 && (
               <div
-                className={`mx-4 h-0.5 flex-1 transition-all duration-500 ${isCompleted ? 'bg-success0' : 'bg-muted'} `}
+                className={`mx-4 h-0.5 flex-1 transition-all duration-500 ${isCompleted ? 'bg-success' : 'bg-muted'} `}
                 style={{
-                  background: isCompleted ? 'hsl(var(--chart-2))' : 'hsl(var(--border))',
+                  background: isCompleted ? 'var(--chart-2)' : 'var(--border)',
                 }}
               />
             )}
@@ -162,8 +162,8 @@ export function CircularProgress({
   percentage,
   size = 120,
   strokeWidth = 8,
-  color = 'hsl(var(--primary))',
-  backgroundColor = 'hsl(var(--border))',
+  color = 'var(--primary)',
+  backgroundColor = 'var(--border)',
   showPercentage = true,
   className = '',
 }: CircularProgressProps) {

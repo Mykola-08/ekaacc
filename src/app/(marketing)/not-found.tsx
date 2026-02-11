@@ -5,20 +5,13 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <html lang="en">
-      <body style={{ fontFamily: 'system-ui, sans-serif', padding: '2rem', textAlign: 'center' }}>
+      <body className="font-sans p-8 text-center bg-background text-foreground">
         <div>
-          <h2>404 - Page Not Found</h2>
-          <p style={{ marginBottom: '1.5rem' }}>The page you are looking for does not exist.</p>
+          <h2 className="text-2xl font-semibold mb-4">404 - Page Not Found</h2>
+          <p className="mb-6 text-muted-foreground">The page you are looking for does not exist.</p>
           <Link
             href="/"
-            style={{
-              padding: '0.75rem 1.5rem',
-              backgroundColor: 'hsl(var(--primary))',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '0.5rem',
-              display: 'inline-block',
-            }}
+            className="inline-block px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold no-underline hover:bg-primary/90 transition-colors"
           >
             Go back home
           </Link>

@@ -57,8 +57,8 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   // Bundle optimization
+  cacheComponents: true,
   experimental: {
-    cacheComponents: true,
     optimizePackageImports: ['lucide-react', 'date-fns'],
   },
   // Compression

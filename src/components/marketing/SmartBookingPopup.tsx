@@ -73,7 +73,7 @@ export default function SmartBookingPopup({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative w-full max-w-lg overflow-hidden rounded-[20px] bg-card shadow-2xl dark:bg-card"
+        className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-card shadow-2xl dark:bg-card"
       >
         <button
           onClick={onClose}
@@ -102,7 +102,7 @@ export default function SmartBookingPopup({
                 <div className="grid gap-4">
                   <button
                     onClick={handleQuickWhatsApp}
-                    className="group flex items-center rounded-[20px] border-2 border-success bg-success/50 p-4 text-left transition-all hover:border-success hover:bg-success/90"
+                    className="group flex items-center rounded-2xl border-2 border-success bg-success/50 p-4 text-left transition-all hover:border-success hover:bg-success/90"
                   >
                     <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-success/20 transition-transform group-hover:scale-110">
                       <MessageCircle className="h-6 w-6 text-success" />
@@ -119,7 +119,7 @@ export default function SmartBookingPopup({
 
                   <button
                     onClick={() => setStep('form')}
-                    className="group flex items-center rounded-[20px] border-2 border-info bg-info/50 p-4 text-left transition-all hover:border-primary hover:bg-info"
+                    className="group flex items-center rounded-2xl border-2 border-info bg-info/50 p-4 text-left transition-all hover:border-primary hover:bg-info"
                   >
                     <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-info/20 transition-transform group-hover:scale-110">
                       <FileText className="h-6 w-6 text-primary" />
@@ -202,7 +202,7 @@ export default function SmartBookingPopup({
 
                   <button
                     type="submit"
-                    className="flex w-full items-center justify-center rounded-xl bg-success py-4 font-medium text-white shadow-lg shadow-success/20 transition-all hover:scale-[1.02] hover:bg-success/90"
+                    className="flex w-full items-center justify-center rounded-xl bg-success py-4 font-medium text-success-foreground shadow-lg shadow-success/20 transition-all hover:scale-[1.02] hover:bg-success/90"
                   >
                     <MessageCircle className="mr-2 h-5 w-5" />
                     {t('booking.smart.send')}
@@ -216,3 +216,4 @@ export default function SmartBookingPopup({
     </div>
   );
 }
+

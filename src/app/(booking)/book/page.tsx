@@ -5,8 +5,6 @@ import { Button } from '@/components/ui/button';
 import { listServices } from '@/server/booking/service';
 import type { Service } from '@/types/database';
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: 'Book a Session | EKA Balance',
   description: 'Select a service and continue to booking.',

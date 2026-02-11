@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { CreditCard, Calendar, DollarSign, AlertCircle, FileText } from 'lucide-react';
+import { CurrentYear } from '@/components/shared/CurrentYear';
 
 type Language = 'en' | 'es' | 'ca' | 'ru';
 
@@ -148,7 +149,7 @@ export default function PaymentTerms() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8 flex justify-end">
-        <div className="inline-flex rounded-[12px] shadow-sm" role="group">
+        <div className="inline-flex rounded-xl shadow-sm" role="group">
           {(['en', 'es', 'ca', 'ru'] as Language[]).map((lang) => (
             <button
               key={lang}
@@ -193,10 +194,11 @@ export default function PaymentTerms() {
 
         <div className="bg-muted/30 border-t border-border px-8 py-6">
           <p className="text-muted-foreground text-center text-sm">
-            � {new Date().getFullYear()} EKA Balance. All rights reserved.
+            � <CurrentYear /> EKA Balance. All rights reserved.
           </p>
         </div>
       </div>
     </div>
   );
 }
+

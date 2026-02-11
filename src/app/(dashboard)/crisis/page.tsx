@@ -2,8 +2,6 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { CrisisPageContent } from '@/components/dashboard/shared/CrisisPageContent';
 
-export const dynamic = 'force-dynamic';
-
 export default async function CrisisPage() {
   const supabase = await createClient();
   const {

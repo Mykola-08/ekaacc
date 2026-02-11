@@ -64,7 +64,7 @@ export const ProgressRing = ({
         )}
       </div>
       {label && (
-        <span className="text-muted-foreground text-center text-[11px] font-black tracking-[0.15em] uppercase">
+        <span className="text-muted-foreground text-center text-xs font-black tracking-[0.15em] uppercase">
           {label}
         </span>
       )}

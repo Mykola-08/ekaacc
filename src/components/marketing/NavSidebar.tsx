@@ -135,7 +135,7 @@ export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-4">
-        <div className="bg-primary/5 rounded-[20px] p-4 group-data-[collapsible=icon]:hidden">
+        <div className="bg-primary/5 rounded-2xl p-4 group-data-[collapsible=icon]:hidden">
           <p className="text-primary mb-1 text-xs font-bold tracking-widest uppercase">Premium</p>
           <p className="mb-3 text-sm font-medium">Upgrade for more benefits</p>
           <Link
@@ -149,3 +149,4 @@ export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
+

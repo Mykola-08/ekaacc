@@ -127,7 +127,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
             className={({ selected }) =>
               cn(
                 'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
-                'focus:ring-2 focus:ring-black/5',
+                'focus:ring-2 focus:ring-ring/5',
                 selected
                   ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
@@ -140,7 +140,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
             className={({ selected }) =>
               cn(
                 'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
-                'focus:ring-2 focus:ring-black/5',
+                'focus:ring-2 focus:ring-ring/5',
                 selected
                   ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
@@ -275,8 +275,8 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                   {[
                     { label: 'Mobility', val: 85, color: 'bg-success/100' },
                     { label: 'Strength', val: 60, color: 'bg-primary' },
-                    { label: 'Mindfulness', val: 92, color: 'bg-accent0' },
-                    { label: 'Consistency', val: 78, color: 'bg-warning0' },
+                    { label: 'Mindfulness', val: 92, color: 'bg-accent' },
+                    { label: 'Consistency', val: 78, color: 'bg-warning' },
                   ].map((item, i) => (
                     <div key={i}>
                       <div className="mb-2 flex justify-between">

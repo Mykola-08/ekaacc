@@ -77,12 +77,12 @@ interface AnalyticsData {
 }
 
 const COLORS = [
-  'hsl(var(--primary))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--destructive))',
-  'hsl(var(--chart-5))',
-  'hsl(var(--chart-1))',
+  'var(--primary)',
+  'var(--chart-2)',
+  'var(--chart-3)',
+  'var(--destructive)',
+  'var(--chart-5)',
+  'var(--chart-1)',
 ];
 
 export function AnalyticsDashboardHeadless() {
@@ -371,33 +371,33 @@ export function AnalyticsDashboardHeadless() {
                       <CartesianGrid
                         strokeDasharray="3 3"
                         vertical={false}
-                        stroke="hsl(var(--border))"
+                        stroke="var(--border)"
                       />
                       <XAxis
                         dataKey="date"
                         tickFormatter={(date) => format(new Date(date), 'MMM dd')}
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                        tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                         dy={10}
                       />
                       <YAxis
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                        tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                       />
                       <Tooltip
                         labelFormatter={(date) => format(new Date(date), 'MMM dd, yyyy')}
                         contentStyle={{
-                          borderRadius: '12px',
+                          borderRadius: 'var(--radius)',
                           border: 'none',
-                          boxShadow: '0 4px 6px -1px oklch(0 0 0 / 0.1)',
+                          boxShadow: '0 4px 6px -1px var(--border)',
                         }}
                       />
                       <Line
                         type="monotone"
                         dataKey="users"
-                        stroke="hsl(var(--primary))"
+                        stroke="var(--primary)"
                         strokeWidth={3}
                         dot={false}
                         activeDot={{ r: 6 }}
@@ -405,7 +405,7 @@ export function AnalyticsDashboardHeadless() {
                       <Line
                         type="monotone"
                         dataKey="newUsers"
-                        stroke="hsl(var(--chart-2))"
+                        stroke="var(--chart-2)"
                         strokeWidth={3}
                         dot={false}
                       />
@@ -425,29 +425,29 @@ export function AnalyticsDashboardHeadless() {
                       <CartesianGrid
                         strokeDasharray="3 3"
                         vertical={false}
-                        stroke="hsl(var(--border))"
+                        stroke="var(--border)"
                       />
                       <XAxis
                         dataKey="hour"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                        tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                         dy={10}
                       />
                       <YAxis
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                        tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
                       />
                       <Tooltip
                         cursor={{ fill: 'transparent' }}
                         contentStyle={{
-                          borderRadius: '12px',
+                          borderRadius: 'var(--radius)',
                           border: 'none',
-                          boxShadow: '0 4px 6px -1px oklch(0 0 0 / 0.1)',
+                          boxShadow: '0 4px 6px -1px var(--border)',
                         }}
                       />
-                      <Bar dataKey="activity" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="activity" fill="var(--primary)" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -468,7 +468,7 @@ export function AnalyticsDashboardHeadless() {
                     <CartesianGrid
                       strokeDasharray="3 3"
                       vertical={false}
-                      stroke="hsl(var(--border))"
+                      stroke="var(--border)"
                     />
                     <XAxis
                       dataKey="date"
@@ -481,7 +481,7 @@ export function AnalyticsDashboardHeadless() {
                     <Line
                       type="monotone"
                       dataKey="users"
-                      stroke="hsl(var(--primary))"
+                      stroke="var(--primary)"
                       strokeWidth={3}
                       name="Total Users"
                       dot={{ r: 4, strokeWidth: 0 }}
@@ -489,7 +489,7 @@ export function AnalyticsDashboardHeadless() {
                     <Line
                       type="monotone"
                       dataKey="newUsers"
-                      stroke="hsl(var(--chart-2))"
+                      stroke="var(--chart-2)"
                       strokeWidth={3}
                       name="New Users"
                       dot={{ r: 4, strokeWidth: 0 }}
@@ -513,12 +513,12 @@ export function AnalyticsDashboardHeadless() {
                     <CartesianGrid
                       strokeDasharray="3 3"
                       vertical={false}
-                      stroke="hsl(var(--border))"
+                      stroke="var(--border)"
                     />
                     <XAxis dataKey="hour" axisLine={false} tickLine={false} />
                     <YAxis axisLine={false} tickLine={false} />
-                    <Tooltip cursor={{ fill: 'hsl(var(--muted))' }} />
-                    <Bar dataKey="activity" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                    <Tooltip cursor={{ fill: 'var(--muted)' }} />
+                    <Bar dataKey="activity" fill="var(--primary)" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -582,7 +582,7 @@ export function AnalyticsDashboardHeadless() {
                         label={({ payload }: any) => `\${payload.percentage.toFixed(0)}%`}
                         outerRadius={100}
                         innerRadius={60}
-                        fill="hsl(var(--primary))"
+                        fill="var(--primary)"
                         dataKey="count"
                       >
                         {analytics.userSegments.map((entry, index) => (
@@ -590,15 +590,15 @@ export function AnalyticsDashboardHeadless() {
                             key={`cell-\${index}`}
                             fill={COLORS[index % COLORS.length]}
                             strokeWidth={2}
-                            stroke="hsl(var(--card))"
+                            stroke="var(--card)"
                           />
                         ))}
                       </Pie>
                       <Tooltip
                         contentStyle={{
-                          borderRadius: '12px',
+                          borderRadius: 'var(--radius)',
                           border: 'none',
-                          boxShadow: '0 4px 6px -1px oklch(0 0 0 / 0.1)',
+                          boxShadow: '0 4px 6px -1px var(--border)',
                         }}
                       />
                     </PieChart>

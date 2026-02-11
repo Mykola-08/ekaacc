@@ -33,7 +33,7 @@ export function DashboardGreeting({
       <div>
         {badge && (
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-primary">
-            <span className="text-[10px] font-semibold tracking-wider uppercase">
+            <span className="text-2xs font-semibold tracking-wider uppercase">
               {badge}
             </span>
           </div>

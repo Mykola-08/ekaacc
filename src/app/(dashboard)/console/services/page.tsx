@@ -1,8 +1,6 @@
 import { ServicesList } from '@/components/admin/services/ServicesList';
 import { getAdminServices } from '@/server/admin/actions';
 
-export const dynamic = 'force-dynamic';
-
 export default async function ServicesPage() {
   const services = await getAdminServices();
 

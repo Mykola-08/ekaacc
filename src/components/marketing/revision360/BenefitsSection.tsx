@@ -79,7 +79,7 @@ export default function BenefitsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
         >
-          <h2 className="text-3xl font-semibold text-white sm:text-5xl">{t('benefits.title')}</h2>
+          <h2 className="text-3xl font-semibold text-primary-foreground sm:text-5xl">{t('benefits.title')}</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground/40 sm:text-lg">
             {t('benefits.subtitle')}
           </p>
@@ -89,7 +89,7 @@ export default function BenefitsSection() {
           {benefits.map((benefit, index) => (
             <motion.article
               key={`${benefit.title}-${index}`}
-              className="rounded-2xl border border-border/10 bg-white/5 p-6 backdrop-blur-sm"
+              className="rounded-2xl border border-border/10 bg-background/5 p-6 backdrop-blur-sm"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -98,7 +98,7 @@ export default function BenefitsSection() {
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-vip-gold-4/15 text-vip-gold-2">
                 {benefit.icon}
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-white">{benefit.title}</h3>
+              <h3 className="mt-4 text-lg font-semibold text-primary-foreground">{benefit.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground/40 sm:text-base">
                 {benefit.description}
               </p>

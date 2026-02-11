@@ -109,7 +109,7 @@ export function SiteHeader() {
             </Link>
 
             {/* Desktop Nav - Porcelain Pill */}
-            <nav className="hidden items-center space-x-1 rounded-full border border-white/60 bg-card/50 p-1.5 px-2 shadow-sm backdrop-blur-xl md:flex">
+            <nav className="hidden items-center space-x-1 rounded-full border border-background/60 bg-card/50 p-1.5 px-2 shadow-sm backdrop-blur-xl md:flex">
               {routes.map((route) => {
                 const isActive = pathname === route.href;
                 return (
@@ -144,7 +144,7 @@ export function SiteHeader() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="end"
-                  className="border-border/60 min-w-[140px] rounded-[20px] p-2 shadow-xl"
+                  className="border-border/60 min-w-[140px] rounded-2xl p-2 shadow-xl"
                 >
                   <DropdownMenuItem
                     className="cursor-pointer rounded-full px-4 py-2"
@@ -187,7 +187,7 @@ export function SiteHeader() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="end"
-                    className="border-border/60 mt-2 w-64 rounded-[20px] p-3 shadow-2xl"
+                    className="border-border/60 mt-2 w-64 rounded-2xl p-3 shadow-2xl"
                   >
                     <DropdownMenuLabel className="mb-1 px-3 text-lg font-bold">
                       My Account
@@ -283,7 +283,7 @@ export function SiteHeader() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="end"
-                      className="border-border/60 rounded-[20px] p-2 shadow-xl"
+                      className="border-border/60 rounded-2xl p-2 shadow-xl"
                     >
                       <DropdownMenuItem
                         className="rounded-xl px-4 py-3"
@@ -326,7 +326,7 @@ export function SiteHeader() {
                   <Link
                     key={route.href}
                     href={route.href}
-                    className="bg-secondary/50 hover:bg-secondary flex items-center justify-between rounded-[20px] p-5 transition-all"
+                    className="bg-secondary/50 hover:bg-secondary flex items-center justify-between rounded-2xl p-5 transition-all"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <span className="text-foreground text-2xl font-bold">{route.label}</span>
@@ -362,3 +362,4 @@ export function SiteHeader() {
     </>
   );
 }
+

@@ -206,7 +206,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                               key={dropdownItem.name}
                               href={dropdownItem.href}
                               onClick={() => setShowPersonalServices(false)}
-                              className="ease-out-quart text-eka-dark hover:text-accent flex h-12 items-center justify-center rounded-xl text-sm font-medium transition-colors duration-200 hover:bg-white/70"
+                              className="ease-out-quart text-eka-dark hover:text-accent flex h-12 items-center justify-center rounded-xl text-sm font-medium transition-colors duration-200 hover:bg-muted"
                               style={{
                                 marginBottom: index < item.dropdownItems!.length - 1 ? '8px' : '0',
                               }}
@@ -272,7 +272,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="rounded-[20px] p-2 transition-colors duration-200 hover:bg-muted md:hidden"
+                className="rounded-2xl p-2 transition-colors duration-200 hover:bg-muted md:hidden"
               >
                 {isMenuOpen ? (
                   <X className="h-5 w-5 text-foreground" />
@@ -291,7 +291,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="absolute top-full left-0 w-full overflow-hidden border-b border-border bg-white/95 shadow-xl backdrop-blur-xl md:hidden"
+                className="absolute top-full left-0 w-full overflow-hidden border-b border-border bg-background/95 shadow-xl backdrop-blur-xl md:hidden"
               >
                 <div className="max-h-[80vh] space-y-2 overflow-y-auto px-4 py-4">
                   {navigation.map((item) => (
@@ -331,7 +331,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                               key={dropdownItem.name}
                               href={dropdownItem.href}
                               onClick={() => setIsMenuOpen(false)}
-                              className="hover:text-primary-600 block rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted"
+                              className="hover:text-primary block rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted"
                             >
                               {dropdownItem.name}
                             </Link>
@@ -396,7 +396,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Footer */}
-      <footer className="mb-24 border-t border-border bg-background py-12 text-white sm:py-16 md:mb-0">
+      <footer className="mb-24 border-t border-border bg-background py-12 text-foreground sm:py-16 md:mb-0">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6">
           {/* Logo */}
           <Link
@@ -486,3 +486,4 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+

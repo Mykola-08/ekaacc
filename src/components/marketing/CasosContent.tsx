@@ -192,7 +192,7 @@ export default function CasosContent() {
               <Link
                 key={problem.id}
                 href={`/cases/${problem.id}`}
-                className="group card relative flex h-full flex-col overflow-hidden rounded-[20px] border border-transparent bg-card p-8 transition-all duration-300 hover:border-border/50 hover:shadow-xl" // Added card class just in case, but custom styling is prevalent
+                className="group card relative flex h-full flex-col overflow-hidden rounded-2xl border border-transparent bg-card p-8 transition-all duration-300 hover:border-border/50 hover:shadow-xl" // Added card class just in case, but custom styling is prevalent
               >
                 {/* Hover Gradient Background */}
                 <div
@@ -201,7 +201,7 @@ export default function CasosContent() {
 
                 <div className="relative z-10">
                   <div
-                    className={`h-14 w-14 rounded-[20px] ${colors.bg} ${colors.text} mb-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
+                    className={`h-14 w-14 rounded-2xl ${colors.bg} ${colors.text} mb-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
                   >
                     <Icon className="h-7 w-7" />
                   </div>
@@ -237,7 +237,7 @@ export default function CasosContent() {
             {additionalProblemsKeys.map((key) => (
               <div
                 key={key}
-                className="group flex cursor-default items-center rounded-[20px] bg-muted p-4 transition-colors duration-200 hover:bg-info/50"
+                className="group flex cursor-default items-center rounded-2xl bg-muted p-4 transition-colors duration-200 hover:bg-info/50"
               >
                 <div className="mr-4 h-2 w-2 rounded-full bg-info/50 transition-colors group-hover:bg-primary" />
                 <span className="font-medium text-foreground transition-colors group-hover:text-info-foreground">
@@ -253,10 +253,10 @@ export default function CasosContent() {
       <div className="relative overflow-hidden bg-linear-to-br from-eka-dark to-eka-dark/80 px-6 py-24">
         {/* Abstract Background Shapes */}
         <div className="absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-accent0/20 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-accent/20 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          <h2 className="mb-6 text-3xl font-light tracking-tight text-white md:text-5xl">
+          <h2 className="mb-6 text-3xl font-light tracking-tight text-primary-foreground md:text-5xl">
             {t('casos.ctaTitle')}
           </h2>
           <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed font-light text-info/80 md:text-xl">
@@ -274,7 +274,7 @@ export default function CasosContent() {
             <Link href="/services">
               <Button
                 size="lg"
-                className="btn btn-outline border-border/20 text-white hover:bg-white/10"
+                className="btn btn-outline border-border/20 text-primary-foreground hover:bg-background/10"
               >
                 {t('casos.discoverIdeal')}
               </Button>
@@ -285,3 +285,4 @@ export default function CasosContent() {
     </PageLayout>
   );
 }
+

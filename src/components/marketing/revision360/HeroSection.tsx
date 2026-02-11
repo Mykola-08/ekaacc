@@ -24,7 +24,7 @@ export default function HeroSection() {
             Integral Method
           </span>
 
-          <h1 className="mt-6 text-4xl leading-tight font-semibold text-white sm:text-6xl lg:text-7xl">
+          <h1 className="mt-6 text-4xl leading-tight font-semibold text-primary-foreground sm:text-6xl lg:text-7xl">
             {t('hero.title')}
           </h1>
 

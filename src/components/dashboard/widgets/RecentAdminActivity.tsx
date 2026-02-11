@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -36,7 +36,7 @@ export function RecentAdminActivity() {
           >
             <div className="flex items-center gap-3">
               <div className="h-2.5 w-2.5 rounded-full bg-primary" />
-              <div className="text-muted-foreground text-[13px] leading-snug">
+              <div className="text-muted-foreground text-xs leading-snug">
                 <span className="text-foreground font-semibold">{event.profiles?.first_name}</span>{' '}
                 booked a session
               </div>

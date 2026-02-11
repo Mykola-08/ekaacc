@@ -153,7 +153,7 @@ export function BorderTrail({ children, className }: BorderTrailProps) {
     <motion.div
       className={cn('relative', className)}
       whileHover={{
-        boxShadow: '0 0 20px oklch(0.78 0.155 75 / 0.3)',
+        boxShadow: '0 0 20px color-mix(in oklch, var(--eka-gold) 30%, transparent)',
       }}
       transition={{ duration: 0.3 }}
     >
@@ -162,7 +162,7 @@ export function BorderTrail({ children, className }: BorderTrailProps) {
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
         style={{
-          background: 'linear-gradient(45deg, transparent, oklch(0.78 0.155 75 / 0.1), transparent)',
+          background: `linear-gradient(45deg, transparent, color-mix(in oklch, var(--eka-gold) 10%, transparent), transparent)`,
         }}
       />
       {children}
@@ -216,7 +216,7 @@ export function AnimatedBackground({ className }: AnimatedBackgroundProps) {
       }}
       style={{
         background:
-          'radial-gradient(circle at 50% 50%, oklch(0.78 0.155 75 / 0.1) 0%, transparent 50%)',
+          `radial-gradient(circle at 50% 50%, color-mix(in oklch, var(--eka-gold) 10%, transparent) 0%, transparent 50%)`,
       }}
     />
   );

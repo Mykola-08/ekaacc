@@ -56,12 +56,12 @@ export default function SuccessStories() {
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.name}
-              className="bg-card relative transform rounded-[20px] p-8 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-lg dark:bg-card"
+              className="bg-card relative transform rounded-2xl p-8 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-lg dark:bg-card"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Quote Icon */}
               <div className="absolute -top-4 -left-4 flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-r from-warning to-warning">
-                <Quote className="h-4 w-4 text-white" />
+                <Quote className="h-4 w-4 text-warning-foreground" />
               </div>
 
               {/* Rating */}
@@ -110,7 +110,7 @@ export default function SuccessStories() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex transform items-center rounded-[20px] bg-linear-to-r from-warning to-warning px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-warning/90 hover:to-warning/80 hover:shadow-2xl"
+            className="inline-flex transform items-center rounded-2xl bg-linear-to-r from-warning to-warning px-8 py-4 text-lg font-semibold text-warning-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:from-warning/90 hover:to-warning/80 hover:shadow-2xl"
           >
             Reserva la teva sessió avui mateix
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -120,3 +120,4 @@ export default function SuccessStories() {
     </section>
   );
 }
+

@@ -1,7 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { connection } from 'next/server';
 import { UnifiedDashboardShell } from '@/components/dashboard/layout/UnifiedDashboardShell';
 import { getUserPermissions } from '@/lib/permissions/actions';
+import { Suspense } from 'react';
+import { ThemeCustomizationProvider } from '@/components/theme/ThemeCustomizationProvider';
+import { getAppearancePreferences } from '@/app/actions/appearance';
 
 /**
  * Unified Dashboard Layout
@@ -13,11 +17,13 @@ import { getUserPermissions } from '@/lib/permissions/actions';
  * Roles are just convenience bundles of permissions. Actual page access is
  * controlled by the permission system.
  */
-export default async function UnifiedDashboardLayout({
+
+async function DashboardShellLoader({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await connection();
   const supabase = await createClient();
   const {
     data: { user },
@@ -40,10 +46,25 @@ export default async function UnifiedDashboardLayout({
   };
 
   const permissions = await getUserPermissions();
+  const appearance = await getAppearancePreferences();
 
   return (
-    <UnifiedDashboardShell profile={profile} permissions={permissions}>
-      {children}
-    </UnifiedDashboardShell>
+    <ThemeCustomizationProvider initialTheme={appearance}>
+      <UnifiedDashboardShell profile={profile} permissions={permissions}>
+        {children}
+      </UnifiedDashboardShell>
+    </ThemeCustomizationProvider>
+  );
+}
+
+export default function UnifiedDashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Suspense>
+      <DashboardShellLoader>{children}</DashboardShellLoader>
+    </Suspense>
   );
 }

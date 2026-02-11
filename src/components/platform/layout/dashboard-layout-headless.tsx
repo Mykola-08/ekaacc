@@ -91,11 +91,11 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
 
           <li className="mt-auto">
             <div className="from-primary group relative cursor-pointer overflow-hidden rounded-lg bg-linear-to-br to-info p-5 shadow-lg shadow-primary/10 transition-transform duration-300 hover:scale-105">
-              <div className="absolute top-0 right-0 -mt-8 -mr-8 h-24 w-24 rounded-full bg-white/10 blur-2xl transition-colors group-hover:bg-white/20"></div>
+              <div className="absolute top-0 right-0 -mt-8 -mr-8 h-24 w-24 rounded-full bg-primary-foreground/10 blur-2xl transition-colors group-hover:bg-primary-foreground/20"></div>
               <div className="relative">
-                <p className="mb-1 text-lg font-semibold text-white">Premium Plan</p>
-                <p className="mb-3 text-xs font-medium text-primary">Upgrade for full access</p>
-                <button className="w-full cursor-pointer rounded-xl border border-border/10 bg-white/20 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/30">
+                <p className="mb-1 text-lg font-semibold text-primary-foreground">Premium Plan</p>
+                <p className="mb-3 text-xs font-medium text-primary-foreground/70">Upgrade for full access</p>
+                <button className="w-full cursor-pointer rounded-xl border border-border/10 bg-primary-foreground/20 px-4 py-2 text-xs font-semibold text-primary-foreground backdrop-blur-md transition-colors hover:bg-primary-foreground/30">
                   Upgrade Now
                 </button>
               </div>
@@ -159,7 +159,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <MenuItems className="bg-card border-border absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-lg border py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <MenuItems className="bg-card border-border absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-lg border py-1 shadow-lg ring-1 ring-border focus:outline-none">
               <MenuItem>
                 {({ active }) => (
                   <a

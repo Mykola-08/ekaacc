@@ -107,7 +107,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
           {initialMood[0] !== undefined && initialMood[0] > 0 && (
             <div className="bg-card border-border rounded-lg border p-4 text-center">
-              <span className="text-muted-foreground text-[13px] font-semibold">
+              <span className="text-muted-foreground text-xs font-semibold">
                 Predicted Improvement:{' '}
               </span>
               <span

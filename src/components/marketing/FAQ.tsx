@@ -60,7 +60,7 @@ const FAQ = () => {
             <AccordionItem 
               key={item.id} 
               value={item.id} 
-              className="rounded-[20px] border-none bg-muted px-2 hover:bg-muted data-[state=open]:bg-card data-[state=open]:shadow-sm transition-all"
+              className="rounded-2xl border-none bg-muted px-2 hover:bg-muted data-[state=open]:bg-card data-[state=open]:shadow-sm transition-all"
             >
               <AccordionTrigger className="px-4 py-4 hover:no-underline text-lg font-medium text-left">
                 {item.question}
@@ -77,3 +77,4 @@ const FAQ = () => {
 };
 
 export default FAQ;
+

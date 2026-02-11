@@ -51,7 +51,7 @@ export function SystemStatus() {
               <div className="text-muted-foreground mb-0.5 text-xs font-semibold tracking-wider uppercase">
                 {s.label}
               </div>
-              <div className="text-foreground truncate text-[13px] leading-none font-semibold">
+              <div className="text-foreground truncate text-xs leading-none font-semibold">
                 {s.status}
               </div>
             </div>

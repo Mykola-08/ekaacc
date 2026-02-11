@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
-// Cache for 30 seconds
-export const revalidate = 30;
-
 export async function GET() {
   const startTime = Date.now();
   const supabase = await createClient();

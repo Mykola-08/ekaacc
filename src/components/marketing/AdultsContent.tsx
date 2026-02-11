@@ -11,7 +11,7 @@ export default function AdultsContent() {
   const { t } = useLanguage();
 
   const HeroCustom = (
-    <section className="relative overflow-hidden bg-linear-to-br from-background via-muted/50 to-white py-20 sm:py-28">
+    <section className="relative overflow-hidden bg-linear-to-br from-background via-muted/50 to-background py-20 sm:py-28">
       <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,oklch(1 0 0 / 0))] bg-center" />
 
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-4 text-center sm:px-8">
@@ -38,7 +38,7 @@ export default function AdultsContent() {
 
           <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
             {/* Kinesiology */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-marketing-accent hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-marketing-accent hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=2070&auto=format&fit=crop"
@@ -71,7 +71,7 @@ export default function AdultsContent() {
             </div>
 
             {/* Nutrition */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2053&auto=format&fit=crop"

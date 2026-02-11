@@ -218,7 +218,7 @@ export default function ContactFormOptimized() {
         animate={{ opacity: 1, scale: 1 }}
         className="mx-auto max-w-2xl"
       >
-        <div className="rounded-[20px] border border-success bg-linear-to-br from-success/10 to-success/10 p-12 text-center shadow-lg">
+        <div className="rounded-2xl border border-success bg-linear-to-br from-success/10 to-success/10 p-12 text-center shadow-lg">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -233,7 +233,7 @@ export default function ContactFormOptimized() {
           </p>
           <button
             onClick={() => setIsSubmitted(false)}
-            className="inline-flex transform items-center rounded-xl bg-success px-8 py-3 font-medium text-white shadow-md transition-colors duration-200 hover:-translate-y-0.5 hover:bg-success/90 hover:shadow-lg"
+            className="inline-flex transform items-center rounded-xl bg-success px-8 py-3 font-medium text-success-foreground shadow-md transition-colors duration-200 hover:-translate-y-0.5 hover:bg-success/90 hover:shadow-lg"
           >
             {t('contact.success.button')}
           </button>
@@ -289,7 +289,7 @@ export default function ContactFormOptimized() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start space-x-4 rounded-[20px] border border-border bg-card p-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
+                className="flex items-start space-x-4 rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
               >
                 <div
                   className={`h-12 w-12 bg-${item.color}-50 flex shrink-0 items-center justify-center rounded-xl`}
@@ -320,7 +320,7 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="rounded-[20px] border border-info bg-linear-to-r from-info/10 to-accent/10 p-6"
+            className="rounded-2xl border border-info bg-linear-to-r from-info/10 to-accent/10 p-6"
           >
             <div className="flex items-start space-x-3">
               <Clock className="mt-1 h-6 w-6 shrink-0 text-primary" />
@@ -359,7 +359,7 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="overflow-hidden rounded-[20px] border border-border bg-card shadow-lg"
+            className="overflow-hidden rounded-2xl border border-border bg-card shadow-lg"
           >
             <div className="p-8 md:p-10">
               <form onSubmit={handleSubmit} className="space-y-8">
@@ -634,7 +634,7 @@ export default function ContactFormOptimized() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex w-full transform items-center justify-center rounded-[20px] bg-primary px-6 py-4 font-medium text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex w-full transform items-center justify-center rounded-2xl bg-primary px-6 py-4 font-medium text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
@@ -658,7 +658,7 @@ export default function ContactFormOptimized() {
                     href="https://wa.me/34658867133"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg bg-success px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors duration-200 hover:bg-success/90 hover:shadow-md"
+                    className="inline-flex items-center justify-center rounded-lg bg-success px-4 py-2 text-sm font-medium text-success-foreground shadow-sm transition-colors duration-200 hover:bg-success/90 hover:shadow-md"
                   >
                     <MessageCircle className="mr-2 h-4 w-4" />
                     WhatsApp
@@ -679,3 +679,4 @@ export default function ContactFormOptimized() {
     </div>
   );
 }
+

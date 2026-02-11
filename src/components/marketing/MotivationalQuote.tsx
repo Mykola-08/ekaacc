@@ -24,7 +24,7 @@ export const MotivationalQuote = () => {
   }, []);
 
   return (
-    <div className="bg-secondary/50 border-border/40 group relative flex min-h-[120px] flex-col justify-center overflow-hidden rounded-[20px] border p-6">
+    <div className="bg-secondary/50 border-border/40 group relative flex min-h-[120px] flex-col justify-center overflow-hidden rounded-2xl border p-6">
       <Quote className="text-primary absolute -top-2 -right-2 h-16 w-16 opacity-[0.03] transition-transform duration-700 group-hover:scale-110" />
 
       <AnimatePresence mode="wait">
@@ -39,7 +39,7 @@ export const MotivationalQuote = () => {
           <p className="text-foreground text-[17px] leading-snug font-semibold tracking-tight italic">
             "{quotes[index]?.text}"
           </p>
-          <p className="text-muted-foreground mt-2 text-[11px] font-black tracking-widest uppercase opacity-60">
+          <p className="text-muted-foreground mt-2 text-xs font-black tracking-widest uppercase opacity-60">
             — {quotes[index]?.author}
           </p>
         </motion.div>
@@ -47,3 +47,4 @@ export const MotivationalQuote = () => {
     </div>
   );
 };
+

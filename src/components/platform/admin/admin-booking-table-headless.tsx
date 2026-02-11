@@ -107,7 +107,7 @@ export function AdminBookingTableHeadless() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <ListboxOptions className="bg-card ring-opacity-5 absolute mt-1 max-h-60 w-full overflow-auto rounded-lg py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm">
+              <ListboxOptions className="bg-card ring-opacity-5 absolute mt-1 max-h-60 w-full overflow-auto rounded-lg py-1 text-base shadow-lg ring-1 ring-border focus:outline-none sm:text-sm">
                 {statusOptions.map((opt) => (
                   <ListboxOption
                     key={opt.id}
@@ -288,7 +288,7 @@ export function AdminBookingTableHeadless() {
                     onClick={() => setPage(pNum)}
                     className={cn(
                       pNum === page
-                        ? 'z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
+                        ? 'z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring'
                         : 'text-foreground hover:bg-muted/30 ring-1 ring-border ring-inset focus:outline-offset-0',
                       'relative inline-flex items-center px-4 py-2 text-sm font-semibold'
                     )}

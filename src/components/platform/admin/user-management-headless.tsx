@@ -148,7 +148,7 @@ export function UserManagementHeadless() {
                 <tr key={user.id} className="hover:bg-muted/30/50 group transition-colors">
                   <td className="py-4 pr-3 pl-6 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-linear-to-br from-muted to-muted font-semibold text-primary shadow-sm">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-background bg-linear-to-br from-muted to-muted font-semibold text-primary shadow-sm">
                         {user.email?.charAt(0).toUpperCase() || <UserIcon className="h-5 w-5" />}
                       </div>
                       <div className="ml-4">
@@ -181,7 +181,7 @@ export function UserManagementHeadless() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                           >
-                            <ListboxOptions className="bg-card ring-opacity-5 absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg py-1 text-base shadow-sm ring-1 ring-black focus:outline-none sm:text-sm">
+                            <ListboxOptions className="bg-card ring-opacity-5 absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg py-1 text-base shadow-sm ring-1 ring-border focus:outline-none sm:text-sm">
                               {Object.keys(SYSTEM_ROLES).map((role) => (
                                 <ListboxOption
                                   key={role}
@@ -235,7 +235,7 @@ export function UserManagementHeadless() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <MenuItems className="bg-card ring-opacity-5 absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-lg shadow-sm ring-1 ring-black focus:outline-none">
+                        <MenuItems className="bg-card ring-opacity-5 absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-lg shadow-sm ring-1 ring-border focus:outline-none">
                           <div className="p-1">
                             <MenuItem>
                               {({ active }) => (

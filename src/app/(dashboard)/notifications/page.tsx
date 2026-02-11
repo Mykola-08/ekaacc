@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { createClient } from '@/lib/supabase/server';
 import { Bell, Info, CheckCircle, AlertTriangle, AlertCircle, Clock } from 'lucide-react';
 import { redirect } from 'next/navigation';

@@ -60,7 +60,7 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
             <p>{t(`${baseKey}.desc`)}</p>
           </div>
 
-          <div className="mt-12 rounded-[20px] border border-warning/20 bg-card p-8 shadow-sm">
+          <div className="mt-12 rounded-2xl border border-warning/20 bg-card p-8 shadow-sm">
             <h3 className="mb-4 text-xl font-semibold text-foreground">{t('technique.why')}</h3>
             <p className="text-muted-foreground">{t(`${baseKey}.why`)}</p>
           </div>
@@ -69,3 +69,4 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
     </div>
   );
 }
+

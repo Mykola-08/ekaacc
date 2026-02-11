@@ -2,12 +2,30 @@
 
 import { AdminService } from '@/lib/platform/services/admin-service';
 import { revalidatePath } from 'next/cache';
+import { createClient } from '@/lib/supabase/server';
 
 const adminService = new AdminService();
 
+async function requireAdmin() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('Unauthorized');
+
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+
+  if (!profile || profile.role !== 'admin') {
+    throw new Error('Forbidden: Admin access required');
+  }
+  return user;
+}
+
 export async function listUsers(page: number = 1, perPage: number = 50) {
-  // In a real app, verify the current user is an Admin here
   try {
+    await requireAdmin();
     const users = await adminService.listUsers(page, perPage);
     return { success: true, data: users };
   } catch (error: any) {
@@ -16,8 +34,8 @@ export async function listUsers(page: number = 1, perPage: number = 50) {
 }
 
 export async function updateUserRole(userId: string, role: string) {
-  // In a real app, verify the current user is an Admin here
   try {
+    await requireAdmin();
     await adminService.updateUserRole(userId, role);
     revalidatePath('/admin/users');
     return { success: true };

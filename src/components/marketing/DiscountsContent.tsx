@@ -38,7 +38,7 @@ export default function DiscountsContent() {
             initial={{ opacity: 0, y: -20, x: 20 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-24 right-4 z-50 flex items-center space-x-3 rounded-[20px] bg-success0 px-6 py-4 text-white shadow-lg"
+            className="fixed top-24 right-4 z-50 flex items-center space-x-3 rounded-2xl bg-success px-6 py-4 text-success-foreground shadow-lg"
           >
             <Check className="h-5 w-5" />
             <span className="font-medium">
@@ -55,7 +55,7 @@ export default function DiscountsContent() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden bg-success text-white"
+            className="overflow-hidden bg-success text-success-foreground"
           >
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
               <div className="flex items-center space-x-3">
@@ -67,7 +67,7 @@ export default function DiscountsContent() {
               </div>
               <button
                 onClick={removeDiscount}
-                className="flex items-center space-x-2 rounded-full bg-white/20 px-3 py-1.5 text-sm transition-colors hover:bg-white/30"
+                className="flex items-center space-x-2 rounded-full bg-background/20 px-3 py-1.5 text-sm transition-colors hover:bg-background/30"
               >
                 <X className="h-4 w-4" />
                 <span>{t('discounts.remove') || 'Remove'}</span>
@@ -88,14 +88,14 @@ export default function DiscountsContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
                 {/* Background Gradient */}
                 <div className="absolute inset-0 bg-linear-to-br from-info/10/50 via-background to-accent/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {/* Header */}
                 <div className="relative mb-6 flex items-start justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-linear-to-br from-info/20 to-info text-primary transition-transform duration-300 group-hover:scale-110">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-info/20 to-info text-primary transition-transform duration-300 group-hover:scale-110">
                     <Percent className="h-7 w-7" />
                   </div>
                   {discount.isActive && (
@@ -192,7 +192,7 @@ export default function DiscountsContent() {
               },
             ].map((step, idx) => (
               <div key={idx} className="p-6 text-center">
-                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-[20px] bg-info text-primary shadow-sm">
+                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-info text-primary shadow-sm">
                   {React.cloneElement(step.icon as React.ReactElement<{ className?: string }>, {
                     className: 'w-6 h-6',
                   })}
@@ -207,3 +207,4 @@ export default function DiscountsContent() {
     </PageLayout>
   );
 }
+

@@ -148,7 +148,7 @@ export default function DynamicPriceCalculator({
   // Empty state when no service selected
   if (!serviceId || !duration) {
     return (
-      <div className={`rounded-[20px] bg-muted p-6 dark:bg-card ${className}`}>
+      <div className={`rounded-2xl bg-muted p-6 dark:bg-card ${className}`}>
         <div className="mb-4 flex items-center space-x-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/20 dark:bg-warning/10">
             <Euro className="h-5 w-5 text-warning dark:text-warning" />
@@ -167,7 +167,7 @@ export default function DynamicPriceCalculator({
   // Loading state
   if (loading) {
     return (
-      <div className={`rounded-[20px] bg-muted p-6 dark:bg-card ${className}`}>
+      <div className={`rounded-2xl bg-muted p-6 dark:bg-card ${className}`}>
         <div className="flex items-center space-x-3">
           <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-warning"></div>
           <span className="text-muted-foreground dark:text-muted-foreground/60">Calculant preu...</span>
@@ -180,7 +180,7 @@ export default function DynamicPriceCalculator({
   if (error) {
     return (
       <div
-        className={`rounded-[20px] border border-destructive/30 bg-destructive/10 p-6 dark:border-destructive/30 dark:bg-destructive/10 ${className}`}
+        className={`rounded-2xl border border-destructive/30 bg-destructive/10 p-6 dark:border-destructive/30 dark:bg-destructive/10 ${className}`}
       >
         <div className="mb-4 flex items-start space-x-3">
           <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
@@ -204,7 +204,7 @@ export default function DynamicPriceCalculator({
   if (!selectedDate || !selectedTime) {
     return (
       <div
-        className={`rounded-[20px] border border-info bg-info p-6 dark:border-info/30 dark:bg-info/10 ${className}`}
+        className={`rounded-2xl border border-info bg-info p-6 dark:border-info/30 dark:bg-info/10 ${className}`}
       >
         <div className="flex items-center space-x-3">
           <Info className="h-5 w-5 text-info" />
@@ -220,7 +220,7 @@ export default function DynamicPriceCalculator({
   if (!priceBreakdown) {
     return (
       <div
-        className={`rounded-[20px] border border-warning/30 bg-warning/10 p-6 dark:border-warning/80 dark:bg-warning/10 ${className}`}
+        className={`rounded-2xl border border-warning/30 bg-warning/10 p-6 dark:border-warning/80 dark:bg-warning/10 ${className}`}
       >
         <div className="flex items-center space-x-3">
           <AlertCircle className="h-5 w-5 text-warning" />
@@ -237,7 +237,7 @@ export default function DynamicPriceCalculator({
 
   return (
     <div
-      className={`rounded-[20px] border border-border bg-card p-6 shadow-sm dark:border-border dark:bg-background ${className}`}
+      className={`rounded-2xl border border-border bg-card p-6 shadow-sm dark:border-border dark:bg-background ${className}`}
     >
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
@@ -345,3 +345,4 @@ export default function DynamicPriceCalculator({
     </div>
   );
 }
+

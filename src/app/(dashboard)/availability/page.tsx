@@ -2,8 +2,6 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { AvailabilityManager } from '@/components/dashboard/widgets/AvailabilityManager';
 
-export const dynamic = 'force-dynamic';
-
 export default async function AvailabilityPage() {
   const supabase = await createClient();
   const {

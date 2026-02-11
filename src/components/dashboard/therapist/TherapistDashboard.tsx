@@ -64,7 +64,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
           <div>
             <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-1.5">
               <Star className="h-3.5 w-3.5 text-primary" strokeWidth={2.5} />
-              <span className="text-[11px] font-semibold tracking-wider text-primary uppercase">
+              <span className="text-xs font-semibold tracking-wider text-primary uppercase">
                 Professional Portal
               </span>
             </div>
@@ -155,7 +155,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge className="rounded-full border-0 bg-success/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-success uppercase hover:bg-success/10">
+                        <Badge className="rounded-full border-0 bg-success/10 px-2.5 py-0.5 text-2xs font-semibold tracking-wider text-success uppercase hover:bg-success/10">
                           Confirmed
                         </Badge>
                         <Button
@@ -208,7 +208,7 @@ function MetricCard({ icon: Icon, label, value }: { icon: any; label: string; va
         <Icon className="h-5 w-5" strokeWidth={2} />
       </div>
       <div>
-        <div className="text-[10px] font-semibold tracking-wider text-muted-foreground uppercase">{label}</div>
+        <div className="text-2xs font-semibold tracking-wider text-muted-foreground uppercase">{label}</div>
         <div className="text-xl font-semibold tracking-tight text-foreground">{value}</div>
       </div>
     </Card>

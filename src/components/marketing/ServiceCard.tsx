@@ -14,7 +14,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
   const { t } = useLanguage();
   const colorStyles: Record<string, { text: string; dot: string }> = {
     blue: { text: 'text-primary', dot: 'bg-primary' },
-    purple: { text: 'text-accent', dot: 'bg-accent0' },
+    purple: { text: 'text-accent', dot: 'bg-accent' },
     green: { text: 'text-success', dot: 'bg-success/100' },
     orange: { text: 'text-marketing-accent-dark', dot: 'bg-marketing-accent' },
     indigo: { text: 'text-accent-foreground', dot: 'bg-accent/100' },
@@ -25,7 +25,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
   return (
     <div className="card card-interactive flex h-full flex-col">
-      <div className="relative h-48 overflow-hidden sm:h-56" style={{ borderRadius: '1.25rem 1.25rem 0 0' }}>
+      <div className="relative h-48 overflow-hidden rounded-t-xl sm:h-56">
         <LazyImage
           src={service.image}
           alt={t(service.titleKey)}
@@ -62,7 +62,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           <Button
             asChild
             variant="outline"
-            className="flex-1 w-full rounded-[20px] border border-border bg-transparent p-3 text-sm font-medium normal-case text-foreground transition-all duration-300 hover:bg-muted hover:text-foreground"
+            className="flex-1 w-full rounded-2xl border border-border bg-transparent p-3 text-sm font-medium normal-case text-foreground transition-all duration-300 hover:bg-muted hover:text-foreground"
           >
             <Link href={service.href}>
               {t('common.readMore') || 'Read More'}
@@ -71,7 +71,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
           <Button 
             asChild
-            className="flex-1 w-full rounded-[20px] border-none bg-accent p-3 text-sm font-semibold normal-case text-eka-dark transition-all duration-300 hover:bg-accent/90"
+            className="flex-1 w-full rounded-2xl border-none bg-accent p-3 text-sm font-semibold normal-case text-eka-dark transition-all duration-300 hover:bg-accent/90"
           >
             <Link href="/book">
               {t('nav.bookNow')}
@@ -82,3 +82,4 @@ export default function ServiceCard({ service }: ServiceCardProps) {
     </div>
   );
 }
+

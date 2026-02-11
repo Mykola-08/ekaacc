@@ -78,7 +78,7 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
         {stress != null && <Gauge label="Stress" value={stress} />}
       </div>
 
-      <p className="text-muted-foreground mt-3 text-[11px]">
+      <p className="text-muted-foreground mt-3 text-xs">
         ✓ Saved to your wellness journal
       </p>
     </motion.div>

@@ -62,8 +62,8 @@ function MiniSparkline({ scores }: { scores: number[] }) {
     <svg viewBox={`0 0 ${w} ${h}`} className="h-7 w-full" preserveAspectRatio="none">
       <defs>
         <linearGradient id="moodSparkGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
-          <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
         </linearGradient>
       </defs>
       <polygon
@@ -73,7 +73,7 @@ function MiniSparkline({ scores }: { scores: number[] }) {
       <polyline
         points={points.join(" ")}
         fill="none"
-        stroke="hsl(var(--primary))"
+        stroke="var(--primary)"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -146,7 +146,7 @@ export function MoodWidget({ className }: { className?: string }) {
         {trendData && trendData.moods.length > 0 && (
           <div
             className={cn(
-              "flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
+              "flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-medium",
               cfg.bg,
               cfg.color
             )}
@@ -169,7 +169,7 @@ export function MoodWidget({ className }: { className?: string }) {
             className="flex h-auto flex-col gap-0.5 px-2 py-2 hover:scale-110 active:scale-95"
           >
             <span className="text-xl">{option.emoji}</span>
-            <span className="text-muted-foreground text-[10px]">{option.label}</span>
+            <span className="text-muted-foreground text-2xs">{option.label}</span>
           </Button>
         ))}
       </div>
@@ -180,7 +180,7 @@ export function MoodWidget({ className }: { className?: string }) {
       ) : recentScores.length >= 2 ? (
         <div>
           <MiniSparkline scores={recentScores} />
-          <div className="mt-2 flex items-center justify-between text-[10px]">
+          <div className="mt-2 flex items-center justify-between text-2xs">
             <span className="text-muted-foreground">
               {trendData!.moods.length} entries � {14} days
             </span>

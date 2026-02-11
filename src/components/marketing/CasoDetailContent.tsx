@@ -129,7 +129,7 @@ export default function CasoDetailContent() {
         </Link>
 
         <div
-          className={`mx-auto h-20 w-20 rounded-[20px] ${colorClass.bg} mb-6 flex items-center justify-center shadow-inner`}
+          className={`mx-auto h-20 w-20 rounded-2xl ${colorClass.bg} mb-6 flex items-center justify-center shadow-inner`}
         >
           <Icon className={`h-10 w-10 ${colorClass.text}`} />
         </div>
@@ -189,14 +189,14 @@ export default function CasoDetailContent() {
         </div>
 
         {/* Treatment & Results */}
-        <div className="rounded-apple-xl relative overflow-hidden bg-background p-8 text-white shadow-2xl md:p-12">
+        <div className="rounded-apple-xl relative overflow-hidden bg-background p-8 text-primary-foreground shadow-2xl md:p-12">
           <div
             className={`absolute top-0 right-0 h-96 w-96 ${colorClass.bg.replace('bg-', 'bg-')} translate-x-1/2 -translate-y-1/2 rounded-full opacity-10 blur-3xl`}
           />
 
           <div className="relative z-10 grid grid-cols-1 gap-12 md:grid-cols-2">
             <div>
-              <h2 className="mb-6 flex items-center text-2xl font-light text-white">
+              <h2 className="mb-6 flex items-center text-2xl font-light text-primary-foreground">
                 <Activity className="mr-3 h-6 w-6 text-info" />
                 {t('casos.treatment')}
               </h2>
@@ -204,7 +204,7 @@ export default function CasoDetailContent() {
             </div>
 
             <div>
-              <h2 className="mb-6 flex items-center text-2xl font-light text-white">
+              <h2 className="mb-6 flex items-center text-2xl font-light text-primary-foreground">
                 <CheckCircle className="mr-3 h-6 w-6 text-success" />
                 {t('casos.results')}
               </h2>
@@ -228,3 +228,4 @@ export default function CasoDetailContent() {
     </PageLayout>
   );
 }
+

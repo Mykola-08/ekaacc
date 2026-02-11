@@ -5,6 +5,7 @@ import { DiscountProvider } from '@/context/marketing/DiscountContext';
 import { BookingProvider } from '@/components/marketing/BookingProvider';
 import SmoothScrolling from '@/components/marketing/SmoothScrolling';
 import { GlobalErrorReporter } from '@/components/observability/GlobalErrorReporter';
+import { ThemeCustomizationProvider } from '@/components/theme/ThemeCustomizationProvider';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ekabalance.com'),
@@ -74,17 +75,19 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="marketing marketing-bg">
-      <SmoothScrolling>
-        <LanguageProvider>
-          <DiscountProvider>
-            <BookingProvider>
-              <GlobalErrorReporter />
-              <MainLayout>{children}</MainLayout>
-            </BookingProvider>
-          </DiscountProvider>
-        </LanguageProvider>
-      </SmoothScrolling>
-    </div>
+    <ThemeCustomizationProvider>
+      <div className="marketing marketing-bg">
+        <SmoothScrolling>
+          <LanguageProvider>
+            <DiscountProvider>
+              <BookingProvider>
+                <GlobalErrorReporter />
+                <MainLayout>{children}</MainLayout>
+              </BookingProvider>
+            </DiscountProvider>
+          </LanguageProvider>
+        </SmoothScrolling>
+      </div>
+    </ThemeCustomizationProvider>
   );
 }

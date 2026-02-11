@@ -112,7 +112,7 @@ export default function VariantsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
         >
-          <h2 className="text-3xl font-semibold text-white sm:text-5xl">{t('variants.title')}</h2>
+          <h2 className="text-3xl font-semibold text-primary-foreground sm:text-5xl">{t('variants.title')}</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground/40 sm:text-lg">
             {t('variants.subtitle')}
           </p>
@@ -124,7 +124,7 @@ export default function VariantsSection() {
               key={variant.title}
               type="button"
               onClick={() => setSelectedVariant(variant)}
-              className="rounded-2xl border border-border/10 bg-white/5 p-6 text-left backdrop-blur-sm transition-colors hover:border-warning/30/35 hover:bg-white/[0.08]"
+              className="rounded-2xl border border-border/10 bg-background/5 p-6 text-left backdrop-blur-sm transition-colors hover:border-warning/30/35 hover:bg-background/[0.08]"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -133,7 +133,7 @@ export default function VariantsSection() {
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-vip-gold-4/15 text-vip-gold-2">
                 {variant.icon}
               </span>
-              <h3 className="mt-4 text-xl font-semibold text-white">{variant.title}</h3>
+              <h3 className="mt-4 text-xl font-semibold text-primary-foreground">{variant.title}</h3>
               <p className="mt-1 text-sm text-vip-gold-4/90">{variant.subtitle}</p>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground/40">{variant.description}</p>
               <div className="mt-6 flex items-center justify-between border-t border-border/10 pt-4">
@@ -189,13 +189,13 @@ export default function VariantsSection() {
                 <p className="text-xs tracking-[0.1em] text-vip-gold-4 uppercase">
                   {t('variants.sessionDuration')}
                 </p>
-                <p className="mt-1 text-lg font-semibold text-white">{selectedVariant.duration}</p>
+                <p className="mt-1 text-lg font-semibold text-primary-foreground">{selectedVariant.duration}</p>
               </div>
               <div className="sm:text-right">
                 <p className="text-xs tracking-[0.1em] text-vip-gold-4 uppercase">
                   {t('variants.investment')}
                 </p>
-                <p className="mt-1 text-2xl font-semibold text-white">{selectedVariant.price}</p>
+                <p className="mt-1 text-2xl font-semibold text-primary-foreground">{selectedVariant.price}</p>
               </div>
             </div>
           </div>

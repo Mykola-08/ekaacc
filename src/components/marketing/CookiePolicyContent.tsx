@@ -39,7 +39,7 @@ export default function CookiePolicyContent() {
             <h2 className="mb-6 border-b border-border pb-4 text-xl font-medium text-foreground">
               Complementary Services Notice
             </h2>
-            <div className="rounded-[20px] border border-warning/30 bg-warning p-6">
+            <div className="rounded-2xl border border-warning/30 bg-warning p-6">
               <p className="leading-relaxed text-foreground">
                 The EKA Balance website presents complementary wellness services. Website content is
                 informational and is not medical advice, diagnosis, or treatment. For medical
@@ -60,3 +60,4 @@ export default function CookiePolicyContent() {
     </PageLayout>
   );
 }
+

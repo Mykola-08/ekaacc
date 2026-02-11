@@ -854,7 +854,7 @@ export default function PrivacyControlsPage() {
                             key={log.id}
                             className="bg-muted/40 flex items-start space-x-3 rounded-xl p-3"
                           >
-                            <div className="mt-2 h-2 w-2 rounded-full bg-success0"></div>
+                            <div className="mt-2 h-2 w-2 rounded-full bg-success"></div>
                             <div className="flex-1">
                               <p className="text-foreground text-sm font-medium">
                                 {log.action.toUpperCase()} - {log.section}

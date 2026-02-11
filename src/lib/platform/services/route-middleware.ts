@@ -331,7 +331,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/admin/*',
     permissions: [{ group: 'system_settings', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin'],
+    allowRoles: ['admin'],
     metadata: { adminOnly: true },
   },
 
@@ -340,7 +340,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/users/*',
     permissions: [{ group: 'user_management', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Therapist', 'Reception'],
+    allowRoles: ['admin', 'therapist', 'reception'],
     metadata: { sensitive: true },
   },
 
@@ -349,7 +349,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/payments/*',
     permissions: [{ group: 'financial_management', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Accountant'],
+    allowRoles: ['admin'],
     metadata: { financial: true },
   },
 
@@ -361,7 +361,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
       { group: 'patient_data', action: 'view_all' },
     ],
     requireAuth: true,
-    allowRoles: ['Admin', 'Therapist', 'Reception', 'Patient'],
+    allowRoles: ['admin', 'therapist', 'reception', 'patient'],
     metadata: { patientData: true },
   },
 
@@ -370,7 +370,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/appointments/*',
     permissions: [{ group: 'appointment_management', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Therapist', 'Reception', 'Patient'],
+    allowRoles: ['admin', 'therapist', 'reception', 'patient'],
     metadata: { appointmentRelated: true },
   },
 
@@ -379,7 +379,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/content/*',
     permissions: [{ group: 'content_management', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Content Manager'],
+    allowRoles: ['admin'],
     metadata: { contentManagement: true },
   },
 
@@ -388,7 +388,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/analytics/*',
     permissions: [{ group: 'analytics', action: 'read' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Marketing', 'Accountant'],
+    allowRoles: ['admin'],
     metadata: { analyticsData: true },
   },
 
@@ -397,7 +397,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/messages/*',
     permissions: [{ group: 'communication', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Therapist', 'Patient'],
+    allowRoles: ['admin', 'therapist', 'patient'],
     metadata: { communication: true },
   },
 
@@ -406,7 +406,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/therapist/*',
     permissions: [{ group: 'therapist_tools', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Therapist'],
+    allowRoles: ['admin', 'therapist'],
     metadata: { therapistOnly: true },
   },
 
@@ -415,7 +415,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/subscriptions/*',
     permissions: [{ group: 'product_management', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin', 'Marketing'],
+    allowRoles: ['admin'],
     metadata: { subscriptionManagement: true },
   },
 
@@ -424,7 +424,7 @@ export const ROUTE_CONFIGS: Record<string, RouteConfig> = {
     path: '/api/settings/*',
     permissions: [{ group: 'system_settings', action: 'manage' }],
     requireAuth: true,
-    allowRoles: ['Admin'],
+    allowRoles: ['admin'],
     metadata: { systemSettings: true },
   },
 };

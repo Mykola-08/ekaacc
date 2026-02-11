@@ -81,7 +81,7 @@ export default function CookieConsent() {
                   {t('cookie.title')}
                 </h3>
               </div>
-              <p className="text-muted-foreground max-w-3xl text-[15px] leading-relaxed">
+              <p className="text-muted-foreground max-w-3xl text-sm leading-relaxed">
                 {t('cookie.intro')}{' '}
                 <Link href="/legal/privacy" className="text-primary font-semibold hover:underline">
                   {t('cookie.privacy')}
@@ -170,7 +170,7 @@ export default function CookieConsent() {
                     className="text-primary border-border focus:ring-primary accent-primary h-5 w-5 cursor-pointer rounded-full"
                   />
                 </div>
-                <p className="text-muted-foreground text-[13px] leading-relaxed">
+                <p className="text-muted-foreground text-xs leading-relaxed">
                   {t('cookie.type.analyticsDesc')}
                 </p>
               </div>
@@ -188,7 +188,7 @@ export default function CookieConsent() {
                     className="text-primary border-border focus:ring-primary accent-primary h-5 w-5 cursor-pointer rounded-full"
                   />
                 </div>
-                <p className="text-muted-foreground text-[13px] leading-relaxed">
+                <p className="text-muted-foreground text-xs leading-relaxed">
                   {t('cookie.type.marketingDesc')}
                 </p>
               </div>
@@ -206,7 +206,7 @@ export default function CookieConsent() {
                     className="text-primary border-border focus:ring-primary accent-primary h-5 w-5 cursor-pointer rounded-full"
                   />
                 </div>
-                <p className="text-muted-foreground text-[13px] leading-relaxed">
+                <p className="text-muted-foreground text-xs leading-relaxed">
                   {t('cookie.type.functionalDesc')}
                 </p>
               </div>

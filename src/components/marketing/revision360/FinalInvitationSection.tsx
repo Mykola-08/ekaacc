@@ -15,7 +15,7 @@ export default function FinalInvitationSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
         >
-          <h2 className="text-3xl leading-tight font-semibold text-white sm:text-5xl">
+          <h2 className="text-3xl leading-tight font-semibold text-primary-foreground sm:text-5xl">
             {t('final.title')}
           </h2>
           <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-xl">
@@ -56,16 +56,16 @@ export default function FinalInvitationSection() {
           </div>
 
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
-            <div className="rounded-2xl border border-border/10 bg-white/5 p-4">
-              <p className="text-2xl font-semibold text-white">500+</p>
+            <div className="rounded-2xl border border-border/10 bg-background/5 p-4">
+              <p className="text-2xl font-semibold text-primary-foreground">500+</p>
               <p className="mt-1 text-sm text-muted-foreground/40">{t('final.stat1')}</p>
             </div>
-            <div className="rounded-2xl border border-border/10 bg-white/5 p-4">
-              <p className="text-2xl font-semibold text-white">15+</p>
+            <div className="rounded-2xl border border-border/10 bg-background/5 p-4">
+              <p className="text-2xl font-semibold text-primary-foreground">15+</p>
               <p className="mt-1 text-sm text-muted-foreground/40">{t('final.stat2')}</p>
             </div>
-            <div className="rounded-2xl border border-border/10 bg-white/5 p-4">
-              <p className="text-2xl font-semibold text-white">98%</p>
+            <div className="rounded-2xl border border-border/10 bg-background/5 p-4">
+              <p className="text-2xl font-semibold text-primary-foreground">98%</p>
               <p className="mt-1 text-sm text-muted-foreground/40">{t('final.stat3')}</p>
             </div>
           </div>

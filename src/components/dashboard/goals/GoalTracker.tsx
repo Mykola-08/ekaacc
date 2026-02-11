@@ -122,7 +122,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
           const progress = Math.min(100, (goal.current_value / goal.target_value) * 100);
           return (
             <div key={goal.id} className="group space-y-2">
-              <div className="text-foreground flex justify-between text-[13px] font-semibold">
+              <div className="text-foreground flex justify-between text-xs font-semibold">
                 <span>{goal.title}</span>
                 <span className="text-muted-foreground">
                   {goal.current_value} / {goal.target_value} {goal.target_type}

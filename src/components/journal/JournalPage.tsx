@@ -95,7 +95,7 @@ export function JournalPage() {
       <DashboardHeader title="Reflections" subtitle="Your private wellness journal.">
           <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
             <DialogTrigger asChild>
-              <Button className="h-12 rounded-lg px-6 text-[15px] font-semibold shadow-sm transition-all hover:scale-105 active:scale-95">
+              <Button className="h-12 rounded-lg px-6 text-sm font-semibold shadow-sm transition-all hover:scale-105 active:scale-95">
                 <Plus className="mr-2 h-5 w-5" strokeWidth={2.5} />
                 New Entry
               </Button>
@@ -203,7 +203,7 @@ export function JournalPage() {
                   </div>
                 </div>
                 <div className="pl-0 md:pl-19">
-                  <p className="text-[16px] font-medium leading-relaxed text-muted-foreground">
+                  <p className="text-base font-medium leading-relaxed text-muted-foreground">
                     {entry.content}
                   </p>
                 </div>

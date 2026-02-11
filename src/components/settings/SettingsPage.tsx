@@ -41,8 +41,11 @@ import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { InlineFeedbackCompact } from '@/components/ui/inline-feedback';
 import { DashboardHeader } from '../dashboard/layout/DashboardHeader';
 import { motion } from 'motion/react';
-import { Loader2, AlertTriangle, Trash2, Mail, Phone, Calendar, Shield, Users } from 'lucide-react';
+import { Loader2, AlertTriangle, Trash2, Mail, Phone, Calendar, Shield, Users, Gift } from 'lucide-react';
 import Link from 'next/link';
+import { MFASettings } from '@/components/settings/mfa-settings';
+import { ReferralDashboard } from '@/components/settings/referral-dashboard';
+import { AppearanceSettings } from '@/components/settings/AppearanceSettings';
 import {
   saveProfile,
   uploadAvatar,
@@ -301,9 +304,9 @@ export function SettingsPage({
           </Avatar>
           <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-foreground/40 opacity-0 transition-opacity group-hover:opacity-100">
             {avatarUploading ? (
-              <Loader2 className="h-6 w-6 animate-spin text-white" />
+              <Loader2 className="h-6 w-6 animate-spin text-background" />
             ) : (
-              <HugeiconsIcon icon={Camera01Icon} size={24} className="text-white" />
+              <HugeiconsIcon icon={Camera01Icon} size={24} className="text-background" />
             )}
           </div>
           <input
@@ -378,6 +381,18 @@ export function SettingsPage({
           >
             Identity
           </TabsTrigger>
+          <TabsTrigger
+            value="appearance"
+            className="data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground rounded-full px-6 py-2.5 font-semibold transition-all data-[state=active]:shadow-sm"
+          >
+            Appearance
+          </TabsTrigger>
+          <TabsTrigger
+            value="referral"
+            className="data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground rounded-full px-6 py-2.5 font-semibold transition-all data-[state=active]:shadow-sm"
+          >
+            Referral
+          </TabsTrigger>
         </TabsList>
 
         {/* ───────────────────── PROFILE TAB ───────────────────── */}
@@ -408,9 +423,9 @@ export function SettingsPage({
                     </Avatar>
                     <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-foreground/40 opacity-0 transition-opacity group-hover:opacity-100">
                       {avatarUploading ? (
-                        <Loader2 className="h-8 w-8 animate-spin text-white" />
+                        <Loader2 className="h-8 w-8 animate-spin text-background" />
                       ) : (
-                        <HugeiconsIcon icon={Camera01Icon} size={32} className="text-white" />
+                        <HugeiconsIcon icon={Camera01Icon} size={32} className="text-background" />
                       )}
                     </div>
                   </div>
@@ -705,6 +720,22 @@ export function SettingsPage({
               </div>
             </motion.div>
 
+            {/* Two-Factor Authentication */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="bg-card border-border/50 rounded-lg border p-10 shadow-sm"
+            >
+              <h2 className="text-foreground mb-6 flex items-center gap-4 text-2xl font-semibold">
+                <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-lg">
+                  <Shield className="h-6 w-6" />
+                </div>
+                Two-Factor Authentication
+              </h2>
+              <MFASettings />
+            </motion.div>
+
             {/* Danger Zone */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -822,6 +853,28 @@ export function SettingsPage({
                 )
               )}
             </div>
+          </motion.div>
+        </TabsContent>
+
+        {/* ───────────────────── APPEARANCE TAB ───────────────────── */}
+        <TabsContent value="appearance">
+          <AppearanceSettings />
+        </TabsContent>
+
+        {/* ───────────────────── REFERRAL TAB ───────────────────── */}
+        <TabsContent value="referral">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-card border-border/50 rounded-lg border p-10 shadow-sm"
+          >
+            <h2 className="text-foreground mb-8 flex items-center gap-4 text-2xl font-semibold">
+              <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-lg">
+                <Gift className="h-6 w-6" />
+              </div>
+              Referral Program
+            </h2>
+            <ReferralDashboard />
           </motion.div>
         </TabsContent>
       </Tabs>

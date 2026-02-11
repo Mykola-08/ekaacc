@@ -123,7 +123,7 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
     <div className="hover:bg-secondary group grid grid-cols-12 items-center gap-4 px-8 py-5 transition-colors">
       {/* Service & Title */}
       <div className="col-span-4 md:col-span-3">
-        <div className="text-foreground truncate text-[15px] font-semibold">
+        <div className="text-foreground truncate text-sm font-semibold">
           {item.services?.title || 'Custom Session'}
         </div>
         <div className="text-muted-foreground text-xs font-medium md:hidden">{clientName}</div>
@@ -149,13 +149,13 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
               {(clientName?.substring(0, 2) || '??').toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <span className="text-muted-foreground text-[14px] font-semibold">{clientName}</span>
+          <span className="text-muted-foreground text-sm font-semibold">{clientName}</span>
         </div>
       </div>
 
       {/* Time */}
       <div className="col-span-3 md:col-span-2">
-        <div className="text-foreground font-mono text-[14px] font-semibold">
+        <div className="text-foreground font-mono text-sm font-semibold">
           {format(startTime, 'HH:mm')}
         </div>
         <div className="text-muted-foreground text-xs font-medium">
@@ -192,10 +192,10 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="border-border rounded-lg p-2">
-              <DropdownMenuItem className="hover:bg-secondary focus:bg-secondary cursor-pointer rounded-lg px-4 py-2 text-[13px] font-medium transition-colors">
+              <DropdownMenuItem className="hover:bg-secondary focus:bg-secondary cursor-pointer rounded-lg px-4 py-2 text-xs font-medium transition-colors">
                 View Details
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive hover:bg-destructive/10 focus:bg-destructive/10 cursor-pointer rounded-lg px-4 py-2 text-[13px] font-medium transition-colors">
+              <DropdownMenuItem className="text-destructive hover:bg-destructive/10 focus:bg-destructive/10 cursor-pointer rounded-lg px-4 py-2 text-xs font-medium transition-colors">
                 Cancel Booking
               </DropdownMenuItem>
             </DropdownMenuContent>

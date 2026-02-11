@@ -157,6 +157,14 @@ export async function middleware(request: NextRequest) {
 
   // 5. Auth Routes Logic (Redirect logged-in users away from auth pages)
   if (user && (pathname === '/login' || pathname === '/signup')) {
+    // Don't redirect if user needs MFA verification
+    // (They are aal1 but need aal2, so they should stay on auth routes)
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal && aal.currentLevel === 'aal1' && aal.nextLevel === 'aal2') {
+      const mfaUrl = new URL('/mfa-verify', request.url);
+      return NextResponse.redirect(mfaUrl);
+    }
+
     const dashboardUrl = new URL('/dashboard', request.url);
     return NextResponse.redirect(dashboardUrl);
   }

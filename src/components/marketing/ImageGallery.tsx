@@ -48,7 +48,7 @@ const Lightbox: React.FC<LightboxProps> = ({
         type="button"
         onClick={onClose}
         aria-label="Close image viewer"
-        className="absolute top-6 right-6 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
+        className="absolute top-6 right-6 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-background/20 text-primary-foreground backdrop-blur-md transition-all duration-200 hover:bg-background/30"
       >
         <X className="h-6 w-6" />
       </button>
@@ -60,7 +60,7 @@ const Lightbox: React.FC<LightboxProps> = ({
             type="button"
             onClick={onPrevious}
             aria-label="View previous image"
-            className="absolute top-1/2 left-6 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
+            className="absolute top-1/2 left-6 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-background/20 text-primary-foreground backdrop-blur-md transition-all duration-200 hover:bg-background/30"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>
@@ -68,7 +68,7 @@ const Lightbox: React.FC<LightboxProps> = ({
             type="button"
             onClick={onNext}
             aria-label="View next image"
-            className="absolute top-1/2 right-6 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
+            className="absolute top-1/2 right-6 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-background/20 text-primary-foreground backdrop-blur-md transition-all duration-200 hover:bg-background/30"
           >
             <ChevronRight className="h-6 w-6" />
           </button>
@@ -153,7 +153,7 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
             key={image.url}
             type="button"
             aria-label={`Open image: ${image.alt}`}
-            className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-[20px] focus:outline-none focus:ring-2 focus:ring-border/80"
+            className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-2xl focus:outline-none focus:ring-2 focus:ring-border/80"
             onClick={() => openLightbox(index)}
           >
             <Image
@@ -170,7 +170,7 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
             </div>
             {image.caption && (
               <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/60 to-transparent p-4">
-                <p className="text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <p className="text-sm text-primary-foreground opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   {image.caption}
                 </p>
               </div>
@@ -191,3 +191,4 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
     </>
   );
 }
+

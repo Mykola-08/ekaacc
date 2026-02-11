@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
+import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { Loader2 } from 'lucide-react';
@@ -50,7 +51,14 @@ export function LoginForm({
  if (error) {
  setError(error.message);
  } else {
+ // Check if MFA is required
+ const supabase = createClient();
+ const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+ if (aal && aal.currentLevel === 'aal1' && aal.nextLevel === 'aal2') {
+ router.push('/mfa-verify');
+ } else {
  router.push('/dashboard');
+ }
  }
  } catch (err) {
  setError('An unexpected error occurred');
@@ -121,7 +129,7 @@ export function LoginForm({
  required
  value={email}
  onChange={(e) => setEmail(e.target.value)}
- className="h-12 rounded-[14px] border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10 "
+ className="h-12 rounded-md border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10 "
  />
  </div>
  </motion.div>
@@ -151,7 +159,7 @@ export function LoginForm({
  required
  value={password}
  onChange={(e) => setPassword(e.target.value)}
- className="h-12 rounded-[14px] border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10 "
+ className="h-12 rounded-md border-input bg-muted/50 px-4 text-base transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10 "
  />
  </div>
  </motion.div>
@@ -165,7 +173,7 @@ export function LoginForm({
  animate={{ opacity: 1, height: 'auto', marginTop: 0 }}
  exit={{ opacity: 0, height: 0, marginTop: 0 }}
  transition={{ duration: 0.2 }}
- className="rounded-[14px] bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive dark:bg-destructive/10 dark:text-destructive"
+ className="rounded-md bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive dark:bg-destructive/10 dark:text-destructive"
  >
  {error}
  </motion.div>
@@ -180,7 +188,7 @@ export function LoginForm({
  >
  <Button
  type="submit"
- className="h-12 w-full rounded-full bg-primary text-[15px] font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow active:scale-[0.98] disabled:opacity-70"
+ className="h-12 w-full rounded-full bg-primary text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow active:scale-[0.98] disabled:opacity-70"
  disabled={loading}
  >
  {loading ? (

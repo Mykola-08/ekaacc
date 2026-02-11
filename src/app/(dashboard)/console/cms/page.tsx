@@ -19,7 +19,7 @@ export default function CMSPage() {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="bg-card hover:bg-muted/30/50 group flex cursor-pointer flex-col items-center justify-center rounded-lg p-8 py-12 text-center shadow-sm ring-1 shadow-border/50 ring-border transition-colors">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-[12px] bg-muted transition-transform group-hover:scale-110">
+          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-muted transition-transform group-hover:scale-110">
             <FileText className="h-8 w-8 text-primary" />
           </div>
           <h3 className="text-foreground mb-2 text-xl font-semibold">Pages</h3>
@@ -28,7 +28,7 @@ export default function CMSPage() {
           </p>
         </div>
         <div className="bg-card hover:bg-muted/30/50 group flex cursor-pointer flex-col items-center justify-center rounded-lg p-8 py-12 text-center shadow-sm ring-1 shadow-border/50 ring-border transition-colors">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-[12px] bg-accent/10 transition-transform group-hover:scale-110">
+          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-accent/10 transition-transform group-hover:scale-110">
             <Edit className="h-8 w-8 text-accent-foreground" />
           </div>
           <h3 className="text-foreground mb-2 text-xl font-semibold">Blog Posts</h3>
@@ -37,7 +37,7 @@ export default function CMSPage() {
           </p>
         </div>
         <div className="bg-card hover:bg-muted/30/50 group flex cursor-pointer flex-col items-center justify-center rounded-lg p-8 py-12 text-center shadow-sm ring-1 shadow-border/50 ring-border transition-colors">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-[12px] bg-warning transition-transform group-hover:scale-110">
+          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-warning transition-transform group-hover:scale-110">
             <ImageIcon className="h-8 w-8 text-warning" />
           </div>
           <h3 className="text-foreground mb-2 text-xl font-semibold">Media Library</h3>

@@ -58,7 +58,7 @@ export default function ContactContent() {
       <section className="border-t border-border bg-muted py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-8">
           <div className="mb-12 text-center">
-            <div className="text-primary-600 mb-4 inline-flex items-center justify-center rounded-full bg-info/20 p-3">
+            <div className="text-primary mb-4 inline-flex items-center justify-center rounded-full bg-info/20 p-3">
               <HelpCircle className="h-6 w-6" />
             </div>
             <h2 className="heading-2">{t('contact.faq.title')}</h2>

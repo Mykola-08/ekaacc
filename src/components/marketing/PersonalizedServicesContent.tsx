@@ -32,7 +32,7 @@ export default function PersonalizedServicesContent() {
           <Link href="/book">
             <Button
               size="lg"
-              className="btn btn-accent rounded-[20px] border-none px-8 py-4 shadow-xl"
+              className="btn btn-accent rounded-2xl border-none px-8 py-4 shadow-xl"
             >
               {t('personalizedServices.cta')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -67,3 +67,4 @@ export default function PersonalizedServicesContent() {
     </PageLayout>
   );
 }
+

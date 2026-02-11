@@ -9,6 +9,9 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
     'env-missing';
 
+  const cookieDomain =
+    process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined;
+
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       getAll() {
@@ -17,7 +20,10 @@ export async function createClient() {
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
+            cookieStore.set(name, value, {
+              ...options,
+              ...(cookieDomain ? { domain: cookieDomain } : {}),
+            });
           });
         } catch {
           // The `setAll` method was called from a Server Component.

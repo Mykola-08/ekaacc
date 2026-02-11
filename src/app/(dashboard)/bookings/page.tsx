@@ -1,6 +1,4 @@
 import { createClient } from '@/lib/supabase/server';
-export const dynamic = 'force-dynamic';
-
 import { redirect } from 'next/navigation';
 import { getBookingsHistory } from '@/server/dashboard/service';
 import { BookingsPageContent } from '@/components/dashboard/shared/BookingsPageContent';

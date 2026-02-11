@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * AI Chat View
@@ -236,7 +236,7 @@ export function AIChatView() {
             showSuggestions={false}
             onSuggestion={handleSuggestion}
           />
-          <p className="text-muted-foreground mt-2 text-center text-[10px]">
+          <p className="text-muted-foreground mt-2 text-center text-2xs">
             EKA can make mistakes. Not a substitute for professional medical advice.
           </p>
         </div>

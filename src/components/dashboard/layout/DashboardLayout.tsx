@@ -23,6 +23,7 @@ import {
   Bell,
   LogOut,
 } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
@@ -180,7 +181,7 @@ export function DashboardLayout({
           {navGroups.map((group, gi) => (
             <SidebarGroup key={gi} className={gi > 0 ? 'mt-2' : ''}>
               {group.label && (
-                <SidebarGroupLabel className="mb-1 px-3 text-[10px] font-semibold tracking-widest text-muted-foreground/60 uppercase">
+                <SidebarGroupLabel className="mb-1 px-3 text-2xs font-semibold tracking-widest text-muted-foreground/60 uppercase">
                   {group.label}
                 </SidebarGroupLabel>
               )}
@@ -225,13 +226,11 @@ export function DashboardLayout({
           <SidebarMenu>
             <SidebarMenuItem>
               <div className="dashboard-user-block">
-                <div className="dashboard-avatar">
-                  <img
-                    src={`https://api.dicebear.com/7.x/initials/svg?seed=${profile?.first_name || 'U'}&backgroundColor=f0f0f0&textColor=333`}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <Avatar className="dashboard-avatar">
+                  <AvatarFallback className="bg-muted text-muted-foreground text-xs font-medium">
+                    {(profile?.first_name?.[0] || 'U').toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-medium text-foreground">
                     {profile?.first_name

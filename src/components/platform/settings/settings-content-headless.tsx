@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import {
@@ -314,7 +314,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         className="border-border bg-muted/30 block w-full rounded-xl p-3"
                       />
                     </div>
-                    <button className="rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-foreground/90">
+                    <button className="rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-foreground/90">
                       Update Password
                     </button>
                   </div>

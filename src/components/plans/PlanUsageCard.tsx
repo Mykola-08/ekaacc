@@ -39,7 +39,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
       <div className="relative z-10 mb-6 flex items-start justify-between">
         <div className="flex items-center gap-4">
           <div
-            className={`flex h-12 w-12 items-center justify-center rounded-lg shadow-sm ${isVIP ? 'bg-amber-50 text-amber-600' : 'bg-card text-foreground'}`}
+            className={`flex h-12 w-12 items-center justify-center rounded-lg shadow-sm ${isVIP ? 'bg-warning/10 text-warning' : 'bg-card text-foreground'}`}
           >
             {isVIP ? (
               <Crown className="h-6 w-6 fill-current" />
@@ -68,7 +68,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
         <Progress
           value={percent}
           className={`bg-card border-border h-3 rounded-full border`}
-          indicatorClassName={`${isVIP ? 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]' : 'bg-foreground shadow-[0_0_10px_rgba(0,0,0,0.1)]'}`}
+          indicatorClassName={`${isVIP ? 'bg-warning shadow-sm' : 'bg-foreground shadow-sm'}`}
         />
       </div>
 

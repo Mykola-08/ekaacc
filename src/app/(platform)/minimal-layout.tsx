@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useAuth } from '@/lib/platform/supabase/auth';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
 const AppHeader = () => (
-  <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-md">
+  <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-card/80 backdrop-blur-md">
     <div className="container flex h-16 items-center px-6">
       <div className="mr-8 hidden md:flex">
         <span className="text-primary text-lg font-semibold tracking-tight">EKA Account</span>

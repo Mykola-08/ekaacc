@@ -408,8 +408,8 @@ export default function PrivacyControlsPage() {
               <CardContent>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                   <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                      <CheckCircle className="h-6 w-6 text-green-600" />
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-success/20">
+                      <CheckCircle className="h-6 w-6 text-success" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Data Protection</h3>
                     <p className="text-muted-foreground text-sm">
@@ -424,8 +424,8 @@ export default function PrivacyControlsPage() {
                     <p className="text-muted-foreground text-sm">Full visibility into data usage</p>
                   </div>
                   <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-                      <Settings className="h-6 w-6 text-purple-600" />
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent/20">
+                      <Settings className="h-6 w-6 text-accent" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Control</h3>
                     <p className="text-muted-foreground text-sm">
@@ -550,7 +550,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Globe className="mr-2 h-5 w-5 text-green-600" />
+                      <Globe className="mr-2 h-5 w-5 text-success" />
                       Visibility Controls
                     </CardTitle>
                     <CardDescription>
@@ -652,7 +652,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Lock className="mr-2 h-5 w-5 text-red-600" />
+                      <Lock className="mr-2 h-5 w-5 text-destructive" />
                       Security Settings
                     </CardTitle>
                     <CardDescription>
@@ -741,7 +741,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Activity className="mr-2 h-5 w-5 text-purple-600" />
+                      <Activity className="mr-2 h-5 w-5 text-accent" />
                       Quick Actions
                     </CardTitle>
                   </CardHeader>
@@ -791,7 +791,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Clock className="mr-2 h-5 w-5 text-orange-600" />
+                      <Clock className="mr-2 h-5 w-5 text-warning" />
                       Recent Privacy Activity
                     </CardTitle>
                   </CardHeader>
@@ -838,7 +838,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <UserCheck className="mr-2 h-5 w-5 text-green-600" />
+                      <UserCheck className="mr-2 h-5 w-5 text-success" />
                       Data Access Log
                     </CardTitle>
                   </CardHeader>
@@ -854,7 +854,7 @@ export default function PrivacyControlsPage() {
                             key={log.id}
                             className="bg-muted/40 flex items-start space-x-3 rounded-xl p-3"
                           >
-                            <div className="mt-2 h-2 w-2 rounded-full bg-green-500"></div>
+                            <div className="mt-2 h-2 w-2 rounded-full bg-success0"></div>
                             <div className="flex-1">
                               <p className="text-foreground text-sm font-medium">
                                 {log.action.toUpperCase()} - {log.section}
@@ -990,8 +990,8 @@ export default function PrivacyControlsPage() {
         <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 text-red-600">
-                <AlertTriangle className="h-5 w-5 text-red-500" />
+              <DialogTitle className="flex items-center gap-2 text-destructive">
+                <AlertTriangle className="h-5 w-5 text-destructive" />
                 Delete Account
               </DialogTitle>
               <DialogDescription>
@@ -1007,7 +1007,7 @@ export default function PrivacyControlsPage() {
                 placeholder="Type DELETE MY ACCOUNT"
                 value={deleteConfirmation}
                 onChange={(e) => setDeleteConfirmation(e.target.value)}
-                className="border-red-300 focus:border-red-500 focus:ring-red-500"
+                className="border-destructive/40 focus:border-destructive focus:ring-destructive"
               />
             </div>
             <DialogFooter className="gap-3 sm:gap-0">

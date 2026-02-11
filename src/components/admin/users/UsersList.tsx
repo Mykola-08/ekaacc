@@ -1,7 +1,8 @@
 ﻿'use client';
 
 import { UserProfile } from '@/server/admin/user-actions';
-import { Plus, MoreHorizontal, User, Shield, Phone, Mail, Building } from 'lucide-react';
+import { Plus, MoreHorizontal, Shield, Phone, Mail, Building } from 'lucide-react';
+import { UserIcon } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -59,7 +60,7 @@ export function UsersList({ users }: UsersListProps) {
 
       <div className="space-y-4">
         {filteredUsers.length === 0 ? (
-          <EmptyState icon={User} title="No users found" />
+          <EmptyState icon={UserIcon} title="No users found" />
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {filteredUsers.map((user, idx) => (
@@ -109,7 +110,7 @@ function UserRow({ user, index }: { user: UserProfile; index: number }) {
             </span>
             {user.phone && (
               <>
-                <span className="text-muted-foreground/30">â€¢</span>
+                <span className="text-muted-foreground/30">•</span>
                 <span className="flex items-center gap-1">
                   <Phone className="h-3 w-3" />
                   {user.phone}

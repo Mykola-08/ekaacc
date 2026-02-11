@@ -16,7 +16,6 @@ import {
   CreditCardIcon,
   Notification03Icon,
 } from '@hugeicons/core-free-icons';
-import { cn } from '@/lib/utils';
 import {
   Sidebar,
   SidebarContent,
@@ -79,42 +78,38 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
   };
 
   return (
-    <Sidebar collapsible="offcanvas" variant="floating" className="border-none" {...props}>
-      <SidebarHeader className="platform-sidebar-header">
-        <div className="flex h-full items-center gap-3">
-          <div className="platform-sidebar-brand-icon">
-            <HugeiconsIcon icon={ActivityIcon} className="size-5" strokeWidth={2.5} />
-          </div>
-          <div className="grid text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="text-foreground truncate font-semibold">EKA Console</span>
-            <span className="text-muted-foreground truncate text-xs">Platform Admin</span>
-          </div>
-        </div>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/console">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <HugeiconsIcon icon={ActivityIcon} className="size-4" strokeWidth={2} />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">EKA Console</span>
+                  <span className="truncate text-xs">Platform Admin</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="px-2 pt-4">
+      <SidebarContent>
         {navGroups.map((group) => (
           <SidebarGroup key={group.label}>
-            <SidebarGroupLabel className="platform-sidebar-group-label">
-              {group.label}
-            </SidebarGroupLabel>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="gap-1">
+              <SidebarMenu>
                 {group.items.map((item) => {
                   const active = isItemActive(item);
                   return (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton
-                        asChild
-                        tooltip={item.title}
-                        isActive={active}
-                        className={cn(
-                          'platform-nav-item',
-                          active ? 'platform-nav-item-active' : 'platform-nav-item-inactive'
-                        )}
-                      >
+                      <SidebarMenuButton asChild tooltip={item.title} isActive={active}>
                         <Link href={item.url}>
-                          <HugeiconsIcon icon={item.icon} className="size-5" strokeWidth={2.4} />
+                          <HugeiconsIcon icon={item.icon} className="size-4" strokeWidth={2} />
                           <span>{item.title}</span>
                         </Link>
                       </SidebarMenuButton>
@@ -127,16 +122,13 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-4">
+      <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="platform-signout-btn"
-            >
+            <SidebarMenuButton asChild>
               <Link href="/logout">
-                <HugeiconsIcon icon={Logout01Icon} className="size-5" strokeWidth={2.4} />
-                <span className="font-semibold">Sign out</span>
+                <HugeiconsIcon icon={Logout01Icon} className="size-4" strokeWidth={2} />
+                <span>Sign out</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

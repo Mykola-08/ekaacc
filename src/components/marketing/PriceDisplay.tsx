@@ -37,7 +37,7 @@ export default function PriceDisplay({
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
       {/* Main Price */}
-      <div className={`font-light text-gray-900 tabular-nums dark:text-white ${sizeClasses[size]}`}>
+      <div className={`font-light text-foreground tabular-nums dark:text-foreground ${sizeClasses[size]}`}>
         {formatPrice(actualFinalPrice)}
       </div>
 
@@ -46,8 +46,8 @@ export default function PriceDisplay({
         <div className="flex items-center space-x-1">
           {hasDiscount && (
             <>
-              <TrendingDown className="h-4 w-4 text-green-500" />
-              <span className="text-sm text-gray-500 line-through dark:text-gray-400">
+              <TrendingDown className="h-4 w-4 text-success" />
+              <span className="text-sm text-muted-foreground line-through dark:text-muted-foreground/60">
                 {formatPrice(basePriceCents)}
               </span>
             </>
@@ -55,8 +55,8 @@ export default function PriceDisplay({
 
           {hasSurcharge && (
             <>
-              <TrendingUp className="h-4 w-4 text-orange-500" />
-              <span className="text-sm text-gray-500 line-through dark:text-gray-400">
+              <TrendingUp className="h-4 w-4 text-warning" />
+              <span className="text-sm text-muted-foreground line-through dark:text-muted-foreground/60">
                 {formatPrice(basePriceCents)}
               </span>
             </>
@@ -66,7 +66,7 @@ export default function PriceDisplay({
 
       {/* Special Badge */}
       {hasDiscount && selectedDiscount && (
-        <div className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+        <div className="inline-flex items-center rounded-full bg-success/20 px-2 py-1 text-xs font-medium text-success-foreground dark:bg-success/10 dark:text-success">
           <Star className="mr-1 h-3 w-3" />
           {selectedDiscount.name} -{selectedDiscount.percentage}%
         </div>

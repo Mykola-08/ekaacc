@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { useTaskStore, Task } from '@/store/taskStore';
@@ -40,7 +40,7 @@ export function TaskManager() {
  };
 
  return (
- <div className="flex h-full flex-col rounded-lg border border-zinc-100 bg-card p-6 shadow-sm ">
+ <div className="flex h-full flex-col rounded-lg border border-border bg-card p-6 shadow-sm ">
  <h3 className="mb-6 flex items-center gap-2 text-xl font-semibold">
  <span className="bg-primary/10 text-primary rounded-xl p-2">
  <CheckCircle2 size={20} />
@@ -85,7 +85,7 @@ export function TaskManager() {
  className={cn(
  'group flex cursor-pointer items-center justify-between rounded-lg border p-4 transition-all',
  task.status === 'done'
- ? 'border-transparent bg-zinc-50 opacity-60 '
+ ? 'border-transparent bg-muted opacity-60 '
  : 'bg-card border-border hover:border-primary/30 hover:shadow-sm'
  )}
  >
@@ -94,10 +94,10 @@ export function TaskManager() {
  className={cn(
  'flex h-6 w-6 items-center justify-center rounded-full transition-colors',
  task.status === 'done'
- ? 'bg-green-500/10 text-green-500'
+ ? 'bg-success0/10 text-success'
  : task.status === 'in-progress'
  ? 'bg-primary/10 text-primary'
- : 'text-zinc-300'
+ : 'text-muted-foreground/40'
  )}
  >
  {task.status === 'done' ? (
@@ -120,7 +120,7 @@ export function TaskManager() {
 
  <button
  onClick={() => deleteTask(task.id)}
- className="transform p-2 text-zinc-400 opacity-0 transition-all group-hover:opacity-100 hover:scale-110 hover:text-red-500"
+ className="transform p-2 text-muted-foreground opacity-0 transition-all group-hover:opacity-100 hover:scale-110 hover:text-destructive"
  >
  <Trash2 size={16} />
  </button>

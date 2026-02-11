@@ -38,7 +38,7 @@ const Lightbox: React.FC<LightboxProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm"
+      className="fixed inset-0 z-50 bg-foreground/90 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Image viewer"
@@ -85,7 +85,7 @@ const Lightbox: React.FC<LightboxProps> = ({
           />
           {currentImage.caption && (
             <div className="mt-6 text-center">
-              <p className="text-lg text-white/90">{currentImage.caption}</p>
+              <p className="text-lg text-primary-foreground/90">{currentImage.caption}</p>
             </div>
           )}
         </div>
@@ -153,7 +153,7 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
             key={image.url}
             type="button"
             aria-label={`Open image: ${image.alt}`}
-            className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-[20px] focus:outline-none focus:ring-2 focus:ring-white/80"
+            className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-[20px] focus:outline-none focus:ring-2 focus:ring-border/80"
             onClick={() => openLightbox(index)}
           >
             <Image
@@ -163,9 +163,9 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/20">
-              <div className="flex h-12 w-12 scale-90 items-center justify-center rounded-full bg-white/90 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
-                <ZoomIn className="h-6 w-6 text-gray-700" />
+            <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 transition-all duration-300 group-hover:bg-foreground/20">
+              <div className="flex h-12 w-12 scale-90 items-center justify-center rounded-full bg-card/90 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
+                <ZoomIn className="h-6 w-6 text-foreground" />
               </div>
             </div>
             {image.caption && (

@@ -139,9 +139,9 @@ export function ProgressTab() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Avg. Mood</CardTitle>
             {stats.moodTrend >= 0 ? (
-              <TrendingUp className="h-4 w-4 text-emerald-600" />
+              <TrendingUp className="h-4 w-4 text-success" />
             ) : (
-              <TrendingDown className="h-4 w-4 text-red-500" />
+              <TrendingDown className="h-4 w-4 text-destructive" />
             )}
           </CardHeader>
           <CardContent>
@@ -176,7 +176,7 @@ export function ProgressTab() {
         <Card className="rounded-lg border-border shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Sessions</CardTitle>
-            <HeartPulse className="h-4 w-4 text-rose-500" />
+            <HeartPulse className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{sessionsCompleted}</div>
@@ -186,7 +186,7 @@ export function ProgressTab() {
         <Card className="rounded-lg border-border shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Goals</CardTitle>
-            <Target className="h-4 w-4 text-amber-500" />
+            <Target className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{completedGoals}/{totalGoals}</div>
@@ -281,7 +281,7 @@ export function ProgressTab() {
             {[
               { label: 'Mood', value: stats.avgMood, max: 10, color: 'bg-primary' },
               { label: 'Energy', value: stats.avgEnergy, max: 10, color: 'bg-primary' },
-              { label: 'Stress Mgmt', value: stats.avgStress, max: 10, color: 'bg-emerald-600' },
+              { label: 'Stress Mgmt', value: stats.avgStress, max: 10, color: 'bg-success' },
               { label: 'Sleep', value: stats.avgSleep, max: 5, color: 'bg-primary' },
             ].map((metric) => (
               <div key={metric.label} className="space-y-2">

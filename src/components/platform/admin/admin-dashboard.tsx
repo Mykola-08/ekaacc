@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import {
@@ -40,11 +40,11 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
   const getHealthColor = (health: string) => {
     switch (health) {
       case 'healthy':
-        return 'text-green-500';
+        return 'text-success';
       case 'warning':
-        return 'text-yellow-500';
+        return 'text-warning';
       case 'critical':
-        return 'text-red-500';
+        return 'text-destructive';
       default:
         return 'text-muted-foreground';
     }
@@ -98,7 +98,7 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
               <Activity className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-semibold">â‚¬{stats.revenueMtd.toLocaleString()}</div>
+              <div className="text-2xl font-semibold">�{stats.revenueMtd.toLocaleString()}</div>
               <p className="text-muted-foreground text-xs">Plan & Service Revenue</p>
             </CardContent>
           </Card>

@@ -47,12 +47,12 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
               'group relative flex flex-col justify-between overflow-hidden transition-all duration-300',
               'rounded-lg border p-6 shadow-sm hover:shadow-sm',
               isVIP
-                ? 'bg-card border-amber-200 shadow-amber-100/50 hover:-translate-y-1 hover:shadow-amber-200/50'
+                ? 'bg-card border-warning/30 shadow-warning/10 hover:-translate-y-1 hover:shadow-warning/20'
                 : 'bg-card border-border hover:-translate-y-1 hover:shadow-md'
             )}
           >
             {isVIP && (
-              <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-amber-100 opacity-60 blur-3xl" />
+              <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-warning/20 opacity-60 blur-3xl" />
             )}
 
             <div className="relative z-10 space-y-5">
@@ -60,11 +60,11 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                 <div
                   className={cn(
                     'flex h-12 w-12 items-center justify-center rounded-lg shadow-sm transition-transform group-hover:scale-110',
-                    isVIP ? 'bg-amber-50 text-amber-600' : 'bg-card text-foreground'
+                    isVIP ? 'bg-warning/10 text-warning' : 'bg-card text-foreground'
                   )}
                 >
                   {isVIP ? (
-                    <Sparkles className="h-6 w-6 fill-amber-100" />
+                    <Sparkles className="h-6 w-6 fill-warning/20" />
                   ) : (
                     <Shield className="h-6 w-6" strokeWidth={2} />
                   )}
@@ -75,7 +75,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                     <div
                       className={cn(
                         'h-1.5 w-1.5 rounded-full',
-                        isVIP ? 'bg-amber-500' : 'bg-primary'
+                        isVIP ? 'bg-warning' : 'bg-primary'
                       )}
                     />
                     <span className="text-muted-foreground text-[13px] font-semibold tracking-wider uppercase">
@@ -93,7 +93,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                 <span
                   className={cn(
                     'text-4xl font-semibold tracking-tighter',
-                    isVIP ? 'text-amber-950' : 'text-foreground'
+                    isVIP ? 'text-warning' : 'text-foreground'
                   )}
                 >
                   €{plan.price_cents / 100}
@@ -107,7 +107,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                 className={cn(
                   'h-12 w-full rounded-lg text-base font-semibold transition-all active:scale-95',
                   isVIP
-                    ? 'bg-linear-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/25 hover:from-amber-600 hover:to-amber-700'
+                    ? 'bg-linear-to-r from-warning to-warning text-white shadow-lg shadow-warning/25 hover:from-warning/90 hover:to-warning/80'
                     : 'bg-foreground text-background hover:bg-foreground/90 shadow-lg'
                 )}
                 onClick={() => handlePurchase(plan)}

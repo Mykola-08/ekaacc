@@ -51,10 +51,10 @@ export default function ServicesContent() {
       </section>
 
       {/* Disclaimer */}
-      <section className="border-t border-gray-100 bg-white py-16">
+      <section className="border-t border-border bg-card py-16">
         <div className="mx-auto max-w-4xl px-4 text-center">
-          <p className="mx-auto max-w-2xl rounded-xl border border-gray-100 bg-gray-50 p-6 text-sm text-gray-500">
-            <span className="font-semibold text-gray-700">{t('services.disclaimerPrefix')}:</span>{' '}
+          <p className="mx-auto max-w-2xl rounded-xl border border-border bg-muted p-6 text-sm text-muted-foreground">
+            <span className="font-semibold text-foreground">{t('services.disclaimerPrefix')}:</span>{' '}
             {t('services.disclaimerBody')}
           </p>
         </div>

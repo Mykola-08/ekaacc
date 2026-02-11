@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -110,7 +110,7 @@ export function TherapistPaymentTerminal({ staffId }: { staffId?: string }) {
                     <Button
                       variant="default"
                       size="sm"
-                      className="bg-emerald-600 hover:bg-emerald-700"
+                      className="bg-success hover:bg-success/90"
                       onClick={() => handleVerify(proof.id, 'verified')}
                     >
                       <Check className="mr-1 h-4 w-4" />

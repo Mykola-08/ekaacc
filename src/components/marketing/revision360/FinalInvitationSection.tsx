@@ -9,7 +9,7 @@ export default function FinalInvitationSection() {
     <section className="relative py-20 sm:py-24">
       <div className="section-container">
         <motion.div
-          className="rounded-3xl border border-amber-300/30 bg-linear-to-br from-amber-300/15 via-amber-200/10 to-transparent p-8 text-center sm:p-12"
+          className="rounded-3xl border border-warning/30 bg-linear-to-br from-vip-gold-4/15 via-vip-gold-4/10 to-transparent p-8 text-center sm:p-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -18,7 +18,7 @@ export default function FinalInvitationSection() {
           <h2 className="text-3xl leading-tight font-semibold text-white sm:text-5xl">
             {t('final.title')}
           </h2>
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-zinc-200 sm:text-xl">
+          <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-xl">
             {t('final.subtitle')}
           </p>
 
@@ -43,30 +43,30 @@ export default function FinalInvitationSection() {
             </a>
           </div>
 
-          <div className="mt-9 flex flex-wrap justify-center gap-3 text-xs text-zinc-200/90 sm:gap-4 sm:text-sm">
-            <span className="rounded-full border border-white/20 px-3 py-1.5">
+          <div className="mt-9 flex flex-wrap justify-center gap-3 text-xs text-muted-foreground/90 sm:gap-4 sm:text-sm">
+            <span className="rounded-full border border-border/20 px-3 py-1.5">
               {t('labels.noInsuranceNeeded')}
             </span>
-            <span className="rounded-full border border-white/20 px-3 py-1.5">
+            <span className="rounded-full border border-border/20 px-3 py-1.5">
               {t('labels.flexibleSchedules')}
             </span>
-            <span className="rounded-full border border-white/20 px-3 py-1.5">
+            <span className="rounded-full border border-border/20 px-3 py-1.5">
               {t('labels.personalizedApproach')}
             </span>
           </div>
 
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="rounded-2xl border border-border/10 bg-white/5 p-4">
               <p className="text-2xl font-semibold text-white">500+</p>
-              <p className="mt-1 text-sm text-zinc-300">{t('final.stat1')}</p>
+              <p className="mt-1 text-sm text-muted-foreground/40">{t('final.stat1')}</p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="rounded-2xl border border-border/10 bg-white/5 p-4">
               <p className="text-2xl font-semibold text-white">15+</p>
-              <p className="mt-1 text-sm text-zinc-300">{t('final.stat2')}</p>
+              <p className="mt-1 text-sm text-muted-foreground/40">{t('final.stat2')}</p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="rounded-2xl border border-border/10 bg-white/5 p-4">
               <p className="text-2xl font-semibold text-white">98%</p>
-              <p className="mt-1 text-sm text-zinc-300">{t('final.stat3')}</p>
+              <p className="mt-1 text-sm text-muted-foreground/40">{t('final.stat3')}</p>
             </div>
           </div>
         </motion.div>

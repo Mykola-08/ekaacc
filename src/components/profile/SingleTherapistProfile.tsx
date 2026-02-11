@@ -1,4 +1,4 @@
-﻿// Placeholder for simplified therapist profile component
+// Placeholder for simplified therapist profile component
 'use client';
 
 import { useLanguage } from '@/context/LanguageContext';
@@ -41,7 +41,7 @@ export function SingleTherapistProfile({ therapist }: { therapist: any }) {
             {therapist.specialties.map((s: string, i: number) => (
               <span
                 key={i}
-                className="text-foreground/70 rounded-md border border-black/5 bg-white/50 px-2 py-1 text-xs"
+                className="text-foreground/70 rounded-md border border-black/5 bg-card/50 px-2 py-1 text-xs"
               >
                 {s}
               </span>

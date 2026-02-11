@@ -438,10 +438,10 @@ export function ServiceBookingPage({ service, initialVariantId }: ServiceBooking
 
                     {/* Footer */}
                     <div className="border-border flex items-center justify-center gap-2 border-t px-4 py-3 text-xs text-muted-foreground">
-                        <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-3.5 w-3.5 text-emerald-500" />
+                        <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-3.5 w-3.5 text-success" />
                         <span>Instant Confirmation</span>
                         <span className="text-border mx-1.5">|</span>
-                        <HugeiconsIcon icon={StarIcon} className="h-3.5 w-3.5 text-amber-500" />
+                        <HugeiconsIcon icon={StarIcon} className="h-3.5 w-3.5 text-warning" />
                         <span>Trusted by 500+ clients</span>
                     </div>
 

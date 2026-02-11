@@ -69,7 +69,7 @@ export function AccordionItem({ value, className, children }: AccordionItemProps
   return (
     <div
       className={cn(
-        'rounded-apple overflow-hidden bg-gray-50 transition-colors hover:bg-gray-100 dark:bg-gray-800',
+        'rounded-apple overflow-hidden bg-muted transition-colors hover:bg-muted dark:bg-card',
         className
       )}
     >
@@ -109,7 +109,7 @@ export function AccordionTrigger({ children, className, value: itemValue }: Acco
       {children}
       <ChevronDown
         className={cn(
-          'h-5 w-5 shrink-0 text-gray-500 transition-transform duration-300',
+          'h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300',
           isOpen && 'text-primary-600 rotate-180'
         )}
       />
@@ -141,7 +141,7 @@ export function AccordionContent({ children, className, value: itemValue }: Acco
           transition={{ duration: 0.3, ease: 'easeInOut' }}
           className="overflow-hidden bg-transparent"
         >
-          <div className={cn('px-6 pt-0 pb-5 text-gray-700 dark:text-gray-300', className)}>
+          <div className={cn('px-6 pt-0 pb-5 text-foreground dark:text-muted-foreground/40', className)}>
             {children}
           </div>
         </motion.div>

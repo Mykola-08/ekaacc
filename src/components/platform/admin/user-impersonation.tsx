@@ -337,19 +337,19 @@ export function ImpersonationBanner({
   };
 
   return (
-    <div className="border-b border-amber-200 bg-amber-100 px-4 py-3">
+    <div className="border-b border-warning/30 bg-warning/20 px-4 py-3">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <div className="flex items-center gap-3">
-          <Shield className="h-5 w-5 text-amber-600" />
+          <Shield className="h-5 w-5 text-warning" />
           <div className="text-sm">
-            <span className="font-medium text-amber-800">
+            <span className="font-medium text-warning">
               Impersonating: {impersonation.targetUserEmail || impersonation.targetUserId || 'User'}
             </span>
-            <span className="ml-2 text-amber-700">
+            <span className="ml-2 text-warning">
               (Original: {impersonation.originalUserEmail || 'Admin'})
             </span>
             {impersonation.reason && (
-              <span className="ml-2 text-amber-600">• Reason: {impersonation.reason}</span>
+              <span className="ml-2 text-warning">• Reason: {impersonation.reason}</span>
             )}
           </div>
         </div>
@@ -358,11 +358,11 @@ export function ImpersonationBanner({
           size="sm"
           onClick={handleEndImpersonation}
           disabled={isEnding}
-          className="border-amber-300 text-amber-700 hover:bg-amber-50"
+          className="border-warning/40 text-warning hover:bg-warning/10"
         >
           {isEnding ? (
             <>
-              <div className="mr-2 h-3 w-3 animate-spin rounded-full border-b-2 border-amber-700" />
+              <div className="mr-2 h-3 w-3 animate-spin rounded-full border-b-2 border-warning" />
               Ending...
             </>
           ) : (

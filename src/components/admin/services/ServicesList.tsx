@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
 import { AdminService } from '@/server/admin/actions';
-import { Plus, MoreHorizontal, Layers, Eye, EyeOff, Tag } from 'lucide-react';
+import { Plus, MoreHorizontal, Eye, EyeOff, Tag, Layers } from 'lucide-react';
+import { Layers01Icon } from '@hugeicons/core-free-icons';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -63,7 +64,7 @@ export function ServicesList({ services }: ServicesListProps) {
 
       <div className="space-y-4">
         {filteredServices.length === 0 ? (
-          <EmptyState icon={Layers} title="No services found" />
+          <EmptyState icon={Layers01Icon} title="No services found" />
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {filteredServices.map((service, idx) => (
@@ -118,7 +119,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
         )}
 
         {service.active ? (
-          <div className="mx-2 h-2 w-2 rounded-full bg-emerald-500" title="Active" />
+          <div className="mx-2 h-2 w-2 rounded-full bg-success/100" title="Active" />
         ) : (
           <div className="bg-muted-foreground/30 mx-2 h-2 w-2 rounded-full" title="Inactive" />
         )}

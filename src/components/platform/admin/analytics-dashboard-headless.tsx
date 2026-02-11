@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Tab } from '@headlessui/react';
@@ -173,8 +173,8 @@ export function AnalyticsDashboardHeadless() {
   if (!analytics) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <div className="mb-4 rounded-full bg-red-50 p-4">
-          <AlertTriangle className="h-8 w-8 text-red-500" />
+        <div className="mb-4 rounded-full bg-destructive/10 p-4">
+          <AlertTriangle className="h-8 w-8 text-destructive" />
         </div>
         <h3 className="text-foreground text-lg font-semibold">Failed to load analytics</h3>
         <p className="text-muted-foreground mt-1 mb-6">We couldn't retrieve the latest data.</p>
@@ -248,7 +248,7 @@ export function AnalyticsDashboardHeadless() {
             {analytics.overview.totalUsers.toLocaleString()}
           </div>
           <div className="flex items-center text-sm">
-            <span className="flex items-center rounded-full bg-green-50 px-2 py-0.5 font-medium text-green-600">
+            <span className="flex items-center rounded-full bg-success px-2 py-0.5 font-medium text-success">
               <TrendingUp className="mr-1 h-3 w-3" />+{analytics.overview.newUsers}
             </span>
             <span className="text-muted-foreground/80 ml-2">this period</span>
@@ -258,7 +258,7 @@ export function AnalyticsDashboardHeadless() {
         <div className="bg-card rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Active Users</span>
-            <Activity className="h-5 w-5 text-emerald-500" />
+            <Activity className="h-5 w-5 text-success" />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.activeUsers.toLocaleString()}
@@ -272,13 +272,13 @@ export function AnalyticsDashboardHeadless() {
         <div className="bg-card rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Conversion Rate</span>
-            <BarChartIcon className="h-5 w-5 text-amber-500" />
+            <BarChartIcon className="h-5 w-5 text-warning" />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.conversionRate.toFixed(1)}%
           </div>
           <div className="flex items-center text-sm">
-            <span className="flex items-center rounded-full bg-green-50 px-2 py-0.5 font-medium text-green-600">
+            <span className="flex items-center rounded-full bg-success px-2 py-0.5 font-medium text-success">
               <TrendingUp className="mr-1 h-3 w-3" />
               +2.1%
             </span>
@@ -289,7 +289,7 @@ export function AnalyticsDashboardHeadless() {
         <div className="bg-card rounded-lg p-6 shadow-sm ring-1 ring-border">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Avg Session</span>
-            <Clock className="h-5 w-5 text-violet-500" />
+            <Clock className="h-5 w-5 text-chart-4" />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {Math.floor(analytics.overview.avgSessionDuration / 60)}m{' '}
@@ -343,7 +343,7 @@ export function AnalyticsDashboardHeadless() {
                 className={({ selected }) =>
                   classNames(
                     'w-full min-w-[100px] rounded-full px-4 py-2.5 text-sm leading-5 font-medium',
-                    'ring-slate-400 ring-offset-2 focus:ring-2 focus:outline-none',
+                    'ring-border ring-offset-2 focus:ring-2 focus:outline-none',
                     selected
                       ? 'bg-card text-foreground shadow'
                       : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/[0.12]'
@@ -391,7 +391,7 @@ export function AnalyticsDashboardHeadless() {
                         contentStyle={{
                           borderRadius: '12px',
                           border: 'none',
-                          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                          boxShadow: '0 4px 6px -1px oklch(0 0 0 / 0.1)',
                         }}
                       />
                       <Line
@@ -444,7 +444,7 @@ export function AnalyticsDashboardHeadless() {
                         contentStyle={{
                           borderRadius: '12px',
                           border: 'none',
-                          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                          boxShadow: '0 4px 6px -1px oklch(0 0 0 / 0.1)',
                         }}
                       />
                       <Bar dataKey="activity" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
@@ -598,7 +598,7 @@ export function AnalyticsDashboardHeadless() {
                         contentStyle={{
                           borderRadius: '12px',
                           border: 'none',
-                          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                          boxShadow: '0 4px 6px -1px oklch(0 0 0 / 0.1)',
                         }}
                       />
                     </PieChart>
@@ -619,7 +619,7 @@ export function AnalyticsDashboardHeadless() {
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className="h-4 w-4 rounded-full ring-2 ring-white"
+                          className="h-4 w-4 rounded-full ring-2 ring-background"
                           style={{ backgroundColor: COLORS[index % COLORS.length] }}
                         />
                         <span className="text-foreground/90 text-sm font-semibold">

@@ -9,7 +9,7 @@ import FinalInvitationSection from '@/components/marketing/revision360/FinalInvi
 
 export default function Revision360Content() {
   return (
-    <div className="min-h-screen bg-[#07090f] text-white">
+    <div className="min-h-screen bg-background text-foreground dark">
       <HeroSection />
       <Why360Section />
       <ServiceSection />

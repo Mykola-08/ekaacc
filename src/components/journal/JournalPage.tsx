@@ -29,9 +29,9 @@ interface JournalEntry {
 }
 
 const MOODS = [
-  { id: 'happy', score: 8, icon: Smile, color: 'text-emerald-500', bg: 'bg-emerald-50' },
-  { id: 'neutral', score: 5, icon: Meh, color: 'text-amber-500', bg: 'bg-amber-50' },
-  { id: 'sad', score: 2, icon: Frown, color: 'text-indigo-500', bg: 'bg-indigo-50' },
+  { id: 'happy', score: 8, icon: Smile, color: 'text-success', bg: 'bg-success/10' },
+  { id: 'neutral', score: 5, icon: Meh, color: 'text-warning', bg: 'bg-warning/10' },
+  { id: 'sad', score: 2, icon: Frown, color: 'text-accent-foreground', bg: 'bg-accent/10' },
 ];
 
 export function JournalPage() {

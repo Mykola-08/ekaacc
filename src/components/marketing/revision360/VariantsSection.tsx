@@ -113,7 +113,7 @@ export default function VariantsSection() {
           transition={{ duration: 0.45 }}
         >
           <h2 className="text-3xl font-semibold text-white sm:text-5xl">{t('variants.title')}</h2>
-          <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground/40 sm:text-lg">
             {t('variants.subtitle')}
           </p>
         </motion.div>
@@ -124,23 +124,23 @@ export default function VariantsSection() {
               key={variant.title}
               type="button"
               onClick={() => setSelectedVariant(variant)}
-              className="rounded-2xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur-sm transition-colors hover:border-amber-200/35 hover:bg-white/[0.08]"
+              className="rounded-2xl border border-border/10 bg-white/5 p-6 text-left backdrop-blur-sm transition-colors hover:border-warning/30/35 hover:bg-white/[0.08]"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: index * 0.08 }}
             >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-amber-300/15 text-amber-100">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-vip-gold-4/15 text-vip-gold-2">
                 {variant.icon}
               </span>
               <h3 className="mt-4 text-xl font-semibold text-white">{variant.title}</h3>
-              <p className="mt-1 text-sm text-amber-200/90">{variant.subtitle}</p>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-300">{variant.description}</p>
-              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
-                <span className="text-xs tracking-[0.1em] text-zinc-300/90 uppercase">
+              <p className="mt-1 text-sm text-vip-gold-4/90">{variant.subtitle}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground/40">{variant.description}</p>
+              <div className="mt-6 flex items-center justify-between border-t border-border/10 pt-4">
+                <span className="text-xs tracking-[0.1em] text-muted-foreground/40/90 uppercase">
                   {variant.duration}
                 </span>
-                <span className="text-lg font-semibold text-amber-100">{variant.price}</span>
+                <span className="text-lg font-semibold text-vip-gold-2">{variant.price}</span>
               </div>
             </motion.button>
           ))}
@@ -155,44 +155,44 @@ export default function VariantsSection() {
           size="lg"
         >
           <div className="space-y-6">
-            <p className="text-zinc-200">{selectedVariant.description}</p>
+            <p className="text-muted-foreground">{selectedVariant.description}</p>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <p className="text-sm tracking-[0.1em] text-amber-200 uppercase">
+                <p className="text-sm tracking-[0.1em] text-vip-gold-4 uppercase">
                   {t('variants.idealFor')}
                 </p>
                 <ul className="mt-3 space-y-2">
                   {selectedVariant.idealFor.map((item, index) => (
-                    <li key={index} className="flex items-start gap-3 text-zinc-200">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
+                    <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-warning/50" />
                       <span className="text-sm">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm tracking-[0.1em] text-amber-200 uppercase">
+                <p className="text-sm tracking-[0.1em] text-vip-gold-4 uppercase">
                   {t('variants.includes')}
                 </p>
                 <ul className="mt-3 space-y-2">
                   {selectedVariant.includes.map((item, index) => (
-                    <li key={index} className="flex items-start gap-3 text-zinc-200">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
+                    <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-warning/50" />
                       <span className="text-sm">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            <div className="flex flex-col gap-4 rounded-xl border border-amber-300/30 bg-amber-300/10 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 rounded-xl border border-warning/30 bg-vip-gold-4/10 p-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-xs tracking-[0.1em] text-amber-200 uppercase">
+                <p className="text-xs tracking-[0.1em] text-vip-gold-4 uppercase">
                   {t('variants.sessionDuration')}
                 </p>
                 <p className="mt-1 text-lg font-semibold text-white">{selectedVariant.duration}</p>
               </div>
               <div className="sm:text-right">
-                <p className="text-xs tracking-[0.1em] text-amber-200 uppercase">
+                <p className="text-xs tracking-[0.1em] text-vip-gold-4 uppercase">
                   {t('variants.investment')}
                 </p>
                 <p className="mt-1 text-2xl font-semibold text-white">{selectedVariant.price}</p>

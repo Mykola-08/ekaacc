@@ -37,9 +37,9 @@ const STATUS_CONFIG: Record<Exclude<FeedbackStatus, 'idle'>, {
   },
   success: {
     icon: CheckmarkCircle02Icon,
-    color: 'text-emerald-600 dark:text-emerald-400',
-    bgColor: 'bg-emerald-50 dark:bg-emerald-950/30',
-    borderColor: 'border-emerald-200 dark:border-emerald-800/50',
+    color: 'text-success',
+    bgColor: 'bg-success/5',
+    borderColor: 'border-success/20',
   },
   error: {
     icon: AlertCircleIcon,
@@ -49,15 +49,15 @@ const STATUS_CONFIG: Record<Exclude<FeedbackStatus, 'idle'>, {
   },
   warning: {
     icon: Alert02Icon,
-    color: 'text-amber-600 dark:text-amber-400',
-    bgColor: 'bg-amber-50 dark:bg-amber-950/30',
-    borderColor: 'border-amber-200 dark:border-amber-800/50',
+    color: 'text-warning',
+    bgColor: 'bg-warning/5',
+    borderColor: 'border-warning/20',
   },
   info: {
     icon: InformationCircleIcon,
-    color: 'text-blue-600 dark:text-blue-400',
-    bgColor: 'bg-blue-50 dark:bg-blue-950/30',
-    borderColor: 'border-blue-200 dark:border-blue-800/50',
+    color: 'text-info',
+    bgColor: 'bg-info/5',
+    borderColor: 'border-info/20',
   },
 };
 

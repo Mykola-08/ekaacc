@@ -131,14 +131,14 @@ export default function PricingSection() {
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <div className="mb-20 text-center">
-          <div className="mb-8 inline-flex items-center rounded-full border border-yellow-100 bg-yellow-50 px-6 py-2">
-            <span className="text-sm font-medium tracking-wide text-yellow-700 uppercase">
+          <div className="mb-8 inline-flex items-center rounded-full border border-warning/20 bg-warning px-6 py-2">
+            <span className="text-sm font-medium tracking-wide text-warning uppercase">
               Tarifes transparents
             </span>
           </div>
 
           <h2 className="text-foreground mb-8 text-4xl font-light md:text-5xl">
-            Tria el teu <span className="font-medium text-yellow-500">pla de benestar</span>
+            Tria el teu <span className="font-medium text-warning">pla de benestar</span>
           </h2>
 
           <p className="text-muted-foreground mx-auto max-w-3xl text-xl font-light">
@@ -166,9 +166,9 @@ export default function PricingSection() {
                 key={plan.id}
                 className={`aurora-glass-card relative cursor-pointer transition-all duration-300 ${
                   plan.popular
-                    ? 'scale-105 transform ring-2 ring-yellow-400/50'
+                    ? 'scale-105 transform ring-2 ring-warning/50'
                     : selectedPlan === plan.id
-                      ? 'ring-2 ring-yellow-400/50'
+                      ? 'ring-2 ring-warning/50'
                       : ''
                 }`}
                 onClick={() => setSelectedPlan(selectedPlan === plan.id ? null : plan.id)}
@@ -176,7 +176,7 @@ export default function PricingSection() {
                 {/* Popular Badge */}
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 transform">
-                    <div className="text-foreground rounded-full bg-yellow-400 px-4 py-1.5 text-sm font-medium shadow-sm">
+                    <div className="text-foreground rounded-full bg-warning px-4 py-1.5 text-sm font-medium shadow-sm">
                       Més popular
                     </div>
                   </div>
@@ -184,7 +184,7 @@ export default function PricingSection() {
 
                 {/* Savings Badge */}
                 {(originalSavings > 0 || selectedDiscount) && (
-                  <div className="absolute top-6 right-6 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+                  <div className="absolute top-6 right-6 rounded-full bg-success/20 px-3 py-1 text-xs font-medium text-success-foreground">
                     Estalvia {totalSavings}%
                   </div>
                 )}
@@ -192,8 +192,8 @@ export default function PricingSection() {
                 <div className="p-8">
                   {/* Icon & Title */}
                   <div className="mb-8 text-center">
-                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-yellow-100">
-                      <Icon className="h-8 w-8 text-yellow-600" />
+                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-warning/20">
+                      <Icon className="h-8 w-8 text-warning" />
                     </div>
 
                     <h3 className="text-foreground mb-2 text-2xl font-medium">{plan.name}</h3>
@@ -214,7 +214,7 @@ export default function PricingSection() {
                       )}
                     </div>
                     {selectedDiscount && (
-                      <div className="mb-2 text-sm font-medium text-green-600">
+                      <div className="mb-2 text-sm font-medium text-success">
                         {selectedDiscount.name} aplicat (-{selectedDiscount.percentage}%)
                       </div>
                     )}
@@ -228,7 +228,7 @@ export default function PricingSection() {
                   <ul className="mb-8 space-y-3">
                     {plan.features.map((feature: string, featureIndex: number) => (
                       <li key={featureIndex} className="flex items-start">
-                        <CheckCircle className="mt-0.5 mr-3 h-5 w-5 shrink-0 text-green-500" />
+                        <CheckCircle className="mt-0.5 mr-3 h-5 w-5 shrink-0 text-success" />
                         <span className="text-muted-foreground text-sm">{feature}</span>
                       </li>
                     ))}
@@ -246,8 +246,8 @@ export default function PricingSection() {
                     }}
                     className={`w-full rounded-[20px] py-4 text-center font-medium transition-all duration-200 ${
                       plan.popular
-                        ? 'text-foreground bg-yellow-400 shadow-sm hover:bg-yellow-500 hover:shadow-md'
-                        : 'bg-muted text-foreground hover:bg-gray-200'
+                        ? 'text-foreground bg-warning shadow-sm hover:bg-warning/90 hover:shadow-md'
+                        : 'bg-muted text-foreground hover:bg-muted'
                     }`}
                   >
                     {plan.buttonText}
@@ -262,8 +262,8 @@ export default function PricingSection() {
         <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
             <div key={feature.title} className="bg-muted/30 rounded-[20px] p-6 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[20px] bg-yellow-100">
-                <CheckCircle className="h-6 w-6 text-yellow-600" />
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[20px] bg-warning/20">
+                <CheckCircle className="h-6 w-6 text-warning" />
               </div>
               <h4 className="text-foreground mb-2 font-medium">{feature.title}</h4>
               <p className="text-muted-foreground text-sm">{feature.description}</p>
@@ -283,7 +283,7 @@ export default function PricingSection() {
             </p>
             <Link
               href="/services"
-              className="group inline-flex items-center font-medium text-yellow-600 transition-colors hover:text-yellow-700"
+              className="group inline-flex items-center font-medium text-warning transition-colors hover:text-warning"
             >
               Descobrir els nostres serveis
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

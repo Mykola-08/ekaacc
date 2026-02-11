@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * AI Insights Panel Widget
@@ -36,13 +36,13 @@ interface Insight {
 }
 
 const typeConfig: Record<string, { icon: typeof Brain; color: string; bg: string }> = {
-  wellness: { icon: Heart, color: "text-rose-500", bg: "bg-rose-500/10" },
-  therapy: { icon: Brain, color: "text-violet-500", bg: "bg-violet-500/10" },
-  behavioral: { icon: Target, color: "text-amber-500", bg: "bg-amber-500/10" },
-  progress: { icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  wellness: { icon: Heart, color: "text-destructive", bg: "bg-destructive/10" },
+  therapy: { icon: Brain, color: "text-chart-4", bg: "bg-chart-4/100/10" },
+  behavioral: { icon: Target, color: "text-warning", bg: "bg-warning/10" },
+  progress: { icon: TrendingUp, color: "text-success", bg: "bg-success/10" },
   recommendation: { icon: Lightbulb, color: "text-primary", bg: "bg-primary/10" },
-  mood: { icon: Zap, color: "text-orange-500", bg: "bg-orange-500/10" },
-  engagement: { icon: TrendingUp, color: "text-cyan-500", bg: "bg-cyan-500/10" },
+  mood: { icon: Zap, color: "text-warning", bg: "bg-warning/10" },
+  engagement: { icon: TrendingUp, color: "text-info", bg: "bg-info/10" },
 };
 
 export function InsightsPanel({ className }: { className?: string }) {

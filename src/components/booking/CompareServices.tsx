@@ -9,7 +9,7 @@ export function CompareServices() {
   return (
     <div className="bg-card border-border/60 animate-in slide-in-from-bottom-4 w-full overflow-hidden rounded-lg border shadow-none duration-700">
       <div className="border-border/40 bg-secondary/20 border-b p-8 text-center">
-        <h2 className="text-foreground mb-2 font-serif text-2xl font-semibold">
+        <h2 className="text-foreground mb-2 text-2xl font-semibold">
           Compare Experiences
         </h2>
         <p className="text-muted-foreground">Find the perfect balance for your needs.</p>
@@ -20,11 +20,11 @@ export function CompareServices() {
           <thead>
             <tr className="border-border/40 border-b">
               <th className="w-1/4 p-6 text-left"></th>
-              <th className="text-foreground w-1/4 p-6 text-center font-serif text-lg">Classic</th>
-              <th className="text-primary bg-primary/5 w-1/4 rounded-t-xl p-6 text-center font-serif text-lg font-semibold">
+              <th className="text-foreground w-1/4 p-6 text-center text-lg font-medium">Classic</th>
+              <th className="text-primary bg-primary/5 w-1/4 rounded-t-xl p-6 text-center text-lg font-semibold">
                 Premium
               </th>
-              <th className="text-foreground w-1/4 p-6 text-center font-serif text-lg">Royal</th>
+              <th className="text-foreground w-1/4 p-6 text-center text-lg font-medium">Royal</th>
             </tr>
           </thead>
           <tbody className="divide-border/40 divide-y">
@@ -65,7 +65,7 @@ function FeatureRow({ label, tooltip, classic, premium, royal }: any) {
   const renderValue = (val: any) => {
     if (typeof val === 'boolean') {
       return val ? (
-        <HugeiconsIcon icon={Tick02Icon} className="mx-auto h-5 w-5 text-emerald-500" />
+        <HugeiconsIcon icon={Tick02Icon} className="mx-auto h-5 w-5 text-success" />
       ) : (
         <HugeiconsIcon
           icon={MinusPlus01Icon}

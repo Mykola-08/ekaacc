@@ -46,7 +46,7 @@ export function PlanUsageStats({ plans, loading }: PlanUsageStatsProps) {
 
             return (
               <Card key={plan.id} className="overflow-hidden">
-                <CardHeader className="bg-linear-to-r from-blue-50 to-indigo-50 pb-2 dark:from-slate-900 dark:to-slate-800">
+                <CardHeader className="bg-linear-to-r from-info/10 to-accent/10 pb-2 dark:from-card dark:to-card">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-base font-medium">{plan.name}</CardTitle>
                     <Badge variant="secondary" className="bg-card/50 backdrop-blur">

@@ -14,12 +14,12 @@ export default function ServiceCard({ service }: ServiceCardProps) {
   const { t } = useLanguage();
   const colorStyles: Record<string, { text: string; dot: string }> = {
     blue: { text: 'text-primary', dot: 'bg-primary' },
-    purple: { text: 'text-purple-600', dot: 'bg-purple-500' },
-    green: { text: 'text-emerald-600', dot: 'bg-emerald-500' },
+    purple: { text: 'text-accent', dot: 'bg-accent0' },
+    green: { text: 'text-success', dot: 'bg-success/100' },
     orange: { text: 'text-marketing-accent-dark', dot: 'bg-marketing-accent' },
-    indigo: { text: 'text-indigo-600', dot: 'bg-indigo-500' },
-    pink: { text: 'text-pink-600', dot: 'bg-pink-500' },
-    red: { text: 'text-red-600', dot: 'bg-red-500' },
+    indigo: { text: 'text-accent-foreground', dot: 'bg-accent/100' },
+    pink: { text: 'text-accent-foreground', dot: 'bg-accent/100' },
+    red: { text: 'text-destructive', dot: 'bg-destructive' },
   };
   const palette = colorStyles[service.color] ?? colorStyles.blue;
 
@@ -33,21 +33,21 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         />
       </div>
       <div className="flex grow flex-col p-6">
-        <h3 className="mb-2 text-xl font-semibold tracking-tight text-gray-900">{t(service.titleKey)}</h3>
+        <h3 className="mb-2 text-xl font-semibold tracking-tight text-foreground">{t(service.titleKey)}</h3>
         {/* Helper text/subtitle in color */}
         <p className={`mb-4 text-sm font-medium ${palette.text}`}>{t(service.subtitleKey)}</p>
 
-        <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-gray-600">{t(service.descriptionKey)}</p>
+        <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{t(service.descriptionKey)}</p>
 
         {/* Benefits List */}
         {service.benefitsKeys && service.benefitsKeys.length > 0 && (
           <div className="mb-6">
-            <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-gray-900">
+            <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-foreground">
               {t('services.mainBenefits') || 'Key Benefits'}
             </h4>
             <ul className="space-y-2.5">
               {service.benefitsKeys.slice(0, 4).map((key, i) => (
-                <li key={i} className="flex items-start text-sm text-gray-600">
+                <li key={i} className="flex items-start text-sm text-muted-foreground">
                   <span
                     className={`mr-2 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${palette.dot}`}
                   />
@@ -58,11 +58,11 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           </div>
         )}
 
-        <div className="mt-auto flex gap-3 border-t border-gray-100 pt-5">
+        <div className="mt-auto flex gap-3 border-t border-border pt-5">
           <Button
             asChild
             variant="outline"
-            className="flex-1 w-full rounded-[20px] border border-gray-200 bg-transparent p-3 text-sm font-medium normal-case text-gray-700 transition-all duration-300 hover:bg-gray-50 hover:text-gray-900"
+            className="flex-1 w-full rounded-[20px] border border-border bg-transparent p-3 text-sm font-medium normal-case text-foreground transition-all duration-300 hover:bg-muted hover:text-foreground"
           >
             <Link href={service.href}>
               {t('common.readMore') || 'Read More'}

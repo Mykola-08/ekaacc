@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -168,7 +168,7 @@ export function SystemConfiguration() {
 
   const renderConfigValue = (config: Configuration) => {
     if (config.isEncrypted) {
-      return <span className="text-muted-foreground/80 italic">â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>;
+      return <span className="text-muted-foreground/80 italic">��������</span>;
     }
 
     if (typeof config.value === 'boolean') {
@@ -337,7 +337,7 @@ export function SystemConfiguration() {
                             variant="ghost"
                             size="sm"
                             onClick={() => handleDeleteConfiguration(config.id)}
-                            className="text-red-600 hover:text-red-700"
+                            className="text-destructive hover:text-destructive"
                           >
                             <Trash2 className="h-3 w-3" />
                           </Button>
@@ -352,7 +352,7 @@ export function SystemConfiguration() {
 
       {/* Add Configuration Modal */}
       {showAddModal && (
-        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-foreground">
           <Card className="mx-4 w-full max-w-md">
             <CardHeader>
               <CardTitle>Add New Configuration</CardTitle>

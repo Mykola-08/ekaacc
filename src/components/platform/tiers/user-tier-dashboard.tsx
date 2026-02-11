@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LoadingSpinner } from '@/components/ui/loading-states';
 import {
   Card,
@@ -360,7 +360,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
 
         {/* Loyalty Status */}
         <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 -mt-16 -mr-16 h-32 w-32 rounded-full bg-linear-to-br from-blue-400 to-blue-600 opacity-10" />
+          <div className="absolute top-0 right-0 -mt-16 -mr-16 h-32 w-32 rounded-full bg-linear-to-br from-info to-info opacity-10" />
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -416,7 +416,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                     </div>
                     <div className="h-2 w-full rounded-full bg-muted">
                       <div
-                        className="h-2 rounded-full bg-linear-to-r from-blue-400 to-blue-600 transition-all duration-300"
+                        className="h-2 rounded-full bg-linear-to-r from-info to-info transition-all duration-300"
                         style={{ width: `${tierData.nextTierProgress.loyalty.progress}%` }}
                       />
                     </div>

@@ -18,7 +18,7 @@ export function PricingPage({ services }: PricingPageProps) {
     <div className="bg-background animate-fade-in min-h-screen pb-32">
       {/* Hero */}
       <div className="px-4 pt-32 pb-24 text-center">
-        <h1 className="text-foreground mb-6 font-serif text-5xl tracking-tight md:text-6xl">
+        <h1 className="text-foreground mb-6 text-5xl font-semibold tracking-tight md:text-6xl">
           Simple, Transparent <span className="italic">Pricing</span>
         </h1>
         <p className="text-muted-foreground mx-auto max-w-xl text-xl leading-relaxed">
@@ -47,7 +47,7 @@ export function PricingPage({ services }: PricingPageProps) {
                 >
                   <CardContent className="flex flex-col justify-between gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
                     <div>
-                      <h3 className="text-foreground group-hover:text-primary mb-2 font-serif text-2xl transition-colors">
+                      <h3 className="text-foreground group-hover:text-primary mb-2 text-2xl font-semibold transition-colors">
                         {service.name}
                       </h3>
                       <div className="text-muted-foreground flex items-center gap-4 text-sm">
@@ -61,7 +61,7 @@ export function PricingPage({ services }: PricingPageProps) {
                     </div>
 
                     <div className="border-border flex min-w-max items-center gap-6 sm:border-l sm:pl-6">
-                      <span className="text-foreground font-serif text-3xl">€{service.price}</span>
+                      <span className="text-foreground text-3xl font-semibold">€{service.price}</span>
                       <Link href={`/book/${service.slug || service.id}`}>
                         <Button size="icon" className="h-9 w-9 rounded-full shadow-sm">
                           <HugeiconsIcon icon={ArrowRight01Icon} className="h-5 w-5" />
@@ -92,7 +92,7 @@ export function PricingPage({ services }: PricingPageProps) {
                     Best Value
                   </Badge>
 
-                  <h3 className="text-primary-foreground mb-2 font-serif text-3xl">
+                  <h3 className="text-primary-foreground mb-2 text-3xl font-semibold">
                     Wellness Package
                   </h3>
                   <p className="text-primary-foreground/80 mb-8 text-sm leading-relaxed">
@@ -120,7 +120,7 @@ export function PricingPage({ services }: PricingPageProps) {
 
                   <div className="bg-primary-foreground/10 border-primary-foreground/10 mb-8 rounded-lg border p-4">
                     <div className="mb-1 flex items-end gap-2">
-                      <span className="font-serif text-4xl">
+                      <span className="text-4xl font-semibold">
                         €{(services[0]?.price || 100) * 4}
                       </span>
                       <span className="text-primary-foreground/60 decoration-primary-foreground/60 mb-1 text-lg line-through">

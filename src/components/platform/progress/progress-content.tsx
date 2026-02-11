@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useMemo } from 'react';
 import { format } from 'date-fns';
@@ -24,8 +24,8 @@ function MinimalStatCard({
   trend?: 'improving' | 'declining' | 'neutral';
 }) {
   const trendInfo = {
-    improving: { icon: <TrendingUp className="h-4 w-4 text-green-600" />, color: 'text-green-600' },
-    declining: { icon: <TrendingDown className="h-4 w-4 text-red-600" />, color: 'text-red-600' },
+    improving: { icon: <TrendingUp className="h-4 w-4 text-success" />, color: 'text-success' },
+    declining: { icon: <TrendingDown className="h-4 w-4 text-destructive" />, color: 'text-destructive' },
     neutral: { icon: null, color: '' },
   }[trend || 'neutral'];
 
@@ -65,8 +65,8 @@ function MinimalProgressChart({ data }: { data: any[] }) {
             <div className="text-right">
               <p className="text-foreground font-semibold">{point.score || point.mood || 8}/10</p>
               <div className="flex items-center gap-1">
-                {point.trend === 'up' && <TrendingUp className="h-4 w-4 text-green-600" />}
-                {point.trend === 'down' && <TrendingDown className="h-4 w-4 text-red-600" />}
+                {point.trend === 'up' && <TrendingUp className="h-4 w-4 text-success" />}
+                {point.trend === 'down' && <TrendingDown className="h-4 w-4 text-destructive" />}
                 {point.trend === 'stable' && (
                   <div className="h-4 w-4 rounded-full bg-muted-foreground"></div>
                 )}

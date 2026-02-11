@@ -201,40 +201,40 @@ const ComparativeTable = () => {
   const renderValue = (val: string | boolean) => {
     if (typeof val === 'boolean') {
       return val ? (
-        <Check className="mx-auto h-5 w-5 text-amber-600" />
+        <Check className="mx-auto h-5 w-5 text-warning" />
       ) : (
-        <div className="mx-auto h-1.5 w-1.5 rounded-full bg-gray-300" />
+        <div className="mx-auto h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
       );
     }
-    return <span className="font-medium text-gray-600">{val}</span>;
+    return <span className="font-medium text-muted-foreground">{val}</span>;
   };
 
   return (
-    <section className="relative border-t border-gray-200 bg-gray-50 py-24">
+    <section className="relative border-t border-border bg-muted py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-light text-gray-900 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-light text-foreground md:text-4xl">
             <span
-              className={`bg-linear-to-r from-amber-600 via-yellow-500 to-amber-600 bg-clip-text text-transparent ${isShining ? 'animate-pulse' : ''}`}
+              className={`bg-linear-to-r from-warning/90 via-warning/100 to-warning bg-clip-text text-transparent ${isShining ? 'animate-pulse' : ''}`}
             >
               {t('vip.table.title')}
             </span>
           </h2>
         </div>
 
-        <div className="overflow-x-auto rounded-[20px] border border-gray-100 bg-white shadow-xl">
+        <div className="overflow-x-auto rounded-[20px] border border-border bg-card shadow-xl">
           <table className="w-full min-w-[600px] border-collapse">
             <thead>
-              <tr className="bg-gray-50/50">
-                <th className="w-1/3 p-6 text-left font-light text-gray-400"></th>
-                <th className="p-6 text-center text-lg font-medium tracking-wider text-amber-800">
+              <tr className="bg-muted/50">
+                <th className="w-1/3 p-6 text-left font-light text-muted-foreground/60"></th>
+                <th className="p-6 text-center text-lg font-medium tracking-wider text-warning">
                   BRONZE
                 </th>
-                <th className="p-6 text-center text-lg font-medium tracking-wider text-gray-600">
+                <th className="p-6 text-center text-lg font-medium tracking-wider text-muted-foreground">
                   SILVER
                 </th>
                 <th className="p-6 text-center text-lg font-medium tracking-wider">
-                  <span className="font-bold text-amber-500">GOLD</span>
+                  <span className="font-bold text-warning">GOLD</span>
                 </th>
               </tr>
             </thead>
@@ -242,9 +242,9 @@ const ComparativeTable = () => {
               {features.map((feature) => (
                 <tr
                   key={feature.key}
-                  className="border-b border-gray-100 transition-colors hover:bg-gray-50"
+                  className="border-b border-border transition-colors hover:bg-muted"
                 >
-                  <td className="p-6 font-medium text-gray-700">{t(feature.label)}</td>
+                  <td className="p-6 font-medium text-foreground">{t(feature.label)}</td>
                   <td className="p-6 text-center">{renderValue(feature.bronze)}</td>
                   <td className="p-6 text-center">{renderValue(feature.silver)}</td>
                   <td className="p-6 text-center">{renderValue(feature.gold)}</td>
@@ -264,10 +264,10 @@ export default function VIPContent() {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-amber-100 selection:text-amber-900">
+    <div className="min-h-screen bg-card font-sans text-foreground selection:bg-warning/20 selection:text-warning">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-linear-to-br from-gray-50 via-white to-amber-50/30 pt-32 pb-24">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center opacity-30" />
+      <div className="relative overflow-hidden bg-linear-to-br from-muted via-background to-warning/5 pt-32 pb-24">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,oklch(1 0 0 / 0))] bg-center opacity-30" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-6 text-center">
           <motion.div
@@ -275,23 +275,23 @@ export default function VIPContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white px-4 py-2 shadow-sm">
-              <Crown className="h-5 w-5 text-amber-500" />
-              <span className="font-medium tracking-wide text-amber-800">VIP CLUB</span>
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-warning/30 bg-card px-4 py-2 shadow-sm">
+              <Crown className="h-5 w-5 text-warning" />
+              <span className="font-medium tracking-wide text-warning">VIP CLUB</span>
             </div>
 
-            <h1 className="mb-8 font-serif text-6xl tracking-tight text-gray-900 md:text-8xl">
-              <span className="bg-linear-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+            <h1 className="mb-8 font-serif text-6xl tracking-tight text-foreground md:text-8xl">
+              <span className="bg-linear-to-r from-foreground via-foreground/80 to-foreground bg-clip-text text-transparent">
                 {t('vip.hero.title')}
               </span>
             </h1>
 
-            <p className="mx-auto mb-12 max-w-3xl text-xl leading-relaxed font-light text-gray-600 md:text-2xl">
+            <p className="mx-auto mb-12 max-w-3xl text-xl leading-relaxed font-light text-muted-foreground md:text-2xl">
               {t('vip.hero.subtitle')}
             </p>
 
             <Link href="#pricing">
-              <button className="h-16 rounded-full border-none bg-linear-to-r from-amber-500 to-amber-600 px-10 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:from-amber-600 hover:to-amber-700 hover:shadow-amber-200/50">
+              <button className="h-16 rounded-full border-none bg-linear-to-r from-warning to-warning px-10 text-lg font-medium text-white shadow-lg transition-all duration-300 hover:from-warning/90 hover:to-warning/80 hover:shadow-warning/20">
                 {t('vip.cta.apply')}
               </button>
             </Link>
@@ -300,7 +300,7 @@ export default function VIPContent() {
       </div>
 
       {/* Luxury Features Grid */}
-      <section className="bg-white py-24">
+      <section className="bg-card py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {defaultLuxuryFeatures.map((feature, idx) => {
@@ -308,13 +308,13 @@ export default function VIPContent() {
               return (
                 <div
                   key={idx}
-                  className="group rounded-[20px] border border-gray-100 bg-gray-50 p-8 transition-colors hover:border-amber-100"
+                  className="group rounded-[20px] border border-border bg-muted p-8 transition-colors hover:border-warning/20"
                 >
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-[20px] border border-gray-100 bg-white shadow-sm transition-transform group-hover:scale-110">
-                    <Icon className="h-7 w-7 text-amber-600" />
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-[20px] border border-border bg-card shadow-sm transition-transform group-hover:scale-110">
+                    <Icon className="h-7 w-7 text-warning" />
                   </div>
-                  <h3 className="mb-3 text-xl font-bold text-gray-900">{t(feature.title)}</h3>
-                  <p className="leading-relaxed text-gray-600">{t(feature.description)}</p>
+                  <h3 className="mb-3 text-xl font-bold text-foreground">{t(feature.title)}</h3>
+                  <p className="leading-relaxed text-muted-foreground">{t(feature.description)}</p>
                 </div>
               );
             })}
@@ -323,13 +323,13 @@ export default function VIPContent() {
       </section>
 
       {/* Services Detail */}
-      <section className="bg-gray-50 py-24">
+      <section className="bg-muted py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-20 text-center">
-            <h2 className="mb-6 font-serif text-4xl text-gray-900 md:text-5xl">
+            <h2 className="mb-6 font-serif text-4xl text-foreground md:text-5xl">
               {t('vip.services.title')}
             </h2>
-            <p className="mx-auto max-w-2xl text-xl font-light text-gray-600">
+            <p className="mx-auto max-w-2xl text-xl font-light text-muted-foreground">
               {t('vip.services.subtitle')}
             </p>
           </div>
@@ -338,19 +338,19 @@ export default function VIPContent() {
             {vipServices.map((service, idx) => (
               <div
                 key={idx}
-                className="rounded-apple-xl border border-gray-100 bg-white p-10 shadow-sm transition-shadow duration-300 hover:shadow-xl"
+                className="rounded-apple-xl border border-border bg-card p-10 shadow-sm transition-shadow duration-300 hover:shadow-xl"
               >
                 <div className="flex items-start gap-6">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[20px] bg-amber-50">
-                    <service.icon className="h-8 w-8 text-amber-600" />
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[20px] bg-warning/10">
+                    <service.icon className="h-8 w-8 text-warning" />
                   </div>
                   <div>
-                    <h3 className="mb-4 text-2xl font-bold text-gray-900">{t(service.title)}</h3>
-                    <p className="mb-6 text-lg text-gray-600">{t(service.description)}</p>
+                    <h3 className="mb-4 text-2xl font-bold text-foreground">{t(service.title)}</h3>
+                    <p className="mb-6 text-lg text-muted-foreground">{t(service.description)}</p>
                     <ul className="grid gap-3 sm:grid-cols-2">
                       {service.features.map((feat, i) => (
-                        <li key={i} className="flex items-center gap-2 text-gray-700">
-                          <div className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                        <li key={i} className="flex items-center gap-2 text-foreground">
+                          <div className="h-1.5 w-1.5 rounded-full bg-warning" />
                           <span className="text-sm font-medium">{t(feat)}</span>
                         </li>
                       ))}
@@ -364,13 +364,13 @@ export default function VIPContent() {
       </section>
 
       {/* Pricing / Tiers */}
-      <section id="pricing" className="bg-white py-24">
+      <section id="pricing" className="bg-card py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-20 text-center">
-            <h2 className="mb-6 font-serif text-4xl text-gray-900 md:text-5xl">
+            <h2 className="mb-6 font-serif text-4xl text-foreground md:text-5xl">
               {t('vip.pricing.title')}
             </h2>
-            <p className="mx-auto max-w-2xl text-xl font-light text-gray-600">
+            <p className="mx-auto max-w-2xl text-xl font-light text-muted-foreground">
               {t('vip.pricing.subtitle')}
             </p>
           </div>
@@ -379,28 +379,28 @@ export default function VIPContent() {
             {defaultPlans.map((plan) => (
               <div
                 key={plan.tier}
-                className={`rounded-apple-xl relative border bg-white p-8 ${plan.popular ? 'border-amber-400 shadow-2xl shadow-amber-100' : 'border-gray-200 shadow-lg'}`}
+                className={`rounded-apple-xl relative border bg-card p-8 ${plan.popular ? 'border-warning shadow-2xl shadow-warning/20' : 'border-border shadow-lg'}`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 rounded-full bg-amber-500 px-6 py-2 text-sm font-bold tracking-wide text-white shadow-md">
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 rounded-full bg-warning px-6 py-2 text-sm font-bold tracking-wide text-white shadow-md">
                     MOST POPULAR
                   </div>
                 )}
 
                 <div className="mb-8 pt-4 text-center">
-                  <h3 className="mb-2 text-2xl font-bold text-gray-900">{t(plan.name)}</h3>
+                  <h3 className="mb-2 text-2xl font-bold text-foreground">{t(plan.name)}</h3>
                   <div className="flex items-baseline justify-center gap-1">
-                    <span className="font-serif text-4xl text-gray-900">{t(plan.price)}</span>
-                    <span className="text-gray-500">/mo</span>
+                    <span className="font-serif text-4xl text-foreground">{t(plan.price)}</span>
+                    <span className="text-muted-foreground">/mo</span>
                   </div>
-                  <p className="mt-4 h-12 text-gray-500">{t(plan.description)}</p>
+                  <p className="mt-4 h-12 text-muted-foreground">{t(plan.description)}</p>
                 </div>
 
                 <div className="mb-8 space-y-4">
                   {plan.features.map((feature: string, i: number) => (
                     <div key={i} className="flex items-start gap-3">
-                      <Check className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
-                      <span className="text-sm text-gray-700">{t(feature)}</span>
+                      <Check className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
+                      <span className="text-sm text-foreground">{t(feature)}</span>
                     </div>
                   ))}
                 </div>
@@ -408,8 +408,8 @@ export default function VIPContent() {
                 <button
                   className={`h-14 w-full rounded-[20px] border-none text-lg font-bold transition-all ${
                     plan.popular
-                      ? 'bg-amber-500 text-white hover:bg-amber-600'
-                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                      ? 'bg-warning text-white hover:bg-warning'
+                      : 'bg-muted text-foreground hover:bg-muted'
                   }`}
                 >
                   {t('vip.cta.select')}
@@ -423,7 +423,7 @@ export default function VIPContent() {
       <ComparativeTable />
 
       {/* Testimonials */}
-      <section className="relative overflow-hidden bg-gray-900 py-24 text-white">
+      <section className="relative overflow-hidden bg-background py-24 text-white">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="mb-16 text-center">
@@ -434,17 +434,17 @@ export default function VIPContent() {
             {testimonials.map((test, i) => (
               <div
                 key={i}
-                className="rounded-[20px] border border-white/10 bg-white/5 p-8 backdrop-blur-md"
+                className="rounded-[20px] border border-border/10 bg-white/5 p-8 backdrop-blur-md"
               >
                 <div className="mb-6 flex gap-1">
                   {[...Array(test.rating)].map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                    <Star key={j} className="h-4 w-4 fill-warning text-warning" />
                   ))}
                 </div>
-                <p className="mb-8 leading-relaxed text-gray-300 italic">"{t(test.comment)}"</p>
+                <p className="mb-8 leading-relaxed text-muted-foreground/40 italic">"{t(test.comment)}"</p>
                 <div>
                   <p className="font-bold text-white">{test.name}</p>
-                  <p className="text-sm text-amber-400/80">{t(test.role)}</p>
+                  <p className="text-sm text-warning/80">{t(test.role)}</p>
                 </div>
               </div>
             ))}

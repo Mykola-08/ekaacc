@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -61,12 +61,12 @@ export function IdentityVerificationForm({ currentStatus }: { currentStatus?: st
 
   if (currentStatus === 'pending') {
     return (
-      <Card className="border-yellow-200 bg-yellow-50/50 p-8 text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
+      <Card className="border-warning/30 bg-warning/10 p-8 text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warning/20 text-warning">
           <Clock className="h-8 w-8" />
         </div>
-        <h3 className="text-xl font-semibold text-yellow-900">Under Review</h3>
-        <p className="mt-2 text-yellow-700">
+        <h3 className="text-xl font-semibold text-warning">Under Review</h3>
+        <p className="mt-2 text-warning">
           Our team is verifying your documents. This usually takes 24 hours.
         </p>
       </Card>
@@ -75,12 +75,12 @@ export function IdentityVerificationForm({ currentStatus }: { currentStatus?: st
 
   if (currentStatus === 'approved') {
     return (
-      <Card className="border-emerald-200 bg-emerald-50/50 p-8 text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+      <Card className="border-success/30 bg-success/10 p-8 text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success/20 text-success">
           <ShieldCheck className="h-8 w-8" />
         </div>
-        <h3 className="text-xl font-semibold text-emerald-900">Identity Verified</h3>
-        <p className="mt-2 text-emerald-700">Your account is fully verified and secure.</p>
+        <h3 className="text-xl font-semibold text-success">Identity Verified</h3>
+        <p className="mt-2 text-success">Your account is fully verified and secure.</p>
       </Card>
     );
   }

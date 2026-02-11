@@ -75,190 +75,190 @@ export default function DataProcessingAgreement() {
     },
     es: {
       title: 'Acuerdo de Procesamiento de Datos (DPA)',
-      lastUpdated: 'Ãšltima actualizaciÃ³n: 15 de marzo de 2024',
+      lastUpdated: 'Última actualización: 15 de marzo de 2024',
       intro:
-        "Este Acuerdo de Procesamiento de Datos ('DPA') forma parte de los TÃ©rminos de Servicio entre EKA Balance ('Procesador') y el Usuario ('Controlador') y se aplica al procesamiento de datos personales bajo el RGPD y otras leyes de protecciÃ³n de datos aplicables.",
+        "Este Acuerdo de Procesamiento de Datos ('DPA') forma parte de los Términos de Servicio entre EKA Balance ('Procesador') y el Usuario ('Controlador') y se aplica al procesamiento de datos personales bajo el RGPD y otras leyes de protección de datos aplicables.",
       sections: [
         {
           title: '1. Definiciones',
           content:
-            "A los efectos de este DPA, los tÃ©rminos 'Controlador', 'Procesador', 'Interesado', 'Datos Personales', 'Procesamiento' y 'Autoridad de Control' tendrÃ¡n los significados que se les asignan en el Reglamento General de ProtecciÃ³n de Datos (RGPD) (UE) 2016/679.",
+            "A los efectos de este DPA, los términos 'Controlador', 'Procesador', 'Interesado', 'Datos Personales', 'Procesamiento' y 'Autoridad de Control' tendrán los significados que se les asignan en el Reglamento General de Protección de Datos (RGPD) (UE) 2016/679.",
         },
         {
-          title: '2. Objeto y DuraciÃ³n',
+          title: '2. Objeto y Duración',
           content:
-            'El objeto del procesamiento es la prestaciÃ³n de los servicios descritos en los TÃ©rminos de Servicio. La duraciÃ³n del procesamiento corresponde a la duraciÃ³n de los TÃ©rminos de Servicio.',
+            'El objeto del procesamiento es la prestación de los servicios descritos en los Términos de Servicio. La duración del procesamiento corresponde a la duración de los Términos de Servicio.',
         },
         {
           title: '3. Naturaleza y Finalidad del Procesamiento',
           content:
-            'El Procesador procesarÃ¡ Datos Personales en nombre del Controlador con el fin de proporcionar los servicios de la plataforma EKA Balance, incluida la gestiÃ³n de cuentas de usuario, la reserva de citas y la facilitaciÃ³n de sesiones de terapia.',
+            'El Procesador procesará Datos Personales en nombre del Controlador con el fin de proporcionar los servicios de la plataforma EKA Balance, incluida la gestión de cuentas de usuario, la reserva de citas y la facilitación de sesiones de terapia.',
         },
         {
-          title: '4. CategorÃ­as de Interesados',
+          title: '4. Categorías de Interesados',
           content:
-            'Los Datos Personales procesados se refieren a las siguientes categorÃ­as de Interesados: Usuarios de la plataforma EKA Balance, incluidos pacientes, terapeutas y administradores.',
+            'Los Datos Personales procesados se refieren a las siguientes categorías de Interesados: Usuarios de la plataforma EKA Balance, incluidos pacientes, terapeutas y administradores.',
         },
         {
           title: '5. Tipos de Datos Personales',
           content:
-            'Los Datos Personales procesados incluyen: InformaciÃ³n de contacto (nombre, correo electrÃ³nico, telÃ©fono), datos de salud (si se proporcionan con fines terapÃ©uticos), datos tÃ©cnicos (direcciÃ³n IP, informaciÃ³n del dispositivo) y datos de uso.',
+            'Los Datos Personales procesados incluyen: Información de contacto (nombre, correo electrónico, teléfono), datos de salud (si se proporcionan con fines terapéuticos), datos técnicos (dirección IP, información del dispositivo) y datos de uso.',
         },
         {
           title: '6. Derechos y Obligaciones del Controlador',
           content:
-            'El Controlador es responsable de la licitud del procesamiento de Datos Personales. El Controlador proporcionarÃ¡ todas las instrucciones necesarias al Procesador con respecto al procesamiento de Datos Personales.',
+            'El Controlador es responsable de la licitud del procesamiento de Datos Personales. El Controlador proporcionará todas las instrucciones necesarias al Procesador con respecto al procesamiento de Datos Personales.',
         },
         {
           title: '7. Obligaciones del Procesador',
           content:
-            'El Procesador procesarÃ¡ Datos Personales solo siguiendo instrucciones documentadas del Controlador. El Procesador garantiza que las personas autorizadas para procesar los Datos Personales se han comprometido a respetar la confidencialidad. El Procesador toma todas las medidas requeridas de conformidad con el ArtÃ­culo 32 del RGPD (Seguridad del Procesamiento).',
+            'El Procesador procesará Datos Personales solo siguiendo instrucciones documentadas del Controlador. El Procesador garantiza que las personas autorizadas para procesar los Datos Personales se han comprometido a respetar la confidencialidad. El Procesador toma todas las medidas requeridas de conformidad con el Artículo 32 del RGPD (Seguridad del Procesamiento).',
         },
         {
           title: '8. Subprocesamiento',
           content:
-            'El Controlador autoriza al Procesador a contratar subprocesadores para apoyar la prestaciÃ³n de los Servicios. El Procesador informarÃ¡ al Controlador de cualquier cambio previsto relativo a la incorporaciÃ³n o sustituciÃ³n de otros procesadores.',
+            'El Controlador autoriza al Procesador a contratar subprocesadores para apoyar la prestación de los Servicios. El Procesador informará al Controlador de cualquier cambio previsto relativo a la incorporación o sustitución de otros procesadores.',
         },
         {
           title: '9. Transferencias Internacionales',
           content:
-            'Cualquier transferencia de Datos Personales a un tercer paÃ­s o a una organizaciÃ³n internacional por parte del Procesador se realizarÃ¡ Ãºnicamente sobre la base de instrucciones documentadas del Controlador y de conformidad con el CapÃ­tulo V del RGPD.',
+            'Cualquier transferencia de Datos Personales a un tercer país o a una organización internacional por parte del Procesador se realizará únicamente sobre la base de instrucciones documentadas del Controlador y de conformidad con el Capítulo V del RGPD.',
         },
         {
           title: '10. Asistencia al Controlador',
           content:
-            'El Procesador asistirÃ¡ al Controlador mediante medidas tÃ©cnicas y organizativas apropiadas, siempre que sea posible, para el cumplimiento de la obligaciÃ³n del Controlador de responder a las solicitudes para el ejercicio de los derechos del Interesado.',
+            'El Procesador asistirá al Controlador mediante medidas técnicas y organizativas apropiadas, siempre que sea posible, para el cumplimiento de la obligación del Controlador de responder a las solicitudes para el ejercicio de los derechos del Interesado.',
         },
         {
-          title: '11. SupresiÃ³n o DevoluciÃ³n de Datos',
+          title: '11. Supresión o Devolución de Datos',
           content:
-            'A elecciÃ³n del Controlador, el Procesador suprimirÃ¡ o devolverÃ¡ todos los Datos Personales al Controlador una vez finalizada la prestaciÃ³n de los servicios de procesamiento, y suprimirÃ¡ las copias existentes a menos que la legislaciÃ³n de la UniÃ³n o de los Estados miembros exija la conservaciÃ³n de los Datos Personales.',
+            'A elección del Controlador, el Procesador suprimirá o devolverá todos los Datos Personales al Controlador una vez finalizada la prestación de los servicios de procesamiento, y suprimirá las copias existentes a menos que la legislación de la Unión o de los Estados miembros exija la conservación de los Datos Personales.',
         },
       ],
     },
     ca: {
       title: 'Acord de Processament de Dades (DPA)',
-      lastUpdated: 'Ãšltima actualitzaciÃ³: 15 de marÃ§ de 2024',
+      lastUpdated: 'Última actualització: 15 de març de 2024',
       intro:
-        "Aquest Acord de Processament de Dades ('DPA') forma part dels Termes del Servei entre EKA Balance ('Processador') i l'Usuari ('Controlador') i s'aplica al processament de dades personals sota el RGPD i altres lleis de protecciÃ³ de dades aplicables.",
+        "Aquest Acord de Processament de Dades ('DPA') forma part dels Termes del Servei entre EKA Balance ('Processador') i l'Usuari ('Controlador') i s'aplica al processament de dades personals sota el RGPD i altres lleis de protecció de dades aplicables.",
       sections: [
         {
           title: '1. Definicions',
           content:
-            "Als efectes d'aquest DPA, els termes 'Controlador', 'Processador', 'Interessat', 'Dades Personals', 'Processament' i 'Autoritat de Control' tindran els significats que se'ls assignen en el Reglament General de ProtecciÃ³ de Dades (RGPD) (UE) 2016/679.",
+            "Als efectes d'aquest DPA, els termes 'Controlador', 'Processador', 'Interessat', 'Dades Personals', 'Processament' i 'Autoritat de Control' tindran els significats que se'ls assignen en el Reglament General de Protecció de Dades (RGPD) (UE) 2016/679.",
         },
         {
           title: '2. Objecte i Durada',
           content:
-            "L'objecte del processament Ã©s la prestaciÃ³ dels serveis descrits als Termes del Servei. La durada del processament correspon a la durada dels Termes del Servei.",
+            "L'objecte del processament és la prestació dels serveis descrits als Termes del Servei. La durada del processament correspon a la durada dels Termes del Servei.",
         },
         {
           title: '3. Naturalesa i Finalitat del Processament',
           content:
-            "El Processador processarÃ  Dades Personals en nom del Controlador amb la finalitat de proporcionar els serveis de la plataforma EKA Balance, inclosa la gestiÃ³ de comptes d'usuari, la reserva de cites i la facilitaciÃ³ de sessions de terÃ pia.",
+            "El Processador processarà Dades Personals en nom del Controlador amb la finalitat de proporcionar els serveis de la plataforma EKA Balance, inclosa la gestió de comptes d'usuari, la reserva de cites i la facilitació de sessions de teràpia.",
         },
         {
           title: "4. Categories d'Interessats",
           content:
-            "Les Dades Personals processades es refereixen a les segÃ¼ents categories d'Interessats: Usuaris de la plataforma EKA Balance, inclosos pacients, terapeutes i administradors.",
+            "Les Dades Personals processades es refereixen a les següents categories d'Interessats: Usuaris de la plataforma EKA Balance, inclosos pacients, terapeutes i administradors.",
         },
         {
           title: '5. Tipus de Dades Personals',
           content:
-            "Les Dades Personals processades inclouen: InformaciÃ³ de contacte (nom, correu electrÃ²nic, telÃ¨fon), dades de salut (si es proporcionen amb finalitats terapÃ¨utiques), dades tÃ¨cniques (adreÃ§a IP, informaciÃ³ del dispositiu) i dades d'Ãºs.",
+            "Les Dades Personals processades inclouen: Informació de contacte (nom, correu electrònic, telèfon), dades de salut (si es proporcionen amb finalitats terapèutiques), dades tècniques (adreça IP, informació del dispositiu) i dades d'ús.",
         },
         {
           title: '6. Drets i Obligacions del Controlador',
           content:
-            'El Controlador Ã©s responsable de la licitud del processament de Dades Personals. El Controlador proporcionarÃ  totes les instruccions necessÃ ries al Processador pel que fa al processament de Dades Personals.',
+            'El Controlador és responsable de la licitud del processament de Dades Personals. El Controlador proporcionarà totes les instruccions necessàries al Processador pel que fa al processament de Dades Personals.',
         },
         {
           title: '7. Obligacions del Processador',
           content:
-            "El Processador processarÃ  Dades Personals nomÃ©s seguint instruccions documentades del Controlador. El Processador garanteix que les persones autoritzades per processar les Dades Personals s'han compromÃ¨s a respectar la confidencialitat. El Processador pren totes les mesures requerides de conformitat amb l'Article 32 del RGPD (Seguretat del Processament).",
+            "El Processador processarà Dades Personals només seguint instruccions documentades del Controlador. El Processador garanteix que les persones autoritzades per processar les Dades Personals s'han compromès a respectar la confidencialitat. El Processador pren totes les mesures requerides de conformitat amb l'Article 32 del RGPD (Seguretat del Processament).",
         },
         {
           title: '8. Subprocessament',
           content:
-            "El Controlador autoritza al Processador a contractar subprocessadors per donar suport a la prestaciÃ³ dels Serveis. El Processador informarÃ  al Controlador de qualsevol canvi previst relatiu a la incorporaciÃ³ o substituciÃ³ d'altres processadors.",
+            "El Controlador autoritza al Processador a contractar subprocessadors per donar suport a la prestació dels Serveis. El Processador informarà al Controlador de qualsevol canvi previst relatiu a la incorporació o substitució d'altres processadors.",
         },
         {
-          title: '9. TransferÃ¨ncies Internacionals',
+          title: '9. Transferències Internacionals',
           content:
-            "Qualsevol transferÃ¨ncia de Dades Personals a un tercer paÃ­s o a una organitzaciÃ³ internacional per part del Processador es realitzarÃ  Ãºnicament sobre la base d'instruccions documentades del Controlador i de conformitat amb el CapÃ­tol V del RGPD.",
+            "Qualsevol transferència de Dades Personals a un tercer país o a una organització internacional per part del Processador es realitzarà únicament sobre la base d'instruccions documentades del Controlador i de conformitat amb el Capítol V del RGPD.",
         },
         {
-          title: '10. AssistÃ¨ncia al Controlador',
+          title: '10. Assistència al Controlador',
           content:
-            "El Processador assistirÃ  al Controlador mitjanÃ§ant mesures tÃ¨cniques i organitzatives apropiades, sempre que sigui possible, per al compliment de l'obligaciÃ³ del Controlador de respondre a les solÂ·licituds per a l'exercici dels drets de l'Interessat.",
+            "El Processador assistirà al Controlador mitjançant mesures tècniques i organitzatives apropiades, sempre que sigui possible, per al compliment de l'obligació del Controlador de respondre a les sol·licituds per a l'exercici dels drets de l'Interessat.",
         },
         {
-          title: '11. SupressiÃ³ o DevoluciÃ³ de Dades',
+          title: '11. Supressió o Devolució de Dades',
           content:
-            'A elecciÃ³ del Controlador, el Processador suprimirÃ  o retornarÃ  totes les Dades Personals al Controlador un cop finalitzada la prestaciÃ³ dels serveis de processament, i suprimirÃ  les cÃ²pies existents llevat que la legislaciÃ³ de la UniÃ³ o dels Estats membres exigeixi la conservaciÃ³ de les Dades Personals.',
+            'A elecció del Controlador, el Processador suprimirà o retornarà totes les Dades Personals al Controlador un cop finalitzada la prestació dels serveis de processament, i suprimirà les còpies existents llevat que la legislació de la Unió o dels Estats membres exigeixi la conservació de les Dades Personals.',
         },
       ],
     },
     ru: {
-      title: 'Ð¡Ð¾Ð³Ð»Ð°ÑˆÐµÐ½Ð¸Ðµ Ð¾Ð± Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐµ Ð´Ð°Ð½Ð½Ñ‹Ñ… (DPA)',
-      lastUpdated: 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: 15 Ð¼Ð°Ñ€Ñ‚Ð° 2024 Ð³.',
+      title: 'Соглашение об обработке данных (DPA)',
+      lastUpdated: 'Последнее обновление: 15 марта 2024 г.',
       intro:
-        "ÐÐ°ÑÑ‚Ð¾ÑÑ‰ÐµÐµ Ð¡Ð¾Ð³Ð»Ð°ÑˆÐµÐ½Ð¸Ðµ Ð¾Ð± Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐµ Ð´Ð°Ð½Ð½Ñ‹Ñ… ('DPA') ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ñ‡Ð°ÑÑ‚ÑŒÑŽ Ð£ÑÐ»Ð¾Ð²Ð¸Ð¹ Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ Ð¼ÐµÐ¶Ð´Ñƒ EKA Balance ('ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº') Ð¸ ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¼ ('ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€') Ð¸ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÑÐµÑ‚ÑÑ Ðº Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐµ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ð¸ Ñ GDPR Ð¸ Ð´Ñ€ÑƒÐ³Ð¸Ð¼Ð¸ Ð¿Ñ€Ð¸Ð¼ÐµÐ½Ð¸Ð¼Ñ‹Ð¼Ð¸ Ð·Ð°ÐºÐ¾Ð½Ð°Ð¼Ð¸ Ð¾ Ð·Ð°Ñ‰Ð¸Ñ‚Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ….",
+        "Настоящее Соглашение об обработке данных ('DPA') является частью Условий обслуживания между EKA Balance ('Обработчик') и Пользователем ('Контроллер') и применяется к обработке персональных данных в соответствии с GDPR и другими применимыми законами о защите данных.",
       sections: [
         {
-          title: '1. ÐžÐ¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð¸Ñ',
+          title: '1. Определения',
           content:
-            "Ð”Ð»Ñ Ñ†ÐµÐ»ÐµÐ¹ Ð½Ð°ÑÑ‚Ð¾ÑÑ‰ÐµÐ³Ð¾ DPA Ñ‚ÐµÑ€Ð¼Ð¸Ð½Ñ‹ 'ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€', 'ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº', 'Ð¡ÑƒÐ±ÑŠÐµÐºÑ‚ Ð´Ð°Ð½Ð½Ñ‹Ñ…', 'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ', 'ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ°' Ð¸ 'ÐÐ°Ð´Ð·Ð¾Ñ€Ð½Ñ‹Ð¹ Ð¾Ñ€Ð³Ð°Ð½' Ð¸Ð¼ÐµÑŽÑ‚ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ñ, ÑƒÐºÐ°Ð·Ð°Ð½Ð½Ñ‹Ðµ Ð² ÐžÐ±Ñ‰ÐµÐ¼ Ñ€ÐµÐ³Ð»Ð°Ð¼ÐµÐ½Ñ‚Ðµ Ð¿Ð¾ Ð·Ð°Ñ‰Ð¸Ñ‚Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ… (GDPR) (Ð•Ð¡) 2016/679.",
+            "Для целей настоящего DPA термины 'Контроллер', 'Обработчик', 'Субъект данных', 'Персональные данные', 'Обработка' и 'Надзорный орган' имеют значения, указанные в Общем регламенте по защите данных (GDPR) (ЕС) 2016/679.",
         },
         {
-          title: '2. ÐŸÑ€ÐµÐ´Ð¼ÐµÑ‚ Ð¸ ÑÑ€Ð¾Ðº Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ',
+          title: '2. Предмет и срок действия',
           content:
-            'ÐŸÑ€ÐµÐ´Ð¼ÐµÑ‚Ð¾Ð¼ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑƒÑÐ»ÑƒÐ³, Ð¾Ð¿Ð¸ÑÐ°Ð½Ð½Ñ‹Ñ… Ð² Ð£ÑÐ»Ð¾Ð²Ð¸ÑÑ… Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ. Ð¡Ñ€Ð¾Ðº Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ ÑÑ€Ð¾ÐºÑƒ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ Ð£ÑÐ»Ð¾Ð²Ð¸Ð¹ Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ.',
+            'Предметом обработки является предоставление услуг, описанных в Условиях обслуживания. Срок обработки соответствует сроку действия Условий обслуживания.',
         },
         {
-          title: '3. Ð¥Ð°Ñ€Ð°ÐºÑ‚ÐµÑ€ Ð¸ Ñ†ÐµÐ»ÑŒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸',
+          title: '3. Характер и цель обработки',
           content:
-            'ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð±ÑƒÐ´ÐµÑ‚ Ð¾Ð±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ñ‚ÑŒ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾Ñ‚ Ð¸Ð¼ÐµÐ½Ð¸ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð° Ñ Ñ†ÐµÐ»ÑŒÑŽ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ñ ÑƒÑÐ»ÑƒÐ³ Ð¿Ð»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ñ‹ EKA Balance, Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑƒÑ‡ÐµÑ‚Ð½Ñ‹Ð¼Ð¸ Ð·Ð°Ð¿Ð¸ÑÑÐ¼Ð¸ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹, Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð²ÑÑ‚Ñ€ÐµÑ‡ Ð¸ Ð¿Ñ€Ð¾Ð²ÐµÐ´ÐµÐ½Ð¸Ðµ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… ÑÐµÐ°Ð½ÑÐ¾Ð².',
+            'Обработчик будет обрабатывать Персональные данные от имени Контроллера с целью предоставления услуг платформы EKA Balance, включая управление учетными записями пользователей, бронирование встреч и проведение терапевтических сеансов.',
         },
         {
-          title: '4. ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸ ÑÑƒÐ±ÑŠÐµÐºÑ‚Ð¾Ð² Ð´Ð°Ð½Ð½Ñ‹Ñ…',
+          title: '4. Категории субъектов данных',
           content:
-            'ÐžÐ±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼Ñ‹Ðµ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ ÐºÐ°ÑÐ°ÑŽÑ‚ÑÑ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ñ… ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¹ Ð¡ÑƒÐ±ÑŠÐµÐºÑ‚Ð¾Ð² Ð´Ð°Ð½Ð½Ñ‹Ñ…: ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ð¸ Ð¿Ð»Ð°Ñ‚Ñ„Ð¾Ñ€Ð¼Ñ‹ EKA Balance, Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ Ð¿Ð°Ñ†Ð¸ÐµÐ½Ñ‚Ð¾Ð², Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¾Ð² Ð¸ Ð°Ð´Ð¼Ð¸Ð½Ð¸ÑÑ‚Ñ€Ð°Ñ‚Ð¾Ñ€Ð¾Ð².',
+            'Обрабатываемые Персональные данные касаются следующих категорий Субъектов данных: Пользователи платформы EKA Balance, включая пациентов, терапевтов и администраторов.',
         },
         {
-          title: '5. Ð¢Ð¸Ð¿Ñ‹ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ…',
+          title: '5. Типы персональных данных',
           content:
-            'ÐžÐ±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼Ñ‹Ðµ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð²ÐºÐ»ÑŽÑ‡Ð°ÑŽÑ‚: ÐšÐ¾Ð½Ñ‚Ð°ÐºÑ‚Ð½ÑƒÑŽ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ (Ð¸Ð¼Ñ, ÑÐ»ÐµÐºÑ‚Ñ€Ð¾Ð½Ð½Ð°Ñ Ð¿Ð¾Ñ‡Ñ‚Ð°, Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½), Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ (ÐµÑÐ»Ð¸ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ñ‹ Ð´Ð»Ñ Ñ†ÐµÐ»ÐµÐ¹ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸), Ñ‚ÐµÑ…Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ (IP-Ð°Ð´Ñ€ÐµÑ, Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾Ð± ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ðµ) Ð¸ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾Ð± Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ð¸.',
+            'Обрабатываемые Персональные данные включают: Контактную информацию (имя, электронная почта, телефон), данные о здоровье (если предоставлены для целей терапии), технические данные (IP-адрес, информация об устройстве) и данные об использовании.',
         },
         {
-          title: '6. ÐŸÑ€Ð°Ð²Ð° Ð¸ Ð¾Ð±ÑÐ·Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°',
+          title: '6. Права и обязанности Контроллера',
           content:
-            'ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð½ÐµÑÐµÑ‚ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð·Ð°ÐºÐ¾Ð½Ð½Ð¾ÑÑ‚ÑŒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ…. ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÑƒ Ð²ÑÐµ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ðµ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸Ð¸ Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ….',
+            'Контроллер несет ответственность за законность обработки Персональных данных. Контроллер должен предоставить Обработчику все необходимые инструкции относительно обработки Персональных данных.',
         },
         {
-          title: '7. ÐžÐ±ÑÐ·Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸ ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ°',
+          title: '7. Обязанности Обработчика',
           content:
-            'ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð¾Ð±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ñ‚ÑŒ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¿Ð¾ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸ÑÐ¼ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°. ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€ÑƒÐµÑ‚, Ñ‡Ñ‚Ð¾ Ð»Ð¸Ñ†Ð°, ÑƒÐ¿Ð¾Ð»Ð½Ð¾Ð¼Ð¾Ñ‡ÐµÐ½Ð½Ñ‹Ðµ Ð¾Ð±Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°Ñ‚ÑŒ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ, Ð¾Ð±ÑÐ·Ð°Ð»Ð¸ÑÑŒ ÑÐ¾Ð±Ð»ÑŽÐ´Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ. ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚ Ð²ÑÐµ Ð¼ÐµÑ€Ñ‹, Ñ‚Ñ€ÐµÐ±ÑƒÐµÐ¼Ñ‹Ðµ Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ð¸ ÑÐ¾ ÑÑ‚Ð°Ñ‚ÑŒÐµÐ¹ 32 GDPR (Ð‘ÐµÐ·Ð¾Ð¿Ð°ÑÐ½Ð¾ÑÑ‚ÑŒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸).',
+            'Обработчик должен обрабатывать Персональные данные только по документированным инструкциям Контроллера. Обработчик гарантирует, что лица, уполномоченные обрабатывать Персональные данные, обязались соблюдать конфиденциальность. Обработчик принимает все меры, требуемые в соответствии со статьей 32 GDPR (Безопасность обработки).',
         },
         {
-          title: '8. Ð¡ÑƒÐ±Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ°',
+          title: '8. Субобработка',
           content:
-            'ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€ ÑƒÐ¿Ð¾Ð»Ð½Ð¾Ð¼Ð¾Ñ‡Ð¸Ð²Ð°ÐµÑ‚ ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ° Ð¿Ñ€Ð¸Ð²Ð»ÐµÐºÐ°Ñ‚ÑŒ ÑÑƒÐ±Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¾Ð² Ð´Ð»Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð£ÑÐ»ÑƒÐ³. ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð° Ð¾ Ð»ÑŽÐ±Ñ‹Ñ… Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ð»Ð°Ð³Ð°ÐµÐ¼Ñ‹Ñ… Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸ÑÑ…, ÐºÐ°ÑÐ°ÑŽÑ‰Ð¸Ñ…ÑÑ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð¸Ð»Ð¸ Ð·Ð°Ð¼ÐµÐ½Ñ‹ Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¾Ð².',
+            'Контроллер уполномочивает Обработчика привлекать субобработчиков для поддержки предоставления Услуг. Обработчик должен информировать Контроллера о любых предполагаемых изменениях, касающихся добавления или замены других обработчиков.',
         },
         {
-          title: '9. ÐœÐµÐ¶Ð´ÑƒÐ½Ð°Ñ€Ð¾Ð´Ð½Ð°Ñ Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð°',
+          title: '9. Международная передача',
           content:
-            'Ð›ÑŽÐ±Ð°Ñ Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð° ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð² Ñ‚Ñ€ÐµÑ‚ÑŒÑŽ ÑÑ‚Ñ€Ð°Ð½Ñƒ Ð¸Ð»Ð¸ Ð¼ÐµÐ¶Ð´ÑƒÐ½Ð°Ñ€Ð¾Ð´Ð½ÑƒÑŽ Ð¾Ñ€Ð³Ð°Ð½Ð¸Ð·Ð°Ñ†Ð¸ÑŽ ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¾Ð¼ Ð´Ð¾Ð»Ð¶Ð½Ð° Ð¾ÑÑƒÑ‰ÐµÑÑ‚Ð²Ð»ÑÑ‚ÑŒÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½Ð° Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð¸Ð¸ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ð¸Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸Ð¹ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð° Ð¸ Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ð¸ Ñ Ð“Ð»Ð°Ð²Ð¾Ð¹ V GDPR.',
+            'Любая передача Персональных данных в третью страну или международную организацию Обработчиком должна осуществляться только на основании документированных инструкций Контроллера и в соответствии с Главой V GDPR.',
         },
         {
-          title: '10. ÐŸÐ¾Ð¼Ð¾Ñ‰ÑŒ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ñƒ',
+          title: '10. Помощь Контроллеру',
           content:
-            'ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð¿Ð¾Ð¼Ð¾Ð³Ð°Ñ‚ÑŒ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ñƒ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ñ… Ñ‚ÐµÑ…Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¸ Ð¾Ñ€Ð³Ð°Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¾Ð½Ð½Ñ‹Ñ… Ð¼ÐµÑ€, Ð½Ð°ÑÐºÐ¾Ð»ÑŒÐºÐ¾ ÑÑ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾, Ð´Ð»Ñ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²Ð° ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð° Ð¾Ñ‚Ð²ÐµÑ‡Ð°Ñ‚ÑŒ Ð½Ð° Ð·Ð°Ð¿Ñ€Ð¾ÑÑ‹ Ð´Ð»Ñ Ð¾ÑÑƒÑ‰ÐµÑÑ‚Ð²Ð»ÐµÐ½Ð¸Ñ Ð¿Ñ€Ð°Ð² Ð¡ÑƒÐ±ÑŠÐµÐºÑ‚Ð° Ð´Ð°Ð½Ð½Ñ‹Ñ….',
+            'Обработчик должен помогать Контроллеру с помощью соответствующих технических и организационных мер, насколько это возможно, для выполнения обязательства Контроллера отвечать на запросы для осуществления прав Субъекта данных.',
         },
         {
-          title: '11. Ð£Ð´Ð°Ð»ÐµÐ½Ð¸Ðµ Ð¸Ð»Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‚ Ð´Ð°Ð½Ð½Ñ‹Ñ…',
+          title: '11. Удаление или возврат данных',
           content:
-            'ÐŸÐ¾ Ð²Ñ‹Ð±Ð¾Ñ€Ñƒ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ð°, ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð´Ð¾Ð»Ð¶ÐµÐ½ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð»Ð¸ Ð²ÐµÑ€Ð½ÑƒÑ‚ÑŒ Ð²ÑÐµ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð»ÐµÑ€Ñƒ Ð¿Ð¾ÑÐ»Ðµ Ð¾ÐºÐ¾Ð½Ñ‡Ð°Ð½Ð¸Ñ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ñ ÑƒÑÐ»ÑƒÐ³, ÑÐ²ÑÐ·Ð°Ð½Ð½Ñ‹Ñ… Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¾Ð¹, Ð¸ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ ÐºÐ¾Ð¿Ð¸Ð¸, ÐµÑÐ»Ð¸ Ð·Ð°ÐºÐ¾Ð½Ð¾Ð´Ð°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²Ð¾ Ð¡Ð¾ÑŽÐ·Ð° Ð¸Ð»Ð¸ Ð³Ð¾ÑÑƒÐ´Ð°Ñ€ÑÑ‚Ð²Ð°-Ñ‡Ð»ÐµÐ½Ð° Ð½Ðµ Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ….',
+            'По выбору Контроллера, Обработчик должен удалить или вернуть все Персональные данные Контроллеру после окончания предоставления услуг, связанных с обработкой, и удалить существующие копии, если законодательство Союза или государства-члена не требует хранения Персональных данных.',
         },
       ],
     },
@@ -285,9 +285,9 @@ export default function DataProcessingAgreement() {
               className="text-muted-foreground cursor-pointer border-none bg-transparent text-sm font-medium focus:ring-0"
             >
               <option value="en">English</option>
-              <option value="es">EspaÃ±ol</option>
-              <option value="ca">CatalÃ </option>
-              <option value="ru">Ð ÑƒÑÑÐºÐ¸Ð¹</option>
+              <option value="es">Español</option>
+              <option value="ca">Català</option>
+              <option value="ru">Русский</option>
             </select>
           </div>
         </div>
@@ -324,11 +324,11 @@ export default function DataProcessingAgreement() {
               {language === 'en' &&
                 'This DPA is an integral part of our Terms of Service. By using our services, you agree to these data processing terms.'}
               {language === 'es' &&
-                'Este DPA es una parte integral de nuestros TÃ©rminos de Servicio. Al utilizar nuestros servicios, usted acepta estos tÃ©rminos de procesamiento de datos.'}
+                'Este DPA es una parte integral de nuestros Términos de Servicio. Al utilizar nuestros servicios, usted acepta estos términos de procesamiento de datos.'}
               {language === 'ca' &&
-                'Aquest DPA Ã©s una part integral dels nostres Termes del Servei. En utilitzar els nostres serveis, accepteu aquests termes de processament de dades.'}
+                'Aquest DPA és una part integral dels nostres Termes del Servei. En utilitzar els nostres serveis, accepteu aquests termes de processament de dades.'}
               {language === 'ru' &&
-                'ÐÐ°ÑÑ‚Ð¾ÑÑ‰ÐµÐµ DPA ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð½ÐµÐ¾Ñ‚ÑŠÐµÐ¼Ð»ÐµÐ¼Ð¾Ð¹ Ñ‡Ð°ÑÑ‚ÑŒÑŽ Ð½Ð°ÑˆÐ¸Ñ… Ð£ÑÐ»Ð¾Ð²Ð¸Ð¹ Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ. Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÑ Ð½Ð°ÑˆÐ¸ ÑƒÑÐ»ÑƒÐ³Ð¸, Ð²Ñ‹ ÑÐ¾Ð³Ð»Ð°ÑˆÐ°ÐµÑ‚ÐµÑÑŒ Ñ ÑÑ‚Ð¸Ð¼Ð¸ ÑƒÑÐ»Ð¾Ð²Ð¸ÑÐ¼Ð¸ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ Ð´Ð°Ð½Ð½Ñ‹Ñ….'}
+                'Настоящее DPA является неотъемлемой частью наших Условий обслуживания. Используя наши услуги, вы соглашаетесь с этими условиями обработки данных.'}
             </p>
           </div>
         </div>

@@ -42,7 +42,7 @@ export default function ResponsiveLayout({
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
+      <div className="min-h-screen bg-linear-to-br from-info/10 via-background to-accent/10">
         <div className="container mx-auto p-4">{children}</div>
       </div>
     );
@@ -50,7 +50,7 @@ export default function ResponsiveLayout({
 
   return (
     <div
-      className={cn('min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50', className)}
+      className={cn('min-h-screen bg-linear-to-br from-info/10 via-background to-accent/10', className)}
     >
       {/* Desktop/Tablet Layout */}
       <div className="hidden md:block">
@@ -74,7 +74,7 @@ export default function ResponsiveLayout({
       <div className="md:hidden">
         <div
           className={cn(
-            'min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50',
+            'min-h-screen bg-linear-to-br from-info/10 via-background to-accent/10',
             'pb-20' // Space for bottom navigation
           )}
         >
@@ -249,9 +249,9 @@ export function ResponsiveButton({
 
   const variantClasses = {
     default:
-      'bg-linear-to-r from-primary to-purple-600 text-white hover:shadow-lg transition-all duration-200',
+      'bg-linear-to-r from-primary to-accent text-white hover:shadow-lg transition-all duration-200',
     outline:
-      'border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-200',
+      'border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200',
     ghost: 'bg-transparent text-primary hover:bg-primary/10 transition-all duration-200',
     elevated:
       'bg-card text-foreground shadow-lg hover:shadow-sm border border-border transition-all duration-200',

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * Wellness Insights Card
@@ -22,13 +22,13 @@ interface WellnessInsightsProps {
 }
 
 const typeConfig: Record<string, { icon: typeof Brain; color: string }> = {
-  wellness: { icon: Heart, color: "text-rose-500" },
-  therapy: { icon: Brain, color: "text-violet-500" },
-  behavioral: { icon: Target, color: "text-amber-500" },
-  progress: { icon: TrendingUp, color: "text-emerald-500" },
+  wellness: { icon: Heart, color: "text-destructive" },
+  therapy: { icon: Brain, color: "text-chart-4" },
+  behavioral: { icon: Target, color: "text-warning" },
+  progress: { icon: TrendingUp, color: "text-success" },
   recommendation: { icon: Lightbulb, color: "text-primary" },
-  mood: { icon: Zap, color: "text-orange-500" },
-  engagement: { icon: TrendingUp, color: "text-cyan-500" },
+  mood: { icon: Zap, color: "text-warning" },
+  engagement: { icon: TrendingUp, color: "text-info" },
 };
 
 export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {

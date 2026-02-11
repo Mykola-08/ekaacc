@@ -27,10 +27,10 @@ export function TherapistStatus({
   }
 
   return (
-    <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+    <span className="flex items-center gap-1.5 text-xs font-medium text-success">
       <span className="relative flex h-2.5 w-2.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75"></span>
+        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success"></span>
       </span>
       Online Now
     </span>

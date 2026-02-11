@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import { Activity } from 'lucide-react';
@@ -17,12 +17,12 @@ interface Transaction {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  deposit: 'text-emerald-600',
-  reward: 'text-emerald-600',
+  deposit: 'text-success',
+  reward: 'text-success',
   payment: 'text-foreground',
   refund: 'text-primary',
-  adjustment: 'text-amber-600',
-  transfer: 'text-indigo-600',
+  adjustment: 'text-warning',
+  transfer: 'text-accent-foreground',
 };
 
 export function RecentActivity() {

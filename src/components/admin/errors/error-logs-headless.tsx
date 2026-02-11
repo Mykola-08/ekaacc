@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { format } from 'date-fns';
 import { ErrorLogDialog } from '@/components/admin/error-log-dialog';
@@ -23,7 +23,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
             <p className="text-muted-foreground mt-1">Monitor application health and issues.</p>
           </div>
           <div className="bg-card border-border/60 text-muted-foreground flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium shadow-sm">
-            <AlertTriangle className="h-4 w-4 text-amber-500" />
+            <AlertTriangle className="h-4 w-4 text-warning" />
             <span>Total Events:</span>
             <span className="text-foreground font-semibold">{count}</span>
           </div>
@@ -34,7 +34,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left text-sm">
               <thead>
-                <tr className="bg-muted/40/50 border-b border-slate-50">
+                <tr className="bg-muted/40/50 border-b border-border">
                   <th className="text-muted-foreground w-[180px] p-6 font-semibold">Timestamp</th>
                   <th className="text-muted-foreground max-w-[400px] p-6 font-semibold">Message</th>
                   <th className="text-muted-foreground p-6 font-semibold">Context URL</th>
@@ -46,8 +46,8 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                 {logs.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="p-12 text-center">
-                      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-50">
-                        <CheckCircle className="h-6 w-6 text-green-500" />
+                      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-success/10">
+                        <CheckCircle className="h-6 w-6 text-success" />
                       </div>
                       <p className="text-muted-foreground font-medium">
                         No errors found in the logs.
@@ -78,7 +78,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                       </td>
                       <td className="p-6 font-mono text-xs">
                         {log.user_id ? (
-                          <span className="rounded-md bg-indigo-50 px-2 py-1 font-semibold text-indigo-700">
+                          <span className="rounded-md bg-accent/10 px-2 py-1 font-semibold text-accent-foreground">
                             {log.user_id.slice(0, 8)}
                           </span>
                         ) : (

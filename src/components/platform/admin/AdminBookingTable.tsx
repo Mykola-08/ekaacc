@@ -174,7 +174,7 @@ export function AdminBookingTable() {
                         onClick={() => handleCancel(booking.id)}
                         title="Cancel Booking"
                       >
-                        <XCircle className="h-4 w-4 text-red-500" />
+                        <XCircle className="h-4 w-4 text-destructive" />
                       </Button>
                     )}
                   </TableCell>

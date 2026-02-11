@@ -40,11 +40,11 @@ export default function HomeContent() {
       <section className="relative z-20 mb-10 mt-10 px-4 lg:-mt-10 lg:mb-20">
         <div className="mx-auto max-w-7xl">
           <div
-            className="glass-panel grid grid-cols-2 gap-12 rounded-3xl bg-white/50 p-10 shadow-sm backdrop-blur-xl lg:grid-cols-4"
+            className="glass-panel grid grid-cols-2 gap-12 rounded-3xl bg-card/50 p-10 shadow-sm backdrop-blur-xl lg:grid-cols-4"
           >
             {stats.map((stat, index) => (
               <div key={index} className="group flex flex-col items-center space-y-4 text-center">
-                <div className="bg-blue-50/80 text-primary border-blue-100/50 rounded-2xl border p-4 shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:bg-primary group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/20">
+                <div className="bg-info/80 text-primary border-info/50 rounded-2xl border p-4 shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-info/20">
                   <stat.icon size={28} strokeWidth={1.5} />
                 </div>
                 <div>
@@ -62,7 +62,7 @@ export default function HomeContent() {
       </section>
 
       {/* Elena Introduction Section */}
-      <section className="relative overflow-hidden bg-white py-24 lg:py-32">
+      <section className="relative overflow-hidden bg-card py-24 lg:py-32">
         <div className="section-container relative z-10">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-20">
             {/* Image Column (5 cols) */}
@@ -70,8 +70,8 @@ export default function HomeContent() {
               className="relative order-first flex justify-center lg:col-span-5"
             >
               <div className="group relative h-64 w-64 sm:h-80 sm:w-80 lg:h-96 lg:w-96">
-                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-purple-200 to-blue-300 opacity-60 blur-3xl transition-opacity duration-500 group-hover:opacity-80" />
-                <div className="relative aspect-square h-full w-full overflow-hidden rounded-full shadow-2xl ring-4 ring-white/50">
+                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-accent/30 to-info/50 opacity-60 blur-3xl transition-opacity duration-500 group-hover:opacity-80" />
+                <div className="relative aspect-square h-full w-full overflow-hidden rounded-full shadow-2xl ring-4 ring-border/50">
                   <Image
                     src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
                     alt={t('home.elenaAlt')}
@@ -113,10 +113,10 @@ export default function HomeContent() {
       </section>
 
       {/* Featured Services */}
-      <section className="bg-linear-to-b from-gray-50/50 via-blue-50/30 to-white py-24 relative overflow-hidden">
+      <section className="bg-linear-to-b from-muted/50 via-info/10 to-white py-24 relative overflow-hidden">
         {/* Background Blob */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-blue-100/30 blur-3xl" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-purple-100/30 blur-3xl" />
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-info/20/30 blur-3xl" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-accent/20/30 blur-3xl" />
         
         <div className="section-container relative z-10">
           <div className="mx-auto mb-16 max-w-3xl text-center">

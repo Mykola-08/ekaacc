@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { addFamilyMember } from '@/server/family/actions';
@@ -56,7 +56,7 @@ export function AddFamilyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-primary hover:bg-primary/90 rounded-lg px-5 py-6 text-white shadow-sm transition-all ">
+        <Button className="bg-primary hover:bg-primary/90 rounded-lg px-5 py-6 text-primary-foreground shadow-sm transition-all ">
           <UserPlus className="mr-2 h-4 w-4" />
           Add Member
         </Button>
@@ -86,7 +86,7 @@ export function AddFamilyDialog() {
                   name="full_name"
                   required
                   placeholder="e.g. Maya V."
-                  className="bg-muted/40 border-border h-9 rounded-lg pl-10 focus:ring-slate-900/10 focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border h-9 rounded-lg pl-10 focus:ring-border focus-visible:ring-offset-0"
                 />
               </div>
             </div>
@@ -101,7 +101,7 @@ export function AddFamilyDialog() {
                   id="dob"
                   name="dob"
                   type="date"
-                  className="bg-muted/40 border-border block h-9 w-full rounded-lg pl-10 focus:ring-slate-900/10 focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border block h-9 w-full rounded-lg pl-10 focus:ring-border focus-visible:ring-offset-0"
                 />
               </div>
             </div>
@@ -111,7 +111,7 @@ export function AddFamilyDialog() {
                 Relationship
               </Label>
               <Select name="relationship" required defaultValue="child">
-                <SelectTrigger className="bg-muted/40 border-border h-9 rounded-lg focus:ring-slate-900/10">
+                <SelectTrigger className="bg-muted/40 border-border h-9 rounded-lg focus:ring-border">
                   <SelectValue placeholder="Select relationship" />
                 </SelectTrigger>
                 <SelectContent className="border-border/60 rounded-lg shadow-sm">

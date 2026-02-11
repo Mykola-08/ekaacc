@@ -62,7 +62,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'oklch(1 0 0)' },
+    { media: '(prefers-color-scheme: dark)', color: 'oklch(0.145 0 0)' },
+  ],
 };
 
 export default function MarketingLayout({

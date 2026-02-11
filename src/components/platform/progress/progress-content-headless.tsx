@@ -56,7 +56,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
       {/* Header */}
       <div className="animate-fade-in flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-700">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-chart-4/10 px-3 py-1 text-xs font-semibold text-chart-4">
             <Brain className="h-3 w-3" />
             <span>Wellness Journey</span>
           </div>
@@ -98,7 +98,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
               </h3>
               <p className="text-muted-foreground mt-2 text-sm">On a 1-10 scale</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50 text-pink-600 transition-transform group-hover:scale-110">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent-foreground transition-transform group-hover:scale-110">
               <HeartPulse className="h-6 w-6" />
             </div>
           </div>
@@ -114,7 +114,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
               <h3 className="text-foreground mt-2 text-4xl font-semibold">{stats.completedGoals}</h3>
               <p className="text-muted-foreground mt-2 text-sm">Milestones achieved</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-transform group-hover:scale-110">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-warning/10 text-warning transition-transform group-hover:scale-110">
               <Award className="h-6 w-6" />
             </div>
           </div>
@@ -190,7 +190,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                               className={cn(
                                 'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold',
                                 report.score >= 8
-                                  ? 'bg-green-50 text-green-700'
+                                  ? 'bg-success text-success-foreground'
                                   : 'bg-primary/5 text-primary'
                               )}
                             >
@@ -217,7 +217,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                             </div>
                             <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
                               <div
-                                className="h-full rounded-full bg-violet-500 transition-all duration-1000"
+                                className="h-full rounded-full bg-chart-4/100 transition-all duration-1000"
                                 style={{ width: `${report.mood * 10}%` }}
                               />
                             </div>
@@ -250,9 +250,9 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                   {' '}
                   {/* Mock Chart */}
                   {[60, 45, 75, 50, 80, 70, 90].map((h, i) => (
-                    <div key={i} className="group relative w-full rounded-t-xl bg-violet-100">
+                    <div key={i} className="group relative w-full rounded-t-xl bg-chart-4/20">
                       <div
-                        className="absolute bottom-0 w-full rounded-t-xl bg-violet-500 transition-all duration-500 group-hover:bg-violet-600"
+                        className="absolute bottom-0 w-full rounded-t-xl bg-chart-4/100 transition-all duration-500 group-hover:bg-chart-4/90"
                         style={{ height: `${h}%` }}
                       />
                     </div>
@@ -273,10 +273,10 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                 <h3 className="text-foreground mb-6 text-xl font-semibold">Focus Areas</h3>
                 <div className="space-y-6">
                   {[
-                    { label: 'Mobility', val: 85, color: 'bg-emerald-500' },
+                    { label: 'Mobility', val: 85, color: 'bg-success/100' },
                     { label: 'Strength', val: 60, color: 'bg-primary' },
-                    { label: 'Mindfulness', val: 92, color: 'bg-purple-500' },
-                    { label: 'Consistency', val: 78, color: 'bg-orange-500' },
+                    { label: 'Mindfulness', val: 92, color: 'bg-accent0' },
+                    { label: 'Consistency', val: 78, color: 'bg-warning0' },
                   ].map((item, i) => (
                     <div key={i}>
                       <div className="mb-2 flex justify-between">

@@ -21,30 +21,30 @@ export default function LanguagePopup() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+        className="fixed inset-0 z-[60] flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-sm"
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="relative w-full max-w-md rounded-[20px] border border-gray-100 bg-white p-8 shadow-2xl"
+          className="relative w-full max-w-md rounded-[20px] border border-border bg-card p-8 shadow-2xl"
         >
           <button
             onClick={() => setShowLanguagePopup(false)}
-            className="absolute top-4 right-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            className="absolute top-4 right-4 rounded-full p-2 text-muted-foreground/60 transition-colors hover:bg-muted hover:text-muted-foreground"
             aria-label="Close"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
 
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50">
-              <Globe className="h-8 w-8 text-blue-600" />
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-info">
+              <Globe className="h-8 w-8 text-primary" />
             </div>
-            <h2 className="mb-2 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-2 text-2xl font-semibold text-foreground">
               {t('language.popup.title')}
             </h2>
-            <p className="text-gray-600">{t('language.popup.subtitle')}</p>
+            <p className="text-muted-foreground">{t('language.popup.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 gap-3">
@@ -52,10 +52,10 @@ export default function LanguagePopup() {
               <button
                 key={lang.code}
                 onClick={() => confirmLanguage(lang.code)}
-                className="group flex items-center rounded-xl border-2 border-gray-100 p-4 transition-all duration-200 hover:border-blue-500 hover:bg-blue-50"
+                className="group flex items-center rounded-xl border-2 border-border p-4 transition-all duration-200 hover:border-primary hover:bg-info"
               >
                 <span className="mr-4 text-2xl">{lang.flag}</span>
-                <span className="font-medium text-gray-700 group-hover:text-blue-700">
+                <span className="font-medium text-foreground group-hover:text-info-foreground">
                   {lang.label}
                 </span>
               </button>

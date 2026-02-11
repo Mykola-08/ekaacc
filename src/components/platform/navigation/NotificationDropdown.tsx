@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Service } from '@/types/database';
@@ -275,7 +275,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
             <div className="border-border border-t pt-6">
               <div className="flex items-baseline justify-between">
                 <span className="text-foreground text-lg font-semibold">Total</span>
-                <span className="text-foreground text-3xl font-semibold">â‚¬{price}</span>
+                <span className="text-foreground text-3xl font-semibold">€{price}</span>
               </div>
             </div>
           </div>
@@ -365,7 +365,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-foreground text-sm font-semibold">+â‚¬10</span>
+                  <span className="text-foreground text-sm font-semibold">+€10</span>
                   <Button variant="secondary" size="sm" className="rounded-full" disabled>
                     Unavailable
                   </Button>
@@ -524,7 +524,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                       disabled={!user}
                       className="data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground rounded-full font-semibold data-[state=active]:shadow-sm"
                     >
-                      Wallet {walletBalance !== null && `(â‚¬${walletBalance})`}
+                      Wallet {walletBalance !== null && `(€${walletBalance})`}
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="stripe" className="space-y-6">
@@ -556,19 +556,19 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                     {user ? (
                       walletBalance !== null && walletBalance >= price ? (
                         <div className="space-y-4 py-4 text-center">
-                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 p-4 text-emerald-600">
+                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success/10 p-4 text-success">
                             <HugeiconsIcon icon={Tick02Icon} className="h-8 w-8" strokeWidth={3} />
                           </div>
                           <div>
                             <p className="text-foreground text-lg font-semibold">Sufficient Balance</p>
                             <p className="text-muted-foreground text-sm">
-                              â‚¬{price} will be deducted from your â‚¬{walletBalance} balance.
+                              €{price} will be deducted from your €{walletBalance} balance.
                             </p>
                           </div>
                         </div>
                       ) : (
                         <div className="space-y-6 py-4 text-center">
-                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-500/10 p-4 text-amber-600">
+                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-warning/10 p-4 text-warning">
                             <HugeiconsIcon
                               icon={CreditCardIcon}
                               className="h-8 w-8"
@@ -580,7 +580,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                               Insufficient Balance
                             </p>
                             <p className="text-muted-foreground mb-6 text-sm">
-                              Your balance is â‚¬{walletBalance}. You need â‚¬{price}.
+                              Your balance is €{walletBalance}. You need €{price}.
                             </p>
                             <Button
                               variant="outline"
@@ -606,7 +606,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
               <div className="text-muted-foreground flex items-start space-x-3 px-2 text-sm">
                 <HugeiconsIcon
                   icon={Tick02Icon}
-                  className="h-5 w-5 shrink-0 text-emerald-600"
+                  className="h-5 w-5 shrink-0 text-success"
                   strokeWidth={2.5}
                 />
                 <p className="font-medium">

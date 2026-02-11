@@ -69,35 +69,35 @@ export default function CasosSection() {
 
   const getColorClasses = (color: string) => {
     const colors = {
-      blue: 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100',
-      purple: 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100',
-      green: 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100',
+      blue: 'bg-info border-info text-info-foreground hover:bg-info/20',
+      purple: 'bg-accent border-accent text-accent-foreground hover:bg-accent/20',
+      green: 'bg-success border-success text-success-foreground hover:bg-success/20',
       orange: 'bg-marketing-accent-light/50 border-marketing-accent-light text-marketing-accent-dark hover:bg-marketing-accent-light',
-      indigo: 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100',
-      pink: 'bg-pink-50 border-pink-200 text-pink-700 hover:bg-pink-100',
-      red: 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100',
+      indigo: 'bg-accent/10 border-accent/30 text-accent-foreground hover:bg-accent/20',
+      pink: 'bg-accent/10 border-accent/30 text-accent-foreground hover:bg-accent/20',
+      red: 'bg-destructive/10 border-destructive/30 text-destructive hover:bg-destructive/20',
     };
     return colors[color as keyof typeof colors] || colors.blue;
   };
 
   return (
-    <section className="bg-gray-50 py-16 sm:py-24">
+    <section className="bg-muted py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="mb-16 text-center">
-          <div className="bg-white border-gray-100 mb-8 inline-flex items-center rounded-full border px-6 py-2 shadow-sm">
-            <span className="text-gray-600 text-sm font-medium tracking-wide uppercase">
+          <div className="bg-card border-border mb-8 inline-flex items-center rounded-full border px-6 py-2 shadow-sm">
+            <span className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
               {t('casos.section.badge')}
             </span>
           </div>
 
-          <h2 className="text-gray-900 mb-6 text-3xl font-bold sm:text-4xl lg:text-5xl">
+          <h2 className="text-foreground mb-6 text-3xl font-bold sm:text-4xl lg:text-5xl">
             {t('casos.section.title')}{' '}
-            <span className="text-gray-900">
+            <span className="text-foreground">
               {t('casos.section.titleHighlight')}
             </span>
           </h2>
 
-          <p className="mx-auto max-w-3xl text-xl text-gray-600">{t('casos.section.subtitle')}</p>
+          <p className="mx-auto max-w-3xl text-xl text-muted-foreground">{t('casos.section.subtitle')}</p>
         </div>
 
         <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -107,7 +107,7 @@ export default function CasosSection() {
               <div key={problem.id}>
                 <Link
                   href={problem.href}
-                  className="group ease-out-quart block rounded-[20px] border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 hover:shadow-lg"
+                  className="group ease-out-quart block rounded-[20px] border border-border bg-card p-6 transition-all duration-300 hover:border-border hover:shadow-lg"
                 >
                   <div
                     className={`h-14 w-14 rounded-[20px] ${getColorClasses(problem.color)} ease-out-quart mb-6 flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110`}
@@ -119,7 +119,7 @@ export default function CasosSection() {
                     {t(problem.titleKey)}
                   </h3>
 
-                  <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600">
+                  <p className="mb-4 line-clamp-3 leading-relaxed text-muted-foreground">
                     {t(problem.descriptionKey)}
                   </p>
 
@@ -147,7 +147,7 @@ export default function CasosSection() {
             ].map((key) => (
               <span
                 key={key}
-                className="hover:border-primary-200 hover:text-primary-600 ease-out-quart cursor-default rounded-full border border-gray-200 bg-white px-6 py-3 text-gray-600 shadow-sm transition-all duration-200 hover:shadow-md"
+                className="hover:border-primary-200 hover:text-primary-600 ease-out-quart cursor-default rounded-full border border-border bg-card px-6 py-3 text-muted-foreground shadow-sm transition-all duration-200 hover:shadow-md"
               >
                 {t(key)}
               </span>
@@ -167,7 +167,7 @@ export default function CasosSection() {
             </Link>
             <Link
               href="/first-time"
-              className="ease-out-quart inline-flex items-center rounded-full bg-gray-100 px-6 py-3 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-200"
+              className="ease-out-quart inline-flex items-center rounded-full bg-muted px-6 py-3 font-semibold text-foreground transition-all duration-200 hover:bg-muted"
             >
               {t('casos.section.findYourCase')}
             </Link>

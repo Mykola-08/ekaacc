@@ -26,8 +26,8 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
   if (!techniqueMap[id]) {
     return (
       <div className="min-h-screen px-4 pt-32 text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Technique not found</h1>
-        <Link href="/" className="mt-4 inline-block text-blue-600 hover:text-blue-700">
+        <h1 className="text-2xl font-bold text-foreground">Technique not found</h1>
+        <Link href="/" className="mt-4 inline-block text-primary hover:text-info-foreground">
           {t('common.back')}
         </Link>
       </div>
@@ -41,7 +41,7 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
       <div className="mx-auto max-w-4xl">
         <Link
           href="/#techniques"
-          className="group mb-8 inline-flex items-center text-gray-600 transition-colors hover:text-blue-600"
+          className="group mb-8 inline-flex items-center text-muted-foreground transition-colors hover:text-primary"
         >
           <ArrowLeft className="mr-2 h-5 w-5 transform transition-transform group-hover:-translate-x-1" />
           {t('common.back')}
@@ -52,17 +52,17 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="mb-6 bg-linear-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+          <h1 className="mb-6 bg-linear-to-r from-foreground via-info to-foreground bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
             {t(`${baseKey}.title`)}
           </h1>
 
-          <div className="prose prose-lg max-w-none text-gray-600">
+          <div className="prose prose-lg max-w-none text-muted-foreground">
             <p>{t(`${baseKey}.desc`)}</p>
           </div>
 
-          <div className="mt-12 rounded-[20px] border border-orange-100 bg-white p-8 shadow-sm">
-            <h3 className="mb-4 text-xl font-semibold text-gray-900">{t('technique.why')}</h3>
-            <p className="text-gray-600">{t(`${baseKey}.why`)}</p>
+          <div className="mt-12 rounded-[20px] border border-warning/20 bg-card p-8 shadow-sm">
+            <h3 className="mb-4 text-xl font-semibold text-foreground">{t('technique.why')}</h3>
+            <p className="text-muted-foreground">{t(`${baseKey}.why`)}</p>
           </div>
         </motion.div>
       </div>

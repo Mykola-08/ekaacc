@@ -12,6 +12,7 @@ import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { motion, AnimatePresence } from 'motion/react';
 import { Loader2, Lock, CheckCircle2, ArrowLeft, Sparkles, Shield } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -76,33 +77,36 @@ export default function ResetPasswordPage() {
 
   if (isCheckingSession || !isValidSession) {
     return (
-      <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-linear-to-br from-primary/5 via-primary/3 to-primary/5 p-6">
-        {/* Decorative background */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+      <div className="auth-page">
+        <div className="auth-page-gradient" />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="relative z-10"
         >
-          <Card className="bg-card/95 mx-auto w-full max-w-md rounded-lg border-0 shadow-sm backdrop-blur-xl">
+          <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl mx-auto w-full max-w-md">
             <CardContent className="p-10">
               <div className="flex flex-col items-center gap-4 text-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                  className="rounded-lg bg-linear-to-br from-primary to-primary/70 p-4 shadow-sm"
-                >
-                  <Shield className="h-8 w-8 text-white" />
-                </motion.div>
-                <h2 className="text-2xl font-semibold">
+                <div className="relative overflow-hidden rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
+                  <Image
+                    src="/images/eka_logo.png"
+                    alt="EKA Balance"
+                    width={56}
+                    height={56}
+                    className="h-14 w-14 object-contain"
+                    priority
+                  />
+                </div>
+                <h2 className="text-2xl font-semibold text-foreground">
                   {isCheckingSession ? 'Verifying...' : 'Redirecting...'}
                 </h2>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {isCheckingSession
                     ? 'Please wait while we verify your reset link'
                     : 'Taking you to password reset'}
                 </p>
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
               </div>
             </CardContent>
           </Card>
@@ -112,10 +116,8 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-linear-to-br from-primary/5 via-primary/3 to-primary/5 p-6">
-      {/* Decorative background elements */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+    <div className="auth-page">
+      <div className="auth-page-gradient" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -123,11 +125,7 @@ export default function ResetPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-lg border-0 bg-linear-to-br shadow-sm backdrop-blur-xl">
-          {/* Decorative gradient overlay */}
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 via-primary/5 to-primary/5" />
-          <div className="pointer-events-none absolute top-0 left-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
-
+        <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl">
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
             <motion.div
@@ -136,18 +134,18 @@ export default function ResetPasswordPage() {
               transition={{ delay: 0.1, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
               className="mb-8 flex flex-col items-center gap-4 text-center"
             >
-              <div className="relative">
-                <motion.div
-                  className="absolute inset-0 rounded-lg bg-linear-to-br from-primary to-primary/70 opacity-30 blur-xl"
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.4, 0.3] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              <div className="relative overflow-hidden rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
+                <Image
+                  src="/images/eka_logo.png"
+                  alt="EKA Balance"
+                  width={56}
+                  height={56}
+                  className="h-14 w-14 object-contain"
+                  priority
                 />
-                <div className="relative rounded-lg bg-linear-to-br from-primary to-primary/70 p-4 shadow-sm">
-                  <Shield className="h-8 w-8 text-white" />
-                </div>
               </div>
-              <div className="space-y-2">
-                <h1 className="from-foreground to-foreground/70 bg-linear-to-br bg-clip-text text-3xl font-semibold tracking-tight text-transparent">
+              <div className="space-y-1">
+                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                   Reset Password
                 </h1>
                 <p className="text-muted-foreground text-sm font-medium">

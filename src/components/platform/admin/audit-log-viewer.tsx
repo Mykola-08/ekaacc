@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -171,10 +171,10 @@ export function AuditLogViewer() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Failed Logins</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-red-500" />
+              <AlertTriangle className="h-4 w-4 text-destructive" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-semibold text-red-600">
+              <div className="text-2xl font-semibold text-destructive">
                 {securityAnalysis.failedLogins.total}
               </div>
               <div className="text-muted-foreground text-sm">
@@ -204,10 +204,10 @@ export function AuditLogViewer() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Suspicious Activities</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-yellow-500" />
+              <AlertTriangle className="h-4 w-4 text-warning" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-semibold text-yellow-600">
+              <div className="text-2xl font-semibold text-warning">
                 {securityAnalysis.suspiciousActivities.length}
               </div>
               <div className="text-muted-foreground text-sm">Security alerts detected</div>

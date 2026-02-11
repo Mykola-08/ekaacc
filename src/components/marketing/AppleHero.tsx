@@ -62,16 +62,16 @@ export default function AppleHero() {
       </div>
 
       {/* Overlay for text readability with refined gradient */}
-      <div className="absolute inset-0 bg-blue-950/20 mix-blend-multiply" />
-      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 bg-foreground/20 mix-blend-multiply" />
+      <div className="absolute inset-0 bg-foreground/30" />
       <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/50" />
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-32 text-center text-white">
         {/* Badge - Glassy Style with Apple standard radius */}
         <AnimateIn delay={0.2} from="top" disabled={hasSeenIntro}>
-          <div className="animate-fade-in mb-8 inline-flex items-center rounded-full border border-blue-200/30 bg-blue-500/20 px-6 py-2 backdrop-blur-md transition-colors hover:bg-blue-500/30">
-            <span className="text-sm font-medium tracking-wide text-blue-50 drop-shadow-sm md:text-base">
+          <div className="animate-fade-in mb-8 inline-flex items-center rounded-full border border-info/30 bg-primary/20 px-6 py-2 backdrop-blur-md transition-colors hover:bg-primary/30">
+            <span className="text-sm font-medium tracking-wide text-info/90 drop-shadow-sm md:text-base">
               {t('hero.badge')}
             </span>
           </div>
@@ -86,7 +86,7 @@ export default function AppleHero() {
 
         {/* Subtitle - Improved spacing */}
         <AnimateIn delay={0.6} disabled={hasSeenIntro}>
-          <p className="mx-auto mb-12 max-w-2xl text-balance text-lg font-light leading-relaxed text-white/90! drop-shadow-md md:text-xl lg:text-2xl">
+          <p className="mx-auto mb-12 max-w-2xl text-balance text-lg font-light leading-relaxed text-primary-foreground/90! drop-shadow-md md:text-xl lg:text-2xl">
             {t('hero.subtitle')}
           </p>
         </AnimateIn>
@@ -101,7 +101,7 @@ export default function AppleHero() {
             >
               <Button
                 size="lg"
-                className="h-14 min-w-50 rounded-full border border-white bg-white px-8 text-base font-semibold text-primary transition-all duration-300 hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.95]"
+                className="h-14 min-w-50 rounded-full border border-white bg-card px-8 text-base font-semibold text-primary transition-all duration-300 hover:bg-info hover:scale-[1.02] active:scale-[0.95]"
               >
                 {t('hero.firstTime')}
               </Button>
@@ -115,7 +115,7 @@ export default function AppleHero() {
               <Button
                 size="lg"
                 variant="outline"
-                className="h-14 min-w-50 rounded-full border border-white/40 bg-white/20 px-8 text-base font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/30 hover:scale-[1.02] active:scale-[0.95]"
+                className="h-14 min-w-50 rounded-full border border-border/40 bg-white/20 px-8 text-base font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/30 hover:scale-[1.02] active:scale-[0.95]"
               >
                 {t('hero.discoverServices')}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />

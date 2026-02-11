@@ -84,15 +84,15 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
  className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-lg border-0 bg-linear-to-br p-6 shadow-sm backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-md"
  style={{ animationDelay: '0.3s' }}
  >
- <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-emerald-500/5 to-teal-500/5" />
- <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-emerald-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
+ <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-success/5 to-success/5" />
+ <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-success/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
  <div className="relative z-10 flex items-start justify-between">
- <div className="rounded-lg bg-linear-to-br from-emerald-100 to-teal-100 p-3 text-emerald-600 shadow-lg dark:from-emerald-900/40 dark:to-teal-900/40 dark:text-emerald-400">
+ <div className="rounded-lg bg-linear-to-br from-success/20 to-success/20 p-3 text-success shadow-lg dark:from-success/20 dark:to-success/20 dark:text-success">
  <CreditCard size={24} />
  </div>
  </div>
  <div className="relative z-10">
- <div className="mb-2 bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-5xl font-semibold tracking-tight text-transparent">
+ <div className="mb-2 bg-linear-to-r from-success to-success bg-clip-text text-5xl font-semibold tracking-tight text-transparent">
  €120
  </div>
  <div className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
@@ -111,7 +111,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
  <div className="pointer-events-none absolute bottom-0 left-0 h-48 w-48 rounded-full bg-muted blur-2xl" />
 
  <div className="relative z-10 mb-8 flex items-center gap-2">
- <div className="rounded-lg bg-linear-to-br from-muted to-muted p-2 shadow-sm backdrop-blur-md dark:from-indigo-900/40 dark:to-purple-900/40">
+ <div className="rounded-lg bg-linear-to-br from-muted to-muted p-2 shadow-sm backdrop-blur-md dark:from-accent/20 dark:to-accent/20">
  <Clock className="text-primary " size={20} />
  </div>
  <span className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">

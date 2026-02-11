@@ -27,12 +27,12 @@ export default function ServiceCategoryPills() {
       image: s.image || '',
       color:
         s.color === 'orange'
-          ? 'from-orange-400 to-pink-500'
+          ? 'from-warning to-destructive'
           : s.color === 'blue'
-            ? 'from-blue-400 to-indigo-500'
+            ? 'from-info to-accent/100'
             : s.color === 'green'
-              ? 'from-green-400 to-blue-500'
-              : 'from-purple-400 to-pink-500',
+              ? 'from-success to-info0'
+              : 'from-accent to-destructive',
       number: `0${index + 1}`,
       name: t(s.titleKey),
       description: `${t(s.descriptionKey).substring(0, 50)}...`,
@@ -80,7 +80,7 @@ export default function ServiceCategoryPills() {
                   <h3 className="mb-2 text-2xl font-semibold transition-transform duration-300 group-hover:translate-x-1">
                     {service.name}
                   </h3>
-                  <p className="font-medium text-white/90 transition-transform delay-75 duration-300 group-hover:translate-x-1">
+                  <p className="font-medium text-primary-foreground/90 transition-transform delay-75 duration-300 group-hover:translate-x-1">
                     {service.description}
                   </p>
                 </div>

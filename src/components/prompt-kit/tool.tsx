@@ -66,8 +66,8 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
       <div
         className={cn(
           "border-border overflow-hidden rounded-lg border",
-          isError && "border-red-300",
-          isComplete && "border-green-300"
+          isError && "border-destructive/40",
+          isComplete && "border-success/30"
         )}
       >
         <CollapsibleTrigger asChild>
@@ -80,8 +80,8 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
                 className={cn(
                   "h-4 w-4",
                   isLoading && "animate-spin",
-                  isError && "text-red-500",
-                  isComplete && "text-green-500"
+                  isError && "text-destructive",
+                  isComplete && "text-success"
                 )}
               />
               <span className="truncate">{toolName}</span>
@@ -129,8 +129,8 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
 
             {toolPart.errorText && (
               <div>
-                <h4 className="mb-2 text-sm font-medium text-red-500">Error</h4>
-                <div className="rounded border border-red-200 bg-red-50 p-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
+                <h4 className="mb-2 text-sm font-medium text-destructive">Error</h4>
+                <div className="rounded border border-destructive/30 bg-destructive/10 p-2 text-sm text-destructive dark:border-destructive/30 dark:bg-destructive/10 dark:text-destructive">
                   {toolPart.errorText}
                 </div>
               </div>

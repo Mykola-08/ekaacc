@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { cn } from '@/lib/utils';
 import { Crown, Star, Award } from 'lucide-react';
 import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
@@ -149,7 +149,7 @@ export function TierBadgeGradient({
     >
       {showIcon && (
         <IconComponent
-          className={cn(sizeClasses.icon, 'text-white', animated && 'animate-bounce')}
+          className={cn(sizeClasses.icon, 'text-primary-foreground', animated && 'animate-bounce')}
         />
       )}
       <span>{config.label}</span>

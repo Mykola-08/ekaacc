@@ -11,13 +11,13 @@ export default function ArtistsContent() {
   const { t } = useLanguage();
 
   const Hero = (
-    <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 lg:pt-48 lg:pb-32">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
+    <section className="relative overflow-hidden bg-linear-to-br from-info/10 via-background to-accent/10 pt-32 pb-20 lg:pt-48 lg:pb-32">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,oklch(1 0 0 / 0))] bg-center" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="order-2 lg:order-1">
-            <div className="mb-6 inline-flex items-center rounded-full bg-blue-100 px-4 py-2">
-              <span className="text-sm font-medium text-blue-700">
+            <div className="mb-6 inline-flex items-center rounded-full bg-info/20 px-4 py-2">
+              <span className="text-sm font-medium text-info-foreground">
                 {t('nav.personalizedServices')}
               </span>
             </div>
@@ -26,7 +26,7 @@ export default function ArtistsContent() {
               {t('nav.artists')}
             </h1>
 
-            <p className="mb-8 text-xl leading-relaxed text-gray-600">
+            <p className="mb-8 text-xl leading-relaxed text-muted-foreground">
               {t('artists.hero.subtitle')}
             </p>
 
@@ -60,7 +60,7 @@ export default function ArtistsContent() {
       {Hero}
 
       {/* Problems & Benefits */}
-      <section className="bg-white py-24">
+      <section className="bg-card py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="grid grid-cols-1 items-start gap-16 lg:grid-cols-2">
             {/* Problems */}
@@ -69,31 +69,31 @@ export default function ArtistsContent() {
                 {t('artists.challenges.title')}
               </h2>
               <div className="space-y-6">
-                <div className="flex items-start rounded-[20px] bg-red-50 p-6">
-                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-red-500" />
+                <div className="flex items-start rounded-[20px] bg-destructive/10 p-6">
+                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-destructive" />
                   <div>
-                    <h3 className="mb-2 font-semibold text-gray-900">
+                    <h3 className="mb-2 font-semibold text-foreground">
                       {t('artists.challenge1.title')}
                     </h3>
-                    <p className="text-gray-600">{t('artists.challenge1.desc')}</p>
+                    <p className="text-muted-foreground">{t('artists.challenge1.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-red-50 p-6">
-                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-red-500" />
+                <div className="flex items-start rounded-[20px] bg-destructive/10 p-6">
+                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-destructive" />
                   <div>
-                    <h3 className="mb-2 font-semibold text-gray-900">
+                    <h3 className="mb-2 font-semibold text-foreground">
                       {t('artists.challenge2.title')}
                     </h3>
-                    <p className="text-gray-600">{t('artists.challenge2.desc')}</p>
+                    <p className="text-muted-foreground">{t('artists.challenge2.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-red-50 p-6">
-                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-red-500" />
+                <div className="flex items-start rounded-[20px] bg-destructive/10 p-6">
+                  <AlertCircle className="mt-1 mr-4 h-6 w-6 shrink-0 text-destructive" />
                   <div>
-                    <h3 className="mb-2 font-semibold text-gray-900">
+                    <h3 className="mb-2 font-semibold text-foreground">
                       {t('artists.challenge3.title')}
                     </h3>
-                    <p className="text-gray-600">{t('artists.challenge3.desc')}</p>
+                    <p className="text-muted-foreground">{t('artists.challenge3.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -103,25 +103,25 @@ export default function ArtistsContent() {
             <div>
               <h2 className="text-eka-dark mb-8 text-3xl font-bold">{t('artists.help.title')}</h2>
               <div className="space-y-6">
-                <div className="flex items-start rounded-[20px] bg-green-50 p-6">
-                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-green-500" />
+                <div className="flex items-start rounded-[20px] bg-success p-6">
+                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-success" />
                   <div>
-                    <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help1.title')}</h3>
-                    <p className="font-light text-gray-600">{t('artists.help1.desc')}</p>
+                    <h3 className="mb-2 font-semibold text-foreground">{t('artists.help1.title')}</h3>
+                    <p className="font-light text-muted-foreground">{t('artists.help1.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-green-50 p-6">
-                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-green-500" />
+                <div className="flex items-start rounded-[20px] bg-success p-6">
+                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-success" />
                   <div>
-                    <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help2.title')}</h3>
-                    <p className="font-light text-gray-600">{t('artists.help2.desc')}</p>
+                    <h3 className="mb-2 font-semibold text-foreground">{t('artists.help2.title')}</h3>
+                    <p className="font-light text-muted-foreground">{t('artists.help2.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-[20px] bg-green-50 p-6">
-                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-green-500" />
+                <div className="flex items-start rounded-[20px] bg-success p-6">
+                  <CheckCircle2 className="mt-1 mr-4 h-6 w-6 shrink-0 text-success" />
                   <div>
-                    <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help3.title')}</h3>
-                    <p className="font-light text-gray-600">{t('artists.help3.desc')}</p>
+                    <h3 className="mb-2 font-semibold text-foreground">{t('artists.help3.title')}</h3>
+                    <p className="font-light text-muted-foreground">{t('artists.help3.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -131,26 +131,26 @@ export default function ArtistsContent() {
       </section>
 
       {/* Results */}
-      <section className="bg-yellow-50 py-24">
+      <section className="bg-warning py-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-8">
-          <div className="rounded-apple-xl bg-white p-12 shadow-xl">
-            <h2 className="mb-6 text-3xl font-light text-yellow-600">
+          <div className="rounded-apple-xl bg-card p-12 shadow-xl">
+            <h2 className="mb-6 text-3xl font-light text-warning">
               {t('artists.result.title')}
             </h2>
-            <p className="mb-8 text-xl font-light text-gray-600">{t('artists.result.desc')}</p>
+            <p className="mb-8 text-xl font-light text-muted-foreground">{t('artists.result.desc')}</p>
 
-            <div className="mt-12 grid grid-cols-1 gap-8 border-t border-gray-100 pt-12 md:grid-cols-3">
+            <div className="mt-12 grid grid-cols-1 gap-8 border-t border-border pt-12 md:grid-cols-3">
               <div className="text-center">
-                <div className="mb-2 text-4xl font-light text-yellow-600">88%</div>
-                <div className="text-gray-600">{t('artists.stats.confidence')}</div>
+                <div className="mb-2 text-4xl font-light text-warning">88%</div>
+                <div className="text-muted-foreground">{t('artists.stats.confidence')}</div>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-4xl font-light text-yellow-600">82%</div>
-                <div className="text-gray-600">{t('artists.stats.tension')}</div>
+                <div className="mb-2 text-4xl font-light text-warning">82%</div>
+                <div className="text-muted-foreground">{t('artists.stats.tension')}</div>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-4xl font-light text-yellow-600">76%</div>
-                <div className="text-gray-600">{t('artists.stats.anxiety')}</div>
+                <div className="mb-2 text-4xl font-light text-warning">76%</div>
+                <div className="text-muted-foreground">{t('artists.stats.anxiety')}</div>
               </div>
             </div>
           </div>
@@ -158,9 +158,9 @@ export default function ArtistsContent() {
       </section>
 
       {/* Service Card */}
-      <section className="bg-white py-24">
+      <section className="bg-card py-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-8">
-          <div className="rounded-apple-xl grid grid-cols-1 items-center gap-12 overflow-hidden border border-gray-100 bg-gray-50 p-4 lg:grid-cols-2 lg:p-8">
+          <div className="rounded-apple-xl grid grid-cols-1 items-center gap-12 overflow-hidden border border-border bg-muted p-4 lg:grid-cols-2 lg:p-8">
             <div className="rounded-apple-xl relative h-64 overflow-hidden lg:h-96">
               <Image
                 src="https://images.unsplash.com/photo-1544367563-121542f85488?w=800&auto=format&fit=crop"
@@ -172,17 +172,17 @@ export default function ArtistsContent() {
             </div>
 
             <div className="p-4 lg:p-8">
-              <h3 className="mb-6 text-3xl font-light text-gray-900">
+              <h3 className="mb-6 text-3xl font-light text-foreground">
                 {t('artists.session.title')}
               </h3>
 
               <div className="mb-8 space-y-4">
                 <div className="flex items-center">
-                  <Clock className="mr-3 h-5 w-5 text-gray-500" />
-                  <span className="text-lg text-gray-700">1 {t('common.hour')}</span>
+                  <Clock className="mr-3 h-5 w-5 text-muted-foreground" />
+                  <span className="text-lg text-foreground">1 {t('common.hour')}</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-4xl font-light text-gray-900">70€</span>
+                  <span className="text-4xl font-light text-foreground">70€</span>
                 </div>
               </div>
 
@@ -198,7 +198,7 @@ export default function ArtistsContent() {
                 <Link href="/services">
                   <Button
                     size="lg"
-                    className="btn btn-outline w-full border-gray-200 bg-white text-gray-700 hover:bg-gray-50 sm:w-auto"
+                    className="btn btn-outline w-full border-border bg-card text-foreground hover:bg-muted sm:w-auto"
                   >
                     {t('artists.session.other')}
                   </Button>

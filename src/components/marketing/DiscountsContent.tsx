@@ -38,7 +38,7 @@ export default function DiscountsContent() {
             initial={{ opacity: 0, y: -20, x: 20 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-24 right-4 z-50 flex items-center space-x-3 rounded-[20px] bg-green-500 px-6 py-4 text-white shadow-lg"
+            className="fixed top-24 right-4 z-50 flex items-center space-x-3 rounded-[20px] bg-success0 px-6 py-4 text-white shadow-lg"
           >
             <Check className="h-5 w-5" />
             <span className="font-medium">
@@ -55,7 +55,7 @@ export default function DiscountsContent() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden bg-green-600 text-white"
+            className="overflow-hidden bg-success text-white"
           >
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
               <div className="flex items-center space-x-3">
@@ -88,54 +88,54 @@ export default function DiscountsContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
+                className="group relative overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
                 {/* Background Gradient */}
-                <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-linear-to-br from-info/10/50 via-background to-accent/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {/* Header */}
                 <div className="relative mb-6 flex items-start justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-linear-to-br from-blue-100 to-blue-50 text-blue-600 transition-transform duration-300 group-hover:scale-110">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-linear-to-br from-info/20 to-info text-primary transition-transform duration-300 group-hover:scale-110">
                     <Percent className="h-7 w-7" />
                   </div>
                   {discount.isActive && (
-                    <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold tracking-wide text-green-700 uppercase">
+                    <span className="rounded-full bg-success/20 px-3 py-1 text-xs font-semibold tracking-wide text-success-foreground uppercase">
                       {t('discounts.activeBadge') || 'Actiu'}
                     </span>
                   )}
                 </div>
 
                 <div className="relative mb-6">
-                  <h3 className="mb-2 text-xl font-bold text-gray-900">{discount.name}</h3>
+                  <h3 className="mb-2 text-xl font-bold text-foreground">{discount.name}</h3>
                   <div className="mb-4 flex items-baseline">
-                    <span className="text-4xl font-bold text-blue-600">{discount.percentage}%</span>
-                    <span className="ml-2 font-medium text-gray-500">
+                    <span className="text-4xl font-bold text-primary">{discount.percentage}%</span>
+                    <span className="ml-2 font-medium text-muted-foreground">
                       {t('discounts.off') || 'OFF'}
                     </span>
                   </div>
-                  <p className="text-sm leading-relaxed text-gray-600">{discount.description}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{discount.description}</p>
                 </div>
 
                 {/* Code & Action */}
                 {discount.code && (
                   <div className="relative space-y-3">
-                    <div className="flex items-center justify-between rounded-xl border border-dashed border-gray-200 bg-gray-50 p-3 transition-colors group-hover:border-blue-200">
+                    <div className="flex items-center justify-between rounded-xl border border-dashed border-border bg-muted p-3 transition-colors group-hover:border-info">
                       <div className="flex items-center space-x-2 overflow-hidden">
-                        <Gift className="h-4 w-4 shrink-0 text-blue-500" />
-                        <code className="truncate rounded bg-blue-50 px-2 py-0.5 text-sm font-bold text-blue-700">
+                        <Gift className="h-4 w-4 shrink-0 text-info" />
+                        <code className="truncate rounded bg-info px-2 py-0.5 text-sm font-bold text-info-foreground">
                           {discount.code}
                         </code>
                       </div>
                       <button
                         onClick={() => navigator.clipboard.writeText(discount.code || '')}
-                        className="px-2 py-1 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600"
+                        className="px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-primary"
                       >
                         {t('discounts.copy') || 'Copia'}
                       </button>
                     </div>
 
                     {selectedDiscount?.code === discount.code ? (
-                      <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-green-100 bg-green-50 py-3 text-center text-sm font-medium text-green-700">
+                      <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-success bg-success py-3 text-center text-sm font-medium text-success-foreground">
                         <Check className="h-4 w-4" />
                         {t('discounts.activeBadge') || 'Descompte actiu'}
                       </div>
@@ -156,13 +156,13 @@ export default function DiscountsContent() {
       </section>
 
       {/* How to Use Section */}
-      <section className="bg-white py-20">
+      <section className="bg-card py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto mb-16 max-w-3xl text-center">
-            <h2 className="mb-4 text-3xl font-bold text-gray-900">
+            <h2 className="mb-4 text-3xl font-bold text-foreground">
               {t('discounts.howToUse.title') || 'Com utilitzar els descomptes'}
             </h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               {t('discounts.howToUse.subtitle') ||
                 'És molt fàcil, només has de seguir aquests passos.'}
             </p>
@@ -192,13 +192,13 @@ export default function DiscountsContent() {
               },
             ].map((step, idx) => (
               <div key={idx} className="p-6 text-center">
-                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-[20px] bg-blue-50 text-blue-600 shadow-sm">
+                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-[20px] bg-info text-primary shadow-sm">
                   {React.cloneElement(step.icon as React.ReactElement<{ className?: string }>, {
                     className: 'w-6 h-6',
                   })}
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-gray-900">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-gray-500">{step.desc}</p>
+                <h3 className="mb-2 text-lg font-bold text-foreground">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{step.desc}</p>
               </div>
             ))}
           </div>

@@ -1,8 +1,8 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion } from 'motion/react';
-import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon, Alert02Icon, ArrowTurnBackwardIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -28,7 +28,7 @@ export function LoadingSpinner({ size = 'md', className, message }: LoadingSpinn
 
   return (
     <div className={cn('flex flex-col items-center justify-center gap-2', className)}>
-      <Loader2 role="status" className={cn('text-primary animate-spin', sizeClasses[size])} />
+      <HugeiconsIcon icon={Loading03Icon} role="status" className={cn('text-primary animate-spin', sizeClasses[size])} />
       {message && <p className="text-muted-foreground animate-pulse text-sm">{message}</p>}
     </div>
   );
@@ -56,7 +56,7 @@ export function ErrorState({
     <Card className={cn('w-full max-w-lg', className)}>
       <CardHeader>
         <div className="text-destructive mb-4 flex items-center gap-2">
-          <AlertCircle className="h-6 w-6" />
+          <HugeiconsIcon icon={Alert02Icon} className="h-6 w-6" />
           <CardTitle>{title}</CardTitle>
         </div>
         <CardDescription>{message}</CardDescription>
@@ -81,7 +81,7 @@ export function ErrorState({
       <CardFooter className="flex flex-wrap gap-2">
         {onRetry && (
           <Button onClick={onRetry} variant="default" className="flex-1 sm:flex-none">
-            <RefreshCw className="mr-2 h-4 w-4" />
+            <HugeiconsIcon icon={ArrowTurnBackwardIcon} className="mr-2 h-4 w-4" />
             Try Again
           </Button>
         )}

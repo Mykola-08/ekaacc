@@ -15,7 +15,7 @@ const routeConfig = {
     { group: 'system_settings' as PermissionGroup, action: 'read' as PermissionAction },
   ],
   requireAuth: true,
-  allowRoles: ['Admin', 'Therapist', 'Content Manager'] as SystemRole[],
+  allowRoles: ['admin', 'therapist'] as SystemRole[],
   metadata: { api: true, navigationValidation: true },
 };
 
@@ -206,7 +206,7 @@ export async function PUT(request: NextRequest) {
       { group: 'system_settings' as PermissionGroup, action: 'manage' as PermissionAction },
     ],
     requireAuth: true,
-    allowRoles: ['Admin'] as SystemRole[],
+    allowRoles: ['admin'] as SystemRole[],
     metadata: { api: true, bulkValidation: true },
   };
 

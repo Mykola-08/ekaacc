@@ -61,7 +61,7 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
                 <TableCell className="py-6">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`flex h-10 w-10 items-center justify-center rounded-full ${isPositive ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}
+                      className={`flex h-10 w-10 items-center justify-center rounded-full ${isPositive ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}`}
                     >
                       {isPositive ? (
                         <HugeiconsIcon
@@ -81,7 +81,7 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
                   </div>
                 </TableCell>
                 <TableCell
-                  className={`py-6 pr-8 text-right text-lg font-semibold tracking-tight ${isPositive ? 'text-emerald-600' : 'text-foreground'}`}
+                  className={`py-6 pr-8 text-right text-lg font-semibold tracking-tight ${isPositive ? 'text-success' : 'text-foreground'}`}
                 >
                   {isPositive ? '+' : ''}
                   {new Intl.NumberFormat('en-IE', {

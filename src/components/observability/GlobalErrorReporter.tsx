@@ -5,7 +5,13 @@ import { sendClientErrorReport } from '@/lib/observability/client-error-reportin
 
 export function GlobalErrorReporter() {
   useEffect(() => {
+    const isAbortError = (err: unknown): boolean =>
+      err instanceof DOMException && err.name === 'AbortError';
+
     const onWindowError = (event: ErrorEvent) => {
+      // Ignore AbortError caused by React strict-mode double-mount or navigation
+      if (isAbortError(event.error)) return;
+
       const message = event.message || 'Unhandled window error';
       const stack =
         event.error instanceof Error
@@ -24,6 +30,10 @@ export function GlobalErrorReporter() {
 
     const onUnhandledRejection = (event: PromiseRejectionEvent) => {
       const reason = event.reason;
+
+      // Ignore AbortError caused by React strict-mode double-mount or navigation
+      if (isAbortError(reason)) return;
+
       const message =
         reason instanceof Error
           ? reason.message

@@ -76,7 +76,7 @@ export function StepPayment({
             {user ? (
               walletBalance !== null && walletBalance >= price ? (
                 <div className="space-y-4 py-4 text-center">
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 p-4 text-emerald-600">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-success/10 p-4 text-success">
                     <HugeiconsIcon icon={Tick02Icon} className="h-8 w-8" strokeWidth={3} />
                   </div>
                   <div>
@@ -88,7 +88,7 @@ export function StepPayment({
                 </div>
               ) : (
                 <div className="space-y-6 py-4 text-center">
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10 p-4 text-amber-600">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-warning/10 p-4 text-warning">
                     <HugeiconsIcon icon={CreditCardIcon} className="h-8 w-8" strokeWidth={3} />
                   </div>
                   <div>
@@ -116,7 +116,7 @@ export function StepPayment({
       <div className="text-muted-foreground flex items-start space-x-3 px-2 text-sm">
         <HugeiconsIcon
           icon={Tick02Icon}
-          className="h-5 w-5 shrink-0 text-emerald-600"
+          className="h-5 w-5 shrink-0 text-success"
           strokeWidth={2.5}
         />
         <p className="font-medium">I agree to the cancellation policy (24h notice required).</p>

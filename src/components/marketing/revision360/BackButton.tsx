@@ -21,13 +21,13 @@ export default function BackButton() {
   return (
     <motion.button
       onClick={handleBack}
-      className="fixed top-4 left-4 z-50 flex items-center space-x-2 rounded-lg border border-amber-500/30 bg-zinc-800/90 px-3 py-2 text-amber-200 shadow-lg backdrop-blur-sm sm:top-6 sm:left-6 sm:px-4"
+      className="fixed top-4 left-4 z-50 flex items-center space-x-2 rounded-lg border border-vip-gold-1/30 bg-card/90 px-3 py-2 text-vip-gold-4 shadow-lg backdrop-blur-sm sm:top-6 sm:left-6 sm:px-4"
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
       whileHover={{
-        backgroundColor: 'rgba(39, 39, 42, 0.95)',
-        borderColor: 'rgba(245, 158, 11, 0.5)',
+        backgroundColor: 'oklch(0.274 0.006 286 / 0.95)',
+        borderColor: 'oklch(0.78 0.155 75 / 0.5)',
         scale: 1.02,
       }}
       whileTap={{ scale: 0.98 }}

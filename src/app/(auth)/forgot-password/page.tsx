@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { toast } from '@/components/ui/morphing-toaster';
 import { motion, AnimatePresence } from 'motion/react';
 import { Loader2, Mail, ArrowLeft, CheckCircle2, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -46,10 +47,8 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-linear-to-br from-primary/5 via-primary/3 to-primary/5 p-6">
-      {/* Decorative background elements */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+    <div className="auth-page">
+      <div className="auth-page-gradient" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -57,11 +56,7 @@ export default function ForgotPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-lg border-0 bg-linear-to-br shadow-sm backdrop-blur-xl">
-          {/* Decorative gradient overlay */}
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 via-primary/5 to-primary/5" />
-          <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
-
+        <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl">
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
             <motion.div
@@ -71,16 +66,7 @@ export default function ForgotPasswordPage() {
               className="mb-8 flex flex-col items-center gap-4 text-center"
             >
               <div className="relative">
-                <motion.div
-                  className="absolute inset-0 rounded-lg bg-linear-to-br from-primary to-primary/70 opacity-30 blur-xl"
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.4, 0.3] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                />
-                <motion.div
-                  className="relative rounded-lg bg-linear-to-br from-primary to-primary/70 p-4 shadow-sm"
-                  animate={emailSent ? { scale: [1, 1.05, 1] } : {}}
-                  transition={{ duration: 0.5 }}
-                >
+                <div className="relative overflow-hidden rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
                   <AnimatePresence mode="wait">
                     {emailSent ? (
                       <motion.div
@@ -89,25 +75,33 @@ export default function ForgotPasswordPage() {
                         animate={{ scale: 1, rotate: 0 }}
                         exit={{ scale: 0, rotate: 180 }}
                         transition={{ duration: 0.5, type: 'spring', bounce: 0.4 }}
+                        className="flex h-14 w-14 items-center justify-center"
                       >
-                        <CheckCircle2 className="h-8 w-8 text-white" />
+                        <CheckCircle2 className="h-8 w-8 text-success" />
                       </motion.div>
                     ) : (
                       <motion.div
-                        key="mail"
-                        initial={{ scale: 0, rotate: -180 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        exit={{ scale: 0, rotate: 180 }}
-                        transition={{ duration: 0.5, type: 'spring', bounce: 0.4 }}
+                        key="logo"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
                       >
-                        <Mail className="h-8 w-8 text-white" />
+                        <Image
+                          src="/images/eka_logo.png"
+                          alt="EKA Balance"
+                          width={56}
+                          height={56}
+                          className="h-14 w-14 object-contain"
+                          priority
+                        />
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.div>
+                </div>
               </div>
               <div className="space-y-2">
-                <h1 className="from-foreground to-foreground/70 bg-linear-to-br bg-clip-text text-3xl font-semibold tracking-tight text-transparent">
+                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                   {emailSent ? 'Check Your Email' : 'Forgot Password?'}
                 </h1>
                 <p className="text-muted-foreground max-w-sm text-sm font-medium">

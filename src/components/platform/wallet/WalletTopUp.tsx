@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { getWalletBalanceAction, createWalletTopUpIntentAction } from '@/app/actions/wallet';
@@ -68,7 +68,7 @@ export function WalletTopUp() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">
-              {balance !== null ? `â‚¬${balance.toFixed(2)}` : 'Loading...'}
+              {balance !== null ? `�${balance.toFixed(2)}` : 'Loading...'}
             </div>
           </CardContent>
         </Card>
@@ -78,7 +78,7 @@ export function WalletTopUp() {
             <TrendingUp className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-semibold">â‚¬0.00</div>
+            <div className="text-2xl font-semibold">�0.00</div>
             <p className="text-muted-foreground text-xs">From volume discounts</p>
           </CardContent>
         </Card>
@@ -108,10 +108,10 @@ export function WalletTopUp() {
                       htmlFor={`opt-${option.amount}`}
                       className="border-muted bg-popover hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary flex cursor-pointer flex-col items-center justify-between rounded-md border-2 p-4"
                     >
-                      <span className="text-xl font-semibold">â‚¬{option.amount}</span>
+                      <span className="text-xl font-semibold">�{option.amount}</span>
                       <span className="text-muted-foreground text-sm">{option.label}</span>
                       {option.bonus > 0 && (
-                        <span className="mt-2 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+                        <span className="mt-2 rounded-full bg-success/20 px-2 py-1 text-xs font-medium text-success">
                           +{option.bonus}% Bonus
                         </span>
                       )}
@@ -121,13 +121,13 @@ export function WalletTopUp() {
               </RadioGroup>
 
               <Button className="w-full" onClick={handleTopUp} disabled={loading}>
-                {loading ? 'Processing...' : `Pay â‚¬${selectedAmount}`}
+                {loading ? 'Processing...' : `Pay �${selectedAmount}`}
               </Button>
             </div>
           ) : (
             <div className="space-y-4">
               <Button variant="ghost" onClick={() => setClientSecret(null)}>
-                â† Back to options
+                ? Back to options
               </Button>
               <StripeWrapper clientSecret={clientSecret}>
                 <StripePaymentForm onSuccess={handleSuccess} />

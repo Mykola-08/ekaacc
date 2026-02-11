@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import {
@@ -37,9 +37,9 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
   const getTypeIcon = (type: string, amount: number) => {
     if (type === 'plan_credit') return <Clock className="h-4 w-4 text-primary" />;
     return amount > 0 ? (
-      <ArrowDownLeft className="h-4 w-4 text-green-500" />
+      <ArrowDownLeft className="h-4 w-4 text-success" />
     ) : (
-      <ArrowUpRight className="h-4 w-4 text-red-500" />
+      <ArrowUpRight className="h-4 w-4 text-destructive" />
     );
   };
 
@@ -47,7 +47,7 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
     if (type === 'plan_credit') {
       return `${amount > 0 ? '+' : ''}${amount} Credits`;
     }
-    return `â‚¬${amount.toFixed(2)}`;
+    return `�${amount.toFixed(2)}`;
   };
 
   return (
@@ -83,7 +83,7 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
                       {format(new Date(tx.created_at), 'MMM d, HH:mm')}
                     </TableCell>
                     <TableCell
-                      className={`text-right font-medium ${tx.amount > 0 ? 'text-green-600' : 'text-muted-foreground'}`}
+                      className={`text-right font-medium ${tx.amount > 0 ? 'text-success' : 'text-muted-foreground'}`}
                     >
                       {formatAmount(tx.type, tx.amount)}
                     </TableCell>

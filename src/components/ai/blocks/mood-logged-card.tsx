@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * Mood Logged Card
@@ -18,19 +18,19 @@ interface MoodLoggedProps {
 }
 
 const moodEmojis: Record<string, string> = {
-  excellent: "ðŸŒŸ",
-  good: "ðŸ˜Š",
-  neutral: "ðŸ˜",
-  bad: "ðŸ˜”",
-  terrible: "ðŸ˜¢",
+  excellent: "🌟",
+  good: "😊",
+  neutral: "😐",
+  bad: "😔",
+  terrible: "😢",
 };
 
 const moodColors: Record<string, string> = {
-  excellent: "from-emerald-500/20 to-green-500/10 border-emerald-500/30",
-  good: "from-blue-500/20 to-cyan-500/10 border-primary/30",
-  neutral: "from-amber-500/20 to-yellow-500/10 border-amber-500/30",
-  bad: "from-orange-500/20 to-red-500/10 border-orange-500/30",
-  terrible: "from-red-500/20 to-rose-500/10 border-red-500/30",
+  excellent: "from-success/20 to-success/10 border-success/30",
+  good: "from-info/20 to-info/10 border-primary/30",
+  neutral: "from-warning/20 to-warning/10 border-vip-gold-1/30",
+  bad: "from-warning/20 to-destructive/10 border-warning/30",
+  terrible: "from-destructive/20 to-destructive/10 border-destructive/30",
 };
 
 function Gauge({ label, value, max = 10 }: { label: string; value: number; max?: number }) {
@@ -65,7 +65,7 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
       )}
     >
       <div className="flex items-center gap-3 mb-3">
-        <span className="text-3xl">{moodEmojis[mood] || "ðŸ“"}</span>
+        <span className="text-3xl">{moodEmojis[mood] || "📝"}</span>
         <div>
           <p className="text-sm font-semibold capitalize">{mood}</p>
           <p className="text-muted-foreground text-xs">Mood logged</p>
@@ -79,7 +79,7 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
       </div>
 
       <p className="text-muted-foreground mt-3 text-[11px]">
-        âœ“ Saved to your wellness journal
+        ✓ Saved to your wellness journal
       </p>
     </motion.div>
   );

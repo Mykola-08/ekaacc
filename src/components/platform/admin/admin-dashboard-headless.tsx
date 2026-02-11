@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
@@ -42,11 +42,11 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
   const getHealthColor = (health: string) => {
     switch (health) {
       case 'healthy':
-        return 'text-green-500 bg-green-50';
+        return 'text-success bg-success';
       case 'warning':
-        return 'text-yellow-500 bg-yellow-50';
+        return 'text-warning bg-warning';
       case 'critical':
-        return 'text-red-500 bg-red-50';
+        return 'text-destructive bg-destructive/10';
       default:
         return 'text-muted-foreground bg-muted/30';
     }
@@ -97,32 +97,32 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
             <div className="text-foreground text-3xl font-semibold">
               {stats.totalUsers.toLocaleString()}
             </div>
-            <div className="mt-2 flex items-center text-xs font-medium text-green-600">
+            <div className="mt-2 flex items-center text-xs font-medium text-success">
               <span>+{stats.usersGrowth}% from last month</span>
             </div>
           </div>
         </div>
 
         <div className="bg-card group relative overflow-hidden rounded-lg p-6 shadow-sm ring-1 ring-border">
-          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-green-50/50 blur-2xl" />
+          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-success/50 blur-2xl" />
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-muted-foreground text-sm font-medium">Revenue (MTD)</h3>
-              <DollarSign className="h-5 w-5 text-green-500" />
+              <DollarSign className="h-5 w-5 text-success" />
             </div>
             <div className="text-foreground text-3xl font-semibold">
-              â‚¬{stats.revenueMtd.toLocaleString()}
+              �{stats.revenueMtd.toLocaleString()}
             </div>
             <div className="text-muted-foreground/80 mt-2 text-xs">Plan & Service Revenue</div>
           </div>
         </div>
 
         <div className="bg-card group relative overflow-hidden rounded-lg p-6 shadow-sm ring-1 ring-border">
-          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-50/50 blur-2xl" />
+          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/50 blur-2xl" />
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-muted-foreground text-sm font-medium">Growth</h3>
-              <BarChart3 className="h-5 w-5 text-purple-500" />
+              <BarChart3 className="h-5 w-5 text-chart-4" />
             </div>
             <div className="text-foreground text-3xl font-semibold">{stats.revenueGrowth}%</div>
             <div className="text-muted-foreground/80 mt-2 text-xs">Revenue Growth MoM</div>
@@ -130,11 +130,11 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
         </div>
 
         <div className="bg-card group relative overflow-hidden rounded-lg p-6 shadow-sm ring-1 ring-border">
-          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-50/50 blur-2xl" />
+          <div className="absolute top-0 right-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full bg-warning/50 blur-2xl" />
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-muted-foreground text-sm font-medium">System Status</h3>
-              <Shield className="h-5 w-5 text-orange-500" />
+              <Shield className="h-5 w-5 text-warning" />
             </div>
             <div className="text-foreground text-3xl font-semibold capitalize">
               {stats.systemHealth}
@@ -170,7 +170,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
           </TabPanel>
 
           <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
-            <div className="mb-6 rounded-lg bg-amber-50 p-4 text-sm text-amber-800">
+            <div className="mb-6 rounded-lg bg-warning/10 p-4 text-sm text-warning">
               Bookings management is also available in the Overview tab.
             </div>
             <AdminBookingTable />

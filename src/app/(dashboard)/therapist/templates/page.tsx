@@ -225,9 +225,9 @@ export default function TherapistTemplatesPage() {
   const categoryColors: { [key: string]: string } = {
     progress: 'bg-primary/10 text-primary',
     assessment: 'bg-muted text-primary',
-    'treatment-plan': 'bg-green-500/10 text-green-700 dark:text-green-400',
-    'session-notes': 'bg-orange-500/10 text-orange-700 dark:text-orange-400',
-    discharge: 'bg-red-500/10 text-red-700 dark:text-red-400',
+    'treatment-plan': 'bg-success0/10 text-success-foreground dark:text-success',
+    'session-notes': 'bg-warning0/10 text-warning-foreground dark:text-warning',
+    discharge: 'bg-destructive/100/10 text-destructive dark:text-destructive',
   };
 
   if (isLoading) {
@@ -474,7 +474,7 @@ export default function TherapistTemplatesPage() {
               {selectedTemplate?.fields.map((field) => (
                 <div key={field.key} className="space-y-2">
                   <Label htmlFor={field.key}>
-                    {field.label} {field.required && <span className="text-red-500">*</span>}
+                    {field.label} {field.required && <span className="text-destructive">*</span>}
                   </Label>
 
                   {field.type === 'textarea' ? (

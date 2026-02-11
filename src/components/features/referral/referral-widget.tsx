@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,9 +21,9 @@ export function ReferralWidget() {
   const progress = (points / nextReward) * 100;
 
   return (
-    <Card className="dark:from-background border-emerald-100 bg-linear-to-b from-white to-emerald-50/20 dark:border-emerald-900/50 dark:to-emerald-950/10">
+    <Card className="dark:from-background border-success/20 bg-linear-to-b from-white to-success/10 dark:border-success/20 dark:to-success/10">
       <CardHeader>
-        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500">
+        <div className="flex items-center gap-2 text-success dark:text-success">
           <Gift className="h-5 w-5" />
           <span className="text-sm font-semibold tracking-widest uppercase">Rewards Program</span>
         </div>
@@ -37,7 +37,7 @@ export function ReferralWidget() {
         <div className="space-y-2">
           <div className="flex justify-between text-sm font-medium">
             <span className="flex items-center gap-2">
-              <Award className="h-4 w-4 text-amber-500" /> My Points: {points}
+              <Award className="h-4 w-4 text-warning" /> My Points: {points}
             </span>
             <span className="text-muted-foreground">{nextReward - points} to next reward</span>
           </div>
@@ -59,7 +59,7 @@ export function ReferralWidget() {
           <Button onClick={copyToClipboard} size="icon" variant="outline">
             <Copy className="h-4 w-4" />
           </Button>
-          <Button className="bg-emerald-600 text-white hover:bg-emerald-700">
+          <Button className="bg-success text-white hover:bg-success/90">
             <Share2 className="mr-2 h-4 w-4" /> Share
           </Button>
         </div>

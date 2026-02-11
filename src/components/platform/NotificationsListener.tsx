@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import React from 'react';
@@ -29,11 +29,11 @@ export function NotificationsListener(): any {
     const getIcon = (type: string) => {
       switch (type) {
         case 'success':
-          return <CheckCircle className="h-5 w-5 text-emerald-500" />;
+          return <CheckCircle className="h-5 w-5 text-success" />;
         case 'error':
-          return <XCircle className="h-5 w-5 text-red-500" />;
+          return <XCircle className="h-5 w-5 text-destructive" />;
         case 'warning':
-          return <AlertTriangle className="h-5 w-5 text-amber-500" />;
+          return <AlertTriangle className="h-5 w-5 text-warning" />;
         default:
           return <Info className="h-5 w-5 text-primary" />;
       }

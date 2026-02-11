@@ -2,7 +2,8 @@
 
 import { Booking } from '@/types/booking';
 import { format } from 'date-fns';
-import { Calendar, MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
+import { Calendar03Icon } from '@hugeicons/core-free-icons';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -48,7 +49,7 @@ export function BookingsList({ bookings }: BookingsListProps) {
 
       <div className="space-y-4">
         {filteredBookings.length === 0 ? (
-          <EmptyState icon={Calendar} title="No bookings found" />
+          <EmptyState icon={Calendar03Icon} title="No bookings found" />
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {filteredBookings.map((booking) => (

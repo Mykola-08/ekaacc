@@ -166,23 +166,23 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
   const getRoleColor = (role: SystemRole) => {
     switch (role) {
       case 'Admin':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-destructive/20 text-destructive border-destructive';
       case 'Therapist':
         return 'bg-primary/10 text-primary border-primary/20';
       case 'Reception':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-success/20 text-success border-success';
       case 'Patient':
         return 'bg-muted text-foreground border-border';
       case 'VIP Patient':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-warning/20 text-warning-foreground border-warning/30';
       case 'Corporate Client':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
+        return 'bg-accent/20 text-accent-foreground border-accent';
       case 'Content Manager':
-        return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+        return 'bg-accent/20 text-accent-foreground border-accent/30';
       case 'Marketing':
-        return 'bg-pink-100 text-pink-800 border-pink-200';
+        return 'bg-accent/20 text-accent-foreground border-accent/30';
       case 'Accountant':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
+        return 'bg-warning/20 text-warning border-warning';
       case 'Custom':
         return 'bg-primary/10 text-primary border-primary/20';
       default:

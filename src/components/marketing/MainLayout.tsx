@@ -128,7 +128,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
       {/* Navigation with scroll effect */}
       <nav
-        className={`ease-in-out-quart sticky top-0 z-50 border-b border-gray-200/50 transition-all duration-500 ${isScrolled ? 'bg-white/85 shadow-sm backdrop-blur-xl' : 'bg-white/70 backdrop-blur-md'}`}
+        className={`ease-in-out-quart sticky top-0 z-50 border-b border-border/50 transition-all duration-500 ${isScrolled ? 'bg-background/85 shadow-sm backdrop-blur-xl' : 'bg-background/70 backdrop-blur-md'}`}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div
@@ -146,6 +146,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   alt="EKA Balance Logo"
                   fill
                   className="object-contain"
+                  sizes="40px"
                   priority
                 />
               </div>
@@ -164,7 +165,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                       <>
                         <Link
                           href={item.href}
-                          className={`nav-trigger ease-out-quart rounded-apple flex items-center px-5 py-3 font-medium transition-all duration-200 hover:bg-white/60 ${
+                          className={`nav-trigger ease-out-quart rounded-apple flex items-center px-5 py-3 font-medium transition-all duration-200 hover:bg-card/60 ${
                             isActivePath(item.href)
                               ? 'text-accent'
                               : 'text-eka-dark hover:text-accent'
@@ -189,7 +190,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
                         {/* Dropdown menu with CSS-first positioning */}
                         <div
-                          className={`nav-dropdown ${showPersonalServices ? 'is-open' : ''} ${isScrolled ? 'bg-gray-100/90 backdrop-blur-xl' : 'bg-gray-100'}`}
+                          className={`nav-dropdown ${showPersonalServices ? 'is-open' : ''} ${isScrolled ? 'bg-muted/90 backdrop-blur-xl' : 'bg-muted'}`}
                           onMouseEnter={openDropdown}
                           onMouseLeave={scheduleHide}
                           onKeyDown={(e) => {
@@ -221,7 +222,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                       <a
                         href={item.href}
                         rel="noopener noreferrer"
-                        className="rounded-apple text-eka-dark hover:text-accent px-5 py-3 font-medium transition-all duration-200 hover:bg-white/60"
+                        className="rounded-apple text-eka-dark hover:text-accent px-5 py-3 font-medium transition-all duration-200 hover:bg-card/60"
                         onClick={(e) => {
                           e.preventDefault();
                           window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -233,9 +234,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     ) : (
                       <Link
                         href={item.href}
-                        className={`ease-out-quart rounded-apple px-5 py-3 font-medium transition-all duration-200 hover:bg-white/60 ${
+                        className={`ease-out-quart rounded-apple px-5 py-3 font-medium transition-all duration-200 hover:bg-card/60 ${
                           item.isGold
-                            ? 'gold-shimmer border border-yellow-200/50 bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 font-black hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
+                            ? 'gold-shimmer border border-warning/20 bg-linear-to-r from-warning/10 via-warning/10 to-warning/10 font-black hover:from-warning/20 hover:via-warning/20 hover:to-warning/20'
                             : isActivePath(item.href)
                               ? 'text-accent'
                               : 'text-eka-dark hover:text-accent'
@@ -271,12 +272,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="rounded-[20px] p-2 transition-colors duration-200 hover:bg-gray-100 md:hidden"
+                className="rounded-[20px] p-2 transition-colors duration-200 hover:bg-muted md:hidden"
               >
                 {isMenuOpen ? (
-                  <X className="h-5 w-5 text-gray-700" />
+                  <X className="h-5 w-5 text-foreground" />
                 ) : (
-                  <Menu className="h-5 w-5 text-gray-700" />
+                  <Menu className="h-5 w-5 text-foreground" />
                 )}
               </button>
             </div>
@@ -290,7 +291,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="absolute top-full left-0 w-full overflow-hidden border-b border-gray-200 bg-white/95 shadow-xl backdrop-blur-xl md:hidden"
+                className="absolute top-full left-0 w-full overflow-hidden border-b border-border bg-white/95 shadow-xl backdrop-blur-xl md:hidden"
               >
                 <div className="max-h-[80vh] space-y-2 overflow-y-auto px-4 py-4">
                   {navigation.map((item) => (
@@ -304,7 +305,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                             setIsMenuOpen(false);
                             window.open(item.href, '_blank', 'noopener,noreferrer');
                           }}
-                          className="block rounded-xl px-4 py-3 text-base font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50"
+                          className="block rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors duration-200 hover:bg-muted"
                         >
                           {item.name}
                         </a>
@@ -314,23 +315,23 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           onClick={() => setIsMenuOpen(false)}
                           className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors duration-200 ${
                             item.isGold
-                              ? 'border border-gray-100 bg-gray-50 font-bold text-gray-900 ring-1 ring-gray-200'
+                              ? 'border border-border bg-muted font-bold text-foreground ring-1 ring-border'
                               : isActivePath(item.href)
                                 ? 'bg-primary/5 text-primary'
-                                : 'text-gray-700 hover:bg-gray-50'
+                                : 'text-foreground hover:bg-muted'
                           }`}
                         >
                           {item.name}
                         </Link>
                       )}
                       {item.hasDropdown && (
-                        <div className="mt-2 ml-4 space-y-1 border-l-2 border-gray-100 pl-2">
+                        <div className="mt-2 ml-4 space-y-1 border-l-2 border-border pl-2">
                           {item.dropdownItems?.map((dropdownItem) => (
                             <Link
                               key={dropdownItem.name}
                               href={dropdownItem.href}
                               onClick={() => setIsMenuOpen(false)}
-                              className="hover:text-primary-600 block rounded-lg px-4 py-2 text-sm text-gray-600 transition-colors hover:bg-gray-50"
+                              className="hover:text-primary-600 block rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted"
                             >
                               {dropdownItem.name}
                             </Link>
@@ -341,12 +342,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   ))}
 
                   {/* Mobile Integrated Actions */}
-                  <div className="mt-2 space-y-2 border-t border-gray-100 pt-2">
+                  <div className="mt-2 space-y-2 border-t border-border pt-2">
                     <Link
                       href="/login"
                       data-ux-action="true"
                       onClick={() => setIsMenuOpen(false)}
-                      className="text-eka-dark rounded-apple block w-full border border-gray-300 bg-white px-4 py-3 text-center font-semibold transition-colors duration-200"
+                      className="text-eka-dark rounded-apple block w-full border border-border bg-card px-4 py-3 text-center font-semibold transition-colors duration-200"
                     >
                       Login
                     </Link>
@@ -354,7 +355,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                       href="/dashboard"
                       data-ux-action="true"
                       onClick={() => setIsMenuOpen(false)}
-                      className="text-eka-dark rounded-apple block w-full border border-gray-300 bg-white px-4 py-3 text-center font-semibold transition-colors duration-200"
+                      className="text-eka-dark rounded-apple block w-full border border-border bg-card px-4 py-3 text-center font-semibold transition-colors duration-200"
                     >
                       Dashboard
                     </Link>
@@ -384,7 +385,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <LanguagePopup />
 
       {/* Fixed Mobile Bottom CTA */}
-      <div className="pb-safe fixed right-0 bottom-0 left-0 z-50 border-t border-gray-200 bg-white/80 p-4 backdrop-blur-md md:hidden">
+      <div className="pb-safe fixed right-0 bottom-0 left-0 z-50 border-t border-border bg-card/80 p-4 backdrop-blur-md md:hidden">
         <Link
           href="/book"
           data-ux-action="true"
@@ -395,7 +396,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Footer */}
-      <footer className="mb-24 border-t border-gray-800 bg-gray-900 py-12 text-white sm:py-16 md:mb-0">
+      <footer className="mb-24 border-t border-border bg-background py-12 text-white sm:py-16 md:mb-0">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6">
           {/* Logo */}
           <Link
@@ -415,7 +416,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </Link>
 
           {/* Contact Info */}
-          <div className="mb-8 space-y-2 text-gray-100">
+          <div className="mb-8 space-y-2 text-foreground">
             <p>{t('footer.address')}</p>
             <p>{t('footer.email')}</p>
           </div>
@@ -425,25 +426,25 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
               <Link
                 href="/discounts"
-                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
               >
                 {t('footer.discounts')}
               </Link>
               <Link
                 href="/privacy-policy"
-                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
               >
                 {t('footer.privacyPolicy')}
               </Link>
               <Link
                 href="/cookie-policy"
-                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
               >
                 {t('footer.cookiePolicy')}
               </Link>
               <Link
                 href="/terms-of-service"
-                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
               >
                 {t('footer.termsOfService')}
               </Link>
@@ -453,8 +454,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           {/* Language Selector */}
           <div className="mb-8">
             <div className="mb-4 flex items-center justify-center space-x-2">
-              <Globe className="h-4 w-4 text-gray-400" />
-              <span className="text-sm text-gray-400">{t('footer.selectLanguage')}</span>
+              <Globe className="h-4 w-4 text-muted-foreground/60" />
+              <span className="text-sm text-muted-foreground/60">{t('footer.selectLanguage')}</span>
             </div>
             <div className="flex justify-center space-x-4">
               {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
@@ -464,7 +465,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   className={`rounded-apple px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                     language === lang
                       ? 'bg-accent text-eka-dark'
-                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                      : 'bg-card text-muted-foreground/40 hover:bg-accent'
                   }`}
                 >
                   {lang === 'ca' && 'Catalan'}
@@ -477,8 +478,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* Copyright */}
-          <div className="flex flex-col items-center gap-4 border-t border-gray-800 pt-8">
-            <p className="text-sm text-gray-400">{t('footer.copyright')}</p>
+          <div className="flex flex-col items-center gap-4 border-t border-border pt-8">
+            <p className="text-sm text-muted-foreground/60">{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>

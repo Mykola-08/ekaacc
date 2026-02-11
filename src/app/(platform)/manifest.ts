@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'AI-assisted wellness and therapist platform',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#0ea5e9',
+    background_color: 'oklch(1 0 0)',
+    theme_color: 'oklch(0.205 0 0)',
     icons: [
       {
         src: '/eka_logo.png',

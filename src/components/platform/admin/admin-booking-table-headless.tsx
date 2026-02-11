@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import { getAdminBookings, adminCancelBooking } from '@/app/actions/admin';
@@ -221,7 +221,7 @@ export function AdminBookingTableHeadless() {
                       {booking.status === 'scheduled' && (
                         <button
                           onClick={() => handleCancel(booking.id)}
-                          className="ml-auto flex items-center justify-end gap-1 rounded-lg px-3 py-1.5 text-red-600 transition-colors hover:bg-red-50 hover:text-red-900"
+                          className="ml-auto flex items-center justify-end gap-1 rounded-lg px-3 py-1.5 text-destructive transition-colors hover:bg-destructive/10 hover:text-destructive"
                         >
                           <XCircle className="h-4 w-4" />
                           Cancel
@@ -288,7 +288,7 @@ export function AdminBookingTableHeadless() {
                     onClick={() => setPage(pNum)}
                     className={cn(
                       pNum === page
-                        ? 'z-10 bg-primary text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
+                        ? 'z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
                         : 'text-foreground hover:bg-muted/30 ring-1 ring-border ring-inset focus:outline-offset-0',
                       'relative inline-flex items-center px-4 py-2 text-sm font-semibold'
                     )}

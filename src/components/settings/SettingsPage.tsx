@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
@@ -72,7 +72,7 @@ export function SettingsPage({
   // Determine initial tab from URL
   const initialTab = searchParams.get('tab') || 'profile';
 
-  // â”€â”€â”€ Profile state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Profile state ────────────────────────────────────────────────
   const [profileForm, setProfileForm] = useState({
     full_name: profile?.full_name || '',
     phone: profile?.phone || '',
@@ -83,7 +83,7 @@ export function SettingsPage({
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [profileSaving, setProfileSaving] = useState(false);
 
-  // â"€â"€â"€ Morphing feedback hooks â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+  // ─── Morphing feedback hooks ───────────────────────────────────────────
   const profileFeedback = useMorphingFeedback();
   const avatarFeedback = useMorphingFeedback();
   const passwordFeedback = useMorphingFeedback();
@@ -92,7 +92,7 @@ export function SettingsPage({
   const prefFeedback = useMorphingFeedback();
   const deleteFeedback = useMorphingFeedback();
 
-  // â”€â”€â”€ Notification state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Notification state ───────────────────────────────────────────
   const [notifications, setNotifications] = useState<NotificationPreferences>({
     email_updates: true,
     push_notifications: false,
@@ -104,7 +104,7 @@ export function SettingsPage({
   const [notifLoaded, setNotifLoaded] = useState(false);
   const [notifSaving, setNotifSaving] = useState(false);
 
-  // â”€â”€â”€ Preferences state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Preferences state ───────────────────────────────────────────
   const [preferences, setPreferences] = useState<UserPreferences>({
     public_profile: false,
     share_goals: false,
@@ -114,12 +114,12 @@ export function SettingsPage({
   const [prefsLoaded, setPrefsLoaded] = useState(false);
   const [prefsSaving, setPrefsSaving] = useState(false);
 
-  // â”€â”€â”€ Security state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Security state ──────────────────────────────────────────────
   const [passwordResetSending, setPasswordResetSending] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
-  // â”€â”€â”€ Load notification preferences â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Load notification preferences ───────────────────────────────
   useEffect(() => {
     getNotificationPreferences().then((prefs) => {
       setNotifications(prefs);
@@ -131,7 +131,7 @@ export function SettingsPage({
     });
   }, []);
 
-  // â”€â”€â”€ Handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Handlers ────────────────────────────────────────────────────
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -299,7 +299,7 @@ export function SettingsPage({
               {profileForm.full_name?.substring(0, 2)?.toUpperCase() || 'ME'}
             </AvatarFallback>
           </Avatar>
-          <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-foreground/40 opacity-0 transition-opacity group-hover:opacity-100">
             {avatarUploading ? (
               <Loader2 className="h-6 w-6 animate-spin text-white" />
             ) : (
@@ -380,7 +380,7 @@ export function SettingsPage({
           </TabsTrigger>
         </TabsList>
 
-        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ PROFILE TAB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ───────────────────── PROFILE TAB ───────────────────── */}
         <TabsContent value="profile">
           <div className="grid gap-8">
             <motion.div
@@ -406,7 +406,7 @@ export function SettingsPage({
                         {profileForm.full_name?.substring(0, 2)?.toUpperCase() || 'ME'}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                    <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-foreground/40 opacity-0 transition-opacity group-hover:opacity-100">
                       {avatarUploading ? (
                         <Loader2 className="h-8 w-8 animate-spin text-white" />
                       ) : (
@@ -588,10 +588,10 @@ export function SettingsPage({
                     <SelectContent>
                       <SelectItem value="en">English</SelectItem>
                       <SelectItem value="ga">Gaeilge</SelectItem>
-                      <SelectItem value="fr">FranÃ§ais</SelectItem>
+                      <SelectItem value="fr">Français</SelectItem>
                       <SelectItem value="de">Deutsch</SelectItem>
-                      <SelectItem value="es">EspaÃ±ol</SelectItem>
-                      <SelectItem value="uk">Ð£ÐºÑ€Ð°Ñ—Ð½ÑÑŒÐºÐ°</SelectItem>
+                      <SelectItem value="es">Español</SelectItem>
+                      <SelectItem value="uk">Українська</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -627,12 +627,12 @@ export function SettingsPage({
           </div>
         </TabsContent>
 
-        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ IDENTITY TAB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ───────────────────── IDENTITY TAB ───────────────────── */}
         <TabsContent value="identity">
           <IdentityVerificationForm currentStatus={identityStatus} />
         </TabsContent>
 
-        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ SECURITY TAB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ───────────────────── SECURITY TAB ───────────────────── */}
         <TabsContent value="security">
           <div className="space-y-8">
             <motion.div
@@ -780,7 +780,7 @@ export function SettingsPage({
           </div>
         </TabsContent>
 
-        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ NOTIFICATIONS TAB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ───────────────────── NOTIFICATIONS TAB ───────────────────── */}
         <TabsContent value="notifications">
           <motion.div
             initial={{ opacity: 0, y: 10 }}

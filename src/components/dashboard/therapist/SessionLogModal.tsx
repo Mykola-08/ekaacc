@@ -91,7 +91,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
               <Label className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
                 Final Client Mood
               </Label>
-              <span className="rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-600">
+              <span className="rounded-full bg-success/10 px-3 py-1 text-sm font-semibold text-success">
                 {finalMood[0]}/10
               </span>
             </div>
@@ -111,7 +111,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
                 Predicted Improvement:{' '}
               </span>
               <span
-                className={`ml-2 text-lg font-semibold ${improvement > 0 ? 'text-emerald-600' : 'text-muted-foreground'}`}
+                className={`ml-2 text-lg font-semibold ${improvement > 0 ? 'text-success' : 'text-muted-foreground'}`}
               >
                 {improvement > 0 ? '+' : ''}
                 {improvement}%

@@ -9,8 +9,8 @@ const statuses = [
     label: 'Database',
     status: 'Healthy',
     icon: Database,
-    color: 'text-emerald-500',
-    bg: 'bg-emerald-50',
+    color: 'text-success',
+    bg: 'bg-success/10',
   },
   {
     label: 'Auth Service',
@@ -23,15 +23,15 @@ const statuses = [
     label: 'Edge Runtime',
     status: 'Optimal',
     icon: Zap,
-    color: 'text-amber-500',
-    bg: 'bg-amber-50',
+    color: 'text-warning',
+    bg: 'bg-warning/10',
   },
   {
     label: 'API Gateway',
     status: 'Online',
     icon: Globe,
-    color: 'text-violet-500',
-    bg: 'bg-violet-50',
+    color: 'text-chart-4',
+    bg: 'bg-chart-4/10',
   },
 ];
 

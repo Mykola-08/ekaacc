@@ -100,18 +100,18 @@ export function PlansTab() {
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center gap-2 text-sm">
-              <Check className="h-4 w-4 text-emerald-600" />
+              <Check className="h-4 w-4 text-success" />
               {plan.credits_total} session credit{plan.credits_total !== 1 ? 's' : ''}
             </div>
             {plan.validity_days && (
               <div className="flex items-center gap-2 text-sm">
-                <Check className="h-4 w-4 text-emerald-600" />
+                <Check className="h-4 w-4 text-success" />
                 Valid for {plan.validity_days} days
               </div>
             )}
             {plan.features?.map((feature, fidx) => (
               <div key={fidx} className="flex items-center gap-2 text-sm">
-                <Check className="h-4 w-4 text-emerald-600" />
+                <Check className="h-4 w-4 text-success" />
                 {feature}
               </div>
             ))}

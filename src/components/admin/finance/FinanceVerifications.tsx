@@ -67,7 +67,7 @@ function VerificationCard({ item }: { item: any }) {
               <span className="text-foreground text-lg font-semibold">
                 ${((item.amount || 0) / 100).toFixed(2)}
               </span>
-              <span className="text-muted-foreground text-sm">â€¢</span>
+              <span className="text-muted-foreground text-sm">•</span>
               <span className="text-muted-foreground text-sm font-medium">
                 {item.service?.name}
               </span>

@@ -100,7 +100,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
             animate="visible"
             key={resource.id}
           >
-            <Card className="bg-card text-foreground group border-border/50 relative flex h-full flex-col overflow-hidden rounded-lg border border-none shadow-eka-sm transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)]">
+            <Card className="bg-card text-foreground group border-border/50 relative flex h-full flex-col overflow-hidden rounded-lg border border-none shadow-eka-sm transition-all duration-700 hover:-translate-y-3 hover:shadow-xl">
               <div className="bg-muted relative h-64 overflow-hidden">
                 {resource.imageUrl ? (
                   <Image
@@ -115,7 +115,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                   </div>
                 )}
                 <div className="absolute top-6 left-6">
-                  <Badge className="text-primary flex items-center rounded-full border-0 bg-white/90 px-4 py-2 text-[10px] font-semibold tracking-widest uppercase shadow-lg backdrop-blur-md">
+                  <Badge className="text-primary flex items-center rounded-full border-0 bg-card/90 px-4 py-2 text-[10px] font-semibold tracking-widest uppercase shadow-lg backdrop-blur-md">
                     {resource.category === 'video' && (
                       <HugeiconsIcon icon={PlayIcon} size={14} className="mr-2" strokeWidth={2.5} />
                     )}
@@ -139,7 +139,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                   </Badge>
                 </div>
                 {resource.isPremium && (
-                  <div className="absolute top-6 right-6 rounded-lg bg-amber-400 p-3 text-amber-950 shadow-sm">
+                  <div className="absolute top-6 right-6 rounded-lg bg-warning p-3 text-warning-foreground shadow-sm">
                     <HugeiconsIcon icon={LockIcon} size={16} strokeWidth={3} />
                   </div>
                 )}
@@ -153,7 +153,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                 </CardDescription>
               </CardHeader>
               <CardFooter className="mt-auto p-8 pt-0">
-                <Button className="bg-secondary text-foreground hover:bg-primary h-10 w-full rounded-lg text-lg font-semibold shadow-none transition-all duration-500 hover:text-white hover:shadow-sm">
+                <Button className="bg-secondary text-foreground hover:bg-primary h-10 w-full rounded-lg text-lg font-semibold shadow-none transition-all duration-500 hover:text-primary-foreground hover:shadow-sm">
                   View Content
                 </Button>
               </CardFooter>

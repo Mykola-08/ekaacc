@@ -94,14 +94,14 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
   const Hero = (
     <div className="relative overflow-hidden px-6 pt-32 pb-20">
       <div className="relative z-10 mx-auto max-w-4xl text-center">
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/80 px-3 py-1 text-sm text-blue-600 shadow-sm backdrop-blur-sm">
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-info bg-card/80 px-3 py-1 text-sm text-primary shadow-sm backdrop-blur-sm">
           <Calendar className="h-4 w-4" />
           <span className="font-medium">{t('booking.badge') || 'Reserves'}</span>
         </div>
-        <h1 className="mb-6 text-5xl leading-tight font-light tracking-tight text-gray-900 md:text-7xl">
+        <h1 className="mb-6 text-5xl leading-tight font-light tracking-tight text-foreground md:text-7xl">
           {t('booking.hero.title') || 'Reserva la teva cita'}
         </h1>
-        <p className="mb-8 text-xl leading-relaxed font-light text-gray-600 md:text-2xl">
+        <p className="mb-8 text-xl leading-relaxed font-light text-muted-foreground md:text-2xl">
           {t('booking.hero.subtitle') ||
             "Tria l'opció que et sigui més còmoda per començar el teu camí cap al benestar."}
         </p>
@@ -117,19 +117,19 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
           <div className="mb-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/login"
-              className="btn rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-gray-900 hover:bg-gray-50"
+              className="btn rounded-xl border border-border bg-card px-5 py-2.5 text-foreground hover:bg-muted"
             >
               Login
             </Link>
             <Link
               href="/dashboard"
-              className="btn rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-gray-900 hover:bg-gray-50"
+              className="btn rounded-xl border border-border bg-card px-5 py-2.5 text-foreground hover:bg-muted"
             >
               Open Dashboard
             </Link>
             <Link
               href="/bookings"
-              className="btn rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-gray-900 hover:bg-gray-50"
+              className="btn rounded-xl border border-border bg-card px-5 py-2.5 text-foreground hover:bg-muted"
             >
               My Bookings
             </Link>
@@ -141,21 +141,21 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-100 cursor-pointer flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-gray-50/50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-100 cursor-pointer flex-col items-center justify-center rounded-[20px] border border-border bg-muted/50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-white text-marketing-accent shadow-sm transition-transform duration-300 group-hover:scale-110">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-card text-marketing-accent shadow-sm transition-transform duration-300 group-hover:scale-110">
                 <Calendar className="h-10 w-10 text-primary" strokeWidth={1.5} />
               </div>
-              <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
+              <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-foreground">
                 In-App Booking Flow
               </h3>
-              <p className="text-body mx-auto mb-8 max-w-xs leading-relaxed text-gray-600">
+              <p className="text-body mx-auto mb-8 max-w-xs leading-relaxed text-muted-foreground">
                 Book directly in the platform and manage sessions from your dashboard.
               </p>
               <Link
                 href="/book"
                 onClick={() => logEvent('booking_page_app_flow_click')}
-                className="btn inline-flex w-full items-center justify-center rounded-xl bg-primary py-4 font-bold tracking-wide text-white shadow-lg transition-all hover:bg-primary/90 hover:shadow-primary/30 active:scale-95"
+                className="btn inline-flex w-full items-center justify-center rounded-xl bg-primary py-4 font-bold tracking-wide text-primary-foreground shadow-lg transition-all hover:bg-primary/90 hover:shadow-primary/30 active:scale-95"
               >
                 Start Booking Flow
               </Link>
@@ -166,15 +166,15 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-100 flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-100 flex-col items-center justify-center rounded-[20px] border border-border bg-card p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-gray-50 text-emerald-600 transition-transform duration-300 group-hover:scale-110">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-muted text-success transition-transform duration-300 group-hover:scale-110">
                 <MessageCircle className="h-10 w-10" strokeWidth={1.5} />
               </div>
-              <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
+              <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-foreground">
                 {t('booking.direct.title')}
               </h3>
-              <p className="text-body mx-auto mb-8 max-w-xs leading-relaxed text-gray-600">
+              <p className="text-body mx-auto mb-8 max-w-xs leading-relaxed text-muted-foreground">
                 {t('booking.direct.description')}
               </p>
               <a
@@ -182,7 +182,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                 onClick={() => logEvent('booking_page_whatsapp_click')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn w-full rounded-xl border border-gray-200 bg-white py-4 font-bold tracking-wide text-gray-900 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md active:scale-95"
+                className="btn w-full rounded-xl border border-border bg-card py-4 font-bold tracking-wide text-foreground shadow-sm transition-all hover:bg-muted hover:shadow-md active:scale-95"
               >
                 {t('booking.direct.button')}
               </a>
@@ -193,15 +193,15 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-100 flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-gray-50/50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-100 flex-col items-center justify-center rounded-[20px] border border-border bg-muted/50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-card shadow-sm transition-transform duration-300 group-hover:scale-110">
                 <Calendar className="h-10 w-10 text-primary" strokeWidth={1.5} />
               </div>
-              <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
+              <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-foreground">
                 {t('booking.form.title')}
               </h3>
-              <p className="text-body mx-auto mb-8 max-w-xs leading-relaxed text-gray-600">
+              <p className="text-body mx-auto mb-8 max-w-xs leading-relaxed text-muted-foreground">
                 {t('booking.form.description')}
               </p>
               <button
@@ -211,8 +211,8 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                 }}
                 className={`btn w-full rounded-xl py-4 font-bold tracking-wide shadow-lg transition-all active:scale-95 ${
                   showForm
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
-                    : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-blue-600/30'
+                    ? 'bg-background text-white hover:bg-card'
+                    : 'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-info/30'
                 }`}
               >
                 {showForm ? t('booking.form.close') : t('booking.form.button')}
@@ -227,15 +227,15 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="relative overflow-hidden rounded-[40px] border border-gray-100 bg-white p-8 shadow-2xl md:p-14"
+                className="relative overflow-hidden rounded-[40px] border border-border bg-card p-8 shadow-2xl md:p-14"
               >
                 <div className="mb-8 flex items-center justify-between">
-                  <h3 className="heading-3 text-2xl font-light text-gray-900">
+                  <h3 className="heading-3 text-2xl font-light text-foreground">
                     {t('booking.form.quickTitle')}
                   </h3>
                   <button
                     onClick={() => setShowForm(false)}
-                    className="rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+                    className="rounded-full p-2 text-muted-foreground/60 transition-colors hover:bg-muted hover:text-muted-foreground"
                     aria-label={t('booking.form.close')}
                   >
                     <X className="h-6 w-6" />
@@ -338,7 +338,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
 
                 <button
                   onClick={handleFormSubmit}
-                  className="btn flex w-full items-center justify-center rounded-xl bg-green-600 px-6 py-4 font-medium text-white shadow-md transition-all duration-300 hover:scale-[1.01] hover:bg-green-700 hover:shadow-lg"
+                  className="btn flex w-full items-center justify-center rounded-xl bg-success px-6 py-4 font-medium text-white shadow-md transition-all duration-300 hover:scale-[1.01] hover:bg-success/90 hover:shadow-lg"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   {t('booking.form.submit')}
@@ -350,13 +350,13 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
       </section>
 
       {/* Contact Info */}
-      <section className="border-t border-gray-100 bg-white py-16">
+      <section className="border-t border-border bg-card py-16">
         <div className="section-container text-center">
           <h3 className="heading-3 mb-8">{t('booking.help.title')}</h3>
 
           <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="card p-8 hover:shadow-md">
-              <h4 className="mb-4 font-medium text-gray-900">{t('booking.help.contactDirect')}</h4>
+              <h4 className="mb-4 font-medium text-foreground">{t('booking.help.contactDirect')}</h4>
               <div className="text-body space-y-2">
                 <p>{t('booking.help.email')}</p>
                 <p>{t('booking.help.address')}</p>
@@ -364,7 +364,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
             </div>
 
             <div className="card p-8 hover:shadow-md">
-              <h4 className="mb-4 font-medium text-gray-900">{t('booking.help.hours')}</h4>
+              <h4 className="mb-4 font-medium text-foreground">{t('booking.help.hours')}</h4>
               <div className="text-body space-y-2">
                 <p>{t('booking.help.hours.weekdays')}</p>
                 <p>{t('booking.help.hours.saturday')}</p>
@@ -373,7 +373,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
             </div>
           </div>
 
-          <p className="text-sm text-gray-500">{t('booking.help.footer')}</p>
+          <p className="text-sm text-muted-foreground">{t('booking.help.footer')}</p>
         </div>
       </section>
     </PageLayout>

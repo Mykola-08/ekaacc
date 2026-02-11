@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { Scale, Heart, MessageSquare, ShieldCheck, Clock } from 'lucide-react';
@@ -17,7 +17,7 @@ export default function PatientRights() {
       sections: [
         {
           title: '1. Right to Respectful Care',
-          icon: <Heart className="h-6 w-6 text-red-600" />,
+          icon: <Heart className="h-6 w-6 text-destructive" />,
           text: 'You have the right to receive care that is respectful, non-discriminatory, and considerate of your personal values and beliefs. We are committed to providing a safe and inclusive environment for all patients.',
         },
         {
@@ -27,117 +27,117 @@ export default function PatientRights() {
         },
         {
           title: '3. Right to Privacy and Confidentiality',
-          icon: <ShieldCheck className="h-6 w-6 text-green-600" />,
+          icon: <ShieldCheck className="h-6 w-6 text-success" />,
           text: 'You have the right to privacy regarding your medical care and confidentiality of your medical records. Your information will only be shared in accordance with our Privacy Policy and applicable laws.',
         },
         {
           title: '4. Responsibility to Provide Information',
-          icon: <Scale className="h-6 w-6 text-purple-600" />,
+          icon: <Scale className="h-6 w-6 text-accent" />,
           text: 'You are responsible for providing accurate and complete information about your health history, current medications, and any other matters relevant to your care. This helps us provide the most effective treatment.',
         },
         {
           title: '5. Responsibility for Appointments',
-          icon: <Clock className="h-6 w-6 text-orange-600" />,
+          icon: <Clock className="h-6 w-6 text-warning" />,
           text: 'You are responsible for keeping appointments and notifying us in advance if you cannot attend. Late cancellations or missed appointments may be subject to fees as outlined in our cancellation policy.',
         },
       ],
     },
     es: {
       title: 'Derechos y Responsabilidades del Paciente',
-      lastUpdated: 'Ãšltima actualizaciÃ³n: 10 de marzo de 2025',
+      lastUpdated: '�ltima actualizaci�n: 10 de marzo de 2025',
       intro:
-        'En EKA Balance, creemos que una relaciÃ³n terapÃ©utica exitosa se basa en el respeto y la comprensiÃ³n mutuos. Este documento describe sus derechos como paciente y sus responsabilidades para garantizar la mejor atenciÃ³n posible.',
+        'En EKA Balance, creemos que una relaci�n terap�utica exitosa se basa en el respeto y la comprensi�n mutuos. Este documento describe sus derechos como paciente y sus responsabilidades para garantizar la mejor atenci�n posible.',
       sections: [
         {
-          title: '1. Derecho a una AtenciÃ³n Respetuosa',
-          icon: <Heart className="h-6 w-6 text-red-600" />,
-          text: 'Tiene derecho a recibir una atenciÃ³n respetuosa, no discriminatoria y considerada con sus valores y creencias personales. Nos comprometemos a proporcionar un entorno seguro e inclusivo para todos los pacientes.',
+          title: '1. Derecho a una Atenci�n Respetuosa',
+          icon: <Heart className="h-6 w-6 text-destructive" />,
+          text: 'Tiene derecho a recibir una atenci�n respetuosa, no discriminatoria y considerada con sus valores y creencias personales. Nos comprometemos a proporcionar un entorno seguro e inclusivo para todos los pacientes.',
         },
         {
-          title: '2. Derecho a la InformaciÃ³n',
+          title: '2. Derecho a la Informaci�n',
           icon: <MessageSquare className="h-6 w-6 text-primary" />,
-          text: 'Tiene derecho a estar plenamente informado sobre su diagnÃ³stico, opciones de tratamiento y resultados esperados en un idioma que comprenda. Tiene derecho a hacer preguntas y participar en las decisiones sobre su atenciÃ³n.',
+          text: 'Tiene derecho a estar plenamente informado sobre su diagn�stico, opciones de tratamiento y resultados esperados en un idioma que comprenda. Tiene derecho a hacer preguntas y participar en las decisiones sobre su atenci�n.',
         },
         {
           title: '3. Derecho a la Privacidad y Confidencialidad',
-          icon: <ShieldCheck className="h-6 w-6 text-green-600" />,
-          text: 'Tiene derecho a la privacidad con respecto a su atenciÃ³n mÃ©dica y a la confidencialidad de sus registros mÃ©dicos. Su informaciÃ³n solo se compartirÃ¡ de acuerdo con nuestra PolÃ­tica de Privacidad y las leyes aplicables.',
+          icon: <ShieldCheck className="h-6 w-6 text-success" />,
+          text: 'Tiene derecho a la privacidad con respecto a su atenci�n m�dica y a la confidencialidad de sus registros m�dicos. Su informaci�n solo se compartir� de acuerdo con nuestra Pol�tica de Privacidad y las leyes aplicables.',
         },
         {
-          title: '4. Responsabilidad de Proporcionar InformaciÃ³n',
-          icon: <Scale className="h-6 w-6 text-purple-600" />,
-          text: 'Usted es responsable de proporcionar informaciÃ³n precisa y completa sobre su historial de salud, medicamentos actuales y cualquier otro asunto relevante para su atenciÃ³n. Esto nos ayuda a proporcionar el tratamiento mÃ¡s eficaz.',
+          title: '4. Responsabilidad de Proporcionar Informaci�n',
+          icon: <Scale className="h-6 w-6 text-accent" />,
+          text: 'Usted es responsable de proporcionar informaci�n precisa y completa sobre su historial de salud, medicamentos actuales y cualquier otro asunto relevante para su atenci�n. Esto nos ayuda a proporcionar el tratamiento m�s eficaz.',
         },
         {
           title: '5. Responsabilidad de las Citas',
-          icon: <Clock className="h-6 w-6 text-orange-600" />,
-          text: 'Usted es responsable de asistir a las citas y notificarnos con anticipaciÃ³n si no puede asistir. Las cancelaciones tardÃ­as o las citas perdidas pueden estar sujetas a tarifas como se describe en nuestra polÃ­tica de cancelaciÃ³n.',
+          icon: <Clock className="h-6 w-6 text-warning" />,
+          text: 'Usted es responsable de asistir a las citas y notificarnos con anticipaci�n si no puede asistir. Las cancelaciones tard�as o las citas perdidas pueden estar sujetas a tarifas como se describe en nuestra pol�tica de cancelaci�n.',
         },
       ],
     },
     ca: {
       title: 'Drets i Responsabilitats del Pacient',
-      lastUpdated: 'Darrera actualitzaciÃ³: 10 de marÃ§ de 2025',
+      lastUpdated: 'Darrera actualitzaci�: 10 de mar� de 2025',
       intro:
-        'A EKA Balance, creiem que una relaciÃ³ terapÃ¨utica exitosa es basa en el respecte i la comprensiÃ³ mutus. Aquest document descriu els vostres drets com a pacient i les vostres responsabilitats per garantir la millor atenciÃ³ possible.',
+        'A EKA Balance, creiem que una relaci� terap�utica exitosa es basa en el respecte i la comprensi� mutus. Aquest document descriu els vostres drets com a pacient i les vostres responsabilitats per garantir la millor atenci� possible.',
       sections: [
         {
-          title: '1. Dret a una AtenciÃ³ Respectuosa',
-          icon: <Heart className="h-6 w-6 text-red-600" />,
-          text: 'Teniu dret a rebre una atenciÃ³ respectuosa, no discriminatÃ²ria i considerada amb els vostres valors i creences personals. Ens comprometem a proporcionar un entorn segur i inclusiu per a tots els pacients.',
+          title: '1. Dret a una Atenci� Respectuosa',
+          icon: <Heart className="h-6 w-6 text-destructive" />,
+          text: 'Teniu dret a rebre una atenci� respectuosa, no discriminat�ria i considerada amb els vostres valors i creences personals. Ens comprometem a proporcionar un entorn segur i inclusiu per a tots els pacients.',
         },
         {
-          title: '2. Dret a la InformaciÃ³',
+          title: '2. Dret a la Informaci�',
           icon: <MessageSquare className="h-6 w-6 text-primary" />,
-          text: 'Teniu dret a estar plenament informat sobre el vostre diagnÃ²stic, opcions de tractament i resultats esperats en un idioma que comprengueu. Teniu dret a fer preguntes i participar en les decisions sobre la vostra atenciÃ³.',
+          text: 'Teniu dret a estar plenament informat sobre el vostre diagn�stic, opcions de tractament i resultats esperats en un idioma que comprengueu. Teniu dret a fer preguntes i participar en les decisions sobre la vostra atenci�.',
         },
         {
           title: '3. Dret a la Privacitat i Confidencialitat',
-          icon: <ShieldCheck className="h-6 w-6 text-green-600" />,
-          text: "Teniu dret a la privacitat pel que fa a la vostra atenciÃ³ mÃ¨dica i a la confidencialitat dels vostres registres mÃ¨dics. La vostra informaciÃ³ nomÃ©s es compartirÃ  d'acord amb la nostra PolÃ­tica de Privacitat i les lleis aplicables.",
+          icon: <ShieldCheck className="h-6 w-6 text-success" />,
+          text: "Teniu dret a la privacitat pel que fa a la vostra atenci� m�dica i a la confidencialitat dels vostres registres m�dics. La vostra informaci� nom�s es compartir� d'acord amb la nostra Pol�tica de Privacitat i les lleis aplicables.",
         },
         {
-          title: '4. Responsabilitat de Proporcionar InformaciÃ³',
-          icon: <Scale className="h-6 w-6 text-purple-600" />,
-          text: 'Sou responsable de proporcionar informaciÃ³ precisa i completa sobre el vostre historial de salut, medicaments actuals i qualsevol altre assumpte rellevant per a la vostra atenciÃ³. AixÃ² ens ajuda a proporcionar el tractament mÃ©s eficaÃ§.',
+          title: '4. Responsabilitat de Proporcionar Informaci�',
+          icon: <Scale className="h-6 w-6 text-accent" />,
+          text: 'Sou responsable de proporcionar informaci� precisa i completa sobre el vostre historial de salut, medicaments actuals i qualsevol altre assumpte rellevant per a la vostra atenci�. Aix� ens ajuda a proporcionar el tractament m�s efica�.',
         },
         {
           title: '5. Responsabilitat de les Cites',
-          icon: <Clock className="h-6 w-6 text-orange-600" />,
-          text: "Sou responsable d'assistir a les cites i notificar-nos amb antelaciÃ³ si no podeu assistir. Les cancelÂ·lacions tardanes o les cites perdudes poden estar subjectes a tarifes com es descriu a la nostra polÃ­tica de cancelÂ·laciÃ³.",
+          icon: <Clock className="h-6 w-6 text-warning" />,
+          text: "Sou responsable d'assistir a les cites i notificar-nos amb antelaci� si no podeu assistir. Les cancel�lacions tardanes o les cites perdudes poden estar subjectes a tarifes com es descriu a la nostra pol�tica de cancel�laci�.",
         },
       ],
     },
     ru: {
-      title: 'ÐŸÑ€Ð°Ð²Ð° Ð¸ Ð¾Ð±ÑÐ·Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸ Ð¿Ð°Ñ†Ð¸ÐµÐ½Ñ‚Ð°',
-      lastUpdated: 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: 10 Ð¼Ð°Ñ€Ñ‚Ð° 2025 Ð³.',
+      title: '????? ? ??????????? ????????',
+      lastUpdated: '????????? ??????????: 10 ????? 2025 ?.',
       intro:
-        'Ð’ EKA Balance Ð¼Ñ‹ ÑÑ‡Ð¸Ñ‚Ð°ÐµÐ¼, Ñ‡Ñ‚Ð¾ ÑƒÑÐ¿ÐµÑˆÐ½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ñ ÑÑ‚Ñ€Ð¾ÑÑ‚ÑÑ Ð½Ð° Ð²Ð·Ð°Ð¸Ð¼Ð½Ð¾Ð¼ ÑƒÐ²Ð°Ð¶ÐµÐ½Ð¸Ð¸ Ð¸ Ð¿Ð¾Ð½Ð¸Ð¼Ð°Ð½Ð¸Ð¸. Ð’ ÑÑ‚Ð¾Ð¼ Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ðµ Ð¸Ð·Ð»Ð¾Ð¶ÐµÐ½Ñ‹ Ð²Ð°ÑˆÐ¸ Ð¿Ñ€Ð°Ð²Ð° ÐºÐ°Ðº Ð¿Ð°Ñ†Ð¸ÐµÐ½Ñ‚Ð° Ð¸ Ð²Ð°ÑˆÐ¸ Ð¾Ð±ÑÐ·Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸ Ð¿Ð¾ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡ÐµÐ½Ð¸ÑŽ Ð½Ð°Ð¸Ð»ÑƒÑ‡ÑˆÐµÐ³Ð¾ ÑƒÑ…Ð¾Ð´Ð°.',
+        '? EKA Balance ?? ???????, ??? ???????? ??????????????? ????????? ???????? ?? ???????? ???????? ? ?????????. ? ???? ????????? ???????? ???? ????? ??? ???????? ? ???? ??????????? ?? ??????????? ?????????? ?????.',
       sections: [
         {
-          title: '1. ÐŸÑ€Ð°Ð²Ð¾ Ð½Ð° ÑƒÐ²Ð°Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ðµ',
-          icon: <Heart className="h-6 w-6 text-red-600" />,
-          text: 'Ð’Ñ‹ Ð¸Ð¼ÐµÐµÑ‚Ðµ Ð¿Ñ€Ð°Ð²Ð¾ Ð½Ð° Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð¼Ð¾Ñ‰Ð¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ ÑÐ²Ð»ÑÐµÑ‚ÑÑ ÑƒÐ²Ð°Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹, Ð½ÐµÐ´Ð¸ÑÐºÑ€Ð¸Ð¼Ð¸Ð½Ð°Ñ†Ð¸Ð¾Ð½Ð½Ð¾Ð¹ Ð¸ ÑƒÑ‡Ð¸Ñ‚Ñ‹Ð²Ð°ÐµÑ‚ Ð²Ð°ÑˆÐ¸ Ð»Ð¸Ñ‡Ð½Ñ‹Ðµ Ñ†ÐµÐ½Ð½Ð¾ÑÑ‚Ð¸ Ð¸ ÑƒÐ±ÐµÐ¶Ð´ÐµÐ½Ð¸Ñ. ÐœÑ‹ ÑÑ‚Ñ€ÐµÐ¼Ð¸Ð¼ÑÑ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡Ð¸Ñ‚ÑŒ Ð±ÐµÐ·Ð¾Ð¿Ð°ÑÐ½ÑƒÑŽ Ð¸ Ð¸Ð½ÐºÐ»ÑŽÐ·Ð¸Ð²Ð½ÑƒÑŽ ÑÑ€ÐµÐ´Ñƒ Ð´Ð»Ñ Ð²ÑÐµÑ… Ð¿Ð°Ñ†Ð¸ÐµÐ½Ñ‚Ð¾Ð².',
+          title: '1. ????? ?? ???????????? ?????????',
+          icon: <Heart className="h-6 w-6 text-destructive" />,
+          text: '?? ?????? ????? ?? ????????? ??????, ??????? ???????? ????????????, ??????????????????? ? ????????? ???? ?????? ???????? ? ?????????. ?? ????????? ?????????? ?????????? ? ??????????? ????? ??? ???? ?????????.',
         },
         {
-          title: '2. ÐŸÑ€Ð°Ð²Ð¾ Ð½Ð° Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ',
+          title: '2. ????? ?? ??????????',
           icon: <MessageSquare className="h-6 w-6 text-primary" />,
-          text: 'Ð’Ñ‹ Ð¸Ð¼ÐµÐµÑ‚Ðµ Ð¿Ñ€Ð°Ð²Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð¿Ð¾Ð»Ð½Ð¾ÑÑ‚ÑŒÑŽ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð¾ ÑÐ²Ð¾ÐµÐ¼ Ð´Ð¸Ð°Ð³Ð½Ð¾Ð·Ðµ, Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ð°Ñ… Ð»ÐµÑ‡ÐµÐ½Ð¸Ñ Ð¸ Ð¾Ð¶Ð¸Ð´Ð°ÐµÐ¼Ñ‹Ñ… Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð°Ñ… Ð½Ð° Ð¿Ð¾Ð½ÑÑ‚Ð½Ð¾Ð¼ Ð²Ð°Ð¼ ÑÐ·Ñ‹ÐºÐµ. Ð’Ñ‹ Ð¸Ð¼ÐµÐµÑ‚Ðµ Ð¿Ñ€Ð°Ð²Ð¾ Ð·Ð°Ð´Ð°Ð²Ð°Ñ‚ÑŒ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹ Ð¸ ÑƒÑ‡Ð°ÑÑ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ Ð² Ð¿Ñ€Ð¸Ð½ÑÑ‚Ð¸Ð¸ Ñ€ÐµÑˆÐµÐ½Ð¸Ð¹ Ð¾ Ð²Ð°ÑˆÐµÐ¼ Ð»ÐµÑ‡ÐµÐ½Ð¸Ð¸.',
+          text: '?? ?????? ????? ???? ????????? ??????????????? ? ????? ????????, ????????? ??????? ? ????????? ??????????? ?? ???????? ??? ?????. ?? ?????? ????? ???????? ??????? ? ??????????? ? ???????? ??????? ? ????? ???????.',
         },
         {
-          title: '3. ÐŸÑ€Ð°Ð²Ð¾ Ð½Ð° ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
-          icon: <ShieldCheck className="h-6 w-6 text-green-600" />,
-          text: 'Ð’Ñ‹ Ð¸Ð¼ÐµÐµÑ‚Ðµ Ð¿Ñ€Ð°Ð²Ð¾ Ð½Ð° ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð² Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ð¸ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¼ÐµÐ´Ð¸Ñ†Ð¸Ð½ÑÐºÐ¾Ð³Ð¾ Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ Ð¸ ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð²Ð°ÑˆÐ¸Ñ… Ð¼ÐµÐ´Ð¸Ñ†Ð¸Ð½ÑÐºÐ¸Ñ… Ð·Ð°Ð¿Ð¸ÑÐµÐ¹. Ð’Ð°ÑˆÐ° Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð±ÑƒÐ´ÐµÑ‚ Ð¿ÐµÑ€ÐµÐ´Ð°Ð²Ð°Ñ‚ÑŒÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ð¸ Ñ Ð½Ð°ÑˆÐµÐ¹ ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¾Ð¹ ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¸ Ð¿Ñ€Ð¸Ð¼ÐµÐ½Ð¸Ð¼Ñ‹Ð¼Ð¸ Ð·Ð°ÐºÐ¾Ð½Ð°Ð¼Ð¸.',
+          title: '3. ????? ?? ??????????????????',
+          icon: <ShieldCheck className="h-6 w-6 text-success" />,
+          text: '?? ?????? ????? ?? ?????????????????? ? ????????? ?????? ???????????? ???????????? ? ?????????????????? ????? ??????????? ???????. ???? ?????????? ????? ???????????? ?????? ? ???????????? ? ????? ????????? ?????????????????? ? ??????????? ????????.',
         },
         {
-          title: '4. ÐžÐ±ÑÐ·Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÑÑ‚ÑŒ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ',
-          icon: <Scale className="h-6 w-6 text-purple-600" />,
-          text: 'Ð’Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ñ‚Ð¾Ñ‡Ð½Ð¾Ð¹ Ð¸ Ð¿Ð¾Ð»Ð½Ð¾Ð¹ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾ Ð²Ð°ÑˆÐµÐ¹ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸ Ð±Ð¾Ð»ÐµÐ·Ð½Ð¸, Ñ‚ÐµÐºÑƒÑ‰Ð¸Ñ… Ð»ÐµÐºÐ°Ñ€ÑÑ‚Ð²Ð°Ñ… Ð¸ Ð»ÑŽÐ±Ñ‹Ñ… Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ°Ñ…, Ð¸Ð¼ÐµÑŽÑ‰Ð¸Ñ… Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ðµ Ðº Ð²Ð°ÑˆÐµÐ¼Ñƒ Ð»ÐµÑ‡ÐµÐ½Ð¸ÑŽ. Ð­Ñ‚Ð¾ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÐµÑ‚ Ð½Ð°Ð¼ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡Ð¸Ñ‚ÑŒ Ð½Ð°Ð¸Ð±Ð¾Ð»ÐµÐµ ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ðµ Ð»ÐµÑ‡ÐµÐ½Ð¸Ðµ.',
+          title: '4. ??????????? ????????????? ??????????',
+          icon: <Scale className="h-6 w-6 text-accent" />,
+          text: '?? ?????? ??????????????? ?? ?????????????? ?????? ? ?????? ?????????? ? ????? ??????? ???????, ??????? ?????????? ? ????? ?????? ????????, ??????? ????????? ? ?????? ???????. ??? ???????? ??? ?????????? ???????? ??????????? ???????.',
         },
         {
-          title: '5. ÐžÑ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð¿Ð¾ÑÐµÑ‰ÐµÐ½Ð¸Ðµ',
-          icon: <Clock className="h-6 w-6 text-orange-600" />,
-          text: 'Ð’Ñ‹ Ð½ÐµÑÐµÑ‚Ðµ Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð·Ð° Ð¿Ð¾ÑÐµÑ‰ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¸ÐµÐ¼Ð¾Ð² Ð¸ ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸Ðµ Ð½Ð°Ñ Ð·Ð°Ñ€Ð°Ð½ÐµÐµ, ÐµÑÐ»Ð¸ Ð²Ñ‹ Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð¿Ñ€Ð¸Ð¹Ñ‚Ð¸. Ð—Ð° Ð¿Ð¾Ð·Ð´Ð½ÑŽÑŽ Ð¾Ñ‚Ð¼ÐµÐ½Ñƒ Ð¸Ð»Ð¸ Ð¿Ñ€Ð¾Ð¿ÑƒÑ‰ÐµÐ½Ð½Ñ‹Ðµ Ð¿Ñ€Ð¸ÐµÐ¼Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚ Ð²Ð·Ð¸Ð¼Ð°Ñ‚ÑŒÑÑ Ð¿Ð»Ð°Ñ‚Ð°, ÐºÐ°Ðº ÑƒÐºÐ°Ð·Ð°Ð½Ð¾ Ð² Ð½Ð°ÑˆÐµÐ¹ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐµ Ð¾Ñ‚Ð¼ÐµÐ½Ñ‹.',
+          title: '5. ??????????????? ?? ?????????',
+          icon: <Clock className="h-6 w-6 text-warning" />,
+          text: '?? ?????? ??????????????? ?? ????????? ??????? ? ??????????? ??? ???????, ???? ?? ?? ?????? ??????. ?? ??????? ?????? ??? ??????????? ?????? ????? ????????? ?????, ??? ??????? ? ????? ???????? ??????.',
         },
       ],
     },
@@ -167,7 +167,7 @@ export default function PatientRights() {
       </div>
 
       <div className="bg-card overflow-hidden rounded-lg shadow-sm">
-        <div className="bg-linear-to-r from-blue-500 to-emerald-500 px-8 py-12 text-primary-foreground">
+        <div className="bg-linear-to-r from-info to-success px-8 py-12 text-primary-foreground">
           <div className="mb-4 flex items-center gap-4">
             <Scale className="h-12 w-12 opacity-90" />
             <h1 className="text-3xl font-semibold">{t.title}</h1>
@@ -193,7 +193,7 @@ export default function PatientRights() {
 
         <div className="bg-muted/30 border-t border-border px-8 py-6">
           <p className="text-muted-foreground text-center text-sm">
-            Â© {new Date().getFullYear()} EKA Balance. All rights reserved.
+            � {new Date().getFullYear()} EKA Balance. All rights reserved.
           </p>
         </div>
       </div>

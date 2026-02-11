@@ -1,7 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { Search } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search01Icon } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -54,7 +55,7 @@ export function FilterBar({
     <Card className={cn('flex flex-col items-center gap-4 p-4 md:flex-row', className)}>
       {/* Search input */}
       <div className="relative w-full flex-1 md:w-auto">
-        <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
         <Input
           type="text"
           placeholder={searchPlaceholder}

@@ -46,10 +46,10 @@ export default function ProgressIndicator({
                 <div
                   className={`flex h-10 w-10 transform items-center justify-center rounded-full transition-all duration-500 ${
                     isCompleted
-                      ? 'scale-110 bg-green-500 text-white'
+                      ? 'scale-110 bg-success0 text-white'
                       : isCurrent
-                        ? 'animate-pulse bg-blue-500 text-white ring-4 ring-blue-200'
-                        : 'text-muted-foreground bg-gray-200'
+                        ? 'animate-pulse bg-primary text-primary-foreground ring-4 ring-info/30'
+                        : 'text-muted-foreground bg-muted'
                   } `}
                 >
                   {isCompleted ? (
@@ -60,7 +60,7 @@ export default function ProgressIndicator({
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`mt-2 h-12 w-0.5 transition-all duration-500 ${isCompleted ? 'bg-green-500' : 'bg-gray-200'} `}
+                    className={`mt-2 h-12 w-0.5 transition-all duration-500 ${isCompleted ? 'bg-success0' : 'bg-muted'} `}
                   />
                 )}
               </div>
@@ -70,9 +70,9 @@ export default function ProgressIndicator({
                   <h3
                     className={`font-medium transition-colors duration-300 ${
                       isCompleted
-                        ? 'text-green-700'
+                        ? 'text-success-foreground'
                         : isCurrent
-                          ? 'text-blue-700'
+                          ? 'text-info-foreground'
                           : 'text-muted-foreground'
                     } `}
                   >
@@ -102,10 +102,10 @@ export default function ProgressIndicator({
               <div
                 className={`flex h-10 w-10 transform items-center justify-center rounded-full transition-all duration-500 ${
                   isCompleted
-                    ? 'scale-110 bg-green-500 text-white'
+                    ? 'scale-110 bg-success0 text-white'
                     : isCurrent
-                      ? 'animate-pulse bg-blue-500 text-white ring-4 ring-blue-200'
-                      : 'text-muted-foreground bg-gray-200'
+                      ? 'animate-pulse bg-primary text-primary-foreground ring-4 ring-info/30'
+                      : 'text-muted-foreground bg-muted'
                 } `}
               >
                 {isCompleted ? (
@@ -120,9 +120,9 @@ export default function ProgressIndicator({
                   <p
                     className={`text-sm font-medium transition-colors duration-300 ${
                       isCompleted
-                        ? 'text-green-700'
+                        ? 'text-success-foreground'
                         : isCurrent
-                          ? 'text-blue-700'
+                          ? 'text-info-foreground'
                           : 'text-muted-foreground'
                     } `}
                   >
@@ -134,7 +134,7 @@ export default function ProgressIndicator({
 
             {index < steps.length - 1 && (
               <div
-                className={`mx-4 h-0.5 flex-1 transition-all duration-500 ${isCompleted ? 'bg-green-500' : 'bg-gray-200'} `}
+                className={`mx-4 h-0.5 flex-1 transition-all duration-500 ${isCompleted ? 'bg-success0' : 'bg-muted'} `}
                 style={{
                   background: isCompleted ? 'hsl(var(--chart-2))' : 'hsl(var(--border))',
                 }}

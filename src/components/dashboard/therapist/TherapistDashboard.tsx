@@ -155,7 +155,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge className="rounded-full border-0 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-emerald-600 uppercase hover:bg-emerald-500/10">
+                        <Badge className="rounded-full border-0 bg-success/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-success uppercase hover:bg-success/10">
                           Confirmed
                         </Badge>
                         <Button

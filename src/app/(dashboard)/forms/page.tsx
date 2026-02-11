@@ -273,7 +273,7 @@ export default function FormsPage() {
                 <span className="text-muted-foreground">Personalization:</span>
                 <span
                   className={
-                    currentUser.personalizationCompleted ? 'text-green-600' : 'text-yellow-600'
+                    currentUser.personalizationCompleted ? 'text-success' : 'text-warning'
                   }
                 >
                   {currentUser.personalizationCompleted ? '\u2713 Completed' : '\u26A0 Not completed'}

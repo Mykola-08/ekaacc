@@ -140,7 +140,7 @@ export const TDRPresentationMode = () => {
 
   // Using string concatenation to avoid template literal issues
   const containerClasses =
-    'bg-card/95 backdrop-blur-md border border-stone-200 shadow-2xl rounded-[20px] overflow-hidden pointer-events-auto transition-all duration-300 ' +
+    'bg-card/95 backdrop-blur-md border border-border shadow-2xl rounded-[20px] overflow-hidden pointer-events-auto transition-all duration-300 ' +
     (isMinimized ? 'h-12 w-12 rounded-full translate-y-4 translate-x-4' : '');
 
   return (
@@ -156,7 +156,7 @@ export const TDRPresentationMode = () => {
           {isMinimized && (
             <button
               onClick={() => setIsMinimized(false)}
-              className="flex h-full w-full items-center justify-center text-stone-600 hover:text-stone-900"
+              className="flex h-full w-full items-center justify-center text-muted-foreground hover:text-foreground"
             >
               <Presentation size={20} />
             </button>
@@ -168,24 +168,24 @@ export const TDRPresentationMode = () => {
               {/* Header */}
               <div className="mb-4 flex items-start justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-stone-900 px-2 py-1 text-xs font-bold text-white">
+                  <span className="rounded-full bg-foreground px-2 py-1 text-xs font-bold text-background">
                     STEP {currentStepIndex + 1}/{PRESETS.length}
                   </span>
-                  <h3 className="text-lg leading-tight font-bold text-stone-900">
+                  <h3 className="text-lg leading-tight font-bold text-foreground">
                     {currentStep.titleKey}
                   </h3>
                 </div>
                 <div className="flex gap-1">
                   <button
                     onClick={() => setIsMinimized(true)}
-                    className="rounded p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-600"
+                    className="rounded p-1 text-muted-foreground/60 hover:bg-muted hover:text-muted-foreground"
                   >
                     <span className="sr-only">Minimize</span>
                     <div className="mx-0.5 my-1.5 h-0.5 w-3 bg-current"></div>
                   </button>
                   <button
                     onClick={() => setIsActive(false)}
-                    className="rounded p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-600"
+                    className="rounded p-1 text-muted-foreground/60 hover:bg-muted hover:text-muted-foreground"
                   >
                     <X size={16} />
                   </button>
@@ -193,25 +193,25 @@ export const TDRPresentationMode = () => {
               </div>
 
               {/* Content */}
-              <p className="mb-6 text-sm leading-relaxed text-stone-600">
+              <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
                 {currentStep.descriptionKey}
               </p>
 
               {/* Controls */}
-              <div className="flex items-center justify-between border-t border-stone-100 pt-4">
+              <div className="flex items-center justify-between border-t border-border pt-4">
                 <button
                   onClick={() => {
                     const next = Math.max(currentStepIndex - 1, 0);
                     router.push(PRESETS[next].path);
                   }}
                   disabled={currentStepIndex === 0}
-                  className="flex items-center gap-1 text-sm font-medium text-stone-500 transition-colors hover:text-stone-900 disabled:opacity-30 disabled:hover:text-stone-500"
+                  className="flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground"
                 >
                   <ChevronLeft size={16} />
                   Prev
                 </button>
 
-                <div className="font-mono text-xs text-stone-400">Press &rarr; or Clicker</div>
+                <div className="font-mono text-xs text-muted-foreground/60">Press &rarr; or Clicker</div>
 
                 <button
                   onClick={() => {
@@ -219,7 +219,7 @@ export const TDRPresentationMode = () => {
                     router.push(PRESETS[next].path);
                   }}
                   disabled={currentStepIndex === PRESETS.length - 1}
-                  className="flex items-center gap-1 text-sm font-medium text-stone-900 transition-colors hover:text-stone-700 disabled:opacity-30"
+                  className="flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-foreground disabled:opacity-30"
                 >
                   Next
                   <ChevronRight size={16} />

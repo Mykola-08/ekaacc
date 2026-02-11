@@ -26,13 +26,12 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
   const isCompact = variant === 'compact';
 
   return (
-    <div className="h-full transition-shadow duration-200 hover:shadow-md">
-      <Card
-        className={cn(
-          'flex h-full flex-col overflow-hidden',
-          'bg-card border-border'
-        )}
-      >
+    <Card
+      className={cn(
+        'flex h-full flex-col overflow-hidden transition-shadow duration-200 hover:shadow-md',
+        'bg-card border-border'
+      )}
+    >
         {/* Image Placeholder or Header Gradient */}
         <div
           className={cn(
@@ -122,6 +121,5 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
           </Button>
         </CardFooter>
       </Card>
-    </div>
   );
 }

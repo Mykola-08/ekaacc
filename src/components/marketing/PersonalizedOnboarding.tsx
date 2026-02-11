@@ -328,12 +328,12 @@ export default function PersonalizedOnboarding() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-slate-50 to-blue-50 px-4"
+        className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-muted to-info px-4"
       >
         {/* Decorative elements */}
         <div className="pointer-events-none absolute top-0 left-0 h-full w-full overflow-hidden">
           <div className="absolute top-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-accent/10 blur-[100px]" />
-          <div className="absolute bottom-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-200/20 blur-[100px]" />
+          <div className="absolute bottom-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-info/30/20 blur-[100px]" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-2xl text-center">
@@ -341,7 +341,7 @@ export default function PersonalizedOnboarding() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mb-8 inline-flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-xl ring-4 shadow-blue-900/5 ring-white"
+            className="mb-8 inline-flex h-24 w-24 items-center justify-center rounded-full bg-card shadow-xl ring-4 shadow-primary/5 ring-background"
           >
             <Heart className="h-12 w-12 text-accent" />
           </motion.div>
@@ -349,7 +349,7 @@ export default function PersonalizedOnboarding() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mb-8 text-4xl leading-tight font-light tracking-tight text-gray-900 sm:text-5xl"
+            className="mb-8 text-4xl leading-tight font-light tracking-tight text-foreground sm:text-5xl"
           >
             🌿 {t('onboarding.welcome.title')}
           </motion.h1>
@@ -357,7 +357,7 @@ export default function PersonalizedOnboarding() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mx-auto mb-12 max-w-xl text-xl leading-relaxed font-light text-gray-600"
+            className="mx-auto mb-12 max-w-xl text-xl leading-relaxed font-light text-muted-foreground"
           >
             {t('onboarding.welcome.description')}
           </motion.p>
@@ -382,17 +382,17 @@ export default function PersonalizedOnboarding() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="min-h-screen bg-white px-4 py-8"
+        className="min-h-screen bg-card px-4 py-8"
       >
         <div className="mx-auto max-w-4xl">
           <div className="mb-8 text-center">
-            <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-              <CheckCircle className="h-10 w-10 text-green-600" />
+            <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-success/20">
+              <CheckCircle className="h-10 w-10 text-success" />
             </div>
-            <h2 className="mb-4 text-3xl font-light text-gray-900">
+            <h2 className="mb-4 text-3xl font-light text-foreground">
               {t('onboarding.results.title')}
             </h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
               {t('onboarding.results.subtitle')}
             </p>
           </div>
@@ -404,15 +404,15 @@ export default function PersonalizedOnboarding() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+                className="rounded-[20px] border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
               >
                 <div className="mb-4 flex flex-col justify-between gap-4 md:flex-row md:items-start">
                   <div>
-                    <h3 className="mb-2 text-xl font-semibold text-gray-900">{rec.title}</h3>
-                    <p className="text-sm leading-relaxed text-gray-700">{rec.description}</p>
+                    <h3 className="mb-2 text-xl font-semibold text-foreground">{rec.title}</h3>
+                    <p className="text-sm leading-relaxed text-foreground">{rec.description}</p>
                   </div>
                   <div className="flex w-full flex-row items-center justify-between gap-2 md:w-auto md:flex-col md:items-end md:justify-start">
-                    <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
+                    <span className="inline-flex items-center rounded-full bg-info/20 px-3 py-1 text-sm font-medium text-info-foreground">
                       #{index + 1} {t('onboarding.results.recommended')}
                     </span>
                     <div className="flex flex-col items-end">
@@ -424,7 +424,7 @@ export default function PersonalizedOnboarding() {
                         />
                       )}
                       {rec.duration && (
-                        <span className="mt-1 text-sm font-medium text-gray-500">
+                        <span className="mt-1 text-sm font-medium text-muted-foreground">
                           {rec.duration}
                         </span>
                       )}
@@ -433,19 +433,19 @@ export default function PersonalizedOnboarding() {
                 </div>
 
                 {rec.feeling && (
-                  <div className="mb-4 rounded-lg bg-blue-50/50 p-3">
-                    <div className="mb-1 flex items-center gap-2 text-sm font-medium text-blue-800">
+                  <div className="mb-4 rounded-lg bg-info/50 p-3">
+                    <div className="mb-1 flex items-center gap-2 text-sm font-medium text-info-foreground">
                       <Sparkles className="h-4 w-4" />
                       <span>{t('onboarding.results.howYouWillFeel') || 'Com et sentiràs:'}</span>
                     </div>
-                    <p className="text-sm text-gray-700 italic">"{rec.feeling}"</p>
+                    <p className="text-sm text-foreground italic">"{rec.feeling}"</p>
                   </div>
                 )}
 
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <Link
                     href={rec.link}
-                    className="flex flex-1 items-center justify-center rounded-full bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors duration-200 hover:bg-gray-200"
+                    className="flex flex-1 items-center justify-center rounded-full bg-muted px-4 py-2 text-sm font-semibold text-foreground transition-colors duration-200 hover:bg-muted"
                   >
                     {t('common.learnMore')}
                   </Link>
@@ -477,17 +477,17 @@ export default function PersonalizedOnboarding() {
   // Processing Screen - Full Page
   if (isProcessing) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+      <div className="flex min-h-screen items-center justify-center bg-muted px-4">
         <div className="text-center">
-          <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
+          <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-full bg-card shadow-lg">
             <Brain className="h-10 w-10 animate-pulse text-accent" />
           </div>
-          <h2 className="mb-4 text-2xl font-light text-gray-900">
+          <h2 className="mb-4 text-2xl font-light text-foreground">
             {t('onboarding.processing.title')}
           </h2>
-          <p className="text-gray-500">{t('onboarding.processing.subtitle')}</p>
+          <p className="text-muted-foreground">{t('onboarding.processing.subtitle')}</p>
           <div className="mt-8">
-            <div className="mx-auto h-1.5 w-64 overflow-hidden rounded-full bg-gray-200">
+            <div className="mx-auto h-1.5 w-64 overflow-hidden rounded-full bg-muted">
               <motion.div
                 className="h-full rounded-full bg-accent"
                 initial={{ width: '0%' }}
@@ -503,26 +503,26 @@ export default function PersonalizedOnboarding() {
 
   // Onboarding Form - Full Page, Single Screen
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden bg-slate-50">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-muted">
       {/* Background Decor */}
       <div className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-accent/5 blur-[100px]" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-blue-500/5 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-primary/5 blur-[100px]" />
 
       <div className="relative z-10 mx-auto mb-24 flex w-full max-w-5xl flex-1 flex-col px-4 py-6">
         {/* Progress Bar */}
         <div className="mb-6">
           <div className="mb-3 flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-medium text-muted-foreground">
               {t('onboarding.progress.step')} {currentStep + 1} {t('onboarding.progress.of')}{' '}
               {questions.length}
             </span>
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-medium text-muted-foreground">
               {Math.round(((currentStep + 1) / questions.length) * 100)}%
             </span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-200">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
             <motion.div
-              className="h-full rounded-full bg-accent shadow-[0_0_10px_rgba(255,180,5,0.5)]"
+              className="h-full rounded-full bg-accent shadow-sm"
               initial={{ width: 0 }}
               animate={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
               transition={{ duration: 0.5 }}
@@ -540,7 +540,7 @@ export default function PersonalizedOnboarding() {
             transition={{ duration: 0.3 }}
             className="mb-6 flex flex-1 flex-col justify-center"
           >
-            <h2 className="mb-10 text-center text-3xl font-light tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="mb-10 text-center text-3xl font-light tracking-tight text-foreground sm:text-4xl">
               {t(`onboarding.questions.${currentQuestion.id}.title`)}
             </h2>
 
@@ -558,7 +558,7 @@ export default function PersonalizedOnboarding() {
                     className={`group relative flex min-h-[100px] items-center rounded-[20px] border p-6 text-left shadow-sm transition-all duration-300 ${
                       isSelected
                         ? 'border-accent bg-accent/5 shadow-md ring-1 ring-accent'
-                        : 'border-white bg-white hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg'
+                        : 'border-white bg-card hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg'
                     } `}
                   >
                     <div className="relative z-10 flex w-full items-center space-x-4">
@@ -567,14 +567,14 @@ export default function PersonalizedOnboarding() {
                           className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
                             isSelected
                               ? 'scale-110 transform bg-accent text-eka-dark shadow-md'
-                              : 'bg-gray-50 text-gray-400 group-hover:bg-accent/10 group-hover:text-accent'
+                              : 'bg-muted text-muted-foreground/60 group-hover:bg-accent/10 group-hover:text-accent'
                           } `}
                         >
                           <option.icon className="h-6 w-6" />
                         </div>
                       )}
                       <span
-                        className={`text-lg leading-tight font-medium transition-colors ${isSelected ? 'text-eka-dark' : 'text-gray-600 group-hover:text-gray-900'}`}
+                        className={`text-lg leading-tight font-medium transition-colors ${isSelected ? 'text-eka-dark' : 'text-muted-foreground group-hover:text-foreground'}`}
                       >
                         {option.label}
                       </span>
@@ -599,7 +599,7 @@ export default function PersonalizedOnboarding() {
       </div>
 
       {/* Fixed Bottom Navigation */}
-      <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-white/50 bg-white/80 p-4 shadow-[0_-4px_30px_rgba(0,0,0,0.03)] backdrop-blur-md">
+      <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-border/50 bg-card/80 p-4 shadow-lg backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <button
             onClick={() => {
@@ -609,7 +609,7 @@ export default function PersonalizedOnboarding() {
                 setCurrentStep((prev) => prev - 1);
               }
             }}
-            className="flex items-center rounded-full bg-gray-100 px-6 py-3 font-semibold text-gray-700 transition-colors duration-200 hover:bg-gray-200"
+            className="flex items-center rounded-full bg-muted px-6 py-3 font-semibold text-foreground transition-colors duration-200 hover:bg-muted"
           >
             <ArrowLeft className="mr-2 h-5 w-5" />
             {t('common.back')}
@@ -621,7 +621,7 @@ export default function PersonalizedOnboarding() {
             className={`flex items-center rounded-full px-8 py-3 font-semibold transition-all duration-200 ${
               canProceed()
                 ? 'transform bg-accent text-eka-dark shadow-lg hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-xl'
-                : 'cursor-not-allowed bg-gray-200 text-gray-400'
+                : 'cursor-not-allowed bg-muted text-muted-foreground/60'
             } `}
           >
             {isLastStep ? t('onboarding.finish') : t('common.continue')}

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { SessionTemplate, deleteTemplate } from '@/server/therapist/templates';
 import {
@@ -78,9 +78,9 @@ export function TemplateList({ templates }: TemplateListProps) {
  case 'note':
  return 'bg-primary/10 text-primary';
  case 'plan':
- return 'bg-green-100/80 text-green-800 dark:text-green-200';
+ return 'bg-success/15 text-success dark:text-success/50';
  case 'email':
- return 'bg-purple-100/80 text-purple-800 dark:text-purple-200';
+ return 'bg-accent/20/80 text-accent-foreground dark:text-accent';
  default:
  return 'bg-muted text-foreground ';
  }

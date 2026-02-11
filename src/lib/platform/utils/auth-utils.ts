@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/platform/supabase';
+import { supabase, supabaseAdmin } from '@/lib/platform/supabase';
 import {
   safeSupabaseQuery,
   safeSupabaseInsert,
@@ -7,52 +7,52 @@ import {
 import type { UserRole, Permission } from '@/lib/platform/types/auth-types';
 
 /**
- * Get user role by user ID
+ * Get user role by user ID.
+ * Reads from auth.users app_metadata (set by consolidate_user_info migration).
  */
 export async function getUserRole(userId: string): Promise<UserRole | null> {
-  const { data, error } = await safeSupabaseQuery<any>(
-    supabase
-      .from('user_role_assignments')
-      .select(
-        `
-        user_roles!inner(*)
-      `
-      )
-      .eq('user_id', userId)
-      .single()
+  // Try users_view first (public view over auth.users)
+  const { data, error } = await safeSupabaseQuery<{ role: string | null }>(
+    supabase.from('users_view').select('role').eq('id', userId).maybeSingle()
   );
 
-  if (error || !data) {
-    console.error('Error fetching user role:', error);
+  if (error || !data?.role) {
+    // Fallback: try admin client to read app_metadata directly
+    if (supabaseAdmin) {
+      const { data: adminData } = await supabaseAdmin.auth.admin.getUserById(userId);
+      if (adminData?.user?.app_metadata?.role) {
+        return adminData.user.app_metadata.role as UserRole;
+      }
+    }
     return null;
   }
 
-  return data.user_roles;
+  return data.role as UserRole;
 }
 
 /**
- * Get user permissions by user ID
+ * Get user permissions by user ID.
+ * Reads role from user metadata, then queries role_permissions table.
  */
 export async function getUserPermissions(userId: string): Promise<Permission[]> {
-  // First get the role assignment
-  const { data: roleData, error: roleError } = await safeSupabaseQuery<any>(
-    supabase.from('user_role_assignments').select('role_id').eq('user_id', userId).single()
+  // Get the user's role from users_view (backed by auth.users metadata)
+  const { data: userData, error: userError } = await safeSupabaseQuery<{ role: string | null }>(
+    supabase.from('users_view').select('role').eq('id', userId).maybeSingle()
   );
 
-  if (roleError || !roleData) {
-    console.error('Error fetching user role assignment:', roleError);
+  const roleName = userData?.role;
+
+  if (userError || !roleName) {
+    // No role assigned — return empty permissions
     return [];
   }
 
-  const { data, error } = await safeSupabaseQuery<any>(
+  // Query role_permissions table using the role name (lowercase)
+  const { data, error } = await safeSupabaseQuery<any[]>(
     supabase
       .from('role_permissions')
-      .select(
-        `
-        permissions!inner(*)
-      `
-      )
-      .eq('role_id', roleData.role_id)
+      .select('*')
+      .eq('role', roleName.toLowerCase())
   );
 
   if (error || !data) {
@@ -60,7 +60,14 @@ export async function getUserPermissions(userId: string): Promise<Permission[]> 
     return [];
   }
 
-  return data.map((p: any) => p.permissions);
+  // Map role_permissions rows to Permission interface
+  return data.map((rp: any) => ({
+    id: rp.id,
+    name: `${rp.permission_group}.${rp.action}`,
+    module: rp.permission_group,
+    actions: [rp.action],
+    description: rp.conditions ? JSON.stringify(rp.conditions) : undefined,
+  }));
 }
 
 /**
@@ -84,17 +91,20 @@ export async function canUserAccessResource(
 }
 
 /**
- * Assign role to user (admin only)
+ * Assign role to user (admin only).
+ * Updates auth.users app_metadata via admin client.
  */
 export async function assignUserRole(
   userId: string,
-  roleId: string,
+  roleName: string,
   assignedBy?: string
 ): Promise<{ error: Error | null }> {
-  const { error } = await safeSupabaseInsert<any>('user_role_assignments', {
-    user_id: userId,
-    role_id: roleId,
-    assigned_by: assignedBy,
+  if (!supabaseAdmin) {
+    return { error: new Error('Admin client not available') };
+  }
+
+  const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+    app_metadata: { role: roleName.toLowerCase() },
   });
 
   if (error) {
@@ -106,15 +116,19 @@ export async function assignUserRole(
 }
 
 /**
- * Remove role from user (admin only)
+ * Remove role from user (admin only).
+ * Clears role in auth.users app_metadata.
  */
 export async function removeUserRole(
   userId: string,
-  roleId: string
+  _roleId?: string
 ): Promise<{ error: Error | null }> {
-  const { error } = await safeSupabaseDelete('user_role_assignments', {
-    user_id: userId,
-    role_id: roleId,
+  if (!supabaseAdmin) {
+    return { error: new Error('Admin client not available') };
+  }
+
+  const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+    app_metadata: { role: null },
   });
 
   if (error) {
@@ -173,29 +187,43 @@ export async function getUserAuditLogs(userId: string, limit = 50): Promise<any[
 }
 
 /**
- * Get all roles
+ * Get all available roles.
+ * Returns distinct roles from the role_permissions table.
  */
 export async function getAllRoles(): Promise<UserRole[]> {
-  const { data, error } = await supabase.from('user_roles').select('*').order('name');
+  const { data, error } = await supabase
+    .from('role_permissions')
+    .select('role');
 
-  if (error) {
+  if (error || !data) {
     console.error('Error fetching roles:', error);
     return [];
   }
 
-  return data || [];
+  // Deduplicate role names
+  const uniqueRoles = [...new Set(data.map((r: any) => r.role))];
+  return uniqueRoles as unknown as UserRole[];
 }
 
 /**
- * Get all permissions
+ * Get all permissions.
+ * Returns all entries from role_permissions table.
  */
 export async function getAllPermissions(): Promise<Permission[]> {
-  const { data, error } = await supabase.from('permissions').select('*').order('name');
+  const { data, error } = await supabase
+    .from('role_permissions')
+    .select('*');
 
-  if (error) {
+  if (error || !data) {
     console.error('Error fetching permissions:', error);
     return [];
   }
 
-  return data || [];
+  return data.map((rp: any) => ({
+    id: rp.id,
+    name: `${rp.permission_group}.${rp.action}`,
+    module: rp.permission_group,
+    actions: [rp.action],
+    description: rp.conditions ? JSON.stringify(rp.conditions) : undefined,
+  }));
 }

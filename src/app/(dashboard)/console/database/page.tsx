@@ -13,7 +13,7 @@ export default function DatabasePage() {
           <p className="text-muted-foreground mt-2 text-lg">System database administration.</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700 ring-1 ring-green-600/20">
+          <span className="flex items-center gap-1.5 rounded-full bg-success px-3 py-1 text-xs font-semibold text-success-foreground ring-1 ring-success/20">
             <Activity className="h-3 w-3" />
             Healthy
           </span>
@@ -22,7 +22,7 @@ export default function DatabasePage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="bg-card rounded-lg p-8 shadow-sm ring-1 shadow-slate-200/50 ring-slate-100">
+        <div className="bg-card rounded-lg p-8 shadow-sm ring-1 shadow-border/50 ring-border">
           <div className="mb-6 flex items-center gap-4">
             <div className="bg-primary flex h-12 w-12 items-center justify-center rounded-lg text-primary-foreground">
               <Database className="h-6 w-6" />
@@ -48,7 +48,7 @@ export default function DatabasePage() {
           </div>
         </div>
 
-        <div className="bg-card flex flex-col items-center justify-center rounded-lg p-8 text-center shadow-sm ring-1 shadow-slate-200/50 ring-slate-100">
+        <div className="bg-card flex flex-col items-center justify-center rounded-lg p-8 text-center shadow-sm ring-1 shadow-border/50 ring-border">
           <div className="bg-muted/40 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
             <Server className="text-muted-foreground/80 h-8 w-8" />
           </div>

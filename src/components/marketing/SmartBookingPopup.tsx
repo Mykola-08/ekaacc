@@ -68,18 +68,18 @@ export default function SmartBookingPopup({
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-foreground/60 p-4 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative w-full max-w-lg overflow-hidden rounded-[20px] bg-white shadow-2xl dark:bg-zinc-900"
+        className="relative w-full max-w-lg overflow-hidden rounded-[20px] bg-card shadow-2xl dark:bg-card"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+          className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted dark:bg-card dark:hover:bg-muted"
         >
-          <X className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          <X className="h-5 w-5 text-muted-foreground dark:text-muted-foreground/40" />
         </button>
 
         <div className="p-8">
@@ -93,25 +93,25 @@ export default function SmartBookingPopup({
                 className="space-y-8"
               >
                 <div className="space-y-2 text-center">
-                  <h2 className="text-2xl font-light text-gray-900 dark:text-white">
+                  <h2 className="text-2xl font-light text-foreground dark:text-foreground">
                     {t('booking.smart.title')}
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400">{t('booking.smart.subtitle')}</p>
+                  <p className="text-muted-foreground dark:text-muted-foreground/60">{t('booking.smart.subtitle')}</p>
                 </div>
 
                 <div className="grid gap-4">
                   <button
                     onClick={handleQuickWhatsApp}
-                    className="group flex items-center rounded-[20px] border-2 border-green-100 bg-green-50/50 p-4 text-left transition-all hover:border-green-500 hover:bg-green-50"
+                    className="group flex items-center rounded-[20px] border-2 border-success bg-success/50 p-4 text-left transition-all hover:border-success hover:bg-success/90"
                   >
-                    <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 transition-transform group-hover:scale-110">
-                      <MessageCircle className="h-6 w-6 text-green-600" />
+                    <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-success/20 transition-transform group-hover:scale-110">
+                      <MessageCircle className="h-6 w-6 text-success" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                      <h3 className="font-medium text-foreground dark:text-foreground">
                         {t('booking.smart.quick')}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground/60">
                         {t('booking.smart.quickDesc')}
                       </p>
                     </div>
@@ -119,16 +119,16 @@ export default function SmartBookingPopup({
 
                   <button
                     onClick={() => setStep('form')}
-                    className="group flex items-center rounded-[20px] border-2 border-blue-100 bg-blue-50/50 p-4 text-left transition-all hover:border-blue-500 hover:bg-blue-50"
+                    className="group flex items-center rounded-[20px] border-2 border-info bg-info/50 p-4 text-left transition-all hover:border-primary hover:bg-info"
                   >
-                    <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 transition-transform group-hover:scale-110">
-                      <FileText className="h-6 w-6 text-blue-600" />
+                    <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-info/20 transition-transform group-hover:scale-110">
+                      <FileText className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                      <h3 className="font-medium text-foreground dark:text-foreground">
                         {t('booking.smart.form')}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground/60">
                         {t('booking.smart.formDesc')}
                       </p>
                     </div>
@@ -146,18 +146,18 @@ export default function SmartBookingPopup({
                 <div className="mb-6 flex items-center">
                   <button
                     onClick={() => setStep('choice')}
-                    className="mr-4 rounded-full p-2 transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+                    className="mr-4 rounded-full p-2 transition-colors hover:bg-muted dark:hover:bg-card"
                   >
-                    <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                    <ArrowLeft className="h-5 w-5 text-muted-foreground dark:text-muted-foreground/40" />
                   </button>
-                  <h2 className="text-xl font-medium text-gray-900 dark:text-white">
+                  <h2 className="text-xl font-medium text-foreground dark:text-foreground">
                     {t('booking.smart.form')}
                   </h2>
                 </div>
 
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-sm font-medium text-foreground dark:text-muted-foreground/40">
                       {t('booking.smart.name')}
                     </label>
                     <input
@@ -165,18 +165,18 @@ export default function SmartBookingPopup({
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all outline-none focus:ring-2 focus:ring-amber-500 dark:border-zinc-700 dark:bg-zinc-800"
+                      className="w-full rounded-xl border border-border bg-muted px-4 py-3 transition-all outline-none focus:ring-2 focus:ring-warning dark:border-border dark:bg-card"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-sm font-medium text-foreground dark:text-muted-foreground/40">
                       {t('booking.smart.service')}
                     </label>
                     <select
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all outline-none focus:ring-2 focus:ring-amber-500 dark:border-zinc-700 dark:bg-zinc-800"
+                      className="w-full rounded-xl border border-border bg-muted px-4 py-3 transition-all outline-none focus:ring-2 focus:ring-warning dark:border-border dark:bg-card"
                     >
                       <option value="">{t('booking.smart.service.placeholder')}</option>
                       {services.map((s) => (
@@ -188,7 +188,7 @@ export default function SmartBookingPopup({
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-sm font-medium text-foreground dark:text-muted-foreground/40">
                       {t('booking.smart.time')}
                     </label>
                     <input
@@ -196,13 +196,13 @@ export default function SmartBookingPopup({
                       placeholder={t('booking.smart.time.placeholder')}
                       value={formData.timePreference}
                       onChange={(e) => setFormData({ ...formData, timePreference: e.target.value })}
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-all outline-none focus:ring-2 focus:ring-amber-500 dark:border-zinc-700 dark:bg-zinc-800"
+                      className="w-full rounded-xl border border-border bg-muted px-4 py-3 transition-all outline-none focus:ring-2 focus:ring-warning dark:border-border dark:bg-card"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="flex w-full items-center justify-center rounded-xl bg-green-600 py-4 font-medium text-white shadow-lg shadow-green-600/20 transition-all hover:scale-[1.02] hover:bg-green-700"
+                    className="flex w-full items-center justify-center rounded-xl bg-success py-4 font-medium text-white shadow-lg shadow-success/20 transition-all hover:scale-[1.02] hover:bg-success/90"
                   >
                     <MessageCircle className="mr-2 h-5 w-5" />
                     {t('booking.smart.send')}

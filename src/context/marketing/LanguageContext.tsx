@@ -1033,8 +1033,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Booking Page Help Section
     'booking.help.title': 'Necessites ajuda amb la reserva?',
     'booking.help.contactDirect': "Contacta'ns directament",
-    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
-    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.email': '📧 Contact@ekabalance.Com',
+    'booking.help.address': '📍 Carrer pelai, 12, Barcelona',
     'booking.help.hours': "Horari d'atenció",
     'booking.help.hours.weekdays': 'Dilluns - divendres: 9:00 - 20:00',
     'booking.help.hours.saturday': 'Dissabte: 9:00 - 14:00',
@@ -3632,8 +3632,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Booking Page Help Section
     'booking.help.title': 'Need help with booking?',
     'booking.help.contactDirect': 'Contact us directly',
-    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
-    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.email': '📧 Contact@ekabalance.Com',
+    'booking.help.address': '📍 Carrer pelai, 12, Barcelona',
     'booking.help.hours': 'Opening hours',
     'booking.help.hours.weekdays': 'Monday - friday: 9:00 - 20:00',
     'booking.help.hours.saturday': 'Saturday: 9:00 - 14:00',
@@ -5087,8 +5087,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Booking Page Help Section
     'booking.help.title': '¿Necesitas ayuda con la reserva?',
     'booking.help.contactDirect': 'Contáctanos directamente',
-    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
-    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.email': '📧 Contact@ekabalance.Com',
+    'booking.help.address': '📍 Carrer pelai, 12, Barcelona',
     'booking.help.hours': 'Horario de atención',
     'booking.help.hours.weekdays': 'Lunes - viernes: 9:00 - 20:00',
     'booking.help.hours.saturday': 'Sábado: 9:00 - 14:00',
@@ -7581,8 +7581,8 @@ const translations: Record<Language, Record<string, string>> = {
     // Booking Page Help Section
     'booking.help.title': 'Нужна помощь с бронированием?',
     'booking.help.contactDirect': 'Свяжитесь с нами напрямую',
-    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
-    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.email': '📧 Contact@ekabalance.Com',
+    'booking.help.address': '📍 Carrer pelai, 12, Barcelona',
     'booking.help.hours': 'Часы работы',
     'booking.help.hours.weekdays': 'Понедельник - пятница: 9:00 - 20:00',
     'booking.help.hours.saturday': 'Суббота: 9:00 - 14:00',

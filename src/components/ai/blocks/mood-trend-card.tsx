@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * Mood Trend Card
@@ -23,9 +23,9 @@ interface MoodTrendProps {
 }
 
 const trendConfig = {
-  improving: { label: "Improving", icon: "â†—", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  declining: { label: "Declining", icon: "â†˜", color: "text-red-500", bg: "bg-red-500/10" },
-  stable: { label: "Stable", icon: "â†’", color: "text-primary", bg: "bg-primary/10" },
+  improving: { label: "Improving", icon: "?", color: "text-success", bg: "bg-success/10" },
+  declining: { label: "Declining", icon: "?", color: "text-destructive", bg: "bg-destructive/10" },
+  stable: { label: "Stable", icon: "?", color: "text-primary", bg: "bg-primary/10" },
 };
 
 function Sparkline({ data }: { data: number[] }) {

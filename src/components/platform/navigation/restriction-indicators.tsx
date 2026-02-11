@@ -40,41 +40,41 @@ export interface RestrictionIndicatorProps {
 const restrictionConfig = {
   permission: {
     icon: Lock,
-    color: 'text-red-500',
-    bgColor: 'bg-red-50',
-    borderColor: 'border-red-200',
+    color: 'text-destructive',
+    bgColor: 'bg-destructive/10',
+    borderColor: 'border-destructive',
     defaultMessage: 'Access restricted',
     defaultReason: 'Insufficient permissions',
   },
   role: {
     icon: Shield,
-    color: 'text-orange-500',
-    bgColor: 'bg-orange-50',
-    borderColor: 'border-orange-200',
+    color: 'text-warning',
+    bgColor: 'bg-warning',
+    borderColor: 'border-warning',
     defaultMessage: 'Role restricted',
     defaultReason: 'Requires specific role',
   },
   subscription: {
     icon: EyeOff,
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-50',
-    borderColor: 'border-purple-200',
+    color: 'text-chart-4',
+    bgColor: 'bg-accent',
+    borderColor: 'border-accent',
     defaultMessage: 'Subscription required',
     defaultReason: 'Premium subscription needed',
   },
   beta: {
     icon: Clock,
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-50',
-    borderColor: 'border-blue-200',
+    color: 'text-info',
+    bgColor: 'bg-info',
+    borderColor: 'border-info',
     defaultMessage: 'Beta feature',
     defaultReason: 'Feature in development',
   },
   time: {
     icon: Clock,
-    color: 'text-yellow-500',
-    bgColor: 'bg-yellow-50',
-    borderColor: 'border-yellow-200',
+    color: 'text-warning',
+    bgColor: 'bg-warning',
+    borderColor: 'border-warning/30',
     defaultMessage: 'Time restricted',
     defaultReason: 'Not available at this time',
   },
@@ -91,19 +91,19 @@ const restrictionConfig = {
 const severityConfig = {
   info: {
     icon: Info,
-    color: 'text-blue-500',
+    color: 'text-info',
   },
   warning: {
     icon: AlertTriangle,
-    color: 'text-yellow-500',
+    color: 'text-warning',
   },
   error: {
     icon: XCircle,
-    color: 'text-red-500',
+    color: 'text-destructive',
   },
   critical: {
     icon: AlertCircle,
-    color: 'text-red-700',
+    color: 'text-destructive',
   },
 };
 
@@ -216,7 +216,7 @@ export function RestrictionIndicator({
       <div
         className={cn(
           'absolute inset-0 flex items-center justify-center',
-          'bg-opacity-50 bg-black backdrop-blur-sm',
+          'bg-opacity-50 bg-foreground backdrop-blur-sm',
           'rounded-lg',
           className
         )}
@@ -326,12 +326,12 @@ export function PermissionRequiredIndicator({
             key={index}
             className={cn(
               'flex items-center justify-between rounded-md border p-2 text-sm',
-              'border-orange-200 bg-orange-50'
+              'border-warning bg-warning'
             )}
           >
             <div className="flex items-center space-x-2">
-              <Shield className="h-4 w-4 text-orange-500" />
-              <span className="font-mono text-orange-700">
+              <Shield className="h-4 w-4 text-warning" />
+              <span className="font-mono text-warning-foreground">
                 {permission.group}:{permission.action}
               </span>
             </div>
@@ -356,15 +356,15 @@ export interface RoleBadgeProps {
 
 export function RoleBadge({ role, size = 'md', showIcon = true, className }: RoleBadgeProps) {
   const roleColors = {
-    Admin: 'bg-red-100 text-red-800 border-red-200',
-    Therapist: 'bg-blue-100 text-blue-800 border-blue-200',
-    Patient: 'bg-green-100 text-green-800 border-green-200',
-    'VIP Patient': 'bg-purple-100 text-purple-800 border-purple-200',
-    Reception: 'bg-orange-100 text-orange-800 border-orange-200',
-    'Content Manager': 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    Marketing: 'bg-pink-100 text-pink-800 border-pink-200',
-    Accountant: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    'Corporate Client': 'bg-blue-100 text-blue-800 border-blue-200',
+    Admin: 'bg-destructive/20 text-destructive border-destructive',
+    Therapist: 'bg-info/20 text-info-foreground border-info',
+    Patient: 'bg-success/20 text-success border-success',
+    'VIP Patient': 'bg-accent/20 text-accent-foreground border-accent',
+    Reception: 'bg-warning/20 text-warning border-warning',
+    'Content Manager': 'bg-accent/20 text-accent-foreground border-accent/30',
+    Marketing: 'bg-accent/20 text-accent-foreground border-accent/30',
+    Accountant: 'bg-warning/20 text-warning-foreground border-warning/30',
+    'Corporate Client': 'bg-info/20 text-info-foreground border-info',
     Custom: 'bg-muted text-foreground border-border',
   };
 

@@ -34,18 +34,18 @@ const testimonials = [
 
 export default function SuccessStories() {
   return (
-    <section className="bg-card relative overflow-hidden py-24 dark:bg-gray-900">
+    <section className="bg-card relative overflow-hidden py-24 dark:bg-background">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-linear-to-br from-yellow-50 to-blue-50 opacity-50 dark:from-gray-800 dark:to-gray-900"></div>
-      <div className="absolute inset-0 bg-linear-to-br from-yellow-50 to-blue-50 opacity-50 dark:from-gray-800 dark:to-gray-900"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-warning/10 to-info opacity-50 dark:from-card dark:to-background"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-warning/10 to-info opacity-50 dark:from-card dark:to-background"></div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-16 text-center">
-          <h2 className="text-foreground mb-6 text-4xl font-bold md:text-5xl dark:text-white">
+          <h2 className="text-foreground mb-6 text-4xl font-bold md:text-5xl dark:text-foreground">
             Històries d'èxit
           </h2>
-          <p className="text-muted-foreground mx-auto max-w-3xl text-xl dark:text-gray-300">
+          <p className="text-muted-foreground mx-auto max-w-3xl text-xl dark:text-muted-foreground/40">
             Descobreix testimonis de persones que han recuperat el benestar i la llibertat de
             moviment amb les nostres teràpies.
           </p>
@@ -56,28 +56,28 @@ export default function SuccessStories() {
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.name}
-              className="bg-card relative transform rounded-[20px] p-8 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-lg dark:bg-gray-800"
+              className="bg-card relative transform rounded-[20px] p-8 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-lg dark:bg-card"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Quote Icon */}
-              <div className="absolute -top-4 -left-4 flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-r from-yellow-400 to-yellow-500">
+              <div className="absolute -top-4 -left-4 flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-r from-warning to-warning">
                 <Quote className="h-4 w-4 text-white" />
               </div>
 
               {/* Rating */}
               <div className="mb-4 flex items-center">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-current text-yellow-400" />
+                  <Star key={i} className="h-5 w-5 fill-current text-warning" />
                 ))}
               </div>
 
               {/* Testimonial Text */}
-              <p className="text-muted-foreground mb-6 leading-relaxed italic dark:text-gray-300">
+              <p className="text-muted-foreground mb-6 leading-relaxed italic dark:text-muted-foreground/40">
                 "{testimonial.text}"
               </p>
 
               {/* Result Badge */}
-              <div className="mb-6 inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">
+              <div className="mb-6 inline-flex items-center rounded-full bg-success/20 px-3 py-1 text-sm font-medium text-success dark:bg-success/10 dark:text-success">
                 {testimonial.result}
               </div>
 
@@ -91,7 +91,7 @@ export default function SuccessStories() {
                   className="mr-4 rounded-full object-cover"
                 />
                 <div>
-                  <h4 className="text-foreground font-semibold dark:text-white">
+                  <h4 className="text-foreground font-semibold dark:text-foreground">
                     {testimonial.name}
                   </h4>
                   <p className="text-muted-foreground dark:text-muted-foreground/80 text-sm">
@@ -105,12 +105,12 @@ export default function SuccessStories() {
 
         {/* Bottom CTA */}
         <div className="text-center">
-          <p className="text-foreground mb-8 text-2xl font-bold md:text-3xl dark:text-white">
+          <p className="text-foreground mb-8 text-2xl font-bold md:text-3xl dark:text-foreground">
             Torna a sentir-te bé amb tu mateixa
           </p>
           <Link
             href="/contact"
-            className="inline-flex transform items-center rounded-[20px] bg-linear-to-r from-yellow-400 to-yellow-500 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 hover:shadow-2xl"
+            className="inline-flex transform items-center rounded-[20px] bg-linear-to-r from-warning to-warning px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-warning/90 hover:to-warning/80 hover:shadow-2xl"
           >
             Reserva la teva sessió avui mateix
             <ArrowRight className="ml-2 h-5 w-5" />

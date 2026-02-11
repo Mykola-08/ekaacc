@@ -31,7 +31,7 @@ export default function BookingSuccessPage() {
             stiffness: 260,
             damping: 20,
           }}
-          className="bg-emerald-100 text-emerald-600 mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full"
+          className="bg-success/20 text-success mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full"
         >
           <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-12 w-12" strokeWidth={3} />
         </motion.div>

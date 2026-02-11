@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { Fragment, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -70,7 +70,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-black/80" />
+              <div className="fixed inset-0 bg-foreground/80" />
             </TransitionChild>
 
             <div className="fixed inset-0 flex">
@@ -105,10 +105,10 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                     </div>
                   </TransitionChild>
                   {/* Mobile Sidebar Content */}
-                  <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 ring-1 ring-white/10">
+                  <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 ring-1 ring-border/10">
                     <div className="flex h-16 shrink-0 items-center">
                       <span className="text-2xl font-semibold tracking-widest text-white">
-                        CONSOLE<span className="text-emerald-500">.</span>
+                        CONSOLE<span className="text-success">.</span>
                       </span>
                     </div>
                     <nav className="flex flex-1 flex-col">
@@ -126,7 +126,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                                     className={cn(
                                       isActive
                                         ? 'bg-card/10 text-white'
-                                        : 'text-muted-foreground/80 hover:bg-card/5 hover:text-white',
+                                        : 'text-muted-foreground/80 hover:bg-card/5 hover:text-foreground',
                                       'group flex gap-x-3 rounded-xl p-3 text-sm leading-6 font-semibold transition-all'
                                     )}
                                   >
@@ -152,7 +152,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
           <div className="bg-primary flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4 shadow-sm">
             <div className="flex h-16 shrink-0 items-center">
               <span className="text-2xl font-semibold tracking-widest text-white">
-                CONSOLE<span className="text-emerald-500">.</span>
+                CONSOLE<span className="text-success">.</span>
               </span>
             </div>
             <nav className="flex flex-1 flex-col">
@@ -171,16 +171,16 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                             href={item.href}
                             className={cn(
                               isActive
-                                ? 'bg-linear-to-r from-emerald-500/20 to-transparent text-emerald-400 ring-1 ring-emerald-500/50'
-                                : 'text-muted-foreground/80 hover:bg-card/5 hover:text-white',
+                                ? 'bg-linear-to-r from-success/20 to-transparent text-success ring-1 ring-success/50'
+                                : 'text-muted-foreground/80 hover:bg-card/5 hover:text-foreground',
                               'group flex gap-x-3 rounded-lg p-3 text-sm leading-6 font-medium transition-all duration-200'
                             )}
                           >
                             <item.icon
                               className={cn(
                                 isActive
-                                  ? 'text-emerald-400'
-                                  : 'text-muted-foreground group-hover:text-white',
+                                  ? 'text-success'
+                                  : 'text-muted-foreground group-hover:text-foreground',
                                 'h-5 w-5 shrink-0 transition-colors'
                               )}
                               aria-hidden="true"
@@ -194,10 +194,10 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                 </li>
 
                 <li className="mt-auto">
-                  <div className="bg-card/5 rounded-lg p-4 ring-1 ring-white/10">
+                  <div className="bg-card/5 rounded-lg p-4 ring-1 ring-border/10">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/20 ring-1 ring-emerald-500/50">
-                        <span className="text-xs font-semibold text-emerald-400">SU</span>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-success/20 ring-1 ring-success/50">
+                        <span className="text-xs font-semibold text-success">SU</span>
                       </div>
                       <div className="flex flex-col">
                         <span className="text-xs font-medium text-white">Super Admin</span>
@@ -230,7 +230,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                   <input
                     type="text"
                     placeholder="Search system resources..."
-                    className="bg-muted/30 text-foreground placeholder:text-muted-foreground/80 w-full rounded-full border-none py-2 pr-4 pl-10 text-sm focus:ring-2 focus:ring-emerald-500/20"
+                    className="bg-muted/30 text-foreground placeholder:text-muted-foreground/80 w-full rounded-full border-none py-2 pr-4 pl-10 text-sm focus:ring-2 focus:ring-success/20"
                   />
                 </div>
               </div>
@@ -248,8 +248,8 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                 <HeadlessMenu as="div" className="relative">
                   <MenuButton className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 ring-1 ring-emerald-200">
-                      <span className="text-sm font-semibold text-emerald-700">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-success/20 ring-1 ring-success/30">
+                      <span className="text-sm font-semibold text-success">
                         {user?.user_metadata?.full_name?.[0] || 'A'}
                       </span>
                     </div>
@@ -301,13 +301,13 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                           <button
                             onClick={() => signOut()}
                             className={cn(
-                              active ? 'bg-red-50 text-red-700' : 'text-foreground',
+                              active ? 'bg-destructive/10 text-destructive' : 'text-foreground',
                               'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm leading-6'
                             )}
                           >
                             <LogOut
                               className={cn(
-                                active ? 'text-red-500' : 'text-muted-foreground/80',
+                                active ? 'text-destructive' : 'text-muted-foreground/80',
                                 'h-4 w-4'
                               )}
                             />

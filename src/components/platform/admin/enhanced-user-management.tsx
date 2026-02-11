@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -276,7 +276,7 @@ export function EnhancedUserManagement() {
                     size="sm"
                     onClick={() => handleBulkOperation('delete')}
                     disabled={bulkOperationLoading}
-                    className="text-red-600 hover:text-red-700"
+                    className="text-destructive hover:text-destructive"
                   >
                     <Trash2 className="mr-1 h-3 w-3" />
                     Delete

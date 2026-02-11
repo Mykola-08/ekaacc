@@ -141,10 +141,10 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                       key={option.value}
                       onClick={() => handleAnswer(option.value)}
                       className={cn(
-                        'group glass-card flex w-full cursor-pointer items-center justify-between rounded-lg border p-6 text-left transition-all hover:bg-white/80',
+                        'group glass-card flex w-full cursor-pointer items-center justify-between rounded-lg border p-6 text-left transition-all hover:bg-card/80',
                         answers[currentQuestion.id] === option.value
                           ? 'border-primary ring-primary ring-1'
-                          : 'hover:border-primary/50 border-white/40'
+                          : 'hover:border-primary/50 border-border/40'
                       )}
                     >
                       <span
@@ -158,7 +158,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                         {option.label}
                       </span>
                       {answers[currentQuestion.id] === option.value && (
-                        <div className="bg-primary rounded-full p-1 text-white">
+                        <div className="bg-primary rounded-full p-1 text-primary-foreground">
                           <Check className="h-4 w-4" />
                         </div>
                       )}
@@ -183,10 +183,10 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                           handleAnswer(newAnswers);
                         }}
                         className={cn(
-                          'group glass-card flex w-full cursor-pointer items-center justify-between rounded-lg border p-6 text-left transition-all hover:bg-white/80',
+                          'group glass-card flex w-full cursor-pointer items-center justify-between rounded-lg border p-6 text-left transition-all hover:bg-card/80',
                           isSelected
                             ? 'border-primary bg-primary/5'
-                            : 'hover:border-primary/50 border-white/40'
+                            : 'hover:border-primary/50 border-border/40'
                         )}
                       >
                         <span
@@ -200,7 +200,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                         <div
                           className={cn(
                             'flex h-6 w-6 items-center justify-center rounded-full border transition-colors',
-                            isSelected ? 'border-primary bg-primary text-white' : 'border-black/20'
+                            isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-black/20'
                           )}
                         >
                           {isSelected && <Check className="h-3 w-3" />}
@@ -220,8 +220,8 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                       className={cn(
                         'flex h-12 w-12 items-center justify-center rounded-full text-xl font-semibold transition-all md:h-16 md:w-16',
                         answers[currentQuestion.id] === val
-                          ? 'bg-primary shadow-primary/20 scale-110 text-white shadow-lg'
-                          : 'text-muted-foreground bg-black/5 hover:bg-black/10'
+                          ? 'bg-primary shadow-primary/20 scale-110 text-primary-foreground shadow-lg'
+                          : 'text-muted-foreground bg-foreground/5 hover:bg-foreground/10'
                       )}
                     >
                       {val}

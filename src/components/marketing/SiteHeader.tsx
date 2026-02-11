@@ -109,7 +109,7 @@ export function SiteHeader() {
             </Link>
 
             {/* Desktop Nav - Porcelain Pill */}
-            <nav className="hidden items-center space-x-1 rounded-full border border-white/60 bg-white/50 p-1.5 px-2 shadow-sm backdrop-blur-xl md:flex">
+            <nav className="hidden items-center space-x-1 rounded-full border border-white/60 bg-card/50 p-1.5 px-2 shadow-sm backdrop-blur-xl md:flex">
               {routes.map((route) => {
                 const isActive = pathname === route.href;
                 return (
@@ -119,8 +119,8 @@ export function SiteHeader() {
                     className={cn(
                       'relative rounded-full px-5 py-2 text-sm font-medium transition-all duration-300',
                       isActive
-                        ? 'text-primary bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-white/40'
+                        ? 'text-primary bg-card shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-card/40'
                     )}
                   >
                     {route.label}
@@ -176,7 +176,7 @@ export function SiteHeader() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="bg-card border-border/80 flex items-center gap-2 rounded-full border py-1.5 pr-1.5 pl-4 shadow-sm transition-all hover:bg-slate-50 active:scale-95">
+                    <button className="bg-card border-border/80 flex items-center gap-2 rounded-full border py-1.5 pr-1.5 pl-4 shadow-sm transition-all hover:bg-muted active:scale-95">
                       <span className="text-foreground/90 hidden max-w-[120px] truncate text-sm font-bold md:block">
                         {user.email?.split('@')[0]}
                       </span>
@@ -234,7 +234,7 @@ export function SiteHeader() {
                   </Link>
                   <Link
                     href="/book"
-                    className="bg-primary hover:bg-primary/90 shadow-primary/20 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:scale-105 active:scale-95"
+                    className="bg-primary hover:bg-primary/90 shadow-primary/20 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-bold text-primary-foreground shadow-lg transition-all hover:scale-105 active:scale-95"
                   >
                     Book
                   </Link>
@@ -349,7 +349,7 @@ export function SiteHeader() {
                   </Link>
                   <Link
                     href="/book"
-                    className="bg-primary flex w-full items-center justify-center rounded-full py-3.5 font-semibold text-white shadow-lg shadow-slate-900/20"
+                    className="bg-primary flex w-full items-center justify-center rounded-full py-3.5 font-semibold text-primary-foreground shadow-lg shadow-primary/20"
                   >
                     Book
                   </Link>

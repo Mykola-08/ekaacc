@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import {
   Dialog,
@@ -30,7 +30,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
         <div className="bg-muted/30 flex h-full flex-col">
           <DialogHeader className="bg-card border-border/60 border-b p-8 pb-6">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-destructive/10 text-destructive">
                 <AlertTriangle className="h-6 w-6" />
               </div>
               <div className="space-y-1">
@@ -41,7 +41,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
                   <span className="bg-muted text-muted-foreground rounded px-2 py-0.5 font-mono">
                     ID: {log.id}
                   </span>
-                  <span>â€¢</span>
+                  <span>•</span>
                   <span>{new Date(log.created_at).toLocaleString()}</span>
                 </DialogDescription>
               </div>
@@ -51,11 +51,11 @@ export function ErrorLogDialog({ log }: { log: any }) {
           <div className="flex-1 space-y-8 overflow-y-auto p-8">
             {/* Error Message */}
             <div className="bg-card border-border/60 rounded-xl border p-6 shadow-sm">
-              <div className="mb-4 flex items-center gap-3 text-red-600">
+              <div className="mb-4 flex items-center gap-3 text-destructive">
                 <AlertTriangle className="h-5 w-5" />
                 <h4 className="font-semibold">Error Message</h4>
               </div>
-              <div className="text-foreground/90 rounded-xl border border-red-100 bg-red-50/50 p-4 font-mono text-sm break-all">
+              <div className="text-foreground/90 rounded-xl border border-destructive/20 bg-destructive/10 p-4 font-mono text-sm break-all">
                 {log.error_message}
               </div>
             </div>

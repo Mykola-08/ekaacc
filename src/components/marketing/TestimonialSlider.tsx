@@ -163,7 +163,7 @@ export default function TestimonialSlider({
             <h2 className="mb-6 text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
               {t('testimonials.sliderTitle')}
             </h2>
-            <p className="text-muted-foreground mx-auto max-w-3xl text-lg text-white/90 md:text-xl">
+            <p className="text-muted-foreground mx-auto max-w-3xl text-lg text-primary-foreground/90 md:text-xl">
               {t('testimonials.sliderSubtitle')}
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function TestimonialSlider({
                       {/* Rating */}
                       <div className="mb-6 flex justify-center">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="mx-0.5 h-5 w-5 fill-current text-yellow-400" />
+                          <Star key={i} className="mx-0.5 h-5 w-5 fill-current text-warning" />
                         ))}
                       </div>
 
@@ -197,7 +197,7 @@ export default function TestimonialSlider({
                           {testimonial.name}
                         </div>
                         <div className="text-muted-foreground">{testimonial.role}</div>
-                        <div className="text-sm font-medium text-blue-600">
+                        <div className="text-sm font-medium text-primary">
                           {testimonial.service}
                         </div>
                       </div>
@@ -211,7 +211,7 @@ export default function TestimonialSlider({
             <div className="mt-8 flex items-center justify-center space-x-4">
               <button
                 onClick={prevSlide}
-                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-white/30 text-white backdrop-blur-sm transition-colors"
+                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-border/30 text-white backdrop-blur-sm transition-colors"
               >
                 <div className="h-3 w-3 -rotate-45 transform border-t-2 border-l-2 border-white"></div>
               </button>
@@ -229,7 +229,7 @@ export default function TestimonialSlider({
 
               <button
                 onClick={nextSlide}
-                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-white/30 text-white backdrop-blur-sm transition-colors"
+                className="bg-card/20 hover:bg-card/30 flex h-12 w-12 items-center justify-center rounded-full border border-border/30 text-white backdrop-blur-sm transition-colors"
               >
                 <div className="h-3 w-3 rotate-45 transform border-t-2 border-r-2 border-white"></div>
               </button>

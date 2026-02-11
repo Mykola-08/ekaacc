@@ -54,7 +54,7 @@ function TopUpForm({ amount, onSuccess }: { amount: number; onSuccess: () => voi
     } else {
       toast({
         title: 'Top-up successful',
-        description: `Successfully added â‚¬${amount} to your wallet.`,
+        description: `Successfully added €${amount} to your wallet.`,
       });
       onSuccess();
     }
@@ -71,7 +71,7 @@ function TopUpForm({ amount, onSuccess }: { amount: number; onSuccess: () => voi
         disabled={!stripe || loading}
         className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 w-full rounded-xl text-base font-medium shadow-lg transition-all"
       >
-        {loading ? 'Processing...' : `Pay â‚¬${amount}`}
+        {loading ? 'Processing...' : `Pay €${amount}`}
       </Button>
     </form>
   );
@@ -95,7 +95,7 @@ export function WalletContent({
 
   const handleTopUpClick = async () => {
     if (topUpAmount < 5) {
-      toast({ title: 'Minimum amount is â‚¬5', variant: 'destructive' });
+      toast({ title: 'Minimum amount is €5', variant: 'destructive' });
       return;
     }
 
@@ -136,7 +136,7 @@ export function WalletContent({
             <div className="flex flex-col gap-6">
               <div>
                 <span className="text-4xl font-semibold tracking-tight">
-                  â‚¬{(balance / 100).toFixed(2)}
+                  €{(balance / 100).toFixed(2)}
                 </span>
               </div>
 
@@ -153,7 +153,7 @@ export function WalletContent({
                       }}
                       className="rounded-full"
                     >
-                      â‚¬{amount}
+                      €{amount}
                     </Button>
                   ))}
                 </div>
@@ -164,7 +164,7 @@ export function WalletContent({
                     className="w-full rounded-xl shadow-md md:w-auto"
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Add â‚¬{topUpAmount} Credits
+                    Add €{topUpAmount} Credits
                   </Button>
                 ) : (
                   <div className="mt-4">

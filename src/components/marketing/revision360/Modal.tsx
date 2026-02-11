@@ -48,7 +48,7 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
       {isOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <motion.div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 bg-foreground/70 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -57,7 +57,7 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
           />
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6 lg:p-8">
             <motion.div
-              className={`relative w-full ${sizeClasses[size]} transform rounded-2xl border border-amber-500/20 bg-linear-to-br from-zinc-900 via-zinc-800 to-zinc-900 shadow-2xl shadow-amber-500/10`}
+              className={`relative w-full ${sizeClasses[size]} transform rounded-2xl border border-vip-gold-1/20 bg-linear-to-br from-card via-card to-card shadow-2xl shadow-warning/10`}
               initial={{
                 opacity: 0,
                 scale: 0.8,
@@ -83,7 +83,7 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
             >
               {/* Golden glow effect */}
               <motion.div
-                className="absolute -inset-1 rounded-2xl bg-linear-to-r from-amber-400/20 via-yellow-300/20 to-amber-400/20 blur-sm"
+                className="absolute -inset-1 rounded-2xl bg-linear-to-r from-warning/20 via-warning/20 to-warning/20 blur-sm"
                 animate={{
                   opacity: [0.5, 0.8, 0.5],
                 }}
@@ -97,10 +97,10 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
               <div className="relative p-6 sm:p-8 lg:p-10">
                 {title && (
                   <div className="mb-6 flex items-center justify-between">
-                    <h3 className="font-serif text-2xl text-amber-100">{title}</h3>
+                    <h3 className="font-serif text-2xl text-vip-gold-2">{title}</h3>
                     <button
                       onClick={onClose}
-                      className="rounded-full p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-amber-400"
+                      className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-card hover:text-warning"
                     >
                       <X className="h-6 w-6" />
                     </button>
@@ -110,13 +110,13 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
                 {!title && (
                   <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 z-10 rounded-full p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-amber-400"
+                    className="absolute top-4 right-4 z-10 rounded-full p-2 text-muted-foreground transition-colors hover:bg-card hover:text-warning"
                   >
                     <X className="h-6 w-6" />
                   </button>
                 )}
 
-                <div className="text-zinc-300">{children}</div>
+                <div className="text-muted-foreground/40">{children}</div>
               </div>
             </motion.div>
           </div>

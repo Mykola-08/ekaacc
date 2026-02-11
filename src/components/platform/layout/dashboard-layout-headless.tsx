@@ -90,12 +90,12 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
           </li>
 
           <li className="mt-auto">
-            <div className="from-primary group relative cursor-pointer overflow-hidden rounded-lg bg-linear-to-br to-blue-600 p-5 shadow-lg shadow-blue-900/10 transition-transform duration-300 hover:scale-105">
+            <div className="from-primary group relative cursor-pointer overflow-hidden rounded-lg bg-linear-to-br to-info p-5 shadow-lg shadow-primary/10 transition-transform duration-300 hover:scale-105">
               <div className="absolute top-0 right-0 -mt-8 -mr-8 h-24 w-24 rounded-full bg-white/10 blur-2xl transition-colors group-hover:bg-white/20"></div>
               <div className="relative">
                 <p className="mb-1 text-lg font-semibold text-white">Premium Plan</p>
                 <p className="mb-3 text-xs font-medium text-primary">Upgrade for full access</p>
-                <button className="w-full cursor-pointer rounded-xl border border-white/10 bg-white/20 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/30">
+                <button className="w-full cursor-pointer rounded-xl border border-border/10 bg-white/20 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/30">
                   Upgrade Now
                 </button>
               </div>
@@ -138,7 +138,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       <div className="flex items-center gap-4">
         <button className="hover:bg-secondary text-muted-foreground hover:text-foreground relative rounded-full p-2 transition-colors">
           <Bell className="h-5 w-5" />
-          <span className="border-card absolute top-2 right-2 h-2 w-2 rounded-full border bg-red-500"></span>
+          <span className="border-card absolute top-2 right-2 h-2 w-2 rounded-full border bg-destructive/100"></span>
         </button>
 
         <HeadlessMenu as="div" className="relative">
@@ -179,7 +179,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
                     onClick={() => signOut()}
                     className={cn(
                       active ? 'bg-secondary' : '',
-                      'flex w-full items-center gap-2 px-4 py-2 text-sm font-medium text-red-500'
+                      'flex w-full items-center gap-2 px-4 py-2 text-sm font-medium text-destructive'
                     )}
                   >
                     <LogOut className="h-4 w-4" />
@@ -208,7 +208,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
+            <div className="fixed inset-0 bg-foreground/20 backdrop-blur-sm" />
           </TransitionChild>
 
           <div className="fixed inset-0 flex">

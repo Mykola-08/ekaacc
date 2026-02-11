@@ -39,7 +39,7 @@ function UnsubscribeContent() {
   if (status === 'success') {
     return (
       <div className="text-center">
-        <p className="mb-4 text-green-600">You have been successfully unsubscribed.</p>
+        <p className="mb-4 text-success">You have been successfully unsubscribed.</p>
         <p className="text-muted-foreground text-sm">
           You can always resubscribe from your account settings.
         </p>
@@ -54,7 +54,7 @@ function UnsubscribeContent() {
         {status === 'loading' ? 'Processing...' : 'Confirm Unsubscribe'}
       </Button>
       {status === 'error' && (
-        <p className="text-red-500">Something went wrong. Please try again.</p>
+        <p className="text-destructive">Something went wrong. Please try again.</p>
       )}
     </div>
   );

@@ -14,7 +14,7 @@ export const iosSpring = {
  * Updated for a cleaner, Apple-like aesthetic (white with blur)
  */
 export const glassEffect =
-  'bg-white/70 dark:bg-black/70 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-sm support-[backdrop-filter]:bg-white/60';
+  'bg-background/70 dark:bg-foreground/70 backdrop-blur-xl border border-border/40 dark:border-border/10 shadow-sm support-[backdrop-filter]:bg-card/60';
 
 /**
  * Returns properties for a subtle Apple-like shadow

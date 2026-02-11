@@ -16,9 +16,10 @@ import { StatusBadge } from '@/components/ui/status-badge';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Loader2, RefreshCw, PlusCircle, DollarSign, Clock, CheckCircle } from 'lucide-react';
+import { Loader2, RefreshCw, PlusCircle, Clock, CheckCircle } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';
+import { DollarCircleIcon } from '@hugeicons/core-free-icons';
 
 import fxService from '@/lib/platform/services/platform-service';
 import { useToast } from '@/hooks/platform/ui/use-toast';
@@ -43,7 +44,7 @@ function BillingSkeleton() {
 function NoInvoicesEmptyState({ onCreate }: { onCreate: () => void }) {
   return (
     <EmptyState
-      icon={DollarSign}
+      icon={DollarCircleIcon}
       title="No Invoices Found"
       description="There are no invoices for this client yet."
       action={

@@ -27,7 +27,7 @@ export default function ContactContent() {
           <a href="https://wa.me/34658867133" target="_blank" rel="noopener noreferrer">
             <Button
               size="lg"
-              className="rounded-apple border-none bg-[#25D366] px-8 py-4 font-medium text-white normal-case shadow-xl hover:bg-[#128C7E]"
+              className="rounded-apple border-none bg-whatsapp px-8 py-4 font-medium text-white normal-case shadow-xl hover:bg-whatsapp-hover"
             >
               <MessageCircle className="mr-2 h-6 w-6" />
               {t('contact.whatsapp')}
@@ -36,7 +36,7 @@ export default function ContactContent() {
           <a href="tel:+34658867133">
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90 rounded-apple border-none px-8 py-4 font-medium text-white normal-case shadow-xl"
+              className="bg-primary hover:bg-primary/90 rounded-apple border-none px-8 py-4 font-medium text-primary-foreground normal-case shadow-xl"
             >
               <Phone className="mr-2 h-6 w-6" />
               {t('contact.callNow')}
@@ -48,17 +48,17 @@ export default function ContactContent() {
       {/* Contact Form Section */}
       <section className="relative bg-transparent pb-24">
         <div className="section-container">
-          <div className="card rounded-apple-lg mx-auto max-w-2xl border-gray-100/50 bg-white p-6 shadow-2xl sm:p-10">
+          <div className="card rounded-apple-lg mx-auto max-w-2xl border-border/50 bg-card p-6 shadow-2xl sm:p-10">
             <ContactFormOptimized />
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="border-t border-gray-200 bg-gray-50 py-24">
+      <section className="border-t border-border bg-muted py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-8">
           <div className="mb-12 text-center">
-            <div className="text-primary-600 mb-4 inline-flex items-center justify-center rounded-full bg-blue-100 p-3">
+            <div className="text-primary-600 mb-4 inline-flex items-center justify-center rounded-full bg-info/20 p-3">
               <HelpCircle className="h-6 w-6" />
             </div>
             <h2 className="heading-2">{t('contact.faq.title')}</h2>
@@ -74,7 +74,7 @@ export default function ContactContent() {
                 key={i}
                 className="card p-8 hover:shadow-md"
               >
-                <h3 className="mb-3 text-lg font-semibold text-gray-900">
+                <h3 className="mb-3 text-lg font-semibold text-foreground">
                   {t(`contact.faq.q${i}.title`)}
                 </h3>
                 <p className="text-body">{t(`contact.faq.q${i}.answer`)}</p>

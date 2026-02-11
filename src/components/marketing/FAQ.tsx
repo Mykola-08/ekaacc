@@ -46,13 +46,13 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="bg-white py-16 sm:py-24">
+    <section className="bg-card py-16 sm:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-8">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-light text-balance text-gray-900 sm:text-4xl">
+          <h2 className="mb-4 text-3xl font-light text-balance text-foreground sm:text-4xl">
             {t('faq.title')}
           </h2>
-          <p className="text-lg text-gray-600">{t('faq.subtitle')}</p>
+          <p className="text-lg text-muted-foreground">{t('faq.subtitle')}</p>
         </div>
 
         <Accordion type="single" collapsible defaultValue="item-1" className="space-y-4">
@@ -60,12 +60,12 @@ const FAQ = () => {
             <AccordionItem 
               key={item.id} 
               value={item.id} 
-              className="rounded-[20px] border-none bg-gray-50 px-2 hover:bg-gray-100 data-[state=open]:bg-white data-[state=open]:shadow-sm transition-all"
+              className="rounded-[20px] border-none bg-muted px-2 hover:bg-muted data-[state=open]:bg-card data-[state=open]:shadow-sm transition-all"
             >
               <AccordionTrigger className="px-4 py-4 hover:no-underline text-lg font-medium text-left">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4 text-gray-600">
+              <AccordionContent className="px-4 pb-4 text-muted-foreground">
                 <p className="text-sm leading-relaxed">{item.answer}</p>
               </AccordionContent>
             </AccordionItem>

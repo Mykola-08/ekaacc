@@ -80,7 +80,7 @@ export default function BenefitsSection() {
           transition={{ duration: 0.45 }}
         >
           <h2 className="text-3xl font-semibold text-white sm:text-5xl">{t('benefits.title')}</h2>
-          <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground/40 sm:text-lg">
             {t('benefits.subtitle')}
           </p>
         </motion.div>
@@ -89,23 +89,23 @@ export default function BenefitsSection() {
           {benefits.map((benefit, index) => (
             <motion.article
               key={`${benefit.title}-${index}`}
-              className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm"
+              className="rounded-2xl border border-border/10 bg-white/5 p-6 backdrop-blur-sm"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: index * 0.05 }}
             >
-              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-amber-300/15 text-amber-100">
+              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-vip-gold-4/15 text-vip-gold-2">
                 {benefit.icon}
               </div>
               <h3 className="mt-4 text-lg font-semibold text-white">{benefit.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-300 sm:text-base">
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground/40 sm:text-base">
                 {benefit.description}
               </p>
               {benefit.science && (
-                <div className="mt-4 border-t border-white/10 pt-3">
-                  <p className="text-xs tracking-[0.12em] text-amber-200/85 uppercase">Science</p>
-                  <p className="mt-2 text-sm text-zinc-300">{benefit.science}</p>
+                <div className="mt-4 border-t border-border/10 pt-3">
+                  <p className="text-xs tracking-[0.12em] text-vip-gold-2/85 uppercase">Science</p>
+                  <p className="mt-2 text-sm text-muted-foreground/40">{benefit.science}</p>
                 </div>
               )}
             </motion.article>
@@ -113,13 +113,13 @@ export default function BenefitsSection() {
         </div>
 
         <motion.div
-          className="mt-8 rounded-2xl border border-amber-300/25 bg-amber-300/10 p-6 sm:p-7"
+          className="mt-8 rounded-2xl border border-warning/25 bg-vip-gold-4/10 p-6 sm:p-7"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.35 }}
         >
-          <p className="text-base text-zinc-100 italic sm:text-lg">"{t('benefits.philosophy')}"</p>
+          <p className="text-base text-foreground/90 italic sm:text-lg">"{t('benefits.philosophy')}"</p>
         </motion.div>
       </div>
     </section>

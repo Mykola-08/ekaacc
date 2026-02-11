@@ -76,7 +76,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-green-50 p-3 text-green-600 transition-colors group-hover:bg-green-100">
+            <div className="rounded-lg bg-success p-3 text-success transition-colors group-hover:bg-success/20">
               <Shield className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -95,7 +95,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-orange-50 p-3 text-orange-600 transition-colors group-hover:bg-orange-100">
+            <div className="rounded-lg bg-warning p-3 text-warning transition-colors group-hover:bg-warning/20">
               <Cookie className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -115,7 +115,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-red-50 p-3 text-red-600 transition-colors group-hover:bg-red-100">
+            <div className="rounded-lg bg-destructive/10 p-3 text-destructive transition-colors group-hover:bg-destructive/20">
               <AlertCircle className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -135,7 +135,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-purple-50 p-3 text-purple-600 transition-colors group-hover:bg-purple-100">
+            <div className="rounded-lg bg-accent p-3 text-accent transition-colors group-hover:bg-accent/20">
               <Building2 className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -193,7 +193,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-pink-50 p-3 text-pink-600 transition-colors group-hover:bg-pink-100">
+            <div className="rounded-lg bg-accent/10 p-3 text-accent-foreground transition-colors group-hover:bg-accent/20">
               <Accessibility className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -212,7 +212,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-amber-50 p-3 text-amber-600 transition-colors group-hover:bg-amber-100">
+            <div className="rounded-lg bg-warning/10 p-3 text-warning transition-colors group-hover:bg-warning/20">
               <Copyright className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -250,7 +250,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
+            <div className="rounded-lg bg-destructive/20 p-3 text-destructive transition-colors group-hover:bg-destructive/30">
               <Bug className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -269,7 +269,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-green-100 p-3 text-green-700 transition-colors group-hover:bg-green-200">
+            <div className="rounded-lg bg-success/20 p-3 text-success-foreground transition-colors group-hover:bg-success/30">
               <HeartHandshake className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -307,7 +307,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-green-100 p-3 text-green-700 transition-colors group-hover:bg-green-200">
+            <div className="rounded-lg bg-success/20 p-3 text-success-foreground transition-colors group-hover:bg-success/30">
               <Leaf className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -326,7 +326,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-orange-100 p-3 text-orange-700 transition-colors group-hover:bg-orange-200">
+            <div className="rounded-lg bg-warning/20 p-3 text-warning-foreground transition-colors group-hover:bg-warning/30">
               <Truck className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -346,7 +346,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
+            <div className="rounded-lg bg-destructive/20 p-3 text-destructive transition-colors group-hover:bg-destructive/30">
               <Ban className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -384,7 +384,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-cyan-100 p-3 text-cyan-700 transition-colors group-hover:bg-cyan-200">
+            <div className="rounded-lg bg-info/20 p-3 text-info transition-colors group-hover:bg-info/30">
               <Landmark className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -403,7 +403,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-pink-100 p-3 text-pink-700 transition-colors group-hover:bg-pink-200">
+            <div className="rounded-lg bg-accent/20 p-3 text-accent-foreground transition-colors group-hover:bg-accent/40">
               <Users className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -517,7 +517,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-orange-100 p-3 text-orange-700 transition-colors group-hover:bg-orange-200">
+            <div className="rounded-lg bg-warning/20 p-3 text-warning-foreground transition-colors group-hover:bg-warning/30">
               <TrendingUp className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -574,7 +574,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-pink-100 p-3 text-pink-700 transition-colors group-hover:bg-pink-200">
+            <div className="rounded-lg bg-accent/20 p-3 text-accent-foreground transition-colors group-hover:bg-accent/40">
               <Heart className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -593,7 +593,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-purple-100 p-3 text-purple-700 transition-colors group-hover:bg-purple-200">
+            <div className="rounded-lg bg-accent/20 p-3 text-accent-foreground transition-colors group-hover:bg-accent/30">
               <Video className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -650,7 +650,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-amber-100 p-3 text-amber-700 transition-colors group-hover:bg-amber-200">
+            <div className="rounded-lg bg-warning/20 p-3 text-warning transition-colors group-hover:bg-warning/30">
               <BookOpen className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -669,7 +669,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
+            <div className="rounded-lg bg-destructive/20 p-3 text-destructive transition-colors group-hover:bg-destructive/30">
               <Ban className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -707,7 +707,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-green-100 p-3 text-green-700 transition-colors group-hover:bg-green-200">
+            <div className="rounded-lg bg-success/20 p-3 text-success-foreground transition-colors group-hover:bg-success/30">
               <CreditCard className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -726,7 +726,7 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-lg border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="rounded-lg bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
+            <div className="rounded-lg bg-destructive/20 p-3 text-destructive transition-colors group-hover:bg-destructive/30">
               <XCircle className="h-6 w-6" />
             </div>
             <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
@@ -800,7 +800,7 @@ export default function Home() {
         </p>
         <a
           href="mailto:legal@ekabalance.com"
-          className="bg-primary hover:bg-primary/90 inline-flex items-center justify-center rounded-lg border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm"
+          className="bg-primary hover:bg-primary/90 inline-flex items-center justify-center rounded-lg border border-transparent px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm"
         >
           Contact Legal Team
         </a>

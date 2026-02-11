@@ -8,8 +8,6 @@ import { getAvailablePlans } from '@/server/plans/actions';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { LoadingSpinner } from '@/components/ui/loading-states';
 
-export const dynamic = 'force-dynamic';
-
 /**
  * Unified Dashboard Home — /dashboard
  *

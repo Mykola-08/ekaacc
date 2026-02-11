@@ -131,7 +131,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-start text-red-600 hover:text-red-700"
+                className="w-full justify-start text-destructive hover:text-destructive"
               >
                 <LogOut className="mr-2 h-4 w-4" />
                 Sign Out

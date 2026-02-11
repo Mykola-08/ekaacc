@@ -211,8 +211,8 @@ export default function SEOOptimized({
     const computedThemeColor =
       typeof window !== 'undefined'
         ? getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()
-        : '#FFB405'; // fallback
-    setMetaTag('theme-color', computedThemeColor ? `hsl(${computedThemeColor})` : '#FFB405');
+        : ''; // fallback
+    setMetaTag('theme-color', computedThemeColor || 'oklch(0.205 0 0)');
 
     // Canonical URL
     let canonical = document.querySelector('link[rel="canonical"]');

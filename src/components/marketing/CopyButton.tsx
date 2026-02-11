@@ -14,7 +14,7 @@ export function CopyButton({ text, successMessage, children, className = '' }: C
     <button
       onClick={() => copyToClipboard(text, successMessage)}
       className={`transition-all duration-200 ${
-        isCopied ? 'scale-105 text-green-600' : 'text-muted-foreground hover:text-foreground'
+        isCopied ? 'scale-105 text-success' : 'text-muted-foreground hover:text-foreground'
       } ${className}`}
       title={isCopied ? 'Copiat!' : 'Copia al porta-retalls'}
     >

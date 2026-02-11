@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -109,7 +109,7 @@ export function BillingSettings() {
                   <h3 className="text-lg font-semibold">{subscription.plan_name}</h3>
                   <StatusBadge status={subscription.status} showIcon={false} />
                   {subscription.cancel_at_period_end && (
-                    <Badge variant="outline" className="border-amber-200 bg-amber-50 text-amber-700">
+                    <Badge variant="outline" className="border-warning/30 bg-warning/10 text-warning">
                       Cancels at period end
                     </Badge>
                   )}
@@ -201,7 +201,7 @@ export function BillingSettings() {
                       {pm.brand}
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground">â€¢â€¢â€¢â€¢ {pm.last4}</p>
+                      <p className="font-semibold text-foreground">•••• {pm.last4}</p>
                       <p className="text-xs text-muted-foreground">
                         Expires {String(pm.exp_month).padStart(2, '0')}/{pm.exp_year}
                       </p>
@@ -250,9 +250,9 @@ export function BillingSettings() {
                     <div
                       className={`flex h-9 w-9 items-center justify-center rounded-full ${
                         invoice.status === 'paid'
-                          ? 'bg-emerald-50 text-emerald-600'
+                          ? 'bg-success/10 text-success'
                           : invoice.status === 'open'
-                            ? 'bg-amber-50 text-amber-600'
+                            ? 'bg-warning/10 text-warning'
                             : 'bg-muted text-muted-foreground'
                       }`}
                     >

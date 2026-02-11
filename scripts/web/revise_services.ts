@@ -102,7 +102,7 @@ async function reviseServices() {
     description: 'Tailored therapies for specific professions and lifestyles.',
     duration: 60,
     price: 7000,
-    image_url: 'https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2070&auto=format&fit=crop',
+    image_url: 'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=2070&auto=format&fit=crop',
     category: 'individual',
     active: true
   };

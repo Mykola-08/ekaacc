@@ -212,7 +212,7 @@ function BookingCard({
             <Button
               variant="outline"
               size="sm"
-              className="h-9 w-full rounded-full border-rose-100 text-xs font-semibold text-rose-600 hover:bg-rose-50 hover:text-rose-700 md:w-32"
+              className="h-9 w-full rounded-full text-xs font-semibold text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive md:w-32"
               onClick={handleCancel}
             >
               <HugeiconsIcon icon={UnavailableIcon} className="mr-2 h-3 w-3" strokeWidth={2.5} />

@@ -49,31 +49,31 @@ export default class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-          <div className="w-full max-w-md rounded-[20px] bg-white p-8 text-center shadow-xl">
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
-              <AlertTriangle className="h-10 w-10 text-red-500" />
+        <div className="flex min-h-screen items-center justify-center bg-muted p-4">
+          <div className="w-full max-w-md rounded-[20px] bg-card p-8 text-center shadow-xl">
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-destructive/20">
+              <AlertTriangle className="h-10 w-10 text-destructive" />
             </div>
 
-            <h1 className="mb-4 text-2xl font-bold text-gray-900">
+            <h1 className="mb-4 text-2xl font-bold text-foreground">
               Ups! Alguna cosa ha anat malament
             </h1>
 
-            <p className="mb-8 text-gray-600">
+            <p className="mb-8 text-muted-foreground">
               Ho sentim, s'ha produït un error inesperat. Prova de recarregar la pàgina o torna a
               l'inici.
             </p>
 
             {this.state.error && (
               <details className="mb-6 text-left" open>
-                <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700">
+                <summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">
                   Detalls de l'error
                 </summary>
-                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-100 p-4">
-                  <p className="mb-2 font-mono text-sm font-bold text-red-700">
+                <div className="mt-4 rounded-lg border border-border bg-muted p-4">
+                  <p className="mb-2 font-mono text-sm font-bold text-destructive">
                     {this.state.error.name}: {this.state.error.message}
                   </p>
-                  <pre className="max-h-60 overflow-auto text-xs whitespace-pre-wrap text-gray-700">
+                  <pre className="max-h-60 overflow-auto text-xs whitespace-pre-wrap text-foreground">
                     {this.state.errorInfo?.componentStack}
                   </pre>
                 </div>
@@ -83,7 +83,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <button
                 onClick={this.handleRetry}
-                className="inline-flex items-center justify-center rounded-xl bg-blue-500 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-600"
+                className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Tornar a intentar
@@ -91,7 +91,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
               <button
                 onClick={this.handleGoHome}
-                className="inline-flex items-center justify-center rounded-xl bg-gray-200 px-6 py-3 font-medium text-gray-900 transition-colors hover:bg-gray-300"
+                className="inline-flex items-center justify-center rounded-xl bg-muted px-6 py-3 font-medium text-foreground transition-colors hover:bg-muted/80"
               >
                 <Home className="mr-2 h-4 w-4" />
                 Anar a l'inici
@@ -109,25 +109,25 @@ export default class ErrorBoundary extends Component<Props, State> {
 // Simple error fallback component
 export function ErrorFallback({ error, resetError }: { error: Error; resetError: () => void }) {
   return (
-    <div className="rounded-[20px] border border-red-200 bg-red-50 p-8">
+    <div className="rounded-[20px] border border-destructive/30 bg-destructive/10 p-8">
       <div className="mb-4 flex items-center">
-        <AlertTriangle className="mr-3 h-6 w-6 text-red-500" />
-        <h2 className="text-lg font-medium text-red-900">Error en aquesta secció</h2>
+        <AlertTriangle className="mr-3 h-6 w-6 text-destructive" />
+        <h2 className="text-lg font-medium text-destructive">Error en aquesta secció</h2>
       </div>
 
-      <p className="mb-4 text-red-700">S'ha produït un error en aquesta part de l'aplicació.</p>
+      <p className="mb-4 text-destructive">S'ha produït un error en aquesta part de l'aplicació.</p>
 
       <button
         onClick={resetError}
-        className="rounded-lg bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600"
+        className="rounded-lg bg-destructive px-4 py-2 text-white transition-colors hover:bg-destructive/90"
       >
         Tornar a intentar
       </button>
 
       {process.env.NODE_ENV === 'development' && (
         <details className="mt-4">
-          <summary className="cursor-pointer text-sm text-red-600">Detalls de l'error</summary>
-          <pre className="mt-2 text-xs whitespace-pre-wrap text-red-800">{error.message}</pre>
+          <summary className="cursor-pointer text-sm text-destructive">Detalls de l'error</summary>
+          <pre className="mt-2 text-xs whitespace-pre-wrap text-destructive">{error.message}</pre>
         </details>
       )}
     </div>

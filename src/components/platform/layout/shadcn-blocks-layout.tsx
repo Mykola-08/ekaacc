@@ -46,15 +46,15 @@ function StatsCard({ title, value, change, trend, icon }: StatsCardProps) {
  <div className="mb-2 text-3xl font-semibold">{value}</div>
  <div className="flex items-center gap-2 text-xs">
  {trend === 'up' ? (
- <ArrowUpRight className="h-3 w-3 text-green-500" />
+ <ArrowUpRight className="h-3 w-3 text-success" />
  ) : (
- <ArrowDownRight className="h-3 w-3 text-red-500" />
+ <ArrowDownRight className="h-3 w-3 text-destructive" />
  )}
  <span
  className={
  trend === 'up'
- ? 'text-green-600 '
- : 'text-red-600 '
+ ? 'text-success '
+ : 'text-destructive '
  }
  >
  {change}

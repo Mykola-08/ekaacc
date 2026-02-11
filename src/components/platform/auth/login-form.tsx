@@ -78,13 +78,14 @@ export function LoginForm({
  className="mb-4 flex flex-col items-center gap-4 text-center"
  >
  <div className="relative mb-2">
- <div className="relative rounded-[18px] bg-card p-0 shadow-sm">
+ <div className="relative overflow-hidden rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
  <Image
- src="/eka_logo.png"
- alt="EKA"
- width={64}
- height={64}
- className="h-16 w-16 object-contain"
+ src="/images/eka_logo.png"
+ alt="EKA Balance"
+ width={56}
+ height={56}
+ className="h-14 w-14 object-contain"
+ priority
  />
  </div>
  </div>
@@ -94,7 +95,6 @@ export function LoginForm({
  </h1>
  <p className="text-sm text-muted-foreground">
  Sign in to your account
-
  </p>
  </div>
  </motion.div>
@@ -165,7 +165,7 @@ export function LoginForm({
  animate={{ opacity: 1, height: 'auto', marginTop: 0 }}
  exit={{ opacity: 0, height: 0, marginTop: 0 }}
  transition={{ duration: 0.2 }}
- className="rounded-[14px] bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-600 dark:bg-destructive/10 dark:text-destructive"
+ className="rounded-[14px] bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive dark:bg-destructive/10 dark:text-destructive"
  >
  {error}
  </motion.div>
@@ -180,7 +180,7 @@ export function LoginForm({
  >
  <Button
  type="submit"
- className="h-12 w-full rounded-full bg-primary text-[15px] font-semibold text-white shadow-sm transition-all hover:bg-primary/90 hover:shadow active:scale-[0.98] disabled:opacity-70"
+ className="h-12 w-full rounded-full bg-primary text-[15px] font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow active:scale-[0.98] disabled:opacity-70"
  disabled={loading}
  >
  {loading ? (
@@ -220,11 +220,11 @@ export function LoginForm({
       >
         <p className="text-xs text-muted-foreground px-4">
           By logging in, you agree to our{' '}
-          <Link href="/terms" className="underline hover:text-foreground dark:hover:text-white">Terms of Service</Link>
+          <Link href="/terms" className="underline hover:text-foreground dark:hover:text-foreground">Terms of Service</Link>
           ,{' '}
-          <Link href="/privacy" className="underline hover:text-foreground dark:hover:text-white">Privacy Policy</Link>
+          <Link href="/privacy" className="underline hover:text-foreground dark:hover:text-foreground">Privacy Policy</Link>
           {' '}and{' '}
-          <Link href="/cookie-policy" className="underline hover:text-foreground dark:hover:text-white">Cookie Policy</Link>.
+          <Link href="/cookie-policy" className="underline hover:text-foreground dark:hover:text-foreground">Cookie Policy</Link>.
         </p>
       </motion.div>
     </motion.div>

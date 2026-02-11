@@ -52,17 +52,17 @@ export default function CookieBanner() {
   return (
     <div className="fixed right-0 bottom-0 left-0 z-50 p-4 sm:p-6">
       <div className="mx-auto max-w-4xl">
-        <div className="rounded-[20px] border border-gray-200 bg-white/95 p-6 shadow-xl backdrop-blur-lg sm:p-8">
+        <div className="rounded-[20px] border border-border bg-card/95 p-6 shadow-xl backdrop-blur-lg sm:p-8">
           <div className="flex items-start gap-4">
             <div className="mt-1 shrink-0">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                <Cookie className="h-5 w-5 text-gray-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                <Cookie className="h-5 w-5 text-muted-foreground" />
               </div>
             </div>
 
             <div className="min-w-0 flex-1">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">{t('cookies.title')}</h3>
-              <p className="mb-4 text-sm leading-relaxed text-gray-600 sm:text-base">
+              <h3 className="mb-2 text-lg font-semibold text-foreground">{t('cookies.title')}</h3>
+              <p className="mb-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
                 {t('cookies.description')}
               </p>
 
@@ -76,7 +76,7 @@ export default function CookieBanner() {
                   </button>
                   <button
                     onClick={() => setShowLanguagePopup(true)}
-                    className="text-sm font-medium text-gray-500 underline decoration-dotted transition-colors duration-200 hover:text-blue-600"
+                    className="text-sm font-medium text-muted-foreground underline decoration-dotted transition-colors duration-200 hover:text-primary"
                   >
                     {t('cookies.wrongLanguage')}
                   </button>
@@ -93,7 +93,7 @@ export default function CookieBanner() {
 
             <button
               onClick={acceptCookies}
-              className="shrink-0 p-2 text-gray-400 transition-colors duration-200 hover:text-gray-600"
+              className="shrink-0 p-2 text-muted-foreground/60 transition-colors duration-200 hover:text-muted-foreground"
               aria-label="Close cookie banner"
             >
               <X className="h-5 w-5" aria-hidden="true" />

@@ -101,7 +101,7 @@ export function BentoGrid() {
       {/* Stats Card 1 */}
       <motion.div variants={item}>
         <Card className="bg-primary/5 flex h-full flex-col items-center justify-center rounded-[20px] border-none p-8 text-center shadow-none">
-          <div className="text-primary mb-4 flex size-12 items-center justify-center rounded-[20px] bg-white shadow-sm">
+          <div className="text-primary mb-4 flex size-12 items-center justify-center rounded-[20px] bg-card shadow-sm">
             <IconUserGroup size={24} />
           </div>
           <div className="mb-1 text-4xl font-bold tracking-tighter">1,500+</div>
@@ -133,10 +133,10 @@ export function BentoGrid() {
 
       {/* Trust Quote / Testimonial Style */}
       <motion.div variants={item} className="md:col-span-2 lg:col-span-1">
-        <Card className="flex h-full flex-col rounded-[20px] bg-black p-8 text-white">
+        <Card className="flex h-full flex-col rounded-[20px] bg-foreground p-8 text-background">
           <div className="mb-6 flex gap-1">
             {[1, 2, 3, 4, 5].map((i) => (
-              <IconStar key={i} size={16} className="fill-yellow-400 text-yellow-400" />
+              <IconStar key={i} size={16} className="fill-warning text-warning" />
             ))}
           </div>
           <p className="mb-8 text-xl leading-tight font-medium">
@@ -146,7 +146,7 @@ export function BentoGrid() {
             <div className="size-10 rounded-full bg-white/20" />
             <div>
               <div className="text-sm font-bold">Marc R.</div>
-              <div className="text-xs text-white/60">Professional Runner</div>
+              <div className="text-xs text-primary-foreground/60">Professional Runner</div>
             </div>
           </div>
         </Card>
@@ -154,17 +154,17 @@ export function BentoGrid() {
 
       {/* Quick Booking Calendar */}
       <motion.div variants={item} className="md:col-span-1 lg:col-span-1">
-        <Card className="group relative h-full overflow-hidden rounded-[20px] border-none bg-linear-to-br from-blue-500 to-indigo-600 p-8 text-white transition-transform hover:scale-105">
+        <Card className="group relative h-full overflow-hidden rounded-[20px] border-none bg-linear-to-br from-info to-accent p-8 text-white transition-transform hover:scale-105">
           <div className="relative z-10 flex h-full flex-col">
             <IconCalendar01 size={32} className="mb-4" />
             <h4 className="mb-2 text-2xl font-bold">Check availability</h4>
-            <p className="mb-6 text-sm text-white/80">
+            <p className="mb-6 text-sm text-primary-foreground/80">
               Find the perfect time for your next therapy session.
             </p>
             <div className="mt-auto">
               <Button
                 variant="secondary"
-                className="w-full rounded-xl bg-white py-6 font-bold text-blue-600 shadow-lg hover:bg-white/90"
+                className="w-full rounded-xl bg-card py-6 font-bold text-primary shadow-lg hover:bg-card/90"
               >
                 Open Calendar
               </Button>
@@ -190,8 +190,8 @@ export function BentoGrid() {
             </p>
           </div>
           <div className="relative hidden size-32 shrink-0 sm:block">
-            <div className="absolute inset-0 animate-pulse rounded-full bg-blue-100 opacity-50" />
-            <div className="absolute inset-4 animate-pulse rounded-full bg-blue-200 opacity-50 delay-75" />
+            <div className="absolute inset-0 animate-pulse rounded-full bg-info/20 opacity-50" />
+            <div className="absolute inset-4 animate-pulse rounded-full bg-info/30 opacity-50 delay-75" />
             <IconGlobe size={64} className="text-primary absolute inset-0 m-auto opacity-20" />
           </div>
         </Card>

@@ -47,7 +47,7 @@ export function TierProgressIndicator({
           <div
             className={cn(
               'absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-out',
-              isComplete ? 'bg-green-500' : 'bg-linear-to-r from-primary to-primary/70',
+              isComplete ? 'bg-success0' : 'bg-linear-to-r from-primary to-primary/70',
               animated && 'animate-pulse'
             )}
             style={{ width: `${progressPercentage}%` }}
@@ -62,7 +62,7 @@ export function TierProgressIndicator({
 
         <div className="text-muted-foreground flex justify-between text-xs">
           <span>0%</span>
-          <span className={cn('font-semibold', isComplete ? 'text-green-600' : 'text-primary')}>
+          <span className={cn('font-semibold', isComplete ? 'text-success' : 'text-primary')}>
             {Math.round(progressPercentage)}%
           </span>
           <span>100%</span>
@@ -81,12 +81,12 @@ export function TierProgressIndicator({
                 className={cn(
                   'flex items-center gap-3 rounded-lg border p-3 transition-all duration-200',
                   index < Math.ceil(requirements.length * (currentProgress / targetProgress))
-                    ? 'border-green-200 bg-green-50'
+                    ? 'border-success bg-success'
                     : 'bg-muted/30 border-border'
                 )}
               >
                 {index < Math.ceil(requirements.length * (currentProgress / targetProgress)) ? (
-                  <CheckCircle className="h-4 w-4 shrink-0 text-green-500" />
+                  <CheckCircle className="h-4 w-4 shrink-0 text-success" />
                 ) : (
                   <Circle className="text-muted-foreground/80 h-4 w-4 shrink-0" />
                 )}
@@ -95,7 +95,7 @@ export function TierProgressIndicator({
                   className={cn(
                     'text-sm',
                     index < Math.ceil(requirements.length * (currentProgress / targetProgress))
-                      ? 'text-green-700 line-through'
+                      ? 'text-success-foreground line-through'
                       : 'text-foreground/90'
                   )}
                 >
@@ -131,10 +131,10 @@ export function TierProgressIndicator({
 
       {/* Completion Message */}
       {isComplete && (
-        <div className="rounded-lg border border-green-200 bg-green-100 p-4">
+        <div className="rounded-lg border border-success bg-success/20 p-4">
           <div className="flex items-center gap-3">
-            <CheckCircle className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-medium text-green-800">
+            <CheckCircle className="h-5 w-5 text-success" />
+            <span className="text-sm font-medium text-success">
               Congratulations! You've met all requirements for {tierName} tier.
             </span>
           </div>
@@ -245,7 +245,7 @@ export function TierBenefitsList({
     <div className={cn('space-y-3', className)}>
       {/* Available Benefits */}
       <div className="space-y-2">
-        <h4 className="flex items-center gap-2 text-sm font-semibold text-green-700">
+        <h4 className="flex items-center gap-2 text-sm font-semibold text-success-foreground">
           <CheckCircle className="h-4 w-4" />
           Available Benefits
         </h4>
@@ -254,15 +254,15 @@ export function TierBenefitsList({
           {availableBenefits.map((benefit, index) => (
             <div
               key={index}
-              className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-3"
+              className="flex items-start gap-3 rounded-lg border border-success bg-success p-3"
             >
               <div className="mt-0.5 shrink-0">
-                {benefit.icon || <CheckCircle className="h-4 w-4 text-green-500" />}
+                {benefit.icon || <CheckCircle className="h-4 w-4 text-success" />}
               </div>
 
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-green-800">{benefit.name}</p>
-                <p className="mt-1 text-xs text-green-600">{benefit.description}</p>
+                <p className="text-sm font-medium text-success">{benefit.name}</p>
+                <p className="mt-1 text-xs text-success">{benefit.description}</p>
               </div>
             </div>
           ))}

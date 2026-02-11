@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 /**
  * Mood Tracker Widget
@@ -28,18 +28,18 @@ interface MoodTrendData {
 }
 
 const MOOD_OPTIONS = [
-  { emoji: "ðŸ˜¢", label: "Sad", score: 2 },
-  { emoji: "ðŸ˜”", label: "Low", score: 3 },
-  { emoji: "ðŸ˜", label: "Okay", score: 5 },
-  { emoji: "ðŸ™‚", label: "Good", score: 7 },
-  { emoji: "ðŸ˜Š", label: "Great", score: 8 },
-  { emoji: "ðŸ¤©", label: "Amazing", score: 10 },
+  { emoji: "??", label: "Sad", score: 2 },
+  { emoji: "??", label: "Low", score: 3 },
+  { emoji: "??", label: "Okay", score: 5 },
+  { emoji: "??", label: "Good", score: 7 },
+  { emoji: "??", label: "Great", score: 8 },
+  { emoji: "??", label: "Amazing", score: 10 },
 ];
 
 const trendConfig = {
-  improving: { label: "Improving", icon: "â†—", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  declining: { label: "Needs attention", icon: "â†˜", color: "text-red-500", bg: "bg-red-500/10" },
-  stable: { label: "Stable", icon: "â†’", color: "text-primary", bg: "bg-primary/10" },
+  improving: { label: "Improving", icon: "?", color: "text-success", bg: "bg-success/10" },
+  declining: { label: "Needs attention", icon: "?", color: "text-destructive", bg: "bg-destructive/10" },
+  stable: { label: "Stable", icon: "?", color: "text-primary", bg: "bg-primary/10" },
 };
 
 function MiniSparkline({ scores }: { scores: number[] }) {
@@ -182,7 +182,7 @@ export function MoodWidget({ className }: { className?: string }) {
           <MiniSparkline scores={recentScores} />
           <div className="mt-2 flex items-center justify-between text-[10px]">
             <span className="text-muted-foreground">
-              {trendData!.moods.length} entries Â· {14} days
+              {trendData!.moods.length} entries � {14} days
             </span>
             <span className="text-muted-foreground">
               Avg: {trendData!.averageScore.toFixed(1)} / 10

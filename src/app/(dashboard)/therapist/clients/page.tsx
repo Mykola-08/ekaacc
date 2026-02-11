@@ -17,7 +17,8 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { RefreshCw, PlusCircle, Users, Activity, Calendar, Mail, Phone } from 'lucide-react';
+import { RefreshCw, PlusCircle, Activity, Calendar, Mail, Phone, Users } from 'lucide-react';
+import { UserGroupIcon } from '@hugeicons/core-free-icons';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';
 
@@ -70,7 +71,7 @@ function ClientsPageSkeleton() {
 function NoClientsEmptyState({ onCreate }: { onCreate: () => void }) {
   return (
     <EmptyState
-      icon={Users}
+      icon={UserGroupIcon}
       title="No Clients Found"
       description="Get started by adding your first client."
       action={

@@ -110,8 +110,8 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
 
   // Status Badge Style - Porcelain System
   const statusStyles: Record<string, string> = {
-    confirmed: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-    pending: 'bg-amber-500/10 text-amber-500 border-amber-500/20 animate-pulse',
+    confirmed: 'bg-success/10 text-success border-success/20',
+    pending: 'bg-warning/10 text-warning border-vip-gold-1/20 animate-pulse',
     cancelled: 'bg-destructive/10 text-destructive border-destructive/20',
     completed: 'bg-secondary text-muted-foreground border-border',
   };
@@ -169,13 +169,13 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
           <div className="flex gap-2">
             <Button
               size="icon"
-              className="h-9 w-9 rounded-lg border border-transparent bg-emerald-500/10 text-emerald-500 shadow-none transition-all hover:bg-emerald-500 hover:text-white"
+              className="h-9 w-9 rounded-lg border border-transparent bg-success/10 text-success shadow-none transition-all hover:bg-success/100 hover:text-foreground"
             >
               <CheckCircle className="h-5 w-5" strokeWidth={2.5} />
             </Button>
             <Button
               size="icon"
-              className="h-9 w-9 rounded-lg border border-transparent bg-destructive/10 text-destructive shadow-none transition-all hover:bg-destructive hover:text-white"
+              className="h-9 w-9 rounded-lg border border-transparent bg-destructive/10 text-destructive shadow-none transition-all hover:bg-destructive hover:text-foreground"
             >
               <XCircle className="h-5 w-5" strokeWidth={2.5} />
             </Button>

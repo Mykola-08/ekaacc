@@ -50,7 +50,7 @@ export function OnlineStatusIndicator() {
           transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
           className="fixed top-0 right-0 left-0 z-[200] overflow-hidden"
         >
-          <div className="flex items-center justify-center gap-2 bg-amber-500 px-4 py-2 text-sm font-medium text-white">
+          <div className="flex items-center justify-center gap-2 bg-warning px-4 py-2 text-sm font-medium text-warning-foreground">
             <HugeiconsIcon icon={WifiDisconnected01Icon} className="size-4" />
             <span>You&apos;re offline. Some features may not be available.</span>
           </div>
@@ -65,7 +65,7 @@ export function OnlineStatusIndicator() {
           transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
           className="fixed top-0 right-0 left-0 z-[200] overflow-hidden"
         >
-          <div className="flex items-center justify-center gap-2 bg-emerald-500 px-4 py-2 text-sm font-medium text-white">
+          <div className="flex items-center justify-center gap-2 bg-success px-4 py-2 text-sm font-medium text-success-foreground">
             <HugeiconsIcon icon={Wifi01Icon} className="size-4" />
             <span>Connection restored</span>
           </div>

@@ -33,7 +33,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
         {service.benefitsKeys && service.benefitsKeys.length > 0 && (
           <ul className="mb-8 space-y-3">
             {service.benefitsKeys.map((key, i) => (
-              <li key={i} className="flex items-start text-sm text-gray-700">
+              <li key={i} className="flex items-start text-sm text-foreground">
                 <span className="bg-accent mt-1.5 mr-3 h-2 w-2 shrink-0 rounded-full" />
                 {t(key)}
               </li>
@@ -48,18 +48,18 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
               <span className="text-accent-dark text-xs font-bold tracking-wide uppercase opacity-80">
                 {t('common.expectedResult') || 'Expected Result:'}
               </span>
-              <p className="text-sm font-medium text-gray-900">{t(service.resultKey)}</p>
+              <p className="text-sm font-medium text-foreground">{t(service.resultKey)}</p>
             </div>
           </div>
         )}
 
         {/* Price and Duration Row */}
-        <div className="mt-auto mb-8 flex items-center justify-between text-sm text-gray-500">
+        <div className="mt-auto mb-8 flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <Clock className="h-4 w-4" />
             <span>{service.duration || '1 h'}</span>
           </div>
-          <span className="text-xl font-medium text-gray-900">
+          <span className="text-xl font-medium text-foreground">
             {service.price ? `${service.price} EUR` : 'Ask price'}
           </span>
         </div>

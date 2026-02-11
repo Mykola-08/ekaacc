@@ -84,7 +84,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="inline-flex w-full items-center justify-center rounded-xl border border-transparent bg-foreground px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-foreground/90 focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="inline-flex w-full items-center justify-center rounded-xl border border-transparent bg-foreground px-6 py-3 text-base font-semibold text-background shadow-lg transition-all hover:bg-foreground/90 focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {loading ? (
           <>
@@ -185,7 +185,7 @@ export function WalletContentHeadless({
         {/* Left Column: Balance & TopUp */}
         <div className="space-y-8 lg:col-span-2">
           {/* Balance Card */}
-          <div className="animate-slide-up relative overflow-hidden rounded-3xl bg-foreground p-8 text-white shadow-sm">
+          <div className="animate-slide-up relative overflow-hidden rounded-3xl bg-foreground p-8 text-background shadow-sm">
             <div className="pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br from-foreground/80 to-foreground blur-3xl" />
 
             <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
@@ -209,7 +209,7 @@ export function WalletContentHeadless({
                         'flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition-all',
                         topUpAmount === amt
                           ? 'bg-card text-foreground shadow-md'
-                          : 'text-muted-foreground/80 hover:bg-muted/80 hover:text-white'
+                          : 'text-muted-foreground/80 hover:bg-muted/80 hover:text-foreground'
                       )}
                     >
                       €{amt}
@@ -286,7 +286,7 @@ export function WalletContentHeadless({
                             className={cn(
                               'flex h-10 w-10 items-center justify-center rounded-full',
                               tx.amount > 0
-                                ? 'bg-green-50 text-green-600'
+                                ? 'bg-success text-success'
                                 : 'bg-muted text-muted-foreground'
                             )}
                           >
@@ -308,7 +308,7 @@ export function WalletContentHeadless({
                         <span
                           className={cn(
                             'font-mono font-semibold',
-                            tx.amount > 0 ? 'text-green-600' : 'text-foreground'
+                            tx.amount > 0 ? 'text-success' : 'text-foreground'
                           )}
                         >
                           {tx.amount > 0 ? '+' : ''}

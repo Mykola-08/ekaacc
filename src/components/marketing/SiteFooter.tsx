@@ -71,11 +71,11 @@ export function SiteFooter() {
 
         {/* Bottom Bar - Minimal */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-black/[0.03] pt-6 md:flex-row">
-          <p className="text-xs font-medium text-slate-400">© {currentYear} Eka Balance Inc.</p>
+          <p className="text-xs font-medium text-muted-foreground/60">© {currentYear} Eka Balance Inc.</p>
 
-          <div className="flex items-center gap-4 text-xs text-slate-400">
-            <div className="flex items-center gap-1.5 rounded-full border border-black/[0.02] bg-white/50 px-3 py-1">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500/80 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+          <div className="flex items-center gap-4 text-xs text-muted-foreground/60">
+            <div className="flex items-center gap-1.5 rounded-full border border-black/[0.02] bg-card/50 px-3 py-1">
+              <div className="h-1.5 w-1.5 rounded-full bg-success/100/80 shadow-sm" />
               <span>All Systems Operational</span>
             </div>
           </div>

@@ -19,7 +19,7 @@ export default function AgenyzContent() {
 
   const Hero = (
     <section className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
+      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,oklch(1 0 0 / 0))] bg-center" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="order-2 text-center lg:order-1 lg:text-left">
@@ -34,12 +34,12 @@ export default function AgenyzContent() {
               {t('agenyz.page.title') || 'Unlock Your Cellular Potential'}
             </h1>
 
-            <p className="mb-8 text-xl leading-relaxed font-light text-gray-600 sm:text-2xl">
+            <p className="mb-8 text-xl leading-relaxed font-light text-muted-foreground sm:text-2xl">
               {t('agenyz.page.subtitle') ||
                 'Bio-available supplements designed to restore balance, defy aging, and fuel your vitality at the DNA level.'}
             </p>
 
-            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed font-light text-gray-700 lg:mx-0">
+            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed font-light text-foreground lg:mx-0">
               {t('agenyz.page.description') ||
                 "True health is not just about what you eat - it's about what your cells absorb. Agenyz represents the next generation of Smart Cell Food, combining rare natural extracts with cutting-edge delivery technologies."}
             </p>
@@ -64,7 +64,7 @@ export default function AgenyzContent() {
 
           <div className="order-1 lg:order-2">
             <div className="group relative">
-              <div className="from-primary-200 transition-duration-500 absolute inset-0 rounded-[20px] bg-linear-to-tr to-indigo-200 opacity-30 blur-xl group-hover:opacity-50" />
+              <div className="from-primary-200 transition-duration-500 absolute inset-0 rounded-[20px] bg-linear-to-tr to-accent/30 opacity-30 blur-xl group-hover:opacity-50" />
               <div className="relative aspect-[4/3]">
                 <Image
                   src="/agenyz-products.png"
@@ -74,13 +74,13 @@ export default function AgenyzContent() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 z-10 rounded-[20px] border border-white/20 bg-white/90 p-4 shadow-xl backdrop-blur-md">
+              <div className="absolute -bottom-6 -left-6 z-10 rounded-[20px] border border-border/20 bg-card/90 p-4 shadow-xl backdrop-blur-md">
                 <div className="flex items-center space-x-3">
                   <span className="relative flex h-3 w-3">
                     <span className="bg-primary-400 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
                     <span className="bg-primary-500 relative inline-flex h-3 w-3 rounded-full"></span>
                   </span>
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-foreground">
                     {t('agenyz.hero.science') || 'Powered by Science'}
                   </span>
                 </div>
@@ -103,7 +103,7 @@ export default function AgenyzContent() {
             <h2 className="text-eka-dark mb-6 text-4xl font-light md:text-5xl">
               {t('agenyz.catalogue.title') || 'Agenyz Product Catalogue'}
             </h2>
-            <p className="mx-auto max-w-2xl text-xl font-light text-gray-600">
+            <p className="mx-auto max-w-2xl text-xl font-light text-muted-foreground">
               {t('agenyz.catalogue.desc') ||
                 'Explore our comprehensive range of bio-additives and functional foods designed for your cellular health.'}
             </p>
@@ -118,7 +118,7 @@ export default function AgenyzContent() {
                 className={`rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 ${
                   selectedCategory === category
                     ? 'bg-primary-600 scale-105 text-white shadow-lg'
-                    : 'border border-gray-200 bg-white text-gray-600 hover:bg-gray-100'
+                    : 'border border-border bg-card text-muted-foreground hover:bg-muted'
                 }`}
               >
                 {t(`agenyz.category.${category}`) || category}
@@ -145,7 +145,7 @@ export default function AgenyzContent() {
                       </span>
                     </div>
 
-                    <div className="relative mb-6 flex h-56 w-full items-center justify-center rounded-[20px] bg-white p-4">
+                    <div className="relative mb-6 flex h-56 w-full items-center justify-center rounded-[20px] bg-card p-4">
                       {product.image ? (
                         <div className="relative h-full w-full">
                           <Image
@@ -157,7 +157,7 @@ export default function AgenyzContent() {
                           />
                         </div>
                       ) : (
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-50 text-gray-300">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground/40">
                           <Sparkles className="h-8 w-8" />
                         </div>
                       )}
@@ -167,23 +167,23 @@ export default function AgenyzContent() {
                       {getLocalized(product.name, language)}
                     </h3>
 
-                    <p className="mb-6 line-clamp-3 grow leading-relaxed font-light text-gray-600">
+                    <p className="mb-6 line-clamp-3 grow leading-relaxed font-light text-muted-foreground">
                       {getLocalized(product.shortDescription || product.description, language)}
                     </p>
 
                     {product.benefits && product.benefits.length > 0 && (
                       <ul className="mb-8 space-y-2">
                         {product.benefits.slice(0, 3).map((benefit, idx) => (
-                          <li key={idx} className="flex items-center text-sm text-gray-500">
-                            <CheckCircle2 className="mr-2 h-4 w-4 shrink-0 text-green-500" />
+                          <li key={idx} className="flex items-center text-sm text-muted-foreground">
+                            <CheckCircle2 className="mr-2 h-4 w-4 shrink-0 text-success" />
                             {getLocalized(benefit, language)}
                           </li>
                         ))}
                       </ul>
                     )}
 
-                    <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-6">
-                      <span className="text-sm font-medium text-gray-400">
+                    <div className="mt-auto flex items-center justify-between border-t border-border pt-6">
+                      <span className="text-sm font-medium text-muted-foreground/60">
                         {t('agenyz.viewDetails') || 'View details'}
                       </span>
                       <Button

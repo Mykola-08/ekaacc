@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useMemo } from 'react';
 import { ListTodo, Users, CheckSquare } from 'lucide-react';
@@ -48,10 +48,10 @@ export function TherapistScheduleView({ schedule, profile }: { schedule: any[]; 
             icon={CheckSquare}
             label={t('status.pending')}
             value={stats.pending}
-            colorClass="bg-amber-50 text-amber-600"
+            colorClass="bg-warning/10 text-warning"
             action={
               stats.pending > 0 ? (
-                <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700 uppercase">
+                <span className="rounded-full bg-warning/20 px-2.5 py-1 text-xs font-semibold text-warning uppercase">
                   Action Needed
                 </span>
               ) : undefined
@@ -63,7 +63,7 @@ export function TherapistScheduleView({ schedule, profile }: { schedule: any[]; 
             icon={Users}
             label={t('status.confirmed')}
             value={stats.confirmed}
-            colorClass="bg-emerald-50 text-emerald-700"
+            colorClass="bg-success/10 text-success"
           />
         </div>
 

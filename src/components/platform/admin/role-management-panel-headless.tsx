@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, Fragment } from 'react';
 import { useAuth } from '@/context/platform/auth-context';
@@ -133,7 +133,7 @@ export function RoleManagementPanelHeadless() {
         </div>
         <button
           onClick={() => setIsAssignDialogOpen(true)}
-          className="flex items-center gap-2 rounded-xl bg-foreground px-4 py-2.5 text-white shadow-sm transition-colors hover:bg-foreground/90"
+          className="flex items-center gap-2 rounded-xl bg-foreground px-4 py-2.5 text-background shadow-sm transition-colors hover:bg-foreground/90"
         >
           <UserPlus className="h-4 w-4" />
           <span>Assign Role</span>
@@ -225,7 +225,7 @@ export function RoleManagementPanelHeadless() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/25 backdrop-blur-sm" />
+            <div className="fixed inset-0 bg-foreground/25 backdrop-blur-sm" />
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -260,7 +260,7 @@ export function RoleManagementPanelHeadless() {
                         placeholder="Select user..."
                       />
                       {errors.userId && (
-                        <p className="mt-1 text-xs text-red-500">{errors.userId.message}</p>
+                        <p className="mt-1 text-xs text-destructive">{errors.userId.message}</p>
                       )}
                     </div>
 
@@ -278,7 +278,7 @@ export function RoleManagementPanelHeadless() {
                         <option value="user">User</option>
                       </select>
                       {errors.role && (
-                        <p className="mt-1 text-xs text-red-500">{errors.role.message}</p>
+                        <p className="mt-1 text-xs text-destructive">{errors.role.message}</p>
                       )}
                     </div>
 
@@ -293,7 +293,7 @@ export function RoleManagementPanelHeadless() {
                         placeholder="Why is this role being assigned?"
                       />
                       {errors.reason && (
-                        <p className="mt-1 text-xs text-red-500">{errors.reason.message}</p>
+                        <p className="mt-1 text-xs text-destructive">{errors.reason.message}</p>
                       )}
                     </div>
 
@@ -307,7 +307,7 @@ export function RoleManagementPanelHeadless() {
                       </button>
                       <button
                         type="submit"
-                        className="inline-flex justify-center rounded-xl bg-foreground px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-sm transition-colors hover:bg-foreground/90"
+                        className="inline-flex justify-center rounded-xl bg-foreground px-6 py-2.5 text-sm font-medium text-background shadow-lg shadow-sm transition-colors hover:bg-foreground/90"
                       >
                         Assign Role
                       </button>

@@ -52,22 +52,32 @@ export type Transaction = {
 };
 
 export async function getClientTransactions() {
-  const supabase = await createClient(); // Use custom client wrapper here to match file context
+  const supabase = await createClient();
   const {
     data: { user },
   } = await (supabase.auth as any).getUser();
 
   if (!user) throw new Error('Not authenticated');
 
-  const { data, error } = await supabase.rpc('get_client_transactions', {
-    p_user_id: user.id,
-    p_limit: 50,
-  });
+  // Query wallet_transactions directly instead of missing RPC function
+  const { data: walletTxns, error: walletError } = await supabase
+    .from('wallet_transactions')
+    .select('id, created_at, type, amount, description')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(50);
 
-  if (error) {
-    console.error('Transaction History Error:', error);
+  if (walletError) {
+    console.error('Transaction History Error:', walletError);
     return [];
   }
 
-  return data as Transaction[];
+  return (walletTxns || []).map((t: any) => ({
+    id: t.id,
+    created_at: t.created_at,
+    type: 'wallet' as const,
+    amount: Number(t.amount),
+    description: t.description,
+    status: 'completed',
+  })) as Transaction[];
 }

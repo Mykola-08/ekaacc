@@ -11,14 +11,14 @@ export default function FamiliesContent() {
   const { t } = useLanguage();
 
   const Hero = (
-    <section className="relative overflow-hidden bg-linear-to-br from-white via-green-50/30 to-emerald-50/50 py-12 sm:py-20">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
+    <section className="relative overflow-hidden bg-linear-to-br from-background via-success/5 to-success/10 py-12 sm:py-20">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,oklch(1 0 0 / 0))] bg-center" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="order-2 lg:order-1">
-            <div className="mb-6 inline-flex items-center rounded-full bg-green-100 px-4 py-2">
-              <span className="text-sm font-medium text-green-700">
+            <div className="mb-6 inline-flex items-center rounded-full bg-success/20 px-4 py-2">
+              <span className="text-sm font-medium text-success-foreground">
                 {t('nav.personalizedServices')}
               </span>
             </div>
@@ -27,7 +27,7 @@ export default function FamiliesContent() {
               {t('elena.target.families.title')}
             </h1>
 
-            <p className="mb-8 text-xl leading-relaxed font-light text-gray-600">
+            <p className="mb-8 text-xl leading-relaxed font-light text-muted-foreground">
               {t('elena.target.families.desc')}
             </p>
 
@@ -61,18 +61,18 @@ export default function FamiliesContent() {
       {Hero}
 
       {/* Recommended Services - Added for better UX */}
-      <section className="bg-white py-16">
+      <section className="bg-card py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="mb-16 text-center">
-            <h2 className="heading-2 mb-4 text-gray-900">Servicios Recomendados</h2>
-            <p className="mx-auto max-w-2xl text-lg font-light text-gray-600">
+            <h2 className="heading-2 mb-4 text-foreground">Servicios Recomendados</h2>
+            <p className="mx-auto max-w-2xl text-lg font-light text-muted-foreground">
               Apoyo integral para el bienestar de toda la familia.
             </p>
           </div>
 
           <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
             {/* Kinesiology */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:border-green-200 hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop"
@@ -83,21 +83,21 @@ export default function FamiliesContent() {
                 />
               </div>
               <div className="p-8">
-                <div className="mb-4 flex items-center gap-3 text-green-600">
-                  <div className="rounded-full bg-green-50 p-2">
+                <div className="mb-4 flex items-center gap-3 text-success">
+                  <div className="rounded-full bg-success p-2">
                     <HeartPulse className="h-6 w-6" />
                   </div>
                   <span className="font-medium">Bienestar Familiar</span>
                 </div>
-                <h3 className="mb-3 text-2xl font-light text-gray-900 transition-colors group-hover:text-green-700">
+                <h3 className="mb-3 text-2xl font-light text-foreground transition-colors group-hover:text-success-foreground">
                   {t('services.kinesiology.title')}
                 </h3>
-                <p className="mb-8 line-clamp-3 font-light text-gray-600">
+                <p className="mb-8 line-clamp-3 font-light text-muted-foreground">
                   {t('services.kinesiology.shortDesc')}
                 </p>
                 <Link
                   href="/services/kinesiology"
-                  className="inline-flex items-center font-medium text-green-600 transition-colors hover:text-green-700"
+                  className="inline-flex items-center font-medium text-success transition-colors hover:text-success-foreground"
                 >
                   {t('common.moreInfo')} <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
@@ -105,7 +105,7 @@ export default function FamiliesContent() {
             </div>
 
             {/* Nutrition */}
-            <div className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:border-green-200 hover:shadow-xl">
+            <div className="group relative overflow-hidden rounded-[20px] border border-border bg-card shadow-sm transition-all duration-300 hover:border-success hover:shadow-xl">
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=2070&auto=format&fit=crop"
@@ -116,21 +116,21 @@ export default function FamiliesContent() {
                 />
               </div>
               <div className="p-8">
-                <div className="mb-4 flex items-center gap-3 text-green-600">
-                  <div className="rounded-full bg-green-50 p-2">
+                <div className="mb-4 flex items-center gap-3 text-success">
+                  <div className="rounded-full bg-success p-2">
                     <Salad className="h-6 w-6" />
                   </div>
                   <span className="font-medium">Hábitos Saludables</span>
                 </div>
-                <h3 className="mb-3 text-2xl font-light text-gray-900 transition-colors group-hover:text-green-700">
+                <h3 className="mb-3 text-2xl font-light text-foreground transition-colors group-hover:text-success-foreground">
                   {t('services.nutrition.title')}
                 </h3>
-                <p className="mb-8 line-clamp-3 font-light text-gray-600">
+                <p className="mb-8 line-clamp-3 font-light text-muted-foreground">
                   {t('services.nutrition.shortDesc')}
                 </p>
                 <Link
                   href="/services/nutrition"
-                  className="inline-flex items-center font-medium text-green-600 transition-colors hover:text-green-700"
+                  className="inline-flex items-center font-medium text-success transition-colors hover:text-success-foreground"
                 >
                   {t('common.moreInfo')} <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

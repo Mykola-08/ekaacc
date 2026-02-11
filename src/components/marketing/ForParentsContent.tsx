@@ -17,8 +17,8 @@ export default function ForParentsContent() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="order-2 lg:order-1">
-            <div className="mb-6 inline-flex items-center rounded-full bg-pink-100 px-4 py-2">
-              <span className="text-sm font-medium text-pink-700">
+            <div className="mb-6 inline-flex items-center rounded-full bg-accent/20 px-4 py-2">
+              <span className="text-sm font-medium text-accent-foreground">
                 {t('nav.personalizedServices')}
               </span>
             </div>
@@ -27,18 +27,18 @@ export default function ForParentsContent() {
               {t('personalized.parents.hero.title')}
             </h1>
 
-            <p className="mb-8 text-xl leading-relaxed text-gray-600">
+            <p className="mb-8 text-xl leading-relaxed text-muted-foreground">
               {t('personalized.parents.hero.description')}
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Button onClick={() => navigateToBooking()} size="lg" className="btn bg-primary text-white hover:bg-primary/90">
+              <Button onClick={() => navigateToBooking()} size="lg" className="btn bg-primary text-primary-foreground hover:bg-primary/90">
                 {t('common.bookNow')}
               </Button>
               <Link href="/contact">
                 <Button
                   size="lg"
-                  className="btn btn-outline border-pink-100 text-pink-600 hover:border-pink-200 hover:bg-pink-50"
+                  className="btn btn-outline border-accent/20 text-accent-foreground hover:border-accent/30 hover:bg-accent/10"
                 >
                   {t('common.askQuestions')}
                 </Button>
@@ -66,14 +66,14 @@ export default function ForParentsContent() {
     <PageLayout hero={Hero}>
       <section className="py-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-8">
-          <div className="card border-pink-100 bg-pink-50/50 p-8 sm:p-12">
+          <div className="card border-accent/20 bg-accent/10 p-8 sm:p-12">
             <h2 className="heading-2 text-eka-dark mb-6 font-bold">
               {t('personalized.parents.understanding.title')}
             </h2>
-            <div className="space-y-4 text-lg leading-relaxed text-gray-700">
+            <div className="space-y-4 text-lg leading-relaxed text-foreground">
               <p>{t('personalized.parents.understanding.description1')}</p>
               <p>{t('personalized.parents.understanding.description2')}</p>
-              <p className="font-medium text-pink-900">
+              <p className="font-medium text-accent-foreground">
                 {t('personalized.parents.understanding.callToAction')}
               </p>
             </div>
@@ -87,24 +87,24 @@ export default function ForParentsContent() {
             <h2 className="heading-2 mb-4">
               {t('personalized.parents.services.title') || 'Recommended Services'}
             </h2>
-            <p className="mx-auto max-w-2xl text-lg font-light text-gray-600">
+            <p className="mx-auto max-w-2xl text-lg font-light text-muted-foreground">
               {t('personalized.parents.services.subtitle')}
             </p>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
             <div className="card card-interactive group p-8">
-              <h3 className="mb-4 text-2xl font-light text-gray-900 transition-colors group-hover:text-pink-700">
+              <h3 className="mb-4 text-2xl font-light text-foreground transition-colors group-hover:text-accent-foreground">
                 {t('personalized.parents.services.emotionalKinesiology.title')}
               </h3>
-              <p className="mb-6 font-light text-gray-600">
+              <p className="mb-6 font-light text-muted-foreground">
                 {t('personalized.parents.services.emotionalKinesiology.description')}
               </p>
-              <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-6">
-                <span className="text-sm font-medium text-gray-500">60-90 min</span>
+              <div className="mt-auto flex items-center justify-between border-t border-border pt-6">
+                <span className="text-sm font-medium text-muted-foreground">60-90 min</span>
                 <Link
                   href="/services/kinesiology"
-                  className="flex items-center font-medium text-pink-600 hover:text-pink-800"
+                  className="flex items-center font-medium text-accent-foreground hover:text-accent-foreground"
                 >
                   {t('common.moreInfo')} <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -112,17 +112,17 @@ export default function ForParentsContent() {
             </div>
 
             <div className="card card-interactive group p-8">
-              <h3 className="mb-4 text-2xl font-light text-gray-900 transition-colors group-hover:text-pink-700">
+              <h3 className="mb-4 text-2xl font-light text-foreground transition-colors group-hover:text-accent-foreground">
                 {t('personalized.parents.services.relaxingMassage.title')}
               </h3>
-              <p className="mb-6 font-light text-gray-600">
+              <p className="mb-6 font-light text-muted-foreground">
                 {t('personalized.parents.services.relaxingMassage.description')}
               </p>
-              <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-6">
-                <span className="text-sm font-medium text-gray-500">60-90 min</span>
+              <div className="mt-auto flex items-center justify-between border-t border-border pt-6">
+                <span className="text-sm font-medium text-muted-foreground">60-90 min</span>
                 <Link
                   href="/services/massage"
-                  className="flex items-center font-medium text-pink-600 hover:text-pink-800"
+                  className="flex items-center font-medium text-accent-foreground hover:text-accent-foreground"
                 >
                   {t('common.moreInfo')} <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>

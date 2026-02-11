@@ -64,7 +64,7 @@ const AlertDialogOverlay = React.forwardRef<
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className={cn('fixed inset-0 z-50 bg-black/10 backdrop-blur-xs', className)}
+      className={cn('fixed inset-0 z-50 bg-foreground/10 backdrop-blur-xs', className)}
       {...(props as any)}
       ref={ref}
     />

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -71,12 +71,12 @@ export function UniversalResourceEditor({ table, id }: { table: string; id: stri
   if (!data) return <div>Record not found.</div>;
 
   return (
-    <Card className="border-red-200 bg-red-50/10 p-6 dark:border-red-900/50">
+    <Card className="border-destructive/20 bg-destructive/5 p-6">
       <div className="border-border mb-6 flex items-center justify-between border-b pb-4">
         <div className="flex items-center gap-2">
-          <Database className="h-5 w-5 text-red-500" />
+          <Database className="h-5 w-5 text-destructive" />
           <div>
-            <h2 className="font-mono text-xl font-semibold text-red-700 dark:text-red-400">
+            <h2 className="font-mono text-xl font-semibold text-destructive">
               GOD MODE_
             </h2>
             <p className="text-muted-foreground font-mono text-xs uppercase">
@@ -90,18 +90,18 @@ export function UniversalResourceEditor({ table, id }: { table: string; id: stri
             <Switch
               checked={data.is_locked}
               onCheckedChange={toggleLock}
-              className="data-[state=checked]:bg-red-500"
+              className="data-[state=checked]:bg-destructive"
             />
             {data.is_locked ? (
-              <Lock className="h-4 w-4 text-red-500" />
+              <Lock className="h-4 w-4 text-destructive" />
             ) : (
-              <Unlock className="h-4 w-4 text-emerald-500" />
+              <Unlock className="h-4 w-4 text-success" />
             )}
           </div>
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="gap-2 bg-red-600 text-white hover:bg-red-700"
+            className="gap-2 bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             <Save className="h-4 w-4" />
             {saving ? 'Saving...' : 'Force Update'}
@@ -154,9 +154,9 @@ export function UniversalResourceEditor({ table, id }: { table: string; id: stri
         })}
       </div>
 
-      <div className="mt-8 flex items-start gap-3 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
-        <AlertTriangle className="h-5 w-5 shrink-0 text-yellow-500" />
-        <div className="text-sm text-yellow-600 dark:text-yellow-400">
+      <div className="mt-8 flex items-start gap-3 rounded-lg border border-warning/30 bg-warning/10 p-4">
+        <AlertTriangle className="h-5 w-5 shrink-0 text-warning" />
+        <div className="text-sm text-warning dark:text-warning">
           <strong>Warning:</strong> You are editing raw database records. This bypasses application
           validation logic. Ensure you know what you are doing. Locking a record will prevent users
           from modifying it.

@@ -574,10 +574,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
 
   const getColorClasses = (color: string) => {
     const colors = {
-      purple: 'bg-purple-50 border-purple-200 text-purple-700',
-      orange: 'bg-orange-50 border-orange-200 text-orange-700',
-      blue: 'bg-blue-50 border-blue-200 text-blue-700',
-      green: 'bg-green-50 border-green-200 text-green-700',
+      purple: 'bg-accent border-accent text-accent-foreground',
+      orange: 'bg-warning border-warning text-warning-foreground',
+      blue: 'bg-info border-info text-info-foreground',
+      green: 'bg-success border-success text-success-foreground',
     };
     return colors[color as keyof typeof colors] || colors.blue;
   };
@@ -587,31 +587,31 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
       <>
         {/* Replaced SEOHead with metadata in page.tsx */}
 
-        <section className="min-h-screen bg-linear-to-br from-white via-gray-50/50 to-blue-50/30 py-16 sm:py-24">
+        <section className="min-h-screen bg-linear-to-br from-background via-muted/50 to-info/30 py-16 sm:py-24">
           <div className="mx-auto max-w-4xl px-4 sm:px-8">
             <div className="mb-12 text-center">
-              <div className="mb-8 inline-flex items-center rounded-full bg-green-100 px-6 py-3">
-                <CheckCircle className="mr-2 h-5 w-5 text-green-600" />
-                <span className="font-medium text-green-700">
+              <div className="mb-8 inline-flex items-center rounded-full bg-success/20 px-6 py-3">
+                <CheckCircle className="mr-2 h-5 w-5 text-success" />
+                <span className="font-medium text-success-foreground">
                   {t('discovery.recommendation.badge')}
                 </span>
               </div>
 
-              <h1 className="mb-6 text-4xl leading-tight font-light text-gray-900 sm:text-5xl">
+              <h1 className="mb-6 text-4xl leading-tight font-light text-foreground sm:text-5xl">
                 {t('discovery.recommendation.title')}
               </h1>
 
-              <p className="mb-8 text-xl text-gray-600">{t('discovery.recommendation.subtitle')}</p>
+              <p className="mb-8 text-xl text-muted-foreground">{t('discovery.recommendation.subtitle')}</p>
 
               {recommendation.analysis && (
-                <div className="mx-auto mb-12 max-w-2xl rounded-[20px] border border-blue-100 bg-blue-50 p-6 text-center">
-                  <p className="text-lg leading-relaxed text-gray-700">
+                <div className="mx-auto mb-12 max-w-2xl rounded-[20px] border border-info bg-info p-6 text-center">
+                  <p className="text-lg leading-relaxed text-foreground">
                     {t('discovery.analysis.intro')}
                     {recommendation.analysis.problem && (
                       <span>
                         {' '}
                         {t('discovery.analysis.have')}{' '}
-                        <strong className="font-semibold text-blue-800">
+                        <strong className="font-semibold text-info-foreground">
                           {recommendation.analysis.problem}
                         </strong>
                       </span>
@@ -620,7 +620,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       <span>
                         {' '}
                         {t('discovery.analysis.want')}{' '}
-                        <strong className="font-semibold text-blue-800">
+                        <strong className="font-semibold text-info-foreground">
                           {recommendation.analysis.goal}
                         </strong>
                       </span>
@@ -629,7 +629,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       <span>
                         {' '}
                         {t('discovery.analysis.feel')}{' '}
-                        <strong className="font-semibold text-blue-800">
+                        <strong className="font-semibold text-info-foreground">
                           {recommendation.analysis.feeling}
                         </strong>
                       </span>
@@ -640,13 +640,13 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               )}
 
               {/* Toggle */}
-              <div className="mb-8 inline-flex rounded-xl bg-gray-100 p-1">
+              <div className="mb-8 inline-flex rounded-xl bg-muted p-1">
                 <button
                   onClick={() => setViewMode('basic')}
                   className={`rounded-lg px-6 py-2 text-sm font-medium transition-all ${
                     viewMode === 'basic'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'bg-card text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {t('discovery.view.basic')}
@@ -655,8 +655,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   onClick={() => setViewMode('advanced')}
                   className={`rounded-lg px-6 py-2 text-sm font-medium transition-all ${
                     viewMode === 'advanced'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'bg-card text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {t('discovery.view.advanced')}
@@ -666,40 +666,40 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
 
             {viewMode === 'basic' ? (
               <div
-                className={`rounded-[20px] border-2 bg-white shadow-xl ${getColorClasses(recommendation.color)} mb-8 p-8 sm:p-12`}
+                className={`rounded-[20px] border-2 bg-card shadow-xl ${getColorClasses(recommendation.color)} mb-8 p-8 sm:p-12`}
               >
                 <div className="mb-8 text-center">
                   {Icon && (
-                    <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
-                      <Icon className="h-10 w-10 text-gray-700" />
+                    <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-card shadow-lg">
+                      <Icon className="h-10 w-10 text-foreground" />
                     </div>
                   )}
 
-                  <h2 className="mb-4 text-3xl font-semibold text-gray-900">
+                  <h2 className="mb-4 text-3xl font-semibold text-foreground">
                     {recommendation.service}
                   </h2>
 
-                  <p className="mb-8 text-lg leading-relaxed text-gray-600">
+                  <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
                     {recommendation.description}
                   </p>
 
                   <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <div className="rounded-[20px] bg-gray-50 p-4 text-center">
-                      <h4 className="mb-2 font-semibold text-gray-900">{t('common.price')}</h4>
-                      <p className="text-2xl font-bold text-gray-800">{recommendation.price}</p>
+                    <div className="rounded-[20px] bg-muted p-4 text-center">
+                      <h4 className="mb-2 font-semibold text-foreground">{t('common.price')}</h4>
+                      <p className="text-2xl font-bold text-foreground">{recommendation.price}</p>
                     </div>
-                    <div className="rounded-[20px] bg-gray-50 p-4 text-center">
-                      <h4 className="mb-2 font-semibold text-gray-900">{t('common.duration')}</h4>
-                      <p className="text-2xl font-bold text-gray-800">{recommendation.duration}</p>
+                    <div className="rounded-[20px] bg-muted p-4 text-center">
+                      <h4 className="mb-2 font-semibold text-foreground">{t('common.duration')}</h4>
+                      <p className="text-2xl font-bold text-foreground">{recommendation.duration}</p>
                     </div>
                   </div>
 
                   <div className="mb-8">
-                    <h4 className="mb-4 font-semibold text-gray-900">{t('common.benefits')}:</h4>
+                    <h4 className="mb-4 font-semibold text-foreground">{t('common.benefits')}:</h4>
                     <div className="grid grid-cols-2 gap-3">
                       {recommendation.benefits.map((benefit, index) => (
-                        <div key={index} className="flex items-center text-gray-700">
-                          <div className="mr-3 h-2 w-2 shrink-0 rounded-full bg-gray-400"></div>
+                        <div key={index} className="flex items-center text-foreground">
+                          <div className="mr-3 h-2 w-2 shrink-0 rounded-full bg-muted-foreground"></div>
                           {benefit}
                         </div>
                       ))}
@@ -707,7 +707,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   <div className="mb-8">
-                    <h4 className="mb-4 font-semibold text-gray-900">
+                    <h4 className="mb-4 font-semibold text-foreground">
                       {t('booking.form.timeSlot')}:
                     </h4>
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -717,8 +717,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           onClick={() => setSelectedTime(t(`booking.options.timeSlot.${slot}`))}
                           className={`rounded-xl border-2 px-4 py-2 text-sm font-medium transition-all duration-200 ${
                             selectedTime === t(`booking.options.timeSlot.${slot}`)
-                              ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                              ? 'border-primary bg-info text-info-foreground'
+                              : 'border-border text-muted-foreground hover:border-border'
                           }`}
                         >
                           {t(`booking.options.timeSlot.${slot}`)}
@@ -728,7 +728,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   {formData.location === 'online' && (
-                    <div className="mb-6 rounded-xl bg-yellow-50 p-4 text-sm text-yellow-800">
+                    <div className="mb-6 rounded-xl bg-warning p-4 text-sm text-warning-foreground">
                       {t('discovery.recommendation.online.note')}
                     </div>
                   )}
@@ -737,47 +737,47 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 <div className="flex flex-col justify-center gap-4 sm:flex-row">
                   <button
                     onClick={handleBooking}
-                    className="flex transform items-center justify-center rounded-full bg-[#25D366] px-8 py-4 font-semibold text-white shadow-lg transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#128C7E] hover:shadow-xl"
+                    className="flex transform items-center justify-center rounded-full bg-whatsapp px-8 py-4 font-semibold text-white shadow-lg transition-colors duration-200 hover:-translate-y-0.5 hover:bg-whatsapp-hover hover:shadow-xl"
                   >
                     <MessageCircle className="mr-2 h-5 w-5" />
                     {t('booking.direct.button')}
                   </button>
                   <button
                     onClick={() => setShowRecommendation(false)}
-                    className="rounded-full bg-gray-100 px-8 py-4 font-semibold text-gray-700 transition-colors duration-200 hover:bg-gray-200"
+                    className="rounded-full bg-secondary px-8 py-4 font-semibold text-secondary-foreground transition-colors duration-200 hover:bg-secondary/80"
                   >
                     {t('discovery.recommendation.restart')}
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="mb-8 rounded-[20px] border border-gray-200 bg-white p-8 shadow-xl sm:p-12">
-                <h2 className="mb-8 flex items-center justify-center text-2xl font-semibold text-gray-900">
-                  <ClipboardList className="mr-3 h-6 w-6 text-blue-600" />
+              <div className="mb-8 rounded-[20px] border border-border bg-card p-8 shadow-xl sm:p-12">
+                <h2 className="mb-8 flex items-center justify-center text-2xl font-semibold text-foreground">
+                  <ClipboardList className="mr-3 h-6 w-6 text-primary" />
                   {t('discovery.diagnosis.title')}
                 </h2>
 
                 <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
                   {/* Profile */}
-                  <div className="rounded-[20px] bg-gray-50 p-6">
-                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-gray-500 uppercase">
+                  <div className="rounded-[20px] bg-muted p-6">
+                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
                       {t('discovery.diagnosis.profile')}
                     </h3>
-                    <p className="text-lg font-medium text-gray-900">
+                    <p className="text-lg font-medium text-foreground">
                       {recommendation.diagnosis?.profile}
                     </p>
                   </div>
 
                   {/* Symptoms */}
-                  <div className="rounded-[20px] bg-gray-50 p-6">
-                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-gray-500 uppercase">
+                  <div className="rounded-[20px] bg-muted p-6">
+                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
                       {t('discovery.diagnosis.symptoms')}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {recommendation.diagnosis?.symptoms.map((s, i) => (
                         <span
                           key={i}
-                          className="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 shadow-sm"
+                          className="rounded-full border border-border bg-card px-3 py-1 text-sm text-foreground shadow-sm"
                         >
                           {s}
                         </span>
@@ -786,32 +786,32 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   {/* Root Cause */}
-                  <div className="rounded-[20px] border border-blue-100 bg-blue-50 p-6">
-                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-blue-600 uppercase">
+                  <div className="rounded-[20px] border border-info bg-info p-6">
+                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-primary uppercase">
                       {t('discovery.diagnosis.rootCause')}
                     </h3>
-                    <p className="text-lg font-medium text-blue-900">
+                    <p className="text-lg font-medium text-info-foreground">
                       {recommendation.diagnosis?.rootCause}
                     </p>
                   </div>
 
                   {/* Strategy */}
-                  <div className="rounded-[20px] border border-purple-100 bg-purple-50 p-6">
-                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-purple-600 uppercase">
+                  <div className="rounded-[20px] border border-accent bg-accent p-6">
+                    <h3 className="mb-3 text-sm font-semibold tracking-wider text-accent uppercase">
                       {t('discovery.diagnosis.strategy')}
                     </h3>
-                    <p className="text-lg font-medium text-purple-900">
+                    <p className="text-lg font-medium text-accent-foreground">
                       {recommendation.diagnosis?.strategy}
                     </p>
                   </div>
                 </div>
 
                 {/* Frequency */}
-                <div className="mb-12 rounded-[20px] border border-green-100 bg-green-50 p-6 text-center">
-                  <h3 className="mb-3 text-sm font-semibold tracking-wider text-green-600 uppercase">
+                <div className="mb-12 rounded-[20px] border border-success bg-success p-6 text-center">
+                  <h3 className="mb-3 text-sm font-semibold tracking-wider text-success uppercase">
                     {t('discovery.diagnosis.frequency')}
                   </h3>
-                  <p className="text-lg font-medium text-green-900">
+                  <p className="text-lg font-medium text-success-foreground">
                     {recommendation.diagnosis?.frequency}
                   </p>
                 </div>
@@ -820,14 +820,14 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 <div className="flex flex-col justify-center gap-4 sm:flex-row">
                   <button
                     onClick={handleBooking}
-                    className="flex transform items-center justify-center rounded-full bg-[#25D366] px-8 py-4 font-semibold text-white shadow-lg transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#128C7E] hover:shadow-xl"
+                    className="flex transform items-center justify-center rounded-full bg-whatsapp px-8 py-4 font-semibold text-white shadow-lg transition-colors duration-200 hover:-translate-y-0.5 hover:bg-whatsapp-hover hover:shadow-xl"
                   >
                     <MessageCircle className="mr-2 h-5 w-5" />
                     {t('booking.direct.button')}
                   </button>
                   <button
                     onClick={() => setShowRecommendation(false)}
-                    className="rounded-full bg-gray-100 px-8 py-4 font-semibold text-gray-700 transition-colors duration-200 hover:bg-gray-200"
+                    className="rounded-full bg-secondary px-8 py-4 font-semibold text-secondary-foreground transition-colors duration-200 hover:bg-secondary/80"
                   >
                     {t('discovery.recommendation.restart')}
                   </button>
@@ -835,9 +835,9 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               </div>
             )}
 
-            <div className="text-center text-gray-500">
+            <div className="text-center text-muted-foreground">
               <p className="mb-4">{t('discovery.recommendation.why')}</p>
-              <Link href="/contact" className="font-medium text-blue-600 hover:text-blue-700">
+              <Link href="/contact" className="font-medium text-primary hover:text-info-foreground">
                 {t('common.contact')}
               </Link>
             </div>
@@ -849,25 +849,25 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
 
   return (
     <>
-      <section className="min-h-screen bg-linear-to-br from-white via-gray-50/50 to-blue-50/30 py-16 sm:py-24">
+      <section className="min-h-screen bg-linear-to-br from-background via-muted/50 to-info/30 py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-8">
           {/* Header */}
           <div className="mb-12 text-center">
-            <div className="mb-8 inline-flex items-center rounded-full bg-blue-100 px-6 py-3">
-              <Sparkles className="mr-2 h-5 w-5 text-blue-600" />
-              <span className="font-medium text-blue-700">
+            <div className="mb-8 inline-flex items-center rounded-full bg-info/20 px-6 py-3">
+              <Sparkles className="mr-2 h-5 w-5 text-primary" />
+              <span className="font-medium text-info-foreground">
                 {t('discovery.recommendation.badge')}
               </span>
             </div>
 
-            <h1 className="mb-6 flex items-center justify-center gap-3 text-4xl leading-tight font-light text-gray-900 sm:text-5xl">
+            <h1 className="mb-6 flex items-center justify-center gap-3 text-4xl leading-tight font-light text-foreground sm:text-5xl">
               👋 {t('hero.title')}
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+              <span className="inline-flex items-center rounded-full bg-info/20 px-2.5 py-0.5 text-xs font-medium text-info-foreground">
                 BETA
               </span>
             </h1>
 
-            <p className="mb-8 text-xl text-gray-600">{t('discovery.recommendation.subtitle')}</p>
+            <p className="mb-8 text-xl text-muted-foreground">{t('discovery.recommendation.subtitle')}</p>
 
             {/* Progress indicator - 7 steps now */}
             <div className="mb-8 flex items-center justify-center space-x-2">
@@ -875,7 +875,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 <div
                   key={step}
                   className={`h-3 w-3 rounded-full transition-colors duration-300 ${
-                    step <= currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                    step <= currentStep ? 'bg-primary' : 'bg-muted'
                   }`}
                 />
               ))}
@@ -883,14 +883,14 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           </div>
 
           {/* Form */}
-          <div className="rounded-[20px] border border-gray-100 bg-white p-8 shadow-xl sm:p-12">
+          <div className="rounded-[20px] border border-border bg-card p-8 shadow-xl sm:p-12">
             {/* Step 0: Location */}
             {currentStep === 0 && (
               <div>
-                <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+                <h2 className="mb-6 text-2xl font-semibold text-foreground">
                   📍 {t('discovery.step.location.title')}
                 </h2>
-                <p className="mb-8 text-gray-600">{t('discovery.step.location.subtitle')}</p>
+                <p className="mb-8 text-muted-foreground">{t('discovery.step.location.subtitle')}</p>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   {locations.map((loc) => {
@@ -901,20 +901,20 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                         onClick={() => setFormData({ ...formData, location: loc.id })}
                         className={`flex flex-col items-center justify-center rounded-[20px] border-2 p-6 text-center transition-all duration-200 hover:shadow-lg ${
                           formData.location === loc.id
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
+                            ? 'border-primary bg-info'
+                            : 'border-border hover:border-border'
                         }`}
                       >
                         <div
                           className={`mb-4 flex h-12 w-12 items-center justify-center rounded-full ${
                             formData.location === loc.id
-                              ? 'bg-blue-100 text-blue-600'
-                              : 'bg-gray-100 text-gray-600'
+                              ? 'bg-info/20 text-primary'
+                              : 'bg-muted text-muted-foreground'
                           }`}
                         >
                           <LocIcon className="h-6 w-6" />
                         </div>
-                        <h3 className="font-semibold text-gray-900">{loc.title}</h3>
+                        <h3 className="font-semibold text-foreground">{loc.title}</h3>
                       </button>
                     );
                   })}
@@ -925,18 +925,18 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 1: Description */}
             {currentStep === 1 && (
               <div>
-                <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+                <h2 className="mb-6 text-2xl font-semibold text-foreground">
                   📝 {t('discovery.step.description.title')}
                 </h2>
-                <p className="mb-8 text-gray-600">{t('discovery.step.description.subtitle')}</p>
+                <p className="mb-8 text-muted-foreground">{t('discovery.step.description.subtitle')}</p>
 
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder={t('discovery.step.description.placeholder')}
-                  className="h-40 w-full resize-none rounded-[20px] border-2 border-gray-200 p-4 text-lg focus:border-blue-500 focus:ring-0"
+                  className="h-40 w-full resize-none rounded-[20px] border-2 border-border p-4 text-lg focus:border-primary focus:ring-0"
                 />
-                <p className="mt-2 text-right text-sm text-gray-500">
+                <p className="mt-2 text-right text-sm text-muted-foreground">
                   {formData.description.length}/3 {t('discovery.step.description.minChars')}
                 </p>
               </div>
@@ -945,10 +945,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 2: User Type */}
             {currentStep === 2 && (
               <div>
-                <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+                <h2 className="mb-6 text-2xl font-semibold text-foreground">
                   💡 {t('discovery.step1.title')}
                 </h2>
-                <p className="mb-8 text-gray-600">{t('discovery.step1.subtitle')}</p>
+                <p className="mb-8 text-muted-foreground">{t('discovery.step1.subtitle')}</p>
 
                 <div className="space-y-4">
                   {userTypes.map((type) => (
@@ -957,12 +957,12 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, userType: type.id })}
                       className={`w-full rounded-[20px] border-2 p-6 text-left transition-all duration-200 hover:shadow-lg ${
                         formData.userType === type.id
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-primary bg-info'
+                          : 'border-border hover:border-border'
                       }`}
                     >
-                      <h3 className="mb-2 font-semibold text-gray-900">{type.title}</h3>
-                      <p className="text-sm text-gray-600">{type.description}</p>
+                      <h3 className="mb-2 font-semibold text-foreground">{type.title}</h3>
+                      <p className="text-sm text-muted-foreground">{type.description}</p>
                     </button>
                   ))}
                 </div>
@@ -972,10 +972,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 3: Tension Areas */}
             {currentStep === 3 && (
               <div>
-                <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+                <h2 className="mb-6 text-2xl font-semibold text-foreground">
                   📍 {t('discovery.step2.title')}
                 </h2>
-                <p className="mb-8 text-gray-600">{t('discovery.step2.subtitle')}</p>
+                <p className="mb-8 text-muted-foreground">{t('discovery.step2.subtitle')}</p>
 
                 <div className="space-y-4">
                   {tensionOptions.map((option) => (
@@ -989,14 +989,14 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       }}
                       className={`w-full rounded-[20px] border-2 p-4 text-left transition-all duration-200 ${
                         formData.tensionAreas.includes(option)
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-primary bg-info'
+                          : 'border-border hover:border-border'
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-medium text-gray-900">{option}</span>
+                        <span className="font-medium text-foreground">{option}</span>
                         {formData.tensionAreas.includes(option) && (
-                          <CheckCircle className="h-5 w-5 text-blue-600" />
+                          <CheckCircle className="h-5 w-5 text-primary" />
                         )}
                       </div>
                     </button>
@@ -1008,10 +1008,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 4: Emotional State */}
             {currentStep === 4 && (
               <div>
-                <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+                <h2 className="mb-6 text-2xl font-semibold text-foreground">
                   🧘 {t('discovery.step4.title')}
                 </h2>
-                <p className="mb-8 text-gray-600">{t('discovery.step4.subtitle')}</p>
+                <p className="mb-8 text-muted-foreground">{t('discovery.step4.subtitle')}</p>
 
                 <div className="space-y-4">
                   {emotionalStates.map((state) => (
@@ -1020,12 +1020,12 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, emotionalState: state.id })}
                       className={`w-full rounded-[20px] border-2 p-6 text-left transition-all duration-200 hover:shadow-lg ${
                         formData.emotionalState === state.id
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-primary bg-info'
+                          : 'border-border hover:border-border'
                       }`}
                     >
-                      <h3 className="mb-2 font-semibold text-gray-900">{state.title}</h3>
-                      <p className="text-sm text-gray-600">{state.description}</p>
+                      <h3 className="mb-2 font-semibold text-foreground">{state.title}</h3>
+                      <p className="text-sm text-muted-foreground">{state.description}</p>
                     </button>
                   ))}
                 </div>
@@ -1035,10 +1035,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 5: Time Commitment */}
             {currentStep === 5 && (
               <div>
-                <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+                <h2 className="mb-6 text-2xl font-semibold text-foreground">
                   ⏰ {t('discovery.step5.title')}
                 </h2>
-                <p className="mb-8 text-gray-600">{t('discovery.step5.subtitle')}</p>
+                <p className="mb-8 text-muted-foreground">{t('discovery.step5.subtitle')}</p>
 
                 <div className="space-y-4">
                   {timeCommitments.map((time) => (
@@ -1047,12 +1047,12 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, timeCommitment: time.id })}
                       className={`w-full rounded-[20px] border-2 p-6 text-left transition-all duration-200 hover:shadow-lg ${
                         formData.timeCommitment === time.id
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-primary bg-info'
+                          : 'border-border hover:border-border'
                       }`}
                     >
-                      <h3 className="mb-2 font-semibold text-gray-900">{time.title}</h3>
-                      <p className="text-sm text-gray-600">{time.description}</p>
+                      <h3 className="mb-2 font-semibold text-foreground">{time.title}</h3>
+                      <p className="text-sm text-muted-foreground">{time.description}</p>
                     </button>
                   ))}
                 </div>
@@ -1062,10 +1062,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 6: Budget */}
             {currentStep === 6 && (
               <div>
-                <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+                <h2 className="mb-6 text-2xl font-semibold text-foreground">
                   💰 {t('discovery.step6.title')}
                 </h2>
-                <p className="mb-8 text-gray-600">{t('discovery.step6.subtitle')}</p>
+                <p className="mb-8 text-muted-foreground">{t('discovery.step6.subtitle')}</p>
 
                 <div className="space-y-4">
                   {budgetOptions.map((budget) => (
@@ -1074,12 +1074,12 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, budget: budget.id })}
                       className={`w-full rounded-[20px] border-2 p-6 text-left transition-all duration-200 hover:shadow-lg ${
                         formData.budget === budget.id
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-primary bg-info'
+                          : 'border-border hover:border-border'
                       }`}
                     >
-                      <h3 className="mb-2 font-semibold text-gray-900">{budget.title}</h3>
-                      <p className="text-sm text-gray-600">{budget.description}</p>
+                      <h3 className="mb-2 font-semibold text-foreground">{budget.title}</h3>
+                      <p className="text-sm text-muted-foreground">{budget.description}</p>
                     </button>
                   ))}
                 </div>
@@ -1087,13 +1087,13 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             )}
 
             {/* Navigation */}
-            <div className="mt-12 flex items-center justify-between border-t border-gray-200 pt-8">
+            <div className="mt-12 flex items-center justify-between border-t border-border pt-8">
               <button
                 onClick={handleBack}
                 className={`flex items-center rounded-full px-6 py-3 font-medium transition-colors duration-200 ${
                   currentStep === 0
-                    ? 'cursor-not-allowed text-gray-400'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                    ? 'cursor-not-allowed text-muted-foreground/60'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 }`}
                 disabled={currentStep === 0}
               >
@@ -1101,7 +1101,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 {t('discovery.back')}
               </button>
 
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-muted-foreground">
                 {t('common.step')} {currentStep + 1} {t('common.of')} 7
               </span>
 
@@ -1109,8 +1109,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 onClick={handleNext}
                 className={`flex items-center rounded-full px-6 py-3 font-medium transition-colors duration-200 ${
                   canProceed()
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'cursor-not-allowed bg-gray-200 text-gray-400'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'cursor-not-allowed bg-muted text-muted-foreground/60'
                 }`}
                 disabled={!canProceed()}
               >

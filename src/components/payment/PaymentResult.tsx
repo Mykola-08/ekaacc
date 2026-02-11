@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { CheckCircle2, AlertCircle, Home, Calendar } from 'lucide-react';
@@ -22,8 +22,8 @@ export function PaymentResult({ status }: PaymentResultProps) {
             className={cn(
               'flex h-24 w-24 items-center justify-center rounded-full shadow-sm',
               isSuccess
-                ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
-                : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
+                ? 'bg-success/20 text-success dark:bg-success/10 dark:text-success'
+                : 'bg-destructive/20 text-destructive dark:bg-destructive/10 dark:text-destructive'
             )}
           >
             {isSuccess ? (

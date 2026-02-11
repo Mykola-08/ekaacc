@@ -2,7 +2,6 @@
 
 import React, { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { ThemeProvider } from '@/components/platform/providers/theme-provider';
 import { ProgressProvider } from '@/context/platform/progress-context';
 import { ImpersonationWrapper } from '@/components/platform/admin/impersonation-wrapper';
 import { UnifiedSidebar } from '@/components/dashboard/layout/UnifiedSidebar';
@@ -83,66 +82,57 @@ export function UnifiedDashboardShell({
   const breadcrumbs = useMemo(() => getBreadcrumbs(pathname), [pathname]);
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <ProgressProvider>
-        <ImpersonationWrapper>
-          <SidebarProvider className="dashboard-sidebar">
-            <UnifiedSidebar profile={profile} permissions={permissions} />
+    <ProgressProvider>
+      <ImpersonationWrapper>
+        <SidebarProvider className="dashboard-sidebar">
+          <UnifiedSidebar profile={profile} permissions={permissions} />
 
-            <SidebarInset className="dashboard-inset bg-background">
-              {/* Sticky floating header */}
-              <header className="sticky top-3 z-50 mx-3 mb-2 flex h-14 items-center gap-2 rounded-xl border border-border bg-card/95 px-4 backdrop-blur-md sm:mx-4">
-                <div className="flex items-center gap-2">
-                  <SidebarTrigger className="-ml-1 h-8 w-8 rounded-lg" />
-                  <Separator orientation="vertical" className="mr-1 h-4" />
-                </div>
+          <SidebarInset className="dashboard-inset bg-background">
+            {/* Sticky floating header — Nova pattern */}
+            <header className="sticky top-2 z-50 mx-3 mb-2 flex h-12 items-center gap-2 rounded-xl border border-border bg-card/95 px-4 backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-10 sm:mx-4">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger className="-ml-1 h-8 w-8 rounded-lg" />
+                <Separator orientation="vertical" className="mr-1 data-[orientation=vertical]:h-4" />
 
                 {/* Breadcrumbs on desktop, title on mobile */}
-                <div className="flex flex-1 items-center gap-2">
-                  <Breadcrumb className="hidden sm:flex">
-                    <BreadcrumbList>
-                      {breadcrumbs.map((crumb, i) => (
-                        <React.Fragment key={crumb.href}>
-                          {i > 0 && <BreadcrumbSeparator />}
-                          <BreadcrumbItem>
-                            {crumb.isLast ? (
-                              <span className="text-sm font-semibold text-foreground">{crumb.label}</span>
-                            ) : (
-                              <BreadcrumbLink href={crumb.href} className="text-sm text-muted-foreground hover:text-foreground">
-                                {crumb.label}
-                              </BreadcrumbLink>
-                            )}
-                          </BreadcrumbItem>
-                        </React.Fragment>
-                      ))}
-                    </BreadcrumbList>
-                  </Breadcrumb>
-                  <h1 className="text-sm font-semibold tracking-tight text-foreground sm:hidden">
-                    {pageTitle}
-                  </h1>
-                </div>
+                <Breadcrumb className="hidden sm:flex">
+                  <BreadcrumbList>
+                    {breadcrumbs.map((crumb, i) => (
+                      <React.Fragment key={crumb.href}>
+                        {i > 0 && <BreadcrumbSeparator />}
+                        <BreadcrumbItem>
+                          {crumb.isLast ? (
+                            <span className="text-sm font-semibold text-foreground">{crumb.label}</span>
+                          ) : (
+                            <BreadcrumbLink href={crumb.href} className="text-sm text-muted-foreground hover:text-foreground">
+                              {crumb.label}
+                            </BreadcrumbLink>
+                          )}
+                        </BreadcrumbItem>
+                      </React.Fragment>
+                    ))}
+                  </BreadcrumbList>
+                </Breadcrumb>
+                <h1 className="text-sm font-semibold tracking-tight text-foreground sm:hidden">
+                  {pageTitle}
+                </h1>
+              </div>
 
-                <div className="flex items-center gap-1">
-                  <NotificationDropdown />
-                </div>
-              </header>
+              <div className="ml-auto flex items-center gap-1">
+                <NotificationDropdown />
+              </div>
+            </header>
 
-              <main id="main-content" className="dashboard-main flex-1 overflow-auto p-2 pt-0 sm:p-4 sm:pt-0" tabIndex={-1}>
-                {children}
-              </main>
-            </SidebarInset>
-          </SidebarProvider>
+            <main id="main-content" className="flex flex-1 flex-col gap-4 overflow-auto p-4 pt-0" tabIndex={-1}>
+              {children}
+            </main>
+          </SidebarInset>
+        </SidebarProvider>
 
-          <MorphingToaster />
-          <OnlineStatusIndicator />
-          {process.env.NODE_ENV === 'development' && <DebugStatus />}
-        </ImpersonationWrapper>
-      </ProgressProvider>
-    </ThemeProvider>
+        <MorphingToaster />
+        <OnlineStatusIndicator />
+        {process.env.NODE_ENV === 'development' && <DebugStatus />}
+      </ImpersonationWrapper>
+    </ProgressProvider>
   );
 }

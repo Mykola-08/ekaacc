@@ -64,7 +64,7 @@ export function TextShimmer({ children, className }: TextShimmerProps) {
       }}
       style={{
         background:
-          'linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%)',
+          'linear-gradient(90deg, transparent 30%, oklch(1 0 0 / 0.8) 50%, transparent 70%)',
         backgroundSize: '200% 100%',
         WebkitBackgroundClip: 'text',
         backgroundClip: 'text',
@@ -153,16 +153,16 @@ export function BorderTrail({ children, className }: BorderTrailProps) {
     <motion.div
       className={cn('relative', className)}
       whileHover={{
-        boxShadow: '0 0 20px rgba(255, 193, 7, 0.3)',
+        boxShadow: '0 0 20px oklch(0.78 0.155 75 / 0.3)',
       }}
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        className="absolute inset-0 rounded-xl border-2 border-transparent bg-linear-to-r from-yellow-400/50 via-blue-400/50 to-yellow-400/50 opacity-0"
+        className="absolute inset-0 rounded-xl border-2 border-transparent bg-linear-to-r from-warning/50 via-info/50 to-warning/50 opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
         style={{
-          background: 'linear-gradient(45deg, transparent, rgba(255, 193, 7, 0.1), transparent)',
+          background: 'linear-gradient(45deg, transparent, oklch(0.78 0.155 75 / 0.1), transparent)',
         }}
       />
       {children}
@@ -216,7 +216,7 @@ export function AnimatedBackground({ className }: AnimatedBackgroundProps) {
       }}
       style={{
         background:
-          'radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.1) 0%, transparent 50%)',
+          'radial-gradient(circle at 50% 50%, oklch(0.78 0.155 75 / 0.1) 0%, transparent 50%)',
       }}
     />
   );
@@ -232,7 +232,7 @@ export function Spotlight({ children, className }: SpotlightProps) {
   return (
     <motion.div className={cn('relative', className)}>
       <motion.div
-        className="bg-gradient-radial absolute inset-0 from-white/20 via-transparent to-transparent opacity-0"
+        className="bg-gradient-radial absolute inset-0 from-background/20 via-transparent to-transparent opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       />

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useCallback } from 'react';
 import {
@@ -127,7 +127,7 @@ export function WalletCard() {
                       {product.bonusCents > 0 && (
                         <Badge
                           variant="secondary"
-                          className="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30"
+                          className="bg-success/10 text-success dark:bg-success/10"
                         >
                           +{formatCurrency(product.bonusCents / 100, 'EUR')} Bonus
                         </Badge>

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { supabase } from '@/lib/platform/supabase';
@@ -51,8 +51,8 @@ export default function DataRequestPage() {
   if (submitted) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center">
-        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50 p-4">
-          <CheckCircle className="h-10 w-10 text-green-600" />
+        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-success p-4">
+          <CheckCircle className="h-10 w-10 text-success" />
         </div>
         <h1 className="text-foreground mb-4 text-3xl font-semibold">Request Submitted</h1>
         <p className="text-muted-foreground mb-8 text-lg">
@@ -90,9 +90,9 @@ export default function DataRequestPage() {
       <div className="bg-card rounded-lg border-none p-6 shadow-sm md:p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
-              <AlertCircle className="mt-0.5 h-5 w-5 text-red-600" />
-              <p className="text-sm text-red-700">{error}</p>
+            <div className="flex items-start gap-3 rounded-xl border border-destructive bg-destructive/10 p-4">
+              <AlertCircle className="mt-0.5 h-5 w-5 text-destructive" />
+              <p className="text-sm text-destructive">{error}</p>
             </div>
           )}
 

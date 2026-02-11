@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import {
@@ -211,11 +211,11 @@ export function AdminNotificationSystem() {
       case 'info':
         return <Bell className="h-4 w-4 text-primary" />;
       case 'warning':
-        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+        return <AlertTriangle className="h-4 w-4 text-warning" />;
       case 'error':
-        return <AlertTriangle className="h-4 w-4 text-red-500" />;
+        return <AlertTriangle className="h-4 w-4 text-destructive" />;
       case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckCircle className="h-4 w-4 text-success" />;
       default:
         return <Bell className="text-muted-foreground h-4 w-4" />;
     }
@@ -383,7 +383,7 @@ export function AdminNotificationSystem() {
                     variant="outline"
                     size="sm"
                     onClick={() => handleDeleteNotification(notification.id)}
-                    className="text-red-600 hover:text-red-700"
+                    className="text-destructive hover:text-destructive"
                   >
                     <Trash2 className="mr-1 h-3 w-3" />
                     Delete
@@ -397,7 +397,7 @@ export function AdminNotificationSystem() {
 
       {/* Create Notification Modal */}
       {showCreateModal && (
-        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-foreground">
           <Card className="mx-4 max-h-[90vh] w-full max-w-2xl overflow-y-auto">
             <CardHeader>
               <CardTitle>Create New Notification</CardTitle>
@@ -510,7 +510,7 @@ export function AdminNotificationSystem() {
 
       {/* Templates Modal */}
       {showTemplateModal && (
-        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-foreground">
           <Card className="mx-4 max-h-[90vh] w-full max-w-2xl overflow-y-auto">
             <CardHeader>
               <CardTitle>Manage Templates</CardTitle>

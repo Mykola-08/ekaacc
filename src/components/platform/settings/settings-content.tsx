@@ -147,7 +147,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
           category: 'notifications',
           subcategory: 'email',
           key: 'email',
-          icon: <Calendar className="h-5 w-5 text-green-600" />,
+          icon: <Calendar className="h-5 w-5 text-success" />,
         },
         {
           id: 'push-messages',
@@ -155,7 +155,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
           category: 'notifications',
           subcategory: 'push',
           key: 'push',
-          icon: <MessageSquare className="h-5 w-5 text-purple-600" />,
+          icon: <MessageSquare className="h-5 w-5 text-accent" />,
         },
         {
           id: 'push-sms',
@@ -163,7 +163,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
           category: 'notifications',
           subcategory: 'push',
           key: 'sms',
-          icon: <Bell className="h-5 w-5 text-orange-600" />,
+          icon: <Bell className="h-5 w-5 text-warning" />,
         },
       ] as const,
     []
@@ -305,7 +305,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
                 <div className="border-muted hover:border-border hover:bg-card/50 flex items-center justify-between rounded-lg border p-4 transition-all duration-200">
                   <div className="space-y-1">
                     <h4 className="flex items-center gap-2 font-medium">
-                      <Lock className="h-4 w-4 text-amber-500" />
+                      <Lock className="h-4 w-4 text-warning" />
                       Password
                     </h4>
                     <p className="text-muted-foreground text-sm">Reset your password via email</p>
@@ -317,7 +317,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
                 <div className="border-muted hover:border-border hover:bg-card/50 flex items-center justify-between rounded-lg border p-4 opacity-60 transition-all duration-200">
                   <div className="space-y-1">
                     <h4 className="flex items-center gap-2 font-medium">
-                      <Shield className="h-4 w-4 text-green-500" />
+                      <Shield className="h-4 w-4 text-success" />
                       Two-Factor Authentication
                     </h4>
                     <p className="text-muted-foreground text-sm">Add an extra layer of security</p>

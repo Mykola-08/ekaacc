@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -68,7 +68,7 @@ export function FamilyList({ members }: { members: any[] }) {
                 </span>
                 {member.dob && (
                   <span className="text-muted-foreground/80">
-                    â€¢ Born {new Date(member.dob).getFullYear()}
+                    • Born {new Date(member.dob).getFullYear()}
                   </span>
                 )}
               </div>
@@ -77,7 +77,7 @@ export function FamilyList({ members }: { members: any[] }) {
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground/50 absolute top-3 right-3 h-9 w-9 rounded-xl opacity-0 transition-all group-hover:opacity-100 hover:bg-red-50 hover:text-red-500"
+              className="text-muted-foreground/50 absolute top-3 right-3 h-9 w-9 rounded-xl opacity-0 transition-all group-hover:opacity-100 hover:bg-destructive/10 hover:text-destructive"
               onClick={() => setDeletingId(member.id)}
             >
               <Trash2 className="h-4 w-4" />
@@ -89,8 +89,8 @@ export function FamilyList({ members }: { members: any[] }) {
       <Dialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
         <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 shadow-sm sm:max-w-100">
           <div className="flex flex-col items-center p-8 pb-6 text-center">
-            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
-              <AlertCircle className="h-8 w-8 text-red-500" />
+            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
+              <AlertCircle className="h-8 w-8 text-destructive" />
             </div>
             <DialogTitle className="text-foreground mb-2 font-serif text-xl">
               Remove Family Member?
@@ -111,7 +111,7 @@ export function FamilyList({ members }: { members: any[] }) {
             <Button
               variant="destructive"
               onClick={handleDelete}
-              className="h-11 flex-1 rounded-xl bg-red-500 shadow-md shadow-red-200 hover:bg-red-600"
+              className="h-11 flex-1 rounded-xl bg-destructive shadow-md shadow-destructive/20 hover:bg-destructive/90"
             >
               Remove Member
             </Button>

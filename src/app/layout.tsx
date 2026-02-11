@@ -31,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn("font-sans antialiased", GeistSans.variable, GeistMono.variable)}>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body className={cn("font-sans antialiased", GeistSans.variable, GeistMono.variable)} suppressHydrationWarning>
         <a href="#main-content" className="ux-skip-link">
           Skip to main content
         </a>

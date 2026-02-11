@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, Fragment } from 'react';
 import { listUsers, updateUserRole } from '@/app/actions/admin-users';
@@ -253,7 +253,7 @@ export function UserManagementHeadless() {
                               {({ active }) => (
                                 <button
                                   className={cn(
-                                    active ? 'bg-red-50 text-red-700' : 'text-foreground',
+                                    active ? 'bg-destructive/10 text-destructive' : 'text-foreground',
                                     'group flex w-full items-center rounded-lg px-2 py-2 text-sm'
                                   )}
                                 >

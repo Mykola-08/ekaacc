@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { Badge, type BadgeProps } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import type { IconSvgElement } from '@hugeicons/react';
 import {
-  CheckCircle,
-  Clock,
-  XCircle,
-  AlertTriangle,
-  Ban,
-  Circle,
-  Loader2,
+  CheckmarkCircle02Icon,
+  Clock01Icon,
+  Cancel01Icon,
+  Alert02Icon,
+  CancelCircleIcon,
+  CircleIcon,
+  Loading03Icon,
   ShieldCheck,
-  type LucideIcon,
-} from 'lucide-react';
+} from '@hugeicons/core-free-icons';
 
 /**
  * Canonical status → badge variant + icon mapping.
@@ -49,43 +50,43 @@ type StatusKey =
 
 interface StatusConfig {
   variant: BadgeProps['variant'];
-  icon: LucideIcon;
+  icon: IconSvgElement;
   label?: string;
 }
 
 const STATUS_MAP: Record<StatusKey, StatusConfig> = {
   // Success family
-  active: { variant: 'success', icon: CheckCircle },
-  confirmed: { variant: 'success', icon: CheckCircle },
-  completed: { variant: 'success', icon: CheckCircle },
-  success: { variant: 'success', icon: CheckCircle },
+  active: { variant: 'success', icon: CheckmarkCircle02Icon },
+  confirmed: { variant: 'success', icon: CheckmarkCircle02Icon },
+  completed: { variant: 'success', icon: CheckmarkCircle02Icon },
+  success: { variant: 'success', icon: CheckmarkCircle02Icon },
   healthy: { variant: 'success', icon: ShieldCheck },
-  approved: { variant: 'success', icon: CheckCircle },
-  paid: { variant: 'success', icon: CheckCircle },
+  approved: { variant: 'success', icon: CheckmarkCircle02Icon },
+  paid: { variant: 'success', icon: CheckmarkCircle02Icon },
 
   // Warning family
-  pending: { variant: 'warning', icon: Clock },
-  scheduled: { variant: 'warning', icon: Clock },
-  processing: { variant: 'warning', icon: Loader2 },
-  warning: { variant: 'warning', icon: AlertTriangle },
-  medium: { variant: 'warning', icon: AlertTriangle },
+  pending: { variant: 'warning', icon: Clock01Icon },
+  scheduled: { variant: 'warning', icon: Clock01Icon },
+  processing: { variant: 'warning', icon: Loading03Icon },
+  warning: { variant: 'warning', icon: Alert02Icon },
+  medium: { variant: 'warning', icon: Alert02Icon },
 
   // Destructive family
-  cancelled: { variant: 'destructive', icon: XCircle },
-  canceled: { variant: 'destructive', icon: XCircle },
-  failed: { variant: 'destructive', icon: XCircle },
-  error: { variant: 'destructive', icon: XCircle },
-  critical: { variant: 'destructive', icon: XCircle },
-  suspended: { variant: 'destructive', icon: Ban },
-  rejected: { variant: 'destructive', icon: XCircle },
-  unpaid: { variant: 'destructive', icon: AlertTriangle },
+  cancelled: { variant: 'destructive', icon: Cancel01Icon },
+  canceled: { variant: 'destructive', icon: Cancel01Icon },
+  failed: { variant: 'destructive', icon: Cancel01Icon },
+  error: { variant: 'destructive', icon: Cancel01Icon },
+  critical: { variant: 'destructive', icon: Cancel01Icon },
+  suspended: { variant: 'destructive', icon: CancelCircleIcon },
+  rejected: { variant: 'destructive', icon: Cancel01Icon },
+  unpaid: { variant: 'destructive', icon: Alert02Icon },
 
   // Neutral family
-  inactive: { variant: 'secondary', icon: Circle },
-  expired: { variant: 'secondary', icon: Circle },
-  info: { variant: 'info', icon: Circle },
-  draft: { variant: 'secondary', icon: Circle },
-  unknown: { variant: 'outline', icon: Circle },
+  inactive: { variant: 'secondary', icon: CircleIcon },
+  expired: { variant: 'secondary', icon: CircleIcon },
+  info: { variant: 'info', icon: CircleIcon },
+  draft: { variant: 'secondary', icon: CircleIcon },
+  unknown: { variant: 'outline', icon: CircleIcon },
 };
 
 export interface StatusBadgeProps extends Omit<BadgeProps, 'variant'> {
@@ -96,7 +97,7 @@ export interface StatusBadgeProps extends Omit<BadgeProps, 'variant'> {
   /** Show icon before the label. @default true */
   showIcon?: boolean;
   /** Override the icon. */
-  icon?: LucideIcon;
+  icon?: IconSvgElement;
   /** Override the variant. */
   variant?: BadgeProps['variant'];
 }
@@ -122,7 +123,7 @@ export function StatusBadge({
       className={cn('gap-1.5 capitalize', className)}
       {...props}
     >
-      {showIcon && <Icon className="h-3 w-3" />}
+      {showIcon && <HugeiconsIcon icon={Icon} className="h-3 w-3" />}
       {displayLabel}
     </Badge>
   );

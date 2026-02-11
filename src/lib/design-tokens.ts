@@ -1,53 +1,48 @@
 /**
- * Unified Design Tokens - Apple-like Design System
- * Single source of truth for all design values across the application
+ * Unified Design Tokens — Nova Design System
+ * References CSS custom properties from globals.css.
+ * Import this module for type-safe token names; actual colors live in CSS variables.
  */
 
 export const designTokens = {
   // ==========================================
-  // COLORS - Apple-inspired palette
+  // COLORS — resolved via CSS custom properties
   // ==========================================
   colors: {
-    // Primary brand colors
+    // Primary brand colors (maps to --primary)
     primary: {
-      DEFAULT: '#2563EB', // Blue
-      50: '#eff6ff',
-      100: '#dbeafe',
-      200: '#bfdbfe',
-      300: '#93c5fd',
-      400: '#60a5fa',
-      500: '#3b82f6',
-      600: '#2563eb',
-      700: '#1d4ed8',
-      800: '#1e40af',
-      900: '#1e3a8a',
+      DEFAULT: 'var(--primary)',
+      foreground: 'var(--primary-foreground)',
     },
-    // Accent colors (EKA Gold)
+    // Accent / EKA Gold (maps to --eka-gold)
     accent: {
-      light: '#FDE68A',
-      DEFAULT: '#FFB405',
-      dark: '#B45309',
+      light: 'var(--eka-gold)',
+      DEFAULT: 'var(--eka-gold)',
+      dark: 'var(--eka-gold-hover)',
     },
     // EKA Brand
-    ekaDark: '#000035',
-    // Neutrals - Apple gray scale
+    ekaDark: 'var(--eka-dark)',
+    // Neutrals — via CSS custom properties
     gray: {
-      50: '#fafafa',
-      100: '#f5f5f7', // Apple Gray Light
-      200: '#e5e5e7',
-      300: '#d2d2d7',
-      400: '#a1a1a6',
-      500: '#86868b',
-      600: '#6e6e73',
-      700: '#424245',
-      800: '#1d1d1f', // Apple Gray Dark
-      900: '#171717',
+      muted: 'var(--muted)',
+      mutedForeground: 'var(--muted-foreground)',
+      border: 'var(--border)',
     },
     // Surface colors
     surface: {
-      primary: '#ffffff',
-      muted: '#f8fafc',
-      elevated: '#f1f5f9',
+      primary: 'var(--background)',
+      muted: 'var(--muted)',
+      elevated: 'var(--card)',
+    },
+    // Semantic colors
+    destructive: 'var(--destructive)',
+    success: 'var(--success)',
+    warning: 'var(--warning)',
+    info: 'var(--info)',
+    // WhatsApp brand
+    whatsapp: {
+      DEFAULT: 'var(--whatsapp)',
+      hover: 'var(--whatsapp-hover)',
     },
   },
 
@@ -113,12 +108,12 @@ export const designTokens = {
   // ==========================================
   shadows: {
     none: 'none',
-    sm: '0 1px 3px rgba(0, 0, 0, 0.02)',
-    DEFAULT: '0 4px 20px rgba(0, 0, 0, 0.06)',
-    md: '0 6px 24px rgba(0, 0, 0, 0.08)',
-    lg: '0 8px 30px rgba(0, 0, 0, 0.12)',
-    xl: '0 20px 60px rgba(0, 0, 0, 0.08)',
-    inner: 'inset 0 2px 4px rgba(0, 0, 0, 0.06)',
+    sm: '0 1px 3px oklch(0 0 0 / 0.02)',
+    DEFAULT: '0 4px 20px oklch(0 0 0 / 0.06)',
+    md: '0 6px 24px oklch(0 0 0 / 0.08)',
+    lg: '0 8px 30px oklch(0 0 0 / 0.12)',
+    xl: '0 20px 60px oklch(0 0 0 / 0.08)',
+    inner: 'inset 0 2px 4px oklch(0 0 0 / 0.06)',
   },
 
   // ==========================================
@@ -176,7 +171,6 @@ export const designTokens = {
 
 // Type exports for TypeScript
 export type DesignTokens = typeof designTokens;
-export type ColorScale = keyof typeof designTokens.colors.primary;
 export type SpacingScale = keyof typeof designTokens.spacing;
 export type BorderRadiusScale = keyof typeof designTokens.borderRadius;
 export type ShadowScale = keyof typeof designTokens.shadows;

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { LoadingSpinner } from '@/components/ui/loading-states';
@@ -355,7 +355,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                         Current VIP Tier
                       </label>
                       <div className="flex items-center gap-2">
-                        <Badge className="bg-linear-to-r from-blue-500 to-purple-600">
+                        <Badge className="bg-linear-to-r from-info to-accent">
                           <Crown className="mr-1 h-3 w-3" />
                           VIP SILVER
                         </Badge>
@@ -368,7 +368,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                         Current Loyalty Tier
                       </label>
                       <div className="flex items-center gap-2">
-                        <Badge className="bg-linear-to-r from-amber-500 to-orange-600">
+                        <Badge className="bg-linear-to-r from-warning to-destructive">
                           <Star className="mr-1 h-3 w-3" />
                           MEMBER
                         </Badge>
@@ -376,13 +376,13 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                     </div>
                     <div>
                       <label className="text-foreground/90 text-sm font-medium">Total Spend</label>
-                      <p className="text-lg font-semibold text-green-600">â‚¬250.00</p>
+                      <p className="text-lg font-semibold text-success">�250.00</p>
                     </div>
                     <div>
                       <label className="text-foreground/90 text-sm font-medium">
                         Loyalty Points
                       </label>
-                      <p className="text-lg font-semibold text-purple-600">1,500</p>
+                      <p className="text-lg font-semibold text-accent">1,500</p>
                     </div>
                   </div>
                 </div>
@@ -413,9 +413,9 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                     <div key={log.id} className="bg-muted/30 flex items-start gap-3 rounded-lg p-3">
                       <div className="mt-1">
                         {log.action === 'assign' ? (
-                          <Shield className="h-4 w-4 text-green-600" />
+                          <Shield className="h-4 w-4 text-success" />
                         ) : (
-                          <AlertTriangle className="h-4 w-4 text-red-600" />
+                          <AlertTriangle className="h-4 w-4 text-destructive" />
                         )}
                       </div>
                       <div className="min-w-0 flex-1">

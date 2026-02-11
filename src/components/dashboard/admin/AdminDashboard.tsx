@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import {
   Users,
@@ -57,8 +57,8 @@ export function AdminDashboard({ profile, stats }: AdminDashboardProps) {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-success/100" />
               </span>
               <span className="text-sm font-medium text-foreground">Healthy</span>
             </div>

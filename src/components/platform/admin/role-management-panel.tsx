@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -399,11 +399,11 @@ export function RoleManagementPanel() {
                       <TableCell>
                         <div className="flex items-center gap-2">
                           {user.isActive ? (
-                            <CheckCircle className="h-4 w-4 text-green-500" />
+                            <CheckCircle className="h-4 w-4 text-success" />
                           ) : (
-                            <XCircle className="h-4 w-4 text-red-500" />
+                            <XCircle className="h-4 w-4 text-destructive" />
                           )}
-                          <span className={user.isActive ? 'text-green-700' : 'text-red-700'}>
+                          <span className={user.isActive ? 'text-success-foreground' : 'text-destructive'}>
                             {user.isActive ? 'Active' : 'Inactive'}
                           </span>
                         </div>
@@ -434,9 +434,9 @@ export function RoleManagementPanel() {
                               onClick={() => handleDeactivateUser(user.id, user.isActive)}
                             >
                               {user.isActive ? (
-                                <AlertTriangle className="h-4 w-4 text-orange-500" />
+                                <AlertTriangle className="h-4 w-4 text-warning" />
                               ) : (
-                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                <CheckCircle className="h-4 w-4 text-success" />
                               )}
                             </Button>
                           )}
@@ -473,11 +473,11 @@ export function RoleManagementPanel() {
                     <p className="font-medium">{log.userEmail}</p>
                     <p className="text-muted-foreground text-sm">
                       {log.oldRole
-                        ? `${log.oldRole} â†’ ${log.newRole}`
+                        ? `${log.oldRole} ? ${log.newRole}`
                         : `Assigned as ${log.newRole}`}
                     </p>
                     <p className="text-muted-foreground text-xs">
-                      By {log.assignedByEmail} â€¢ {new Date(log.createdAt).toLocaleString()}
+                      By {log.assignedByEmail} � {new Date(log.createdAt).toLocaleString()}
                     </p>
                   </div>
                   <div className="text-right">

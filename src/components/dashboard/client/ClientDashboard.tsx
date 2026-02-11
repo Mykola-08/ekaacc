@@ -55,28 +55,28 @@ const QUICK_ACTIONS = (t: (k: string) => string | undefined) => [
     description: t('page.bookings.subtitle') || 'Find availability and schedule your next visit.',
     href: '/book',
     icon: Calendar01Icon,
-    accent: 'group-hover:bg-blue-500/10 group-hover:text-blue-600',
+    accent: 'group-hover:bg-info/10 group-hover:text-info',
   },
   {
     title: t('nav.bookings') || 'My Bookings',
     description: 'Review upcoming and past appointments.',
     href: '/bookings',
     icon: Clock01Icon,
-    accent: 'group-hover:bg-emerald-500/10 group-hover:text-emerald-600',
+    accent: 'group-hover:bg-success/10 group-hover:text-success',
   },
   {
     title: t('nav.journal') || 'Journal',
     description: 'Track mood, progress, and personal notes.',
     href: '/wellness',
     icon: ActivityIcon,
-    accent: 'group-hover:bg-purple-500/10 group-hover:text-purple-600',
+    accent: 'group-hover:bg-accent/10 group-hover:text-accent-foreground',
   },
   {
     title: t('nav.subscriptions') || 'Plans',
     description: 'Browse memberships and manage your benefits.',
     href: '/finances?tab=plans',
     icon: PlusSignIcon,
-    accent: 'group-hover:bg-amber-500/10 group-hover:text-amber-600',
+    accent: 'group-hover:bg-warning/10 group-hover:text-warning',
   },
 ];
 
@@ -365,10 +365,10 @@ export function ClientDashboard({
               </h3>
             </div>
             {recentErrors.length === 0 ? (
-              <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2.5 text-sm font-medium text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
+              <div className="flex items-center gap-2 rounded-lg bg-success/10 px-3 py-2.5 text-sm font-medium text-success dark:bg-success/10 dark:text-success">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-success/100" />
                 </span>
                 {t('page.dashboard.normalOp') || 'All Systems Normal'}
               </div>

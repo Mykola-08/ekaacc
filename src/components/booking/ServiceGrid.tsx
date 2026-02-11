@@ -2,6 +2,8 @@
 
 import { Service } from '@/types/database';
 import { ServiceCard } from './ServiceCard';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Calendar03Icon } from '@hugeicons/core-free-icons';
 
 export function ServiceGrid({ services }: { services: Service[] }) {
   return (
@@ -17,8 +19,12 @@ export function ServiceGrid({ services }: { services: Service[] }) {
           </div>
         ))
       ) : (
-        <div className="text-muted-foreground bg-card col-span-full rounded-lg border py-16 text-center text-sm">
-          No services available at the moment.
+        <div className="col-span-full">
+          <EmptyState
+            icon={Calendar03Icon}
+            title="No services available"
+            description="Check back soon for new sessions and offerings."
+          />
         </div>
       )}
     </div>

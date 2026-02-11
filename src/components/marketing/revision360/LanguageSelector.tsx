@@ -32,7 +32,7 @@ export default function LanguageSelector() {
     <div className="relative">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 rounded-lg border border-amber-500/20 bg-zinc-800/60 px-3 py-2 text-amber-200 backdrop-blur-sm transition-all duration-200 hover:border-amber-500/40 hover:bg-zinc-800/80"
+        className="flex items-center space-x-2 rounded-lg border border-vip-gold-1/20 bg-card/60 px-3 py-2 text-vip-gold-4 backdrop-blur-sm transition-all duration-200 hover:border-vip-gold-1/40 hover:bg-card/80"
         whileHover={{
           scale: 1.02,
         }}
@@ -51,7 +51,7 @@ export default function LanguageSelector() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 bottom-full z-50 mb-2 w-40 overflow-hidden rounded-lg border border-amber-500/20 bg-zinc-900 shadow-xl"
+            className="absolute right-0 bottom-full z-50 mb-2 w-40 overflow-hidden rounded-lg border border-vip-gold-1/20 bg-card shadow-xl"
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -64,8 +64,8 @@ export default function LanguageSelector() {
                   onClick={() => handleLanguageChange(lang.code)}
                   className={`flex w-full items-center space-x-3 px-4 py-2 text-left text-sm transition-colors duration-150 ${
                     language === lang.code
-                      ? 'bg-amber-500/10 text-amber-200'
-                      : 'text-zinc-400 hover:bg-zinc-800 hover:text-amber-100'
+                      ? 'bg-warning/10 text-vip-gold-4'
+                      : 'text-muted-foreground hover:bg-card hover:text-vip-gold-2'
                   }`}
                 >
                   <span>{lang.flag}</span>

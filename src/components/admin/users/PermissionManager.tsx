@@ -61,7 +61,7 @@ export function PermissionManager({
               <div
                 className={cn(
                   'flex h-10 w-10 items-center justify-center rounded-full',
-                  p.hasAccess ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'
+                  p.hasAccess ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'
                 )}
               >
                 {p.hasAccess ? <Check className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
@@ -75,7 +75,7 @@ export function PermissionManager({
                     </span>
                   )}
                   {p.source === 'override' && (
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700 uppercase">
+                    <span className="rounded-full bg-warning/10 px-2 py-0.5 text-xs font-semibold text-warning uppercase">
                       Override
                     </span>
                   )}
@@ -91,7 +91,7 @@ export function PermissionManager({
                 className={cn(
                   'rounded-full',
                   p.hasAccess && p.source === 'override'
-                    ? 'bg-emerald-600 hover:bg-emerald-700'
+                    ? 'bg-success hover:bg-success/90'
                     : ''
                 )}
                 onClick={() => handleToggle(p.id, true, p.source)}

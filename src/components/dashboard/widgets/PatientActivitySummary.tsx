@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -91,9 +91,9 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
                     className={cn(
                       'flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold tracking-tight uppercase',
                       activity.mood >= 7
-                        ? 'bg-emerald-500/10 text-emerald-600'
+                        ? 'bg-success/10 text-success'
                         : activity.mood >= 4
-                          ? 'bg-amber-500/10 text-amber-600'
+                          ? 'bg-warning/10 text-warning'
                           : 'bg-destructive/10 text-destructive'
                     )}
                   >

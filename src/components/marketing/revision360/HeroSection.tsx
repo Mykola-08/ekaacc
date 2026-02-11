@@ -8,8 +8,8 @@ export default function HeroSection() {
   return (
     <section className="relative overflow-hidden pt-24 pb-20 sm:pt-32 sm:pb-24">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-amber-500/12 blur-3xl" />
-        <div className="absolute top-24 right-0 h-[340px] w-[340px] rounded-full bg-sky-400/8 blur-3xl" />
+        <div className="absolute -top-40 left-1/2 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-warning/12 blur-3xl" />
+        <div className="absolute top-24 right-0 h-[340px] w-[340px] rounded-full bg-info/10 blur-3xl" />
       </div>
 
       <div className="section-container relative z-10">
@@ -19,7 +19,7 @@ export default function HeroSection() {
           transition={{ duration: 0.55 }}
           className="mx-auto max-w-5xl text-center"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/35 bg-amber-300/10 px-4 py-2 text-xs font-semibold tracking-[0.14em] text-amber-100 uppercase">
+          <span className="inline-flex items-center gap-2 rounded-full border border-warning/35 bg-vip-gold-4/10 px-4 py-2 text-xs font-semibold tracking-[0.14em] text-vip-gold-2 uppercase">
             <Sparkles className="h-3.5 w-3.5" />
             Integral Method
           </span>
@@ -28,7 +28,7 @@ export default function HeroSection() {
             {t('hero.title')}
           </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-zinc-200/90 sm:text-xl">
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground/90 sm:text-xl">
             {t('hero.subtitle')}
           </p>
 
@@ -46,7 +46,7 @@ export default function HeroSection() {
             </a>
           </div>
 
-          <p className="mx-auto mt-10 max-w-3xl text-sm text-amber-100/80 italic sm:text-base">
+          <p className="mx-auto mt-10 max-w-3xl text-sm text-vip-gold-2/80 italic sm:text-base">
             "{t('hero.quote')}"
           </p>
         </motion.div>

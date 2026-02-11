@@ -3,26 +3,29 @@
 import { Service, ServiceVariant } from '@/types/database';
 import Link from 'next/link';
 import Image from 'next/image';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  ChevronLeft,
-  Clock,
-  CreditCard,
-  CheckCircle,
-  Star,
-  Calendar as CalendarIcon,
-  ArrowRight,
-  User,
-  Users,
-  Loader2,
-  Wallet,
-} from 'lucide-react';
-// TODO: Migrate remaining Lucide icons to Hugeicons when this component is actively used
+  ArrowLeft02Icon,
+  Clock01Icon,
+  CreditCardIcon,
+  CheckmarkCircle02Icon,
+  StarIcon,
+  Calendar03Icon,
+  ArrowRight01Icon,
+  UserIcon,
+  UserGroupIcon,
+  Loading03Icon,
+  Wallet01Icon,
+} from '@hugeicons/core-free-icons';
 import { useState, useEffect, useCallback } from 'react';
 import { format, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/morphing-toaster';
 import { createClient } from '@/lib/supabase/client';
 import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import { AvailabilitySlot } from '@/types/booking';
 import {
   Select,
@@ -44,6 +47,10 @@ interface BookingDetailsProps {
 
 export function BookingDetails({ service, activeVariant }: BookingDetailsProps) {
   const supabase = createClient();
+
+  // Currency formatter
+  const formatPrice = (amount: number) =>
+    new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount);
 
   // Display Derived Values
   const displayDuration = activeVariant ? activeVariant.duration : service.duration;
@@ -259,7 +266,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
           href="/"
           className="text-muted-foreground hover:text-foreground group mb-8 inline-flex items-center text-sm font-medium transition-colors"
         >
-          <ChevronLeft className="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          <HugeiconsIcon icon={ArrowLeft02Icon} className="mr-1 size-4 transition-transform group-hover:-translate-x-1" />
           Back to Services
         </Link>
 
@@ -286,7 +293,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
             {/* Image */}
             {(service.images?.[0] || service.image_url) && (
-              <div className="bg-muted relative mb-10 aspect-video overflow-hidden rounded-lg border border-black/5 shadow-sm">
+              <div className="bg-muted relative mb-10 aspect-video overflow-hidden rounded-lg border border-border shadow-sm">
                 <Image
                   src={service.images?.[0] || service.image_url || ''}
                   alt={service.name}
@@ -308,7 +315,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
             {service.variants && service.variants.length > 1 && (
               <div className="mb-12">
                 <h3 className="text-foreground mb-6 flex items-center gap-2 text-lg font-semibold tracking-tight">
-                  <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  <HugeiconsIcon icon={StarIcon} className="size-4 text-warning" />
                   Choose Experience
                 </h3>
                 <div className="grid gap-4">
@@ -323,7 +330,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                           'group flex cursor-pointer items-center justify-between rounded-lg border p-5 transition-all',
                           isActive
                             ? 'bg-primary/5 border-primary/20 shadow-sm'
-                            : 'border-white/20 bg-card/40 backdrop-blur-xl hover:border-black/5 hover:bg-card/60'
+                            : 'border-border bg-card backdrop-blur-xl hover:border-primary/10 hover:bg-accent'
                         )}
                       >
                         <div className="flex items-center gap-4">
@@ -333,7 +340,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                               isActive ? 'border-primary bg-primary' : 'border-muted-foreground/30'
                             )}
                           >
-                            {isActive && <div className="h-2 w-2 rounded-full bg-white" />}
+                            {isActive && <div className="h-2 w-2 rounded-full bg-primary-foreground" />}
                           </div>
                           <div>
                             <div
@@ -350,7 +357,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             </div>
                           </div>
                         </div>
-                        <div className="text-lg font-semibold tracking-tight">€{variant.price}</div>
+                        <div className="text-lg font-semibold tracking-tight">{formatPrice(variant.price)}</div>
                       </Link>
                     );
                   })}
@@ -358,7 +365,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
               </div>
             )}
 
-            <div className="rounded-lg border border-white/20 bg-card/40 p-8 shadow-sm backdrop-blur-xl">
+            <div className="rounded-lg border border-border bg-card p-8 shadow-sm">
               <h3 className="text-foreground mb-4 text-lg font-semibold tracking-tight">
                 What to expect
               </h3>
@@ -370,7 +377,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                   'Post-session guidance',
                 ].map((item, i) => (
                   <li key={i} className="text-muted-foreground flex items-center gap-3 font-light">
-                    <CheckCircle className="h-4 w-4 text-emerald-500/80" />
+                    <HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-4 text-success" />
                     {item}
                   </li>
                 ))}
@@ -380,10 +387,10 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
           {/* Right Column: Sticky Booking Card */}
           <div className="animate-in slide-in-from-bottom-12 w-full shrink-0 delay-100 duration-500 lg:sticky lg:top-24 lg:w-105">
-            <div className="rounded-lg border border-white/40 bg-card/60 p-8 shadow-eka-md backdrop-blur-2xl">
+            <div className="rounded-lg border border-border bg-card p-8 shadow-lg">
               {/* Family / User Selection */}
               {!loadingUser && userProfile && familyMembers.length > 0 && (
-                <div className="mb-6 inline-flex w-full rounded-full border border-black/5 bg-black/5 p-1">
+                <div className="mb-6 inline-flex w-full rounded-full border border-border bg-muted p-1">
                   <button
                     onClick={() => setBookingFor('self')}
                     className={cn(
@@ -412,7 +419,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
               {bookingFor === 'dependent' && (
                 <div className="mb-6">
                   <Select value={selectedDependentId} onValueChange={setSelectedDependentId}>
-                    <SelectTrigger className="h-9 w-full rounded-lg border-black/5 bg-card/50">
+                    <SelectTrigger className="h-9 w-full">
                       <SelectValue placeholder="Select Member" />
                     </SelectTrigger>
                     <SelectContent>
@@ -429,27 +436,27 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
               {/* Contact Details Inputs (if not user or edit needed) */}
               <div className="mb-8 space-y-4">
                 <div>
-                  <label className="text-muted-foreground mb-2 ml-1 block text-xs font-semibold tracking-wider uppercase">
+                  <Label htmlFor="booking-name" className="mb-2 ml-1">
                     Name
-                  </label>
-                  <input
+                  </Label>
+                  <Input
+                    id="booking-name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your Name"
-                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-9 w-full rounded-lg border border-black/5 bg-card/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
                   />
                 </div>
                 <div>
-                  <label className="text-muted-foreground mb-2 ml-1 block text-xs font-semibold tracking-wider uppercase">
+                  <Label htmlFor="booking-email" className="mb-2 ml-1">
                     Email
-                  </label>
-                  <input
+                  </Label>
+                  <Input
+                    id="booking-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-9 w-full rounded-lg border border-black/5 bg-card/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
                   />
                 </div>
               </div>
@@ -458,11 +465,11 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
               <div className="mb-8">
                 <h3 className="text-foreground mb-4 flex items-center gap-2 text-lg font-semibold tracking-tight">
-                  <CalendarIcon className="text-muted-foreground h-4 w-4" />
+                  <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-4" />
                   Select Date & Time
                 </h3>
 
-                <div className="mb-6 rounded-lg border border-white/20 bg-card/40 p-4 shadow-sm">
+                <div className="mb-6 rounded-lg border border-border bg-card p-4 shadow-sm">
                   <Calendar
                     mode="single"
                     selected={date}
@@ -475,7 +482,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                       day_today: 'bg-card/50 text-foreground font-semibold',
                       head_cell: 'text-muted-foreground font-medium text-[0.8rem] w-8',
                       cell: 'text-center text-sm p-0 relative [&:has([aria-selected])]:bg-transparent h-8 w-8',
-                      day: 'h-8 w-8 p-0 font-normal aria-selected:opacity-100 rounded-full hover:bg-black/5 transition-colors',
+                      day: 'h-8 w-8 p-0 font-normal aria-selected:opacity-100 rounded-full hover:bg-accent transition-colors',
                     }}
                   />
                 </div>
@@ -487,7 +494,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     </h4>
                     {loadingSlots ? (
                       <div className="text-muted-foreground flex items-center justify-center gap-2 py-8">
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />
                         <span className="text-sm font-light">Checking availability...</span>
                       </div>
                     ) : slots.length > 0 ? (
@@ -497,10 +504,10 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             key={i}
                             onClick={() => setSelectedSlot(slot)}
                             className={cn(
-                              'rounded-lg border px-3 py-2.5 text-center text-sm transition-all',
+                                'rounded-lg border px-3 py-2.5 text-center text-sm transition-all',
                               selectedSlot === slot
                                 ? 'bg-primary text-primary-foreground border-primary font-semibold shadow-sm'
-                                : 'text-foreground type-tabular border-transparent bg-card/50 font-light hover:bg-background hover:shadow-sm'
+                                : 'text-foreground type-tabular border-border bg-card font-light hover:bg-accent hover:shadow-sm'
                             )}
                           >
                             {format(new Date(slot.startTime), 'h:mm a')}
@@ -508,7 +515,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                         ))}
                       </div>
                     ) : (
-                      <div className="rounded-lg border border-dashed border-black/5 bg-card/30 py-6 text-center">
+                      <div className="rounded-lg border border-dashed border-border bg-muted/50 py-6 text-center">
                         <p className="text-muted-foreground text-sm font-light">
                           No slots available
                         </p>
@@ -518,10 +525,10 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                 )}
               </div>
 
-              <div className="space-y-4 border-t border-black/5 pt-6">
+              <div className="space-y-4 border-t border-border pt-6">
                 {/* Payment Method Selection */}
                 {walletBalance !== null && walletBalance >= depositAmount && (
-                  <div className="rounded-lg border border-black/5 bg-card/50 p-1">
+                  <div className="rounded-lg border border-border bg-muted p-1">
                     <div className="grid grid-cols-2 gap-1">
                       <button
                         onClick={() => setPaymentMethod('stripe')}
@@ -532,7 +539,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             : 'text-muted-foreground hover:text-foreground'
                         )}
                       >
-                        <CreditCard className="h-4 w-4" />
+                        <HugeiconsIcon icon={CreditCardIcon} className="size-4" />
                         Card
                       </button>
                       <button
@@ -544,8 +551,8 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             : 'text-muted-foreground hover:text-foreground'
                         )}
                       >
-                        <Wallet className="h-4 w-4" />
-                        Wallet (€{walletBalance})
+                        <HugeiconsIcon icon={Wallet01Icon} className="size-4" />
+                        Wallet ({formatPrice(walletBalance)})
                       </button>
                     </div>
                   </div>
@@ -554,36 +561,37 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                 <div className="flex items-end justify-between">
                   <div className="text-muted-foreground text-sm font-medium">Deposit Due</div>
                   <div className="text-foreground text-3xl font-semibold tracking-tight">
-                    €20<span className="text-muted-foreground text-lg font-light">.00</span>
+                    {formatPrice(depositAmount)}
                   </div>
                 </div>
 
-                <button
+                <Button
                   onClick={handleBooking}
                   disabled={isSubmitting || !selectedSlot || !name || !email}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/20 flex w-full items-center justify-center gap-2 rounded-lg py-4 text-lg font-semibold shadow-sm transition-all hover:scale-105 active:scale-95 disabled:pointer-events-none disabled:opacity-70"
+                  size="lg"
+                  className="w-full py-6 text-lg font-semibold"
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin" />
                       Processing...
                     </>
                   ) : (
                     <>{paymentMethod === 'wallet' ? 'Pay with Balance' : 'Pay Deposit & Book'}</>
                   )}
-                </button>
+                </Button>
 
                 <div className="text-muted-foreground/60 space-y-1 pt-2 text-center text-xs font-light">
                   <p>Free cancellation up to 24 hours before your appointment.</p>
                   <div className="flex items-center justify-center gap-1.5 opacity-80">
                     {paymentMethod === 'stripe' ? (
                       <>
-                        <CreditCard className="h-3 w-3" />
+                        <HugeiconsIcon icon={CreditCardIcon} className="size-3" />
                         <span>Secure payment via Stripe</span>
                       </>
                     ) : (
                       <>
-                        <Wallet className="h-3 w-3" />
+                        <HugeiconsIcon icon={Wallet01Icon} className="size-3" />
                         <span>Secure payment via Wallet</span>
                       </>
                     )}

@@ -44,11 +44,11 @@ export function JournalTeaser() {
           <div className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--secondary))] p-4">
             <div className="relative line-clamp-3 text-[15px] leading-relaxed text-[hsl(var(--muted-foreground))] italic">
               <span className="absolute -top-3 -left-2 text-4xl leading-none text-[hsl(var(--muted))]">
-                â€œ
+                “
               </span>
               {lastEntry.content}
               <span className="absolute -right-1 -bottom-5 text-4xl leading-none text-[hsl(var(--muted))]">
-                â€
+                ”
               </span>
             </div>
             <div className="mt-3 text-right text-xs font-semibold tracking-wider text-[hsl(var(--muted-foreground))] uppercase">

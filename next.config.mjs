@@ -23,9 +23,6 @@ const appBuildTimestamp = new Date().toISOString();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    cacheComponents: true,
-  },
   reactStrictMode: true,
   generateBuildId: async () => appBuildId,
   env: {
@@ -61,6 +58,7 @@ const nextConfig = {
   },
   // Bundle optimization
   experimental: {
+    cacheComponents: true,
     optimizePackageImports: ['lucide-react', 'date-fns'],
   },
   // Compression

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 /**
  * Quick Actions Toolbar for Therapists
@@ -113,7 +113,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       icon: Sparkles,
       label: 'AI Report',
       description: 'Generate AI-powered session summary',
-      color: 'text-purple-500',
+      color: 'text-chart-4',
       onClick: handleGenerateReport,
     },
     {
@@ -121,7 +121,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       icon: Calendar,
       label: 'Schedule',
       description: 'Schedule follow-up appointment',
-      color: 'text-green-500',
+      color: 'text-success',
       onClick: handleScheduleFollowUp,
     },
     {
@@ -129,7 +129,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       icon: Bell,
       label: 'Reminder',
       description: 'Set a reminder for this patient',
-      color: 'text-yellow-500',
+      color: 'text-warning',
       dialog: true,
     },
     {
@@ -137,7 +137,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       icon: Check,
       label: 'End Session',
       description: 'Mark this session as complete',
-      color: 'text-green-600',
+      color: 'text-success',
       onClick: handleEndSession,
     },
     {
@@ -145,7 +145,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       icon: AlertCircle,
       label: 'Flag',
       description: 'Flag for supervisor review',
-      color: 'text-red-500',
+      color: 'text-destructive',
       onClick: handleFlagConcern,
     },
     {

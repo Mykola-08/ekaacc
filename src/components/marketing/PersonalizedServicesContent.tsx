@@ -24,7 +24,7 @@ export default function PersonalizedServicesContent() {
     >
       {/* Helper text for title */}
       <div className="animate-fade-in relative z-20 -mt-8 mb-12 text-center">
-        <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-xl font-medium text-transparent sm:text-2xl">
+        <span className="bg-linear-to-r from-info to-accent bg-clip-text text-xl font-medium text-transparent sm:text-2xl">
           {t('services.integralWellbeing')}
         </span>
 

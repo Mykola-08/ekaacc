@@ -204,7 +204,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             isAuthenticated: false,
           });
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        // Ignore AbortError — expected during React strict-mode double-mount
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+
         console.error('Auth initialization error:', error);
         if (mounted) {
           setState({

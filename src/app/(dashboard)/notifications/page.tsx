@@ -50,11 +50,11 @@ export default async function NotificationsPage() {
       case 'info':
         return 'border-primary/20 bg-primary/5 text-primary';
       case 'success':
-        return 'border-green-100 bg-green-50 text-green-600 dark:border-green-900/50 dark:bg-green-950/50 dark:text-green-400';
+        return 'border-success bg-success text-success dark:border-success/20 dark:bg-success/10 dark:text-success';
       case 'warning':
-        return 'border-amber-100 bg-amber-50 text-amber-600 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-400';
+        return 'border-warning/20 bg-warning/10 text-warning dark:border-warning/20 dark:bg-warning/10 dark:text-warning';
       case 'error':
-        return 'border-red-100 bg-red-50 text-red-600 dark:border-red-900/50 dark:bg-red-950/50 dark:text-red-400';
+        return 'border-destructive bg-destructive/10 text-destructive dark:border-destructive/50 dark:bg-destructive/10 dark:text-destructive';
       case 'reminder':
         return 'border-primary/20 bg-muted text-primary';
       default:

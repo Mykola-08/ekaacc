@@ -199,14 +199,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const navItems = getNavItems();
 
   return (
-    <Sidebar collapsible="offcanvas" variant="floating" {...props} className="border-none">
-      <SidebarHeader className="p-4">
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
         <TeamSwitcher />
       </SidebarHeader>
-      <SidebarContent className="px-2">
+      <SidebarContent>
         <NavMain items={navItems} />
       </SidebarContent>
-      <SidebarFooter className="p-4">
+      <SidebarFooter>
         <NavUser />
       </SidebarFooter>
       <SidebarRail />

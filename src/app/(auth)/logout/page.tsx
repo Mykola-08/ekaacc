@@ -15,8 +15,8 @@ export default function LogoutPage() {
     <div className="bg-muted/30 flex min-h-screen items-center justify-center p-4 dark:bg-background">
       <Card className="w-full max-w-md text-center shadow-sm">
         <CardHeader className="flex flex-col items-center space-y-4 pb-2">
-          <div className="rounded-full bg-green-100 p-3 dark:bg-green-900/20">
-            <CheckCircle2 className="h-12 w-12 text-green-600 dark:text-green-500" />
+          <div className="rounded-full bg-success/20 p-3 dark:bg-success/20">
+            <CheckCircle2 className="h-12 w-12 text-success dark:text-success" />
           </div>
           <div className="space-y-2">
             <CardTitle className="text-2xl font-semibold">Signed Out</CardTitle>

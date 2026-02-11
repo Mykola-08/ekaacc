@@ -31,7 +31,7 @@ export function VerifyButton({ bookingId }: { bookingId: string }) {
       size="sm"
       onClick={onClick}
       disabled={loading}
-      className="bg-green-600 text-white transition-all hover:bg-green-700 active:scale-95"
+      className="bg-success text-white transition-all hover:bg-success/90 active:scale-95"
     >
       {loading ? (
         <div className="mr-2 h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" />

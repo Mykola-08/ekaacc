@@ -80,7 +80,7 @@ export function PermissionGuard({
     return (
       <>
         {fallback || (
-          <div className="p-4 text-center text-red-500">
+          <div className="p-4 text-center text-destructive">
             You don't have permission to access this content.
           </div>
         )}
@@ -127,7 +127,7 @@ export function ResourceGuard({
     return (
       <>
         {fallback || (
-          <div className="p-4 text-center text-red-500">
+          <div className="p-4 text-center text-destructive">
             You don't have permission to access this content.
           </div>
         )}
@@ -164,7 +164,7 @@ export function AdminGuard({ children, fallback, loadingComponent }: AdminGuardP
 
   if (!isAdmin) {
     return (
-      <>{fallback || <div className="p-4 text-center text-red-500">Admin access required.</div>}</>
+      <>{fallback || <div className="p-4 text-center text-destructive">Admin access required.</div>}</>
     );
   }
 

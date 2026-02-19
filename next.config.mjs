@@ -65,6 +65,45 @@ const nextConfig = {
   compress: true,
   // Powered by header removal for security
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: '/booking',
+        destination: '/book',
+        permanent: true,
+      },
+      {
+        source: '/plans',
+        destination: '/finances?tab=plans',
+        permanent: true,
+      },
+      {
+        source: '/terms',
+        destination: '/legal/terms',
+        permanent: true,
+      },
+      {
+        source: '/terms-of-service',
+        destination: '/legal/terms',
+        permanent: true,
+      },
+      {
+        source: '/privacy',
+        destination: '/legal/privacy',
+        permanent: true,
+      },
+      {
+        source: '/privacy-policy',
+        destination: '/legal/privacy',
+        permanent: true,
+      },
+      {
+        source: '/cookie-policy',
+        destination: '/legal/cookie-policy',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

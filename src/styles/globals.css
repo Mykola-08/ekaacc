@@ -27,7 +27,7 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --radius: 0.625rem;
+  --radius: 1.25rem;
   --success: oklch(0.60 0.17 145);
   --success-foreground: oklch(0.985 0 0);
   --warning: oklch(0.75 0.18 75);
@@ -126,7 +126,9 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 2.5rem;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -431,19 +431,19 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {t('footer.discounts')}
               </Link>
               <Link
-                href="/privacy-policy"
+                href="/legal/privacy"
                 className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
               >
                 {t('footer.privacyPolicy')}
               </Link>
               <Link
-                href="/cookie-policy"
+                href="/legal/cookie-policy"
                 className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
               >
                 {t('footer.cookiePolicy')}
               </Link>
               <Link
-                href="/terms-of-service"
+                href="/legal/terms"
                 className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
               >
                 {t('footer.termsOfService')}

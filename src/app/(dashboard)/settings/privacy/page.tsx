@@ -757,7 +757,7 @@ export default function PrivacyControlsPage() {
                     <Button
                       className="w-full"
                       variant="outline"
-                      onClick={() => window.open('/privacy-policy', '_blank')}
+                      onClick={() => window.open('/legal/privacy', '_blank')}
                     >
                       <FileLock className="mr-2 h-4 w-4" />
                       Privacy Policy
@@ -765,7 +765,7 @@ export default function PrivacyControlsPage() {
                     <Button
                       className="w-full"
                       variant="outline"
-                      onClick={() => window.open('/terms-of-service', '_blank')}
+                      onClick={() => window.open('/legal/terms', '_blank')}
                     >
                       <Key className="mr-2 h-4 w-4" />
                       Terms of Service

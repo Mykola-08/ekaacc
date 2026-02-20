@@ -228,11 +228,11 @@ export function LoginForm({
       >
         <p className="text-xs text-muted-foreground px-4">
           By logging in, you agree to our{' '}
-          <Link href="/terms" className="underline hover:text-foreground dark:hover:text-foreground">Terms of Service</Link>
+          <Link href="/legal/terms" className="underline hover:text-foreground dark:hover:text-foreground">Terms of Service</Link>
           ,{' '}
-          <Link href="/privacy" className="underline hover:text-foreground dark:hover:text-foreground">Privacy Policy</Link>
+          <Link href="/legal/privacy" className="underline hover:text-foreground dark:hover:text-foreground">Privacy Policy</Link>
           {' '}and{' '}
-          <Link href="/cookie-policy" className="underline hover:text-foreground dark:hover:text-foreground">Cookie Policy</Link>.
+          <Link href="/legal/cookie-policy" className="underline hover:text-foreground dark:hover:text-foreground">Cookie Policy</Link>.
         </p>
       </motion.div>
     </motion.div>

@@ -31,7 +31,7 @@ interface JournalEntry {
 const MOODS = [
   { id: 'happy', score: 8, icon: Smile, color: 'text-success', bg: 'bg-success/10' },
   { id: 'neutral', score: 5, icon: Meh, color: 'text-warning', bg: 'bg-warning/10' },
-  { id: 'sad', score: 2, icon: Frown, color: 'text-accent-foreground', bg: 'bg-accent/10' },
+  { id: 'sad', score: 2, icon: Frown, color: 'text-destructive', bg: 'bg-destructive/10' },
 ];
 
 export function JournalPage() {
@@ -100,7 +100,7 @@ export function JournalPage() {
                 New Entry
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-card rounded-lg border-0 p-8 shadow-eka-xl sm:max-w-131.25">
+            <DialogContent className="bg-card rounded-lg border-0 p-8 shadow-2xl sm:max-w-[600px]">
               <DialogHeader>
                 <DialogTitle className="text-foreground text-2xl font-black tracking-tight">
                   New Reflection
@@ -140,7 +140,7 @@ export function JournalPage() {
                   placeholder="How are you feeling today?"
                   value={newEntry.text}
                   onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
-                  className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-50 resize-none rounded-xl border-none p-6 text-base leading-relaxed focus-visible:ring-0"
+                  className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-[200px] resize-none rounded-xl border-none p-6 text-base leading-relaxed focus-visible:ring-0"
                 />
               </div>
               <DialogFooter>

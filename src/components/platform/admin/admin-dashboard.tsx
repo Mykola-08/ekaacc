@@ -30,23 +30,23 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
 
   // Use props if available, otherwise fallback/mock
   const stats = {
-    revenueMtd: kpiStats?.revenue_mtd || 0,
-    revenueGrowth: kpiStats?.revenue_growth_pct || 0,
-    totalUsers: kpiStats?.users_total || 0,
-    usersGrowth: kpiStats?.users_growth_pct || 0,
+    revenueMtd: kpiStats?.value || '0',
+    revenueGrowth: kpiStats?.change || '0',
+    totalUsers: '0',
+    usersGrowth: '0',
     systemHealth: 'healthy' as const,
   };
 
   const getHealthColor = (health: string) => {
     switch (health) {
       case 'healthy':
-        return 'text-success';
+        return 'text-green-600 bg-green-100';
       case 'warning':
-        return 'text-warning';
+        return 'text-yellow-600 bg-yellow-100';
       case 'critical':
-        return 'text-destructive';
+        return 'text-red-600 bg-red-100';
       default:
-        return 'text-muted-foreground';
+        return 'text-muted-foreground bg-muted/30';
     }
   };
 
@@ -69,10 +69,6 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
               <Activity className="mr-1 h-3 w-3" />
               System {stats.systemHealth}
             </Badge>
-            <Badge variant="secondary">
-              <Users className="mr-1 h-3 w-3" />
-              {stats.totalUsers} total users
-            </Badge>
           </div>
         </div>
 
@@ -80,48 +76,12 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-              <Users className="text-muted-foreground h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-semibold">{stats.totalUsers.toLocaleString()}</div>
-              <p className="text-muted-foreground text-xs">
-                {stats.usersGrowth > 0 ? '+' : ''}
-                {stats.usersGrowth}% from last month
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Revenue (MTD)</CardTitle>
               <Activity className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-semibold">�{stats.revenueMtd.toLocaleString()}</div>
+              <div className="text-2xl font-semibold">{stats.revenueMtd}</div>
               <p className="text-muted-foreground text-xs">Plan & Service Revenue</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Growth</CardTitle>
-              <BarChart3 className="text-muted-foreground h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-semibold">{stats.revenueGrowth}%</div>
-              <p className="text-muted-foreground text-xs">Revenue Growth MoM</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">System Status</CardTitle>
-              <Shield className="text-muted-foreground h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-semibold capitalize">{stats.systemHealth}</div>
-              <p className="text-muted-foreground text-xs">All services operational</p>
             </CardContent>
           </Card>
         </div>

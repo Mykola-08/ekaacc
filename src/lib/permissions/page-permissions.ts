@@ -46,6 +46,12 @@ export const SIDEBAR_NAV: PageConfig[] = [
     permission: null,
   },
   {
+    path: '/chat',
+    label: 'Messages',
+    icon: 'message',
+    permission: null,
+  },
+  {
     path: '/resources',
     label: 'Resources',
     icon: 'book',

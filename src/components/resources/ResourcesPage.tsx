@@ -60,7 +60,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
 
       {/* Search & Filter Bar */}
       <div className="bg-background/80 sticky top-4 z-20 flex flex-col items-center justify-between gap-6 rounded-full px-2 py-4 backdrop-blur-xl md:flex-row">
-        <div className="relative w-full md:w-120">
+        <div className="relative w-full md:w-[480px]">
           <HugeiconsIcon
             icon={Search01Icon}
             className="text-muted-foreground absolute top-1/2 left-5 h-5 w-5 -translate-y-1/2"
@@ -100,7 +100,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
             animate="visible"
             key={resource.id}
           >
-            <Card className="bg-card text-foreground group border-border/50 relative flex h-full flex-col overflow-hidden rounded-lg border border-none shadow-eka-sm transition-all duration-700 hover:-translate-y-3 hover:shadow-xl">
+            <Card className="bg-card text-foreground group border-border/50 relative flex h-full flex-col overflow-hidden rounded-lg border border-none shadow-sm transition-all duration-700 hover:-translate-y-3 hover:shadow-xl">
               <div className="bg-muted relative h-64 overflow-hidden">
                 {resource.imageUrl ? (
                   <Image
@@ -164,4 +164,3 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
     </div>
   );
 }
-

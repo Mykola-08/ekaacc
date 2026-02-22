@@ -9,6 +9,10 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { MorphingToaster } from '@/components/ui/morphing-toaster';
 import { ThemeProvider } from '@/components/theme-provider';
+import { resolveFeatures } from '@/lib/features';
+import { FeaturesProvider } from '@/context/FeaturesContext';
+import { createClient } from '@/lib/supabase/server';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'EKA Balance - Teràpies Integratives',
@@ -24,6 +28,26 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
 };
+
+// Async wrapper to fetch features and pass to provider
+async function FeaturesWrapper({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let role = 'client';
+  if (user) {
+    const { data } = await supabase.from('profiles').select('role').eq('auth_id', user.id).single();
+    role = data?.role || 'client';
+  }
+
+  const features = await resolveFeatures({ userId: user?.id, role });
+
+  return (
+    <FeaturesProvider features={features}>
+      {children}
+    </FeaturesProvider>
+  );
+}
 
 export default function RootLayout({
   children,
@@ -43,13 +67,17 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <LanguageProvider>
-              <TooltipProvider>
-                <MorphingToaster />
-                <GlobalErrorReporter />
-                {children}
-              </TooltipProvider>
-            </LanguageProvider>
+            <Suspense fallback={<div className="min-h-screen bg-background" />}>
+              <FeaturesWrapper>
+                <LanguageProvider>
+                  <TooltipProvider>
+                    <MorphingToaster />
+                    <GlobalErrorReporter />
+                    {children}
+                  </TooltipProvider>
+                </LanguageProvider>
+              </FeaturesWrapper>
+            </Suspense>
           </AuthProvider>
         </ThemeProvider>
       </body>

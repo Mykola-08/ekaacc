@@ -1,0 +1,48 @@
+'use client';
+
+import { toggleFeatureOverride } from '@/app/actions/admin';
+import { Switch } from '@/components/ui/switch';
+import { useTransition } from 'react';
+import { morphToast } from '@/components/ui/morphing-toaster';
+
+export function FeatureOverrideList({ userId, enrollments, allFeatures }: any) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleToggle = (featureId: string, checked: boolean) => {
+    startTransition(async () => {
+      try {
+        await toggleFeatureOverride(userId, featureId, checked);
+        morphToast.success(checked ? 'Override Enabled' : 'Override Disabled');
+      } catch (e) {
+        morphToast.error('Failed to update override');
+      }
+    });
+  };
+
+  return (
+    <div className="space-y-2">
+      {allFeatures.map((feature: any) => {
+        const enrollment = enrollments.find((e: any) => e.feature_id === feature.id);
+        const isEnabled = enrollment ? enrollment.enabled : feature.default_enabled;
+        const isOverride = !!enrollment;
+
+        return (
+          <div key={feature.id} className="flex justify-between items-center border p-3 rounded-md bg-card">
+            <div className="flex flex-col">
+               <span className="font-mono text-sm font-medium">{feature.key}</span>
+               <div className="flex gap-2 text-xs text-muted-foreground">
+                 {feature.description}
+                 {isOverride && <span className="text-[10px] bg-yellow-100 text-yellow-800 px-1 rounded self-center">Override</span>}
+               </div>
+            </div>
+            <Switch
+              checked={isEnabled}
+              onCheckedChange={(checked) => handleToggle(feature.id, checked)}
+              disabled={isPending}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}

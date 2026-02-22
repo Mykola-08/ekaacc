@@ -1,41 +1,138 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import { Suspense } from 'react';
-import { SettingsPage } from '@/components/settings/SettingsPage';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 
-export default async function Page() {
+export default async function SettingsPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
-  // Use user metadata (auth.users is not accessible via PostgREST)
-  const profile = {
-    ...user.user_metadata,
-    email: user.email,
-    id: user.id,
-    created_at: user.created_at,
-  };
-
-  // Fetch Identity Status
-  const { data: identity } = await supabase
-    .from('identity_verifications')
-    .select('status')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = await supabase.from('profiles').select('*').eq('auth_id', user?.id).single();
+  const { data: telegramLink } = await supabase.from('telegram_links').select('*').eq('user_id', user?.id).single();
 
   return (
-    <Suspense fallback={<div className="space-y-4 px-4 py-8"><div className="h-24 animate-pulse rounded-lg bg-muted" /></div>}>
-      <SettingsPage
-        profile={profile}
-        identityStatus={identity?.status || 'none'}
-      />
-    </Suspense>
+    <div className="space-y-6 p-6 max-w-4xl mx-auto">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Account Settings</h1>
+        <p className="text-muted-foreground">Manage your profile, notifications, and security.</p>
+      </div>
+
+      <Tabs defaultValue="profile" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="billing">Billing</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="profile">
+          <Card>
+            <CardHeader>
+              <CardTitle>Personal Information</CardTitle>
+              <CardDescription>Update your public profile and contact details.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center gap-6">
+                <Avatar className="h-20 w-20">
+                  <AvatarImage src={profile?.avatar_url} />
+                  <AvatarFallback>{profile?.full_name?.[0]}</AvatarFallback>
+                </Avatar>
+                <Button variant="outline">Change Avatar</Button>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label>Full Name</Label>
+                  <Input defaultValue={profile?.full_name} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Email</Label>
+                  <Input defaultValue={profile?.email} readOnly disabled />
+                </div>
+                <div className="space-y-2">
+                  <Label>Phone</Label>
+                  <Input defaultValue={profile?.phone} />
+                </div>
+                <div className="space-y-2">
+                  <Label>City</Label>
+                  <Input defaultValue={profile?.city} />
+                </div>
+              </div>
+              <Button>Save Changes</Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="notifications">
+          <Card>
+            <CardHeader>
+              <CardTitle>Notification Preferences</CardTitle>
+              <CardDescription>Choose how you want to be contacted.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Channels</h3>
+                <div className="flex items-center justify-between border p-4 rounded-lg">
+                  <div className="space-y-0.5">
+                    <Label className="text-base">Email Notifications</Label>
+                    <p className="text-sm text-muted-foreground">Receive booking confirmations and invoices.</p>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+
+                <div className="flex items-center justify-between border p-4 rounded-lg">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <Label className="text-base">Telegram Integration</Label>
+                      {telegramLink?.is_verified ? (
+                        <Badge variant="default" className="bg-green-500 hover:bg-green-600">Connected</Badge>
+                      ) : (
+                        <Badge variant="outline">Not Connected</Badge>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {telegramLink?.is_verified
+                        ? `Linked as @${telegramLink.telegram_username}`
+                        : 'Link your Telegram account to receive instant alerts via our bot.'
+                      }
+                    </p>
+                  </div>
+                  {!telegramLink?.is_verified && (
+                    <Button variant="outline" size="sm">Connect Telegram</Button>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="security">
+          <Card>
+            <CardHeader>
+              <CardTitle>Security Settings</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-medium">Two-Factor Authentication</div>
+                  <div className="text-sm text-muted-foreground">Add an extra layer of security to your account.</div>
+                </div>
+                <Button variant="outline">Enable 2FA</Button>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t">
+                <div>
+                  <div className="font-medium text-destructive">Delete Account</div>
+                  <div className="text-sm text-muted-foreground">Permanently remove your data and access.</div>
+                </div>
+                <Button variant="destructive">Delete Account</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }

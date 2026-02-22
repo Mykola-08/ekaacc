@@ -12,6 +12,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { resolveFeatures } from '@/lib/features';
 import { FeaturesProvider } from '@/context/FeaturesContext';
 import { createClient } from '@/lib/supabase/server';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'EKA Balance - Teràpies Integratives',
@@ -28,11 +29,8 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+// Async wrapper to fetch features and pass to provider
+async function FeaturesWrapper({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -44,6 +42,18 @@ export default async function RootLayout({
 
   const features = await resolveFeatures({ userId: user?.id, role });
 
+  return (
+    <FeaturesProvider features={features}>
+      {children}
+    </FeaturesProvider>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={cn("font-sans antialiased", GeistSans.variable, GeistMono.variable)} suppressHydrationWarning>
@@ -57,15 +67,17 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <FeaturesProvider features={features}>
-              <LanguageProvider>
-                <TooltipProvider>
-                  <MorphingToaster />
-                  <GlobalErrorReporter />
-                  {children}
-                </TooltipProvider>
-              </LanguageProvider>
-            </FeaturesProvider>
+            <Suspense fallback={<div className="min-h-screen bg-background" />}>
+              <FeaturesWrapper>
+                <LanguageProvider>
+                  <TooltipProvider>
+                    <MorphingToaster />
+                    <GlobalErrorReporter />
+                    {children}
+                  </TooltipProvider>
+                </LanguageProvider>
+              </FeaturesWrapper>
+            </Suspense>
           </AuthProvider>
         </ThemeProvider>
       </body>

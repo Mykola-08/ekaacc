@@ -4,11 +4,31 @@ import { logExternalPurchase } from '@/app/actions/admin';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { MorphingActionButton } from '@/components/ui/MorphingActionButton';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { morphToast } from '@/components/ui/morphing-toaster';
 
 export function PurchaseLog({ userId, purchases }: any) {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (formData: FormData) => {
+    setStatus('loading');
+    const result = await logExternalPurchase(null, formData);
+    if (result?.message === 'Success') {
+      setStatus('success');
+      morphToast.success('Purchase logged');
+      setTimeout(() => setStatus('idle'), 2000);
+    } else {
+      setStatus('error');
+      morphToast.error(result?.message || 'Failed');
+      setTimeout(() => setStatus('idle'), 2000);
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <form action={logExternalPurchase} className="flex flex-col md:flex-row gap-4 items-end border p-4 rounded-lg bg-muted/20">
+      <form action={handleSubmit} className="flex flex-col md:flex-row gap-4 items-end border p-4 rounded-lg bg-muted/20">
         <input type="hidden" name="userId" value={userId} />
         <div className="grid gap-2 w-full">
            <label className="text-xs font-medium">Item Name</label>
@@ -22,7 +42,13 @@ export function PurchaseLog({ userId, purchases }: any) {
            <label className="text-xs font-medium">Status</label>
            <Input name="status" placeholder="ordered" defaultValue="ordered" />
         </div>
-        <Button type="submit" className="w-full md:w-auto">Log Purchase</Button>
+        <MorphingActionButton
+          type="submit"
+          status={status}
+          idleLabel="Log Purchase"
+          icon={<Plus className="w-4 h-4" />}
+          className="w-full md:w-auto"
+        />
       </form>
 
       <div className="rounded-md border overflow-hidden">

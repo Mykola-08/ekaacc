@@ -1069,3 +1069,4 @@ Your platform consists of:
 8. **Test on real devices**: Phone animations feel different than on desktop
 9. **Use design system**: Build a consistent set of components/patterns
 10. **Iterate**: Small improvements compound into a great experience
+

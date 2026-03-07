@@ -135,3 +135,4 @@ Use custom easing functions over built-in CSS easings for more natural motion.
 ```css
 --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
 ```
+

@@ -14,8 +14,8 @@ platform.
 ### Key Architectural Patterns
 
 - **Service Layer**: Isolate business logic from API routes (e.g.,
-  `apps/booking-app/server/booking/service.ts`).
-  - Flow: `Client` -> `API Route` -> `Service Layer` -> `Supabase/Stripe`.
+  - `server/booking/service.ts`).
+  - Flow: `Client` -> `Server Action` -> `Service Layer` -> `Supabase/Stripe`.
 - **No Middleware**: **Do not use Next.js Middleware** for request handling/auth
   unless explicitly required. Prefer architectural patterns within the App
   Router.

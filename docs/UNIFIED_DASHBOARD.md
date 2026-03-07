@@ -101,3 +101,4 @@ The `(platform)` route group still exists for non-dashboard routes:
 Dashboard-relevant pages that were in `(platform)` have been **copied** to
 `(dashboard)` with permission-based guards. The originals in `(platform)` remain
 for backward compatibility but can be deprecated over time.
+

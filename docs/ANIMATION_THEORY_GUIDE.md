@@ -1364,3 +1364,4 @@ This guide covers all three modules of the animations.dev course:
 
 Use this as a reference when building animations or feeding to AI tools like VS
 Code Copilot, Claude, or ChatGPT for animation assistance.
+

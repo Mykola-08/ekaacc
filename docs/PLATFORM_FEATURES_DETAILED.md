@@ -161,3 +161,4 @@ for the entire platform.
   from payment providers (Stripe) and messaging services.
 - **Telegram & Push**: Multi-channel notification strategy ensuring high
   engagement and low missed-appointment rates.
+

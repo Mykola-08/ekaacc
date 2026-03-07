@@ -1,1 +1,0 @@
-export const StripeWrapper = ({ children }: any) => <>{children}</>;

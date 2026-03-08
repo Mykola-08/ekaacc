@@ -73,7 +73,7 @@ export default function AgenyzContent() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ duration: 0.3 }}
-                      className="group flex h-full flex-col rounded-[2.5rem] border border-gray-100 bg-white p-8 transition-shadow hover:shadow-xl"
+                      className="group flex h-full flex-col rounded-3xl border border-gray-100 bg-white p-8 transition-shadow hover:shadow-xl"
                     >
                       <div className="mb-4 flex items-start justify-between">
                         <span className="bg-gray-100 text-gray-600 rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase">

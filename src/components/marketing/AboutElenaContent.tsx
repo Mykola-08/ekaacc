@@ -60,7 +60,7 @@ export default function AboutElenaContent() {
               transition={{ duration: 0.8 }}
             >
               <div className="group relative mx-auto h-64 w-64 sm:h-80 sm:w-80">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-100/40 to-purple-100/40 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-60" />
+                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-blue-100/40 to-purple-100/40 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-60" />
                 <div className="relative h-full w-full overflow-hidden rounded-full shadow-2xl">
                   <Image
                     src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"

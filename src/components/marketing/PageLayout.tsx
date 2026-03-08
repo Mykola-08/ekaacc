@@ -36,7 +36,7 @@ export default function PageLayout({ children, hero, className = '', mainClassNa
         hero
       ) : (heroData && (
         heroData.backgroundImage ? (
-          <section className="relative w-full h-[100svh] min-h-[600px] flex flex-col items-center justify-center overflow-hidden">
+          <section className="relative w-full h-svh min-h-150 flex flex-col items-center justify-center overflow-hidden">
             <motion.div
               initial={{ scale: 1.1, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -50,7 +50,7 @@ export default function PageLayout({ children, hero, className = '', mainClassNa
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/40 to-black/70 pointer-events-none" />
             </motion.div>
 
             <div className="relative z-10 text-center max-w-4xl mx-auto px-6 mt-16">
@@ -93,7 +93,7 @@ export default function PageLayout({ children, hero, className = '', mainClassNa
               transition={{ delay: 1, duration: 1 }}
               className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center justify-center animate-bounce"
             >
-              <div className="w-[30px] h-[50px] rounded-full border-2 border-white/40 flex justify-center p-2">
+              <div className="w-7.5 h-12.5 rounded-full border-2 border-white/40 flex justify-center p-2">
                 <div className="w-1.5 h-3 bg-white rounded-full" />
               </div>
             </motion.div>

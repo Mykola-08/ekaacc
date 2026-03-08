@@ -39,7 +39,7 @@ export default function AppleHero() {
   return (
     <section className="relative w-full min-h-[90vh] bg-[#fdfdfd] flex flex-col items-center justify-start pt-32 pb-16 overflow-hidden">
       {/* Subtle background glows */}
-      <div className="absolute top-0 left-0 w-full h-[500px] overflow-hidden pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-125 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-[100px] mix-blend-multiply" />
         <div className="absolute top-[10%] right-[-5%] w-[30%] h-[30%] bg-purple-100/40 rounded-full blur-[80px] mix-blend-multiply" />
       </div>
@@ -95,7 +95,7 @@ export default function AppleHero() {
       </div>
 
       {/* Image Container - Rounded Apple Style */}
-      <div className="relative w-full max-w-[90%] md:max-w-6xl aspect-video md:aspect-[21/9] rounded-[32px] md:rounded-[48px] overflow-hidden mx-auto group">
+      <div className="relative w-full max-w-[90%] md:max-w-6xl aspect-video md:aspect-21/9 rounded-[32px] md:rounded-[48px] overflow-hidden mx-auto group">
         {heroImages.map((image, index) => {
           const prev = (currentImageIndex - 1 + heroImages.length) % heroImages.length;
           const next = (currentImageIndex + 1) % heroImages.length;
@@ -104,7 +104,7 @@ export default function AppleHero() {
           return (
             <div
               key={image}
-              className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${
+              className={`absolute inset-0 transition-opacity duration-2000 ease-in-out ${
                 index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             >
@@ -114,12 +114,12 @@ export default function AppleHero() {
                 fill
                 priority={index === 0}
                 loading={index === 0 ? 'eager' : 'lazy'}
-                className={`object-cover transition-transform duration-[7500ms] ease-out ${
+                className={`object-cover transition-transform duration-7500 ease-out ${
                   index === currentImageIndex ? 'scale-105' : 'scale-100'
                 }`}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-t from-gray-900/20 via-transparent to-transparent pointer-events-none" />
             </div>
           );
         })}

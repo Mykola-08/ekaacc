@@ -103,7 +103,10 @@ export const contextService = {
         ).catch(() => ({ rows: [] as UserRow[] })),
 
         db.query<ProfileRow>(
-          `SELECT * FROM ai_user_profiles WHERE user_id = $1`,
+          `SELECT auth_id AS user_id, ai_profile->>'behavior_patterns' AS behavior_patterns,
+                  ai_profile->>'preferences' AS preferences,
+                  ai_profile->>'wellness_insights' AS wellness_insights
+           FROM profiles WHERE auth_id = $1`,
           [userId]
         ).catch(() => ({ rows: [] as ProfileRow[] })),
 

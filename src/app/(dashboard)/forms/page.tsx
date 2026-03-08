@@ -20,7 +20,8 @@ import {
   SessionAssessmentData,
 } from '@/components/platform/eka/forms';
 import { FileText, Heart, ClipboardCheck, Sparkles, Gift, Brain } from 'lucide-react';
-import { useToast } from '@/hooks/platform/ui/use-toast';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
 import { PersonalizationEngine } from '@/lib/platform/services/personalization-engine';
@@ -34,7 +35,7 @@ export default function FormsPage() {
   const [showPreSessionForm, setShowPreSessionForm] = useState(false);
   const [showPostSessionForm, setShowPostSessionForm] = useState(false);
 
-  const { toast } = useToast();
+  const { feedback, setSuccess, reset } = useMorphingFeedback();
   const { user: currentUser } = useAuth();
   const { dataService, initDataService } = useAppStore();
 
@@ -77,35 +78,23 @@ export default function FormsPage() {
       },
     });
     setShowWelcomeForm(false);
-    toast({
-      title: 'Personalization complete!',
-      description: 'Your profile has been updated successfully.',
-    });
+    setSuccess('Personalization complete! Your profile has been updated.');
   };
 
   const handleDonationSubmit = (data: DonationSeekerData) => {
     setShowDonationForm(false);
-    toast({
-      title: 'Application submitted!',
-      description: "We'll review your application within 48 hours.",
-    });
+    setSuccess('Application submitted! We will review within 48 hours.');
   };
 
   const handleMoodLogSubmit = (data: MoodLogData) => {
     setShowMoodForm(false);
-    toast({
-      title: 'Mood log saved!',
-      description: 'Your daily check-in has been recorded.',
-    });
+    setSuccess('Mood log saved! Your daily check-in has been recorded.');
   };
 
   const handleSessionAssessmentSubmit = (data: SessionAssessmentData) => {
     setShowPreSessionForm(false);
     setShowPostSessionForm(false);
-    toast({
-      title: 'Assessment saved!',
-      description: 'Session documentation complete.',
-    });
+    setSuccess('Assessment saved! Session documentation complete.');
   };
 
   return (
@@ -115,6 +104,7 @@ export default function FormsPage() {
         <p className="text-muted-foreground">
           Access all patient and therapist forms with integrated AI assistance
         </p>
+        <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} className="mt-3" />
       </div>
 
       {/* Patient Forms — visible to users with patient_data.view_own */}

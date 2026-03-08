@@ -12,7 +12,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     if (!email) return NextResponse.json({ error: 'Missing email' }, { status: 400 });
     const supabase = await createClient();
     const { data: booking, error } = await supabase
-      .from('booking')
+      .from('bookings')
       .select('id,email')
       .eq('id', id)
       .single();
@@ -22,7 +22,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       return NextResponse.json({ error: 'Email mismatch' }, { status: 403 });
     const token = await signManageToken(booking.id, 'manage', 900);
     const { error: updErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .update({ manage_token_hash: hashToken(token) })
       .eq('id', booking.id);
     if (updErr) return NextResponse.json({ error: updErr.message }, { status: 500 });

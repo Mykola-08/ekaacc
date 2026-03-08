@@ -1,3 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /console/
+Disallow: /therapist/
+Disallow: /settings/
+Disallow: /onboarding/
+
 Sitemap: https://ekabalance.com/sitemap.xml

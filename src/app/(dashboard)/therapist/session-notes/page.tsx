@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { RichTextEditor } from '@/components/platform/editor/rich-text-editor';
 import {
   Card,
@@ -20,7 +20,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/platform/ui/use-toast';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import {
   FileText,
   UserCircle,
@@ -30,14 +31,33 @@ import {
   Target,
   CheckSquare,
   FileText as FileTextIcon,
+  History,
+  Plus,
+  Trash2,
 } from 'lucide-react';
 import { PageSection } from '@/components/ui/page-section';
 import { Descendant } from 'slate';
+import {
+  saveSessionNote,
+  updateSessionNote,
+  deleteSessionNote,
+  getSessionNotes,
+  getTherapistClients,
+} from '@/server/therapist/session-notes-actions';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+
+function serializeSlate(nodes: Descendant[] | undefined): string {
+  if (!nodes) return '';
+  return nodes.map((n: any) => (n.children ? n.children.map((c: any) => c.text).join('') : '')).join('\n');
+}
 
 export default function SessionNotesPage() {
-  const { toast } = useToast();
-  const [clientName, setClientName] = useState('');
-  const [sessionDate, setSessionDate] = useState('');
+  const { feedback, setLoading, setSuccess, setError, reset } = useMorphingFeedback();
+
+  // Form state
+  const [clientId, setClientId] = useState<string>('');
+  const [sessionDate, setSessionDate] = useState(new Date().toISOString().split('T')[0]);
   const [sessionDuration, setSessionDuration] = useState('60');
   const [moodRating, setMoodRating] = useState('');
   const [sessionType, setSessionType] = useState('');
@@ -47,12 +67,110 @@ export default function SessionNotesPage() {
   const [homework, setHomework] = useState<Descendant[]>();
   const [observations, setObservations] = useState<Descendant[]>();
 
-  const handleSave = () => {
-    toast({
-      title: 'Session notes saved',
-      description: `Notes for ${clientName || 'client'} have been saved successfully.`,
-    });
+  // Past notes & clients
+  const [pastNotes, setPastNotes] = useState<any[]>([]);
+  const [clients, setClients] = useState<any[]>([]);
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
+
+  // Load clients and past notes on mount
+  useEffect(() => {
+    async function load() {
+      const [notesRes, clientList] = await Promise.all([
+        getSessionNotes(20),
+        getTherapistClients(),
+      ]);
+      if (notesRes.data) setPastNotes(notesRes.data);
+      if (clientList) setClients(clientList);
+    }
+    load();
+  }, []);
+
+  const handleNewNote = () => {
+    setEditingNoteId(null);
+    setClientId('');
+    setSessionDate(new Date().toISOString().split('T')[0]);
+    setSessionDuration('60');
+    setMoodRating('');
+    setSessionType('');
+    setNotes(undefined);
+    setGoals(undefined);
+    setHomework(undefined);
+    setObservations(undefined);
+    reset();
   };
+
+  const handleSave = useCallback(async () => {
+    if (!sessionDate) {
+      setError('Please select a session date');
+      return;
+    }
+
+    setLoading('Saving session note...');
+
+    const noteData = {
+      clientId: clientId || null,
+      sessionDate,
+      durationMinutes: parseInt(sessionDuration),
+      sessionType: sessionType || null,
+      initialMood: moodRating ? parseInt(moodRating) : null,
+      subjective: serializeSlate(notes),
+      objective: serializeSlate(observations),
+      assessment: serializeSlate(goals),
+      plan: serializeSlate(homework),
+      isDraft: false,
+    };
+
+    const result = editingNoteId
+      ? await updateSessionNote(editingNoteId, noteData)
+      : await saveSessionNote(noteData);
+
+    if (result.success) {
+      setSuccess(editingNoteId ? 'Note updated' : 'Note saved');
+      if (!editingNoteId && 'noteId' in result) {
+        setEditingNoteId(result.noteId as string);
+      }
+      // Refresh notes list
+      const notesRes = await getSessionNotes(20);
+      if (notesRes.data) setPastNotes(notesRes.data);
+    } else {
+      setError(result.error || 'Failed to save');
+    }
+  }, [sessionDate, clientId, sessionDuration, sessionType, moodRating, notes, observations, goals, homework, editingNoteId, setLoading, setSuccess, setError]);
+
+  const handleDelete = useCallback(async (noteId: string) => {
+    setLoading('Deleting...');
+    const result = await deleteSessionNote(noteId);
+    if (result.success) {
+      setSuccess('Note deleted');
+      setPastNotes((prev) => prev.filter((n) => n.id !== noteId));
+      if (editingNoteId === noteId) handleNewNote();
+    } else {
+      setError(result.error || 'Failed to delete');
+    }
+  }, [editingNoteId, setLoading, setSuccess, setError]);
+
+  const handleLoadNote = (note: any) => {
+    setEditingNoteId(note.id);
+    setClientId(note.client_id || '');
+    setSessionDate(note.session_date);
+    setSessionDuration(String(note.duration_minutes || 60));
+    setMoodRating(note.initial_mood ? String(note.initial_mood) : '');
+    setSessionType(note.session_type || '');
+    setShowHistory(false);
+  };
+
+  // Keyboard shortcut for save (Ctrl/Cmd + S)
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        handleSave();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [handleSave]);
 
   return (
     <div className="container mx-auto max-w-6xl space-y-6 py-6">
@@ -61,12 +179,70 @@ export default function SessionNotesPage() {
         description="Document your therapy session with comprehensive notes"
         icon={FileText}
         actions={
-          <Button onClick={handleSave} size="lg" className="gap-2">
-            <FileTextIcon className="h-5 w-5" />
-            Save Notes
-          </Button>
+          <div className="flex items-center gap-3">
+            <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
+            <Button variant="outline" size="sm" onClick={() => setShowHistory(!showHistory)} className="gap-2">
+              <History className="h-4 w-4" />
+              History ({pastNotes.length})
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleNewNote} className="gap-2">
+              <Plus className="h-4 w-4" />
+              New Note
+            </Button>
+            <Button onClick={handleSave} size="lg" className="gap-2" disabled={feedback.status === 'loading'}>
+              <FileTextIcon className="h-5 w-5" />
+              {editingNoteId ? 'Update Note' : 'Save Note'}
+            </Button>
+          </div>
         }
       />
+
+      {/* Past Notes History Drawer */}
+      {showHistory && (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">Recent Session Notes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {pastNotes.length === 0 ? (
+              <p className="text-sm text-muted-foreground py-4 text-center">No session notes yet. Create your first one above.</p>
+            ) : (
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {pastNotes.map((note) => (
+                  <div
+                    key={note.id}
+                    className={`flex items-center justify-between rounded-lg border p-3 cursor-pointer transition-colors hover:bg-muted/50 ${editingNoteId === note.id ? 'border-primary bg-primary/5' : ''}`}
+                    onClick={() => handleLoadNote(note)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback className="text-xs">
+                          {note.client?.full_name?.[0] || '?'}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="text-sm font-medium">{note.client?.full_name || 'Unknown client'}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {new Date(note.session_date).toLocaleDateString()} &middot; {note.duration_minutes}min
+                          {note.is_draft && <Badge variant="outline" className="ml-2 text-[10px]">Draft</Badge>}
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                      onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Session Info Card */}
       <Card>
@@ -79,14 +255,18 @@ export default function SessionNotesPage() {
             <div className="space-y-2">
               <Label htmlFor="client" className="flex items-center gap-2">
                 <UserCircle className="h-4 w-4" />
-                Client Name
+                Client
               </Label>
-              <Input
-                id="client"
-                placeholder="Select or type client name"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
-              />
+              <Select value={clientId} onValueChange={setClientId}>
+                <SelectTrigger id="client">
+                  <SelectValue placeholder="Select client" />
+                </SelectTrigger>
+                <SelectContent>
+                  {clients.map((c: any) => (
+                    <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
@@ -187,7 +367,7 @@ export default function SessionNotesPage() {
             <CardHeader>
               <CardTitle>Session Notes</CardTitle>
               <CardDescription>
-                Document what happened during the session, client's concerns, and discussion points
+                Document what happened during the session, client&apos;s concerns, and discussion points
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
@@ -206,7 +386,7 @@ export default function SessionNotesPage() {
             <CardHeader>
               <CardTitle>Clinical Observations</CardTitle>
               <CardDescription>
-                Note your professional observations about the client's mental state, behavior, and
+                Note your professional observations about the client&apos;s mental state, behavior, and
                 progress
               </CardDescription>
             </CardHeader>
@@ -266,26 +446,26 @@ export default function SessionNotesPage() {
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
             <div>
-              <h4 className="mb-2 font-semibold">💡 Note-Taking Tips</h4>
+              <h4 className="mb-2 font-semibold">Note-Taking Tips</h4>
               <ul className="text-muted-foreground space-y-1">
-                <li>• Be concise but thorough</li>
-                <li>• Use objective language</li>
-                <li>• Focus on relevant details</li>
+                <li>Be concise but thorough</li>
+                <li>Use objective language</li>
+                <li>Focus on relevant details</li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-2 font-semibold">🔒 Privacy & Security</h4>
+              <h4 className="mb-2 font-semibold">Privacy & Security</h4>
               <ul className="text-muted-foreground space-y-1">
-                <li>• Notes are encrypted</li>
-                <li>• Automatic backups</li>
+                <li>Notes stored with row-level security</li>
+                <li>Only you can access your notes</li>
               </ul>
             </div>
             <div>
-              <h4 className="mb-2 font-semibold">⚡ Keyboard Shortcuts</h4>
+              <h4 className="mb-2 font-semibold">Keyboard Shortcuts</h4>
               <ul className="text-muted-foreground space-y-1">
-                <li>• Ctrl/Cmd + B: Bold</li>
-                <li>• Ctrl/Cmd + I: Italic</li>
-                <li>• Ctrl/Cmd + S: Save</li>
+                <li>Ctrl/Cmd + B: Bold</li>
+                <li>Ctrl/Cmd + I: Italic</li>
+                <li>Ctrl/Cmd + S: Save</li>
               </ul>
             </div>
           </div>

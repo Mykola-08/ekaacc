@@ -127,12 +127,12 @@ export async function createCheckoutSession(
     const admin = await getSupabaseAdmin();
     // A. Resolve User ID from Booking (to link customer properly)
     const { data: booking } = await admin
-      .from('booking')
-      .select('customer_reference_id')
+      .from('bookings')
+      .select('client_id')
       .eq('id', bookingId)
       .single();
 
-    const userId = booking?.customer_reference_id;
+    const userId = booking?.client_id;
 
     // B. Get Stripe Customer ID
     const stripeCustomerId = await getOrCreateStripeCustomer(

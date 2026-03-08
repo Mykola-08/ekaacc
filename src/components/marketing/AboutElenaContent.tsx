@@ -6,6 +6,9 @@ import { motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { Heart, Star } from 'lucide-react';
+import SEOUpdater from '@/components/marketing/SEOUpdater';
+import CTASection from '@/components/marketing/CTASection';
+import { ServiceBentoItem } from '@/components/marketing/ui/service-bento';
 
 export default function AboutElenaContent() {
   const { t } = useLanguage();
@@ -22,12 +25,31 @@ export default function AboutElenaContent() {
     { id: 'quiromasaje', name: t('technique.quiromasaje.title') },
   ];
 
+  const targetAudience = [
+    {
+      title: t('elena.audience.adults.title') || 'Adults',
+      description: t('elena.audience.adults.desc') || 'Stress, chronic pain, postural issues, emotional balance.',
+    },
+    {
+      title: t('elena.audience.children.title') || 'Children',
+      description: t('elena.audience.children.desc') || 'Focus, development, behavioral challenges, motor skills.',
+    },
+    {
+      title: t('elena.audience.families.title') || 'Families',
+      description: t('elena.audience.families.desc') || 'Holistic family wellness, preventive care, bonding through movement.',
+    },
+  ];
+
   return (
     <>
-      <div className="min-h-screen bg-card text-foreground selection:bg-info/20">
-        {/* Hero Section - Unified Design */}
-        <section className="relative overflow-hidden bg-card pt-32 pb-24">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,oklch(1 0 0 / 0))] bg-center" />
+      <SEOUpdater
+        titleKey="elena.seo.title"
+        descriptionKey="elena.seo.description"
+      />
+      <div className="min-h-screen bg-white text-gray-900 selection:bg-blue-100/40">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden bg-white pt-32 pb-24">
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, gray 1px, transparent 0)', backgroundSize: '40px 40px' }} />
 
           <div className="relative z-10 mx-auto max-w-5xl px-4 text-center sm:px-8">
             {/* Profile Image with Glow */}
@@ -38,7 +60,7 @@ export default function AboutElenaContent() {
               transition={{ duration: 0.8 }}
             >
               <div className="group relative mx-auto h-64 w-64 sm:h-80 sm:w-80">
-                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-info/20 to-accent/20 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-60" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-100/40 to-purple-100/40 opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-60" />
                 <div className="relative h-full w-full overflow-hidden rounded-full shadow-2xl">
                   <Image
                     src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
@@ -59,35 +81,31 @@ export default function AboutElenaContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h1 className="text-eka-dark text-5xl leading-tight font-bold tracking-tight sm:text-6xl lg:text-7xl">
+              <h1 className="text-5xl leading-tight font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
                 {t('elena.greeting')}
               </h1>
 
               <div className="space-y-4">
-                <p className="text-2xl font-normal tracking-wide text-foreground sm:text-3xl">
+                <p className="text-2xl font-normal tracking-wide text-gray-900 sm:text-3xl">
                   {t('elena.name')}
                 </p>
-                <p className="text-xl font-light tracking-wide text-muted-foreground sm:text-2xl">
+                <p className="text-xl font-light tracking-wide text-gray-500 sm:text-2xl">
                   {t('elena.role')}
                 </p>
-                <p className="mx-auto max-w-2xl text-lg leading-relaxed font-light text-muted-foreground sm:text-xl">
+                <p className="mx-auto max-w-2xl text-lg leading-relaxed font-light text-gray-500 sm:text-xl">
                   {t('elena.bio')}
                 </p>
               </div>
 
               {/* Buttons */}
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Link href="/book">
-                  <Button size="lg" className="btn btn-accent border-none px-10 py-4 normal-case">
+                <Link href="/reservar">
+                  <Button size="lg" className="rounded-full px-10 py-4">
                     {t('common.bookNow')}
                   </Button>
                 </Link>
                 <Link href="/contact">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="btn btn-outline border-2 border-border bg-card px-10 py-4 normal-case"
-                  >
+                  <Button size="lg" variant="outline" className="rounded-full border-2 px-10 py-4">
                     {t('nav.contact')}
                   </Button>
                 </Link>
@@ -95,10 +113,8 @@ export default function AboutElenaContent() {
 
               {/* Quote */}
               <div className="mx-auto mt-12 max-w-3xl">
-                <blockquote className="relative text-xl leading-relaxed font-light text-foreground italic sm:text-2xl">
-                  <span className="text-primary/30 absolute -top-8 -left-4 font-serif text-6xl">
-                    "
-                  </span>
+                <blockquote className="relative text-xl leading-relaxed font-light text-gray-700 italic sm:text-2xl">
+                  <span className="absolute -top-8 -left-4 font-serif text-6xl text-gray-200">"</span>
                   <span className="relative z-10">{t('elena.quote')}</span>
                 </blockquote>
               </div>
@@ -111,26 +127,26 @@ export default function AboutElenaContent() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-wrap justify-center gap-4"
             >
-              <div className="inline-flex items-center rounded-full border border-border bg-card px-6 py-3 shadow-sm">
-                <Star className="mr-2 h-4 w-4 text-warning" />
-                <span className="font-medium text-foreground">15+ {t('hero.stats.experience')}</span>
+              <div className="inline-flex items-center rounded-full border border-gray-100 bg-white px-6 py-3 shadow-sm">
+                <Star className="mr-2 h-4 w-4 text-amber-400" />
+                <span className="font-medium text-gray-900">15+ {t('hero.stats.experience')}</span>
               </div>
-              <div className="inline-flex items-center rounded-full border border-border bg-card px-6 py-3 shadow-sm">
-                <Heart className="mr-2 h-4 w-4 text-destructive" />
-                <span className="font-medium text-foreground">96% {t('hero.stats.clients')}</span>
+              <div className="inline-flex items-center rounded-full border border-gray-100 bg-white px-6 py-3 shadow-sm">
+                <Heart className="mr-2 h-4 w-4 text-rose-400" />
+                <span className="font-medium text-gray-900">96% {t('hero.stats.clients')}</span>
               </div>
             </motion.div>
           </div>
         </section>
 
         {/* Techniques Section */}
-        <section className="bg-card py-20">
+        <section className="bg-white py-20">
           <div className="mx-auto max-w-6xl px-4 text-center sm:px-8">
             <div className="mb-16">
-              <h2 className="mb-6 text-3xl font-light text-eka-dark sm:text-4xl">
+              <h2 className="mb-6 text-3xl font-semibold text-gray-900 tracking-tight sm:text-4xl">
                 {t('elena.approach.title')}
               </h2>
-              <p className="mx-auto max-w-3xl text-xl leading-relaxed font-light text-muted-foreground">
+              <p className="mx-auto max-w-3xl text-xl leading-relaxed font-normal text-gray-500">
                 {t('elena.approach.desc')}
               </p>
             </div>
@@ -141,7 +157,7 @@ export default function AboutElenaContent() {
               viewport={{ once: true }}
               variants={{
                 hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+                visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
               }}
               className="flex flex-wrap justify-center gap-4"
             >
@@ -153,7 +169,7 @@ export default function AboutElenaContent() {
                     visible: { opacity: 1, y: 0 },
                   }}
                   whileHover={{ scale: 1.05 }}
-                  className="cursor-default rounded-2xl border border-border bg-card px-8 py-4 font-medium text-foreground shadow-sm transition-all hover:border-info hover:text-info-foreground hover:shadow-md"
+                  className="cursor-default rounded-full border border-gray-100 bg-white px-8 py-4 font-medium text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:shadow-md"
                 >
                   {tech.name}
                 </motion.div>
@@ -162,31 +178,33 @@ export default function AboutElenaContent() {
           </div>
         </section>
 
-        {/* Contact CTA */}
-        <section className="bg-muted py-20">
-          <div className="mx-auto max-w-4xl px-4 text-center">
-            <h2 className="mb-8 text-3xl font-light text-eka-dark">{t('footer.readyToBegin')}</h2>
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Link href="/book">
-                <Button
-                  size="lg"
-                  className="rounded-2xl border-none bg-accent px-10 py-4 font-medium text-eka-dark normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-accent/90"
-                >
-                  {t('common.bookNow')}
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="rounded-2xl border-border bg-card px-10 py-4 font-medium text-foreground normal-case hover:bg-muted"
-                >
-                  {t('nav.contact')}
-                </Button>
-              </Link>
+        {/* Target Audience Section */}
+        <section className="bg-gray-50/50 py-20">
+          <div className="mx-auto max-w-6xl px-4 sm:px-8">
+            <div className="mb-16 text-center">
+              <h2 className="mb-6 text-3xl font-semibold text-gray-900 tracking-tight sm:text-4xl">
+                {t('elena.audience.title') || 'Who Can Benefit'}
+              </h2>
+              <p className="mx-auto max-w-3xl text-xl leading-relaxed font-normal text-gray-500">
+                {t('elena.audience.desc') || 'Elena works with people of all ages, adapting her approach to each individual.'}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {targetAudience.map((item) => (
+                <ServiceBentoItem
+                  key={item.title}
+                  title={item.title}
+                  description={item.description}
+                  bookUrl="/reservar"
+                />
+              ))}
             </div>
           </div>
         </section>
+
+        {/* CTA */}
+        <CTASection />
       </div>
     </>
   );

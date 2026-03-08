@@ -18,7 +18,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     const supabase = await createClient();
     const { data: booking, error: bookingErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .select('*')
       .eq('id', id)
       .single();
@@ -37,10 +37,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     // Simulate successful payment capture
     const { error: updErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .update({
         payment_status: 'captured',
-        stripe_payment_intent: 'manual_bypass_pay_route',
+        stripe_payment_intent_id: 'manual_bypass_pay_route',
       })
       .eq('id', booking.id);
 

@@ -17,7 +17,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
     const supabase = await createClient();
     const { data: booking, error: bookingErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .select('*')
       .eq('id', id)
       .single();
@@ -34,7 +34,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       );
     }
 
-    const start = new Date(booking.start_time);
+    const start = new Date(booking.starts_at);
     const now = new Date();
     const diffHours = (start.getTime() - now.getTime()) / 3600000;
     const policy = booking.cancellation_policy || {
@@ -53,7 +53,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     const addons = (booking.addons_json || []) as BookingAddon[];
     const amountBasis =
       booking.payment_mode === 'deposit'
-        ? booking.deposit_cents
+        ? booking.deposit_amount_cents
         : booking.base_price_cents +
           addons.reduce((s: number, a: BookingAddon) => s + (a.priceCents || 0), 0);
     const refundCents = Math.round(amountBasis * (refundablePercent / 100));
@@ -64,7 +64,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     const newPaymentStatus = refundCents > 0 ? 'refunded' : booking.payment_status;
     const { error: updateErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .update({ status: 'canceled', payment_status: newPaymentStatus })
       .eq('id', booking.id);
     if (updateErr) return NextResponse.json({ error: updateErr.message }, { status: 500 });
@@ -72,7 +72,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     // Rotate manage token
     const newToken = await signManageToken(booking.id, 'manage', 900);
     const { error: rotateErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .update({ manage_token_hash: hashToken(newToken) })
       .eq('id', booking.id);
     if (rotateErr) {

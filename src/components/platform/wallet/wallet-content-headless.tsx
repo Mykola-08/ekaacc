@@ -23,7 +23,8 @@ import { createWalletTopUpIntentAction } from '@/app/actions/wallet';
 import type { PlanUsage } from '@/app/actions/plans';
 import type { Transaction } from '@/app/actions/wallet';
 import { getPaymentMethods, type PaymentMethod } from '@/app/actions/billing';
-import { useToast } from '@/hooks/platform/ui/use-toast';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { useRouter } from 'next/navigation';
 
 // Initialize Stripe
@@ -38,7 +39,7 @@ function cn(...inputs: (string | undefined | null | false)[]) {
 function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: () => void }) {
   const stripe = useStripe();
   const elements = useElements();
-  const { toast } = useToast();
+  const { feedback, setLoading: setFbLoading, setSuccess, setError, reset } = useMorphingFeedback();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -57,16 +58,9 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
     });
 
     if (error) {
-      toast({
-        title: 'Payment failed',
-        description: error.message,
-        variant: 'destructive',
-      });
+      setError(error.message || 'Payment failed');
     } else {
-      toast({
-        title: 'Top-up successful',
-        description: `Successfully added €${amount} to your wallet.`,
-      });
+      setSuccess(`Successfully added €${amount} to your wallet.`);
       onSuccess();
     }
     setLoading(false);
@@ -74,6 +68,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
       <div className="bg-muted/30 border-border rounded-xl border p-4">
         <PaymentElement
           options={{
@@ -115,7 +110,7 @@ export function WalletContentHeadless({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [pmLoading, setPmLoading] = useState(true);
-  const { toast } = useToast();
+  const { feedback: walletFeedback, setError: setWalletError, reset: resetWalletFeedback } = useMorphingFeedback();
   const router = useRouter();
 
   // Load real payment methods
@@ -134,7 +129,7 @@ export function WalletContentHeadless({
 
   const handleTopUpClick = async () => {
     if (topUpAmount < 5) {
-      toast({ title: 'Minimum amount is €5', variant: 'destructive' });
+      setWalletError('Minimum amount is €5');
       return;
     }
     setIsOpen(true);
@@ -144,12 +139,12 @@ export function WalletContentHeadless({
       if (result?.clientSecret) {
         setClientSecret(result.clientSecret);
       } else {
-        toast({ title: 'Error initiating top-up', variant: 'destructive' });
+        setWalletError('Error initiating top-up');
         setIsOpen(false);
       }
     } catch (error) {
       console.error(error);
-      toast({ title: 'Unexpected error', variant: 'destructive' });
+      setWalletError('Unexpected error');
       setIsOpen(false);
     }
   };
@@ -177,6 +172,7 @@ export function WalletContentHeadless({
           <p className="text-muted-foreground mt-2 text-lg">
             Manage your credits, transactions, and membership plans.
           </p>
+          <InlineFeedback status={walletFeedback.status} message={walletFeedback.message} onDismiss={resetWalletFeedback} className="mt-2" />
         </div>
       </div>
 

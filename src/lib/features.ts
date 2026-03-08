@@ -26,7 +26,7 @@ export async function resolveFeatures(context: FeatureContext): Promise<Record<s
   // 2. Fetch enrollments if user/role exists
   let enrollments: any[] = [];
   if (context.userId || context.role) {
-    let query = supabase.from('feature_enrollments').select('*');
+    const query = supabase.from('feature_enrollments').select('*');
     const conditions: string[] = [];
     if (context.userId) conditions.push(`user_id.eq.${context.userId}`);
     if (context.role) conditions.push(`role.eq.${context.role}`);

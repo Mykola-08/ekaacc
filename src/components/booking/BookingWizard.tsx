@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useFeature } from '@/context/FeaturesContext';
 import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { Badge } from '@/components/ui/badge';
 
 export default function BookingWizard({ serviceId }: { serviceId?: string }) {
@@ -21,6 +22,7 @@ export default function BookingWizard({ serviceId }: { serviceId?: string }) {
   const router = useRouter();
   const supabase = createClient();
   const hasPriority = useFeature('booking.priority');
+  const { feedback, setLoading, setSuccess, setError, reset } = useMorphingFeedback();
 
   useEffect(() => {
     const fetchInitial = async () => {
@@ -48,9 +50,11 @@ export default function BookingWizard({ serviceId }: { serviceId?: string }) {
     if (!selectedService || !selectedTherapist || !selectedDate) return;
 
     // Get current user
+    setLoading('Creating booking...');
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-      toast.error('Please login to complete booking');
+      setError('Please login to complete booking');
       router.push('/login?next=/book');
       return;
     }
@@ -60,7 +64,6 @@ export default function BookingWizard({ serviceId }: { serviceId?: string }) {
       therapist_id: selectedTherapist.id,
       client_id: user.id,
       starts_at: selectedDate.toISOString(),
-      // Simple duration calculation
       ends_at: new Date(selectedDate.getTime() + (selectedService.duration_minutes || 60) * 60000).toISOString(),
       status: 'scheduled',
       payment_status: 'unpaid',
@@ -68,10 +71,10 @@ export default function BookingWizard({ serviceId }: { serviceId?: string }) {
     });
 
     if (error) {
-      toast.error('Booking failed: ' + error.message);
+      setError('Booking failed. Please try again.');
     } else {
-      toast.success('Booking confirmed!');
-      router.push('/book/success'); // Assuming this page exists or will exist
+      setSuccess('Booking confirmed!');
+      router.push('/book/success');
     }
   };
 
@@ -97,7 +100,7 @@ export default function BookingWizard({ serviceId }: { serviceId?: string }) {
             ))}
         </div>
 
-        <Card className="p-6 md:p-8 min-h-[500px] shadow-lg border-muted/60 relative overflow-hidden">
+        <Card className="p-6 md:p-8 min-h-125 shadow-lg border-muted/60 relative overflow-hidden">
             {/* Step 1: Select Service */}
             {step === 1 && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
@@ -225,9 +228,13 @@ export default function BookingWizard({ serviceId }: { serviceId?: string }) {
                         </div>
                     </div>
 
-                    <div className="flex justify-between mt-8 max-w-md mx-auto">
+                    <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} className="max-w-md mx-auto" />
+
+                    <div className="flex justify-between mt-4 max-w-md mx-auto">
                         <Button variant="outline" onClick={() => setStep(3)}>Back</Button>
-                        <Button onClick={handleBook} className="w-full ml-4">Confirm & Pay</Button>
+                        <Button onClick={handleBook} disabled={feedback.status === 'loading'} className="w-full ml-4">
+                          {feedback.status === 'loading' ? 'Booking...' : 'Confirm & Pay'}
+                        </Button>
                     </div>
                 </div>
             )}

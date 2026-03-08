@@ -106,22 +106,39 @@ export async function getSubscription(): Promise<SubscriptionDetail | null> {
 
   const { data, error } = await supabase
     .from('subscriptions')
-    .select('*, tier:subscription_tiers(*)')
+    .select('*')
     .eq('user_id', user.id)
     .in('status', ['active', 'trialing'])
     .single();
 
   if (error || !data) return null;
 
+  // Look up plan details from subscription_plans if tier_id exists
+  let planName = data.plan_type || 'Standard';
+  let planPrice = 0;
+  const planCurrency = 'EUR';
+
+  if (data.tier_id) {
+    const { data: plan } = await supabase
+      .from('subscription_plans')
+      .select('name, price_cents')
+      .eq('id', data.tier_id)
+      .single();
+    if (plan) {
+      planName = plan.name;
+      planPrice = (plan.price_cents || 0) / 100;
+    }
+  }
+
   return {
     id: data.id,
     status: data.status,
-    plan_name: data.tier?.name || 'Standard',
-    plan_price: data.tier?.monthly_price || 0,
-    plan_currency: data.tier?.currency || 'EUR',
+    plan_name: planName,
+    plan_price: planPrice,
+    plan_currency: planCurrency,
     plan_interval: 'month',
     current_period_end: data.current_period_end,
-    cancel_at_period_end: data.cancel_at_period_end || false,
+    cancel_at_period_end: data.cancel_reason ? true : false,
     stripe_subscription_id: data.stripe_subscription_id || null,
   };
 }

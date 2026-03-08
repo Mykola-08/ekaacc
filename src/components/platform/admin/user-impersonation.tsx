@@ -19,7 +19,8 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/platform/ui/use-toast';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { supabase } from '@/lib/platform/supabase';
 
 interface User {
@@ -47,7 +48,7 @@ export function UserImpersonationDialog({
   onOpenChange,
   onImpersonate,
 }: UserImpersonationDialogProps) {
-  const { toast } = useToast();
+  const { feedback, setError, reset } = useMorphingFeedback();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -66,51 +67,35 @@ export function UserImpersonationDialog({
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from('user_profiles')
-        .select(
-          `
-          *,
-          user_role_assignments!inner(
-            role_id,
-            user_roles!inner(name, description)
-          )
-        `
-        )
+        .from('profiles')
+        .select('*')
         .order('created_at', { ascending: false })
         .limit(50);
 
       if (error) {
         console.error('Error fetching users:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to fetch users',
-          variant: 'destructive',
-        });
+        setError('Failed to fetch users');
         return;
       }
 
       const formattedUsers = data.map((user: any) => ({
-        id: user.id,
+        id: user.auth_id,
         email: user.email,
         username: user.username,
         full_name: user.full_name,
         avatar_url: user.avatar_url,
         role: {
-          name: user.user_role_assignments.user_roles.name,
-          description: user.user_role_assignments.user_roles.description,
+          name: user.role || 'client',
+          description: null,
         },
         created_at: user.created_at,
-        last_active: user.updated_at,
+        last_active: user.last_active,
       }));
 
       setUsers(formattedUsers);
     } catch (error) {
       console.error('Error fetching users:', error);
-      toast({
-        title: 'Error',
-        description: 'An unexpected error occurred',
-        variant: 'destructive',
-      });
+      setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
@@ -125,11 +110,7 @@ export function UserImpersonationDialog({
 
   const handleImpersonate = async () => {
     if (!selectedUser || !impersonationReason.trim()) {
-      toast({
-        title: 'Validation Error',
-        description: 'Please select a user and provide a reason for impersonation',
-        variant: 'destructive',
-      });
+      setError('Please select a user and provide a reason for impersonation');
       return;
     }
 
@@ -141,11 +122,7 @@ export function UserImpersonationDialog({
       setImpersonationReason('');
     } catch (error) {
       console.error('Impersonation error:', error);
-      toast({
-        title: 'Impersonation Failed',
-        description: error instanceof Error ? error.message : 'Failed to start impersonation',
-        variant: 'destructive',
-      });
+      setError('Failed to start impersonation');
     } finally {
       setIsImpersonating(false);
     }
@@ -208,7 +185,7 @@ export function UserImpersonationDialog({
               />
             </div>
 
-            <ScrollArea className="h-[300px] rounded-lg border">
+            <ScrollArea className="h-75 rounded-lg border">
               <div className="space-y-2 p-4">
                 {loading ? (
                   <div className="flex h-32 items-center justify-center">

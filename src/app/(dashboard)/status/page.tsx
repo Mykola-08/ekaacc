@@ -134,7 +134,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
           <span className="text-xs text-muted-foreground">Discord integration coming</span>
         )}
         {service.error && (
-          <span className="max-w-[150px] truncate text-xs text-destructive" title={service.error}>
+          <span className="max-w-37.5 truncate text-xs text-destructive" title={service.error}>
             {service.error}
           </span>
         )}

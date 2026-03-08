@@ -1,20 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import FooterUncover from '@/components/marketing/FooterUncover';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, Globe } from 'lucide-react';
+import { Menu, X, Globe, Hand, Brain, Apple, Pill, Network, RotateCcw, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-import { OfflineIndicator } from '@/components/marketing/OfflineIndicator';
 import { Language } from '@/context/marketing/LanguageTypes';
 import { useLanguage } from '@/context/marketing/LanguageContext';
-import LanguagePopup from '@/components/marketing/LanguagePopup';
-import CookieBanner from './CookieBanner';
-
 import { useClickOutside } from '@/hooks/marketing/useClickOutside';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
+import { Button } from '@/components/ui/button';
+
+const LanguagePopup = dynamic(() => import('@/components/marketing/LanguagePopup'), { ssr: false });
+const CookieBanner = dynamic(() => import('./CookieBanner'), { ssr: false });
+const FooterPillMenu = dynamic(() => import('@/components/marketing/FooterPillMenu'), { ssr: false });
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -29,49 +32,140 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     }
   }, [pathname, logPageView]);
 
-  const [showPersonalServices, setShowPersonalServices] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const personalServicesRef = useClickOutside<HTMLDivElement>(() => setShowPersonalServices(false));
+  const navRef = useClickOutside<HTMLDivElement>(() => setActiveDropdown(null));
 
   // Hover intent management for dropdown
-  const [hideTimeout, setHideTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const navBarRef = useRef<HTMLDivElement>(null);
+  const activeTriggerRef = useRef<HTMLElement | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<{ left: number; top: number; originX: number; triggerBottom: number; width: number } | null>(null);
 
-  const openDropdown = () => {
-    if (hideTimeout) {
-      clearTimeout(hideTimeout);
-      setHideTimeout(null);
+  // Calculate where the dropdown should appear relative to the nav bar container
+  const computeDropdownPosition = useCallback((triggerElement: HTMLElement) => {
+    if (!triggerElement) return;
+    const triggerRect = triggerElement.getBoundingClientRect();
+    const dropdownWidth = 280;
+
+    const triggerCenter = triggerRect.left + triggerRect.width / 2;
+    const idealLeft = triggerCenter - dropdownWidth / 2;
+
+    const pad = 16;
+    const minLeft = pad;
+    const maxLeft = document.documentElement.clientWidth - dropdownWidth - pad;
+    const clampedLeft = Math.max(minLeft, Math.min(idealLeft, maxLeft));
+
+    const navRect = triggerElement.closest('nav')?.getBoundingClientRect();
+    const top = navRect ? navRect.bottom : triggerRect.bottom + 8;
+
+    const originX = ((triggerCenter - clampedLeft) / dropdownWidth) * 100;
+
+    setDropdownPosition({
+      left: clampedLeft,
+      top: top,
+      triggerBottom: triggerRect.bottom,
+      originX: Math.max(10, Math.min(90, originX)),
+      width: dropdownWidth
+    });
+  }, []);
+
+  const openDropdown = (e: React.MouseEvent | React.FocusEvent | undefined, id: string) => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
     }
-    setShowPersonalServices(true);
+
+    if (e && e.currentTarget) {
+      activeTriggerRef.current = e.currentTarget as HTMLElement;
+    }
+
+    if (showTimeoutRef.current) {
+      clearTimeout(showTimeoutRef.current);
+      showTimeoutRef.current = null;
+    }
+
+    if (activeDropdown) {
+      setActiveDropdown(id);
+      if (activeTriggerRef.current) {
+        computeDropdownPosition(activeTriggerRef.current);
+      }
+      return;
+    }
+
+    showTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(id);
+      if (activeTriggerRef.current) {
+        computeDropdownPosition(activeTriggerRef.current);
+      }
+    }, 200);
+  };
+
+  const keepMenuOpen = (id: string) => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+    if (showTimeoutRef.current) {
+      clearTimeout(showTimeoutRef.current);
+      showTimeoutRef.current = null;
+    }
+    setActiveDropdown(id);
   };
 
   const scheduleHide = () => {
-    if (hideTimeout) {
-      clearTimeout(hideTimeout);
+    if (showTimeoutRef.current) {
+      clearTimeout(showTimeoutRef.current);
+      showTimeoutRef.current = null;
     }
-    const timeout = setTimeout(() => {
-      setShowPersonalServices(false);
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    hideTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
     }, 220);
-    setHideTimeout(timeout);
   };
+
+  // Close dropdown on resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (activeDropdown) setActiveDropdown(null);
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, [activeDropdown]);
 
   // Handle scroll effect for header
   useEffect(() => {
+    let rafId: number | null = null;
+
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 20);
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        setIsScrolled((prev) => {
+          const next = window.scrollY > 20;
+          return prev === next ? prev : next;
+        });
+        rafId = null;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
   }, []);
 
   useEffect(() => {
     return () => {
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-      }
+      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+      if (showTimeoutRef.current) clearTimeout(showTimeoutRef.current);
     };
-  }, [hideTimeout]);
+  }, []);
 
   // Navigation items
   interface NavItem {
@@ -79,150 +173,299 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     href: string;
     hasDropdown?: boolean;
     dropdownItems?: { name: string; href: string }[];
-    isGold?: boolean;
     isExternal?: boolean;
   }
+
+  const headerSurfaceClass = isScrolled
+    ? 'bg-white/70 backdrop-blur-2xl border-gray-200/50'
+    : 'bg-transparent';
+
+  // Icon map for dropdown items
+  const serviceIcons: Record<string, React.ReactNode> = {
+    '/services/massage': <Hand className="w-4 h-4" />,
+    '/services/kinesiology': <Brain className="w-4 h-4" />,
+    '/services/nutrition': <Apple className="w-4 h-4" />,
+    '/services/supplements': <Pill className="w-4 h-4" />,
+    '/services/systemic': <Network className="w-4 h-4" />,
+    '/360-revision': <RotateCcw className="w-4 h-4" />,
+  };
 
   const navigation: NavItem[] = [
     {
       name: t('nav.services'),
       href: '/services',
+      hasDropdown: true,
+      dropdownItems: [
+        { name: t('services.massage.title') || 'Massage', href: '/services/massage' },
+        { name: t('services.kinesiology.title') || 'Kinesiology', href: '/services/kinesiology' },
+        { name: t('services.nutrition.title') || 'Nutrition', href: '/services/nutrition' },
+        { name: t('service.supplements.title') || 'Supplements', href: '/services/supplements' },
+        { name: t('service.systemic.title') || 'Systemic', href: '/services/systemic' },
+        { name: t('services.revision360.title') || '360° Revision', href: '/360-revision' },
+      ]
     },
     {
       name: 'Agenyz',
-      href: '/agenyz',
-    },
-    {
-      name: t('nav.personalizedServices'),
-      href: '/personalized-services',
-      hasDropdown: true,
-      dropdownItems: [
-        { name: t('nav.officeWorkers'), href: '/services/office-workers' },
-        { name: t('nav.athletes'), href: '/services/athletes' },
-        { name: t('nav.artists'), href: '/services/artists' },
-        { name: t('nav.musicians'), href: '/services/musicians' },
-        { name: t('nav.students'), href: '/services/students' },
-      ],
-    },
-    {
-      name: t('nav.casos'),
-      href: '/cases',
+      href: '/agenyz'
     },
     {
       name: t('nav.revision360'),
-      href: '/360-revision',
+      href: '/360-revision'
+    },
+    {
+      name: t('personalizedServices.business') || 'For Business',
+      href: '/for-business'
     },
   ];
 
-  const isActivePath = (path: string) => {
-    if (!pathname) return false;
-    if (path === '/') {
-      return pathname === '/';
-    }
-    return pathname.startsWith(path);
-  };
-
   return (
-    <div className="min-h-screen">
-      <OfflineIndicator />
+    <>
+      <FooterUncover
+        footer={
+          <footer className="py-12 sm:py-16 bg-secondary text-gray-900 border-t border-gray-200">
+            <div className="max-w-5xl mx-auto px-6 text-center">
+              {/* Logo */}
+              <Link href="/" className="flex items-center justify-center space-x-2 mb-8 group w-fit mx-auto opacity-80 hover:opacity-100">
+                <div className="relative w-8 h-8">
+                  <Image
+                    src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
+                    alt="EKA Balance Logo"
+                    fill
+                    className="object-contain"
+                    sizes="32px"
+                  />
+                </div>
+                <span className="text-lg font-medium tracking-tight">EKA Balance</span>
+              </Link>
 
-      {/* Navigation with scroll effect */}
-      <nav
-        className={`ease-in-out-quart sticky top-0 z-50 border-b border-border/50 transition-all duration-500 ${isScrolled ? 'bg-background/85 shadow-sm backdrop-blur-xl' : 'bg-background/70 backdrop-blur-md'}`}
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div
-            className={`ease-in-out-quart flex items-center justify-between transition-all duration-500 ${
-              isScrolled ? 'h-14' : 'h-16'
-            }`}
-          >
-            {/* Logo Only - Left Side */}
-            <Link href="/" className="group relative flex shrink-0 items-center">
-              <div
-                className={`ease-in-out-quart relative transition-all duration-500 ${isScrolled ? 'h-8 w-8' : 'h-10 w-10'}`}
-              >
-                <Image
-                  src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
-                  alt="EKA Balance Logo"
-                  fill
-                  className="object-contain"
-                  sizes="40px"
-                  priority
-                />
+              {/* Contact Info */}
+              <div className="space-y-1 mb-8 text-gray-500 text-xs">
+                <p>Carrer Pelai, 12, 08001 Barcelona</p>
+                <p>contact@ekabalance.com</p>
               </div>
-            </Link>
 
-            {/* Desktop Navigation - Centered */}
-            <div className="mx-8 hidden flex-1 items-center justify-center md:flex">
-              <div className="flex items-center space-x-2">
-                {navigation.map((item) => (
-                  <div
-                    key={item.name}
-                    className={`nav-item ${item.hasDropdown ? 'relative' : ''}`}
-                    ref={item.hasDropdown ? personalServicesRef : undefined}
-                  >
+              {/* Footer Links */}
+              <div className="mb-10 w-full max-w-4xl mx-auto">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-left mb-8 px-4">
+                  {/* Column 1: Core Services */}
+                  <div className="flex flex-col space-y-3">
+                    <h4 className="font-semibold text-gray-900 mb-2">{t('nav.services')}</h4>
+                    <Link href="/services" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('nav.services')}
+                    </Link>
+                    <Link href="/personalized-services" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('nav.personalizedServices')}
+                    </Link>
+                    <Link href="/for-business" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('personalizedServices.business')}
+                    </Link>
+                  </div>
+
+                  {/* Column 2: EKA Balance */}
+                  <div className="flex flex-col space-y-3">
+                    <h4 className="font-semibold text-gray-900 mb-2">EKA Balance</h4>
+                    <Link href="/360-revision" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('nav.revision360')}
+                    </Link>
+                    <Link href="/first-time" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('hero.firstTime')}
+                    </Link>
+                  </div>
+
+                  {/* Column 3: About & Booking */}
+                  <div className="flex flex-col space-y-3">
+                    <h4 className="font-semibold text-gray-900 mb-2">{t('nav.aboutElena')}</h4>
+                    <Link href="/about-elena" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('nav.aboutElena')}
+                    </Link>
+                    <Link href="/reservar" className="hover:text-black transition-colors duration-200 text-sm font-medium text-primary">
+                      {t('nav.bookNow')}
+                    </Link>
+                    <Link href="/login" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('nav.login')}
+                    </Link>
+                  </div>
+
+                  {/* Column 4: Legal */}
+                  <div className="flex flex-col space-y-3">
+                    <h4 className="font-semibold text-gray-900 mb-2">Legal</h4>
+                    <Link href="/discounts" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('footer.discounts')}
+                    </Link>
+                    <Link href="/legal/privacy" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('footer.privacyPolicy')}
+                    </Link>
+                    <Link href="/legal/cookie-policy" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('footer.cookiePolicy')}
+                    </Link>
+                    <Link href="/legal/terms" className="text-gray-500 hover:text-black transition-colors duration-200 text-sm">
+                      {t('footer.termsOfService')}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Language Selector */}
+              <div className="mb-8">
+                <div className="flex items-center justify-center space-x-2 mb-4">
+                  <Globe className="w-3 h-3 text-gray-400" />
+                  <span className="text-xs text-gray-400">{t('footer.selectLanguage')}</span>
+                </div>
+                <div className="flex justify-center space-x-2">
+                  {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => setLanguage(lang)}
+                      className={`px-2 py-1 rounded text-xs transition-colors duration-200 ${
+                        language === lang
+                          ? 'bg-gray-200 text-black font-medium'
+                          : 'text-gray-500 hover:bg-gray-100'
+                      }`}
+                    >
+                      {lang === 'ca' && 'Catalan'}
+                      {lang === 'en' && 'English'}
+                      {lang === 'es' && 'Spanish'}
+                      {lang === 'ru' && 'Russian'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Copyright */}
+              <div className="border-t border-gray-200 pt-8">
+                <p className="text-xs text-gray-400">{t('footer.copyright')}</p>
+              </div>
+            </div>
+          </footer>
+        }
+      >
+        {/* Navigation - Liquid Glass Style */}
+        <nav className={`sticky top-0 z-100 transition duration-500 border-b border-transparent ${headerSurfaceClass}`}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="flex items-center justify-between h-14">
+              {/* Logo */}
+              <Link href="/" className="flex items-center shrink-0 group relative opacity-90 hover:opacity-100 transition-opacity">
+                <div className="relative w-8 h-8">
+                  <Image
+                    src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
+                    alt="EKA Balance Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </Link>
+
+              {/* Desktop Navigation - Centered */}
+              <div ref={navBarRef} className="hidden md:flex items-center justify-center space-x-8 relative">
+                {navigation.map(item => (
+                  <div key={item.name} className={`nav-item ${item.hasDropdown ? 'relative flex items-center h-full' : 'flex items-center h-full'}`}
+                    ref={item.hasDropdown ? navRef : undefined}>
                     {item.hasDropdown ? (
                       <>
                         <Link
                           href={item.href}
-                          className={`nav-trigger ease-out-quart rounded-apple flex items-center px-5 py-3 font-medium transition-all duration-200 hover:bg-card/60 ${
-                            isActivePath(item.href)
-                              ? 'text-accent'
-                              : 'text-eka-dark hover:text-accent'
-                          }`}
-                          onMouseEnter={openDropdown}
+                          className="nav-trigger py-4 px-4 -mx-4 text-[13px] font-medium text-gray-800 hover:text-black transition-colors duration-200 flex items-center gap-1 tracking-tight group/trigger"
+                          onMouseEnter={(e) => openDropdown(e, item.name)}
                           onMouseLeave={scheduleHide}
-                          onFocus={openDropdown}
+                          onFocus={(e) => openDropdown(e, item.name)}
                           onBlur={scheduleHide}
                           suppressHydrationWarning
                         >
                           {item.name}
-                          <ChevronDown className="ml-1 h-4 w-4" />
+                          <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform duration-300 ${activeDropdown === item.name ? 'rotate-180 text-gray-700' : 'group-hover/trigger:translate-y-px'}`} />
                         </Link>
 
-                        {/* Hover bridge for seamless navigation */}
-                        <div
-                          className="hover-bridge"
-                          onMouseEnter={openDropdown}
-                          onMouseLeave={scheduleHide}
-                          aria-hidden="true"
-                        />
+                        {/* Hover bridge */}
+                        {activeDropdown === item.name && dropdownPosition && (
+                          <div
+                            className="fixed z-49"
+                            style={{
+                              top: dropdownPosition.triggerBottom - 15,
+                              left: dropdownPosition.left - 30,
+                              width: dropdownPosition.width + 60,
+                              height: dropdownPosition.top - dropdownPosition.triggerBottom + 30,
+                            }}
+                            onMouseEnter={() => keepMenuOpen(item.name)}
+                            onMouseLeave={scheduleHide}
+                            aria-hidden="true"
+                          />
+                        )}
 
-                        {/* Dropdown menu with CSS-first positioning */}
-                        <div
-                          className={`nav-dropdown ${showPersonalServices ? 'is-open' : ''} ${isScrolled ? 'bg-muted/90 backdrop-blur-xl' : 'bg-muted'}`}
-                          onMouseEnter={openDropdown}
-                          onMouseLeave={scheduleHide}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Escape') {
-                              setShowPersonalServices(false);
-                            }
-                          }}
-                          role="menu"
-                          aria-label={`${item.name} submenu`}
-                        >
-                          {item.dropdownItems?.map((dropdownItem, index) => (
-                            <Link
-                              key={dropdownItem.name}
-                              href={dropdownItem.href}
-                              onClick={() => setShowPersonalServices(false)}
-                              className="ease-out-quart text-eka-dark hover:text-accent flex h-12 items-center justify-center rounded-xl text-sm font-medium transition-colors duration-200 hover:bg-muted"
+                        {/* Dropdown */}
+                        <AnimatePresence>
+                          {activeDropdown === item.name && dropdownPosition && (
+                            <motion.div
+                              initial={{ opacity: 0, scaleY: 0.95, y: -4 }}
+                              animate={{ opacity: 1, scaleY: 1, y: 0 }}
+                              exit={{ opacity: 0, scaleY: 0.95, y: -4 }}
+                              transition={{ duration: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+                              className="fixed z-40"
                               style={{
-                                marginBottom: index < item.dropdownItems!.length - 1 ? '8px' : '0',
+                                top: dropdownPosition.triggerBottom,
+                                left: dropdownPosition.left - 40,
+                                width: dropdownPosition.width + 80,
+                                transformOrigin: `${40 + (dropdownPosition.originX / 100 * dropdownPosition.width)}px top`,
+                                paddingTop: Math.max(0, dropdownPosition.top - dropdownPosition.triggerBottom),
+                                paddingLeft: 40,
+                                paddingRight: 40,
+                                paddingBottom: 40,
                               }}
-                              role="menuitem"
-                              suppressHydrationWarning
+                              onMouseEnter={() => keepMenuOpen(item.name)}
+                              onMouseLeave={scheduleHide}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Escape') setActiveDropdown(null);
+                              }}
+                              role="menu"
+                              aria-label={`${item.name} submenu`}
                             >
-                              {dropdownItem.name}
-                            </Link>
-                          ))}
-                        </div>
+                              <div className="w-70 mx-auto overflow-hidden drop-shadow-[0_12px_40px_rgba(0,0,0,0.08)] relative bg-white/95 backdrop-blur-2xl rounded-b-2xl border border-t-0 border-white/60 ring-1 ring-black/4">
+                                <div className="absolute inset-x-0 top-0 h-px bg-white/40" />
+
+                                <div className="py-2 px-1.5 relative z-20">
+                                  {item.dropdownItems?.map((dropdownItem, idx) => (
+                                    <motion.div
+                                      key={dropdownItem.name}
+                                      initial={{ opacity: 0, y: 4 }}
+                                      animate={{ opacity: 1, y: 0 }}
+                                      transition={{ duration: 0.18, delay: idx * 0.035 }}
+                                    >
+                                      <Link
+                                        href={dropdownItem.href}
+                                        onClick={() => setActiveDropdown(null)}
+                                        className="group/item flex items-center gap-3 px-3 py-2.5 mx-0.5 rounded-xl text-[13px] text-gray-600 hover:text-gray-900 hover:bg-black/4 active:bg-black/[0.07] transition-all duration-150 tracking-tight"
+                                        role="menuitem"
+                                        suppressHydrationWarning
+                                      >
+                                        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100/80 text-gray-500 group-hover/item:bg-primary/10 group-hover/item:text-primary transition-colors duration-150 shrink-0">
+                                          {serviceIcons[dropdownItem.href] || <Hand className="w-4 h-4" />}
+                                        </span>
+                                        <span className="font-medium">{dropdownItem.name}</span>
+                                      </Link>
+                                    </motion.div>
+                                  ))}
+                                </div>
+
+                                {/* View all services link */}
+                                <div className="border-t border-gray-200/50 px-3 py-2.5 relative z-20">
+                                  <Link
+                                    href={item.href}
+                                    onClick={() => setActiveDropdown(null)}
+                                    className="flex items-center justify-between text-[12px] text-gray-400 hover:text-primary font-medium transition-colors duration-150 px-1.5"
+                                  >
+                                    <span>{t('nav.services')} →</span>
+                                  </Link>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </>
                     ) : item.isExternal ? (
                       <a
                         href={item.href}
                         rel="noopener noreferrer"
-                        className="rounded-apple text-eka-dark hover:text-accent px-5 py-3 font-medium transition-all duration-200 hover:bg-card/60"
+                        className="py-4 px-4 -mx-4 text-[13px] font-medium text-gray-800 hover:text-black transition-colors duration-200 tracking-tight"
                         onClick={(e) => {
                           e.preventDefault();
                           window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -234,13 +477,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     ) : (
                       <Link
                         href={item.href}
-                        className={`ease-out-quart rounded-apple px-5 py-3 font-medium transition-all duration-200 hover:bg-card/60 ${
-                          item.isGold
-                            ? 'gold-shimmer border border-warning/20 bg-linear-to-r from-warning/10 via-warning/10 to-warning/10 font-black hover:from-warning/20 hover:via-warning/20 hover:to-warning/20'
-                            : isActivePath(item.href)
-                              ? 'text-accent'
-                              : 'text-eka-dark hover:text-accent'
-                        }`}
+                        className="py-4 px-4 -mx-4 text-[13px] font-medium text-gray-800 hover:text-black transition-colors duration-200 tracking-tight"
                         suppressHydrationWarning
                       >
                         {item.name}
@@ -249,241 +486,154 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   </div>
                 ))}
               </div>
-            </div>
 
-            {/* Right side actions */}
-            <div className="flex shrink-0 items-center space-x-2 sm:space-x-4">
-              {/* Integrated Actions */}
-              <div className="hidden items-center gap-1 sm:flex">
+              {/* Right side actions */}
+              <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
                 <Link
                   href="/login"
-                  className="text-eka-dark hover:text-accent ease-out-quart inline-flex rounded-full px-5 py-2.5 font-medium transition-colors duration-200"
+                  className="hidden sm:inline-flex text-[12px] font-medium text-gray-600 hover:text-black transition-colors px-3 py-1.5"
                 >
                   {t('nav.login')}
                 </Link>
-                <Link
-                  href="/book"
-                  className="bg-accent hover:bg-accent-dark text-eka-dark ease-out-quart inline-flex rounded-full px-6 py-2.5 font-semibold shadow-sm transition-transform duration-200 hover:shadow-md hover:scale-105"
+
+                <Button
+                  asChild
+                  variant="default"
+                  size="sm"
+                  className="inline-flex text-[11px] sm:text-[12px] font-medium rounded-full h-7 sm:h-8 px-3 sm:px-4"
                 >
-                  {t('nav.bookNow')}
-                </Link>
-              </div>
+                  <Link href="/reservar" suppressHydrationWarning>
+                    {t('nav.bookNow')}
+                  </Link>
+                </Button>
 
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="rounded-2xl p-2 transition-colors duration-200 hover:bg-muted md:hidden"
-              >
-                {isMenuOpen ? (
-                  <X className="h-5 w-5 text-foreground" />
-                ) : (
-                  <Menu className="h-5 w-5 text-foreground" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          <AnimatePresence>
-            {isMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="absolute top-full left-0 w-full overflow-hidden border-b border-border bg-background/95 shadow-xl backdrop-blur-xl md:hidden"
-              >
-                <div className="max-h-[80vh] space-y-2 overflow-y-auto px-4 py-4">
-                  {navigation.map((item) => (
-                    <div key={item.name}>
-                      {item.isExternal ? (
-                        <a
-                          href={item.href}
-                          rel="noopener noreferrer"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setIsMenuOpen(false);
-                            window.open(item.href, '_blank', 'noopener,noreferrer');
-                          }}
-                          className="block rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors duration-200 hover:bg-muted"
-                        >
-                          {item.name}
-                        </a>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          onClick={() => setIsMenuOpen(false)}
-                          className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors duration-200 ${
-                            item.isGold
-                              ? 'border border-border bg-muted font-bold text-foreground ring-1 ring-border'
-                              : isActivePath(item.href)
-                                ? 'bg-primary/5 text-primary'
-                                : 'text-foreground hover:bg-muted'
-                          }`}
-                        >
-                          {item.name}
-                        </Link>
-                      )}
-                      {item.hasDropdown && (
-                        <div className="mt-2 ml-4 space-y-1 border-l-2 border-border pl-2">
-                          {item.dropdownItems?.map((dropdownItem) => (
-                            <Link
-                              key={dropdownItem.name}
-                              href={dropdownItem.href}
-                              onClick={() => setIsMenuOpen(false)}
-                              className="hover:text-primary block rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted"
-                            >
-                              {dropdownItem.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                  {/* Mobile Integrated Actions */}
-                  <div className="mt-2 space-y-2 border-t border-border pt-2">
-                    <Link
-                      href="/login"
-                      data-ux-action="true"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-eka-dark rounded-apple block w-full border border-border bg-card px-4 py-3 text-center font-semibold transition-colors duration-200"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      href="/dashboard"
-                      data-ux-action="true"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-eka-dark rounded-apple block w-full border border-border bg-card px-4 py-3 text-center font-semibold transition-colors duration-200"
-                    >
-                      Dashboard
-                    </Link>
-                    <Link
-                      href="/book"
-                      data-ux-action="true"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="bg-accent hover:bg-accent-dark text-eka-dark rounded-apple block w-full px-4 py-3 text-center font-semibold transition-colors duration-200"
-                    >
-                      Book
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <main id="main-content" className="flex-1 w-full" tabIndex={-1}>
-        {children}
-      </main>
-
-      {/* Cookie Banner */}
-      <CookieBanner />
-      <LanguagePopup />
-
-      {/* Fixed Mobile Bottom CTA */}
-      <div className="pb-safe fixed right-0 bottom-0 left-0 z-50 border-t border-border bg-card/80 p-4 backdrop-blur-md md:hidden">
-        <Link
-          href="/book"
-          data-ux-action="true"
-          className="bg-accent hover:bg-accent-dark text-eka-dark rounded-apple block w-full py-4 text-center font-bold shadow-lg transition-transform active:scale-[0.98]"
-        >
-          Book
-        </Link>
-      </div>
-
-      {/* Footer */}
-      <footer className="mb-24 border-t border-border bg-background py-12 text-foreground sm:py-16 md:mb-0">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="group mx-auto mb-8 flex w-fit items-center justify-center space-x-3"
-          >
-            <div className="relative h-10 w-10">
-              <Image
-                src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
-                alt="EKA Balance Logo"
-                fill
-                className="ease-out-quart object-contain transition-transform duration-300 group-hover:scale-105"
-                sizes="40px"
-              />
-            </div>
-            <span className="text-xl font-medium">EKA Balance</span>
-          </Link>
-
-          {/* Contact Info */}
-          <div className="mb-8 space-y-2 text-foreground">
-            <p>{t('footer.address')}</p>
-            <p>{t('footer.email')}</p>
-          </div>
-
-          {/* Footer Links */}
-          <div className="mb-8">
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
-              <Link
-                href="/discounts"
-                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
-              >
-                {t('footer.discounts')}
-              </Link>
-              <Link
-                href="/legal/privacy"
-                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
-              >
-                {t('footer.privacyPolicy')}
-              </Link>
-              <Link
-                href="/legal/cookie-policy"
-                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
-              >
-                {t('footer.cookiePolicy')}
-              </Link>
-              <Link
-                href="/legal/terms"
-                className="text-sm font-medium text-muted-foreground/40 transition-colors duration-200 hover:text-foreground"
-              >
-                {t('footer.termsOfService')}
-              </Link>
-            </div>
-          </div>
-
-          {/* Language Selector */}
-          <div className="mb-8">
-            <div className="mb-4 flex items-center justify-center space-x-2">
-              <Globe className="h-4 w-4 text-muted-foreground/60" />
-              <span className="text-sm text-muted-foreground/60">{t('footer.selectLanguage')}</span>
-            </div>
-            <div className="flex justify-center space-x-4">
-              {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
+                {/* Mobile menu button */}
                 <button
-                  key={lang}
-                  onClick={() => setLanguage(lang)}
-                  className={`rounded-apple px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-                    language === lang
-                      ? 'bg-accent text-eka-dark'
-                      : 'bg-card text-muted-foreground/40 hover:bg-accent'
-                  }`}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="md:hidden p-1 text-gray-800 hover:text-black transition-colors"
+                  aria-label="Toggle menu"
                 >
-                  {lang === 'ca' && 'Catalan'}
-                  {lang === 'en' && 'English'}
-                  {lang === 'es' && 'Spanish'}
-                  {lang === 'ru' && 'Russian'}
+                  {isMenuOpen ? (
+                    <X className="w-5 h-5" />
+                  ) : (
+                    <Menu className="w-5 h-5" />
+                  )}
                 </button>
-              ))}
+              </div>
             </div>
-          </div>
 
-          {/* Copyright */}
-          <div className="flex flex-col items-center gap-4 border-t border-border pt-8">
-            <p className="text-sm text-muted-foreground/60">{t('footer.copyright')}</p>
+            {/* Mobile Navigation */}
+            <AnimatePresence>
+              {isMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="md:hidden fixed inset-0 w-full h-dvh bg-[#f5f5f7] z-110 overflow-y-auto pt-20"
+                >
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="absolute top-4 right-6 p-2 text-gray-800 hover:text-black transition-colors"
+                    aria-label="Close menu"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                  <div className="p-6 pb-24 space-y-6">
+                    {/* Home */}
+                    <div className="border-b border-gray-200/50 pb-4">
+                      <Link
+                        href="/"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block py-3 text-2xl font-semibold text-gray-900 tracking-tight"
+                      >
+                        {t('nav.home') || 'Home'}
+                      </Link>
+                    </div>
+
+                    {/* Services */}
+                    <div className="border-b border-gray-200/50 pb-4">
+                      <Link
+                        href="/services"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block py-3 text-2xl font-semibold text-gray-900 tracking-tight"
+                      >
+                        {t('nav.services')}
+                      </Link>
+                      <div className="ml-4 space-y-2 mt-2">
+                        {navigation.find(n => n.name === t('nav.services'))?.dropdownItems?.map(dropdownItem => (
+                          <Link
+                            key={dropdownItem.name}
+                            href={dropdownItem.href}
+                            onClick={() => setIsMenuOpen(false)}
+                            className="block py-2 text-lg text-gray-500 font-medium pl-4"
+                          >
+                            {dropdownItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* For Business */}
+                    <div className="border-b border-gray-200/50 pb-4">
+                      <Link
+                        href="/for-business"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block py-3 text-2xl font-semibold text-gray-900 tracking-tight"
+                      >
+                        {t('personalizedServices.business') || 'For Business'}
+                      </Link>
+                    </div>
+
+                    {/* Dashboard */}
+                    <div className="border-b border-gray-200/50 pb-4">
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block py-3 text-2xl font-semibold text-gray-900 tracking-tight"
+                      >
+                        Dashboard
+                      </Link>
+                    </div>
+
+                    {/* Mobile Booking CTA */}
+                    <div className="pt-4">
+                      <Button asChild variant="default" size="lg" className="w-full text-base font-semibold rounded-xl">
+                        <Link href="/reservar" onClick={() => setIsMenuOpen(false)}>
+                          {t('nav.bookNow')}
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
-      </footer>
-    </div>
+        </nav>
+
+        {/* Main Content */}
+        <main id="main-content" className="flex-1 w-full pb-20 md:pb-0 overflow-x-hidden">
+          {children}
+        </main>
+
+        {/* Cookie Banner */}
+        <CookieBanner />
+        <LanguagePopup />
+      </FooterUncover>
+
+      <AnimatePresence>
+        {!isMenuOpen && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            className="md:hidden"
+          >
+            <FooterPillMenu />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
-

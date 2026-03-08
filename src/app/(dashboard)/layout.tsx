@@ -63,7 +63,21 @@ export default function UnifiedDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Suspense>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen bg-background">
+          <div className="hidden md:block w-64 border-r border-border bg-card animate-pulse" />
+          <div className="flex-1 p-6">
+            <div className="h-8 w-48 bg-muted rounded animate-pulse mb-6" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="h-32 bg-muted rounded-lg animate-pulse" />
+              ))}
+            </div>
+          </div>
+        </div>
+      }
+    >
       <DashboardShellLoader>{children}</DashboardShellLoader>
     </Suspense>
   );

@@ -2,13 +2,30 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/platform/supabase';
 import { getCurrentUser } from '@/lib/platform/supabase';
 
+async function requireAdminUser() {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return { user: null, error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }) };
+  }
+  // Verify admin role
+  const { data: profile } = await supabaseAdmin
+    .from('profiles')
+    .select('role')
+    .eq('auth_id', currentUser.id)
+    .single();
+
+  const role = profile?.role || currentUser.app_metadata?.role;
+  if (!role || !['admin', 'super_admin', 'Admin', 'SuperAdmin'].includes(role)) {
+    return { user: null, error: NextResponse.json({ error: 'Forbidden: Admin role required' }, { status: 403 }) };
+  }
+  return { user: currentUser, error: null };
+}
+
 // Enhanced user management with advanced filtering and bulk operations
 export async function GET(request: NextRequest) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
-      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
-    }
+    const { user: currentUser, error: authError } = await requireAdminUser();
+    if (authError) return authError;
 
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -25,30 +42,22 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit;
 
     // Build query with filters
-    let query = supabaseAdmin.from('user_profiles').select(
-      `
-        *,
-        user_role_assignments!inner(
-          role_id,
-          user_roles!inner(name, description)
-        ),
-        user_preferences(*),
-        sessions(count),
-        bookings(count)
-      `,
+    let query = supabaseAdmin.from('profiles').select(
+      `*`,
       { count: 'exact' }
     );
 
-    // Apply search filter
+    // Apply search filter (sanitize special Postgres LIKE characters)
     if (search) {
+      const sanitized = search.replace(/[%_\\]/g, '\\$&');
       query = query.or(
-        `email.ilike.%${search}%,username.ilike.%${search}%,full_name.ilike.%${search}%`
+        `email.ilike.%${sanitized}%,full_name.ilike.%${sanitized}%`
       );
     }
 
     // Apply role filter
     if (role !== 'all') {
-      query = query.eq('user_role_assignments.user_roles.name', role);
+      query = query.eq('role', role);
     }
 
     // Apply status filter
@@ -86,12 +95,12 @@ export async function GET(request: NextRequest) {
 
     // Calculate additional statistics
     const activeUsersCount = await supabaseAdmin
-      .from('user_profiles')
+      .from('profiles')
       .select('id', { count: 'exact', head: true })
       .gte('last_active', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
 
     const newUsersThisWeek = await supabaseAdmin
-      .from('user_profiles')
+      .from('profiles')
       .select('id', { count: 'exact', head: true })
       .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
 
@@ -118,10 +127,8 @@ export async function GET(request: NextRequest) {
 // Bulk user operations
 export async function POST(request: NextRequest) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
-      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
-    }
+    const { user: currentUser, error: authError } = await requireAdminUser();
+    if (authError) return authError;
 
     const { action, userIds, updates } = (await request.json()) as any;
 
@@ -142,7 +149,7 @@ export async function POST(request: NextRequest) {
 
         results = await Promise.all(
           userIds.map((userId) =>
-            supabaseAdmin.from('user_profiles').update(suspendUpdates).eq('id', userId)
+            supabaseAdmin.from('profiles').update(suspendUpdates).eq('auth_id', userId)
           )
         );
 
@@ -165,7 +172,7 @@ export async function POST(request: NextRequest) {
 
         results = await Promise.all(
           userIds.map((userId) =>
-            supabaseAdmin.from('user_profiles').update(activateUpdates).eq('id', userId)
+            supabaseAdmin.from('profiles').update(activateUpdates).eq('auth_id', userId)
           )
         );
 
@@ -190,9 +197,9 @@ export async function POST(request: NextRequest) {
         results = await Promise.all(
           userIds.map((userId) =>
             supabaseAdmin
-              .from('user_role_assignments')
-              .update({ role_id: updates.roleId })
-              .eq('user_id', userId)
+              .from('profiles')
+              .update({ role: updates.roleId })
+              .eq('auth_id', userId)
           )
         );
 

@@ -1,10 +1,35 @@
 import { createClient } from '@/lib/supabase/server';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { getUserPermissions } from '@/lib/permissions/actions';
+import { Separator } from '@/components/ui/separator';
+
+// ─── Permission helper ─────────────────────────────────────────────
+
+function can(
+  permissions: any[],
+  group: string,
+  action: string
+): boolean {
+  return permissions.some(
+    (p) =>
+      p.group === group &&
+      (p.action === action || p.action === 'manage')
+  );
+}
+
+// ─── Greeting ──────────────────────────────────────────────────────
+
+function getGreeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 18) return 'Good afternoon';
+  return 'Good evening';
+}
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -12,257 +37,528 @@ export default async function DashboardPage() {
 
   if (!user) redirect('/login');
 
-  const { data: profile } = await supabase.from('profiles').select('*').eq('auth_id', user.id).single();
-  const role = profile?.role || 'client';
-
-  // --- ADMIN DASHBOARD ---
-  if (role === 'admin') {
-    return (
-      <div className="space-y-8 p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground">Admin Command Center</h1>
-          <p className="text-muted-foreground text-lg">System status and deep control.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link href="/admin/features" className="group">
-            <Card className="h-full hover:border-primary/50 hover:shadow-md transition-all duration-300">
-              <CardHeader>
-                <CardTitle className="group-hover:text-primary transition-colors flex items-center gap-2">
-                  Feature Matrix
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">Control feature flags hierarchy, manage rollouts, and set user overrides.</p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/admin/audit" className="group">
-            <Card className="h-full hover:border-primary/50 hover:shadow-md transition-all duration-300">
-              <CardHeader>
-                <CardTitle className="group-hover:text-primary transition-colors">Global Audit Logs</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">Monitor all system events, user actions, and security alerts.</p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Card className="h-full hover:border-primary/50 hover:shadow-md transition-all duration-300 opacity-60">
-            <CardHeader>
-              <CardTitle>User Management</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground text-sm">Impersonate users, manage roles, and track manual purchases.</p>
-              <Badge variant="outline" className="mt-2">Coming Soon</Badge>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  // --- THERAPIST DASHBOARD ---
-  if (role === 'therapist') {
-    const { data: todayBookings } = await supabase
-      .from('bookings')
-      .select('*, profiles:client_id(full_name)')
-      .eq('therapist_id', profile.id)
-      .eq('status', 'scheduled')
-      .gte('starts_at', new Date().toISOString().split('T')[0]) // Today onwards
-      .order('starts_at')
-      .limit(5);
-
-    return (
-      <div className="space-y-6 p-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Therapist Workspace</h1>
-            <p className="text-muted-foreground">Manage your sessions and patients.</p>
-          </div>
-          <Button className="btn-primary">Start Session</Button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-2 shadow-sm">
-            <CardHeader className="border-b bg-muted/10 pb-3">
-              <CardTitle className="text-base">Upcoming Appointments</CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              {todayBookings?.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">No upcoming sessions today.</div>
-              ) : (
-                <div className="space-y-3">
-                  {todayBookings?.map((b: any) => (
-                    <div key={b.id} className="flex justify-between items-center border p-4 rounded-xl hover:bg-muted/30 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-1 bg-primary rounded-full"></div>
-                        <div>
-                          <div className="font-semibold text-foreground">{b.profiles?.full_name || 'Client'}</div>
-                          <div className="text-sm text-muted-foreground flex items-center gap-2">
-                            <span>{new Date(b.starts_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                            <span>•</span>
-                            <Badge variant="secondary" className="text-[10px] h-5">{b.type}</Badge>
-                          </div>
-                        </div>
-                      </div>
-                      <Button size="sm" variant="outline" className="h-8">Details</Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <div className="space-y-6">
-            <Card className="shadow-sm">
-               <CardHeader className="pb-2"><CardTitle className="text-sm uppercase text-muted-foreground">Quick Actions</CardTitle></CardHeader>
-               <CardContent className="flex flex-col gap-2 pt-2">
-                 <Button variant="ghost" className="justify-start h-10 px-2 font-normal hover:bg-accent/50">📅 My Availability</Button>
-                 <Button variant="ghost" className="justify-start h-10 px-2 font-normal hover:bg-accent/50">👥 Patient Directory</Button>
-                 <Button variant="ghost" className="justify-start h-10 px-2 font-normal hover:bg-accent/50">💶 Invoices & Payouts</Button>
-               </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // --- CLIENT DASHBOARD ---
-
-  // Parallel fetch for Client Data
-  const [
-    bookingsRes,
-    walletRes,
-    goalsRes,
-    subRes
-  ] = await Promise.all([
-    supabase.from('bookings')
-      .select('*, profiles:therapist_id(full_name)')
-      .eq('client_id', profile.id)
-      .eq('status', 'scheduled')
-      .gte('starts_at', new Date().toISOString())
-      .order('starts_at')
-      .limit(1),
-    supabase.from('wallets').select('*').eq('user_id', user.id).single(),
-    supabase.from('wellness_goals').select('*').eq('user_id', user.id).eq('status', 'active'),
-    supabase.from('user_subscriptions').select('*, subscription_plans(*)').eq('user_id', profile.id).eq('status', 'active').single()
+  const [{ data: profile }, permissions] = await Promise.all([
+    supabase.from('profiles').select('*').eq('auth_id', user.id).single(),
+    getUserPermissions(),
   ]);
 
-  const nextBooking = bookingsRes.data?.[0];
-  const wallet = walletRes.data;
-  const goals = goalsRes.data || [];
-  const plan = subRes.data?.subscription_plans;
+  const role = profile?.role || 'client';
+  const firstName = profile?.full_name?.split(' ')[0] || 'there';
+
+  // ── Parallel data fetching based on permissions ──────────────────
+
+  const today = new Date().toISOString().split('T')[0];
+  const now = new Date().toISOString();
+
+  const canViewAllPatients = can(permissions, 'patient_data', 'view_all');
+  const canManageAppointments = can(permissions, 'appointment_management', 'manage');
+  const canManageSystem = can(permissions, 'system_settings', 'manage');
+  const canManageUsers = can(permissions, 'user_management', 'manage');
+  const canUseTherapistTools = can(permissions, 'therapist_tools', 'create');
+
+  // Build parallel queries based on what the user can see
+  const queries: Record<string, PromiseLike<any>> = {};
+
+  // Everyone: own upcoming bookings
+  queries.nextBooking = supabase
+    .from('bookings')
+    .select('*, therapist:therapist_id(full_name), client:client_id(full_name)')
+    .or(
+      `client_id.eq.${profile?.id},therapist_id.eq.${profile?.id}`
+    )
+    .eq('status', 'scheduled')
+    .gte('starts_at', now)
+    .order('starts_at')
+    .limit(5)
+    .then((r) => r.data || []);
+
+  // Everyone: wallet
+  queries.wallet = supabase
+    .from('wallets')
+    .select('*')
+    .eq('user_id', user.id)
+    .single()
+    .then((r) => r.data);
+
+  // Clients: wellness goals
+  queries.goals = supabase
+    .from('wellness_goals')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('status', 'active')
+    .limit(6)
+    .then((r) => r.data || []);
+
+  // Clients: active plan
+  queries.plan = supabase
+    .from('user_subscriptions')
+    .select('*, subscription_plans(*)')
+    .eq('user_id', profile?.id)
+    .eq('status', 'active')
+    .single()
+    .then((r) => r.data?.subscription_plans);
+
+  // Clients: recent journal entries
+  queries.journalEntries = supabase
+    .from('journal_entries')
+    .select('id, title, created_at, mood')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(3)
+    .then((r) => r.data || []);
+
+  // Clients: active assignments / homework
+  queries.assignments = supabase
+    .from('assignments')
+    .select('id, title, due_date, status')
+    .eq('client_id', profile?.id)
+    .in('status', ['pending', 'in_progress'])
+    .order('due_date')
+    .limit(5)
+    .then((r) => r.data || []);
+
+  // Admin/Manager: platform stats
+  if (canManageUsers) {
+    queries.totalUsers = supabase
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+      .then((r) => r.count || 0);
+
+    queries.totalBookings = supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .then((r) => r.count || 0);
+
+    queries.todayBookings = supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .gte('starts_at', today)
+      .then((r) => r.count || 0);
+
+    queries.activeSubs = supabase
+      .from('user_subscriptions')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'active')
+      .then((r) => r.count || 0);
+  }
+
+  // Therapist: today's client count
+  if (canUseTherapistTools) {
+    queries.todayClients = supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .eq('therapist_id', profile?.id)
+      .eq('status', 'scheduled')
+      .gte('starts_at', today)
+      .then((r) => r.count || 0);
+  }
+
+  // Resolve all queries
+  const keys = Object.keys(queries);
+  const values = await Promise.all(Object.values(queries));
+  const data: Record<string, any> = {};
+  keys.forEach((k, i) => (data[k] = values[i]));
 
   return (
-    <div className="space-y-8 p-6 md:p-10 max-w-6xl mx-auto">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
-        <div className="space-y-2">
-          <h1 className="text-3xl md:text-4xl font-light tracking-tight text-foreground">
-            Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'}, <span className="font-semibold text-primary">{profile.full_name?.split(' ')[0]}</span>
-          </h1>
-          <p className="text-muted-foreground text-lg font-light">Your wellness journey is on track.</p>
-        </div>
-        <div className="flex gap-2">
-           {wallet && (
-             <div className="flex items-center gap-2 bg-muted/30 px-4 py-2 rounded-full border">
-                <span className="text-sm font-medium">Balance:</span>
-                <span className="font-bold">{(wallet.balance_cents / 100).toFixed(2)} {wallet.currency}</span>
-             </div>
-           )}
-           <Link href="/book">
-             <Button className="btn-primary">Book New Session</Button>
-           </Link>
-        </div>
+    <div className="space-y-6 p-4 md:p-6 max-w-6xl mx-auto">
+      {/* ── Welcome ──────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-1">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {getGreeting()}, {firstName}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Here&apos;s what&apos;s happening today.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Next Session Card */}
-        <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-all lg:col-span-2">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Next Session</CardTitle>
+      {/* ── Platform Stats (admin/manager only) ─────────────────── */}
+      {canManageUsers && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <StatsCard label="Users" value={data.totalUsers} />
+          <StatsCard label="Bookings" value={data.totalBookings} />
+          <StatsCard label="Today" value={data.todayBookings} accent />
+          <StatsCard label="Active Plans" value={data.activeSubs} />
+        </div>
+      )}
+
+      {/* ── Therapist quick stats ────────────────────────────────── */}
+      {canUseTherapistTools && !canManageUsers && (
+        <div className="grid grid-cols-2 gap-3">
+          <StatsCard label="Today&apos;s Sessions" value={data.todayClients} accent />
+          <StatsCard
+            label="Upcoming"
+            value={data.nextBooking?.length || 0}
+          />
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* ── Upcoming Appointments ──────────────────────────────── */}
+        <Card className="lg:col-span-2">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium">Upcoming</CardTitle>
+              <Link href="/bookings">
+                <Button variant="ghost" size="sm" className="h-7 text-xs">
+                  View all
+                </Button>
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
-            {nextBooking ? (
-              <div className="flex justify-between items-center">
-                <div className="space-y-1">
-                  <div className="text-3xl font-bold tracking-tight">
-                    {new Date(nextBooking.starts_at).toLocaleTimeString(undefined, {hour: '2-digit', minute:'2-digit'})}
-                  </div>
-                  <div className="text-lg text-muted-foreground">
-                    {new Date(nextBooking.starts_at).toLocaleDateString(undefined, {weekday: 'long', month: 'short', day: 'numeric'})}
-                  </div>
-                  <div className="flex items-center gap-2 pt-2 mt-4">
-                    <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center text-xs">
-                      {nextBooking.profiles?.full_name?.[0]}
+            {data.nextBooking?.length > 0 ? (
+              <div className="space-y-2">
+                {data.nextBooking.map((b: any) => {
+                  const otherPerson = canUseTherapistTools
+                    ? b.client?.full_name
+                    : b.therapist?.full_name;
+                  return (
+                    <div
+                      key={b.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-1 rounded-full bg-primary" />
+                        <div>
+                          <p className="text-sm font-medium">
+                            {otherPerson || 'Appointment'}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(b.starts_at).toLocaleDateString(undefined, {
+                              weekday: 'short',
+                              month: 'short',
+                              day: 'numeric',
+                            })}{' '}
+                            at{' '}
+                            {new Date(b.starts_at).toLocaleTimeString(undefined, {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge
+                        variant={
+                          b.status === 'scheduled'
+                            ? 'default'
+                            : b.status === 'completed'
+                              ? 'secondary'
+                              : 'outline'
+                        }
+                      >
+                        {b.status}
+                      </Badge>
                     </div>
-                    <span className="text-sm font-medium">with {nextBooking.profiles?.full_name}</span>
-                  </div>
-                </div>
-                <div className="hidden sm:block">
-                   {/* Visual decoration or action */}
-                   <Button variant="outline">Reschedule</Button>
-                </div>
+                  );
+                })}
               </div>
             ) : (
-              <div className="py-6 flex flex-col items-start gap-4">
-                <p className="text-muted-foreground">No upcoming sessions scheduled.</p>
-                <Link href="/book">
-                  <Button className="btn-primary">Book Appointment</Button>
+              <div className="py-8 text-center">
+                <p className="text-sm text-muted-foreground">
+                  No upcoming appointments
+                </p>
+                <Link href="/bookings">
+                  <Button variant="outline" size="sm" className="mt-3">
+                    Book a session
+                  </Button>
                 </Link>
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* Plan & Status */}
-        <Card className="shadow-sm hover:shadow-md transition-all">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Current Plan</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex justify-between items-center">
-              <span className="font-semibold text-lg">{plan?.name || 'Free Tier'}</span>
-              <Badge variant={plan ? 'default' : 'secondary'}>{plan ? 'Active' : 'Basic'}</Badge>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {plan?.description || 'Upgrade to unlock premium features and priority booking.'}
-            </p>
-            {!plan && (
-              <Button size="sm" variant="outline" className="w-full">Upgrade Plan</Button>
-            )}
-          </CardContent>
-        </Card>
+        {/* ── Right Column ──────────────────────────────────────── */}
+        <div className="space-y-4">
+          {/* Quick Actions */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium">Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-1.5">
+              <Link href="/bookings">
+                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                  Book Session
+                </Button>
+              </Link>
+              <Link href="/journal">
+                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                  Write Journal
+                </Button>
+              </Link>
+              <Link href="/chat">
+                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                  Send Message
+                </Button>
+              </Link>
+              <Link href="/resources">
+                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                  Resources
+                </Button>
+              </Link>
+              {canUseTherapistTools && (
+                <>
+                  <Link href="/therapist/clients">
+                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                      Client Directory
+                    </Button>
+                  </Link>
+                  <Link href="/availability">
+                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                      Manage Availability
+                    </Button>
+                  </Link>
+                </>
+              )}
+              {canManageUsers && (
+                <>
+                  <Link href="/console/users">
+                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                      Manage Users
+                    </Button>
+                  </Link>
+                  <Link href="/console/permissions">
+                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                      Permissions
+                    </Button>
+                  </Link>
+                </>
+              )}
+            </CardContent>
+          </Card>
 
-        {/* Goals Section */}
-        <Card className="shadow-sm hover:shadow-md transition-all lg:col-span-3">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Active Goals</CardTitle>
-            <Button variant="ghost" size="sm" className="h-auto p-0 text-xs text-primary">Manage Goals</Button>
+          {/* Plan Info (clients) */}
+          {!canUseTherapistTools && (
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium">Plan</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">
+                    {data.plan?.name || 'Free'}
+                  </span>
+                  <Badge variant={data.plan ? 'default' : 'secondary'}>
+                    {data.plan ? 'Active' : 'Basic'}
+                  </Badge>
+                </div>
+                {!data.plan && (
+                  <Button variant="outline" size="sm" className="w-full text-xs">
+                    Upgrade Plan
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Wallet Balance */}
+          {data.wallet && (
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium">Balance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-semibold tracking-tight">
+                  {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
+                  <span className="text-sm font-normal text-muted-foreground">
+                    {data.wallet.currency}
+                  </span>
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+
+      {/* ── Wellness Goals (clients) ─────────────────────────────── */}
+      {data.goals?.length > 0 && (
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium">Active Goals</CardTitle>
+              <Link href="/wellness">
+                <Button variant="ghost" size="sm" className="h-7 text-xs">
+                  Manage
+                </Button>
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
-            {goals.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {goals.map((goal: any) => (
-                  <div key={goal.id} className="border p-3 rounded-lg space-y-2">
-                    <div className="flex justify-between text-sm font-medium">
-                      <span>{goal.title}</span>
-                      <span>{goal.progress}%</span>
-                    </div>
-                    <Progress value={goal.progress} className="h-2" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {data.goals.map((goal: any) => (
+                <div key={goal.id} className="space-y-2 rounded-lg border p-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium truncate">{goal.title}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {goal.progress}%
+                    </span>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-6 text-muted-foreground text-sm">
-                Set wellness goals to track your progress.
-              </div>
-            )}
+                  <Progress value={goal.progress} className="h-1.5" />
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
-      </div>
+      )}
+
+      {/* ── Journal & Assignments ────────────────────────────────── */}
+      {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Recent Journal */}
+          {data.journalEntries?.length > 0 && (
+            <Card>
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-medium">Recent Journal</CardTitle>
+                  <Link href="/journal">
+                    <Button variant="ghost" size="sm" className="h-7 text-xs">
+                      View all
+                    </Button>
+                  </Link>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {data.journalEntries.map((entry: any) => (
+                    <div
+                      key={entry.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div>
+                        <p className="text-sm font-medium truncate">
+                          {entry.title || 'Untitled'}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(entry.created_at).toLocaleDateString(undefined, {
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </p>
+                      </div>
+                      {entry.mood && (
+                        <Badge variant="outline" className="text-xs">
+                          {entry.mood}
+                        </Badge>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Assignments / Homework */}
+          {data.assignments?.length > 0 && (
+            <Card>
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-medium">Assignments</CardTitle>
+                  <Link href="/assignments">
+                    <Button variant="ghost" size="sm" className="h-7 text-xs">
+                      View all
+                    </Button>
+                  </Link>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {data.assignments.map((a: any) => (
+                    <div
+                      key={a.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div>
+                        <p className="text-sm font-medium truncate">{a.title}</p>
+                        {a.due_date && (
+                          <p className="text-xs text-muted-foreground">
+                            Due{' '}
+                            {new Date(a.due_date).toLocaleDateString(undefined, {
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </p>
+                        )}
+                      </div>
+                      <Badge
+                        variant={a.status === 'in_progress' ? 'default' : 'secondary'}
+                        className="text-xs"
+                      >
+                        {a.status === 'in_progress' ? 'In Progress' : 'Pending'}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
+
+      {/* ── Admin Quick Links ────────────────────────────────────── */}
+      {canManageSystem && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <QuickLink
+            href="/admin/features"
+            title="Feature Flags"
+            description="Control feature rollouts and overrides"
+          />
+          <QuickLink
+            href="/admin/audit"
+            title="Audit Log"
+            description="Monitor system events and actions"
+          />
+          <QuickLink
+            href="/console/analytics"
+            title="Analytics"
+            description="Platform performance and insights"
+          />
+        </div>
+      )}
     </div>
+  );
+}
+
+// ─── Sub-components ─────────────────────────────────────────────────
+
+function StatsCard({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: number;
+  accent?: boolean;
+}) {
+  return (
+    <Card>
+      <CardContent className="pt-4 pb-3 px-4">
+        <p className="text-xs font-medium text-muted-foreground">{label}</p>
+        <p
+          className={`text-2xl font-semibold tracking-tight ${accent ? 'text-primary' : ''}`}
+        >
+          {value}
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function QuickLink({
+  href,
+  title,
+  description,
+}: {
+  href: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link href={href}>
+      <Card className="h-full transition-colors hover:bg-muted/50">
+        <CardContent className="pt-4 pb-3 px-4">
+          <p className="text-sm font-medium">{title}</p>
+          <p className="text-xs text-muted-foreground mt-1">{description}</p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

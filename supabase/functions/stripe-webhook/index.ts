@@ -137,14 +137,11 @@ serve(async (req) => {
 
         if (supabaseId) {
           await supabase
-            .from('service')
+            .from('services')
             .update({
               name: product.name,
               description: product.description,
-              active: product.active,
-              // price: 0, // Don't reset price here
-              // updated_at: new Date().toISOString(), // service table doesn't have updated_at in schema? Check schema.
-              ...systemFlag,
+              is_active: product.active,
             })
             .eq('id', supabaseId);
         } else {
@@ -171,11 +168,10 @@ serve(async (req) => {
           // So we rely on stripe_product_id column.
 
           await supabase
-            .from('service')
+            .from('services')
             .update({
-              price: price.unit_amount || 0, // Store in cents
-              // stripe_price_id: price.id, // If column exists
-              ...systemFlag,
+              base_price: ((price.unit_amount || 0) / 100), // Convert cents to euros
+              stripe_price_id: price.id,
             })
             .eq('stripe_product_id', productId);
         }
@@ -324,12 +320,10 @@ serve(async (req) => {
           if (bookingId) {
             // Update 'booking' table
             const { error } = await supabase
-              .from('booking')
+              .from('bookings')
               .update({
                 payment_status: 'captured',
-                stripe_payment_intent: session.payment_intent,
-                updated_at: new Date().toISOString(),
-                ...systemFlag,
+                stripe_payment_intent_id: session.payment_intent,
               })
               .eq('id', bookingId);
 

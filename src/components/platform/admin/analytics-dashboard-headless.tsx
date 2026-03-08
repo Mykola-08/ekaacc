@@ -342,11 +342,11 @@ export function AnalyticsDashboardHeadless() {
                 key={category}
                 className={({ selected }) =>
                   classNames(
-                    'w-full min-w-[100px] rounded-full px-4 py-2.5 text-sm leading-5 font-medium',
+                    'w-full min-w-25 rounded-full px-4 py-2.5 text-sm leading-5 font-medium',
                     'ring-border ring-offset-2 focus:ring-2 focus:outline-none',
                     selected
                       ? 'bg-card text-foreground shadow'
-                      : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/[0.12]'
+                      : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/12'
                   )
                 }
               >
@@ -365,7 +365,7 @@ export function AnalyticsDashboardHeadless() {
                   <h3 className="text-foreground text-lg font-semibold">User Growth Trend</h3>
                   <p className="text-muted-foreground text-sm">User acquisition over time</p>
                 </div>
-                <div className="h-[300px] w-full">
+                <div className="h-75 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={analytics.userGrowth}>
                       <CartesianGrid
@@ -419,7 +419,7 @@ export function AnalyticsDashboardHeadless() {
                   <h3 className="text-foreground text-lg font-semibold">Activity by Hour</h3>
                   <p className="text-muted-foreground text-sm">Peak usage times</p>
                 </div>
-                <div className="h-[300px] w-full">
+                <div className="h-75 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={analytics.activityByHour}>
                       <CartesianGrid
@@ -462,7 +462,7 @@ export function AnalyticsDashboardHeadless() {
                 <h3 className="text-foreground text-lg font-semibold">User Growth Details</h3>
                 <p className="text-muted-foreground text-sm">Detailed user acquisition metrics</p>
               </div>
-              <div className="h-[400px] w-full">
+              <div className="h-100 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={analytics.userGrowth}>
                     <CartesianGrid
@@ -507,7 +507,7 @@ export function AnalyticsDashboardHeadless() {
                 <h3 className="text-foreground text-lg font-semibold">Hourly Activity Pattern</h3>
                 <p className="text-muted-foreground text-sm">User activity throughout the day</p>
               </div>
-              <div className="h-[400px] w-full">
+              <div className="h-100 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={analytics.activityByHour}>
                     <CartesianGrid
@@ -571,7 +571,7 @@ export function AnalyticsDashboardHeadless() {
                   <h3 className="text-foreground text-lg font-semibold">User Segments</h3>
                   <p className="text-muted-foreground text-sm">User distribution by segment</p>
                 </div>
-                <div className="h-[300px] w-full">
+                <div className="h-75 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie

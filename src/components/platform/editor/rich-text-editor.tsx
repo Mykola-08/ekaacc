@@ -128,7 +128,7 @@ export function RichTextEditor({
             placeholder={placeholder}
             spellCheck
             autoFocus
-            className="prose prose-sm min-h-[300px] max-w-none p-4 focus:outline-none"
+            className="prose prose-sm min-h-75 max-w-none p-4 focus:outline-none"
             onKeyDown={(event: React.KeyboardEvent) => {
               for (const hotkey in HOTKEYS) {
                 if (isHotkey(hotkey, event as any)) {

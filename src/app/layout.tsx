@@ -15,11 +15,39 @@ import { createClient } from '@/lib/supabase/server';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'EKA Balance - Teràpies Integratives',
-  description: 'Serveis premium de benestar amb teràpies integratives.',
+  title: {
+    default: 'EKA Balance - Teràpies Integratives a Barcelona',
+    template: '%s | EKA Balance',
+  },
+  description:
+    'Serveis premium de benestar amb teràpies integratives: massatge, kinesiologia, nutrició i més. Descobreix el teu equilibri a Barcelona.',
+  metadataBase: new URL('https://ekabalance.com'),
   icons: {
     icon: '/images/eka_logo.png',
     apple: '/images/eka_logo.png',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'ca_ES',
+    url: 'https://ekabalance.com',
+    siteName: 'EKA Balance',
+    title: 'EKA Balance - Teràpies Integratives a Barcelona',
+    description:
+      'Serveis premium de benestar amb teràpies integratives: massatge, kinesiologia, nutrició i més.',
+    images: [{ url: '/images/eka_logo.png', width: 512, height: 512, alt: 'EKA Balance' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'EKA Balance - Teràpies Integratives',
+    description:
+      'Serveis premium de benestar amb teràpies integratives a Barcelona.',
+  },
+  alternates: {
+    canonical: 'https://ekabalance.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -55,7 +83,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="ca" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={cn("font-sans antialiased", GeistSans.variable, GeistMono.variable)} suppressHydrationWarning>
         <a href="#main-content" className="ux-skip-link">
           Skip to main content

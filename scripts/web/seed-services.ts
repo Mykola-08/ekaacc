@@ -23,26 +23,48 @@ async function seed() {
 
   const services = [
     {
-      name: 'Standard Haircut',
-      description: 'A classic haircut with scissors and clippers.',
-      price: 30,
-      duration: 30,
+      name: 'Advanced Manual Therapy',
+      description: 'Therapeutic approach to musculoskeletal dysfunction. Deep tissue mobilization and neuromuscular techniques to restore range of motion and eliminate chronic pain patterns.',
+      base_price: 60,
+      duration_minutes: 60,
+      category: 'therapy',
+      currency: 'EUR',
     },
     {
-      name: 'Premium Haircut & Beard',
-      description: 'Full service haircut including beard trim and hot towel.',
-      price: 55,
-      duration: 60,
+      name: 'Holistic Kinesiology',
+      description: 'Precision diagnostic methodology using muscle response testing to identify physiological, structural, and emotional stressors affecting your systemic health.',
+      base_price: 70,
+      duration_minutes: 60,
+      category: 'therapy',
+      currency: 'EUR',
     },
     {
-      name: 'Express Cut',
-      description: 'Quick dry cut for those in a hurry.',
-      price: 25,
-      duration: 20,
+      name: 'Metabolic Optimization',
+      description: 'Therapeutic nutritional strategies designed to reduce systemic inflammation, optimize metabolic function, and support neuro-endocrine regulation.',
+      base_price: 60,
+      duration_minutes: 60,
+      category: 'nutrition',
+      currency: 'EUR',
+    },
+    {
+      name: '360° Comprehensive Assessment',
+      description: 'An exhaustive evaluation of your biomechanics, posture, and metabolic status. Detailed wellness report and personalized therapeutic roadmap.',
+      base_price: 280,
+      duration_minutes: 90,
+      category: 'review',
+      currency: 'EUR',
+    },
+    {
+      name: 'Corporate Wellness',
+      description: 'Customized wellness programs for companies: from in-office massages to posture workshops.',
+      base_price: 100,
+      duration_minutes: 60,
+      category: 'corporate',
+      currency: 'EUR',
     },
   ];
 
-  const { data, error } = await supabase.from('service').insert(services).select();
+  const { data, error } = await supabase.from('services').insert(services).select();
 
   if (error) {
     console.error('Error seeding services:', error);

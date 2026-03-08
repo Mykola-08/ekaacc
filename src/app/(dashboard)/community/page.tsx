@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { CommunityChannelList } from '@/components/community/CommunityChannelList';
 import { CommunityFeed } from '@/components/community/CommunityFeed';
+import { getCommunityPosts } from '@/server/community/actions';
 
 export default async function CommunityPage() {
   const supabase = await createClient();
@@ -11,11 +12,8 @@ export default async function CommunityPage() {
   // Default to General (or first)
   const activeChannelId = channels?.[0]?.id || 'general';
 
-  // Fetch Posts for active channel (mocking relationship for now if not set up)
-  const { data: posts } = await supabase
-    .from('community_posts')
-    .select('*, author:author_id(full_name, avatar_url)')
-    .order('created_at', { ascending: false });
+  // Fetch Posts using server action (correct column: user_id, not author_id)
+  const posts = await getCommunityPosts();
 
   return (
     <div className="flex h-[calc(100vh-64px)] overflow-hidden">
@@ -25,7 +23,7 @@ export default async function CommunityPage() {
           activeChannelId={activeChannelId}
         />
       </div>
-      <CommunityFeed channelId={activeChannelId} posts={posts || []} />
+      <CommunityFeed channelId={activeChannelId} posts={posts} />
     </div>
   );
 }

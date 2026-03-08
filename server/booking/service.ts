@@ -51,7 +51,7 @@ export async function fetchService(serviceId: string) {
     const { data: services, error: dbError } = await supabase
       .from('service')
       .select(`
-        id, name, description, stripe_product_id, metadata, image_url, images, tags,
+        id, name, description, stripe_product_id, metadata, image_url, images, tags, location,
         service_variant (
           id, name, description, duration_min, price_amount, currency, stripe_price_id, features, comparison_label, active
         )
@@ -98,8 +98,7 @@ export async function fetchService(serviceId: string) {
       description: serviceRow.description,
       stripe_product_id: serviceRow.stripe_product_id,
       metadata: serviceRow.metadata,
-      // @ts-ignore - location does not exist in service table but was in original code
-      location: serviceRow.location, 
+      location: serviceRow.location,
       image_url: serviceRow.image_url,
       images: serviceRow.images,
       price: defaultVariant.price,
@@ -125,11 +124,11 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
     const endDate = endIso;
 
     const { rows } = await db.query(
-      `SELECT id, start_time, end_time, duration_minutes as duration, payment_status, staff_id
-       FROM booking
+      `SELECT id, starts_at, ends_at, duration_minutes, payment_status, staff_id
+       FROM bookings
        WHERE service_id = $1
        AND (payment_status = 'pending' OR payment_status = 'captured' OR payment_status = 'authorized')
-       AND start_time >= $2 AND start_time <= $3`,
+       AND starts_at >= $2 AND starts_at <= $3`,
       [serviceId, startDate, endDate]
     );
 
@@ -137,10 +136,10 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
     const mappedRows = rows.map((row) => {
       return {
         ...row,
-        date: new Date(row.start_time).toISOString().split('T')[0],
-        time: (new Date(row.start_time).toISOString().split('T')[1] || '').substring(0, 5),
-        start_time: row.start_time,
-        end_time: row.end_time,
+        date: new Date(row.starts_at).toISOString().split('T')[0],
+        time: (new Date(row.starts_at).toISOString().split('T')[1] || '').substring(0, 5),
+        start_time: row.starts_at,
+        end_time: row.ends_at,
       };
     });
 
@@ -223,7 +222,7 @@ export async function getBookingById(bookingId: string) {
     const { rows } = await db.query(
       `SELECT a.*, 
               s.name as service_name, s.duration as service_duration, s.price as service_price, s.description as service_description
-       FROM booking a
+       FROM bookings a
        LEFT JOIN service s ON a.service_id = s.id
        WHERE a.id = $1`,
       [bookingId]
@@ -257,7 +256,7 @@ export async function getBookingById(bookingId: string) {
 // Database health and monitoring utilities
 export async function getBookingStats() {
   try {
-    const { rows } = await db.query('SELECT status, payment_status FROM booking');
+    const { rows } = await db.query('SELECT status, payment_status FROM bookings');
 
     const stats = {
       total: rows.length,
@@ -321,9 +320,6 @@ interface CreateBookingParams {
   depositCents?: number;
   addons?: BookingAddon[];
   staffId?: string;
-  metadata?: Record<string, unknown>;
-  customerTags?: string[];
-  usePlanUsageId?: string;
   rewardId?: string;
 }
 
@@ -343,12 +339,8 @@ export async function createBooking(params: CreateBookingParams) {
       depositCents = 0,
       addons = [],
       staffId,
-      metadata = {},
-      customerTags = [],
-      usePlanUsageId: inputPlanId,
     } = params;
 
-    let usePlanUsageId = inputPlanId;
     let finalDepositCents = depositCents;
 
     // 1. Fetch service
@@ -435,10 +427,10 @@ export async function createBooking(params: CreateBookingParams) {
 
     // 2. Check overlaps
     const { rows: overlapping } = await db.query(
-      `SELECT id, start_time, end_time, payment_status, staff_id
-       FROM booking
+      `SELECT id, starts_at, ends_at, payment_status, staff_id
+       FROM bookings
        WHERE (payment_status = 'pending' OR payment_status = 'captured' OR payment_status = 'authorized')
-       AND start_time < $1 AND end_time > $2`,
+       AND starts_at < $1 AND ends_at > $2`,
       [end.toISOString(), start.toISOString()]
     );
 
@@ -505,43 +497,13 @@ export async function createBooking(params: CreateBookingParams) {
     }
     // --------------------------------
 
-    // Check Plan logic
-    // Modification: Automatically check for available credits if not explicitly provided
-    if (userId && !usePlanUsageId) {
-      const { rows: autoPlanRows } = await db.query(
-        `SELECT id FROM user_plan_usage 
-             WHERE user_id = $1 
-               AND status = 'active' 
-               AND (credits_total - credits_used) > 0 
-               AND (expires_at IS NULL OR expires_at > NOW())
-             ORDER BY expires_at ASC NULLS LAST, created_at ASC 
-             LIMIT 1`,
-        [userId]
-      );
-      if (autoPlanRows.length > 0) {
-        usePlanUsageId = autoPlanRows[0]!.id;
-      }
-    }
+    // Check Plan logic (user_plan_usage table removed — plan credits disabled for now)
+    // If plan credit system is re-enabled, add the table and restore this logic.
+    const usePlanCredits = false;
 
-    let initialPaymentStatus = 'pending';
-    if (usePlanUsageId) {
-      if (!userId) return { error: 'User ID required for plan usage', status: 400 };
-
-      // Verify Plan Validity
-      const { rows: planRows } = await db.query(
-        'SELECT credits_total, credits_used, user_id, status FROM user_plan_usage WHERE id = $1',
-        [usePlanUsageId]
-      );
-      if (planRows.length === 0) return { error: 'Plan not found', status: 404 };
-      const plan = planRows[0]!;
-
-      if (plan.user_id !== userId) return { error: 'Plan belongs to another user', status: 403 };
-      if (plan.status !== 'active') return { error: 'Plan is not active', status: 400 };
-      if (plan.credits_total - plan.credits_used < 1)
-        return { error: 'Insufficient plan credits', status: 402 };
-
-      initialPaymentStatus = 'captured';
-    }
+    const initialPaymentStatus = 'pending';
+    // Plan credit logic disabled — table does not exist
+    // if (usePlanCredits) { initialPaymentStatus = 'captured'; }
 
     // --- REPUTATION POLICY CHECK ---
     let reputationPolicy: BookingPolicy = {
@@ -550,8 +512,8 @@ export async function createBooking(params: CreateBookingParams) {
       allowPayLater: false,
       rejectionReason: '',
     };
-    // Only check reputation if not using prepaid plan (plan is safe) and not fully covered by reward
-    if (!usePlanUsageId) {
+    // Only check reputation if not fully covered by reward
+    if (true) {
       reputationPolicy = await ReputationService.getPolicyForService(email, finalPriceCents);
       if (!reputationPolicy.canBook) {
         return {
@@ -575,7 +537,7 @@ export async function createBooking(params: CreateBookingParams) {
     );
     const totalCents = finalPriceCents + addonsTotal;
 
-    if (paymentMode === 'deposit' && !rewardId && !usePlanUsageId) {
+    if (paymentMode === 'deposit' && !rewardId) {
       // 1. Check if trying to pay 0 without permission
       if (finalDepositCents <= 0 && !reputationPolicy.allowPayLater) {
         return { error: 'Deposit amount required for deposit mode', status: 400 };
@@ -603,24 +565,24 @@ export async function createBooking(params: CreateBookingParams) {
     };
 
     // --- ZOOM INTEGRATION ---
-    const zoomJoinUrl: string | null = null;
-    const zoomMeetingId: string | null = null;
+    const meetingUrl: string | null = null;
     // ------------------------
 
     // 5. Insert booking
     await db.query(
-      `INSERT INTO booking (
-        id, service_id, service_variant_id, origin_app, customer_reference_id, staff_id, start_time, end_time, duration_minutes,
+      `INSERT INTO bookings (
+        id, service_id, service_variant_id, origin_app, client_id, therapist_id, staff_id, starts_at, ends_at, duration_minutes,
         base_price_cents, currency, email, phone, display_name,
-        addons_json, payment_mode, deposit_cents, payment_status,
-        status, cancellation_policy, reservation_expires_at, manage_token_hash,
-        metadata, customer_tags, zoom_join_url, zoom_meeting_id
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)`,
+        addons_json, payment_mode, deposit_amount_cents, payment_status,
+        status, cancellation_policy, hold_expires_at, manage_token_hash,
+        meeting_url
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)`,
       [
         id,
         service.id,
         finalVariantId,
         originApp,
+        userId || null,
         userId || null,
         finalStaffId,
         start.toISOString(),
@@ -639,26 +601,11 @@ export async function createBooking(params: CreateBookingParams) {
         JSON.stringify(cancellationPolicy),
         reservationExpiresAt.toISOString(),
         manageTokenHash,
-        metadata,
-        customerTags,
-        zoomJoinUrl,
-        zoomMeetingId,
+        meetingUrl,
       ]
     );
 
-    if (usePlanUsageId && initialPaymentStatus === 'captured') {
-      try {
-        await db.query('SELECT consume_plan_credit_for_booking($1, $2)', [id, usePlanUsageId]);
-      } catch (err) {
-        console.error('Failed to consume plan credit:', err);
-        // Rollback booking
-        await db.query(
-          "UPDATE booking SET status = 'canceled', payment_status = 'failed' WHERE id = $1",
-          [id]
-        );
-        return { error: 'Failed to process plan credit deduction', status: 500 };
-      }
-    }
+    // Plan credit consumption disabled (user_plan_usage table removed)
 
     await emitEvent('booking.created', {
       bookingId: id,
@@ -727,9 +674,9 @@ export async function getServiceAvailability(
     const dayEnd = new Date(dayStart.getTime() + 86400000);
 
     const { rows: bookings } = await db.query(
-      `SELECT id, start_time, end_time, staff_id, payment_status 
-       FROM booking 
-       WHERE start_time >= $1 AND end_time < $2`,
+      `SELECT id, starts_at, ends_at, staff_id, payment_status 
+       FROM bookings 
+       WHERE starts_at >= $1 AND ends_at < $2`,
       [dayStart.toISOString(), dayEnd.toISOString()]
     );
 
@@ -758,14 +705,14 @@ export async function getServiceAvailability(
         // Overlap check
         interface BookingRow {
           id: string;
-          start_time: string;
-          end_time: string;
+          starts_at: string;
+          ends_at: string;
           staff_id: string;
           payment_status: string;
         }
         const overlapping = (bookings as BookingRow[]).some((b) => {
-          const bStart = new Date(b.start_time);
-          const bEnd = new Date(b.end_time);
+          const bStart = new Date(b.starts_at);
+          const bEnd = new Date(b.ends_at);
           return (
             b.staff_id === staffId &&
             bStart < end &&
@@ -805,11 +752,10 @@ export async function updateBookingPaymentStatus(
   try {
     const bookingStatus = status === 'captured' ? 'scheduled' : 'canceled';
     await db.query(
-      `UPDATE booking 
+      `UPDATE bookings 
        SET payment_status = $1, 
            status = $2,
-           stripe_payment_intent = COALESCE($3, stripe_payment_intent),
-           updated_at = NOW()
+           stripe_payment_intent_id = COALESCE($3, stripe_payment_intent_id)
        WHERE id = $4`,
       [status, bookingStatus, stripePaymentIntentId, bookingId]
     );

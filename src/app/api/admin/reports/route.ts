@@ -144,15 +144,7 @@ export async function GET(request: NextRequest) {
 
 // Report generation functions
 async function generateUserReport(dateFrom?: string, dateTo?: string, groupBy?: string | null) {
-  let query = supabaseAdmin.from('user_profiles').select(`
-      *,
-      user_role_assignments!inner(
-        role_id,
-        user_roles!inner(name, description)
-      ),
-      sessions(count),
-      payments!inner(sum: amount)
-    `);
+  let query = supabaseAdmin.from('profiles').select('*');
 
   if (dateFrom) query = query.gte('created_at', dateFrom);
   if (dateTo) query = query.lte('created_at', dateTo);
@@ -163,14 +155,14 @@ async function generateUserReport(dateFrom?: string, dateTo?: string, groupBy?: 
 
   return (
     data?.map((user) => ({
-      userId: user.id,
+      userId: user.auth_id,
       email: user.email,
-      role: user.user_role_assignments.user_roles.name,
+      role: user.role || 'client',
       status: user.account_status || 'active',
       createdDate: user.created_at,
       lastActive: user.last_active,
-      sessionsCount: user.sessions?.[0]?.count || 0,
-      totalRevenue: (user.payments?.[0]?.sum || 0) / 100, // Convert from cents
+      sessionsCount: 0,
+      totalRevenue: 0,
     })) || []
   );
 }
@@ -178,8 +170,7 @@ async function generateUserReport(dateFrom?: string, dateTo?: string, groupBy?: 
 async function generateSessionReport(dateFrom?: string, dateTo?: string, groupBy?: string | null) {
   let query = supabaseAdmin.from('sessions').select(`
       *,
-      user_profiles!inner(email, full_name),
-      therapist_profiles!inner(full_name)
+      profiles!inner(email, full_name)
     `);
 
   if (dateFrom) query = query.gte('created_at', dateFrom);
@@ -193,8 +184,8 @@ async function generateSessionReport(dateFrom?: string, dateTo?: string, groupBy
     data?.map((session) => ({
       sessionId: session.id,
       userId: session.user_id,
-      userEmail: session.user_profiles.email,
-      therapist: session.therapist_profiles.full_name,
+      userEmail: (session as any).profiles?.email,
+      therapist: null,
       date: session.created_at,
       duration: session.duration,
       status: session.status,
@@ -207,7 +198,7 @@ async function generateSessionReport(dateFrom?: string, dateTo?: string, groupBy
 async function generateRevenueReport(dateFrom?: string, dateTo?: string, groupBy?: string | null) {
   let query = supabaseAdmin.from('payments').select(`
       *,
-      user_profiles!inner(email)
+      profiles!inner(email)
     `);
 
   if (dateFrom) query = query.gte('created_at', dateFrom);

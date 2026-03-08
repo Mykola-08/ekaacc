@@ -60,7 +60,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ success: false, message }, { status: 500 });
+    console.error('Error processing error log:', error);
+    // Never expose internal error details to the client
+    return NextResponse.json({ success: false }, { status: 500 });
   }
 }

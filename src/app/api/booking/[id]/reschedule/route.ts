@@ -17,7 +17,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
     const supabase = await createClient();
     const { data: booking, error: bookingErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .select('*')
       .eq('id', id)
       .single();
@@ -32,7 +32,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
 
     // Policy check (same as cancellation window for simplicity)
-    const start = new Date(booking.start_time);
+    const start = new Date(booking.starts_at);
     const now = new Date();
     const diffHours = (start.getTime() - now.getTime()) / 3600000;
     const policy = booking.cancellation_policy || { deadlineOffsetHours: 24 };
@@ -44,15 +44,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     if (isNaN(newStart.getTime())) {
       return NextResponse.json({ error: 'Invalid newStartTime' }, { status: 400 });
     }
-    const newEnd = new Date(newStart.getTime() + booking.duration_minutes * 60000);
+    const newEnd = new Date(newStart.getTime() + (booking.duration_minutes || 60) * 60000);
 
     // Overlap check same service
     const { data: overlapping, error: overlapErr } = await supabase
-      .from('booking')
-      .select('id,start_time,end_time')
+      .from('bookings')
+      .select('id,starts_at,ends_at')
       .eq('service_id', booking.service_id)
-      .filter('start_time', 'lt', newEnd.toISOString())
-      .filter('end_time', 'gt', newStart.toISOString())
+      .filter('starts_at', 'lt', newEnd.toISOString())
+      .filter('ends_at', 'gt', newStart.toISOString())
       .neq('id', booking.id);
     if (overlapErr) return NextResponse.json({ error: overlapErr.message }, { status: 500 });
     if (overlapping && overlapping.length > 0) {
@@ -62,14 +62,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     // Price delta logic (assume unchanged; placeholder for future variant changes)
     const priceDeltaCents = 0;
     const { error: updateErr } = await supabase
-      .from('booking')
-      .update({ start_time: newStart.toISOString(), end_time: newEnd.toISOString() })
+      .from('bookings')
+      .update({ starts_at: newStart.toISOString(), ends_at: newEnd.toISOString() })
       .eq('id', booking.id);
     if (updateErr) return NextResponse.json({ error: updateErr.message }, { status: 500 });
 
     const newToken = await signManageToken(booking.id, 'manage', 900);
     const { error: rotateErr } = await supabase
-      .from('booking')
+      .from('bookings')
       .update({ manage_token_hash: hashToken(newToken) })
       .eq('id', booking.id);
     if (rotateErr) return NextResponse.json({ error: rotateErr.message }, { status: 500 });

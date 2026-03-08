@@ -5,9 +5,9 @@ import { getCurrentUser } from '@/lib/platform/supabase';
 // Helper function to get user by ID with full profile data
 async function getUserById(userId: string) {
   const { data: profile, error: profileError } = await supabaseAdmin
-    .from('user_profiles')
-    .select('*, user_role_assignments!inner(role_id, user_roles!inner(name, description))')
-    .eq('id', userId)
+    .from('profiles')
+    .select('*')
+    .eq('auth_id', userId)
     .single();
 
   if (profileError) {
@@ -17,46 +17,30 @@ async function getUserById(userId: string) {
   return profile;
 }
 
-// Helper function to get user permissions
-async function getUserPermissions(roleId: string) {
-  const { data: permissions, error: permissionsError } = await supabaseAdmin
-    .from('role_permissions')
-    .select('permissions!inner(*)')
-    .eq('role_id', roleId);
-
-  if (permissionsError) {
-    throw new Error(`Failed to fetch user permissions: ${permissionsError.message}`);
-  }
-
-  return permissions?.map((p) => p.permissions) || [];
+// Helper function to get user permissions based on role
+async function getUserPermissions(role: string) {
+  // Permissions are derived from the role column on profiles
+  const rolePermissionMap: Record<string, string[]> = {
+    admin: ['admin.full_access', 'admin.impersonate'],
+    therapist: ['therapist.manage_sessions', 'therapist.view_clients'],
+    client: ['client.book_sessions', 'client.view_own_data'],
+  };
+  return rolePermissionMap[role] || [];
 }
 
 // Check if current user has admin permission to impersonate
 async function canImpersonate(userId: string) {
-  const { data: roleAssignment, error } = await supabaseAdmin
-    .from('user_role_assignments')
-    .select('role_id, user_roles!inner(name)')
-    .eq('user_id', userId)
+  const { data: profile, error } = await supabaseAdmin
+    .from('profiles')
+    .select('role')
+    .eq('auth_id', userId)
     .single();
 
-  if (error || !roleAssignment) {
+  if (error || !profile) {
     return false;
   }
 
-  // Check if user has admin role or specific impersonate permission
-  const { data: permissions } = await supabaseAdmin
-    .from('role_permissions')
-    .select('permissions!inner(name)')
-    .eq('role_id', roleAssignment.role_id);
-
-  const permissionNames =
-    permissions?.map((p) => (p as any).permissions?.name).filter(Boolean) || [];
-
-  return (
-    permissionNames.includes('admin.impersonate') ||
-    permissionNames.includes('admin.full_access') ||
-    (roleAssignment.user_roles as any)?.name === 'admin'
-  );
+  return profile.role === 'admin';
 }
 
 export async function POST(request: NextRequest) {
@@ -84,7 +68,7 @@ export async function POST(request: NextRequest) {
 
     // Get target user data
     const targetUserProfile = await getUserById(targetUserId);
-    const targetUserPermissions = await getUserPermissions(targetUserProfile.role_id);
+    const targetUserPermissions = await getUserPermissions(targetUserProfile.role);
 
     // Log impersonation start (simplified audit logging)
     await supabaseAdmin.from('audit_logs').insert({
@@ -106,7 +90,7 @@ export async function POST(request: NextRequest) {
       originalUserEmail: currentUser.email,
       targetUserId: targetUserProfile.id,
       targetUserEmail: targetUserProfile.email,
-      targetUserRole: targetUserProfile.user_role_assignments.user_roles,
+      targetUserRole: { name: targetUserProfile.role, description: null },
       targetUserPermissions,
       reason,
       startedAt: new Date().toISOString(),

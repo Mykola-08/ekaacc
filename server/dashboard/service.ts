@@ -19,12 +19,12 @@ export async function getUpcomingBookings(userId: string) {
   try {
     const { rows } = await db.query(
       `SELECT b.*, s.name as service_name 
-       FROM booking b
+       FROM bookings b
        JOIN service s ON b.service_id = s.id
-       WHERE b.customer_reference_id = $1 
-         AND b.start_time > NOW() 
+       WHERE b.client_id = $1 
+         AND b.starts_at > NOW() 
          AND b.status IN ('scheduled', 'confirmed')
-       ORDER BY b.start_time ASC
+       ORDER BY b.starts_at ASC
        LIMIT 1`,
       [userId]
     );
@@ -36,8 +36,8 @@ export async function getUpcomingBookings(userId: string) {
       id: row.id,
       serviceId: row.service_id,
       serviceName: row.service_name,
-      startTime: row.start_time.toISOString(),
-      endTime: row.end_time.toISOString(),
+      startTime: row.starts_at.toISOString(),
+      endTime: row.ends_at.toISOString(),
       status: row.status,
       services: {
         title: row.service_name,
@@ -53,10 +53,10 @@ export async function getBookingsHistory(userId: string) {
   try {
     const { rows } = await db.query(
       `SELECT b.*, s.name as service_name 
-       FROM booking b
+       FROM bookings b
        JOIN service s ON b.service_id = s.id
-       WHERE b.customer_reference_id = $1 
-       ORDER BY b.start_time DESC`,
+       WHERE b.client_id = $1 
+       ORDER BY b.starts_at DESC`,
       [userId]
     );
 
@@ -64,8 +64,8 @@ export async function getBookingsHistory(userId: string) {
       id: row.id,
       serviceId: row.service_id,
       serviceName: row.service_name,
-      startTime: row.start_time.toISOString(),
-      endTime: row.end_time.toISOString(),
+      startTime: row.starts_at.toISOString(),
+      endTime: row.ends_at.toISOString(),
       status: row.status,
       services: {
         title: row.service_name,
@@ -87,12 +87,12 @@ export async function getTherapistDailySchedule(userId: string) {
                   u.raw_user_meta_data->>'last_name' as last_name,
                   u.raw_user_meta_data->>'full_name' as client_name,
                   u.raw_user_meta_data->>'phone' as phone
-           FROM booking b
+           FROM bookings b
            JOIN service s ON b.service_id = s.id
-           LEFT JOIN auth.users u ON b.customer_reference_id = u.id
-           WHERE b.start_time >= CURRENT_DATE 
-             AND b.start_time < CURRENT_DATE + INTERVAL '1 day'
-           ORDER BY b.start_time ASC`,
+           LEFT JOIN auth.users u ON b.client_id = u.id
+           WHERE b.starts_at >= CURRENT_DATE 
+             AND b.starts_at < CURRENT_DATE + INTERVAL '1 day'
+           ORDER BY b.starts_at ASC`,
       []
     );
 
@@ -118,9 +118,9 @@ export async function getTherapistDailySchedule(userId: string) {
 export async function cancelBooking(bookingId: string, userId: string) {
   try {
     const { rows } = await db.query(
-      `UPDATE booking 
-       SET status = 'cancelled', updated_at = NOW()
-       WHERE id = $1 AND customer_reference_id = $2
+      `UPDATE bookings 
+       SET status = 'cancelled'
+       WHERE id = $1 AND client_id = $2
        RETURNING id, status, payment_status, base_price_cents`,
       [bookingId, userId]
     );
@@ -140,12 +140,12 @@ export async function cancelBooking(bookingId: string, userId: string) {
 export async function getPendingVerifications(therapistId: string) {
   try {
     const { rows } = await db.query(
-      `SELECT b.id, b.start_time, s.name as service_name, 
+      `SELECT b.id, b.starts_at, s.name as service_name, 
               u.raw_user_meta_data->>'full_name' as full_name, 
               b.base_price_cents
-        FROM booking b
+        FROM bookings b
         JOIN service s ON b.service_id = s.id
-        LEFT JOIN auth.users u ON b.customer_reference_id = u.id
+        LEFT JOIN auth.users u ON b.client_id = u.id
         WHERE b.payment_status = 'pending' AND b.payment_mode = 'manual'
         ORDER BY b.created_at ASC`
     );
@@ -161,7 +161,7 @@ export async function verifyPayment(bookingId: string, approved: boolean) {
     const status = approved ? 'paid' : 'pending'; // In real app, rejection might mean 'failed'
     // If rejected, we might want to keep it pending or cancel
     const { rows } = await db.query(
-      `UPDATE booking SET payment_status = $1 WHERE id = $2 RETURNING id`,
+      `UPDATE bookings SET payment_status = $1 WHERE id = $2 RETURNING id`,
       [status, bookingId]
     );
     return { success: true };

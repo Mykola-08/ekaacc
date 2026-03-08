@@ -81,7 +81,7 @@ const TYPE_CONFIG: Record<NotificationType, {
 // --- Global state manager ---
 type Listener = () => void;
 let notifications: MorphNotification[] = [];
-let listeners: Set<Listener> = new Set();
+const listeners: Set<Listener> = new Set();
 
 function emit() {
   listeners.forEach((l) => l());

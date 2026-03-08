@@ -66,9 +66,9 @@ export function ProgressTab() {
           .gte('created_at', thirtyDaysAgo.toISOString())
           .order('created_at', { ascending: true }),
         supabase
-          .from('booking')
+          .from('bookings')
           .select('id', { count: 'exact' })
-          .eq('customer_reference_id', user.id)
+          .eq('client_id', user.id)
           .eq('status', 'completed'),
         supabase
           .from('wellness_goals')
@@ -209,7 +209,7 @@ export function ProgressTab() {
               No entries recorded yet.
             </p>
           ) : (
-            <div className="h-[300px] w-full pt-4">
+            <div className="h-75 w-full pt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={wellnessEntries.map(e => ({

@@ -10,6 +10,13 @@ export interface PagePermission {
   action: PermissionAction;
 }
 
+export type SidebarSectionId =
+  | 'overview'
+  | 'care'
+  | 'manage'
+  | 'platform'
+  | 'account';
+
 export interface PageConfig {
   path: string;
   label: string;
@@ -17,142 +24,186 @@ export interface PageConfig {
   /** null = any authenticated user can see it */
   permission: PagePermission | null;
   hidden?: boolean;
+  /** Which sidebar section this item belongs to */
+  section?: SidebarSectionId;
   children?: PageConfig[];
 }
 
+export interface SidebarSection {
+  id: SidebarSectionId;
+  label: string;
+}
+
+// ─── Section definitions ──────────────────────────────────────────
+
+export const SIDEBAR_SECTIONS: SidebarSection[] = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'care', label: 'Care' },
+  { id: 'manage', label: 'Manage' },
+  { id: 'platform', label: 'Platform' },
+  { id: 'account', label: 'Account' },
+];
+
 // ─── Sidebar navigation registry ──────────────────────────────────
-// Every dashboard page that should appear in the sidebar is listed here.
-// The `permission` field controls visibility per-role via the permission
-// system. `null` means any authenticated user can access the page.
+// Flat, functional navigation. No role-specific prefixes — visibility
+// is purely controlled by the permission system. `null` permission
+// means any authenticated user can see the page.
 
 export const SIDEBAR_NAV: PageConfig[] = [
-  // ── Main ──────────────────────────────────────────────────────────
+  // ── Overview ──────────────────────────────────────────────────────
   {
     path: '/dashboard',
     label: 'Dashboard',
     icon: 'home',
     permission: null,
+    section: 'overview',
   },
   {
     path: '/bookings',
     label: 'Bookings',
     icon: 'calendar',
     permission: null,
-  },
-  {
-    path: '/wellness',
-    label: 'Wellness',
-    icon: 'heart',
-    permission: null,
+    section: 'overview',
   },
   {
     path: '/chat',
     label: 'Messages',
     icon: 'message',
     permission: null,
-  },
-  {
-    path: '/resources',
-    label: 'Resources',
-    icon: 'book',
-    permission: null,
-  },
-  {
-    path: '/ai-insights',
-    label: 'AI Insights',
-    icon: 'sparkle',
-    permission: null,
+    section: 'overview',
   },
   {
     path: '/notifications',
     label: 'Notifications',
-    icon: 'message',
+    icon: 'bell',
     permission: null,
+    section: 'overview',
     hidden: true,
   },
-  {
-    path: '/finances',
-    label: 'Finances',
-    icon: 'wallet',
-    permission: { group: 'financial_management', action: 'view_own' },
-  },
 
-  // ── Therapist / Clinical ──────────────────────────────────────────
+  // ── Care ──────────────────────────────────────────────────────────
+  {
+    path: '/wellness',
+    label: 'Wellness',
+    icon: 'heart',
+    permission: null,
+    section: 'care',
+  },
+  {
+    path: '/journal',
+    label: 'Journal',
+    icon: 'book',
+    permission: null,
+    section: 'care',
+  },
+  {
+    path: '/resources',
+    label: 'Resources',
+    icon: 'folder',
+    permission: null,
+    section: 'care',
+  },
+  {
+    path: '/assignments',
+    label: 'Assignments',
+    icon: 'clipboard',
+    permission: null,
+    section: 'care',
+  },
+  {
+    path: '/ai-insights',
+    label: 'AI Assistant',
+    icon: 'sparkle',
+    permission: null,
+    section: 'care',
+  },
   {
     path: '/therapist/clients',
     label: 'Clients',
     icon: 'users',
     permission: { group: 'patient_data', action: 'view_all' },
+    section: 'care',
   },
   {
     path: '/therapist/session-notes',
     label: 'Session Notes',
     icon: 'edit',
-    permission: { group: 'therapist_tools', action: 'manage' },
+    permission: { group: 'therapist_tools', action: 'create' },
+    section: 'care',
   },
   {
     path: '/therapist/templates',
     label: 'Templates',
     icon: 'folder',
-    permission: { group: 'therapist_tools', action: 'manage' },
+    permission: { group: 'therapist_tools', action: 'create' },
+    section: 'care',
   },
-  {
-    path: '/therapist/billing',
-    label: 'Billing',
-    icon: 'credit-card',
-    permission: { group: 'financial_management', action: 'manage' },
-  },
+
+  // ── Manage ────────────────────────────────────────────────────────
   {
     path: '/availability',
     label: 'Availability',
     icon: 'clock',
     permission: { group: 'appointment_management', action: 'manage' },
+    section: 'manage',
+  },
+  {
+    path: '/finances',
+    label: 'Finances',
+    icon: 'wallet',
+    permission: null,
+    section: 'manage',
   },
 
-  // ── Console (Admin) ───────────────────────────────────────────────
+  // ── Platform (admin/management) ───────────────────────────────────
   {
-    path: '/console',
-    label: 'Console',
-    icon: 'terminal',
+    path: '/console/users',
+    label: 'Users',
+    icon: 'users',
+    permission: { group: 'user_management', action: 'manage' },
+    section: 'platform',
+  },
+  {
+    path: '/console/permissions',
+    label: 'Permissions',
+    icon: 'shield',
+    permission: { group: 'user_management', action: 'manage' },
+    section: 'platform',
+  },
+  {
+    path: '/console/services',
+    label: 'Services',
+    icon: 'wrench',
+    permission: { group: 'product_management', action: 'manage' },
+    section: 'platform',
+  },
+  {
+    path: '/console/cms',
+    label: 'Content',
+    icon: 'pen',
+    permission: { group: 'content_management', action: 'manage' },
+    section: 'platform',
+  },
+  {
+    path: '/console/analytics',
+    label: 'Analytics',
+    icon: 'bar-chart',
+    permission: { group: 'analytics', action: 'manage' },
+    section: 'platform',
+  },
+  {
+    path: '/admin/audit',
+    label: 'Audit Log',
+    icon: 'shield',
     permission: { group: 'system_settings', action: 'manage' },
-    children: [
-      {
-        path: '/console/users',
-        label: 'Users',
-        icon: 'users',
-        permission: { group: 'user_management', action: 'view_all' },
-      },
-      {
-        path: '/console/services',
-        label: 'Services',
-        icon: 'wrench',
-        permission: { group: 'product_management', action: 'manage' },
-      },
-      {
-        path: '/console/cms',
-        label: 'Content',
-        icon: 'pen',
-        permission: { group: 'content_management', action: 'manage' },
-      },
-      {
-        path: '/console/analytics',
-        label: 'Analytics',
-        icon: 'bar-chart',
-        permission: { group: 'analytics', action: 'view_all' },
-      },
-      {
-        path: '/console/database',
-        label: 'Database',
-        icon: 'database',
-        permission: { group: 'system_settings', action: 'manage' },
-      },
-      {
-        path: '/console/settings',
-        label: 'Settings',
-        icon: 'settings',
-        permission: { group: 'system_settings', action: 'manage' },
-      },
-    ],
+    section: 'platform',
+  },
+  {
+    path: '/console/settings',
+    label: 'Platform Settings',
+    icon: 'settings',
+    permission: { group: 'system_settings', action: 'manage' },
+    section: 'platform',
   },
 
   // ── Account ───────────────────────────────────────────────────────
@@ -161,5 +212,6 @@ export const SIDEBAR_NAV: PageConfig[] = [
     label: 'Settings',
     icon: 'settings',
     permission: null,
+    section: 'account',
   },
 ];

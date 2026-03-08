@@ -16,7 +16,6 @@ export interface Booking extends BookingRequest {
   id: string;
   status: string;
   created_at: string;
-  payment_proof_url?: string;
   clientId?: string;
 }
 
@@ -26,13 +25,13 @@ export const bookingService = {
       const { data, error } = await supabaseAdmin
         .from('bookings')
         .insert({
-          user_id: request.userId,
+          client_id: request.userId,
           therapist_id: request.therapistId,
           service_id: request.serviceId,
-          scheduled_start: request.slot.start,
-          scheduled_end: request.slot.end,
-          price: request.price,
-          payment_method: request.paymentMethod,
+          starts_at: request.slot.start,
+          ends_at: request.slot.end,
+          base_price_cents: Math.round(request.price * 100),
+          payment_mode: request.paymentMethod,
           status: request.status || 'pending',
           notes: request.notes,
         })
@@ -67,8 +66,7 @@ export const bookingService = {
       const { error } = await supabaseAdmin
         .from('bookings')
         .update({
-          payment_proof_url: proofUrl,
-          payment_proof_submitted_at: new Date().toISOString(),
+          outcome_data_public: { payment_proof_url: proofUrl, payment_proof_submitted_at: new Date().toISOString() },
         })
         .eq('id', bookingId);
 
@@ -92,17 +90,16 @@ export const bookingService = {
 
       return {
         id: data.id,
-        userId: data.user_id,
+        userId: data.client_id,
         therapistId: data.therapist_id,
         serviceId: data.service_id,
-        slot: { start: data.scheduled_start, end: data.scheduled_end },
-        price: data.price,
-        paymentMethod: data.payment_method,
+        slot: { start: data.starts_at, end: data.ends_at },
+        price: (data.base_price_cents || 0) / 100,
+        paymentMethod: data.payment_mode,
         status: data.status,
         created_at: data.created_at,
-        payment_proof_url: data.payment_proof_url,
         notes: data.notes,
-        clientId: data.user_id, // mapping for platform service compatibility
+        clientId: data.client_id,
       } as Booking;
     } catch {
       return null;
@@ -114,7 +111,7 @@ export const bookingService = {
       const { data, error } = await supabaseAdmin
         .from('bookings')
         .select('*')
-        .eq('user_id', userId)
+        .eq('client_id', userId)
         .order('created_at', { ascending: false });
 
       if (error) return [];
@@ -123,17 +120,16 @@ export const bookingService = {
         (b) =>
           ({
             id: b.id,
-            userId: b.user_id,
+            userId: b.client_id,
             therapistId: b.therapist_id,
             serviceId: b.service_id,
-            slot: { start: b.scheduled_start, end: b.scheduled_end },
-            price: b.price,
-            paymentMethod: b.payment_method,
+            slot: { start: b.starts_at, end: b.ends_at },
+            price: (b.base_price_cents || 0) / 100,
+            paymentMethod: b.payment_mode,
             status: b.status,
             created_at: b.created_at,
-            payment_proof_url: b.payment_proof_url,
             notes: b.notes,
-            clientId: b.user_id,
+            clientId: b.client_id,
           }) as Booking
       );
     } catch {
@@ -159,17 +155,16 @@ export const bookingService = {
         (b) =>
           ({
             id: b.id,
-            userId: b.user_id,
+            userId: b.client_id,
             therapistId: b.therapist_id,
             serviceId: b.service_id,
-            slot: { start: b.scheduled_start, end: b.scheduled_end },
-            price: b.price,
-            paymentMethod: b.payment_method,
+            slot: { start: b.starts_at, end: b.ends_at },
+            price: (b.base_price_cents || 0) / 100,
+            paymentMethod: b.payment_mode,
             status: b.status,
             created_at: b.created_at,
-            payment_proof_url: b.payment_proof_url,
             notes: b.notes,
-            clientId: b.user_id,
+            clientId: b.client_id,
           }) as Booking
       );
     } catch {
@@ -191,17 +186,16 @@ export const bookingService = {
         (b) =>
           ({
             id: b.id,
-            userId: b.user_id,
+            userId: b.client_id,
             therapistId: b.therapist_id,
             serviceId: b.service_id,
-            slot: { start: b.scheduled_start, end: b.scheduled_end },
-            price: b.price,
-            paymentMethod: b.payment_method,
+            slot: { start: b.starts_at, end: b.ends_at },
+            price: (b.base_price_cents || 0) / 100,
+            paymentMethod: b.payment_mode,
             status: b.status,
             created_at: b.created_at,
-            payment_proof_url: b.payment_proof_url,
             notes: b.notes,
-            clientId: b.user_id,
+            clientId: b.client_id,
           }) as Booking
       );
     } catch {
@@ -235,7 +229,7 @@ export const bookingService = {
     try {
       const { error } = await supabaseAdmin
         .from('bookings')
-        .update({ status: 'cancelled', cancelled_at: new Date().toISOString() })
+        .update({ status: 'cancelled' })
         .eq('id', bookingId);
 
       if (error) return { success: false, error: error.message };

@@ -218,20 +218,17 @@ Generate 2-4 personalized wellness insights.`,
       wellnessInsights?: Record<string, unknown>;
     }
   ): Promise<void> {
+    const aiProfile = {
+      behavior_patterns: updates.behaviorPatterns ?? [],
+      preferences: updates.preferences ?? {},
+      wellness_insights: updates.wellnessInsights ?? {},
+      last_updated: new Date().toISOString(),
+    };
     await db.query(
-      `INSERT INTO ai_user_profiles (user_id, behavior_patterns, preferences, wellness_insights)
-       VALUES ($1, $2, $3, $4)
-       ON CONFLICT (user_id) DO UPDATE SET
-         behavior_patterns = COALESCE($2, ai_user_profiles.behavior_patterns),
-         preferences = COALESCE($3, ai_user_profiles.preferences),
-         wellness_insights = COALESCE($4, ai_user_profiles.wellness_insights),
-         last_updated = NOW()`,
-      [
-        userId,
-        JSON.stringify(updates.behaviorPatterns ?? []),
-        JSON.stringify(updates.preferences ?? {}),
-        JSON.stringify(updates.wellnessInsights ?? {}),
-      ]
+      `UPDATE profiles
+       SET ai_profile = COALESCE(ai_profile, '{}'::jsonb) || $2::jsonb
+       WHERE auth_id = $1`,
+      [userId, JSON.stringify(aiProfile)]
     );
   },
 

@@ -15,7 +15,7 @@ export default async function GlobalAuditLogPage() {
   }
 
   return (
-    <div className="space-y-6 p-6 max-w-[1600px] mx-auto">
+    <div className="space-y-6 p-6 max-w-400 mx-auto">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold tracking-tight">Global Audit Log</h1>
         <Badge variant="outline" className="text-muted-foreground">Last 100 Events</Badge>
@@ -44,7 +44,7 @@ export default async function GlobalAuditLogPage() {
                       <td className="px-4 py-3 whitespace-nowrap text-xs text-muted-foreground">
                         {new Date(log.created_at).toLocaleString()}
                       </td>
-                      <td className="px-4 py-3 font-mono text-xs text-primary truncate max-w-[120px]" title={log.actor_id}>
+                      <td className="px-4 py-3 font-mono text-xs text-primary truncate max-w-30" title={log.actor_id}>
                         {log.actor_id ? log.actor_id.slice(0, 8) + '...' : 'System'}
                       </td>
                       <td className="px-4 py-3">
@@ -53,7 +53,7 @@ export default async function GlobalAuditLogPage() {
                       <td className="px-4 py-3 text-xs text-muted-foreground font-mono">
                         {log.resource_type ? `${log.resource_type}:${log.resource_id?.slice(0, 6) || '?'}` : '-'}
                       </td>
-                      <td className="px-4 py-3 max-w-[400px]">
+                      <td className="px-4 py-3 max-w-100">
                         <code className="text-[10px] bg-muted/60 p-1.5 rounded block truncate font-mono text-muted-foreground">
                           {JSON.stringify(log.metadata)}
                         </code>

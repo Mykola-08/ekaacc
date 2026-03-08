@@ -1,22 +1,17 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/platform/auth-context';
-import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase/client';
 import {
   SIDEBAR_NAV,
+  SIDEBAR_SECTIONS,
   type PageConfig,
   type PagePermission,
+  type SidebarSectionId,
 } from '@/lib/permissions/page-permissions';
-import type {
-  PermissionGroup,
-  PermissionAction,
-} from '@/lib/platform/config/role-permissions';
 import {
   Sidebar,
   SidebarContent,
@@ -28,9 +23,6 @@ import {
   SidebarRail,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-  SidebarMenuSubButton,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -43,11 +35,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from '@/components/ui/collapsible';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Layout01Icon,
@@ -58,112 +45,81 @@ import {
   Clock01Icon,
   BookOpen01Icon,
   Shield01Icon,
-  DashboardSquare01Icon,
   CreditCardIcon,
   UserGroupIcon,
   FolderOpenIcon,
-  DollarCircleIcon,
   ChartBarLineIcon,
-  Database01Icon,
   Message01Icon,
   Edit02Icon,
   Wrench01Icon,
   SparklesIcon,
   HeartCheckIcon,
-  ArrowRight01Icon,
   UnfoldMoreIcon,
   UserCheck01Icon,
   Notification03Icon,
   Logout03Icon,
+  CheckListIcon,
 } from '@hugeicons/core-free-icons';
 
 // ─── Icon mapping ──────────────────────────────────────────────────
 
-const ICON_MAP: Record<string, { component: any; isLucide: boolean }> = {
-  home: { component: Layout01Icon, isLucide: false },
-  calendar: { component: Calendar03Icon, isLucide: false },
-  book: { component: BookOpen01Icon, isLucide: false },
-  wallet: { component: Wallet01Icon, isLucide: false },
-  shield: { component: Shield01Icon, isLucide: false },
-  'credit-card': { component: CreditCardIcon, isLucide: false },
-  clock: { component: Clock01Icon, isLucide: false },
-  heart: { component: HeartCheckIcon, isLucide: false },
-  users: { component: UserGroupIcon, isLucide: false },
-  user: { component: UserCircleIcon, isLucide: false },
-  settings: { component: Settings01Icon, isLucide: false },
-  terminal: { component: DashboardSquare01Icon, isLucide: false },
-  folder: { component: FolderOpenIcon, isLucide: false },
-  dollar: { component: DollarCircleIcon, isLucide: false },
-  'bar-chart': { component: ChartBarLineIcon, isLucide: false },
-  database: { component: Database01Icon, isLucide: false },
-  message: { component: Message01Icon, isLucide: false },
-  edit: { component: Edit02Icon, isLucide: false },
-  pen: { component: Edit02Icon, isLucide: false },
-  plug: { component: Wrench01Icon, isLucide: false },
-  wrench: { component: Wrench01Icon, isLucide: false },
-  sparkle: { component: SparklesIcon, isLucide: false },
+const ICON_MAP: Record<string, any> = {
+  home: Layout01Icon,
+  calendar: Calendar03Icon,
+  book: BookOpen01Icon,
+  wallet: Wallet01Icon,
+  shield: Shield01Icon,
+  'credit-card': CreditCardIcon,
+  clock: Clock01Icon,
+  heart: HeartCheckIcon,
+  users: UserGroupIcon,
+  user: UserCircleIcon,
+  settings: Settings01Icon,
+  folder: FolderOpenIcon,
+  'bar-chart': ChartBarLineIcon,
+  message: Message01Icon,
+  bell: Notification03Icon,
+  edit: Edit02Icon,
+  pen: Edit02Icon,
+  wrench: Wrench01Icon,
+  sparkle: SparklesIcon,
+  clipboard: CheckListIcon,
 };
 
 function NavIcon({ name, className }: { name?: string; className?: string }) {
-  const mapping = name ? ICON_MAP[name] : undefined;
-  if (!mapping) return null;
-
-  if (mapping.isLucide) {
-    const Icon = mapping.component;
-    return <Icon className={className} />;
-  }
-
-  return <HugeiconsIcon icon={mapping.component} className={className} />;
+  const icon = name ? ICON_MAP[name] : undefined;
+  if (!icon) return null;
+  return <HugeiconsIcon icon={icon} className={className} />;
 }
 
-// ─── Group definitions for the sidebar sections ────────────────────
+// ─── Organize items by section ─────────────────────────────────────
 
-interface SidebarSection {
-  label: string;
-  items: PageConfig[];
-}
-
-function organizeSections(items: PageConfig[]): SidebarSection[] {
-  const main: PageConfig[] = [];
-  const therapist: PageConfig[] = [];
-  const consoleItems: PageConfig[] = [];
-  const account: PageConfig[] = [];
+function organizeBySections(
+  items: PageConfig[]
+): { id: SidebarSectionId; label: string; items: PageConfig[] }[] {
+  const grouped = new Map<SidebarSectionId, PageConfig[]>();
 
   for (const item of items) {
-    if (item.path === '/settings') {
-      account.push(item);
-    } else if (
-      item.path.startsWith('/therapist') ||
-      item.path === '/availability'
-    ) {
-      therapist.push(item);
-    } else if (item.path === '/console' || item.path.startsWith('/console/')) {
-      consoleItems.push(item);
-    } else {
-      main.push(item);
-    }
+    const sectionId = item.section || 'overview';
+    const existing = grouped.get(sectionId) || [];
+    existing.push(item);
+    grouped.set(sectionId, existing);
   }
 
-  const sections: SidebarSection[] = [];
-
-  if (main.length > 0) sections.push({ label: 'Platform', items: main });
-  if (therapist.length > 0) sections.push({ label: 'Clinical', items: therapist });
-  if (consoleItems.length > 0) sections.push({ label: 'Console', items: consoleItems });
-  if (account.length > 0) sections.push({ label: 'Account', items: account });
-
-  return sections;
+  return SIDEBAR_SECTIONS.filter((s) => grouped.has(s.id)).map((s) => ({
+    ...s,
+    items: grouped.get(s.id)!,
+  }));
 }
 
-// ─── NavMain — sidebar-07 pattern with collapsible groups ──────────
+// ─── NavMain — flat list grouped by section ────────────────────────
 
 function NavMain({
   sections,
   pathname,
-  canAccess,
 }: {
-  sections: SidebarSection[];
+  sections: { id: string; label: string; items: PageConfig[] }[];
   pathname: string;
-  canAccess: (permission: PagePermission | null) => boolean;
 }) {
   const isActive = (path: string) => {
     if (path === '/dashboard') return pathname === path;
@@ -173,69 +129,23 @@ function NavMain({
   return (
     <>
       {sections.map((section) => (
-        <SidebarGroup key={section.label}>
+        <SidebarGroup key={section.id}>
           <SidebarGroupLabel>{section.label}</SidebarGroupLabel>
           <SidebarMenu>
-            {section.items.map((item) => {
-              if (item.children && item.children.length > 0) {
-                const visibleChildren = item.children.filter(
-                  (child) => canAccess(child.permission)
-                );
-                if (visibleChildren.length === 0) return null;
-
-                const isOpen = isActive(item.path);
-
-                return (
-                  <Collapsible
-                    key={item.path}
-                    asChild
-                    defaultOpen={isOpen}
-                    className="group/collapsible"
-                  >
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton tooltip={item.label}>
-                          <NavIcon name={item.icon} />
-                          <span>{item.label}</span>
-                          <HugeiconsIcon icon={ArrowRight01Icon} className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
-                          {visibleChildren.map((child) => (
-                            <SidebarMenuSubItem key={child.path}>
-                              <SidebarMenuSubButton
-                                asChild
-                                isActive={isActive(child.path)}
-                              >
-                                <Link href={child.path}>
-                                  <span>{child.label}</span>
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-                );
-              }
-
-              return (
-                <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.path)}
-                    tooltip={item.label}
-                  >
-                    <Link href={item.path}>
-                      <NavIcon name={item.icon} />
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              );
-            })}
+            {section.items.map((item) => (
+              <SidebarMenuItem key={item.path}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive(item.path)}
+                  tooltip={item.label}
+                >
+                  <Link href={item.path}>
+                    <NavIcon name={item.icon} />
+                    <span>{item.label}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
           </SidebarMenu>
         </SidebarGroup>
       ))}
@@ -243,7 +153,7 @@ function NavMain({
   );
 }
 
-// ─── NavUser — sidebar-07 pattern with dropdown ────────────────────
+// ─── NavUser — user dropdown in sidebar footer ─────────────────────
 
 function NavUser({
   displayName,
@@ -282,7 +192,7 @@ function NavUser({
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{displayName}</span>
-                <span className="truncate text-xs">{email}</span>
+                <span className="truncate text-xs text-muted-foreground">{roleLabel}</span>
               </div>
               <HugeiconsIcon icon={UnfoldMoreIcon} className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -308,7 +218,7 @@ function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href="/myaccount">
+                <Link href="/settings">
                   <HugeiconsIcon icon={UserCheck01Icon} />
                   Account
                 </Link>
@@ -317,12 +227,6 @@ function NavUser({
                 <Link href="/finances">
                   <HugeiconsIcon icon={CreditCardIcon} />
                   Billing
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href="/settings">
-                  <HugeiconsIcon icon={Settings01Icon} />
-                  Settings
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer">
@@ -361,12 +265,14 @@ export function UnifiedSidebar({
   const canAccess = useMemo(() => {
     return (permission: PagePermission | null): boolean => {
       if (permission === null) return true;
-      if (permissions) {
-        return permissions.some(
-          (p) => p.group === permission.group && p.action === permission.action
-        );
-      }
-      return false;
+      if (!permissions) return false;
+
+      // Check for manage permission (implies all actions in that group)
+      return permissions.some(
+        (p) =>
+          p.group === permission.group &&
+          (p.action === permission.action || p.action === 'manage')
+      );
     };
   }, [permissions]);
 
@@ -377,7 +283,7 @@ export function UnifiedSidebar({
     });
   }, [canAccess]);
 
-  const sections = useMemo(() => organizeSections(visibleItems), [visibleItems]);
+  const sections = useMemo(() => organizeBySections(visibleItems), [visibleItems]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -402,18 +308,17 @@ export function UnifiedSidebar({
 
   return (
     <Sidebar collapsible="icon">
-      {/* ── Header: Brand ── */}
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild tooltip="EKA Platform">
+            <SidebarMenuButton size="lg" asChild tooltip="EKA">
               <Link href="/dashboard">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">EKA</span>
-                  <span className="truncate text-xs">{roleLabel}</span>
+                  <span className="truncate text-xs text-muted-foreground">Wellness</span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -421,16 +326,10 @@ export function UnifiedSidebar({
         </SidebarMenu>
       </SidebarHeader>
 
-      {/* ── Content: Nav groups ── */}
       <SidebarContent>
-        <NavMain
-          sections={sections}
-          pathname={pathname}
-          canAccess={canAccess}
-        />
+        <NavMain sections={sections} pathname={pathname} />
       </SidebarContent>
 
-      {/* ── Footer: User dropdown ── */}
       <SidebarFooter>
         <NavUser
           displayName={displayName}

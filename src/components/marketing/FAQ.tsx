@@ -14,10 +14,14 @@ interface FAQItem {
   answer: string;
 }
 
-const FAQ = () => {
+interface FAQProps {
+  items?: FAQItem[];
+}
+
+const FAQ = ({ items }: FAQProps = {}) => {
   const { t } = useLanguage();
 
-  const faqItems: FAQItem[] = [
+  const defaultItems: FAQItem[] = [
     {
       id: 'item-1',
       question: t('faq.q1.question'),
@@ -44,6 +48,8 @@ const FAQ = () => {
       answer: t('faq.q5.answer'),
     },
   ];
+
+  const faqItems = items && items.length > 0 ? items : defaultItems;
 
   return (
     <section className="bg-card py-16 sm:py-24">

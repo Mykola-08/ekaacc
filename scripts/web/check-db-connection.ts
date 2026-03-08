@@ -77,7 +77,7 @@ async function checkConnection() {
     }
 
     const { data: bookings, error: bookingsError } = await supabaseServer
-      .from('booking')
+      .from('bookings')
       .select('id, payment_status, status')
       .limit(100);
 

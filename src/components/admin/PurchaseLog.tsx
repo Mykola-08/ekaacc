@@ -38,7 +38,7 @@ export function PurchaseLog({ userId, purchases }: any) {
            <label className="text-xs font-medium">Source / Agency</label>
            <Input name="source" placeholder="e.g. Clinic Store or Amazon" required />
         </div>
-        <div className="grid gap-2 w-full md:w-[150px]">
+        <div className="grid gap-2 w-full md:w-37.5">
            <label className="text-xs font-medium">Status</label>
            <Input name="status" placeholder="ordered" defaultValue="ordered" />
         </div>

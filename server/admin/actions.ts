@@ -2,8 +2,28 @@
 
 import { db } from '@/lib/db';
 import { Booking } from '@/types/booking';
+import { createClient } from '@/lib/supabase/server';
+
+async function requireAdmin() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('Unauthorized');
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('auth_id', user.id)
+    .single();
+
+  const role = profile?.role || user.app_metadata?.role;
+  if (!role || !['admin', 'super_admin', 'Admin', 'SuperAdmin'].includes(role)) {
+    throw new Error('Forbidden: Admin role required');
+  }
+  return user;
+}
 
 export async function getAdminBookings(): Promise<Booking[]> {
+  await requireAdmin();
   const query = `
     SELECT 
       b.id,
@@ -64,6 +84,7 @@ export type AdminService = {
 };
 
 export async function getAdminServices(): Promise<AdminService[]> {
+  await requireAdmin();
   const query = `
       SELECT
         id,

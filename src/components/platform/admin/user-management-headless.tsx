@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import { listUsers, updateUserRole } from '@/app/actions/admin-users';
-import { useToast } from '@/hooks/platform/ui/use-toast';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { User as UserIcon, Search, RefreshCw, MoreVertical, Check, Shield } from 'lucide-react';
 import {
   Listbox,
@@ -27,7 +28,7 @@ export function UserManagementHeadless() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const { toast } = useToast();
+  const { feedback, setSuccess, setError, reset } = useMorphingFeedback();
 
   useEffect(() => {
     loadUsers();
@@ -39,11 +40,7 @@ export function UserManagementHeadless() {
     if (result.success && result.data) {
       setUsers(result.data);
     } else {
-      toast({
-        title: 'Error',
-        description: 'Failed to load users: ' + result.error,
-        variant: 'destructive',
-      });
+      setError('Failed to load users');
     }
     setLoading(false);
   };
@@ -59,14 +56,10 @@ export function UserManagementHeadless() {
 
     const result = await updateUserRole(userId, newRole);
     if (result.success) {
-      toast({ title: 'Success', description: 'User role updated' });
+      setSuccess('User role updated');
     } else {
       setUsers(originalUsers);
-      toast({
-        title: 'Error',
-        description: 'Failed to update role: ' + result.error,
-        variant: 'destructive',
-      });
+      setError('Failed to update role');
     }
   };
 
@@ -83,6 +76,7 @@ export function UserManagementHeadless() {
           <p className="text-muted-foreground text-sm">
             Manage standard user accounts and permissions.
           </p>
+          <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} className="mt-2" />
         </div>
         <button
           onClick={loadUsers}

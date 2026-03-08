@@ -29,7 +29,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { StatusBadge } from '@/components/ui/status-badge';
-import { useToast } from '@/hooks/platform/ui/use-toast';
+import { InlineFeedback } from '@/components/ui/inline-feedback';
+import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { Loader2, Search, XCircle } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -40,7 +41,7 @@ export function AdminBookingTable() {
   const [totalPages, setTotalPages] = useState(1);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [search, setSearch] = useState('');
-  const { toast } = useToast();
+  const { feedback, setSuccess, setError, reset } = useMorphingFeedback();
 
   const fetchBookings = useCallback(async () => {
     setLoading(true);
@@ -50,15 +51,11 @@ export function AdminBookingTable() {
       setBookings(data);
       setTotalPages(Math.ceil(total / 10));
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to fetch bookings',
-        variant: 'destructive',
-      });
+      setError('Failed to fetch bookings');
     } finally {
       setLoading(false);
     }
-  }, [page, filterStatus, search, toast]);
+  }, [page, filterStatus, search]);
 
   useEffect(() => {
     fetchBookings();
@@ -68,10 +65,10 @@ export function AdminBookingTable() {
     if (!confirm('Are you sure you want to cancel this booking?')) return;
     try {
       await adminCancelBooking(id, 'Admin Cancelled via Dashboard');
-      toast({ title: 'Success', description: 'Booking cancelled' });
+      setSuccess('Booking cancelled');
       fetchBookings();
     } catch (error) {
-      toast({ title: 'Error', description: 'Failed to cancel booking', variant: 'destructive' });
+      setError('Failed to cancel booking');
     }
   };
 
@@ -90,7 +87,7 @@ export function AdminBookingTable() {
           />
         </div>
         <Select value={filterStatus} onValueChange={setFilterStatus}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-45">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
@@ -104,6 +101,8 @@ export function AdminBookingTable() {
           Refresh
         </Button>
       </div>
+
+      <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
 
       <div className="rounded-md border">
         <Table>

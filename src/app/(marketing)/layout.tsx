@@ -74,9 +74,52 @@ export default function MarketingLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HealthAndBeautyBusiness',
+    name: 'EKA Balance',
+    description: 'Serveis premium de benestar amb teràpies integratives a Barcelona.',
+    url: 'https://ekabalance.com',
+    logo: 'https://ekabalance.com/images/eka_logo.png',
+    image: 'https://ekabalance.com/images/eka_logo.png',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Barcelona',
+      addressCountry: 'ES',
+    },
+    priceRange: '$$',
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    },
+    sameAs: [],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Teràpies Integratives',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: 'Massatge Terapèutic' },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: 'Kinesiologia' },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: 'Nutrició' },
+        },
+      ],
+    },
+  };
+
   return (
     <ThemeCustomizationProvider>
       <div className="marketing marketing-bg">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <SmoothScrolling>
           <LanguageProvider>
             <DiscountProvider>

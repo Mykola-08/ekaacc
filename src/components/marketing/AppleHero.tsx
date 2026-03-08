@@ -4,125 +4,125 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
 import AnimateIn from './AnimateIn';
+import { Sparkles } from 'lucide-react';
 
 const heroImages = [
-  'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&cs=tinysrgb&w=1920', // Barcelona Skyline
-  'https://images.pexels.com/photos/10521232/pexels-photo-10521232.jpeg?auto=compress&cs=tinysrgb&w=1920', // Wellness Bed / Spa Room
-  'https://images.pexels.com/photos/6628817/pexels-photo-6628817.jpeg?auto=compress&cs=tinysrgb&w=1920', // Women talking in massage room (Candid)
-  'https://images.pexels.com/photos/7176059/pexels-photo-7176059.jpeg?auto=compress&cs=tinysrgb&w=1920', // Consultation with notes (Candid)
+  'https://images.pexels.com/photos/3760262/pexels-photo-3760262.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/3757952/pexels-photo-3757952.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/5240678/pexels-photo-5240678.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/3865803/pexels-photo-3865803.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/3760270/pexels-photo-3760270.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/3757657/pexels-photo-3757657.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/6628613/pexels-photo-6628613.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/6628614/pexels-photo-6628614.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/5793981/pexels-photo-5793981.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/3865523/pexels-photo-3865523.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/3865496/pexels-photo-3865496.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  'https://images.pexels.com/photos/5240802/pexels-photo-5240802.jpeg?auto=compress&cs=tinysrgb&w=2000',
 ];
-
 
 export default function AppleHero() {
   const { t } = useLanguage();
   const { logEvent } = useAnalytics();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [hasSeenIntro, setHasSeenIntro] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const seen = sessionStorage.getItem('hasSeenIntro');
-      if (seen) {
-        setHasSeenIntro(true);
-      } else {
-        sessionStorage.setItem('hasSeenIntro', 'true');
-      }
-    }
-
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 12000);
+      setCurrentImageIndex(prev => (prev + 1) % heroImages.length);
+    }, 7000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="bg-section-full relative flex min-h-screen items-center justify-center overflow-hidden">
-      {/* Background Image with smooth transitions */}
-      <div className="absolute inset-0 transition-opacity duration-1000">
-        {heroImages.map((image, index) => (
-          <div
-            key={image}
-            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
-          >
-            <Image
-              src={image}
-              alt="EKA Balance Atmosphere"
-              fill
-              priority={index === 0}
-              quality={65}
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-        ))}
+    <section className="relative w-full min-h-[90vh] bg-[#fdfdfd] flex flex-col items-center justify-start pt-32 pb-16 overflow-hidden">
+      {/* Subtle background glows */}
+      <div className="absolute top-0 left-0 w-full h-[500px] overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-[100px] mix-blend-multiply" />
+        <div className="absolute top-[10%] right-[-5%] w-[30%] h-[30%] bg-purple-100/40 rounded-full blur-[80px] mix-blend-multiply" />
       </div>
 
-      {/* Overlay for text readability with refined gradient */}
-      <div className="absolute inset-0 bg-foreground/20 mix-blend-multiply" />
-      <div className="absolute inset-0 bg-foreground/30" />
-      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/50" />
-
-      {/* Content */}
-      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-32 text-center text-primary-foreground">
-        {/* Badge - Glassy Style with Apple standard radius */}
-        <AnimateIn delay={0.2} from="top" disabled={hasSeenIntro}>
-          <div className="animate-fade-in mb-8 inline-flex items-center rounded-full border border-info/30 bg-primary/20 px-6 py-2 backdrop-blur-md transition-colors hover:bg-primary/30">
-            <span className="text-sm font-medium tracking-wide text-info/90 drop-shadow-sm md:text-base">
-              {t('hero.badge')}
-            </span>
+      {/* Content Layer */}
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 text-center mb-12 sm:mb-16">
+        <AnimateIn delay={0.1} duration={0.8} from="bottom">
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/60 border border-gray-200/60 backdrop-blur-md mb-8">
+            <Sparkles className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-medium text-gray-800 tracking-wide">EKA Balance Method</span>
           </div>
         </AnimateIn>
 
-        {/* Main Title - Apple-like typography with accessibility */}
-        <AnimateIn delay={0.4} duration={0.8} disabled={hasSeenIntro}>
-          <h1 className="font-display mb-8 text-5xl font-medium tracking-tight text-primary-foreground! drop-shadow-xl md:text-7xl lg:text-8xl leading-[1.1]">
+        <AnimateIn delay={0.2} duration={0.8} from="bottom">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[1.05] mb-6 text-gray-900">
             {t('hero.title')}
           </h1>
         </AnimateIn>
 
-        {/* Subtitle - Improved spacing */}
-        <AnimateIn delay={0.6} disabled={hasSeenIntro}>
-          <p className="mx-auto mb-12 max-w-2xl text-balance text-lg font-light leading-relaxed text-primary-foreground/90! drop-shadow-md md:text-xl lg:text-2xl">
+        <AnimateIn delay={0.3} duration={0.8} from="bottom">
+          <p className="text-xl md:text-2xl font-medium text-gray-500 max-w-2xl mx-auto mb-10 text-balance leading-relaxed">
             {t('hero.subtitle')}
           </p>
         </AnimateIn>
 
-        {/* CTA Buttons - Consistent Apple style */}
-        <AnimateIn delay={0.8} disabled={hasSeenIntro}>
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-            <Link
-              href="/first-time"
-              className="group"
+        <AnimateIn delay={0.4} duration={0.8} from="bottom">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              asChild
+              variant="default"
+              size="lg"
+              className="px-8 py-6 text-lg h-auto rounded-full w-full sm:w-auto transition-all duration-300"
               onClick={() => logEvent('hero_first_time_click')}
             >
-              <Button
-                size="lg"
-                className="h-14 min-w-50 rounded-full border border-background bg-card px-8 text-base font-semibold text-primary transition-all duration-300 hover:bg-info hover:scale-[1.02] active:scale-[0.95]"
-              >
+              <Link href="/first-time">
                 {t('hero.firstTime')}
-              </Button>
-            </Link>
+              </Link>
+            </Button>
 
-            <Link
-              href="/services"
-              className="group"
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="px-8 py-6 text-lg h-auto rounded-full w-full sm:w-auto backdrop-blur-md bg-white/50 border-gray-300 hover:bg-white/80 transition-all duration-300"
               onClick={() => logEvent('hero_services_click')}
             >
-              <Button
-                size="lg"
-                variant="outline"
-                className="h-14 min-w-50 rounded-full border border-border/40 bg-background/20 px-8 text-base font-semibold text-primary-foreground backdrop-blur-md transition-all duration-300 hover:bg-background/30 hover:scale-[1.02] active:scale-[0.95]"
-              >
+              <Link href="/services">
                 {t('hero.discoverServices')}
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </AnimateIn>
+      </div>
+
+      {/* Image Container - Rounded Apple Style */}
+      <div className="relative w-full max-w-[90%] md:max-w-6xl aspect-video md:aspect-[21/9] rounded-[32px] md:rounded-[48px] overflow-hidden mx-auto group">
+        {heroImages.map((image, index) => {
+          const prev = (currentImageIndex - 1 + heroImages.length) % heroImages.length;
+          const next = (currentImageIndex + 1) % heroImages.length;
+          const isVisible = index === currentImageIndex || index === prev || index === next;
+          if (!isVisible) return null;
+          return (
+            <div
+              key={image}
+              className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${
+                index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+            >
+              <Image
+                src={image}
+                alt={`Wellness atmosphere ${index + 1}`}
+                fill
+                priority={index === 0}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                className={`object-cover transition-transform duration-[7500ms] ease-out ${
+                  index === currentImageIndex ? 'scale-105' : 'scale-100'
+                }`}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-transparent pointer-events-none" />
+            </div>
+          );
+        })}
       </div>
     </section>
   );

@@ -102,7 +102,6 @@ serve(async (req) => {
             .from('service_addon')
             .update({
               stripe_product_id: productId,
-              last_updated_by_system: 'stripe',
             })
             .eq('id', id);
         }
@@ -122,7 +121,6 @@ serve(async (req) => {
             .from('service_addon')
             .update({
               stripe_price_id: newPrice.id,
-              last_updated_by_system: 'stripe',
             })
             .eq('id', id);
         }
@@ -132,7 +130,7 @@ serve(async (req) => {
     // ----------------------------------------------------------------------
     // SERVICES (Product Only) -> STRIPE PRODUCTS
     // ----------------------------------------------------------------------
-    if (table === 'service') {
+    if (table === 'service' || table === 'services') {
       if (type === 'INSERT' || type === 'UPDATE') {
         const { id, name, description, stripe_product_id, active, images } = record;
 
@@ -162,10 +160,9 @@ serve(async (req) => {
           productId = product.id;
 
           await supabase
-            .from('service')
+            .from('services')
             .update({
               stripe_product_id: productId,
-              last_updated_by_system: 'stripe',
             })
             .eq('id', id);
         }
@@ -181,7 +178,7 @@ serve(async (req) => {
 
         // 1. Get Parent Service Product ID
         const { data: parentService } = await supabase
-          .from('service')
+          .from('services')
           .select('stripe_product_id')
           .eq('id', service_id)
           .single();
@@ -211,7 +208,6 @@ serve(async (req) => {
             .from('service_variant')
             .update({
               stripe_price_id: newPrice.id,
-              last_updated_by_system: 'stripe',
             })
             .eq('id', id);
         }

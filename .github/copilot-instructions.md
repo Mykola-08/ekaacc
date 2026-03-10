@@ -9,7 +9,7 @@ platform.
   - `src/app`: Next.js 14 App Router.
   - `src/packages`: Internal shared logic and UI.
 - **Tech Stack**: Next.js 14, TypeScript, Tailwind CSS, Supabase, Stripe,
-  Square, Resend.
+  Resend.
 
 ### Key Architectural Patterns
 
@@ -80,7 +80,7 @@ platform.
 - **Supabase**: Database & Storage. Use `SUPABASE_BOOKING_SCHEMA.sql` as source
   of truth for booking.
 - **Auth**: Supabase Auth.
-- **Stripe/Square**: Payments & Booking. Use mocked clients for unit tests.
+- **Stripe**: Payments & Billing. Use mocked clients for unit tests.
 - **AI**: OpenAI/Anthropic/Google via `packages/ai-services`.
 
 ## 6. Animation Guidelines

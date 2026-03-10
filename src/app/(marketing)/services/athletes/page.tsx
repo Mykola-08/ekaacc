@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForAthletesContent from '@/components/marketing/ForAthletesContent';
+import ForAthletesContent from '@/marketing/components/ForAthletesContent';
 
 export const metadata: Metadata = {
   title: 'Rendimiento para Deportistas | EKA Balance',

@@ -43,7 +43,5 @@ export * from './sonner';
 export { MorphingActionButton } from './MorphingActionButton';
 export type { MorphingActionButtonProps } from './MorphingActionButton';
 export { ProgressRing } from './ProgressRing';
-export { MotivationalQuote } from '../marketing/MotivationalQuote';
-export { CountdownTimer } from '../marketing/CountdownTimer';
 export { DebugStatus } from '../observability/DebugStatus';
 export { cn } from '@/lib/utils';

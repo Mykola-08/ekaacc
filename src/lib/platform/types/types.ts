@@ -10,7 +10,6 @@ export type Session = {
   notes?: string;
   duration: number;
   userId?: string;
-  squareAppointmentId?: string;
 };
 export type Service = {
   id?: string;
@@ -449,7 +448,6 @@ export type User = {
   linkedParent?: string; // User ID of parent
   linkedTherapist?: string; // User ID of assigned therapist
   // Additional metadata
-  squareCustomerId?: string;
   preferredLanguage?: string;
   timezone?: string;
 };
@@ -480,11 +478,6 @@ export type TriageResult = {
   alts: {
     therapyId: string;
   }[];
-  square: {
-    serviceId: string;
-    locationId: string;
-    bookingLink: string;
-  };
 };
 
 export type VipBenefit = {

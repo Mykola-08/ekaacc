@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForStudentsContent from '@/components/marketing/ForStudentsContent';
+import ForStudentsContent from '@/marketing/components/ForStudentsContent';
 
 export const metadata: Metadata = {
   title: 'Focus y Calma para Estudiantes | EKA Balance',

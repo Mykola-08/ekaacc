@@ -4,10 +4,6 @@
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
     },
-    "mcp_square_api": {
-      "command": "npx",
-      "args": ["mcp-remote", "https://mcp.squareup.com/sse"]
-    },
     "stitch": {
       "command": "npx",
       "args": ["-y", "stitch-mcp"]

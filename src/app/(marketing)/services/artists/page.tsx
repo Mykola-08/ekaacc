@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ArtistsContent from '@/components/marketing/ArtistsContent';
+import ArtistsContent from '@/marketing/components/ArtistsContent';
 
 export const metadata: Metadata = {
   title: 'Bienestar para Artistas | EKA Balance',

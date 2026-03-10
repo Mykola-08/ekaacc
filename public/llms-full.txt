@@ -1,0 +1,71 @@
+# EKA Balance - Comprehensive AI Context
+
+## About EKA Balance
+EKA Balance is a holistic wellness center in Barcelona founded by Elena Kucherova. We specialize in somatic therapies that integrate physical, emotional, and structural well-being. Our approach is based on the understanding that the body and mind are interconnected.
+
+## Core Services Details
+
+### 1. 360 Revision
+A foundational service for new clients. It involves a complete assessment of the client's current state, including posture, muscle tension, emotional stress, and biochemical balance.
+- **Goal**: Create a personalized roadmap for recovery and optimization.
+- **Ideal for**: Anyone feeling "stuck", chronic pain sufferers, or those seeking preventative care.
+
+### 2. Somatic Massage & Bodywork
+More than just relaxation, our massage therapy addresses the root causes of tension.
+- **Deep Tissue**: For chronic muscle tension.
+- **Myofascial Release**: To improve mobility and reduce pain.
+- **Somatic Experiencing**: Integrating emotional release with physical touch.
+
+### 3. Kinesiology (Holistic Kinesiology)
+Using muscle testing to communicate with the body's nervous system.
+- **Applications**: Digestive issues, food intolerances, emotional blocks, structural alignment.
+- **Philosophy**: The body knows what it needs; we just need to ask.
+
+### 4. Movement Lesson / Jeremy Krauss Approach (JKA)
+A unique modality based on the work of Dr. Feldenkrais.
+- **Focus**: Neuroplasticity and developmental movement.
+- **Target Audience**: Children with special needs (cerebral palsy, genetic disorders, developmental delays) and adults seeking to improve coordination or recover from injury.
+- **Method**: Gentle, guided movements that teach the brain new possibilities.
+
+### 5. Nutrition & Agenyz
+We offer personalized nutritional advice and premium supplements (Agenyz).
+- **Cell Elixir**: For cellular regeneration and energy.
+- **Immune Support**: Boosting the body's natural defenses.
+
+## Philosophy
+"Vitality is not just the absence of disease, but the presence of energy, clarity, and joy." - Elena Kucherova.
+
+## Location & Contact
+- **City**: Barcelona, Spain.
+- **Address**: Carrer de la Marina (exact address upon booking).
+- **Online Services**: Consultations available via Zoom used for nutritional and lifestyle guidance.
+
+## Languages Spoken
+- English
+- Spanish (Español)
+- Catalan (Català)
+- Russian (Русский)
+
+## Pricing & Discounts
+- We offer package deals for multiple sessions.
+- Student and senior discounts available (check current offers).
+- Dynamic pricing for off-peak hours.
+
+## Technical Details for AI Agents
+- **Main URL**: https://ekabalance.com
+- **Sitemap**: https://ekabalance.com/sitemap.xml
+- **Booking Engine**: Custom booking system integrated with calendar.
+- **Content Language**: The website automatically detects user language but supports manual switching.
+
+## Navigation Structure
+- / (Home)
+- /about-elena
+- /services
+  - /services/massage
+  - /services/kinesiology
+  - /services/nutrition
+- /technique (JKA/Movement Lesson)
+- /booking
+- /contact
+- /cases (Success stories)
+- /agenyz (Products)

@@ -49,7 +49,7 @@ The application includes:
 ### For Therapists
 
 - **Client Management**: Comprehensive client dashboard and profiles
-- **Session Scheduling**: Integrated booking system with Square
+- **Session Scheduling**: Integrated booking system
 - **Session Notes**: Secure documentation and progress tracking
 - **Billing Management**: Automated invoicing through Stripe
 - **Availability Management**: Set custom schedules and time slots
@@ -78,10 +78,8 @@ The application includes:
 
 - **Database**: PostgreSQL (Supabase)
 - **Payments**: Stripe
-- **Booking System**: Square
 - **Email**: Resend
 - **File Storage**: Supabase Storage
-- **Feature Flags**: Statsig
 
 ### AI Services
 
@@ -117,8 +115,6 @@ You'll also need accounts for the following services:
   authentication
 - **Stripe** - [Sign up](https://stripe.com/) for payment processing
 - **Resend** - [Sign up](https://resend.com/) for transactional emails
-- **Square** (Optional) - [Sign up](https://squareup.com/) for booking
-  management
 
 ## Installation
 
@@ -212,131 +208,10 @@ Add these to `.env.local` (or project secrets) as needed:
 | `UPSTASH_REDIS_REST_URL`                 | Upstash Redis REST URL for distributed rate limiting            |
 | `UPSTASH_REDIS_REST_TOKEN`               | Upstash Redis REST token                                        |
 | `RATE_LIMIT_WINDOW_SECONDS`              | Global request rate limit window size (default 60)              |
-| `STATSIG_API_KEY`                        | Statsig console API key for feature flags/experiments           |
 
 Secrets for production should be pushed to Vercel (`vercel env add ...`) and
 Supabase (`supabase secrets set ...`). Refer to `wiki/RESEND_INTEGRATION.md` and
 security docs for details.
-
-### Statsig Setup
-
-1. Obtain a console API key from Statsig (format `console-xxxx`).
-2. Add to local dev: append to `.env.local`:
-   ```bash
-   STATSIG_API_KEY=console-your-key
-   ```
-3. Add to Vercel:
-   ```powershell
-   vercel env add STATSIG_API_KEY production
-   vercel env add STATSIG_API_KEY preview
-   vercel env add STATSIG_API_KEY development
-   ```
-4. Add to Supabase secrets (for Edge Functions / server usage):
-   ```powershell
-   supabase secrets set STATSIG_API_KEY=console-your-key
-   ```
-5. Rotate every 90 days; update all scopes and redeploy.
-
-Automated setup (script):
-
-```powershell
-./scripts/setup-statsig.ps1 -StatsigKey console-your-key
-# or
-$env:STATSIG_API_KEY="console-your-key"; ./scripts/setup-statsig.ps1
-```
-
-MCP Limitation: Current MCP tooling in this repo cannot directly write Vercel or
-Supabase secrets; the script wraps the respective CLIs.
-
-#### Server vs Client Keys
-
-| Key                              | Purpose                            | Exposure                   |
-| -------------------------------- | ---------------------------------- | -------------------------- |
-| `STATSIG_API_KEY`                | Console operations / MCP remote    | Server only                |
-| `STATSIG_SERVER_SECRET`          | Server-side gate/config evaluation | Server only (NEVER bundle) |
-| `NEXT_PUBLIC_STATSIG_CLIENT_KEY` | Client-side gating (optional)      | Public                     |
-
-#### Basic Usage (Server)
-
-```ts
-import { isFlagEnabled, getAllFlags } from './src/services/featureFlags';
-
-const flags = await getAllFlags({ userId: 'user_123' });
-if (flags.ai_insights_enabled) {
-  // load AI insights module
-}
-```
-
-#### Client Usage (Optional)
-
-If you add `NEXT_PUBLIC_STATSIG_CLIENT_KEY`, you can evaluate gates client-side
-with `statsig-js`:
-
-```ts
-import Statsig from 'statsig-js';
-await Statsig.initialize(process.env.NEXT_PUBLIC_STATSIG_CLIENT_KEY!, {
-  userID: 'user_123',
-});
-const enabled = Statsig.checkGate('ai_insights_enabled');
-```
-
-Provide graceful fallbacks for any client gating to avoid UI flicker.
-
-### API Route Prefetch
-
-Flags are available at `GET /api/flags`:
-
-```bash
-curl https://your-app-domain/api/flags
-```
-
-Returns:
-
-```json
-{ "flags": { "ai_insights_enabled": true, "wallet_enabled": false, ... } }
-```
-
-### Provider Integration
-
-Use server component prefetch + client hydration:
-
-```tsx
-import { PrefetchedFlags } from '@/components/examples/FlagsStatus';
-
-export default async function DashboardPage() {
-  return <PrefetchedFlags userId="user_123" />;
-}
-```
-
-### Comprehensive Flag List
-
-| Flag                       | Purpose                        | Default Fallback |
-| -------------------------- | ------------------------------ | ---------------- |
-| ai_insights_enabled        | AI recommendations             | true             |
-| ai_chat_enabled            | Conversational AI chat         | true             |
-| journal_enabled            | Mood & journal tracking        | true             |
-| goals_enabled              | Goal management UI             | true             |
-| messaging_enabled          | Secure user/provider messaging | true             |
-| community_enabled          | Forums & community threads     | true             |
-| therapist_portal_enabled   | Therapist dashboard access     | true             |
-| therapist_booking_enabled  | Booking flow & scheduling      | true             |
-| admin_dashboard_enabled    | Administrative panels          | true             |
-| analytics_enabled          | Analytics dashboards           | true             |
-| subscription_tiers_enabled | Tier gating logic              | true             |
-| wallet_enabled             | User wallet / stored value     | false            |
-| loyalty_program_enabled    | Engagement rewards program     | true             |
-| referrals_enabled          | Referral / invitations         | true             |
-| square_integration_enabled | Square scheduling/payments     | true             |
-| stripe_billing_enabled     | Stripe billing flows           | true             |
-| onboarding_flow_v2_enabled | New onboarding experiment      | false            |
-| impersonation_enabled      | Admin user impersonation       | true             |
-| feature_flags_ui_enabled   | Flag management UI surface     | false            |
-
-Use `FeatureGate` for client-only sections:
-
-```tsx
-<FeatureGate flag="wallet_enabled" fallback={<div>Wallet coming soon" />}> <WalletPanel /> </FeatureGate>
-```
 
 ## Authentication & Security
 
@@ -447,7 +322,7 @@ vercel --prod
 - ✅ All environment variables configured in Vercel dashboard
 
 - ✅ Supabase RLS policies configured
-- ✅ Stripe/Square webhooks configured
+- ✅ Stripe webhooks configured
 
 ### Environment Variables for Production
 
@@ -483,7 +358,7 @@ node scripts/verify-deployment.js your-domain.vercel.app
 2. Run database migrations (Supabase handles this automatically)
 3. Configure custom domain and SSL in Vercel dashboard
 4. Set up monitoring via Vercel Analytics
-5. Configure webhooks for Stripe and Square with production URLs
+5. Configure webhooks for Stripe with production URLs
 
 ## API Integrations
 
@@ -491,7 +366,6 @@ node scripts/verify-deployment.js your-domain.vercel.app
 
 - **Supabase**: Database, authentication, storage
 - **Stripe**: Subscription management, payment processing
-- **Square**: Booking management, payment processing
 - **OpenAI**: GPT-4 for AI insights and chat
 - **Anthropic**: Claude for advanced AI features
 - **Google AI**: Gemini for multimodal AI capabilities
@@ -499,7 +373,6 @@ node scripts/verify-deployment.js your-domain.vercel.app
 ### Webhook Endpoints
 
 - `/api/webhooks/stripe` - Stripe events
-- `/api/webhooks/square` - Square booking events
 
 ## Database Schema
 

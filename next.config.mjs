@@ -51,6 +51,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '5tghbndjb61dnqaj.public.blob.vercel-storage.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'front.agenyz.eu',
+      },
     ],
     // Optimize image loading
     minimumCacheTTL: 60,
@@ -68,38 +72,8 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/booking',
-        destination: '/book',
-        permanent: true,
-      },
-      {
         source: '/plans',
         destination: '/finances?tab=plans',
-        permanent: true,
-      },
-      {
-        source: '/terms',
-        destination: '/legal/terms',
-        permanent: true,
-      },
-      {
-        source: '/terms-of-service',
-        destination: '/legal/terms',
-        permanent: true,
-      },
-      {
-        source: '/privacy',
-        destination: '/legal/privacy',
-        permanent: true,
-      },
-      {
-        source: '/privacy-policy',
-        destination: '/legal/privacy',
-        permanent: true,
-      },
-      {
-        source: '/cookie-policy',
-        destination: '/legal/cookie-policy',
         permanent: true,
       },
     ];

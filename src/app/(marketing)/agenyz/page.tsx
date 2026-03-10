@@ -1,9 +1,9 @@
+import AgenyzContent from '@/marketing/components/AgenyzContent';
 import { Metadata } from 'next';
-import AgenyzContent from '@/components/marketing/AgenyzContent';
 
 export const metadata: Metadata = {
-  title: 'Agenyz | EKA Balance',
-  description: 'Soluciones avanzadas para tu bienestar con Agenyz.',
+  title: 'Agenyz | Cellular Nutrition & Anti-Aging',
+  description: 'Unleash your genetic potential with bio-available supplements designed to restore balance, defy aging, and fuel your vitality at the DNA level.',
 };
 
 export default function AgenyzPage() {

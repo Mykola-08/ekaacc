@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForOfficeWorkersContent from '@/components/marketing/ForOfficeWorkersContent';
+import ForOfficeWorkersContent from '@/marketing/components/ForOfficeWorkersContent';
 
 export const metadata: Metadata = {
   title: 'Bienestar en la Oficina | EKA Balance',

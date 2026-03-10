@@ -192,6 +192,13 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'platform',
   },
   {
+    path: '/admin/telegram',
+    label: 'Telegram',
+    icon: 'message',
+    permission: { group: 'system_settings', action: 'manage' },
+    section: 'platform',
+  },
+  {
     path: '/admin/audit',
     label: 'Audit Log',
     icon: 'shield',

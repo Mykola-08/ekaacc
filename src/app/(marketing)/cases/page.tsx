@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import CasosContent from '@/components/marketing/CasosContent';
+import CasosContent from '@/marketing/components/CasosContent';
+
 
 export const metadata: Metadata = {
-  title: 'Casos de Éxito | EKA Balance',
-  description: 'Historias reales de transformación y mejora del bienestar.',
+    title: 'Casos Frecuentes | EKA Balance',
+    description: 'Descubre cómo ayudamos a resolver problemas comunes como dolor de espalda, estrés, ansiedad, migrañas y más.',
 };
 
-export default function CasesPage() {
+export default function CasosPage() {
   return <CasosContent />;
 }

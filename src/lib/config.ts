@@ -113,6 +113,15 @@ export async function getZoomAccountId(): Promise<string | undefined> {
   return (await getConfig('ZOOM_ACCOUNT_ID')) || process.env.ZOOM_ACCOUNT_ID;
 }
 
+// ── Telegram ────────────────────────────────────────────────
+export async function getTelegramBotToken(): Promise<string> {
+  return getRequiredConfigOrEnv('TELEGRAM_BOT_TOKEN', 'TELEGRAM_BOT_TOKEN');
+}
+
+export async function getTelegramSecretToken(): Promise<string | undefined> {
+  return (await getConfig('TELEGRAM_SECRET_TOKEN')) || process.env.TELEGRAM_SECRET_TOKEN;
+}
+
 // Invalidate cache (call after config updates)
 export function invalidateConfigCache(): void {
   for (const key of Object.keys(cache)) delete cache[key];

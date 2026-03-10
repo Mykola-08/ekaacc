@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
-import PersonalizedServicesContent from '@/components/marketing/PersonalizedServicesContent';
+import PersonalizedServicesContent from '@/marketing/components/PersonalizedServicesContent';
+
 
 export const metadata: Metadata = {
-  title: 'Servicios Personalizados | EKA Balance',
-  description: 'Terapias adaptadas a tus necesidades específicas.',
+  title: "Plans Personalitzats i Serveis VIP | EKA Balance",
+  description: "Descobreix els nostres plans personalitzats per a oficinistes, atletes, músics i més.",
 };
 
 export default function PersonalizedServicesPage() {

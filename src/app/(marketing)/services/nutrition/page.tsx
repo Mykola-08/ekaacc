@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import NutritionContent from '@/components/marketing/NutritionContent';
+import NutritionContent from '@/marketing/components/NutritionContent';
 
 export const metadata: Metadata = {
   title: 'Nutrición y Dietética | EKA Balance',

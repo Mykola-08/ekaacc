@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
-import DiscountsContent from '@/components/marketing/DiscountsContent';
+import DiscountsContent from '@/marketing/components/DiscountsContent';
+
 
 export const metadata: Metadata = {
-  title: 'Descuentos | EKA Balance',
-  description: 'Ofertas especiales y paquetes de servicios.',
+  title: "Descomptes i Ofertes | EKA Balance",
+  description: "Descobreix els nostres descomptes i ofertes especials per a nous clients, famílies i més.",
 };
 
 export default function DiscountsPage() {

@@ -1,54 +1,69 @@
+import { Inter } from "next/font/google";
 import type { Metadata, Viewport } from 'next';
-import MainLayout from '@/components/marketing/MainLayout';
-import { LanguageProvider } from '@/context/marketing/LanguageContext';
-import { DiscountProvider } from '@/context/marketing/DiscountContext';
-import { BookingProvider } from '@/components/marketing/BookingProvider';
-import SmoothScrolling from '@/components/marketing/SmoothScrolling';
-import { GlobalErrorReporter } from '@/components/observability/GlobalErrorReporter';
-import { ThemeCustomizationProvider } from '@/components/theme/ThemeCustomizationProvider';
+import "./marketing-globals.css";
+import MainLayout from "@/marketing/components/MainLayout";
+import { LanguageProvider } from '@/marketing/contexts/LanguageContext';
+import { DiscountProvider } from "@/marketing/contexts/DiscountContext";
+import { BookingProvider } from '@/marketing/components/BookingProvider';
+import SmoothScrolling from "@/marketing/components/SmoothScrolling";
+import JsonLd from "@/marketing/components/JsonLd";
+import ErrorBoundary from "@/marketing/components/ErrorBoundary";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ekabalance.com'),
   title: {
-    default: 'EKA Balance - Teràpies Integratives',
-    template: '%s | EKA Balance',
+    default: "EKA Balance - Teràpies Integratives",
+    template: "%s | EKA Balance",
   },
-  description: 'Serveis premium de benestar amb teràpies integratives.',
-  applicationName: 'EKA Balance',
+  description: "Serveis premium de benestar amb teràpies integratives.",
+  applicationName: "EKA Balance",
   keywords: [
-    'teràpies integratives',
-    'kinesiologia',
-    'benestar',
-    'massatge terapèutic',
-    'Feldenkrais',
-    'Barcelona',
+    "teràpies integratives",
+    "kinesiologia",
+    "benestar",
+    "massatge terapèutic",
+    "Feldenkrais",
+    "Barcelona",
+    "Somatic Therapy",
+    "Wellness",
+    "Integrative Therapy",
+    "Corporate Wellness Programs",
+    "Business Wellness Solutions",
+    "Employee Well-being",
+    "Benestar per a empreses"
   ],
-  authors: [{ name: 'EKA Balance' }],
-  creator: 'EKA Balance',
+  authors: [{ name: "EKA Balance" }],
+  creator: "EKA Balance",
   alternates: {
-    canonical: '/',
+    canonical: "/",
   },
   openGraph: {
-    title: 'EKA Balance - Teràpies Integratives',
-    description: 'Serveis premium de benestar amb teràpies integratives.',
-    url: '/',
-    siteName: 'EKA Balance',
+    title: "EKA Balance - Teràpies Integratives",
+    description: "Serveis premium de benestar amb teràpies integratives.",
+    url: "/",
+    siteName: "EKA Balance",
     images: [
       {
-        url: '/images/eka_logo.png',
+        url: "/images/eka_logo.png",
         width: 512,
         height: 512,
-        alt: 'EKA Balance logo',
+        alt: "EKA Balance logo",
       },
     ],
-    locale: 'ca_ES',
-    type: 'website',
+    locale: "ca_ES",
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'EKA Balance - Teràpies Integratives',
-    description: 'Serveis premium de benestar amb teràpies integratives.',
-    images: ['/images/eka_logo.png'],
+    card: "summary_large_image",
+    title: "EKA Balance - Teràpies Integratives",
+    description: "Serveis premium de benestar amb teràpies integratives.",
+    images: ["/images/eka_logo.png"],
   },
   robots: {
     index: true,
@@ -61,76 +76,35 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'oklch(1 0 0)' },
-    { media: '(prefers-color-scheme: dark)', color: 'oklch(0.145 0 0)' },
-  ],
+  themeColor: "#ffffff",
 };
 
-export default function MarketingLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'HealthAndBeautyBusiness',
-    name: 'EKA Balance',
-    description: 'Serveis premium de benestar amb teràpies integratives a Barcelona.',
-    url: 'https://ekabalance.com',
-    logo: 'https://ekabalance.com/images/eka_logo.png',
-    image: 'https://ekabalance.com/images/eka_logo.png',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Barcelona',
-      addressCountry: 'ES',
-    },
-    priceRange: '$$',
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    },
-    sameAs: [],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Teràpies Integratives',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Massatge Terapèutic' },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Kinesiologia' },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Nutrició' },
-        },
-      ],
-    },
-  };
-
   return (
-    <ThemeCustomizationProvider>
-      <div className="marketing marketing-bg">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <SmoothScrolling>
-          <LanguageProvider>
-            <DiscountProvider>
-              <BookingProvider>
-                <GlobalErrorReporter />
-                <MainLayout>{children}</MainLayout>
-              </BookingProvider>
-            </DiscountProvider>
-          </LanguageProvider>
-        </SmoothScrolling>
-      </div>
-    </ThemeCustomizationProvider>
+    <div className={`marketing-theme ${inter.variable} font-sans text-gray-900 bg-white overflow-x-hidden`}>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-medium">
+        Skip to main content
+      </a>
+      <SmoothScrolling>
+        <LanguageProvider>
+          <DiscountProvider>
+            <BookingProvider>
+              <ErrorBoundary>
+                <JsonLd />
+                <MainLayout>
+                  {children}
+                </MainLayout>
+              </ErrorBoundary>
+            </BookingProvider>
+          </DiscountProvider>
+        </LanguageProvider>
+      </SmoothScrolling>
+    </div>
   );
 }

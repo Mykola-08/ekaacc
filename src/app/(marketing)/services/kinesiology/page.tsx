@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import KinesiologiaContent from '@/components/marketing/KinesiologyContent';
+import KinesiologiaContent from '@/marketing/components/KinesiologyContent';
 
 export const metadata: Metadata = {
   title: 'Kinesiología Holística | EKA Balance',

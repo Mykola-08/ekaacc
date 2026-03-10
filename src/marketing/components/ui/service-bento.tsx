@@ -22,21 +22,23 @@ interface BentoItemProps {
   readMoreText?: string;
 }
 
-export function ServiceBentoItem({ 
-  title, 
-  description, 
-  image, 
-  details, 
+export function ServiceBentoItem({
+  title,
+  description,
+  image,
+  details,
   benefits,
-  delay = 0, 
-  className = "",
+  delay = 0,
+  className = '',
   bookUrl,
-  bookText = "Book Now",
+  bookText = 'Book Now',
   readMoreUrl,
-  readMoreText = "Full details"
+  readMoreText = 'Full details',
 }: BentoItemProps) {
-  const [isOpen, setIsOpen] = useState(false);  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);  const mouseX = useMotionValue(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   useScrollLock(isOpen);
@@ -59,11 +61,11 @@ export function ServiceBentoItem({
         <button
           onClick={() => setIsOpen(true)}
           onMouseMove={handleMouseMove}
-          className="relative text-left flex flex-col justify-end w-full h-full min-h-[420px] rounded-[2.5rem] overflow-hidden group outline-none isolate  border border-secondary/50 bg-[#fbfbfd]  transition-all duration-500 will-change-transform active:scale-[0.98]"
+          className="group border-secondary/50 relative isolate flex h-full min-h-[420px] w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border bg-[#fbfbfd] text-left transition-all duration-500 will-change-transform outline-none active:scale-[0.98]"
         >
           {/* Spotlight overlay */}
           <motion.div
-            className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-[60] mix-blend-overlay"
+            className="pointer-events-none absolute -inset-px z-[60] opacity-0 mix-blend-overlay transition-opacity duration-500 group-hover:opacity-100"
             style={{
               background: useMotionTemplate`
                 radial-gradient(
@@ -78,161 +80,194 @@ export function ServiceBentoItem({
           {/* Background Image */}
           {image ? (
             <div className="absolute inset-0 z-0">
-               <Image src={image} fill alt={title} className="object-cover  transition-transform duration-[2s] ease-[cubic-bezier(0.16,1,0.3,1)]" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/10 transition-opacity duration-500 group-hover:opacity-100" />
+              <Image
+                src={image}
+                fill
+                alt={title}
+                className="object-cover transition-transform duration-[2s] ease-[cubic-bezier(0.16,1,0.3,1)]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/10 transition-opacity duration-500 group-hover:opacity-100" />
             </div>
           ) : (
             <div className="absolute inset-0 z-0 bg-gradient-to-br from-gray-50 to-gray-100 opacity-50" />
           )}
-          
-          <div className="relative z-10 p-8 sm:p-10 flex flex-col justify-end h-full w-full">
-             <motion.div
-               className="transform transition-transform duration-500 group-hover:-translate-y-2 pr-16 md:pr-20"
-             >
-               <h3 className={`text-2xl sm:text-3xl font-semibold mb-3 tracking-tight ${image ? 'text-white drop-shadow-md' : 'text-black'}`}>
-                  {title}
-               </h3>
-                 <p className={`text-base tracking-tight leading-relaxed line-clamp-4 md:line-clamp-none mt-2 ${image ? 'text-white/95 drop-shadow-sm' : 'text-gray-600'}`}>
-                  {description}
-               </p>
-               {benefits && benefits.length > 0 && (
-                 <div className="flex flex-wrap gap-2 mt-4 opacity-90">
-                   {benefits.slice(0, 3).map((benefit, i) => (
-                     <span key={i} className={`text-xs font-medium px-3 py-1.5 rounded-full border ${image ? 'border-white/30 text-white bg-black/40' : 'border-gray-200 text-gray-700 bg-gray-50'} backdrop-blur-md`}>
-                       {benefit}
-                     </span>
-                   ))}
-                 </div>
-               )}
-             </motion.div>
-             <div className={`absolute bottom-8 right-8 flex items-center justify-center w-12 h-12 rounded-full backdrop-blur-md border transition-all duration-500 group-hover:scale-110 group-hover:bg-opacity-100 group-active:scale-95 z-20  ${image ? 'bg-white/20 border-white/40 text-white group-hover:bg-white group-hover:text-black group-hover:border-white' : 'bg-black/5 border-black/10 text-black group-hover:bg-black group-hover:text-white group-hover:border-black'}`}
-             >
-                <svg className="w-6 h-6 transition-transform duration-500 group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-             </div>
+
+          <div className="relative z-10 flex h-full w-full flex-col justify-end p-8 sm:p-10">
+            <motion.div className="transform pr-16 transition-transform duration-500 group-hover:-translate-y-2 md:pr-20">
+              <h3
+                className={`mb-3 text-2xl font-semibold tracking-tight sm:text-3xl ${image ? 'text-white drop-shadow-md' : 'text-black'}`}
+              >
+                {title}
+              </h3>
+              <p
+                className={`mt-2 line-clamp-4 text-base leading-relaxed tracking-tight md:line-clamp-none ${image ? 'text-white/95 drop-shadow-sm' : 'text-gray-600'}`}
+              >
+                {description}
+              </p>
+              {benefits && benefits.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2 opacity-90">
+                  {benefits.slice(0, 3).map((benefit, i) => (
+                    <span
+                      key={i}
+                      className={`rounded-full border px-3 py-1.5 text-xs font-medium ${image ? 'border-white/30 bg-black/40 text-white' : 'border-gray-200 bg-gray-50 text-gray-700'} backdrop-blur-md`}
+                    >
+                      {benefit}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+            <div
+              className={`group-hover:bg-opacity-100 absolute right-8 bottom-8 z-20 flex h-12 w-12 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-500 group-hover:scale-110 group-active:scale-95 ${image ? 'border-white/40 bg-white/20 text-white group-hover:border-white group-hover:bg-white group-hover:text-black' : 'border-black/10 bg-black/5 text-black group-hover:border-black group-hover:bg-black group-hover:text-white'}`}
+            >
+              <svg
+                className="h-6 w-6 transition-transform duration-500 group-hover:rotate-90"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </div>
           </div>
         </button>
       </motion.div>
 
       {/* Modal */}
-      {mounted && typeof document !== 'undefined' ? createPortal(
-        <AnimatePresence>
-        {isOpen && (
-          <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6" onClick={() => setIsOpen(false)}>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/60 backdrop-blur-md"
-            />
-            <motion.div
-               initial={{ opacity: 0, y: "100%" }}
-               animate={{ opacity: 1, y: 0 }}
-               exit={{ opacity: 0, y: "100%" }}
-               transition={{ type: "spring", bounce: 0, duration: 0.5 }}
-               className="relative w-full max-w-5xl bg-white rounded-t-[2rem] sm:rounded-[2.5rem] overflow-hidden z-10 h-[90vh] sm:h-[80vh] flex flex-col"
-               onClick={(e) => e.stopPropagation()}
-            >
-               {/* Mobile draggable indicator */}
-               <div className="w-full flex justify-center py-3 sm:hidden absolute top-0 z-30">
-                 <div className="w-12 h-1.5 bg-white/40 rounded-full" />
-               </div>
-
-               <button 
+      {mounted && typeof document !== 'undefined'
+        ? createPortal(
+            <AnimatePresence>
+              {isOpen && (
+                <div
+                  className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-6"
                   onClick={() => setIsOpen(false)}
-                  className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-xl transition-colors text-white"
-               >
-                 <X size={20} />
-               </button>
-               
-               <div className="flex flex-col md:flex-row w-full h-full">
-                 {image ? (
-                    <>
-                      <div className="relative w-full md:w-2/5 lg:w-1/2 h-[20vh] md:h-full shrink-0 flex flex-col justify-end">
-                         <Image src={image} fill alt={title} className="object-cover" />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                         <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-end w-full">
-                           <h2 className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight text-white mb-2 sm:mb-4 leading-tight">{title}</h2>
-                           
-                           {/* Buttons on image for PC */}
-                           <div className="hidden md:flex flex-col xl:flex-row gap-4 mt-2 sm:mt-4 w-full">
-                              {bookUrl && (
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-black/60 backdrop-blur-md"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: '100%' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: '100%' }}
+                    transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
+                    className="relative z-10 flex h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-[2rem] bg-white shadow-2xl sm:h-[80vh] sm:rounded-[2.5rem]"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Mobile draggable indicator */}
+                    <div className="absolute top-0 z-30 flex w-full justify-center py-2 sm:hidden">
+                      <div className="h-1.5 w-10 rounded-full bg-white/40" />
+                    </div>
+
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-xl transition-colors hover:bg-black/40 sm:top-5 sm:right-5"
+                    >
+                      <X size={18} />
+                    </button>
+
+                    <div className="flex h-full w-full flex-col md:flex-row">
+                      {image ? (
+                        <>
+                          <div className="relative flex h-[20vh] w-full shrink-0 flex-col justify-center sm:h-[25vh] sm:justify-end md:h-full md:w-[40%] lg:w-1/2">
+                            <Image src={image} fill alt={title} className="object-cover" />
+                            <div className="absolute inset-0 bg-black/50 sm:bg-gradient-to-t sm:from-black/90 sm:via-black/40 sm:to-transparent" />
+                            <div className="relative z-10 flex h-full w-full flex-col justify-center p-4 text-center sm:justify-end sm:p-5 sm:text-left lg:p-6">
+                              <h2 className="mb-1 text-lg leading-tight font-medium tracking-tight text-white drop-shadow-sm sm:mb-2 sm:text-xl md:text-2xl">
+                                {title}
+                              </h2>
+
+                              {/* Buttons on image for PC */}
+                              <div className="mt-2 hidden w-full flex-col gap-2 sm:mt-3 md:flex xl:flex-row">
+                                {bookUrl && (
                                   <Link href={bookUrl} className="flex-1">
-                                      <span className="flex items-center justify-center w-full px-6 py-3 bg-white text-black rounded-full font-medium text-base hover:bg-gray-100 transition shadow-lg">
-                                          {bookText}
-                                      </span>
+                                    <span className="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-xs font-semibold text-black shadow-lg transition hover:bg-gray-100">
+                                      {bookText}
+                                    </span>
                                   </Link>
+                                )}
+                                {readMoreUrl && (
+                                  <Link href={readMoreUrl} className="flex-1">
+                                    <span className="flex w-full items-center justify-center rounded-full border border-white/20 bg-black/40 px-4 py-2 text-xs font-semibold whitespace-nowrap text-white backdrop-blur-md transition hover:bg-black/60">
+                                      {readMoreText} <ArrowRight className="ml-1.5 h-3 w-3" />
+                                    </span>
+                                  </Link>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="customize-scrollbar flex flex-1 flex-col justify-center overflow-y-auto overscroll-contain bg-white px-4 py-5 sm:p-6">
+                            <div className="prose prose-sm mb-0 flex max-w-none flex-1 flex-col justify-center text-gray-600">
+                              <p className="mb-4 text-center text-sm leading-relaxed font-normal text-gray-800 sm:text-left sm:text-base">
+                                {description}
+                              </p>
+                              <div className="text-center text-xs sm:text-left">{details}</div>
+                            </div>
+
+                            {/* Buttons for Mobile/Tablet */}
+                            <div className="mt-4 flex shrink-0 flex-col gap-2 border-t border-gray-100 pt-4 md:hidden">
+                              {bookUrl && (
+                                <Link href={bookUrl} className="w-full">
+                                  <span className="flex w-full items-center justify-center rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-black">
+                                    {bookText}
+                                  </span>
+                                </Link>
                               )}
                               {readMoreUrl && (
-                                  <Link href={readMoreUrl} className="flex-1">
-                                      <span className="flex items-center justify-center w-full px-6 py-3 bg-black/40 text-white backdrop-blur-md rounded-full font-medium text-base hover:bg-black/60 transition whitespace-nowrap border border-white/20">
-                                          {readMoreText} <ArrowRight className="ml-2 w-4 h-4" />
-                                      </span>
-                                  </Link>
-                              )}
-                           </div>
-                         </div>
-                      </div>
-                      <div className="flex-1 p-6 sm:p-8 md:p-10 flex flex-col overflow-y-auto overscroll-contain customize-scrollbar">
-                         <div className="prose prose-lg max-w-none text-gray-600 mb-4 md:mb-0 flex-1">
-                            <p className="text-lg sm:text-xl md:text-2xl leading-relaxed font-medium text-gray-900 mb-6">{description}</p>
-                            {details}
-                         </div>
-                         
-                         {/* Buttons for Mobile/Tablet */}
-                         <div className="flex md:hidden flex-col gap-3 pt-4 mt-auto border-t border-gray-100 shrink-0">
-                            {bookUrl && (
-                                <Link href={bookUrl} className="w-full">
-                                    <span className="flex items-center justify-center w-full px-6 py-3.5 bg-black text-white rounded-full font-medium text-base hover:bg-gray-800 transition">
-                                        {bookText}
-                                    </span>
+                                <Link href={readMoreUrl} className="w-full">
+                                  <span className="flex w-full items-center justify-center rounded-xl bg-gray-100 px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-black transition hover:bg-gray-200">
+                                    {readMoreText} <ArrowRight className="ml-1.5 h-3 w-3" />
+                                  </span>
                                 </Link>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="customize-scrollbar flex flex-1 flex-col justify-center overflow-y-auto overscroll-contain px-4 py-8 sm:p-8">
+                          <h2 className="mb-3 text-center text-xl font-medium tracking-tight text-gray-900 sm:mb-4 sm:text-left sm:text-2xl">
+                            {title}
+                          </h2>
+                          <div className="prose prose-sm mb-4 flex max-w-none flex-1 flex-col justify-center text-center text-gray-600 sm:text-left">
+                            <p className="mb-4 text-sm leading-relaxed font-normal text-gray-800 sm:text-base">
+                              {description}
+                            </p>
+                            <div className="text-xs">{details}</div>
+                          </div>
+
+                          <div className="mt-4 flex shrink-0 flex-col gap-2 border-t border-gray-100 pt-4 sm:flex-row">
+                            {bookUrl && (
+                              <Link href={bookUrl} className="flex-1">
+                                <span className="flex w-full items-center justify-center rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-black">
+                                  {bookText}
+                                </span>
+                              </Link>
                             )}
                             {readMoreUrl && (
-                                <Link href={readMoreUrl} className="w-full">
-                                    <span className="flex items-center justify-center w-full px-6 py-3.5 bg-gray-100 text-black rounded-full font-medium text-base hover:bg-gray-200 transition whitespace-nowrap">
-                                        {readMoreText} <ArrowRight className="ml-2 w-4 h-4" />
-                                    </span>
-                                </Link>
-                            )}
-                         </div>
-                      </div>
-                    </>
-                 ) : (
-                    <div className="flex-1 p-6 sm:p-8 flex flex-col overflow-y-auto overscroll-contain customize-scrollbar pt-12 sm:pt-8">
-                       <h2 className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight text-black mb-4 sm:mb-6">{title}</h2>
-                       <div className="prose prose-lg max-w-none text-gray-600 mb-4 flex-1">
-                          <p className="text-lg sm:text-xl md:text-2xl leading-relaxed font-medium text-gray-900 mb-4 sm:mb-6">{description}</p>
-                          {details}
-                       </div>
-                       
-                       <div className="flex flex-col sm:flex-row gap-3 pt-4 mt-auto border-t border-gray-100 shrink-0">
-                          {bookUrl && (
-                              <Link href={bookUrl} className="flex-1">
-                                  <span className="flex items-center justify-center w-full px-6 py-3.5 bg-black text-white rounded-full font-medium text-base hover:bg-gray-800 transition">
-                                      {bookText}
-                                  </span>
-                              </Link>
-                          )}
-                          {readMoreUrl && (
                               <Link href={readMoreUrl} className="flex-1">
-                                  <span className="flex items-center justify-center w-full px-6 py-3.5 bg-gray-100 text-black rounded-full font-medium text-base hover:bg-gray-200 transition whitespace-nowrap">
-                                      {readMoreText} <ArrowRight className="ml-2 w-4 h-4" />
-                                  </span>
+                                <span className="flex w-full items-center justify-center rounded-full bg-gray-100 px-6 py-3.5 text-base font-medium whitespace-nowrap text-black transition hover:bg-gray-200">
+                                  {readMoreText} <ArrowRight className="ml-2 h-4 w-4" />
+                                </span>
                               </Link>
-                          )}
-                       </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                 )}
-               </div>
-            </motion.div>
-          </div>
-        )}
-        </AnimatePresence>,
-        document.body
-      ) : null}
+                  </motion.div>
+                </div>
+              )}
+            </AnimatePresence>,
+            document.body
+          )
+        : null}
     </>
   );
 }
-

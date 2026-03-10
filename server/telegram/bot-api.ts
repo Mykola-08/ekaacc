@@ -9,6 +9,7 @@ import type {
   TelegramChatMember,
   TelegramInlineKeyboardMarkup,
   TelegramMessage,
+  TelegramReplyMarkup,
   TelegramUser,
 } from './types';
 
@@ -54,7 +55,7 @@ export async function sendMessage(
   text: string,
   options?: {
     parseMode?: string;
-    replyMarkup?: TelegramInlineKeyboardMarkup;
+    replyMarkup?: TelegramReplyMarkup;
     disableWebPagePreview?: boolean;
     disableNotification?: boolean;
   }
@@ -78,6 +79,7 @@ export async function editMessageText(
     replyMarkup?: TelegramInlineKeyboardMarkup;
   }
 ): Promise<TelegramApiResponse<TelegramMessage>> {
+  // editMessageText only supports InlineKeyboardMarkup per Telegram API
   return callApi<TelegramMessage>('editMessageText', {
     chat_id: chatId,
     message_id: messageId,
@@ -117,7 +119,7 @@ export async function sendPhoto(
   options?: {
     caption?: string;
     parseMode?: string;
-    replyMarkup?: TelegramInlineKeyboardMarkup;
+    replyMarkup?: TelegramReplyMarkup;
   }
 ): Promise<TelegramApiResponse<TelegramMessage>> {
   return callApi<TelegramMessage>('sendPhoto', {
@@ -135,7 +137,7 @@ export async function sendDocument(
   options?: {
     caption?: string;
     parseMode?: string;
-    replyMarkup?: TelegramInlineKeyboardMarkup;
+    replyMarkup?: TelegramReplyMarkup;
   }
 ): Promise<TelegramApiResponse<TelegramMessage>> {
   return callApi<TelegramMessage>('sendDocument', {

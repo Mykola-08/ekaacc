@@ -1,111 +1,197 @@
-# GitHub Copilot Instructions for EKA Account
+# GitHub Copilot Instructions — EKA Platform
 
-This repository is a Next.js application for a mental health & wellness
-platform.
+Mental health & wellness platform built with Next.js (App Router), TypeScript,
+Tailwind CSS, Supabase, Stripe, and Resend.
 
-## 1. Project Structure & Architecture
+---
 
-- **Structure**: Unified single-application structure.
-  - `src/app`: Next.js 14 App Router.
-  - `src/packages`: Internal shared logic and UI.
-- **Tech Stack**: Next.js 14, TypeScript, Tailwind CSS, Supabase, Stripe,
-  Resend.
+## 1. Project Structure
 
-### Key Architectural Patterns
+```
+ekaacc/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (auth)/             # Auth pages (login, signup)
+│   │   ├── (booking)/          # Booking flow
+│   │   ├── (dashboard)/        # All authenticated pages (unified by permissions)
+│   │   ├── (marketing)/        # Public marketing & SEO pages
+│   │   ├── (platform)/         # Platform utilities (webhooks, cron, email, etc.)
+│   │   ├── actions/            # Server actions (admin, billing, wallet, etc.)
+│   │   └── api/                # API routes
+│   ├── components/
+│   │   ├── ui/                 # shadcn/ui primitives (50+ components)
+│   │   ├── ai/                 # AI chat components
+│   │   ├── admin/              # Admin-specific components
+│   │   ├── booking/            # Booking wizard and history
+│   │   ├── dashboard/          # Dashboard layout, widgets, shared
+│   │   ├── features/           # Feature modules (family, payment, referral, wallet)
+│   │   ├── platform/           # Platform-wide (auth, navigation, settings, etc.)
+│   │   ├── prompt-kit/         # Chat/prompt UI kit
+│   │   └── theme/              # Theme providers
+│   ├── context/                # React contexts (Language, Features, Translations)
+│   ├── hooks/                  # Custom hooks (root + marketing/ + platform/)
+│   ├── lib/
+│   │   ├── supabase/           # Supabase clients (client.ts, server.ts, admin.ts)
+│   │   ├── platform/
+│   │   │   ├── services/       # 24 service modules (auth, booking, billing, etc.)
+│   │   │   ├── integrations/   # External integrations (Stripe, Resend, Google)
+│   │   │   ├── supabase/       # Platform Supabase utilities
+│   │   │   ├── types/          # Platform type definitions
+│   │   │   └── config/         # Navigation, permissions config
+│   │   └── *.ts                # Shared utils (utils.ts, config.ts, permissions.ts)
+│   ├── marketing/              # Marketing-specific code
+│   │   ├── components/         # 50+ marketing components
+│   │   ├── contexts/           # Marketing contexts & translations
+│   │   ├── hooks/              # Marketing hooks
+│   │   └── shared/             # Marketing constants & types
+│   ├── store/                  # Zustand stores
+│   ├── styles/                 # Global styles
+│   └── types/                  # Shared type definitions
+├── server/                     # Server-side business logic
+│   ├── ai/                     # AI services (chat, memory, personalization)
+│   ├── booking/                # Booking service
+│   ├── payment/                # Payment service
+│   ├── notifications/          # Notification dispatcher, handlers, reminders
+│   ├── telegram/               # Telegram bot integration
+│   └── */                      # Other domain services
+├── supabase/                   # DB migrations, edge functions, email templates
+├── scripts/                    # Utility scripts
+├── docs/                       # Documentation (see docs/README.md)
+│   ├── architecture/           # Dashboard, features, platform docs
+│   └── design/                 # Design system, animations, UX
+└── public/                     # Static assets
+```
 
-- **Service Layer**: Isolate business logic from API routes (e.g.,
-  - `server/booking/service.ts`).
-  - Flow: `Client` -> `Server Action` -> `Service Layer` -> `Supabase/Stripe`.
-- **No Middleware**: **Do not use Next.js Middleware** for request handling/auth
-  unless explicitly required. Prefer architectural patterns within the App
-  Router.
-- **Secrets Management**: Secrets are stored in the `app_config` table with RLS,
-  not just env vars.
-- **Data Fetching**: Use Supabase client with RLS. Avoid N+1 queries; batch
-  fetch where possible.
+### Path Aliases (tsconfig)
 
-## 2. Coding Standards & Conventions
+| Alias           | Maps to          |
+| --------------- | ---------------- |
+| `@/*`           | `./src/*`        |
+| `@/server/*`    | `./server/*`     |
+| `@/marketing/*` | `./src/marketing/*` |
 
-### UI & Styling (shadcn/ui + Tailwind + Headless UI)
+---
 
-- **Standard Components**: Use `shadcn/ui` primitives (Radix UI) for standard
-  interface elements (Dialogs, Inputs, Sheets).
-- **Custom Transitions**: Use **Headless UI** (`@headlessui/react`) for complex,
-  accessible transition logic and animations (e.g., Loaders, specialized
-  Reveals).
-- **Styling**: Use Tailwind CSS. Merge classes with `cn()`.
-- **Pattern**: Export single component with `variant` and `size` props (using
-  `cva`).
-- **Theming**: Use Tailwind config tokens (`primary`, `accent`), avoid hardcoded
-  hex values.
-- **Example**:
-  ```tsx
-  import { cn } from '@/lib/utils';
-  // ... cva definition
-  export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, ...props }, ref) => (
-      <button
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  );
-  ```
+## 2. Architecture
+
+### Data Flow
+
+```
+Client Component → Server Action → Service Layer → Supabase / Stripe / Resend
+```
+
+- **Service Layer** (`server/*/service.ts` and `src/lib/platform/services/*.ts`):
+  all business logic lives here, never in API routes or components.
+- **Server Actions** (`src/app/actions/*.ts` and `server/*/actions.ts`): thin
+  wrappers that call service functions.
+
+### Supabase Clients
+
+| Context    | Import                                  | Pattern           |
+| ---------- | --------------------------------------- | ----------------- |
+| Browser    | `@/lib/supabase/client`                 | Singleton         |
+| Server     | `@/lib/supabase/server`                 | Async (per-request) |
+| Admin      | `@/lib/supabase/admin`                  | Service key       |
+
+### Authentication & Permissions
+
+- **Auth**: Supabase Auth with cookie-based sessions refreshed in `middleware.ts`.
+- **Permissions**: Role-based with per-user overrides via `role_permissions` table.
+  Gated via `PermissionGate` component and `getUserPermissions()`.
+- **Middleware**: Session refresh + subdomain routing (`therapist.*` → `/therapist/*`).
+- **Secrets**: Stored in `app_config` table (RLS-protected), fallback to env vars.
+
+### Dashboard (Unified)
+
+Single `(dashboard)` route group for all authenticated users. Pages are gated by
+**permissions**, not roles. See `docs/architecture/dashboard.md`.
+
+---
+
+## 3. Coding Standards
+
+### UI & Styling
+
+- **Component Library**: `shadcn/ui` (Radix UI) — use existing components first.
+- **Animations**: `@headlessui/react` for transitions; `motion` (Framer Motion)
+  for springs. Animate only `transform`/`opacity`.
+- **Styling**: Tailwind CSS only. Merge with `cn()` from `@/lib/utils`.
+- **Theming**: Use semantic tokens (`primary`, `accent`, `muted-foreground`).
+  Never hardcode hex values. Never use `dark:` — themes handled via CSS vars.
+- **Icons**: `lucide-react` (tree-shaken via `optimizePackageImports`).
+- **Variants**: Use `cva` for component variants (`variant`, `size` props).
+- **Patterns**:
+  - `flex gap-*` over `space-x-*`/`space-y-*`
+  - `size-*` when width = height
+  - `cn()` for conditional classes, never template-literal ternaries
 
 ### State & Forms
 
-- **Global State**: Use **Zustand**.
-- **Forms**: Use **React Hook Form** with **Zod** validation.
+- **Global State**: Zustand (`src/store/`).
+- **Forms**: React Hook Form + Zod validation + `@hookform/resolvers`.
 
-### Quality & Safety
+### TypeScript
 
-- **Strict Linting**: Resolve ALL linter warnings and errors. Zero tolerance.
-- **Dependencies**: Do not introduce deprecated or insecure packages.
-- **Types**: Share interfaces via `types/` directory or `packages/shared`.
+- `strict: true` is enabled.
+- Share types via `src/types/` or co-located with features.
+- Validate external input with Zod at system boundaries.
 
-## 3. Workflows & Commands
+### Quality
 
-- **Development**: `npm run dev` (Web runs on port 9002).
-- **Build**: `npm run build`.
-- **Testing**:
-  - Unit: `npm test` (Jest/Vitest).
-  - E2E: `npm run test:e2e` (Playwright).
-  - Load: `npm run test:load` (k6).
-- **Scripts**: Use `scripts/` for ops tasks (e.g.,
-  `npx tsx scripts/setup-stripe.ts`).
+- **Zero tolerance** for linter errors/warnings.
+- Do not introduce deprecated or insecure packages.
+- Resolve all `eslint` and `tsc` issues before committing.
 
-## 4. Integrations
+---
 
-- **Supabase**: Database & Storage. Use `SUPABASE_BOOKING_SCHEMA.sql` as source
-  of truth for booking.
-- **Auth**: Supabase Auth.
-- **Stripe**: Payments & Billing. Use mocked clients for unit tests.
-- **AI**: OpenAI/Anthropic/Google via `packages/ai-services`.
+## 4. Commands
+
+| Command                    | Purpose                         |
+| -------------------------- | ------------------------------- |
+| `npm run dev`              | Dev server (port 9002)          |
+| `npm run build`            | Production build                |
+| `npm run lint`             | ESLint                          |
+| `npm run lint:fix`         | ESLint auto-fix                 |
+| `npm run typecheck`        | TypeScript check (`tsc --noEmit`) |
+| `npm run check`            | lint + typecheck                |
+| `npm run format`           | Prettier                        |
+| `npm run db:check`         | Test Supabase connection        |
+| `npm run db:seed`          | Seed services data              |
+| `npm run supabase:setup`   | Full local Supabase setup       |
+| `npm run supabase:reset`   | Reset local DB                  |
+
+---
+
+## 5. Integrations
+
+| Service       | Purpose             | Key files                                    |
+| ------------- | ------------------- | -------------------------------------------- |
+| **Supabase**  | DB, Auth, Storage   | `src/lib/supabase/*`, `supabase/migrations/` |
+| **Stripe**    | Payments & Billing  | `src/lib/platform/integrations/stripe.ts`    |
+| **Resend**    | Transactional Email | `src/lib/platform/integrations/resend.ts`    |
+| **AI (multi)**| Chat & Analysis     | `server/ai/*` (OpenAI, Anthropic, Google)    |
+| **Telegram**  | Bot notifications   | `server/telegram/*`                          |
+
+---
 
 ## 6. Animation Guidelines
 
-### Easing
+- **Enter/Exit**: `ease-out` curves (Quint, Expo).
+- **Movement within screen**: `ease-in-out`.
+- **Micro-interactions**: `200ms` duration for hovers.
+- **Max duration**: <1s for all animations.
+- **Springs**: Prefer `motion` spring animations for natural feel.
+- **Performance**: Only animate `transform`/`opacity`. Use `will-change` sparingly.
+- **Full spec**: See `docs/design/design-system.md` and `docs/design/animation-theory.md`.
 
-- **Enter/Exit**: Use `ease-out` variants (e.g., Quint, Expo) for natural entry.
-- **Movement**: Use `ease-in-out` for movement within screen.
-- **Avoid**: `ease-in` (feels sluggish).
+---
 
-### Duration & Timing
+## 7. Key Conventions Quick Reference
 
-- **Micro-interactions**: `200ms ease` for hovers.
-- **Responsiveness**: <1s max duration.
-- **Origin-aware**: Animate from trigger source.
-
-### Tools (Motion/Framer Motion)
-
-- **Springs**: Prefer spring animations for natural feel.
-- **Performance**: Animate `transform`/`opacity` only. Use `will-change`
-  sparingly.
-- **Radix UI**: Use `asChild` pattern with `motion.div`.
-
-### Code Samples & Full Spec
-
-Refer to `docs/DESIGN_SYSTEM_AND_ANIMATION.md` and
-`docs/ANIMATION_THEORY_GUIDE.md` for comprehensive theory, exact cubic-bezier
-values, and implementation details.
+- **New UI component?** Check `shadcn/ui` registry first (`npx shadcn@latest search`).
+- **New page?** Add to correct route group. Check if a permission gate is needed.
+- **New service?** Create in `src/lib/platform/services/` or `server/<domain>/service.ts`.
+- **New hook?** Place in `src/hooks/` (platform) or `src/marketing/hooks/` (marketing).
+- **Database change?** Create migration in `supabase/migrations/`.
+- **Supabase client?** Browser = `createClient()` singleton, Server = `await createClient()`.
+- **File too large?** Under 300 lines preferred. Split into smaller modules.

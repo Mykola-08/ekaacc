@@ -26,10 +26,10 @@ export default function CookieBanner() {
       // Restore consent if already accepted
       if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
         (window as any).gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted',
-          'analytics_storage': 'granted'
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted',
         });
       }
     }
@@ -37,17 +37,17 @@ export default function CookieBanner() {
 
   const acceptCookies = () => {
     localStorage.setItem('ekabalance-cookie-consent', 'accepted');
-    
+
     // Update Google Consent Mode
     if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
       (window as any).gtag('consent', 'update', {
-        'ad_storage': 'granted',
-        'ad_user_data': 'granted',
-        'ad_personalization': 'granted',
-        'analytics_storage': 'granted'
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
       });
     }
-    
+
     setIsVisible(false);
   };
 
@@ -57,10 +57,10 @@ export default function CookieBanner() {
     // Deny all non-essential cookies via Google Consent Mode
     if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
       (window as any).gtag('consent', 'update', {
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied',
-        'analytics_storage': 'denied'
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
       });
     }
 
@@ -74,50 +74,49 @@ export default function CookieBanner() {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6"
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="fixed right-0 bottom-0 left-0 z-50 p-4 sm:p-6"
         >
-          <div className="max-w-4xl mx-auto">
-            <Card className="bg-white/95 backdrop-blur-lg border-gray-200  overflow-hidden rounded-2xl">
-              <div className="p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start relative">
-                
+          <div className="mx-auto max-w-3xl">
+            <Card className="overflow-hidden rounded-[2rem] border-gray-200 bg-white/95 shadow-2xl backdrop-blur-lg">
+              <div className="relative flex flex-col items-start gap-5 p-5 sm:flex-row">
                 {/* Icon */}
-                <div className="hidden sm:flex flex-shrink-0">
-                  <div className="w-12 h-12 bg-gray-100/80 rounded-full flex items-center justify-center">
-                    <Cookie className="w-6 h-6 text-gray-600" />
+                <div className="hidden flex-shrink-0 sm:flex">
+                  <div className="bg-primary/5 flex h-10 w-10 items-center justify-center rounded-full">
+                    <Cookie className="text-primary h-5 w-5" />
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 min-w-0 space-y-4">
+                <div className="min-w-0 flex-1 space-y-3">
                   <div className="flex items-start justify-between">
-                     <div className="flex items-center gap-3 sm:gap-0">
-                        <div className="sm:hidden w-10 h-10 bg-gray-100/80 rounded-full flex items-center justify-center flex-shrink-0">
-                           <Cookie className="w-5 h-5 text-gray-600" />
-                        </div>
-                        <h3 className="text-lg font-semibold text-gray-900 tracking-tight">
-                            {t('cookies.title')}
-                        </h3>
-                     </div>
-                     <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={rejectCookies}
-                        className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full -mt-2 -mr-2 sm:hidden"
-                        aria-label="Reject cookies and close banner"
-                      >
-                        <X className="w-5 h-5" />
-                      </Button>
+                    <div className="flex items-center gap-3 sm:gap-0">
+                      <div className="bg-primary/5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full sm:hidden">
+                        <Cookie className="text-primary h-4 w-4" />
+                      </div>
+                      <h3 className="text-base font-semibold tracking-tight text-gray-900">
+                        {t('cookies.title')}
+                      </h3>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={rejectCookies}
+                      className="h-8 w-8 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 sm:hidden"
+                      aria-label="Reject cookies and close banner"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
-                  
-                  <p className="text-gray-600 text-sm leading-relaxed">
+
+                  <p className="text-xs leading-relaxed text-gray-600">
                     {t('cookies.description')}
                   </p>
 
-                  <div className="flex flex-wrap gap-3 items-center pt-2">
+                  <div className="flex w-full flex-wrap items-center gap-2 pt-1">
                     <Button
                       onClick={acceptCookies}
-                      className="bg-gold hover:bg-[#e8a204] text-eka-dark font-medium rounded-full px-8  hover:shadow transition-all"
+                      className="bg-gold text-eka-dark h-9 flex-1 rounded-xl px-5 text-xs font-medium transition-all hover:bg-[#e8a204] sm:flex-none"
                     >
                       {t('cookies.accept')}
                     </Button>
@@ -125,21 +124,21 @@ export default function CookieBanner() {
                     <Button
                       onClick={rejectCookies}
                       variant="outline"
-                      className="font-medium rounded-full px-6 border-gray-300 text-gray-600 hover:bg-gray-100 transition-all"
+                      className="h-9 flex-1 rounded-xl border-gray-300 px-4 text-xs font-medium text-gray-600 transition-all hover:bg-gray-100 sm:flex-none"
                     >
                       {t('cookies.reject') || 'Rebutjar'}
                     </Button>
-                    
+
                     <button
                       onClick={() => setShowLanguagePopup(true)}
-                      className="text-gray-500 hover:text-blue-600 font-medium text-sm transition-colors duration-200 underline decoration-dotted underline-offset-4 px-2"
+                      className="px-2 text-[11px] font-medium text-gray-500 underline decoration-dotted underline-offset-4 transition-colors duration-200 hover:text-blue-600"
                     >
                       {t('cookies.wrongLanguage')}
                     </button>
 
                     <Link
                       href="/cookie-policy"
-                      className="text-gold hover:text-[#e8a204] font-medium text-sm transition-colors duration-200 ml-auto sm:ml-0 px-2"
+                      className="text-gold ml-auto px-2 text-[11px] font-medium transition-colors duration-200 hover:text-[#e8a204] sm:ml-0"
                     >
                       {t('cookies.learnMore')}
                     </Link>
@@ -151,10 +150,10 @@ export default function CookieBanner() {
                   variant="ghost"
                   size="icon"
                   onClick={rejectCookies}
-                  className="hidden sm:flex absolute top-4 right-4 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full"
+                  className="absolute top-4 right-4 hidden rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 sm:flex"
                   aria-label="Reject cookies and close banner"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="h-5 w-5" />
                 </Button>
               </div>
             </Card>

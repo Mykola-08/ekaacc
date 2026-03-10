@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
-import { cn } from '@/marketing/lib/utils';
+import { cn } from '@/lib/utils';
 
 declare global {
   interface Window {

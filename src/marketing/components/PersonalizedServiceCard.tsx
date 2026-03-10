@@ -13,59 +13,75 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
   const { t } = useLanguage();
 
   const details = (
-     <>
-       {service.benefitsKeys && service.benefitsKeys.length > 0 && (
-         <div className="mb-6 sm:mb-8">
-           <h4 className="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 mb-3 sm:mb-4">{t('services.mainBenefits') || 'Main Benefits'}</h4>
-           <ul className="space-y-2 sm:space-y-3">
-             {service.benefitsKeys.map((key, i) => (
-               <li key={i} className="flex items-start text-base sm:text-lg text-gray-600">
-                 <span className="w-2 h-2 rounded-full bg-black mt-2 sm:mt-2.5 mr-3 flex-shrink-0" />
-                 {t(key)}
-               </li>
-             ))}
-           </ul>
-         </div>
-       )}
+    <>
+      {service.benefitsKeys && service.benefitsKeys.length > 0 && (
+        <div className="mb-4 sm:mb-6">
+          <h4 className="mb-2 text-base font-semibold tracking-tight text-gray-900 sm:mb-3 sm:text-lg">
+            {t('services.mainBenefits') || 'Main Benefits'}
+          </h4>
+          <ul className="space-y-1.5 sm:space-y-2">
+            {service.benefitsKeys.map((key, i) => (
+              <li
+                key={i}
+                className="flex items-start text-sm leading-snug text-gray-600 sm:text-base"
+              >
+                <span className="bg-primary mt-2 mr-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full" />
+                {t(key)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-       {service.resultKey && (
-         <div className="bg-gray-50 rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8 border border-gray-100">
-            <div className="flex flex-col gap-2">
-                 <span className="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-widest">
-                     {t('common.expectedResult') || 'Expected Result'}
-                 </span>
-                 <p className="text-lg sm:text-xl font-semibold text-gray-900">
-                     {t(service.resultKey)}
-                 </p>
-            </div>
-         </div>
-       )}
+      {service.resultKey && (
+        <div className="bg-primary/5 border-primary/10 mb-4 rounded-xl border p-4 sm:mb-6 sm:p-5">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-primary/70 text-[10px] font-semibold tracking-widest uppercase sm:text-xs">
+              {t('common.expectedResult') || 'Expected Result'}
+            </span>
+            <p className="text-sm leading-snug font-semibold text-gray-900 sm:text-base">
+              {t(service.resultKey)}
+            </p>
+          </div>
+        </div>
+      )}
 
-       <div className="flex items-center justify-between mt-auto p-5 sm:p-6 bg-gray-50 border border-gray-100 rounded-2xl">
-          <div className="flex flex-col gap-1">
-             <span className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-widest">{t('common.duration') || 'Duration'}</span>
-             <div className="flex items-center gap-1.5 sm:gap-2">
-                 <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
-                 <span className="text-base sm:text-lg font-semibold text-gray-900">{service.duration ? `${service.duration} ${t('common.minutes') || 'min'}` : `60 ${t('common.minutes') || 'min'}`}</span>
-             </div>
+      <div className="mt-auto flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
+            {t('common.duration') || 'Duration'}
+          </span>
+          <div className="flex items-center gap-1.5">
+            <Clock className="h-3.5 w-3.5 text-gray-400 sm:h-4 sm:w-4" />
+            <span className="text-sm font-semibold text-gray-900 sm:text-base">
+              {service.duration
+                ? `${service.duration} ${t('common.minutes') || 'min'}`
+                : `60 ${t('common.minutes') || 'min'}`}
+            </span>
           </div>
-          <div className="flex flex-col items-end gap-1">
-             <span className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-widest">{t('common.price') || 'Price'}</span>
-             <span className="text-lg sm:text-xl font-semibold text-gray-900">{service.price ? `${service.price} €` : t('common.consultPrice')}</span>
-          </div>
-       </div>
-     </>
+        </div>
+        <div className="mx-2 h-8 w-px bg-gray-100"></div>
+        <div className="flex flex-col items-end gap-0.5">
+          <span className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
+            {t('common.price') || 'Price'}
+          </span>
+          <span className="text-sm font-semibold text-gray-900 sm:text-base">
+            {service.price ? `${service.price} €` : t('common.consultPrice')}
+          </span>
+        </div>
+      </div>
+    </>
   );
 
   return (
-    <ServiceBentoItem 
-        title={t(service.titleKey)}
-        description={t(service.descriptionKey)}
-        image={service.image}
-        details={details}
-        bookUrl={`/booking?service=${encodeURIComponent(t(service.titleKey))}`}
-        bookText={t('nav.bookNow') || 'Book Now'}
-        readMoreUrl={service.href}
+    <ServiceBentoItem
+      title={t(service.titleKey)}
+      description={t(service.descriptionKey)}
+      image={service.image}
+      details={details}
+      bookUrl={`/booking?service=${encodeURIComponent(t(service.titleKey))}`}
+      bookText={t('nav.bookNow') || 'Book Now'}
+      readMoreUrl={service.href}
     />
   );
 }

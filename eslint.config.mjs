@@ -25,9 +25,6 @@ export default [
       'tailwind.config.js',
       'postcss.config.js',
       'next.config.mjs',
-      'jest.config.js',
-      'wrangler.json',
-      'worker-configuration.d.ts',
       '**/*.d.ts',
       '**/node_modules/**',
       '.next/**',
@@ -45,7 +42,7 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.worker.json'],
+        project: ['./tsconfig.json'],
       },
     },
     rules: {

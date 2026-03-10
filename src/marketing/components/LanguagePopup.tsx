@@ -5,71 +5,74 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollLock } from '@/marketing/hooks/useScrollLock';
 
 export default function LanguagePopup() {
-    const { showLanguagePopup, setShowLanguagePopup, confirmLanguage, t } = useLanguage();
+  const { showLanguagePopup, setShowLanguagePopup, confirmLanguage, t } = useLanguage();
 
-    useScrollLock(showLanguagePopup);
+  useScrollLock(showLanguagePopup);
 
-    if (!showLanguagePopup) return null;
+  if (!showLanguagePopup) return null;
 
-    const languages: { code: Language; label: string; flag: string }[] = [
-        { code: 'ca', label: 'Català', flag: '🇦🇩' },
-        { code: 'es', label: 'Español', flag: '🇪🇸' },
-        { code: 'en', label: 'English', flag: '🇬🇧' },
-        { code: 'ru', label: 'Русский', flag: '🇷🇺' }
-    ];
+  const languages: { code: Language; label: string; flag: string }[] = [
+    { code: 'ca', label: 'Català', flag: '🇦🇩' },
+    { code: 'es', label: 'Español', flag: '🇪🇸' },
+    { code: 'en', label: 'English', flag: '🇬🇧' },
+    { code: 'ru', label: 'Русский', flag: '🇷🇺' },
+  ];
 
-    return (
-        <AnimatePresence>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
-                onClick={() => setShowLanguagePopup(false)}
-            >
-                <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
-                    className="bg-white rounded-3xl  max-w-md w-full p-8 relative border border-gray-100"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <button
-                        onClick={() => setShowLanguagePopup(false)}
-                        className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
-                        aria-label="Close"
-                    >
-                        <X className="w-5 h-5" aria-hidden="true" />
-                    </button>
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+        onPointerDown={(e) => {
+          if (e.target === e.currentTarget) setShowLanguagePopup(false);
+        }}
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          className="relative w-full max-w-[340px] rounded-[2rem] border border-gray-100 bg-white p-6 shadow-2xl"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={() => setShowLanguagePopup(false)}
+            className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" aria-hidden="true" />
+          </button>
 
-                    <div className="text-center mb-8">
-                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Globe className="w-8 h-8 text-primary" />
-                        </div>
-                        <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-                            {t('language.popup.title')}
-                        </h2>
-                        <p className="text-gray-600">
-                            {t('language.popup.subtitle')}
-                        </p>
-                    </div>
+          <div className="mb-4 text-center">
+            <div className="bg-primary/5 mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full">
+              <Globe className="text-primary h-5 w-5" />
+            </div>
+            <h2 className="mb-0.5 text-lg leading-tight font-medium tracking-tight text-gray-900">
+              {t('language.popup.title')}
+            </h2>
+            <p className="text-xs leading-tight text-gray-500">{t('language.popup.subtitle')}</p>
+          </div>
 
-                    <div className="grid grid-cols-1 gap-3">
-                        {languages.map((lang) => (
-                            <button
-                                key={lang.code}
-                                onClick={() => confirmLanguage(lang.code)}
-                                className="flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-primary hover:bg-primary/5 transition duration-200 group"
-                            >
-                                <span className="text-2xl mr-4">{lang.flag}</span>
-                                <span className="font-medium text-gray-700 group-hover:text-primary">
-                                    {lang.label}
-                                </span>
-                            </button>
-                        ))}
-                    </div>
-                </motion.div>
-            </motion.div>
-        </AnimatePresence>
-    );
+          <div className="grid grid-cols-1 gap-1.5">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => confirmLanguage(lang.code)}
+                className="hover:border-primary/20 hover:bg-primary/5 group flex items-center rounded-xl border border-gray-100/80 p-2 transition duration-200"
+              >
+                <span className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-gray-50 text-base transition-colors group-hover:bg-white">
+                  {lang.flag}
+                </span>
+                <span className="group-hover:text-primary text-xs font-medium text-gray-700 transition-colors">
+                  {lang.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
 }

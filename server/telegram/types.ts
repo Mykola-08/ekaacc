@@ -79,15 +79,48 @@ export interface TelegramUpdate {
   chat_member?: TelegramChatMemberUpdated;
 }
 
+export interface TelegramWebAppInfo {
+  url: string;
+}
+
 export interface TelegramInlineKeyboardButton {
   text: string;
   url?: string;
   callback_data?: string;
+  web_app?: TelegramWebAppInfo;
+  login_url?: { url: string; forward_text?: string; bot_username?: string };
+  switch_inline_query?: string;
+  switch_inline_query_current_chat?: string;
 }
 
 export interface TelegramInlineKeyboardMarkup {
   inline_keyboard: TelegramInlineKeyboardButton[][];
 }
+
+export interface TelegramReplyKeyboardButton {
+  text: string;
+  request_contact?: boolean;
+  request_location?: boolean;
+  web_app?: TelegramWebAppInfo;
+}
+
+export interface TelegramReplyKeyboardMarkup {
+  keyboard: TelegramReplyKeyboardButton[][];
+  resize_keyboard?: boolean;
+  one_time_keyboard?: boolean;
+  input_field_placeholder?: string;
+  selective?: boolean;
+}
+
+export interface TelegramReplyKeyboardRemove {
+  remove_keyboard: true;
+  selective?: boolean;
+}
+
+export type TelegramReplyMarkup =
+  | TelegramInlineKeyboardMarkup
+  | TelegramReplyKeyboardMarkup
+  | TelegramReplyKeyboardRemove;
 
 // ─── Telegram API Response Types ────────────────────────────
 
@@ -236,6 +269,15 @@ export const BOT_COMMANDS = {
   STATUS: '/status',
   UNLINK: '/unlink',
   BOOK: '/book',
+  APPOINTMENTS: '/appointments',
+  CANCEL: '/cancel',
+  NOTIFICATIONS: '/notifications',
+  HISTORY: '/history',
+  DETAILS: '/details',
+  WALLET: '/wallet',
+  MOOD: '/mood',
+  RESOURCES: '/resources',
+  RESCHEDULE: '/reschedule',
   INFO: '/info',
   STATS: '/stats',
 } as const;

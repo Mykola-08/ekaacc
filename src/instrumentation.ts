@@ -1,6 +1,14 @@
 import type { Instrumentation } from 'next';
 import { reportErrorToSupabase } from '@/lib/observability/error-reporting';
 
+export async function register() {
+  // Register notification event handlers on server startup
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const { registerNotificationHandlers } = await import('@/server/notifications/handlers');
+    registerNotificationHandlers();
+  }
+}
+
 function toHeaders(input: Readonly<Record<string, string | string[] | undefined>>) {
   const h = new Headers();
   for (const [key, value] of Object.entries(input)) {

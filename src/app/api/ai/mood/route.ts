@@ -12,7 +12,9 @@ import { personalizationService } from '@/server/ai';
 export async function POST(req: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -38,17 +40,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id, success: true });
   } catch (error) {
     console.error('[AI Mood POST]', error);
-    return NextResponse.json(
-      { error: 'Failed to log mood' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to log mood' }, { status: 500 });
   }
 }
 
 export async function GET(req: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -61,9 +62,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(trend);
   } catch (error) {
     console.error('[AI Mood GET]', error);
-    return NextResponse.json(
-      { error: 'Failed to get mood trend' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get mood trend' }, { status: 500 });
   }
 }

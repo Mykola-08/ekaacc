@@ -1,4 +1,4 @@
-﻿"use client";
+﻿'use client';
 
 /**
  * AI Chat Welcome Screen
@@ -7,9 +7,8 @@
  * greeting, and suggestion prompts with motion animations.
  */
 
-import * as motion from "motion/react-client";
-import { Brain, Heart, Calendar, TrendingUp, Sparkles, MessageCircle } from "lucide-react";
-import { PromptSuggestion } from "@/components/prompt-kit/prompt-suggestion";
+import * as motion from 'motion/react-client';
+import { Brain, Heart, Calendar, TrendingUp, Sparkles, MessageCircle } from 'lucide-react';
 
 interface ChatWelcomeProps {
   userName?: string | null;
@@ -19,27 +18,27 @@ interface ChatWelcomeProps {
 const QUICK_ACTIONS = [
   {
     icon: Heart,
-    label: "Log my mood",
+    label: 'Log my mood',
     description: "Track how you're feeling",
     prompt: "I'd like to log my mood today.",
   },
   {
     icon: TrendingUp,
-    label: "Mood trends",
-    description: "See your patterns",
-    prompt: "Show me my mood trend for the past two weeks.",
+    label: 'Mood trends',
+    description: 'See your patterns',
+    prompt: 'Show me my mood trend for the past two weeks.',
   },
   {
     icon: Calendar,
-    label: "My sessions",
-    description: "View upcoming bookings",
-    prompt: "What sessions do I have coming up?",
+    label: 'My sessions',
+    description: 'View upcoming bookings',
+    prompt: 'What sessions do I have coming up?',
   },
   {
     icon: Brain,
-    label: "Get insights",
-    description: "AI wellness analysis",
-    prompt: "Generate personalized wellness insights for me.",
+    label: 'Get insights',
+    description: 'AI wellness analysis',
+    prompt: 'Generate personalized wellness insights for me.',
   },
 ];
 
@@ -64,7 +63,8 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
           <Sparkles className="text-primary h-8 w-8" />
         </motion.div>
         <h1 className="text-foreground mb-1 text-2xl font-semibold tracking-tight">
-          {greeting}{userName ? `, ${userName}` : ""}
+          {greeting}
+          {userName ? `, ${userName}` : ''}
         </h1>
         <p className="text-muted-foreground text-sm">
           I&apos;m EKA, your wellness companion. How can I help you today?
@@ -87,7 +87,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
               onClick={() => onSuggestion(action.prompt)}
-              className="bg-muted/50 hover:bg-muted group flex items-start gap-3 rounded-xl border p-3 text-left transition-all hover:border-primary/20 hover:shadow-sm"
+              className="bg-muted/50 hover:bg-muted group hover:border-primary/20 flex items-start gap-3 rounded-xl border p-3 text-left transition-all hover:shadow-sm"
             >
               <div className="bg-primary/10 group-hover:bg-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors">
                 <Icon className="text-primary h-4 w-4" />
@@ -117,7 +117,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
 
 function getGreeting(): string {
   const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
+  if (hour < 12) return 'Good morning';
+  if (hour < 17) return 'Good afternoon';
+  return 'Good evening';
 }

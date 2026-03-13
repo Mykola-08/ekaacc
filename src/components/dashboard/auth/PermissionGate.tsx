@@ -3,10 +3,7 @@
 import React, { type ReactNode, useMemo } from 'react';
 import { useAuth } from '@/context/platform/auth-context';
 import { LoadingSpinner } from '@/components/ui/loading-states';
-import type {
-  PermissionGroup,
-  PermissionAction,
-} from '@/lib/platform/config/role-permissions';
+import type { PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
@@ -111,11 +108,7 @@ export function PermissionGate({
               )}
             </AlertDescription>
             <div className="mt-4">
-              <Button
-                onClick={() => router.push(redirectTo)}
-                size="sm"
-                variant="outline"
-              >
+              <Button onClick={() => router.push(redirectTo)} size="sm" variant="outline">
                 Go to Dashboard
               </Button>
             </div>
@@ -135,10 +128,7 @@ export function PermissionGate({
  *   const canManageUsers = usePermission('user_management', 'read');
  *   if (canManageUsers) { ... }
  */
-export function usePermission(
-  group: PermissionGroup,
-  action: PermissionAction
-): boolean {
+export function usePermission(group: PermissionGroup, action: PermissionAction): boolean {
   const { hasPermission } = useAuth();
   return hasPermission(`${group}.${action}`);
 }
@@ -150,10 +140,7 @@ export function usePermission(
  *   const can = usePermissions();
  *   can('user_management', 'read') // boolean
  */
-export function usePermissions(): (
-  group: PermissionGroup,
-  action: PermissionAction
-) => boolean {
+export function usePermissions(): (group: PermissionGroup, action: PermissionAction) => boolean {
   const { hasPermission } = useAuth();
   return (group, action) => hasPermission(`${group}.${action}`);
 }

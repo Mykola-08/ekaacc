@@ -54,9 +54,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
       const res = await banMemberAction(selectedChannel, userId);
       if (res.success) {
         setMembers((prev) =>
-          prev.map((m) =>
-            m.telegram_user_id === userId ? { ...m, status: 'kicked' as const } : m
-          )
+          prev.map((m) => (m.telegram_user_id === userId ? { ...m, status: 'kicked' as const } : m))
         );
         toast.success('Member banned');
       } else {
@@ -70,9 +68,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
       const res = await unbanMemberAction(selectedChannel, userId);
       if (res.success) {
         setMembers((prev) =>
-          prev.map((m) =>
-            m.telegram_user_id === userId ? { ...m, status: 'member' as const } : m
-          )
+          prev.map((m) => (m.telegram_user_id === userId ? { ...m, status: 'member' as const } : m))
         );
         toast.success('Member unbanned');
       } else {
@@ -86,9 +82,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
       const res = await promoteMemberAction(selectedChannel, userId);
       if (res.success) {
         setMembers((prev) =>
-          prev.map((m) =>
-            m.telegram_user_id === userId ? { ...m, status: 'admin' as const } : m
-          )
+          prev.map((m) => (m.telegram_user_id === userId ? { ...m, status: 'admin' as const } : m))
         );
         toast.success('Member promoted to admin');
       } else {
@@ -102,9 +96,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
       const res = await demoteMemberAction(selectedChannel, userId);
       if (res.success) {
         setMembers((prev) =>
-          prev.map((m) =>
-            m.telegram_user_id === userId ? { ...m, status: 'member' as const } : m
-          )
+          prev.map((m) => (m.telegram_user_id === userId ? { ...m, status: 'member' as const } : m))
         );
         toast.success('Admin demoted');
       } else {
@@ -154,7 +146,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
   if (channels.length === 0) {
     return (
       <Card>
-        <CardContent className="py-12 text-center text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground py-12 text-center text-sm">
           No channels connected.
         </CardContent>
       </Card>
@@ -168,7 +160,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="">
       <div className="flex flex-wrap items-center gap-3">
         <Select value={selectedChannel} onValueChange={setSelectedChannel}>
           <SelectTrigger className="w-60">
@@ -188,7 +180,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <span className="text-sm text-muted-foreground">
+        <span className="text-muted-foreground text-sm">
           {filtered.length} member{filtered.length !== 1 ? 's' : ''}
         </span>
       </div>
@@ -196,7 +188,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
       <Card>
         <CardContent className="p-0">
           {filtered.length === 0 ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">
+            <p className="text-muted-foreground py-8 text-center text-sm">
               {isPending ? 'Loading…' : 'No members found'}
             </p>
           ) : (
@@ -224,7 +216,7 @@ export function MembersPanel({ channels }: MembersPanelProps) {
                         {m.status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
+                    <TableCell className="text-muted-foreground text-sm">
                       {new Date(m.joined_at).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-right">

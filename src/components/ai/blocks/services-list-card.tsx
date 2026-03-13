@@ -1,4 +1,4 @@
-﻿"use client";
+﻿'use client';
 
 /**
  * Services List Card
@@ -6,8 +6,8 @@
  * Displays available wellness/therapy services in a beautiful grid.
  */
 
-import * as motion from "motion/react-client";
-import { Sparkles, Clock } from "lucide-react";
+import * as motion from 'motion/react-client';
+import { Sparkles, Clock } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -23,8 +23,8 @@ interface ServicesListProps {
 }
 
 function formatCurrency(amount: number, currency: string): string {
-  return new Intl.NumberFormat("en", {
-    style: "currency",
+  return new Intl.NumberFormat('en', {
+    style: 'currency',
     currency,
     minimumFractionDigits: 0,
   }).format(amount);
@@ -36,7 +36,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-card rounded-lg border p-4 w-full max-w-sm"
+        className="bg-card w-full max-w-sm rounded-lg border p-4"
       >
         <p className="text-muted-foreground text-sm">No services found.</p>
       </motion.div>
@@ -48,21 +48,21 @@ export function ServicesListCard({ services }: ServicesListProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card rounded-lg border p-4 w-full max-w-md"
+      className="bg-card w-full max-w-md rounded-lg border p-4"
     >
-      <div className="flex items-center gap-2 mb-3">
+      <div className="mb-3 flex items-center gap-2">
         <Sparkles className="text-primary h-4 w-4" />
         <p className="text-sm font-semibold">Available Services</p>
       </div>
 
-      <div className="space-y-2">
+      <div className="">
         {services.map((s, i) => (
           <motion.div
             key={s.id}
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: i * 0.06 }}
-            className="bg-muted/50 group flex items-center justify-between rounded-xl p-3 transition-colors hover:bg-muted"
+            className="bg-muted/50 group hover:bg-muted flex items-center justify-between rounded-xl p-3 transition-colors"
           >
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">{s.name}</p>

@@ -21,9 +21,7 @@ export function PaymentResult({ status }: PaymentResultProps) {
           <div
             className={cn(
               'flex h-24 w-24 items-center justify-center rounded-full shadow-sm',
-              isSuccess
-                ? 'bg-success/20 text-success dark:bg-success/10 dark:text-success'
-                : 'bg-destructive/20 text-destructive dark:bg-destructive/10 dark:text-destructive'
+              isSuccess ? 'bg-success/20 text-success' : 'bg-destructive/20 text-destructive'
             )}
           >
             {isSuccess ? (

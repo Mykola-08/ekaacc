@@ -29,7 +29,7 @@ export default function SEOUpdater({ titleKey, descriptionKey, keywordsKey }: SE
         document.head.appendChild(metaDesc);
       }
       metaDesc.setAttribute('content', desc);
-      
+
       // Also update OpenGraph description if present
       const ogDesc = document.querySelector('meta[property="og:description"]');
       if (ogDesc) {

@@ -99,8 +99,7 @@ export function PermissionMatrixClient({
   }, [rolePermissions]);
 
   const hasPerm = useCallback(
-    (role: string, group: string, action: string) =>
-      permLookup.has(`${role}:${group}.${action}`),
+    (role: string, group: string, action: string) => permLookup.has(`${role}:${group}.${action}`),
     [permLookup]
   );
 
@@ -111,7 +110,8 @@ export function PermissionMatrixClient({
       const relevantActions = allActions.filter((action) =>
         roles.some((role) => hasPerm(role, group, action))
       );
-      ga[group] = relevantActions.length > 0 ? relevantActions : ['read', 'create', 'update', 'delete'];
+      ga[group] =
+        relevantActions.length > 0 ? relevantActions : ['read', 'create', 'update', 'delete'];
     }
     return ga;
   }, [groups, allActions, roles, hasPerm]);
@@ -181,12 +181,7 @@ export function PermissionMatrixClient({
         }
       }
       // Set the override
-      const res = await setUserPermissionOverride(
-        userId,
-        group,
-        action,
-        !currentlyGranted
-      );
+      const res = await setUserPermissionOverride(userId, group, action, !currentlyGranted);
       if (res.error) {
         toast.error(res.error);
       } else {
@@ -208,22 +203,20 @@ export function PermissionMatrixClient({
   };
 
   return (
-    <Tabs defaultValue="roles" className="space-y-4">
+    <Tabs defaultValue="roles" className="">
       <TabsList>
         <TabsTrigger value="roles">Role Permissions</TabsTrigger>
         <TabsTrigger value="users">User Overrides</TabsTrigger>
       </TabsList>
 
       {/* ─── Role Permissions Matrix ────────────────────────────────── */}
-      <TabsContent value="roles" className="space-y-4">
+      <TabsContent value="roles" className="">
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-base">Role Matrix</CardTitle>
-                <CardDescription>
-                  Toggle which permissions each role has.
-                </CardDescription>
+                <CardDescription>Toggle which permissions each role has.</CardDescription>
               </div>
               <Select value={selectedRole} onValueChange={setSelectedRole}>
                 <SelectTrigger className="w-40">
@@ -245,10 +238,21 @@ export function PermissionMatrixClient({
                 <TableRow>
                   <TableHead className="w-35">Permission Group</TableHead>
                   {(groupActions[groups[0]] || allActions).length > 0 &&
-                    ['read', 'create', 'update', 'delete', 'manage', 'publish', 'view_own', 'view_all', 'assign', 'export']
+                    [
+                      'read',
+                      'create',
+                      'update',
+                      'delete',
+                      'manage',
+                      'publish',
+                      'view_own',
+                      'view_all',
+                      'assign',
+                      'export',
+                    ]
                       .filter((a) => allActions.includes(a))
                       .map((action) => (
-                        <TableHead key={action} className="text-center text-xs w-20">
+                        <TableHead key={action} className="w-20 text-center text-xs">
                           {action.replace('_', ' ')}
                         </TableHead>
                       ))}
@@ -257,18 +261,27 @@ export function PermissionMatrixClient({
               <TableBody>
                 {groups.map((group) => (
                   <TableRow key={group}>
-                    <TableCell className="font-medium text-xs">
+                    <TableCell className="text-xs font-medium">
                       {GROUP_LABELS[group] || group}
                     </TableCell>
-                    {['read', 'create', 'update', 'delete', 'manage', 'publish', 'view_own', 'view_all', 'assign', 'export']
+                    {[
+                      'read',
+                      'create',
+                      'update',
+                      'delete',
+                      'manage',
+                      'publish',
+                      'view_own',
+                      'view_all',
+                      'assign',
+                      'export',
+                    ]
                       .filter((a) => allActions.includes(a))
                       .map((action) => (
                         <TableCell key={action} className="text-center">
                           <Switch
                             checked={hasPerm(selectedRole, group, action)}
-                            onCheckedChange={() =>
-                              toggleRolePerm(selectedRole, group, action)
-                            }
+                            onCheckedChange={() => toggleRolePerm(selectedRole, group, action)}
                             disabled={isPending}
                             className="scale-75"
                           />
@@ -304,13 +317,11 @@ export function PermissionMatrixClient({
               <TableBody>
                 {groups.map((group) => (
                   <TableRow key={group}>
-                    <TableCell className="font-medium text-xs">
+                    <TableCell className="text-xs font-medium">
                       {GROUP_LABELS[group] || group}
                     </TableCell>
                     {roles.map((role) => {
-                      const count = allActions.filter((a) =>
-                        hasPerm(role, group, a)
-                      ).length;
+                      const count = allActions.filter((a) => hasPerm(role, group, a)).length;
                       return (
                         <TableCell key={role} className="text-center">
                           {count > 0 ? (
@@ -332,7 +343,7 @@ export function PermissionMatrixClient({
       </TabsContent>
 
       {/* ─── User Overrides ─────────────────────────────────────────── */}
-      <TabsContent value="users" className="space-y-4">
+      <TabsContent value="users" className="">
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
@@ -358,15 +369,12 @@ export function PermissionMatrixClient({
           </CardHeader>
 
           {selectedUser && (
-            <CardContent className="space-y-4">
+            <CardContent className="">
               {/* Role assignment */}
               <div className="flex items-center gap-3">
                 <span className="text-sm font-medium">Role:</span>
                 <Select
-                  value={
-                    users.find((u) => u.auth_id === selectedUser)?.role ||
-                    'client'
-                  }
+                  value={users.find((u) => u.auth_id === selectedUser)?.role || 'client'}
                   onValueChange={(val) => changeUserRole(selectedUser, val)}
                   disabled={isPending}
                 >
@@ -385,17 +393,17 @@ export function PermissionMatrixClient({
 
               {/* Overrides table */}
               <div>
-                <p className="text-xs text-muted-foreground mb-2">
-                  Overrides take priority over role permissions. Toggle to grant
-                  or revoke specific permissions for this user.
+                <p className="text-muted-foreground mb-2 text-xs">
+                  Overrides take priority over role permissions. Toggle to grant or revoke specific
+                  permissions for this user.
                 </p>
                 <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-35">Group</TableHead>
                       <TableHead className="w-25">Action</TableHead>
-                      <TableHead className="text-center w-20">Role Default</TableHead>
-                      <TableHead className="text-center w-20">Override</TableHead>
+                      <TableHead className="w-20 text-center">Role Default</TableHead>
+                      <TableHead className="w-20 text-center">Override</TableHead>
                       <TableHead className="w-20" />
                     </TableRow>
                   </TableHeader>
@@ -403,55 +411,38 @@ export function PermissionMatrixClient({
                     {groups.map((group) =>
                       allActions.map((action) => {
                         const userRole =
-                          users.find((u) => u.auth_id === selectedUser)
-                            ?.role || 'client';
+                          users.find((u) => u.auth_id === selectedUser)?.role || 'client';
                         const roleHas = hasPerm(userRole, group, action);
                         const override = userOverrides.find(
-                          (o) =>
-                            o.permission_group === group &&
-                            o.action === action
+                          (o) => o.permission_group === group && o.action === action
                         );
-                        const effective = override
-                          ? override.is_granted
-                          : roleHas;
+                        const effective = override ? override.is_granted : roleHas;
 
                         return (
                           <TableRow key={`${group}.${action}`}>
                             <TableCell className="text-xs">
                               {GROUP_LABELS[group] || group}
                             </TableCell>
-                            <TableCell className="text-xs">
-                              {action.replace('_', ' ')}
-                            </TableCell>
+                            <TableCell className="text-xs">{action.replace('_', ' ')}</TableCell>
                             <TableCell className="text-center">
                               {roleHas ? (
                                 <Badge variant="secondary" className="text-xs">
                                   Yes
                                 </Badge>
                               ) : (
-                                <span className="text-muted-foreground text-xs">
-                                  No
-                                </span>
+                                <span className="text-muted-foreground text-xs">No</span>
                               )}
                             </TableCell>
                             <TableCell className="text-center">
                               {override ? (
                                 <Badge
-                                  variant={
-                                    override.is_granted
-                                      ? 'default'
-                                      : 'destructive'
-                                  }
+                                  variant={override.is_granted ? 'default' : 'destructive'}
                                   className="text-xs"
                                 >
-                                  {override.is_granted
-                                    ? 'Granted'
-                                    : 'Revoked'}
+                                  {override.is_granted ? 'Granted' : 'Revoked'}
                                 </Badge>
                               ) : (
-                                <span className="text-muted-foreground text-xs">
-                                  —
-                                </span>
+                                <span className="text-muted-foreground text-xs">—</span>
                               )}
                             </TableCell>
                             <TableCell>

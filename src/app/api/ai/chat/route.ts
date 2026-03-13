@@ -86,9 +86,7 @@ export async function POST(req: NextRequest) {
     const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user');
     const lastUserText = lastUserMsg ? extractTextFromMessage(lastUserMsg) : null;
     if (lastUserText) {
-      await conversationService
-        .addMessage(convId, 'user', lastUserText)
-        .catch(() => {});
+      await conversationService.addMessage(convId, 'user', lastUserText).catch(() => {});
     }
 
     // ── Build context ────────────────────────────────────────────
@@ -100,26 +98,29 @@ export async function POST(req: NextRequest) {
     const systemPrompt = buildSystemPrompt(userContext);
     const tools = createTools(user.id);
 
+    // ── Professional Memory Optimization (Sliding Window) ─────────
+    // Retain only the most recent N messages to save tokens.
+    // Older chat context is safely managed by the background RAG service.
+    const maxMessages = 15;
+    const optimizedMessages =
+      messages.length > maxMessages ? messages.slice(-maxMessages) : messages;
+
     // ── Stream response ──────────────────────────────────────────
     const result = streamText({
       model,
       system: systemPrompt,
-      messages,
+      messages: optimizedMessages,
       tools,
       stopWhen: stepCountIs(5),
       onFinish: async ({ text }) => {
         if (!text) return;
 
         // Persist assistant message
-        await conversationService
-          .addMessage(convId!, 'assistant', text)
-          .catch(() => {});
+        await conversationService.addMessage(convId!, 'assistant', text).catch(() => {});
 
         // Background memory extraction
         if (lastUserText) {
-          conversationService
-            .extractMemories(user.id, lastUserText, text)
-            .catch(() => {});
+          conversationService.extractMemories(user.id, lastUserText, text).catch(() => {});
         }
       },
     });
@@ -131,9 +132,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error('AI chat error:', error);
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

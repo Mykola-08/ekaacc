@@ -28,12 +28,15 @@ export function LoadingSpinner({ size = 'md', className, message }: LoadingSpinn
 
   return (
     <div className={cn('flex flex-col items-center justify-center gap-2', className)}>
-      <HugeiconsIcon icon={Loading03Icon} role="status" className={cn('text-primary animate-spin', sizeClasses[size])} />
+      <HugeiconsIcon
+        icon={Loading03Icon}
+        role="status"
+        className={cn('text-primary animate-spin', sizeClasses[size])}
+      />
       {message && <p className="text-muted-foreground animate-pulse text-sm">{message}</p>}
     </div>
   );
 }
-
 
 interface ErrorStateProps {
   title?: string;
@@ -176,7 +179,7 @@ export function AsyncContent({
 // Specialized loading components for different content types
 export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; columns?: number }) {
   return (
-    <div data-testid="table-skeleton" className="space-y-2">
+    <div data-testid="table-skeleton" className="">
       {/* Header */}
       <div className="flex gap-2 border-b pb-2">
         {Array.from({ length: columns }).map((_, i) => (
@@ -197,9 +200,9 @@ export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; column
 
 export function FormSkeleton({ fields = 3 }: { fields?: number }) {
   return (
-    <div data-testid="form-skeleton" className="space-y-4">
+    <div data-testid="form-skeleton" className="">
       {Array.from({ length: fields }).map((_, i) => (
-        <div key={i} className="space-y-2">
+        <div key={i} className="">
           <span className="bg-muted block h-4 w-24 rounded" />
           <span className="bg-muted block h-10 rounded" />
         </div>
@@ -211,7 +214,7 @@ export function FormSkeleton({ fields = 3 }: { fields?: number }) {
 
 export function ChartSkeleton() {
   return (
-    <div data-testid="chart-skeleton" className="space-y-4">
+    <div data-testid="chart-skeleton" className="">
       <div className="bg-muted h-6 w-32 rounded" />
       <div className="bg-muted h-64 rounded" />
     </div>

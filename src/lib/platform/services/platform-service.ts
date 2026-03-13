@@ -149,7 +149,9 @@ const fxService = {
     return userService.updateUser(id, data);
   },
   async deleteUser(id: string) {
-    throw new Error('User deletion not implemented');
+    if (!id) throw new Error('User ID required for deletion');
+    // Using an admin service to actually delete the auth user or doing it in userService
+    return userService.deleteUser(id);
   },
 
   async getAllUsers() {
@@ -230,7 +232,7 @@ const fxService = {
     return bookingService.updateBooking(id, data);
   },
   async deleteBooking(id: string) {
-    throw new Error('Booking deletion not implemented, use cancelBooking');
+    return bookingService.deleteBooking(id);
   },
   async getBookingsForUser(userId: string, userData?: any) {
     // Handle both old and new signatures

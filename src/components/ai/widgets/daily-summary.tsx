@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Daily Summary Widget
@@ -7,12 +7,12 @@
  * Fetches from /api/ai/summary endpoint.
  */
 
-import { useState, useEffect, useCallback } from "react";
-import * as motion from "motion/react-client";
-import { Sun, Moon, RefreshCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { toast } from "@/components/ui/morphing-toaster";
+import { useState, useEffect, useCallback } from 'react';
+import * as motion from 'motion/react-client';
+import { Sun, Moon, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { toast } from '@/components/ui/morphing-toaster';
 
 export function DailySummaryWidget({ className }: { className?: string }) {
   const [summary, setSummary] = useState<string | null>(null);
@@ -21,7 +21,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
 
   const fetchSummary = useCallback(async (refresh = false) => {
     try {
-      const url = refresh ? "/api/ai/summary?refresh=true" : "/api/ai/summary";
+      const url = refresh ? '/api/ai/summary?refresh=true' : '/api/ai/summary';
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -42,12 +42,12 @@ export function DailySummaryWidget({ className }: { className?: string }) {
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
     await fetchSummary(true);
-    toast.success("Summary refreshed");
+    toast.success('Summary refreshed');
   }, [fetchSummary]);
 
   const hour = new Date().getHours();
   const isEvening = hour >= 18 || hour < 6;
-  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   const TimeIcon = isEvening ? Moon : Sun;
 
   return (
@@ -56,13 +56,13 @@ export function DailySummaryWidget({ className }: { className?: string }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
       className={cn(
-        "relative overflow-hidden rounded-lg border p-5",
-        "bg-linear-to-br from-primary/5 via-card to-card",
+        'relative overflow-hidden rounded-lg border p-5',
+        'from-primary/5 via-card to-card bg-linear-to-br',
         className
       )}
     >
       {/* Subtle glow */}
-      <div className="bg-primary/5 pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full blur-3xl" />
+      <div className="bg-primary/5 pointer-events-none absolute -top-8 -right-8 h-32 w-32 rounded-full blur-3xl" />
 
       <div className="relative">
         <div className="mb-3 flex items-center justify-between">
@@ -82,12 +82,12 @@ export function DailySummaryWidget({ className }: { className?: string }) {
             onClick={handleRefresh}
             disabled={refreshing}
           >
-            <RefreshCw className={cn("h-3.5 w-3.5", refreshing && "animate-spin")} />
+            <RefreshCw className={cn('h-3.5 w-3.5', refreshing && 'animate-spin')} />
           </Button>
         </div>
 
         {loading ? (
-          <div className="space-y-2">
+          <div className="">
             <div className="bg-muted/50 h-4 w-full animate-pulse rounded" />
             <div className="bg-muted/50 h-4 w-3/4 animate-pulse rounded" />
             <div className="bg-muted/50 h-4 w-5/6 animate-pulse rounded" />

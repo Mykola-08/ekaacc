@@ -30,6 +30,7 @@ interface CreateCheckoutSessionParams {
   date: string;
   bookingId: string;
   origin: string;
+  userId?: string;
 }
 
 interface CheckoutResult {

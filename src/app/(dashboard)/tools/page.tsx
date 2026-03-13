@@ -150,7 +150,7 @@ export default function ToolsPage() {
 
       {/* Permission-based tool visibility */}
       {can('therapist_tools', 'create') && (
-        <div className="space-y-3">
+        <div className="">
           <Button onClick={createMockSession}>Create mock session</Button>
           <Button onClick={sendTestNotification}>Send test notification</Button>
           <Button onClick={generateAI}>Generate AI report</Button>
@@ -158,14 +158,14 @@ export default function ToolsPage() {
       )}
 
       {can('appointment_management', 'create') && !can('therapist_tools', 'create') && (
-        <div className="space-y-3">
+        <div className="">
           <Button onClick={bookDemoSession}>Book demo session</Button>
           <Button onClick={submitDemoForm}>Submit demo form</Button>
         </div>
       )}
 
       {can('system_settings', 'manage') && (
-        <div className="mt-4 space-y-3">
+        <div className="mt-4">
           <Button onClick={runBillingMigration}>Run billing migration</Button>
           <Button onClick={purgeMockData}>Purge mock data</Button>
         </div>
@@ -175,7 +175,7 @@ export default function ToolsPage() {
         <h2 className="mb-2 text-lg font-medium">Activity</h2>
         <div className="bg-muted max-h-64 overflow-auto rounded p-3">
           {log.length === 0 && <p className="text-muted-foreground text-sm">No actions yet</p>}
-          <ul className="space-y-1 text-sm">
+          <ul className="text-sm">
             {log.map((l, i) => (
               <li key={i} className="break-words">
                 {l}

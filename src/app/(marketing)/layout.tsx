@@ -1,69 +1,69 @@
-import { Inter } from "next/font/google";
+import { Inter } from 'next/font/google';
 import type { Metadata, Viewport } from 'next';
-import "./marketing-globals.css";
-import MainLayout from "@/marketing/components/MainLayout";
+import './marketing-globals.css';
+import MainLayout from '@/marketing/components/MainLayout';
 import { LanguageProvider } from '@/marketing/contexts/LanguageContext';
-import { DiscountProvider } from "@/marketing/contexts/DiscountContext";
+import { DiscountProvider } from '@/marketing/contexts/DiscountContext';
 import { BookingProvider } from '@/marketing/components/BookingProvider';
-import SmoothScrolling from "@/marketing/components/SmoothScrolling";
-import JsonLd from "@/marketing/components/JsonLd";
-import ErrorBoundary from "@/marketing/components/ErrorBoundary";
+import SmoothScrolling from '@/marketing/components/SmoothScrolling';
+import JsonLd from '@/marketing/components/JsonLd';
+import ErrorBoundary from '@/marketing/components/ErrorBoundary';
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ekabalance.com'),
   title: {
-    default: "EKA Balance - Teràpies Integratives",
-    template: "%s | EKA Balance",
+    default: 'EKA Balance - Teràpies Integratives',
+    template: '%s | EKA Balance',
   },
-  description: "Serveis premium de benestar amb teràpies integratives.",
-  applicationName: "EKA Balance",
+  description: 'Serveis premium de benestar amb teràpies integratives.',
+  applicationName: 'EKA Balance',
   keywords: [
-    "teràpies integratives",
-    "kinesiologia",
-    "benestar",
-    "massatge terapèutic",
-    "Feldenkrais",
-    "Barcelona",
-    "Somatic Therapy",
-    "Wellness",
-    "Integrative Therapy",
-    "Corporate Wellness Programs",
-    "Business Wellness Solutions",
-    "Employee Well-being",
-    "Benestar per a empreses"
+    'teràpies integratives',
+    'kinesiologia',
+    'benestar',
+    'massatge terapèutic',
+    'Feldenkrais',
+    'Barcelona',
+    'Somatic Therapy',
+    'Wellness',
+    'Integrative Therapy',
+    'Corporate Wellness Programs',
+    'Business Wellness Solutions',
+    'Employee Well-being',
+    'Benestar per a empreses',
   ],
-  authors: [{ name: "EKA Balance" }],
-  creator: "EKA Balance",
+  authors: [{ name: 'EKA Balance' }],
+  creator: 'EKA Balance',
   alternates: {
-    canonical: "/",
+    canonical: '/',
   },
   openGraph: {
-    title: "EKA Balance - Teràpies Integratives",
-    description: "Serveis premium de benestar amb teràpies integratives.",
-    url: "/",
-    siteName: "EKA Balance",
+    title: 'EKA Balance - Teràpies Integratives',
+    description: 'Serveis premium de benestar amb teràpies integratives.',
+    url: '/',
+    siteName: 'EKA Balance',
     images: [
       {
-        url: "/images/eka_logo.png",
+        url: '/images/eka_logo.png',
         width: 512,
         height: 512,
-        alt: "EKA Balance logo",
+        alt: 'EKA Balance logo',
       },
     ],
-    locale: "ca_ES",
-    type: "website",
+    locale: 'ca_ES',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "EKA Balance - Teràpies Integratives",
-    description: "Serveis premium de benestar amb teràpies integratives.",
-    images: ["/images/eka_logo.png"],
+    card: 'summary_large_image',
+    title: 'EKA Balance - Teràpies Integratives',
+    description: 'Serveis premium de benestar amb teràpies integratives.',
+    images: ['/images/eka_logo.png'],
   },
   robots: {
     index: true,
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
-  themeColor: "#ffffff",
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -87,8 +87,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={`marketing-theme ${inter.variable} font-sans text-gray-900 bg-white overflow-clip`}>
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:font-medium">
+    <div
+      className={`marketing-theme ${inter.variable} overflow-clip bg-white font-sans text-gray-900`}
+    >
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-medium focus:text-blue-600 focus:shadow-lg"
+      >
         Skip to main content
       </a>
       <SmoothScrolling>
@@ -97,9 +102,7 @@ export default function RootLayout({
             <BookingProvider>
               <ErrorBoundary>
                 <JsonLd />
-                <MainLayout>
-                  {children}
-                </MainLayout>
+                <MainLayout>{children}</MainLayout>
               </ErrorBoundary>
             </BookingProvider>
           </DiscountProvider>

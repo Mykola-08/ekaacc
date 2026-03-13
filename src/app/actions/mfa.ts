@@ -128,11 +128,7 @@ export async function challengeMFA(factorId: string) {
   }
 }
 
-export async function verifyMFAChallenge(
-  factorId: string,
-  challengeId: string,
-  code: string
-) {
+export async function verifyMFAChallenge(factorId: string, challengeId: string, code: string) {
   const supabase = await createClient();
 
   try {
@@ -156,8 +152,7 @@ export async function getAssuranceLevel() {
   const supabase = await createClient();
 
   try {
-    const { data, error } =
-      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    const { data, error } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (error) throw error;
 
     return {

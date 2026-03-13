@@ -76,20 +76,22 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-muted/10">
+    <div className="bg-muted/10 flex h-full flex-1 flex-col">
       {/* Feed Header */}
-      <div className="h-16 border-b flex items-center px-6 bg-card sticky top-0 z-10">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
+      <div className="bg-card sticky top-0 z-10 flex h-16 items-center border-b px-6">
+        <h2 className="flex items-center gap-2 text-lg font-semibold">
           # {channelId === 'general' ? 'General' : 'Channel'}
-          <Badge variant="outline" className="ml-2 font-normal text-xs">{posts.length} Posts</Badge>
+          <Badge variant="outline" className="ml-2 text-xs font-normal">
+            {posts.length} Posts
+          </Badge>
         </h2>
       </div>
 
       {/* Feed Content */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6">
         {/* Create Post */}
         <Card>
-          <CardContent className="pt-4 space-y-3">
+          <CardContent className="pt-4">
             <Input
               placeholder="Post title..."
               value={newTitle}
@@ -104,8 +106,8 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
             />
             <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
           </CardContent>
-          <CardFooter className="border-t py-3 bg-muted/20 flex justify-between">
-            <div className="text-xs text-muted-foreground">Markdown supported</div>
+          <CardFooter className="bg-muted/20 flex justify-between border-t py-3">
+            <div className="text-muted-foreground text-xs">Markdown supported</div>
             <Button size="sm" onClick={handleCreatePost} disabled={feedback.status === 'loading'}>
               {feedback.status === 'loading' ? 'Posting...' : 'Post'}
             </Button>
@@ -114,8 +116,8 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
 
         {/* Empty State */}
         {posts.length === 0 && (
-          <div className="text-center py-12 text-muted-foreground">
-            <MessageCircle className="h-12 w-12 mx-auto mb-4 opacity-30" />
+          <div className="text-muted-foreground py-12 text-center">
+            <MessageCircle className="mx-auto mb-4 h-12 w-12 opacity-30" />
             <p className="text-lg font-medium">No posts yet</p>
             <p className="text-sm">Be the first to share something with the community!</p>
           </div>
@@ -129,63 +131,81 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
                 <AvatarFallback>{post.author?.full_name?.[0] || '?'}</AvatarFallback>
               </Avatar>
               <div className="flex-1">
-                <div className="flex justify-between items-start">
+                <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="font-semibold text-sm">{post.author?.full_name || 'Anonymous'}</h3>
-                    <p className="text-xs text-muted-foreground">{new Date(post.created_at).toLocaleDateString()}</p>
+                    <h3 className="text-sm font-semibold">
+                      {post.author?.full_name || 'Anonymous'}
+                    </h3>
+                    <p className="text-muted-foreground text-xs">
+                      {new Date(post.created_at).toLocaleDateString()}
+                    </p>
                   </div>
-                  {post.is_pinned && <Badge variant="secondary" className="text-[10px]">Pinned</Badge>}
+                  {post.is_pinned && (
+                    <Badge variant="secondary" className="text-[10px]">
+                      Pinned
+                    </Badge>
+                  )}
                 </div>
               </div>
             </CardHeader>
             <CardContent className="pb-3">
-              <h4 className="font-bold text-lg mb-2">{post.title}</h4>
-              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{post.content}</p>
+              <h4 className="mb-2 text-lg font-bold">{post.title}</h4>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                {post.content}
+              </p>
             </CardContent>
-            <CardFooter className="border-t py-2 bg-muted/10 flex flex-col gap-0">
-              <div className="flex gap-4 w-full">
+            <CardFooter className="bg-muted/10 flex flex-col gap-0 border-t py-2">
+              <div className="flex w-full gap-4">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-2 text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground hover:text-primary gap-2"
                   onClick={() => handleLike(post.id)}
                   disabled={isPending}
                 >
-                  <Heart className="w-4 h-4" /> {post.likes || 0}
+                  <Heart className="h-4 w-4" /> {post.likes || 0}
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-2 text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground hover:text-primary gap-2"
                   onClick={() => handleToggleComments(post.id)}
                 >
-                  <MessageCircle className="w-4 h-4" /> {post.replies_count || 0}
+                  <MessageCircle className="h-4 w-4" /> {post.replies_count || 0}
                 </Button>
               </div>
 
               {/* Comments Section */}
               {expandedComments[post.id] && (
-                <div className="w-full mt-3 border-t pt-3 space-y-3">
+                <div className="mt-3 w-full border-t pt-3">
                   {expandedComments[post.id].map((comment: any) => (
                     <div key={comment.id} className="flex gap-3">
                       <Avatar className="h-7 w-7">
-                        <AvatarFallback className="text-xs">{comment.author?.full_name?.[0] || '?'}</AvatarFallback>
+                        <AvatarFallback className="text-xs">
+                          {comment.author?.full_name?.[0] || '?'}
+                        </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-sm font-medium">{comment.author?.full_name || 'Anonymous'}</span>
-                          <span className="text-xs text-muted-foreground">{new Date(comment.created_at).toLocaleDateString()}</span>
+                          <span className="text-sm font-medium">
+                            {comment.author?.full_name || 'Anonymous'}
+                          </span>
+                          <span className="text-muted-foreground text-xs">
+                            {new Date(comment.created_at).toLocaleDateString()}
+                          </span>
                         </div>
-                        <p className="text-sm text-muted-foreground">{comment.content}</p>
+                        <p className="text-muted-foreground text-sm">{comment.content}</p>
                       </div>
                     </div>
                   ))}
                   <div className="flex gap-2">
                     <Input
                       placeholder="Write a comment..."
-                      className="text-sm h-9"
+                      className="h-9 text-sm"
                       value={commentText[post.id] || ''}
-                      onChange={(e) => setCommentText((prev) => ({ ...prev, [post.id]: e.target.value }))}
+                      onChange={(e) =>
+                        setCommentText((prev) => ({ ...prev, [post.id]: e.target.value }))
+                      }
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                           e.preventDefault();
@@ -193,7 +213,12 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
                         }
                       }}
                     />
-                    <Button size="sm" variant="outline" className="h-9" onClick={() => handleAddComment(post.id)}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-9"
+                      onClick={() => handleAddComment(post.id)}
+                    >
                       <Send className="h-4 w-4" />
                     </Button>
                   </div>

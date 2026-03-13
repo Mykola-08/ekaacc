@@ -94,9 +94,9 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
   const past = bookings.filter((b) => new Date(b.startTime) <= new Date());
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-8 space-y-16 duration-700 ease-out">
+    <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
       {upcoming.length > 0 && (
-        <div className="space-y-8">
+        <div className="">
           <h2 className="text-foreground flex items-center gap-3 text-xl font-semibold">
             Upcoming
             <span className="bg-foreground text-background rounded-lg px-2.5 py-1 font-mono text-xs font-semibold">
@@ -112,7 +112,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
       )}
 
       {past.length > 0 && (
-        <div className="space-y-8">
+        <div className="">
           <h2 className="text-muted-foreground text-xl font-semibold">Past History</h2>
           <div className="grid gap-6 opacity-60 transition-opacity duration-500 hover:opacity-100">
             {past.map((booking) => (
@@ -173,7 +173,7 @@ function BookingCard({
             </span>
           </div>
 
-          <div className="flex-1 space-y-3 md:space-y-2">
+          <div className="md: flex-1">
             <div className="flex items-center justify-between md:justify-start md:gap-4">
               <StatusBadge status={booking.status} />
               {isUpcoming && (
@@ -212,7 +212,7 @@ function BookingCard({
             <Button
               variant="outline"
               size="sm"
-              className="h-9 w-full rounded-full text-xs font-semibold text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive md:w-32"
+              className="text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive h-9 w-full rounded-full text-xs font-semibold md:w-32"
               onClick={handleCancel}
             >
               <HugeiconsIcon icon={UnavailableIcon} className="mr-2 h-3 w-3" strokeWidth={2.5} />

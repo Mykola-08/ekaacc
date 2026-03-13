@@ -40,21 +40,15 @@ type NavItem = {
 const navGroups: { label: string; items: NavItem[] }[] = [
   {
     label: 'Overview',
-    items: [
-      { title: 'Console Home', url: '/console', icon: DashboardSquare01Icon, exact: true },
-    ],
+    items: [{ title: 'Console Home', url: '/console', icon: DashboardSquare01Icon, exact: true }],
   },
   {
     label: 'Operations',
-    items: [
-      { title: 'Services', url: '/console/services', icon: Layout01Icon },
-    ],
+    items: [{ title: 'Services', url: '/console/services', icon: Layout01Icon }],
   },
   {
     label: 'Content',
-    items: [
-      { title: 'CMS', url: '/console/cms', icon: Book01Icon },
-    ],
+    items: [{ title: 'CMS', url: '/console/cms', icon: Book01Icon }],
   },
   {
     label: 'System',

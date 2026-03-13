@@ -64,14 +64,18 @@ export async function resolveFeatures(context: FeatureContext): Promise<Record<s
     }
 
     // Check User Enrollment (Highest Priority)
-    const userEnrollment = enrollments.find((e: any) => e.feature_id === feature.id && e.user_id === context.userId);
+    const userEnrollment = enrollments.find(
+      (e: any) => e.feature_id === feature.id && e.user_id === context.userId
+    );
     if (userEnrollment) {
       resolved.set(feature.key, userEnrollment.enabled);
       return userEnrollment.enabled;
     }
 
     // Check Role Enrollment (Medium Priority)
-    const roleEnrollment = enrollments.find((e: any) => e.feature_id === feature.id && e.role === context.role);
+    const roleEnrollment = enrollments.find(
+      (e: any) => e.feature_id === feature.id && e.role === context.role
+    );
     if (roleEnrollment) {
       resolved.set(feature.key, roleEnrollment.enabled);
       return roleEnrollment.enabled;
@@ -93,12 +97,18 @@ export async function resolveFeatures(context: FeatureContext): Promise<Record<s
  */
 export async function getFeature(key: string): Promise<boolean> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return false;
 
   // Fetch role
-  const { data: profile } = await supabase.from('profiles').select('role').eq('auth_id', user.id).single();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('auth_id', user.id)
+    .single();
   const role = profile?.role;
 
   const features = await resolveFeatures({ userId: user.id, role });

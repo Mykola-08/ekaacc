@@ -3,13 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 function UnsubscribeContent() {
   const searchParams = useSearchParams();
@@ -39,7 +33,7 @@ function UnsubscribeContent() {
   if (status === 'success') {
     return (
       <div className="text-center">
-        <p className="mb-4 text-success">You have been successfully unsubscribed.</p>
+        <p className="text-success mb-4">You have been successfully unsubscribed.</p>
         <p className="text-muted-foreground text-sm">
           You can always resubscribe from your account settings.
         </p>

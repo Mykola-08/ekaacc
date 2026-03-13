@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
@@ -72,54 +71,51 @@ function ToastComponent({ toast, onClose }: ToastProps) {
   const getIcon = () => {
     switch (toast.type) {
       case 'success':
-        return <CheckCircle className="w-5 h-5 text-green-600" />;
+        return <CheckCircle className="h-5 w-5 text-green-600" />;
       case 'error':
-        return <AlertCircle className="w-5 h-5 text-red-600" />;
+        return <AlertCircle className="h-5 w-5 text-red-600" />;
       case 'warning':
-        return <AlertCircle className="w-5 h-5 text-yellow-600" />;
+        return <AlertCircle className="h-5 w-5 text-yellow-600" />;
       case 'info':
       default:
-        return <Info className="w-5 h-5 text-blue-600" />;
+        return <Info className="h-5 w-5 text-blue-600" />;
     }
   };
 
   const progressBarColor = () => {
     switch (toast.type) {
-      case 'success': return 'bg-green-600';
-      case 'error': return 'bg-red-600';
-      case 'warning': return 'bg-yellow-600';
-      case 'info': default: return 'bg-blue-600';
+      case 'success':
+        return 'bg-green-600';
+      case 'error':
+        return 'bg-red-600';
+      case 'warning':
+        return 'bg-yellow-600';
+      case 'info':
+      default:
+        return 'bg-blue-600';
     }
   };
 
   return (
     <div
       className={cn(
-        "relative overflow-hidden max-w-md w-full rounded-lg border  backdrop-blur-sm transition duration-300 ease-out transform pointer-events-auto flex items-start gap-3 p-4",
+        'pointer-events-auto relative flex w-full max-w-md transform items-start gap-3 overflow-hidden rounded-lg border p-4 backdrop-blur-sm transition duration-300 ease-out',
         getVariantStyles(),
         isVisible && !isExiting
-          ? 'translate-x-0 opacity-100 scale-100'
-          : 'translate-x-full opacity-0 scale-95'
+          ? 'translate-x-0 scale-100 opacity-100'
+          : 'translate-x-full scale-95 opacity-0'
       )}
     >
-      <div className="flex-shrink-0 mt-0.5">
-        {getIcon()}
-      </div>
-      
-      <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-medium pr-6">
-          {toast.title}
-        </h3>
-        {toast.message && (
-          <p className="mt-1 text-sm opacity-90">
-            {toast.message}
-          </p>
-        )}
+      <div className="mt-0.5 flex-shrink-0">{getIcon()}</div>
+
+      <div className="min-w-0 flex-1">
+        <h3 className="pr-6 text-sm font-medium">{toast.title}</h3>
+        {toast.message && <p className="mt-1 text-sm opacity-90">{toast.message}</p>}
         {toast.action && (
           <div className="mt-3">
             <button
               onClick={toast.action.onClick}
-              className="text-sm font-medium underline hover:no-underline transition"
+              className="text-sm font-medium underline transition hover:no-underline"
             >
               {toast.action.label}
             </button>
@@ -129,19 +125,19 @@ function ToastComponent({ toast, onClose }: ToastProps) {
 
       <button
         onClick={handleClose}
-        className="absolute top-4 right-4 text-current opacity-70 hover:opacity-100 transition-opacity p-0.5 rounded-full hover:bg-black/5"
+        className="absolute top-4 right-4 rounded-full p-0.5 text-current opacity-70 transition-opacity hover:bg-black/5 hover:opacity-100"
       >
-        <X className="w-4 h-4" />
+        <X className="h-4 w-4" />
       </button>
 
       {/* Progress bar for duration */}
       {toast.duration && toast.duration > 0 && (
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/5">
+        <div className="absolute right-0 bottom-0 left-0 h-1 bg-black/5">
           <div
-            className={cn("h-full transition ease-out", progressBarColor())}
+            className={cn('h-full transition ease-out', progressBarColor())}
             style={{
               width: isVisible && !isExiting ? '0%' : '100%',
-              transitionDuration: `${toast.duration}ms`
+              transitionDuration: `${toast.duration}ms`,
             }}
           />
         </div>
@@ -160,15 +156,12 @@ export default function ToastContainer() {
       id,
       duration: toast.duration ?? 5000,
     };
-    setToasts(prev => [...prev, newToast]);
+    setToasts((prev) => [...prev, newToast]);
   };
 
   const removeToast = (id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
-
-
-
 
   // Global toast function
   useEffect(() => {
@@ -185,9 +178,9 @@ export default function ToastContainer() {
   }, []);
 
   return (
-    <div className="fixed top-4 right-4 z-[100] space-y-4 pointer-events-none">
-      <div className="space-y-3">
-        {toasts.map(toast => (
+    <div className="pointer-events-none fixed top-4 right-4 z-[100]">
+      <div className="">
+        {toasts.map((toast) => (
           <div key={toast.id} className="pointer-events-auto">
             <ToastComponent toast={toast} onClose={removeToast} />
           </div>
@@ -196,4 +189,3 @@ export default function ToastContainer() {
     </div>
   );
 }
-

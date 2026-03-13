@@ -8,7 +8,9 @@ const adminService = new AdminService();
 
 async function requireAdmin() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error('Unauthorized');
 
   const { data: profile } = await supabase

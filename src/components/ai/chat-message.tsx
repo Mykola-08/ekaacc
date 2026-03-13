@@ -1,4 +1,4 @@
-﻿"use client";
+﻿'use client';
 
 /**
  * AI Chat Message Component
@@ -7,18 +7,19 @@
  * tool call visual blocks, and motion animations.
  */
 
-import * as motion from "motion/react-client";
-import { cn } from "@/lib/utils";
+import * as motion from 'motion/react-client';
+import { cn } from '@/lib/utils';
 import {
   Message,
-  MessageAvatar,
   MessageContent,
   MessageActions,
   MessageAction,
-} from "@/components/prompt-kit/message";
-import { VisualBlockRenderer } from "@/components/ai/blocks";
-import { Copy, ThumbsUp, ThumbsDown, RotateCcw } from "lucide-react";
-import type { UIMessage } from "ai";
+  MessageResponse,
+} from '@/components/ai-elements/message';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { VisualBlockRenderer } from '@/components/ai/blocks';
+import { Copy, ThumbsUp, ThumbsDown, RotateCcw } from 'lucide-react';
+import type { UIMessage } from 'ai';
 
 interface ChatMessageProps {
   message: UIMessage;
@@ -28,13 +29,13 @@ interface ChatMessageProps {
 }
 
 export function ChatMessage({ message, isLast, onCopy, onRegenerate }: ChatMessageProps) {
-  const isUser = message.role === "user";
+  const isUser = message.role === 'user';
 
   // Extract visual blocks from tool invocations
   const visualBlocks: Array<{ type: string; [key: string]: unknown }> = [];
   if (message.parts) {
     for (const part of message.parts) {
-      if (part.type === "tool-invocation") {
+      if (part.type === 'tool-invocation') {
         const result = (part as any).result;
         if (result?._visualBlock) {
           visualBlocks.push(result._visualBlock);
@@ -46,44 +47,37 @@ export function ChatMessage({ message, isLast, onCopy, onRegenerate }: ChatMessa
   // Get text content from parts (v6 UIMessage has no `.content`)
   const textContent =
     message.parts
-      ?.filter((p) => p.type === "text")
+      ?.filter((p) => p.type === 'text')
       .map((p) => (p as any).text)
-      .join("") || "";
+      .join('') || '';
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className={cn("group", isUser ? "flex justify-end" : "")}
+      className={cn('group', isUser ? 'flex justify-end' : '')}
     >
-      <Message
-        className={cn(
-          "max-w-[85%]",
-          isUser ? "flex-row-reverse" : ""
-        )}
-      >
+      <Message className={cn('max-w-[85%]', isUser ? 'flex-row-reverse' : '')} from={message.role}>
         {!isUser && (
-          <MessageAvatar
-            alt="EKA Assistant"
-            src="/images/eka-avatar.png"
-            fallback="E"
-            className="bg-primary/10 text-primary"
-          />
+          <Avatar className="bg-primary/10 text-primary h-8 w-8 shrink-0">
+            <AvatarImage src="/images/eka-avatar.png" alt="EKA Assistant" />
+            <AvatarFallback>E</AvatarFallback>
+          </Avatar>
         )}
 
-        <div className={cn("flex flex-col gap-2", isUser ? "items-end" : "items-start")}>
+        <div className={cn('flex flex-col gap-2', isUser ? 'items-end' : 'items-start')}>
           {/* Text content */}
           {textContent && (
             <div
               className={cn(
-                "rounded-lg px-4 py-2.5",
-                isUser
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted/70"
+                'rounded-lg px-4 py-2.5',
+                isUser ? 'bg-primary text-primary-foreground' : 'bg-muted/70'
               )}
             >
-              <MessageContent markdown={!isUser}>{textContent}</MessageContent>
+              <MessageContent>
+                <MessageResponse>{textContent}</MessageResponse>
+              </MessageContent>
             </div>
           )}
 
@@ -102,26 +96,18 @@ export function ChatMessage({ message, isLast, onCopy, onRegenerate }: ChatMessa
           {/* Message actions for assistant messages */}
           {!isUser && textContent && (
             <MessageActions className="opacity-0 transition-opacity group-hover:opacity-100">
-              <MessageAction tooltip="Copy">
-                <button type="button" onClick={() => onCopy?.(textContent)} className="cursor-pointer p-1 rounded hover:bg-muted">
-                  <Copy className="h-3.5 w-3.5" />
-                </button>
+              <MessageAction tooltip="Copy" onClick={() => onCopy?.(textContent)}>
+                <Copy className="h-3.5 w-3.5" />
               </MessageAction>
               <MessageAction tooltip="Good response">
-                <button type="button" className="cursor-pointer p-1 rounded hover:bg-muted">
-                  <ThumbsUp className="h-3.5 w-3.5" />
-                </button>
+                <ThumbsUp className="h-3.5 w-3.5" />
               </MessageAction>
               <MessageAction tooltip="Bad response">
-                <button type="button" className="cursor-pointer p-1 rounded hover:bg-muted">
-                  <ThumbsDown className="h-3.5 w-3.5" />
-                </button>
+                <ThumbsDown className="h-3.5 w-3.5" />
               </MessageAction>
               {isLast && (
-                <MessageAction tooltip="Regenerate">
-                  <button type="button" onClick={onRegenerate} className="cursor-pointer p-1 rounded hover:bg-muted">
-                    <RotateCcw className="h-3.5 w-3.5" />
-                  </button>
+                <MessageAction tooltip="Regenerate" onClick={onRegenerate}>
+                  <RotateCcw className="h-3.5 w-3.5" />
                 </MessageAction>
               )}
             </MessageActions>

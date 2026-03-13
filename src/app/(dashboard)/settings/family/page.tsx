@@ -8,8 +8,8 @@ export default async function FamilySettingsPage() {
   const members = await getFamilyMembers();
 
   return (
-    <div className="space-y-8 px-4 py-8 md:px-8">
-      <div className="space-y-4">
+    <div className="px-4 py-8 md:px-8">
+      <div className="">
         <Link
           href="/settings"
           className="text-muted-foreground hover:text-foreground group flex w-fit items-center gap-1 text-sm transition-colors"
@@ -18,11 +18,11 @@ export default async function FamilySettingsPage() {
           Back to Settings
         </Link>
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+          <div className="">
+            <h2 className="text-foreground text-2xl font-semibold tracking-tight">
               Family &amp; Dependents
             </h2>
-            <p className="text-sm font-medium text-muted-foreground">
+            <p className="text-muted-foreground text-sm font-medium">
               Manage profiles for your children or others you book for.
             </p>
           </div>

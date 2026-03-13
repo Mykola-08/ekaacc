@@ -19,18 +19,18 @@ export default function ForBusinessContent() {
     {
       id: 'business-q1',
       question: t('personalized.business.faq.q1'),
-      answer: t('personalized.business.faq.a1')
+      answer: t('personalized.business.faq.a1'),
     },
     {
       id: 'business-q2',
       question: t('personalized.business.faq.q2'),
-      answer: t('personalized.business.faq.a2')
+      answer: t('personalized.business.faq.a2'),
     },
     {
       id: 'business-q3',
       question: t('personalized.business.faq.q3'),
-      answer: t('personalized.business.faq.a3')
-    }
+      answer: t('personalized.business.faq.a3'),
+    },
   ];
 
   return (
@@ -44,56 +44,68 @@ export default function ForBusinessContent() {
         hero={{
           title: t('personalized.business.hero.title'),
           subtitle: t('personalized.business.hero.description'),
-          backgroundImage: 'https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1600',
-          themeColor: 'blue'
+          backgroundImage:
+            'https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1600',
+          themeColor: 'blue',
         }}
       >
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4 mb-20 relative z-20">
-          <Button asChild size="xl" className="rounded-full shadow-md hover:shadow-lg transition-all px-8">
+        <div className="relative z-20 mt-4 mb-20 flex flex-col justify-center gap-4 sm:flex-row">
+          <Button
+            asChild
+            size="lg"
+            className="rounded-full px-8 shadow-md transition-all hover:shadow-lg"
+          >
             <Link href="/booking">
               {t('nav.bookNow')}
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <Button asChild size="xl" variant="outline" className="rounded-full bg-white/90 backdrop-blur-sm text-gray-800 border-gray-200 hover:bg-gray-50 px-8">
-            <Link href="/booking">
-              {t('common.askQuestions')}
-            </Link>
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="rounded-full border-gray-200 bg-white/90 px-8 text-gray-800 backdrop-blur-sm hover:bg-gray-50"
+          >
+            <Link href="/booking">{t('common.askQuestions')}</Link>
           </Button>
         </div>
 
         {/* Apple-Style Bento Section */}
-        <section className="py-20 bg-[#fbfbfd] relative overflow-hidden">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <section className="relative overflow-hidden bg-[#fbfbfd] py-20">
+          <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="mb-16 text-center"
             >
-              <h2 className="text-4xl md:text-5xl font-semibold tracking-tighter text-gray-900 mb-6">
+              <h2 className="mb-6 text-4xl font-semibold tracking-tighter text-gray-900 md:text-5xl">
                 {t('personalized.business.bento.title')}
               </h2>
-              <p className="text-lg md:text-xl text-gray-500 font-medium leading-relaxed max-w-2xl mx-auto">
+              <p className="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-gray-500 md:text-xl">
                 {t('personalized.business.bento.subtitle')}
               </p>
             </motion.div>
 
-                        {/* Service Bento Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {/* Service Bento Grid */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               <ServiceBentoItem
                 title={t('personalized.business.bento.box1.title')}
                 description={t('personalized.business.bento.box1.desc')}
                 image="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 className="md:col-span-2"
                 details={
-                  <div className="space-y-4">
-                    <h4 className="text-xl font-bold text-gray-900">{t("personalized.business.bento.box1.details.title")}</h4>
-                    <p className="text-gray-600 leading-relaxed">{t("personalized.business.bento.box1.details.desc")}</p>
+                  <div className="">
+                    <h4 className="text-xl font-bold text-gray-900">
+                      {t('personalized.business.bento.box1.details.title')}
+                    </h4>
+                    <p className="leading-relaxed text-gray-600">
+                      {t('personalized.business.bento.box1.details.desc')}
+                    </p>
                   </div>
                 }
                 bookUrl="/booking?subject=teams"
-                bookText={t("common.enquireNow")}
+                bookText={t('common.enquireNow')}
               />
 
               <ServiceBentoItem
@@ -103,13 +115,17 @@ export default function ForBusinessContent() {
                 className="col-span-1"
                 delay={0.1}
                 details={
-                  <div className="space-y-4">
-                    <h4 className="text-xl font-bold text-gray-900">{t("personalized.business.bento.box2.details.title")}</h4>
-                    <p className="text-gray-600 leading-relaxed">{t("personalized.business.bento.box2.details.desc")}</p>
+                  <div className="">
+                    <h4 className="text-xl font-bold text-gray-900">
+                      {t('personalized.business.bento.box2.details.title')}
+                    </h4>
+                    <p className="leading-relaxed text-gray-600">
+                      {t('personalized.business.bento.box2.details.desc')}
+                    </p>
                   </div>
                 }
                 bookUrl="/booking?subject=office"
-                bookText={t("common.enquireNow")}
+                bookText={t('common.enquireNow')}
               />
 
               <ServiceBentoItem
@@ -119,13 +135,17 @@ export default function ForBusinessContent() {
                 className="col-span-1"
                 delay={0.2}
                 details={
-                  <div className="space-y-4">
-                    <h4 className="text-xl font-bold text-gray-900">{t("personalized.business.bento.box3.details.title")}</h4>
-                    <p className="text-gray-600 leading-relaxed">{t("personalized.business.bento.box3.details.desc")}</p>
+                  <div className="">
+                    <h4 className="text-xl font-bold text-gray-900">
+                      {t('personalized.business.bento.box3.details.title')}
+                    </h4>
+                    <p className="leading-relaxed text-gray-600">
+                      {t('personalized.business.bento.box3.details.desc')}
+                    </p>
                   </div>
                 }
                 bookUrl="/booking?subject=teams"
-                bookText={t("common.enquireNow")}
+                bookText={t('common.enquireNow')}
               />
 
               <ServiceBentoItem
@@ -135,115 +155,152 @@ export default function ForBusinessContent() {
                 className="md:col-span-2"
                 delay={0.3}
                 details={
-                  <div className="space-y-4">
-                     <h4 className="text-xl font-bold text-gray-900">{t("personalized.business.bento.box4.details.title")}</h4>
-                     <p className="text-gray-600 leading-relaxed">{t("personalized.business.bento.box4.details.desc")}</p>
+                  <div className="">
+                    <h4 className="text-xl font-bold text-gray-900">
+                      {t('personalized.business.bento.box4.details.title')}
+                    </h4>
+                    <p className="leading-relaxed text-gray-600">
+                      {t('personalized.business.bento.box4.details.desc')}
+                    </p>
                   </div>
                 }
                 bookUrl="/booking?subject=office"
-                bookText={t("common.enquireNow")}
+                bookText={t('common.enquireNow')}
               />
             </div>
           </div>
         </section>
 
         {/* Tiers / Plans Section - Rounded Style */}
-        <section className="py-24 bg-white relative overflow-hidden" id="plans">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-semibold tracking-tighter text-gray-900 mb-6">
+        <section className="relative overflow-hidden bg-white py-24" id="plans">
+          <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-16 text-center">
+              <h2 className="mb-6 text-4xl font-semibold tracking-tighter text-gray-900 md:text-5xl">
                 {t('personalized.business.plans.title')}
               </h2>
-              <p className="text-lg md:text-xl text-gray-500 font-medium leading-relaxed max-w-2xl mx-auto">
-                  {t("personalized.business.plans.subtitle")}
-                </p>
+              <p className="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-gray-500 md:text-xl">
+                {t('personalized.business.plans.subtitle')}
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 relative">
+            <div className="relative grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
               {/* Background gradient blur */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[600px] bg-blue-100/50 rounded-full blur-3xl -z-10 pointer-events-none" />
+              <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-full w-full max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-100/50 blur-3xl" />
 
               {/* Plan 1 - Teams */}
-              <div className="bg-white rounded-[2rem] p-8 sm:p-10 border border-gray-100 shadow-xl shadow-gray-200/20 relative transition-all duration-300 flex flex-col h-full">
-                <div className="absolute top-0 right-0 w-32 h-32 opacity-10 rounded-bl-full bg-blue-400 pointer-events-none" />
-                <h3 className="text-3xl font-semibold tracking-tight text-gray-900 mb-3 relative z-10">{t("personalized.business.plans.teams.title")}</h3>
-                <p className="text-gray-500 font-medium mb-8 flex-grow relative z-10">{t("personalized.business.plans.teams.desc")}</p>
-                
-                <div className="mb-8 relative z-10">
+              <div className="relative flex h-full flex-col rounded-[2rem] border border-gray-100 bg-white p-8 shadow-xl shadow-gray-200/20 transition-all duration-300 sm:p-10">
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-bl-full bg-blue-400 opacity-10" />
+                <h3 className="relative z-10 mb-3 text-3xl font-semibold tracking-tight text-gray-900">
+                  {t('personalized.business.plans.teams.title')}
+                </h3>
+                <p className="relative z-10 mb-8 flex-grow font-medium text-gray-500">
+                  {t('personalized.business.plans.teams.desc')}
+                </p>
+
+                <div className="relative z-10 mb-8">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-bold text-gray-900 tracking-tighter">€100</span>
-                    <span className="text-xl text-gray-500 font-medium">/mo</span>
+                    <span className="text-5xl font-bold tracking-tighter text-gray-900">€100</span>
+                    <span className="text-xl font-medium text-gray-500">/mo</span>
                   </div>
-                  <div className="text-sm text-gray-400 mt-1 font-medium">{t("personalized.business.plans.teams.price")}</div>
+                  <div className="mt-1 text-sm font-medium text-gray-400">
+                    {t('personalized.business.plans.teams.price')}
+                  </div>
                 </div>
 
-                <ul className="space-y-5 mb-10 relative z-10 flex-grow">
+                <ul className="relative z-10 mb-10 flex-grow">
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-500 mr-3 shrink-0" />
-                    <span className="text-gray-700 leading-snug">{t("personalized.business.plans.teams.feature1")}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
+                    <span className="leading-snug text-gray-700">
+                      {t('personalized.business.plans.teams.feature1')}
+                    </span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-500 mr-3 shrink-0" />
-                    <span className="text-gray-700 leading-snug">{t('personalized.business.plans.teams.feature2')}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
+                    <span className="leading-snug text-gray-700">
+                      {t('personalized.business.plans.teams.feature2')}
+                    </span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-500 mr-3 shrink-0" />
-                    <span className="text-gray-700 leading-snug">{t('personalized.business.plans.teams.feature3')}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
+                    <span className="leading-snug text-gray-700">
+                      {t('personalized.business.plans.teams.feature3')}
+                    </span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-500 mr-3 shrink-0" />
-                    <span className="text-gray-700 leading-snug">{t('personalized.business.plans.teams.feature4')}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
+                    <span className="leading-snug text-gray-700">
+                      {t('personalized.business.plans.teams.feature4')}
+                    </span>
                   </li>
                 </ul>
 
-                <Button asChild className="w-full rounded-2xl py-6 text-lg relative z-10 bg-gray-900 hover:bg-black text-white">
+                <Button
+                  asChild
+                  className="relative z-10 w-full rounded-2xl bg-gray-900 py-6 text-lg text-white hover:bg-black"
+                >
                   <Link href="/booking?subject=teams">{t('common.getStarted')}</Link>
                 </Button>
               </div>
 
               {/* Plan 2 - Office */}
-              <div className="bg-gray-900 rounded-[2rem] p-8 sm:p-10 shadow-2xl relative transition-transform duration-300 flex flex-col h-full overflow-hidden">
-                <div className="absolute top-0 right-0 w-48 h-48 opacity-20 rounded-bl-full bg-white pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 opacity-10 rounded-tr-full bg-blue-500 pointer-events-none" />
-                
-                <h3 className="text-3xl font-semibold tracking-tight text-white mb-3 relative z-10">{t('personalized.business.plans.enterprise.title')}</h3>
-                <p className="text-gray-300 font-medium mb-8 flex-grow relative z-10">{t('personalized.business.plans.enterprise.desc')}</p>
-                
-                <div className="mb-8 relative z-10">
+              <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-gray-900 p-8 shadow-2xl transition-transform duration-300 sm:p-10">
+                <div className="pointer-events-none absolute top-0 right-0 h-48 w-48 rounded-bl-full bg-white opacity-20" />
+                <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-32 rounded-tr-full bg-blue-500 opacity-10" />
+
+                <h3 className="relative z-10 mb-3 text-3xl font-semibold tracking-tight text-white">
+                  {t('personalized.business.plans.enterprise.title')}
+                </h3>
+                <p className="relative z-10 mb-8 flex-grow font-medium text-gray-300">
+                  {t('personalized.business.plans.enterprise.desc')}
+                </p>
+
+                <div className="relative z-10 mb-8">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-bold text-white tracking-tighter">€500</span>
-                    <span className="text-xl text-gray-400 font-medium">/mo</span>
+                    <span className="text-5xl font-bold tracking-tighter text-white">€500</span>
+                    <span className="text-xl font-medium text-gray-400">/mo</span>
                   </div>
-                  <div className="text-sm text-gray-500 mt-1 font-medium">{t('personalized.business.plans.enterprise.price')}</div>
+                  <div className="mt-1 text-sm font-medium text-gray-500">
+                    {t('personalized.business.plans.enterprise.price')}
+                  </div>
                 </div>
 
-                <ul className="space-y-5 mb-10 relative z-10 flex-grow">
+                <ul className="relative z-10 mb-10 flex-grow">
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-400 mr-3 shrink-0" />
-                    <span className="text-gray-100 leading-snug">{t('personalized.business.plans.enterprise.feature1')}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
+                    <span className="leading-snug text-gray-100">
+                      {t('personalized.business.plans.enterprise.feature1')}
+                    </span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-400 mr-3 shrink-0" />
-                    <span className="text-gray-100 leading-snug">{t('personalized.business.plans.enterprise.feature2')}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
+                    <span className="leading-snug text-gray-100">
+                      {t('personalized.business.plans.enterprise.feature2')}
+                    </span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-400 mr-3 shrink-0" />
-                    <span className="text-gray-100 leading-snug">{t('personalized.business.plans.enterprise.feature3')}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
+                    <span className="leading-snug text-gray-100">
+                      {t('personalized.business.plans.enterprise.feature3')}
+                    </span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-blue-400 mr-3 shrink-0" />
-                    <span className="text-gray-100 leading-snug">{t('personalized.business.plans.enterprise.feature4')}</span>
+                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
+                    <span className="leading-snug text-gray-100">
+                      {t('personalized.business.plans.enterprise.feature4')}
+                    </span>
                   </li>
                 </ul>
 
-                <Button asChild className="w-full rounded-2xl py-6 text-lg relative z-10 bg-white text-black hover:bg-gray-100">
+                <Button
+                  asChild
+                  className="relative z-10 w-full rounded-2xl bg-white py-6 text-lg text-black hover:bg-gray-100"
+                >
                   <Link href="/booking?subject=office">{t('common.getStarted')}</Link>
                 </Button>
               </div>
             </div>
           </div>
         </section>
-
 
         <FAQ items={faqItems} />
         <CTASection />

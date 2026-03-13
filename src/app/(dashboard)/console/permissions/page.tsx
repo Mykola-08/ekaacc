@@ -4,7 +4,9 @@ import { PermissionMatrixClient } from './permission-matrix';
 
 export default async function PermissionsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login');
 
@@ -37,10 +39,10 @@ export default async function PermissionsPage() {
   const actions = [...new Set(rolePermissions.map((r: any) => r.action))].sort();
 
   return (
-    <div className="space-y-6 p-4 md:p-6 max-w-7xl mx-auto">
+    <div className="mx-auto max-w-7xl p-4 md:p-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Permissions</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Manage role-based permissions and user overrides.
         </p>
       </div>

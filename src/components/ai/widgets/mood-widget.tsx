@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Mood Tracker Widget
@@ -7,11 +7,11 @@
  * Designed for the dashboard sidebar or AI page.
  */
 
-import { useState, useEffect, useCallback } from "react";
-import * as motion from "motion/react-client";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/morphing-toaster";
+import { useState, useEffect, useCallback } from 'react';
+import * as motion from 'motion/react-client';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/morphing-toaster';
 
 interface MoodEntry {
   mood: string;
@@ -24,22 +24,27 @@ interface MoodEntry {
 interface MoodTrendData {
   moods: MoodEntry[];
   averageScore: number;
-  trend: "improving" | "declining" | "stable";
+  trend: 'improving' | 'declining' | 'stable';
 }
 
 const MOOD_OPTIONS = [
-  { emoji: "??", label: "Sad", score: 2 },
-  { emoji: "??", label: "Low", score: 3 },
-  { emoji: "??", label: "Okay", score: 5 },
-  { emoji: "??", label: "Good", score: 7 },
-  { emoji: "??", label: "Great", score: 8 },
-  { emoji: "??", label: "Amazing", score: 10 },
+  { emoji: '??', label: 'Sad', score: 2 },
+  { emoji: '??', label: 'Low', score: 3 },
+  { emoji: '??', label: 'Okay', score: 5 },
+  { emoji: '??', label: 'Good', score: 7 },
+  { emoji: '??', label: 'Great', score: 8 },
+  { emoji: '??', label: 'Amazing', score: 10 },
 ];
 
 const trendConfig = {
-  improving: { label: "Improving", icon: "?", color: "text-success", bg: "bg-success/10" },
-  declining: { label: "Needs attention", icon: "?", color: "text-destructive", bg: "bg-destructive/10" },
-  stable: { label: "Stable", icon: "?", color: "text-primary", bg: "bg-primary/10" },
+  improving: { label: 'Improving', icon: '?', color: 'text-success', bg: 'bg-success/10' },
+  declining: {
+    label: 'Needs attention',
+    icon: '?',
+    color: 'text-destructive',
+    bg: 'bg-destructive/10',
+  },
+  stable: { label: 'Stable', icon: '?', color: 'text-primary', bg: 'bg-primary/10' },
 };
 
 function MiniSparkline({ scores }: { scores: number[] }) {
@@ -66,12 +71,9 @@ function MiniSparkline({ scores }: { scores: number[] }) {
           <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <polygon
-        points={`2,${h} ${points.join(" ")} ${w - 2},${h}`}
-        fill="url(#moodSparkGrad)"
-      />
+      <polygon points={`2,${h} ${points.join(' ')} ${w - 2},${h}`} fill="url(#moodSparkGrad)" />
       <polyline
-        points={points.join(" ")}
+        points={points.join(' ')}
         fill="none"
         stroke="var(--primary)"
         strokeWidth="1.5"
@@ -89,7 +91,7 @@ export function MoodWidget({ className }: { className?: string }) {
 
   const fetchTrend = useCallback(async () => {
     try {
-      const res = await fetch("/api/ai/mood?days=14");
+      const res = await fetch('/api/ai/mood?days=14');
       if (res.ok) {
         const data = await res.json();
         setTrendData(data);
@@ -109,9 +111,9 @@ export function MoodWidget({ className }: { className?: string }) {
     async (option: (typeof MOOD_OPTIONS)[number]) => {
       setLogging(true);
       try {
-        const res = await fetch("/api/ai/mood", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const res = await fetch('/api/ai/mood', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ mood: option.label.toLowerCase(), score: option.score }),
         });
 
@@ -119,10 +121,10 @@ export function MoodWidget({ className }: { className?: string }) {
           toast.success(`Mood logged: ${option.emoji} ${option.label}`);
           await fetchTrend();
         } else {
-          toast.error("Failed to log mood");
+          toast.error('Failed to log mood');
         }
       } catch {
-        toast.error("Failed to log mood");
+        toast.error('Failed to log mood');
       } finally {
         setLogging(false);
       }
@@ -131,7 +133,7 @@ export function MoodWidget({ className }: { className?: string }) {
   );
 
   const recentScores = trendData?.moods.map((m) => m.mood_score) ?? [];
-  const trend = trendData?.trend ?? "stable";
+  const trend = trendData?.trend ?? 'stable';
   const cfg = trendConfig[trend];
 
   return (
@@ -139,14 +141,14 @@ export function MoodWidget({ className }: { className?: string }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-      className={cn("bg-card rounded-lg border p-5", className)}
+      className={cn('bg-card rounded-lg border p-5', className)}
     >
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold">How are you feeling?</h3>
         {trendData && trendData.moods.length > 0 && (
           <div
             className={cn(
-              "flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-medium",
+              'text-2xs flex items-center gap-1 rounded-full px-2 py-0.5 font-medium',
               cfg.bg,
               cfg.color
             )}
@@ -180,7 +182,7 @@ export function MoodWidget({ className }: { className?: string }) {
       ) : recentScores.length >= 2 ? (
         <div>
           <MiniSparkline scores={recentScores} />
-          <div className="mt-2 flex items-center justify-between text-2xs">
+          <div className="text-2xs mt-2 flex items-center justify-between">
             <span className="text-muted-foreground">
               {trendData!.moods.length} entries � {14} days
             </span>

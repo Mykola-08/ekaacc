@@ -76,6 +76,11 @@ const nextConfig = {
         destination: '/finances?tab=plans',
         permanent: true,
       },
+      {
+        source: '/booking',
+        destination: '/book',
+        permanent: true,
+      },
     ];
   },
   async headers() {

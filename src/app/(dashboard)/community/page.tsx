@@ -17,9 +17,14 @@ export default async function CommunityPage() {
 
   return (
     <div className="flex h-[calc(100vh-64px)] overflow-hidden">
-      <div className="w-64 hidden md:block">
+      <div className="hidden w-64 md:block">
         <CommunityChannelList
-          channels={channels || [{id: 'general', name: 'General', type: 'public'}, {id: 'anxiety', name: 'Anxiety Support', type: 'public'}]}
+          channels={
+            channels || [
+              { id: 'general', name: 'General', type: 'public' },
+              { id: 'anxiety', name: 'Anxiety Support', type: 'public' },
+            ]
+          }
           activeChannelId={activeChannelId}
         />
       </div>

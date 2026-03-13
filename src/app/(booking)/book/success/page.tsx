@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect } from 'react';
@@ -15,7 +14,7 @@ export default function BookingSuccessPage() {
   // Redirect after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
-    //   router.push('/dashboard/bookings'); // Or where ever bookings are
+      //   router.push('/dashboard/bookings'); // Or where ever bookings are
     }, 5000);
     return () => clearTimeout(timer);
   }, [router]);
@@ -51,8 +50,8 @@ export default function BookingSuccessPage() {
           transition={{ delay: 0.3 }}
           className="text-muted-foreground mb-8 max-w-md text-lg"
         >
-          Thank you for trusting EKA Balance. Your session has been successfully scheduled.
-          We have sent a confirmation email to you.
+          Thank you for trusting EKA Balance. Your session has been successfully scheduled. We have
+          sent a confirmation email to you.
         </motion.p>
 
         <motion.div

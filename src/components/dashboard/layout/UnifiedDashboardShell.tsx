@@ -6,11 +6,7 @@ import { ProgressProvider } from '@/context/platform/progress-context';
 import { ImpersonationWrapper } from '@/components/platform/admin/impersonation-wrapper';
 import { UnifiedSidebar } from '@/components/dashboard/layout/UnifiedSidebar';
 import { NotificationDropdown } from '@/components/dashboard/layout/NotificationDropdown';
-import {
-  SidebarProvider,
-  SidebarInset,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { OnlineStatusIndicator } from '@/components/ui/online-status-indicator';
 import { MorphingToaster } from '@/components/ui/morphing-toaster';
 import { DebugStatus } from '@/components/ui';
@@ -89,10 +85,13 @@ export function UnifiedDashboardShell({
 
           <SidebarInset className="dashboard-inset bg-background">
             {/* Sticky floating header — Nova pattern */}
-            <header className="sticky top-2 z-50 mx-3 mb-2 flex h-12 items-center gap-2 rounded-xl border border-border bg-card/95 px-4 backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-10 sm:mx-4">
+            <header className="border-border bg-card/95 sticky top-2 z-50 mx-3 mb-2 flex h-12 items-center gap-2 rounded-xl border px-4 backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-10 sm:mx-4">
               <div className="flex items-center gap-2">
                 <SidebarTrigger className="-ml-1 h-8 w-8 rounded-lg" />
-                <Separator orientation="vertical" className="mr-1 data-[orientation=vertical]:h-4" />
+                <Separator
+                  orientation="vertical"
+                  className="mr-1 data-[orientation=vertical]:h-4"
+                />
 
                 {/* Breadcrumbs on desktop, title on mobile */}
                 <Breadcrumb className="hidden sm:flex">
@@ -102,9 +101,14 @@ export function UnifiedDashboardShell({
                         {i > 0 && <BreadcrumbSeparator />}
                         <BreadcrumbItem>
                           {crumb.isLast ? (
-                            <span className="text-sm font-semibold text-foreground">{crumb.label}</span>
+                            <span className="text-foreground text-sm font-semibold">
+                              {crumb.label}
+                            </span>
                           ) : (
-                            <BreadcrumbLink href={crumb.href} className="text-sm text-muted-foreground hover:text-foreground">
+                            <BreadcrumbLink
+                              href={crumb.href}
+                              className="text-muted-foreground hover:text-foreground text-sm"
+                            >
                               {crumb.label}
                             </BreadcrumbLink>
                           )}
@@ -113,7 +117,7 @@ export function UnifiedDashboardShell({
                     ))}
                   </BreadcrumbList>
                 </Breadcrumb>
-                <h1 className="text-sm font-semibold tracking-tight text-foreground sm:hidden">
+                <h1 className="text-foreground text-sm font-semibold tracking-tight sm:hidden">
                   {pageTitle}
                 </h1>
               </div>
@@ -123,7 +127,11 @@ export function UnifiedDashboardShell({
               </div>
             </header>
 
-            <main id="main-content" className="flex flex-1 flex-col gap-4 overflow-auto p-4 pt-0" tabIndex={-1}>
+            <main
+              id="main-content"
+              className="flex flex-1 flex-col gap-4 overflow-auto p-4 pt-0"
+              tabIndex={-1}
+            >
               {children}
             </main>
           </SidebarInset>

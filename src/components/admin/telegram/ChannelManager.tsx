@@ -64,9 +64,7 @@ export function ChannelManager({ initialChannels }: ChannelManagerProps) {
     startTransition(async () => {
       const res = await refreshChannelAction(channelId);
       if (res.success && res.data) {
-        setChannels((prev) =>
-          prev.map((c) => (c.id === channelId ? res.data! : c))
-        );
+        setChannels((prev) => prev.map((c) => (c.id === channelId ? res.data! : c)));
         toast.success('Channel refreshed');
       } else {
         toast.error(res.error ?? 'Failed to refresh');
@@ -108,9 +106,9 @@ export function ChannelManager({ initialChannels }: ChannelManagerProps) {
             <DialogHeader>
               <DialogTitle>Add Telegram Channel / Group</DialogTitle>
             </DialogHeader>
-            <p className="text-sm text-muted-foreground">
-              Enter the Chat ID of the channel or group. Make sure the bot is
-              already added as an admin.
+            <p className="text-muted-foreground text-sm">
+              Enter the Chat ID of the channel or group. Make sure the bot is already added as an
+              admin.
             </p>
             <Input
               placeholder="e.g. -1001234567890"
@@ -125,7 +123,7 @@ export function ChannelManager({ initialChannels }: ChannelManagerProps) {
       </CardHeader>
       <CardContent>
         {channels.length === 0 ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground py-8 text-center text-sm">
             No channels connected yet. Add one to get started.
           </p>
         ) : (
@@ -145,9 +143,7 @@ export function ChannelManager({ initialChannels }: ChannelManagerProps) {
                   <TableCell className="font-medium">
                     {ch.title}
                     {ch.username && (
-                      <span className="ml-1 text-xs text-muted-foreground">
-                        @{ch.username}
-                      </span>
+                      <span className="text-muted-foreground ml-1 text-xs">@{ch.username}</span>
                     )}
                   </TableCell>
                   <TableCell>
@@ -155,9 +151,7 @@ export function ChannelManager({ initialChannels }: ChannelManagerProps) {
                       {ch.type}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right">
-                    {ch.member_count.toLocaleString()}
-                  </TableCell>
+                  <TableCell className="text-right">{ch.member_count.toLocaleString()}</TableCell>
                   <TableCell>
                     <Badge variant={ch.bot_is_admin ? 'default' : 'destructive'}>
                       {ch.bot_is_admin ? 'Yes' : 'No'}
@@ -173,11 +167,7 @@ export function ChannelManager({ initialChannels }: ChannelManagerProps) {
                       >
                         Refresh
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleCopyInviteLink(ch.id)}
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => handleCopyInviteLink(ch.id)}>
                         Invite
                       </Button>
                       <Button

@@ -72,10 +72,8 @@ export function AdminBookingTable() {
     }
   };
 
-
-
   return (
-    <div className="space-y-4">
+    <div className="">
       <div className="flex items-center gap-4">
         <div className="relative max-w-sm flex-1">
           <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
@@ -173,7 +171,7 @@ export function AdminBookingTable() {
                         onClick={() => handleCancel(booking.id)}
                         title="Cancel Booking"
                       >
-                        <XCircle className="h-4 w-4 text-destructive" />
+                        <XCircle className="text-destructive h-4 w-4" />
                       </Button>
                     )}
                   </TableCell>

@@ -28,11 +28,7 @@ export async function deleteNotification(notificationId: string) {
 
   if (!user) return;
 
-  await supabase
-    .from('notifications')
-    .delete()
-    .eq('id', notificationId)
-    .eq('user_id', user.id);
+  await supabase.from('notifications').delete().eq('id', notificationId).eq('user_id', user.id);
 
   revalidatePath('/notifications');
 }

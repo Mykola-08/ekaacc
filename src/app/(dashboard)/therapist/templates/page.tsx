@@ -2,13 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -225,15 +219,15 @@ export default function TherapistTemplatesPage() {
   const categoryColors: { [key: string]: string } = {
     progress: 'bg-primary/10 text-primary',
     assessment: 'bg-muted text-primary',
-    'treatment-plan': 'bg-success/10 text-success-foreground dark:text-success',
-    'session-notes': 'bg-warning/10 text-warning-foreground dark:text-warning',
-    discharge: 'bg-destructive/10 text-destructive dark:text-destructive',
+    'treatment-plan': 'bg-success/10 text-success-foreground ',
+    'session-notes': 'bg-warning/10 text-warning-foreground ',
+    discharge: 'bg-destructive/10 text-destructive ',
   };
 
   if (isLoading) {
     return (
       <div className="bg-muted/30 min-h-screen">
-        <div className="space-y-6">
+        <div className="">
           <div className="flex items-center justify-between">
             <div>
               <Skeleton className="h-8 w-64" />
@@ -262,7 +256,7 @@ export default function TherapistTemplatesPage() {
                   <Skeleton className="mt-1 h-4 w-2/3" />
                 </CardHeader>
                 <CardContent>
-                  <div className="mb-4 space-y-2">
+                  <div className="mb-4">
                     <Skeleton className="h-4 w-1/2" />
                     <Skeleton className="h-4 w-1/2" />
                   </div>
@@ -282,7 +276,7 @@ export default function TherapistTemplatesPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="space-y-6"
+        className=""
       >
         {/* Header */}
         <motion.div
@@ -347,7 +341,7 @@ export default function TherapistTemplatesPage() {
               <Card className="flex h-full cursor-pointer flex-col transition-shadow hover:shadow-sm">
                 <CardHeader>
                   <div className="flex items-start justify-between">
-                    <FileText className="mb-2 h-8 w-8 text-primary" />
+                    <FileText className="text-primary mb-2 h-8 w-8" />
                     <Badge
                       color={
                         template.category === 'progress'
@@ -371,7 +365,7 @@ export default function TherapistTemplatesPage() {
                   <p className="text-muted-foreground text-sm">{template.description}</p>
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col justify-between">
-                  <div className="text-muted-foreground mb-4 space-y-2 text-xs">
+                  <div className="text-muted-foreground mb-4 text-xs">
                     <div className="flex items-center gap-2">
                       <TrendingUp className="h-3 w-3" />
                       <span>Used {template.useCount} times</span>
@@ -408,8 +402,8 @@ export default function TherapistTemplatesPage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 p-1">
-            <div className="space-y-2">
+          <div className="p-1">
+            <div className="">
               <Label className="flex items-center gap-2">
                 <UserIcon className="h-4 w-4" />
                 Select Client *
@@ -436,7 +430,7 @@ export default function TherapistTemplatesPage() {
                     Auto-filled Information
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-1 p-4 pt-0 text-xs">
+                <CardContent className="p-4 pt-0 text-xs">
                   {(() => {
                     const data = getAutofillData(selectedClient);
                     return (
@@ -469,10 +463,10 @@ export default function TherapistTemplatesPage() {
               </Card>
             )}
 
-            <div className="space-y-4">
+            <div className="">
               <h6 className="text-base font-semibold">Additional Information</h6>
               {selectedTemplate?.fields.map((field) => (
-                <div key={field.key} className="space-y-2">
+                <div key={field.key} className="">
                   <Label htmlFor={field.key}>
                     {field.label} {field.required && <span className="text-destructive">*</span>}
                   </Label>

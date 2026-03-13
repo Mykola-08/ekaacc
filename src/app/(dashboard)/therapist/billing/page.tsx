@@ -26,10 +26,10 @@ import { useToast } from '@/hooks/platform/ui/use-toast';
 function BillingSkeleton() {
   return (
     <Card className="p-4">
-      <div className="space-y-4">
+      <div className="">
         {[...Array(3)].map((_, i) => (
           <div key={i} className="flex items-center justify-between rounded-xl border p-4">
-            <div className="flex-1 space-y-2">
+            <div className="flex-1">
               <Skeleton className="h-4 w-1/4" />
               <Skeleton className="h-3 w-1/2" />
             </div>
@@ -106,7 +106,7 @@ export default function TherapistBillingPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="space-y-6">
+      <div className="">
         <PageSection
           title="Client Billing"
           description="Manage invoices and payments for your clients."
@@ -166,7 +166,10 @@ export default function TherapistBillingPage() {
                         <span className="text-sm">{i.description}</span>
                       </TableCell>
                       <TableCell>
-                        <StatusBadge status={i.status === 'Paid' ? 'paid' : 'pending'} label={i.status || 'Paid'} />
+                        <StatusBadge
+                          status={i.status === 'Paid' ? 'paid' : 'pending'}
+                          label={i.status || 'Paid'}
+                        />
                       </TableCell>
                       <TableCell className="text-right">
                         <Button variant="outline" size="sm">

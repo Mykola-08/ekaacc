@@ -1,11 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import {
-  listPostsAction,
-  publishPostAction,
-  deletePostAction,
-} from '@/server/telegram/actions';
+import { listPostsAction, publishPostAction, deletePostAction } from '@/server/telegram/actions';
 import type { TelegramChannel, TelegramPost } from '@/server/telegram/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -69,7 +65,7 @@ export function ScheduledPosts({ channels }: ScheduledPostsProps) {
   if (channels.length === 0) {
     return (
       <Card>
-        <CardContent className="py-12 text-center text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground py-12 text-center text-sm">
           No channels connected.
         </CardContent>
       </Card>
@@ -77,7 +73,7 @@ export function ScheduledPosts({ channels }: ScheduledPostsProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="">
       <div className="flex items-center gap-3">
         <Select value={selectedChannel} onValueChange={setSelectedChannel}>
           <SelectTrigger className="w-60">
@@ -91,41 +87,35 @@ export function ScheduledPosts({ channels }: ScheduledPostsProps) {
             ))}
           </SelectContent>
         </Select>
-        <span className="text-sm text-muted-foreground">
-          {posts.length} queued
-        </span>
+        <span className="text-muted-foreground text-sm">{posts.length} queued</span>
       </div>
 
       {posts.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-sm text-muted-foreground">
+          <CardContent className="text-muted-foreground py-12 text-center text-sm">
             {isPending ? 'Loading…' : 'No scheduled posts in queue.'}
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-3">
+        <div className="">
           {posts.map((post) => (
             <Card key={post.id}>
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0 flex-1 space-y-1">
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="text-xs">
                         Scheduled
                       </Badge>
-                      <span className="text-xs font-medium text-muted-foreground">
+                      <span className="text-muted-foreground text-xs font-medium">
                         {post.scheduled_at
                           ? new Date(post.scheduled_at).toLocaleString()
                           : 'No time set'}
                       </span>
                     </div>
-                    <p className="line-clamp-2 whitespace-pre-wrap text-sm">
-                      {post.content}
-                    </p>
+                    <p className="line-clamp-2 text-sm whitespace-pre-wrap">{post.content}</p>
                     {post.media_url && (
-                      <span className="text-xs text-muted-foreground">
-                        📎 Media attached
-                      </span>
+                      <span className="text-muted-foreground text-xs">📎 Media attached</span>
                     )}
                   </div>
                   <div className="flex shrink-0 gap-1">

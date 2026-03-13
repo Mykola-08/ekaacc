@@ -1,4 +1,4 @@
-﻿"use client";
+﻿'use client';
 
 /**
  * AI Chat Input
@@ -6,17 +6,21 @@
  * Chat input bar with prompt-kit primitives, suggestion pills, and motion animations.
  */
 
-import { useRef, useCallback } from "react";
-import * as motion from "motion/react-client";
-import { AnimatePresence } from "motion/react";
+import { useRef, useCallback } from 'react';
+import * as motion from 'motion/react-client';
+import { AnimatePresence } from 'motion/react';
 import {
   PromptInput,
   PromptInputTextarea,
-  PromptInputActions,
-  PromptInputAction,
-} from "@/components/prompt-kit/prompt-input";
-import { PromptSuggestion } from "@/components/prompt-kit/prompt-suggestion";
-import { Send, Square, Paperclip } from "lucide-react";
+  PromptInputBody,
+  PromptInputFooter,
+  PromptInputTools,
+  PromptInputButton,
+  PromptInputSubmit,
+  type PromptInputMessage,
+} from '@/components/ai-elements/prompt-input';
+import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
+import { Send, Square, Paperclip } from 'lucide-react';
 
 interface ChatInputProps {
   value: string;
@@ -29,12 +33,12 @@ interface ChatInputProps {
 }
 
 const SUGGESTIONS = [
-  "How am I feeling this week?",
-  "Log my mood",
-  "Show my upcoming sessions",
-  "Give me wellness recommendations",
-  "Check my wallet balance",
-  "What services are available?",
+  'How am I feeling this week?',
+  'Log my mood',
+  'Show my upcoming sessions',
+  'Give me wellness recommendations',
+  'Check my wallet balance',
+  'What services are available?',
 ];
 
 export function ChatInput({
@@ -54,7 +58,7 @@ export function ChatInput({
   }, [value, isLoading, onSubmit]);
 
   return (
-    <div className="space-y-3">
+    <div className="">
       {/* Suggestions */}
       <AnimatePresence>
         {showSuggestions && (
@@ -63,64 +67,58 @@ export function ChatInput({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-wrap gap-2"
           >
-            {SUGGESTIONS.map((s) => (
-              <PromptSuggestion
-                key={s}
-                onClick={() => onSuggestion?.(s)}
-              >
-                {s}
-              </PromptSuggestion>
-            ))}
+            <Suggestions className="pb-1">
+              {SUGGESTIONS.map((s) => (
+                <Suggestion
+                  key={s}
+                  suggestion={s}
+                  onClick={onSuggestion}
+                  className="border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 rounded-full px-3! py-1! text-xs font-medium"
+                />
+              ))}
+            </Suggestions>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Input bar */}
       <PromptInput
-        value={value}
-        onValueChange={onChange}
-        onSubmit={handleSubmit}
-        className="bg-muted/50 border-border/50 rounded-lg border backdrop-blur-sm transition-colors focus-within:border-primary/30"
+        onSubmit={(msg, e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+        className="bg-muted/50 border-border/50 focus-within:border-primary/30 rounded-lg border pb-2 backdrop-blur-sm transition-colors"
       >
-        <PromptInputTextarea
-          ref={textareaRef}
-          placeholder="Ask EKA anything..."
-          className="min-h-11 resize-none bg-transparent px-4 pt-3 pb-0 text-sm"
-        />
-        <PromptInputActions className="px-3 pb-2">
-          <PromptInputAction tooltip="Attach file">
-            <button type="button" className="text-muted-foreground hover:text-foreground cursor-pointer p-1 rounded">
+        <PromptInputBody>
+          <PromptInputTextarea
+            ref={textareaRef}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Ask EKA anything..."
+            className="min-h-11 resize-none border-0 bg-transparent px-4 pt-3 pb-0 text-sm shadow-none focus-visible:ring-0"
+          />
+        </PromptInputBody>
+        <PromptInputFooter className="px-3 pt-2">
+          <PromptInputTools>
+            <PromptInputButton
+              tooltip={{ content: 'Attach file' }}
+              type="button"
+              className="text-muted-foreground hover:text-foreground h-8 w-8 cursor-pointer rounded p-0"
+            >
               <Paperclip className="h-4 w-4" />
-            </button>
-          </PromptInputAction>
+            </PromptInputButton>
+          </PromptInputTools>
 
           <div className="flex-1" />
 
-          {isLoading ? (
-            <PromptInputAction tooltip="Stop generating">
-              <button
-                type="button"
-                onClick={onStop}
-                className="bg-destructive/10 text-destructive hover:bg-destructive/20 cursor-pointer rounded-lg px-2 py-1"
-              >
-                <Square className="h-3.5 w-3.5" />
-              </button>
-            </PromptInputAction>
-          ) : (
-            <PromptInputAction tooltip="Send message">
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={!value.trim()}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-40 cursor-pointer rounded-lg px-2 py-1"
-              >
-                <Send className="h-3.5 w-3.5" />
-              </button>
-            </PromptInputAction>
-          )}
-        </PromptInputActions>
+          <PromptInputSubmit
+            status={isLoading ? 'streaming' : 'ready'}
+            onStop={onStop}
+            disabled={!value.trim() && !isLoading}
+            className="h-auto rounded-lg px-2 py-1"
+          />
+        </PromptInputFooter>
       </PromptInput>
     </div>
   );

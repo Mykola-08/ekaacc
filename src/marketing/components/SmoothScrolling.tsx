@@ -12,7 +12,11 @@ export default function SmoothScrolling({ children }: { children: ReactNode }) {
       return;
     }
 
-    let lenis: { raf: (time: number) => void; scrollTo: (target: string) => void; destroy: () => void } | null = null;
+    let lenis: {
+      raf: (time: number) => void;
+      scrollTo: (target: string) => void;
+      destroy: () => void;
+    } | null = null;
     let rafId = 0;
     const anchors = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'));
     const handleAnchorClick = (event: MouseEvent) => {

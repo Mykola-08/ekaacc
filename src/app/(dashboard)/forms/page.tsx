@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState, useEffect } from 'react';
 import {
   WelcomePersonalizationForm,
@@ -98,18 +92,23 @@ export default function FormsPage() {
   };
 
   return (
-    <div className="container mx-auto space-y-6 p-6">
+    <div className="container mx-auto p-6">
       <div>
         <h1 className="mb-2 text-3xl font-semibold">EKA Forms</h1>
         <p className="text-muted-foreground">
           Access all patient and therapist forms with integrated AI assistance
         </p>
-        <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} className="mt-3" />
+        <InlineFeedback
+          status={feedback.status}
+          message={feedback.message}
+          onDismiss={reset}
+          className="mt-3"
+        />
       </div>
 
       {/* Patient Forms — visible to users with patient_data.view_own */}
       {can('patient_data', 'view_own') && (
-        <div className="space-y-4">
+        <div className="">
           <h2 className="text-2xl font-semibold">Patient Forms</h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card className="relative overflow-hidden">
@@ -124,7 +123,7 @@ export default function FormsPage() {
                 <CardDescription>First-time personalization with &euro;10 discount</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-muted-foreground mb-4 space-y-2 text-sm">
+                <div className="text-muted-foreground mb-4 text-sm">
                   <p>&bull; Multi-step onboarding</p>
                   <p>&bull; Mental health assessment</p>
                   <p>&bull; Emergency contact collection</p>
@@ -148,7 +147,7 @@ export default function FormsPage() {
                 <CardDescription>Track your daily emotions and wellbeing</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-muted-foreground mb-4 space-y-2 text-sm">
+                <div className="text-muted-foreground mb-4 text-sm">
                   <p>&bull; Mood, energy, stress tracking</p>
                   <p>&bull; Emotion selection</p>
                   <p>&bull; Activity logging</p>
@@ -172,7 +171,7 @@ export default function FormsPage() {
                 <CardDescription>Apply for financial support with AI assistance</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-muted-foreground mb-4 space-y-2 text-sm">
+                <div className="text-muted-foreground mb-4 text-sm">
                   <p>&bull; Financial needs assessment</p>
                   <p>&bull; AI-enhanced history revision</p>
                   <p>&bull; Confidential application</p>
@@ -189,7 +188,7 @@ export default function FormsPage() {
 
       {/* Therapist Forms — visible to users with therapist_tools.create */}
       {can('therapist_tools', 'create') && (
-        <div className="space-y-4">
+        <div className="">
           <h2 className="text-2xl font-semibold">Therapist Forms</h2>
           <div className="grid gap-4 md:grid-cols-2">
             <Card className="relative overflow-hidden">
@@ -204,7 +203,7 @@ export default function FormsPage() {
                 <CardDescription>Complete before session begins</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-muted-foreground mb-4 space-y-2 text-sm">
+                <div className="text-muted-foreground mb-4 text-sm">
                   <p>&bull; Client current state evaluation</p>
                   <p>&bull; Crisis risk assessment</p>
                   <p>&bull; Session goal setting</p>
@@ -232,7 +231,7 @@ export default function FormsPage() {
                 <CardDescription>Document session outcomes and progress</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-muted-foreground mb-4 space-y-2 text-sm">
+                <div className="text-muted-foreground mb-4 text-sm">
                   <p>&bull; Session summary documentation</p>
                   <p>&bull; Progress tracking</p>
                   <p>&bull; Intervention recording</p>
@@ -262,11 +261,11 @@ export default function FormsPage() {
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Personalization:</span>
                 <span
-                  className={
-                    currentUser.personalizationCompleted ? 'text-success' : 'text-warning'
-                  }
+                  className={currentUser.personalizationCompleted ? 'text-success' : 'text-warning'}
                 >
-                  {currentUser.personalizationCompleted ? '\u2713 Completed' : '\u26A0 Not completed'}
+                  {currentUser.personalizationCompleted
+                    ? '\u2713 Completed'
+                    : '\u26A0 Not completed'}
                 </span>
               </div>
               <div className="flex justify-between">

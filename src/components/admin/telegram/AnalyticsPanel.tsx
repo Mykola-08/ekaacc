@@ -89,7 +89,7 @@ export function AnalyticsPanel({ channels }: AnalyticsPanelProps) {
   if (channels.length === 0) {
     return (
       <Card>
-        <CardContent className="py-12 text-center text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground py-12 text-center text-sm">
           No channels connected. Add a channel first.
         </CardContent>
       </Card>
@@ -97,7 +97,7 @@ export function AnalyticsPanel({ channels }: AnalyticsPanelProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="">
       {/* Controls */}
       <div className="flex flex-wrap items-center gap-3">
         <Select value={selectedChannel} onValueChange={setSelectedChannel}>
@@ -156,7 +156,9 @@ export function AnalyticsPanel({ channels }: AnalyticsPanelProps) {
                   <XAxis
                     dataKey="date"
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(v) => new Date(v).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                    tickFormatter={(v) =>
+                      new Date(v).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+                    }
                   />
                   <YAxis tick={{ fontSize: 12 }} />
                   <Tooltip
@@ -192,15 +194,27 @@ export function AnalyticsPanel({ channels }: AnalyticsPanelProps) {
                   <XAxis
                     dataKey="date"
                     tick={{ fontSize: 12 }}
-                    tickFormatter={(v) => new Date(v).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                    tickFormatter={(v) =>
+                      new Date(v).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+                    }
                   />
                   <YAxis tick={{ fontSize: 12 }} />
                   <Tooltip
                     labelFormatter={(v) => new Date(v).toLocaleDateString()}
                     contentStyle={{ borderRadius: 8, fontSize: 12 }}
                   />
-                  <Bar dataKey="views_total" name="Views" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="messages_count" name="Posts" fill="hsl(var(--primary) / 0.4)" radius={[4, 4, 0, 0]} />
+                  <Bar
+                    dataKey="views_total"
+                    name="Views"
+                    fill="hsl(var(--primary))"
+                    radius={[4, 4, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="messages_count"
+                    name="Posts"
+                    fill="hsl(var(--primary) / 0.4)"
+                    radius={[4, 4, 0, 0]}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -215,7 +229,7 @@ export function AnalyticsPanel({ channels }: AnalyticsPanelProps) {
             <CardTitle className="text-base">Top Posts</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="">
               {topPosts.map((post, idx) => (
                 <div
                   key={post.post_id}
@@ -226,17 +240,15 @@ export function AnalyticsPanel({ channels }: AnalyticsPanelProps) {
                       <Badge variant="outline" className="shrink-0">
                         #{idx + 1}
                       </Badge>
-                      <span className="text-xs text-muted-foreground">
-                        {post.published_at
-                          ? new Date(post.published_at).toLocaleDateString()
-                          : '—'}
+                      <span className="text-muted-foreground text-xs">
+                        {post.published_at ? new Date(post.published_at).toLocaleDateString() : '—'}
                       </span>
                     </div>
                     <p className="mt-1 line-clamp-2 text-sm">{post.content}</p>
                   </div>
                   <div className="shrink-0 text-right">
                     <p className="text-lg font-semibold">{post.views.toLocaleString()}</p>
-                    <p className="text-xs text-muted-foreground">views</p>
+                    <p className="text-muted-foreground text-xs">views</p>
                   </div>
                 </div>
               ))}
@@ -252,7 +264,7 @@ function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <Card>
       <CardContent className="p-4">
-        <p className="text-xs font-medium text-muted-foreground">{label}</p>
+        <p className="text-muted-foreground text-xs font-medium">{label}</p>
         <p className="mt-1 text-2xl font-bold tracking-tight">{value}</p>
       </CardContent>
     </Card>

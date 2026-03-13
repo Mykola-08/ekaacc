@@ -11,13 +11,8 @@ export function WalletTab() {
   useEffect(() => {
     async function load() {
       try {
-        const [
-          { getWalletBalanceAction, getClientTransactions },
-          { getUserPlanUsages },
-        ] = await Promise.all([
-          import('@/app/actions/wallet'),
-          import('@/app/actions/plans'),
-        ]);
+        const [{ getWalletBalanceAction, getClientTransactions }, { getUserPlanUsages }] =
+          await Promise.all([import('@/app/actions/wallet'), import('@/app/actions/plans')]);
 
         const [balanceRes, plans, transactions] = await Promise.all([
           getWalletBalanceAction(),

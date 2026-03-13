@@ -3,13 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '@/context/platform/auth-context';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -385,7 +379,7 @@ export default function PrivacyControlsPage() {
   return (
     <PageContainer>
       <SurfacePanel className="p-8">
-        <div className="mx-auto max-w-5xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
           <PageHeader
             icon={Shield}
             title="Privacy & Data Controls"
@@ -401,15 +395,15 @@ export default function PrivacyControlsPage() {
             <Card className="border-muted">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
-                  <Shield className="mr-3 h-6 w-6 text-primary" />
+                  <Shield className="text-primary mr-3 h-6 w-6" />
                   Privacy Overview
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                   <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-success/20">
-                      <CheckCircle className="h-6 w-6 text-success" />
+                    <div className="bg-success/20 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
+                      <CheckCircle className="text-success h-6 w-6" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Data Protection</h3>
                     <p className="text-muted-foreground text-sm">
@@ -417,15 +411,15 @@ export default function PrivacyControlsPage() {
                     </p>
                   </div>
                   <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                      <Eye className="h-6 w-6 text-primary" />
+                    <div className="bg-primary/10 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
+                      <Eye className="text-primary h-6 w-6" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Transparency</h3>
                     <p className="text-muted-foreground text-sm">Full visibility into data usage</p>
                   </div>
                   <div className="text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent/20">
-                      <Settings className="h-6 w-6 text-accent" />
+                    <div className="bg-accent/20 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
+                      <Settings className="text-accent h-6 w-6" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Control</h3>
                     <p className="text-muted-foreground text-sm">
@@ -439,7 +433,7 @@ export default function PrivacyControlsPage() {
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {/* Left Column - Settings */}
-            <div className="space-y-6 lg:col-span-2">
+            <div className="lg:col-span-2">
               {/* Data Sharing Settings */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -449,13 +443,13 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Database className="mr-2 h-5 w-5 text-primary" />
+                      <Database className="text-primary mr-2 h-5 w-5" />
                       Data Sharing Preferences
                     </CardTitle>
                     <CardDescription>Control how your data is shared and used</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-4">
+                  <CardContent className="">
+                    <div className="">
                       <div className="flex items-center justify-between">
                         <div>
                           <h4 className="font-medium">AI Training Data</h4>
@@ -550,15 +544,15 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Globe className="mr-2 h-5 w-5 text-success" />
+                      <Globe className="text-success mr-2 h-5 w-5" />
                       Visibility Controls
                     </CardTitle>
                     <CardDescription>
                       Manage who can see your information and activity
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-4">
+                  <CardContent className="">
+                    <div className="">
                       <div>
                         <Label htmlFor="profileVisibility">Profile Visibility</Label>
                         <Select
@@ -652,15 +646,15 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Lock className="mr-2 h-5 w-5 text-destructive" />
+                      <Lock className="text-destructive mr-2 h-5 w-5" />
                       Security Settings
                     </CardTitle>
                     <CardDescription>
                       Protect your account with advanced security features
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-4">
+                  <CardContent className="">
+                    <div className="">
                       <div className="flex items-center justify-between">
                         <div>
                           <h4 className="font-medium">Two-Factor Authentication</h4>
@@ -731,7 +725,7 @@ export default function PrivacyControlsPage() {
             </div>
 
             {/* Right Column - Actions & Logs */}
-            <div className="space-y-6">
+            <div className="">
               {/* Quick Actions */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -741,11 +735,11 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Activity className="mr-2 h-5 w-5 text-accent" />
+                      <Activity className="text-accent mr-2 h-5 w-5" />
                       Quick Actions
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
+                  <CardContent className="">
                     <Button
                       className="w-full"
                       variant="outline"
@@ -791,12 +785,12 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Clock className="mr-2 h-5 w-5 text-warning" />
+                      <Clock className="text-warning mr-2 h-5 w-5" />
                       Recent Privacy Activity
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="max-h-64 space-y-3 overflow-y-auto">
+                    <div className="max-h-64 overflow-y-auto">
                       {privacyAudit.length === 0 ? (
                         <p className="text-muted-foreground py-4 text-center text-sm">
                           No recent activity
@@ -805,9 +799,9 @@ export default function PrivacyControlsPage() {
                         privacyAudit.map((audit) => (
                           <div
                             key={audit.id}
-                            className="bg-muted/40 flex items-start space-x-3 rounded-xl p-3"
+                            className="bg-muted/40 flex items-start rounded-xl p-3"
                           >
-                            <div className="mt-2 h-2 w-2 rounded-full bg-primary"></div>
+                            <div className="bg-primary mt-2 h-2 w-2 rounded-full"></div>
                             <div className="flex-1">
                               <p className="text-foreground text-sm font-medium">
                                 {audit.action.replace('_', ' ').toUpperCase()}
@@ -838,23 +832,20 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border shadow-lg">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <UserCheck className="mr-2 h-5 w-5 text-success" />
+                      <UserCheck className="text-success mr-2 h-5 w-5" />
                       Data Access Log
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="max-h-64 space-y-3 overflow-y-auto">
+                    <div className="max-h-64 overflow-y-auto">
                       {accessLogs.length === 0 ? (
                         <p className="text-muted-foreground py-4 text-center text-sm">
                           No access logs
                         </p>
                       ) : (
                         accessLogs.map((log) => (
-                          <div
-                            key={log.id}
-                            className="bg-muted/40 flex items-start space-x-3 rounded-xl p-3"
-                          >
-                            <div className="mt-2 h-2 w-2 rounded-full bg-success"></div>
+                          <div key={log.id} className="bg-muted/40 flex items-start rounded-xl p-3">
+                            <div className="bg-success mt-2 h-2 w-2 rounded-full"></div>
                             <div className="flex-1">
                               <p className="text-foreground text-sm font-medium">
                                 {log.action.toUpperCase()} - {log.section}
@@ -896,7 +887,7 @@ export default function PrivacyControlsPage() {
               <DialogTitle>Export Your Data</DialogTitle>
               <DialogDescription>Choose format, range, and what to include.</DialogDescription>
             </DialogHeader>
-            <div className="space-y-4">
+            <div className="">
               <div>
                 <Label>Export Format</Label>
                 <Select
@@ -936,8 +927,8 @@ export default function PrivacyControlsPage() {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
+              <div className="">
+                <div className="flex items-center">
                   <Switch
                     checked={dataExportRequest.includePersonal}
                     onCheckedChange={(checked) =>
@@ -946,7 +937,7 @@ export default function PrivacyControlsPage() {
                   />
                   <Label>Include Personal Information</Label>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center">
                   <Switch
                     checked={dataExportRequest.includeActivity}
                     onCheckedChange={(checked) =>
@@ -955,7 +946,7 @@ export default function PrivacyControlsPage() {
                   />
                   <Label>Include Activity Logs</Label>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center">
                   <Switch
                     checked={dataExportRequest.includeAI}
                     onCheckedChange={(checked) =>
@@ -990,8 +981,8 @@ export default function PrivacyControlsPage() {
         <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 text-destructive">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
+              <DialogTitle className="text-destructive flex items-center gap-2">
+                <AlertTriangle className="text-destructive h-5 w-5" />
                 Delete Account
               </DialogTitle>
               <DialogDescription>
@@ -999,7 +990,7 @@ export default function PrivacyControlsPage() {
                 recovered.
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-4">
+            <div className="">
               <p className="text-muted-foreground text-sm">
                 To confirm account deletion, please type: <strong>DELETE MY ACCOUNT</strong>
               </p>

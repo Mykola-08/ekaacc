@@ -51,7 +51,9 @@ export async function getInvoices(): Promise<InvoiceRecord[]> {
   // Try fetching from billing_invoices table
   const { data, error } = await supabase
     .from('billing_invoices')
-    .select('id, created_at, amount_eur, currency, status, description, stripe_invoice_id, stripe_invoice_url, period_start, period_end')
+    .select(
+      'id, created_at, amount_eur, currency, status, description, stripe_invoice_id, stripe_invoice_url, period_start, period_end'
+    )
     .eq('client_id', user.id)
     .order('created_at', { ascending: false })
     .limit(20);
@@ -162,14 +164,12 @@ export async function getPaymentMethods(): Promise<PaymentMethod[]> {
   if (!profile?.stripe_customer_id) return [];
 
   try {
-    const { listCustomerPaymentMethods } = await import(
-      '@/lib/platform/services/stripe-client'
-    );
+    const { listCustomerPaymentMethods } = await import('@/lib/platform/services/stripe-client');
     const methods = await listCustomerPaymentMethods(profile.stripe_customer_id);
 
     // Get default payment method
     const { stripe } = await import('@/lib/platform/services/stripe-client');
-    const customer = await stripe.customers.retrieve(profile.stripe_customer_id) as any;
+    const customer = (await stripe.customers.retrieve(profile.stripe_customer_id)) as any;
     const defaultPm = customer?.invoice_settings?.default_payment_method;
 
     return methods.map((m) => ({

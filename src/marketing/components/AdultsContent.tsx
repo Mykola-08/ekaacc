@@ -13,37 +13,37 @@ import { ServiceItem } from '@/marketing/shared/types';
 export default function AdultsContent() {
   const { t } = useLanguage();
 
-  const kinesiologyBase = SERVICES_DATA.find(s => s.id === 'kinesiologia');
+  const kinesiologyBase = SERVICES_DATA.find((s) => s.id === 'kinesiologia');
   const customKinesiology: ServiceItem = {
-      ...kinesiologyBase!,
-      id: 'kinesiology-adult',
-      subtitleKey: 'adult.kinesiology.badge',
-      descriptionKey: 'services.kinesiology.shortDesc',
-      image: 'https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2070&auto=format&fit=crop'
+    ...kinesiologyBase!,
+    id: 'kinesiology-adult',
+    subtitleKey: 'adult.kinesiology.badge',
+    descriptionKey: 'services.kinesiology.shortDesc',
+    image:
+      'https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=2070&auto=format&fit=crop',
   };
 
-  const nutritionBase = SERVICES_DATA.find(s => s.id === 'nutritio');
+  const nutritionBase = SERVICES_DATA.find((s) => s.id === 'nutritio');
   const customNutrition: ServiceItem = {
-      ...nutritionBase!,
-      id: 'nutrition-adult',
-      subtitleKey: 'adult.nutrition.badge',
-      descriptionKey: 'services.nutrition.shortDesc', // Fallback or check if exists
-      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2053&auto=format&fit=crop'
+    ...nutritionBase!,
+    id: 'nutrition-adult',
+    subtitleKey: 'adult.nutrition.badge',
+    descriptionKey: 'services.nutrition.shortDesc', // Fallback or check if exists
+    image:
+      'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2053&auto=format&fit=crop',
   };
 
   const HeroCustom = (
-      <section className="py-20 sm:py-28 bg-gradient-to-br from-white via-amber-50/30 to-orange-50/50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center text-center">
-            <h1 className="heading-1 mb-6 max-w-4xl">
-              {t('elena.target.adults.title')}
-            </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 max-w-2xl mb-12 font-light leading-relaxed">
-              {t('elena.target.adults.desc')}
-            </p>
-        </div>
-      </section>
+    <section className="relative overflow-hidden bg-gradient-to-br from-white via-amber-50/30 to-orange-50/50 py-20 sm:py-28">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
+
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-4 text-center sm:px-8">
+        <h1 className="heading-1 mb-6 max-w-4xl">{t('elena.target.adults.title')}</h1>
+        <p className="mb-12 max-w-2xl text-xl leading-relaxed font-light text-gray-600 sm:text-2xl">
+          {t('elena.target.adults.desc')}
+        </p>
+      </div>
+    </section>
   );
 
   return (
@@ -54,49 +54,47 @@ export default function AdultsContent() {
         keywordsKey="seo.adults.keywords"
       />
       <PageLayout>
-      {HeroCustom}
-      
-      <section className="py-24 bg-[#fbfbfd] relative z-10 -mt-10 rounded-t-[3rem] ">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-gray-900 tracking-tighter">
+        {HeroCustom}
+
+        <section className="relative z-10 -mt-10 rounded-t-[3rem] bg-[#fbfbfd] py-24">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
+            <div className="mb-16 text-center">
+              <h2 className="mb-4 text-4xl font-semibold tracking-tighter text-gray-900 md:text-5xl">
                 {t('adult.recommended')}
               </h2>
-              <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium tracking-tight">
+              <p className="mx-auto max-w-2xl text-xl font-medium tracking-tight text-gray-500">
                 {t('adult.recommended.desc')}
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-[1200px] mx-auto">
-               <ServiceBentoItem 
-                  title={t(customKinesiology.titleKey)} 
-                  description={t(customKinesiology.descriptionKey)} 
-                  image={customKinesiology.image} 
-               />
-               <ServiceBentoItem 
-                  title={t(customNutrition.titleKey)} 
-                  description={t(customNutrition.descriptionKey)} 
-                  image={customNutrition.image} 
-               />
+            <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-2 md:gap-8">
+              <ServiceBentoItem
+                title={t(customKinesiology.titleKey)}
+                description={t(customKinesiology.descriptionKey)}
+                image={customKinesiology.image}
+              />
+              <ServiceBentoItem
+                title={t(customNutrition.titleKey)}
+                description={t(customNutrition.descriptionKey)}
+                image={customNutrition.image}
+              />
             </div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        {/* CTA Section */}
+        <section className="bg-gray-50 py-20">
+          <div className="mx-auto max-w-4xl px-4 text-center">
             <h2 className="heading-2 mb-6 font-bold">{t('adult.cta.title')}</h2>
-            <p className="text-xl text-gray-600 mb-8 font-light">
-                {t('adult.cta.desc')}
-            </p>
+            <p className="mb-8 text-xl font-light text-gray-600">{t('adult.cta.desc')}</p>
             <Link href="/booking">
-                <Button size="xl" variant="default">
-                    {t('common.bookNow')}
-                </Button>
+              <Button size="lg" variant="default">
+                {t('common.bookNow')}
+              </Button>
             </Link>
-        </div>
-      </section>
-    </PageLayout>
+          </div>
+        </section>
+      </PageLayout>
     </>
   );
 }

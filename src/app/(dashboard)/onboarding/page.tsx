@@ -4,13 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/context/LanguageContext';
@@ -57,9 +51,9 @@ export default function OnboardingPage() {
           <CardTitle className="text-2xl">{t('onboarding.welcome')}</CardTitle>
           <CardDescription>{t('onboarding.subtitle')}</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-4">
-            <div className="space-y-2">
+        <CardContent className="">
+          <div className="">
+            <div className="">
               <Label>{t('onboarding.role.label')}</Label>
               <div className="grid grid-cols-2 gap-4">
                 <Button

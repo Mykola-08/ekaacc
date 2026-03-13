@@ -42,21 +42,24 @@ interface PersonalizedServiceTemplateProps {
   childrenTop?: React.ReactNode;
 }
 
-const themeConfig: Record<string, {
-  bg: string;
-  border: string;
-  text: string;
-  subtext: string;
-  accent: string;
-  dots: string;
-  stepsBg: string;
-  stepsIconBg: string;
-  stepsIconText: string;
-  servicesBgFrom: string;
-  servicesBgTo: string;
-  serviceCardHoverText: string;
-  serviceLinkText: string;
-}> = {
+const themeConfig: Record<
+  string,
+  {
+    bg: string;
+    border: string;
+    text: string;
+    subtext: string;
+    accent: string;
+    dots: string;
+    stepsBg: string;
+    stepsIconBg: string;
+    stepsIconText: string;
+    servicesBgFrom: string;
+    servicesBgTo: string;
+    serviceCardHoverText: string;
+    serviceLinkText: string;
+  }
+> = {
   orange: {
     bg: 'bg-orange-50/50',
     border: 'border-orange-100',
@@ -70,7 +73,7 @@ const themeConfig: Record<string, {
     servicesBgFrom: 'from-transparent',
     servicesBgTo: 'to-orange-50/30',
     serviceCardHoverText: 'group-hover:text-orange-700',
-    serviceLinkText: 'text-orange-600'
+    serviceLinkText: 'text-orange-600',
   },
   purple: {
     bg: 'bg-purple-50/50',
@@ -85,7 +88,7 @@ const themeConfig: Record<string, {
     servicesBgFrom: 'from-transparent',
     servicesBgTo: 'to-purple-50/30',
     serviceCardHoverText: 'group-hover:text-purple-700',
-    serviceLinkText: 'text-purple-600'
+    serviceLinkText: 'text-purple-600',
   },
   blue: {
     bg: 'bg-blue-50/50',
@@ -100,7 +103,7 @@ const themeConfig: Record<string, {
     servicesBgFrom: 'from-transparent',
     servicesBgTo: 'to-blue-50/30',
     serviceCardHoverText: 'group-hover:text-blue-700',
-    serviceLinkText: 'text-blue-600'
+    serviceLinkText: 'text-blue-600',
   },
   green: {
     bg: 'bg-emerald-50/50',
@@ -115,7 +118,7 @@ const themeConfig: Record<string, {
     servicesBgFrom: 'from-transparent',
     servicesBgTo: 'to-emerald-50/30',
     serviceCardHoverText: 'group-hover:text-emerald-700',
-    serviceLinkText: 'text-emerald-600'
+    serviceLinkText: 'text-emerald-600',
   },
   pink: {
     bg: 'bg-pink-50/50',
@@ -130,7 +133,7 @@ const themeConfig: Record<string, {
     servicesBgFrom: 'from-transparent',
     servicesBgTo: 'to-pink-50/30',
     serviceCardHoverText: 'group-hover:text-pink-700',
-    serviceLinkText: 'text-pink-600'
+    serviceLinkText: 'text-pink-600',
   },
   amber: {
     bg: 'bg-amber-50/50',
@@ -145,8 +148,8 @@ const themeConfig: Record<string, {
     servicesBgFrom: 'from-transparent',
     servicesBgTo: 'to-amber-50/30',
     serviceCardHoverText: 'group-hover:text-amber-700',
-    serviceLinkText: 'text-amber-600'
-  }
+    serviceLinkText: 'text-amber-600',
+  },
 };
 
 export default function PersonalizedServiceTemplate({
@@ -159,24 +162,29 @@ export default function PersonalizedServiceTemplate({
   benefits = [],
   methodSteps,
   children,
-  childrenTop
+  childrenTop,
 }: PersonalizedServiceTemplateProps) {
   const { t } = useLanguage();
-  const serviceData = PERSONALIZED_SERVICES_DATA.find(s => s.id === serviceId);
+  const serviceData = PERSONALIZED_SERVICES_DATA.find((s) => s.id === serviceId);
 
   const colorKey = serviceData?.color || 'orange';
   const theme = themeConfig[colorKey] || themeConfig.orange;
 
   // Fallback methodology steps if none provided but showMethodology is true
   // Try to load from translation keys if methodSteps is empty but showMethodology is true
-  const stepsToRender = (methodSteps && methodSteps.length > 0) ? methodSteps : (showMethodology ? [1, 2, 3].map(step => ({
-    title: t(`${translationKey}.method.step${step}.title`),
-    description: t(`${translationKey}.method.step${step}.desc`)
-  })) : []);
+  const stepsToRender =
+    methodSteps && methodSteps.length > 0
+      ? methodSteps
+      : showMethodology
+        ? [1, 2, 3].map((step) => ({
+            title: t(`${translationKey}.method.step${step}.title`),
+            description: t(`${translationKey}.method.step${step}.desc`),
+          }))
+        : [];
 
   // Filter out any steps that look like translation keys (if t returns the key)
-  const validSteps = stepsToRender.filter(step =>
-    !step.title.includes(translationKey) && !step.description.includes(translationKey)
+  const validSteps = stepsToRender.filter(
+    (step) => !step.title.includes(translationKey) && !step.description.includes(translationKey)
   );
 
   return (
@@ -191,26 +199,23 @@ export default function PersonalizedServiceTemplate({
           title: t(`${translationKey}.hero.title`),
           subtitle: t(`${translationKey}.hero.description`),
           backgroundImage: serviceData?.image,
-          themeColor: serviceData?.color || 'orange'
+          themeColor: serviceData?.color || 'orange',
         }}
       >
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4 mb-16 relative z-20">
-          <Button
-            asChild
-            size="xl"
-            variant="default"
-            
-          >
-            <Link href={`/booking?service=${encodeURIComponent(t(`${translationKey}.hero.title`))}`}>
+        <div className="relative z-20 mt-4 mb-16 flex flex-col justify-center gap-4 sm:flex-row">
+          <Button asChild size="lg" variant="default">
+            <Link
+              href={`/booking?service=${encodeURIComponent(t(`${translationKey}.hero.title`))}`}
+            >
               {t('nav.bookNow')}
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
           <Link href="/booking">
             <Button
-              size="xl"
+              size="lg"
               variant="outline"
-              className="bg-white/90 backdrop-blur-sm text-gray-800 border-gray-200 hover:bg-white"
+              className="border-gray-200 bg-white/90 text-gray-800 backdrop-blur-sm hover:bg-white"
             >
               {t('common.askQuestions')}
             </Button>
@@ -218,42 +223,54 @@ export default function PersonalizedServiceTemplate({
         </div>
         {childrenTop}
         {/* Understanding Section - Bento Box */}
-        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-[#fbfbfd]">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tighter mb-4 text-black">
+        <section className="bg-[#fbfbfd] py-12 sm:py-16 md:py-20 lg:py-24">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+            <div className="mb-12 text-center sm:mb-16">
+              <h2 className="mb-4 text-3xl font-semibold tracking-tighter text-black sm:text-4xl md:text-5xl">
                 {t(`${translationKey}.understanding.title`)}
               </h2>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 md:gap-8 max-w-[1400px] mx-auto">
+
+            <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {/* Description 1 - Large box */}
-              <div className="col-span-1 md:col-span-2 p-6 sm:p-8 md:p-10 rounded-[2rem] sm:rounded-[2.5rem] bg-white border border-gray-100   transition-all duration-500 relative overflow-hidden group">
-                 <div className={`absolute top-0 right-0 w-32 h-32 opacity-10 rounded-bl-full ${theme.bg} transition-colors duration-500`} />
-                 <p className="text-xl sm:text-2xl md:text-3xl text-gray-800 font-medium leading-tight relative z-10 text-balance">
-                    {t(`${translationKey}.understanding.description1`)}
-                 </p>
-                 <p className="mt-6 sm:mt-8 text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl font-medium relative z-10">
-                    {t(`${translationKey}.understanding.description2`)}
-                 </p>
-                 <div className="mt-6 sm:mt-8 relative z-10">
-                    <p className={`font-semibold tracking-tight ${theme.text} text-sm sm:text-base`}>
-                      {t(`${translationKey}.understanding.callToAction`)}
-                    </p>
-                 </div>
+              <div className="group relative col-span-1 overflow-hidden rounded-[2rem] border border-gray-100 bg-white p-6 transition-all duration-500 sm:rounded-[2.5rem] sm:p-8 md:col-span-2 md:p-10">
+                <div
+                  className={`absolute top-0 right-0 h-32 w-32 rounded-bl-full opacity-10 ${theme.bg} transition-colors duration-500`}
+                />
+                <p className="relative z-10 text-xl leading-tight font-medium text-balance text-gray-800 sm:text-2xl md:text-3xl">
+                  {t(`${translationKey}.understanding.description1`)}
+                </p>
+                <p className="relative z-10 mt-6 max-w-2xl text-base leading-relaxed font-medium text-gray-500 sm:mt-8 sm:text-lg">
+                  {t(`${translationKey}.understanding.description2`)}
+                </p>
+                <div className="relative z-10 mt-6 sm:mt-8">
+                  <p className={`font-semibold tracking-tight ${theme.text} text-sm sm:text-base`}>
+                    {t(`${translationKey}.understanding.callToAction`)}
+                  </p>
+                </div>
               </div>
 
               {/* Benefits Box */}
               {benefits.length > 0 && (
-                <div className={`col-span-1 p-6 sm:p-8 md:p-10 rounded-[2rem] sm:rounded-[2.5rem] ${theme.bg} ${theme.border} border  transition-all duration-500 flex flex-col justify-center`}>
-                  <h3 className={`font-semibold text-xl sm:text-2xl mb-4 sm:mb-6 tracking-tight ${theme.text}`}>
-                    {t('common.benefits') || t(`${translationKey}.benefits.title`) || 'Beneficis clau'}
+                <div
+                  className={`col-span-1 rounded-[2rem] p-6 sm:rounded-[2.5rem] sm:p-8 md:p-10 ${theme.bg} ${theme.border} flex flex-col justify-center border transition-all duration-500`}
+                >
+                  <h3
+                    className={`mb-4 text-xl font-semibold tracking-tight sm:mb-6 sm:text-2xl ${theme.text}`}
+                  >
+                    {t('common.benefits') ||
+                      t(`${translationKey}.benefits.title`) ||
+                      'Beneficis clau'}
                   </h3>
-                  <ul className="space-y-3 sm:space-y-4">
+                  <ul className="sm:">
                     {benefits.map((benefit: string, i: number) => (
                       <li key={i} className="flex items-start gap-3 sm:gap-4">
-                        <div className={`mt-2 w-2 h-2 rounded-full ${theme.dots} shrink-0`} />
-                        <span className={`text-base sm:text-lg font-medium leading-tight ${theme.text}`}>{benefit}</span>
+                        <div className={`mt-2 h-2 w-2 rounded-full ${theme.dots} shrink-0`} />
+                        <span
+                          className={`text-base leading-tight font-medium sm:text-lg ${theme.text}`}
+                        >
+                          {benefit}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -265,21 +282,26 @@ export default function PersonalizedServiceTemplate({
 
         {/* Methodology Section - Apple Bento layout */}
         {showMethodology && validSteps.length > 0 && (
-          <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tighter mb-12 sm:mb-16 text-center text-black">
+          <section className="bg-white py-12 sm:py-16 md:py-20 lg:py-24">
+            <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+              <h2 className="mb-12 text-center text-3xl font-semibold tracking-tighter text-black sm:mb-16 sm:text-4xl md:text-5xl">
                 {t(`${translationKey}.method.title`)}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 md:gap-8">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 md:gap-8">
                 {validSteps.map((step, index) => (
-                    <div key={index} className={`rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 md:p-10 border border-gray-100 ${theme.stepsBg}  group  transition-all duration-500`}>
-                    <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${theme.stepsIconBg} flex items-center justify-center ${theme.stepsIconText} text-xl sm:text-2xl font-semibold mb-6 sm:mb-8 group-hover:scale-110 transition-transform duration-500`}>
+                  <div
+                    key={index}
+                    className={`rounded-[2rem] border border-gray-100 p-6 sm:rounded-[2.5rem] sm:p-8 md:p-10 ${theme.stepsBg} group transition-all duration-500`}
+                  >
+                    <div
+                      className={`h-12 w-12 rounded-2xl sm:h-14 sm:w-14 ${theme.stepsIconBg} flex items-center justify-center ${theme.stepsIconText} mb-6 text-xl font-semibold transition-transform duration-500 group-hover:scale-110 sm:mb-8 sm:text-2xl`}
+                    >
                       {index + 1}
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-semibold mb-3 sm:mb-4 text-gray-900 tracking-tight leading-tight">
+                    <h3 className="mb-3 text-2xl leading-tight font-semibold tracking-tight text-gray-900 sm:mb-4 sm:text-3xl">
                       {step.title}
                     </h3>
-                    <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-medium">
+                    <p className="text-base leading-relaxed font-medium text-gray-600 sm:text-lg">
                       {step.description}
                     </p>
                   </div>
@@ -290,24 +312,30 @@ export default function PersonalizedServiceTemplate({
         )}
 
         {/* Recommended Services Section */}
-        <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-[#fbfbfd]">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tighter mb-3 sm:mb-4 text-black">
+        <section className="bg-[#fbfbfd] py-12 sm:py-16 md:py-20 lg:py-24">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+            <div className="mb-12 text-center sm:mb-16">
+              <h2 className="mb-3 text-3xl font-semibold tracking-tighter text-black sm:mb-4 sm:text-4xl md:text-5xl">
                 {t(`${translationKey}.services.title`)}
               </h2>
-              <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto tracking-tight font-medium">
+              <p className="mx-auto max-w-2xl text-lg font-medium tracking-tight text-gray-500 sm:text-xl">
                 {t(`${translationKey}.services.subtitle`)}
               </p>
             </div>
 
-            <div className={`grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-5 sm:gap-6 md:gap-8`}>
+            <div
+              className={`grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))] md:gap-8`}
+            >
               {recommendedServices.map((service, index) => {
                 const details = (
-                  <div className="flex items-center gap-6 mt-8 p-6 bg-gray-50 rounded-2xl">
+                  <div className="mt-8 flex items-center gap-6 rounded-2xl bg-gray-50 p-6">
                     <div className="flex flex-col">
-                      <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">{t('common.duration') || 'Duration'}</span>
-                      <span className="text-xl font-semibold text-gray-900">{service.duration || '60-90 min'}</span>
+                      <span className="text-sm font-medium tracking-wider text-gray-500 uppercase">
+                        {t('common.duration') || 'Duration'}
+                      </span>
+                      <span className="text-xl font-semibold text-gray-900">
+                        {service.duration || '60-90 min'}
+                      </span>
                     </div>
                   </div>
                 );
@@ -338,8 +366,3 @@ export default function PersonalizedServiceTemplate({
     </>
   );
 }
-
-
-
-
-

@@ -11,29 +11,31 @@ export default async function GlobalAuditLogPage() {
     .limit(100);
 
   if (error) {
-    return <div className="p-6 text-destructive">Error loading logs: {error.message}</div>;
+    return <div className="text-destructive p-6">Error loading logs: {error.message}</div>;
   }
 
   return (
-    <div className="space-y-6 p-6 max-w-400 mx-auto">
-      <div className="flex justify-between items-center">
+    <div className="mx-auto max-w-400 p-6">
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Global Audit Log</h1>
-        <Badge variant="outline" className="text-muted-foreground">Last 100 Events</Badge>
+        <Badge variant="outline" className="text-muted-foreground">
+          Last 100 Events
+        </Badge>
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader className="pb-3 border-b bg-muted/20">
+        <CardHeader className="bg-muted/20 border-b pb-3">
           <CardTitle className="text-base">System Activity Stream</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="bg-muted/50 border-b text-xs uppercase text-muted-foreground">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-muted/50 text-muted-foreground border-b text-xs uppercase">
                 <tr>
-                  <th className="px-4 py-3 font-medium w-40">Time</th>
-                  <th className="px-4 py-3 font-medium w-32">Actor</th>
-                  <th className="px-4 py-3 font-medium w-48">Event</th>
-                  <th className="px-4 py-3 font-medium w-40">Resource</th>
+                  <th className="w-40 px-4 py-3 font-medium">Time</th>
+                  <th className="w-32 px-4 py-3 font-medium">Actor</th>
+                  <th className="w-48 px-4 py-3 font-medium">Event</th>
+                  <th className="w-40 px-4 py-3 font-medium">Resource</th>
                   <th className="px-4 py-3 font-medium">Metadata</th>
                 </tr>
               </thead>
@@ -41,20 +43,27 @@ export default async function GlobalAuditLogPage() {
                 {logs && logs.length > 0 ? (
                   logs.map((log) => (
                     <tr key={log.id} className="hover:bg-muted/40 transition-colors">
-                      <td className="px-4 py-3 whitespace-nowrap text-xs text-muted-foreground">
+                      <td className="text-muted-foreground px-4 py-3 text-xs whitespace-nowrap">
                         {new Date(log.created_at).toLocaleString()}
                       </td>
-                      <td className="px-4 py-3 font-mono text-xs text-primary truncate max-w-30" title={log.actor_id}>
+                      <td
+                        className="text-primary max-w-30 truncate px-4 py-3 font-mono text-xs"
+                        title={log.actor_id}
+                      >
                         {log.actor_id ? log.actor_id.slice(0, 8) + '...' : 'System'}
                       </td>
                       <td className="px-4 py-3">
-                        <Badge variant="outline" className="font-normal bg-background">{log.event_type}</Badge>
+                        <Badge variant="outline" className="bg-background font-normal">
+                          {log.event_type}
+                        </Badge>
                       </td>
-                      <td className="px-4 py-3 text-xs text-muted-foreground font-mono">
-                        {log.resource_type ? `${log.resource_type}:${log.resource_id?.slice(0, 6) || '?'}` : '-'}
+                      <td className="text-muted-foreground px-4 py-3 font-mono text-xs">
+                        {log.resource_type
+                          ? `${log.resource_type}:${log.resource_id?.slice(0, 6) || '?'}`
+                          : '-'}
                       </td>
-                      <td className="px-4 py-3 max-w-100">
-                        <code className="text-[10px] bg-muted/60 p-1.5 rounded block truncate font-mono text-muted-foreground">
+                      <td className="max-w-100 px-4 py-3">
+                        <code className="bg-muted/60 text-muted-foreground block truncate rounded p-1.5 font-mono text-[10px]">
                           {JSON.stringify(log.metadata)}
                         </code>
                       </td>
@@ -62,7 +71,7 @@ export default async function GlobalAuditLogPage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={5} className="text-muted-foreground p-8 text-center">
                       No audit events found.
                     </td>
                   </tr>

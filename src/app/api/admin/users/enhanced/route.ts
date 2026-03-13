@@ -5,7 +5,10 @@ import { getCurrentUser } from '@/lib/platform/supabase';
 async function requireAdminUser() {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
-    return { user: null, error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }) };
+    return {
+      user: null,
+      error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }),
+    };
   }
   // Verify admin role
   const { data: profile } = await supabaseAdmin
@@ -16,12 +19,23 @@ async function requireAdminUser() {
 
   const role = profile?.role || currentUser.app_metadata?.role;
   if (!role || !['admin', 'super_admin', 'Admin', 'SuperAdmin'].includes(role)) {
-    return { user: null, error: NextResponse.json({ error: 'Forbidden: Admin role required' }, { status: 403 }) };
+    return {
+      user: null,
+      error: NextResponse.json({ error: 'Forbidden: Admin role required' }, { status: 403 }),
+    };
   }
   return { user: currentUser, error: null };
 }
 
-// Enhanced user management with advanced filtering and bulk operations
+const ALLOWED_SORT_COLUMNS = [
+  'created_at',
+  'email',
+  'full_name',
+  'role',
+  'account_status',
+  'last_active',
+];
+
 export async function GET(request: NextRequest) {
   try {
     const { user: currentUser, error: authError } = await requireAdminUser();
@@ -33,26 +47,29 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || '';
     const role = searchParams.get('role') || 'all';
     const status = searchParams.get('status') || 'all';
-    const sortBy = searchParams.get('sortBy') || 'created_at';
-    const sortOrder = searchParams.get('sortOrder') || 'desc';
+    const reqSortBy = searchParams.get('sortBy') || 'created_at';
+    const sortOrder = searchParams.get('sortOrder') === 'asc' ? 'asc' : 'desc';
     const dateFrom = searchParams.get('dateFrom');
     const dateTo = searchParams.get('dateTo');
     const lastActiveDays = searchParams.get('lastActiveDays');
 
+    const sortBy = ALLOWED_SORT_COLUMNS.includes(reqSortBy) ? reqSortBy : 'created_at';
+
     const offset = (page - 1) * limit;
 
     // Build query with filters
-    let query = supabaseAdmin.from('profiles').select(
-      `*`,
-      { count: 'exact' }
-    );
+    // Optimized: select specific necessary columns instead of fetching full extensive user records
+    let query = supabaseAdmin
+      .from('profiles')
+      .select(
+        `id, auth_id, email, full_name, role, account_status, created_at, last_active, avatar_url, timezone`,
+        { count: 'exact' }
+      );
 
     // Apply search filter (sanitize special Postgres LIKE characters)
     if (search) {
       const sanitized = search.replace(/[%_\\]/g, '\\$&');
-      query = query.or(
-        `email.ilike.%${sanitized}%,full_name.ilike.%${sanitized}%`
-      );
+      query = query.or(`email.ilike.%${sanitized}%,full_name.ilike.%${sanitized}%`);
     }
 
     // Apply role filter
@@ -196,10 +213,7 @@ export async function POST(request: NextRequest) {
 
         results = await Promise.all(
           userIds.map((userId) =>
-            supabaseAdmin
-              .from('profiles')
-              .update({ role: updates.roleId })
-              .eq('auth_id', userId)
+            supabaseAdmin.from('profiles').update({ role: updates.roleId }).eq('auth_id', userId)
           )
         );
 

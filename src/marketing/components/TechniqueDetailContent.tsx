@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { motion } from 'framer-motion';
@@ -8,12 +8,12 @@ import CTASection from '@/marketing/components/CTASection';
 
 // Move map to shared or props if needed, but safe here for rendering logic if id is passed
 const techniqueMap: Record<string, string> = {
-  'myofascial': 'technique.myofascial',
-  'kinesio': 'technique.kinesio',
-  'reflexology': 'technique.reflexology',
-  'lymphatic': 'technique.lymphatic',
-  'craniosacral': 'technique.craniosacral',
-  'acupressure': 'technique.acupressure'
+  myofascial: 'technique.myofascial',
+  kinesio: 'technique.kinesio',
+  reflexology: 'technique.reflexology',
+  lymphatic: 'technique.lymphatic',
+  craniosacral: 'technique.craniosacral',
+  acupressure: 'technique.acupressure',
 };
 
 interface TechniqueDetailContentProps {
@@ -22,13 +22,13 @@ interface TechniqueDetailContentProps {
 
 export default function TechniqueDetailContent({ id }: TechniqueDetailContentProps) {
   const { t } = useLanguage();
-  
+
   // Handled in page.tsx technically, but good for safety
   if (!techniqueMap[id]) {
     return (
-      <div className="min-h-screen pt-32 px-4 text-center">
+      <div className="min-h-screen px-4 pt-32 text-center">
         <h1 className="text-2xl font-bold text-gray-900">Technique not found</h1>
-        <Link href="/" className="text-blue-600 hover:text-blue-700 mt-4 inline-block">
+        <Link href="/" className="mt-4 inline-block text-blue-600 hover:text-blue-700">
           {t('common.back')}
         </Link>
       </div>
@@ -38,40 +38,36 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
   const baseKey = techniqueMap[id];
 
   return (
-    <div className="pt-24 pb-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <Link 
-          href="/#techniques" 
-          className="inline-flex items-center text-gray-600 hover:text-blue-600 transition-colors mb-8 group"
+    <div className="px-4 pt-24 pb-16">
+      <div className="mx-auto max-w-4xl">
+        <Link
+          href="/#techniques"
+          className="group mb-8 inline-flex items-center text-gray-600 transition-colors hover:text-blue-600"
         >
-          <ArrowLeft className="w-5 h-5 mr-2 transition-colors" />
+          <ArrowLeft className="mr-2 h-5 w-5 transition-colors" />
           {t('common.back')}
         </Link>
-        
+
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 mb-6">
+          <h1 className="mb-6 bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
             {t(`${baseKey}.title`)}
           </h1>
-          
-          <div className="prose prose-lg text-gray-600 max-w-none">
-            <p>
-              {t(`${baseKey}.desc`)}
-            </p>
+
+          <div className="prose prose-lg max-w-none text-gray-600">
+            <p>{t(`${baseKey}.desc`)}</p>
           </div>
-          
-          <div className="mt-12 p-8 bg-white rounded-3xl  border border-orange-100">
-             <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('technique.why')}</h3>
-             <p className="text-gray-600">
-                {t(`${baseKey}.why`)}
-             </p>
+
+          <div className="mt-12 rounded-3xl border border-orange-100 bg-white p-8">
+            <h3 className="mb-4 text-xl font-semibold text-gray-900">{t('technique.why')}</h3>
+            <p className="text-gray-600">{t(`${baseKey}.why`)}</p>
           </div>
         </motion.div>
       </div>
-      
+
       <CTASection />
     </div>
   );

@@ -118,11 +118,7 @@ export function StatusBadge({
   const badgeVariant = variantOverride ?? config.variant;
 
   return (
-    <Badge
-      variant={badgeVariant}
-      className={cn('gap-1.5 capitalize', className)}
-      {...props}
-    >
+    <Badge variant={badgeVariant} className={cn('gap-1.5 capitalize', className)} {...props}>
       {showIcon && <HugeiconsIcon icon={Icon} className="h-3 w-3" />}
       {displayLabel}
     </Badge>

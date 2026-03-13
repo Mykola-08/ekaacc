@@ -47,7 +47,7 @@ export function PageSection({
   const Heading = level;
 
   return (
-    <div className={cn('space-y-6', className)}>
+    <div className={cn('', className)}>
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="flex items-center gap-3">
           {Icon && (
@@ -56,13 +56,13 @@ export function PageSection({
             </div>
           )}
           <div>
-            <Heading className={cn('text-foreground flex items-center gap-2', headingStyles[level])}>
+            <Heading
+              className={cn('text-foreground flex items-center gap-2', headingStyles[level])}
+            >
               {title}
               {badge}
             </Heading>
-            {description && (
-              <p className="text-muted-foreground mt-1 text-sm">{description}</p>
-            )}
+            {description && <p className="text-muted-foreground mt-1 text-sm">{description}</p>}
           </div>
         </div>
         {actions && <div className="flex items-center gap-2">{actions}</div>}

@@ -3,22 +3,28 @@ import { handle } from 'hono/vercel';
 import { cors } from 'hono/cors';
 import { zValidator } from '@hono/zod-validator';
 import { ContactFormSchema } from '@/marketing/shared/types';
+import { getResend } from '@/lib/platform/services/email-client';
 
 const app = new Hono().basePath('/api');
 
 const ALLOWED_ORIGINS = [
   'https://ekabalance.com',
   'https://www.ekabalance.com',
-  ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://192.168.31.121:3000'] : []),
+  ...(process.env.NODE_ENV === 'development'
+    ? ['http://localhost:3000', 'http://192.168.31.121:3000']
+    : []),
 ];
 
 // CORS middleware
-app.use('*', cors({
-  origin: (origin) => ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
-  allowMethods: ['GET', 'POST', 'OPTIONS'],
-  allowHeaders: ['Content-Type'],
-  credentials: true,
-}));
+app.use(
+  '*',
+  cors({
+    origin: (origin) => (ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0]),
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowHeaders: ['Content-Type'],
+    credentials: true,
+  })
+);
 
 // Simple in-memory rate limiter for contact form
 const contactRateLimit = new Map<string, { count: number; resetAt: number }>();
@@ -51,17 +57,37 @@ app.post('/contact', zValidator('json', ContactFormSchema), async (c) => {
 
     const data = c.req.valid('json');
 
-    // TODO: integrate with an email service or external storage
-    console.log('[contact] New submission:', {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      service: data.service,
-      message: data.message,
-      preferred_contact: data.preferred_contact || 'email',
-      preferred_time: data.preferred_time,
-      ts: new Date().toISOString(),
+    const resend = getResend();
+    const adminEmail = process.env.ADMIN_EMAIL || 'contact@ekabalance.com';
+    const sender = process.env.EMAIL_SENDER || 'Eka Platform <onboarding@resend.dev>';
+
+    const htmlContent = `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+      <p><strong>Service:</strong> ${data.service || 'N/A'}</p>
+      <p><strong>Preferred Contact:</strong> ${data.preferred_contact || 'email'}</p>
+      <p><strong>Preferred Time:</strong> ${data.preferred_time || 'N/A'}</p>
+      <br/>
+      <p><strong>Message:</strong></p>
+      <p>${data.message.replace(/\n/g, '<br/>')}</p>
+    `;
+
+    const { error } = await resend.emails.send({
+      from: sender,
+      to: [adminEmail],
+      replyTo: data.email,
+      subject: `New Contact Request: ${data.name}`,
+      html: htmlContent,
     });
+
+    if (error) {
+      console.error('[contact] Resend error:', error);
+      return c.json({ error: 'Failed to send email' }, 500);
+    }
+
+    console.log('[contact] Successfully processed submission from:', data.email);
 
     return c.json({ success: true });
   } catch (error) {

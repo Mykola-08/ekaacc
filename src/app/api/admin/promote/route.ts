@@ -1,8 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// Simple in-memory rate limiter for the promote route
+// Note: In production with multiple instances, use Redis or DB-backed rate limiting
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 5;
+const ipRequests = new Map<string, { count: number; windowStart: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const record = ipRequests.get(ip);
+  if (!record || now - record.windowStart > RATE_LIMIT_WINDOW) {
+    ipRequests.set(ip, { count: 1, windowStart: now });
+    return false;
+  }
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+    return true;
+  }
+  record.count++;
+  return false;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    // Basic IP extraction for rate limiting
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+    }
+
     const tokenHeader = req.headers.get('x-admin-promo-token') || '';
     const expected = process.env.ADMIN_PROMOTE_TOKEN;
 

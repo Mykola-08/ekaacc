@@ -13,7 +13,9 @@ export const maxDuration = 60;
 export async function GET(req: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -24,7 +26,11 @@ export async function GET(req: NextRequest) {
     // Check for a cached summary from today unless force refresh
     if (!forceRefresh) {
       const { db } = await import('@/lib/db');
-      const { rows } = await db.query<{ description: string; metadata: Record<string, unknown>; created_at: string }>(
+      const { rows } = await db.query<{
+        description: string;
+        metadata: Record<string, unknown>;
+        created_at: string;
+      }>(
         `SELECT description, metadata, created_at FROM ai_insights
          WHERE user_id = $1 AND type = 'wellness' AND title = 'Daily Wellness Summary'
          AND created_at > NOW() - INTERVAL '12 hours' AND is_active = true
@@ -62,9 +68,6 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error('[AI Summary GET]', error);
-    return NextResponse.json(
-      { error: 'Failed to get daily summary' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get daily summary' }, { status: 500 });
   }
 }

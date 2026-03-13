@@ -61,7 +61,7 @@ export function AvailabilityManager() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="">
       <DashboardHeader
         title="Availability"
         subtitle="Manage your weekly working hours and time blocks."

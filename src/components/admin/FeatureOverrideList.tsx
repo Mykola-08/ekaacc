@@ -20,20 +20,27 @@ export function FeatureOverrideList({ userId, enrollments, allFeatures }: any) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="">
       {allFeatures.map((feature: any) => {
         const enrollment = enrollments.find((e: any) => e.feature_id === feature.id);
         const isEnabled = enrollment ? enrollment.enabled : feature.default_enabled;
         const isOverride = !!enrollment;
 
         return (
-          <div key={feature.id} className="flex justify-between items-center border p-3 rounded-md bg-card">
+          <div
+            key={feature.id}
+            className="bg-card flex items-center justify-between rounded-md border p-3"
+          >
             <div className="flex flex-col">
-               <span className="font-mono text-sm font-medium">{feature.key}</span>
-               <div className="flex gap-2 text-xs text-muted-foreground">
-                 {feature.description}
-                 {isOverride && <span className="text-[10px] bg-yellow-100 text-yellow-800 px-1 rounded self-center">Override</span>}
-               </div>
+              <span className="font-mono text-sm font-medium">{feature.key}</span>
+              <div className="text-muted-foreground flex gap-2 text-xs">
+                {feature.description}
+                {isOverride && (
+                  <span className="self-center rounded bg-yellow-100 px-1 text-[10px] text-yellow-800">
+                    Override
+                  </span>
+                )}
+              </div>
             </div>
             <Switch
               checked={isEnabled}

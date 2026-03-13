@@ -58,25 +58,25 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
   };
 
   return (
-    <div className="space-y-6">
-       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
-            <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">Total Revenue</h3>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="p-6 pt-0">
-              <div className="text-2xl font-bold">{stats.revenueMtd}</div>
-              <p className="text-xs text-muted-foreground">{stats.revenueGrowth} from last month</p>
-            </div>
+    <div className="">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="bg-card text-card-foreground rounded-xl border shadow-sm">
+          <div className="flex flex-row items-center justify-between p-6 pb-2">
+            <h3 className="text-sm font-medium tracking-tight">Total Revenue</h3>
+            <DollarSign className="text-muted-foreground h-4 w-4" />
           </div>
-          {/* Add more cards as needed */}
-       </div>
+          <div className="p-6 pt-0">
+            <div className="text-2xl font-bold">{stats.revenueMtd}</div>
+            <p className="text-muted-foreground text-xs">{stats.revenueGrowth} from last month</p>
+          </div>
+        </div>
+        {/* Add more cards as needed */}
+      </div>
 
-       <div className="space-y-4">
-          <h2 className="text-2xl font-bold tracking-tight">Recent Bookings</h2>
-          <AdminBookingTable />
-       </div>
+      <div className="">
+        <h2 className="text-2xl font-bold tracking-tight">Recent Bookings</h2>
+        <AdminBookingTable />
+      </div>
     </div>
   );
 }

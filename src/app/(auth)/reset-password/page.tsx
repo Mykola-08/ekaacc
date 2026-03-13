@@ -100,10 +100,10 @@ export default function ResetPasswordPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="relative z-10"
         >
-          <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl mx-auto w-full max-w-md">
+          <Card className="border-border/20 bg-card/70 relative mx-auto w-full max-w-md overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
             <CardContent className="p-10">
               <div className="flex flex-col items-center gap-4 text-center">
-                <div className="relative overflow-hidden rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
+                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
                   <Image
                     src="/images/eka_logo.png"
                     alt="EKA Balance"
@@ -113,7 +113,7 @@ export default function ResetPasswordPage() {
                     priority
                   />
                 </div>
-                <h2 className="text-2xl font-semibold text-foreground">
+                <h2 className="text-foreground text-2xl font-semibold">
                   {isCheckingSession ? 'Verifying...' : 'Redirecting...'}
                 </h2>
                 <p className="text-muted-foreground text-sm">
@@ -121,7 +121,7 @@ export default function ResetPasswordPage() {
                     ? 'Please wait while we verify your reset link'
                     : 'Taking you to password reset'}
                 </p>
-                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                <Loader2 className="text-muted-foreground h-5 w-5 animate-spin" />
               </div>
             </CardContent>
           </Card>
@@ -140,7 +140,7 @@ export default function ResetPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl">
+        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
             <motion.div
@@ -149,7 +149,7 @@ export default function ResetPasswordPage() {
               transition={{ delay: 0.1, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
               className="mb-8 flex flex-col items-center gap-4 text-center"
             >
-              <div className="relative overflow-hidden rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
+              <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
                 <Image
                   src="/images/eka_logo.png"
                   alt="EKA Balance"
@@ -159,8 +159,8 @@ export default function ResetPasswordPage() {
                   priority
                 />
               </div>
-              <div className="space-y-1">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <div className="">
+                <h1 className="text-foreground text-2xl font-semibold tracking-tight">
                   Reset Password
                 </h1>
                 <p className="text-muted-foreground text-sm font-medium">
@@ -169,12 +169,12 @@ export default function ResetPasswordPage() {
               </div>
             </motion.div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="space-y-2"
+                className=""
               >
                 <label
                   htmlFor="password"
@@ -206,7 +206,7 @@ export default function ResetPasswordPage() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="space-y-2"
+                className=""
               >
                 <label
                   htmlFor="confirmPassword"
@@ -235,14 +235,14 @@ export default function ResetPasswordPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="space-y-3 pt-2"
+                className="pt-2"
               >
-                <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
-                <Button
-                  type="submit"
-                  className="auth-submit-btn"
-                  disabled={isLoading}
-                >
+                <InlineFeedback
+                  status={feedback.status}
+                  message={feedback.message}
+                  onDismiss={reset}
+                />
+                <Button type="submit" className="auth-submit-btn" disabled={isLoading}>
                   {isLoading ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
@@ -263,7 +263,7 @@ export default function ResetPasswordPage() {
             >
               <Link
                 href="/login"
-                className="text-foreground inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:text-primary"
+                className="text-foreground hover:text-primary inline-flex items-center gap-1 text-sm font-semibold transition-colors"
               >
                 <ArrowLeft className="h-3 w-3" />
                 Back to Sign In

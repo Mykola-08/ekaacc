@@ -56,14 +56,14 @@ export function AddFamilyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-primary hover:bg-primary/90 rounded-lg px-5 py-6 text-primary-foreground shadow-sm transition-all ">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-5 py-6 shadow-sm transition-all">
           <UserPlus className="mr-2 h-4 w-4" />
           Add Member
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 shadow-sm sm:max-w-106.25">
         <div className="bg-muted/40 border-border/60 border-b p-6 pb-4">
-          <DialogHeader className="space-y-1 text-left">
+          <DialogHeader className="text-left">
             <DialogTitle className="text-foreground font-serif text-xl">
               Add Family Member
             </DialogTitle>
@@ -73,9 +73,9 @@ export function AddFamilyDialog() {
           </DialogHeader>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 p-6">
-          <div className="space-y-4">
-            <div className="space-y-2">
+        <form onSubmit={handleSubmit} className="p-6">
+          <div className="">
+            <div className="">
               <Label htmlFor="full_name" className="text-foreground/90 font-medium">
                 Full Name
               </Label>
@@ -86,12 +86,12 @@ export function AddFamilyDialog() {
                   name="full_name"
                   required
                   placeholder="e.g. Maya V."
-                  className="bg-muted/40 border-border h-9 rounded-lg pl-10 focus:ring-border focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border focus:ring-border h-9 rounded-lg pl-10 focus-visible:ring-offset-0"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="">
               <Label htmlFor="dob" className="text-foreground/90 font-medium">
                 Date of Birth
               </Label>
@@ -101,17 +101,17 @@ export function AddFamilyDialog() {
                   id="dob"
                   name="dob"
                   type="date"
-                  className="bg-muted/40 border-border block h-9 w-full rounded-lg pl-10 focus:ring-border focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border focus:ring-border block h-9 w-full rounded-lg pl-10 focus-visible:ring-offset-0"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="">
               <Label htmlFor="relationship" className="text-foreground/90 font-medium">
                 Relationship
               </Label>
               <Select name="relationship" required defaultValue="child">
-                <SelectTrigger className="bg-muted/40 border-border h-9 rounded-lg focus:ring-border">
+                <SelectTrigger className="bg-muted/40 border-border focus:ring-border h-9 rounded-lg">
                   <SelectValue placeholder="Select relationship" />
                 </SelectTrigger>
                 <SelectContent className="border-border/60 rounded-lg shadow-sm">
@@ -134,7 +134,7 @@ export function AddFamilyDialog() {
             <Button
               type="submit"
               disabled={loading}
-              className="bg-primary h-9 w-full rounded-lg text-base font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 w-full rounded-lg text-base font-medium shadow-sm"
             >
               {loading ? (
                 <>

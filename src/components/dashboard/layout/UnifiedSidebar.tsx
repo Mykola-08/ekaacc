@@ -134,11 +134,7 @@ function NavMain({
           <SidebarMenu>
             {section.items.map((item) => (
               <SidebarMenuItem key={item.path}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive(item.path)}
-                  tooltip={item.label}
-                >
+                <SidebarMenuButton asChild isActive={isActive(item.path)} tooltip={item.label}>
                   <Link href={item.path}>
                     <NavIcon name={item.icon} />
                     <span>{item.label}</span>
@@ -192,7 +188,7 @@ function NavUser({
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{displayName}</span>
-                <span className="truncate text-xs text-muted-foreground">{roleLabel}</span>
+                <span className="text-muted-foreground truncate text-xs">{roleLabel}</span>
               </div>
               <HugeiconsIcon icon={UnfoldMoreIcon} className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -250,13 +246,7 @@ function NavUser({
 
 // ─── Main component ────────────────────────────────────────────────
 
-export function UnifiedSidebar({
-  profile,
-  permissions,
-}: {
-  profile?: any;
-  permissions?: any[];
-}) {
+export function UnifiedSidebar({ profile, permissions }: { profile?: any; permissions?: any[] }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
@@ -270,8 +260,7 @@ export function UnifiedSidebar({
       // Check for manage permission (implies all actions in that group)
       return permissions.some(
         (p) =>
-          p.group === permission.group &&
-          (p.action === permission.action || p.action === 'manage')
+          p.group === permission.group && (p.action === permission.action || p.action === 'manage')
       );
     };
   }, [permissions]);
@@ -291,10 +280,9 @@ export function UnifiedSidebar({
   };
 
   const role = profile?.role || user?.role?.name || 'Patient';
-  const displayName =
-    profile?.first_name
-      ? `${profile.first_name} ${profile.last_name || ''}`.trim()
-      : profile?.full_name || user?.email?.split('@')[0] || 'User';
+  const displayName = profile?.first_name
+    ? `${profile.first_name} ${profile.last_name || ''}`.trim()
+    : profile?.full_name || user?.email?.split('@')[0] || 'User';
   const email = profile?.email || user?.email || '';
   const avatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url;
 
@@ -313,12 +301,12 @@ export function UnifiedSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild tooltip="EKA">
               <Link href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">EKA</span>
-                  <span className="truncate text-xs text-muted-foreground">Wellness</span>
+                  <span className="text-muted-foreground truncate text-xs">Wellness</span>
                 </div>
               </Link>
             </SidebarMenuButton>

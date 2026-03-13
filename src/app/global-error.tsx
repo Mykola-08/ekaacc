@@ -35,9 +35,16 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: 'var(--font-geist-sans, system-ui, -apple-system, sans-serif)' }}>
+      <body
+        style={{
+          margin: 0,
+          fontFamily: 'var(--font-geist-sans, system-ui, -apple-system, sans-serif)',
+        }}
+      >
         {/* Embed CSS variables so design tokens work even without the root layout */}
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           :root {
             --background: oklch(1 0 0);
             --foreground: oklch(0.145 0 0);
@@ -61,7 +68,9 @@ export default function GlobalError({
               --border: oklch(1 0 0 / 10%);
             }
           }
-        `}} />
+        `,
+          }}
+        />
         <div
           style={{
             display: 'flex',
@@ -87,14 +96,30 @@ export default function GlobalError({
             }}
           >
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--foreground)' }}>
+            <h1
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 600,
+                marginBottom: '0.5rem',
+                color: 'var(--foreground)',
+              }}
+            >
               Application Error
             </h1>
-            <p style={{ color: 'var(--muted-foreground)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+            <p
+              style={{ color: 'var(--muted-foreground)', marginBottom: '1.5rem', lineHeight: 1.6 }}
+            >
               Something went wrong. We apologize for the inconvenience.
             </p>
             {error.digest && (
-              <p style={{ color: 'var(--muted-foreground)', fontSize: '0.75rem', marginBottom: '1.5rem', opacity: 0.7 }}>
+              <p
+                style={{
+                  color: 'var(--muted-foreground)',
+                  fontSize: '0.75rem',
+                  marginBottom: '1.5rem',
+                  opacity: 0.7,
+                }}
+              >
                 Reference: {error.digest}
               </p>
             )}

@@ -23,22 +23,32 @@ export const bentoTranslations: Record<Language, Record<string, string>> = {
     'massage.techniques.recovery': 'Recuperació Esportiva',
     'massage.techniques.recovery.desc': 'Preparació i descàrrega muscular.',
     'massage.techniques.relaxation': 'Relaxació Profunda',
-    'massage.techniques.relaxation.desc': 'Calma el teu sistema nerviós i l\'estrès.',
+    'massage.techniques.relaxation.desc': "Calma el teu sistema nerviós i l'estrès.",
 
-    'massage.techniques.deepTissue.details': 'Focus en les capes més profundes del teixit muscular, descomponent nusos i adherències. Ideal per a la tensió crònica i la recuperació atlètica, proporciona un alliberament immediat de les restriccions musculars i articulatories més tossudes.',
-    'massage.techniques.recovery.details': 'Una fusió d\'estiraments, compressions i cops específics dissenyats per eliminar la fatiga miofascial i el dolor post-entrenament. Accelera l\'eliminació de l\'àcid làctic i restaura la fluïdesa del teixit per a un millor rendiment esportiu i funcionalitat.',
-    'massage.techniques.relaxation.details': 'Incorporant moviments fluids i rítmics amb una pressió controlada per calmar el sistema nerviós, alleujar l\'estrès acumulat i promoure un son i una regeneració de qualitat. Restaura l\'equilibri entre el cos actiu i el repòs.',
-    'kinesiology.benefits.balance.details': 'La kinesiologia actua com el llenguatge a través del qual desxifrem l\'estrès ocult que el teu cos ha acumulat. Corregint els patrons energètics desequilibrats mitjançant proves musculars, recuperem la teva harmonia de manera orgànica i permanent.',
-    'kinesiology.benefits.posture.details': 'Treballem directament sobre la tensió muscular arrelada als estrèssors emocionals i metabòlics. A l\'alliberar-los, l\'estructura física recupera el seu espai adequat millorant dràsticament l\'oxigenació, l\'alineació de la columna i prevenint dolors freqüents.',
-    'kinesiology.benefits.stress.details': 'Identificant quines històries passades o situacions presents romanen "bloquejades" en una resposta de lluita/fugida dins el teu sistema autonòmic. Proporciona espai per "des-activar" la resistència i reduir ràpidament els processos d\'ansietat o cansament mental.',
-    'kinesiology.benefits.energy.details': 'Els buits energètics disminueixen a mesura que obrim els meridians del cos. El resultat és una presència i claredat sostingudes durant el dia que reemplaça el cansament constant, aprofitant directament les defenses del teu cos i la recàrrega metabòlica.',
-    'nutrition.benefits.habits.details': 'Abordem la transició cap a una alimentació saludable fent petits ajustaments consistents a la teva rutina actual sense restriccions poc raonables, generant solucions factibles segons el teu temps a la feina i les compres diàries.',
-    'nutrition.benefits.knowledge.details': 'T\'ajudem a comprendre quin tipus d\'alimentació processa millor al teu organisme, tenint en compte possibles sensibilitats, l\'ambient on vius i desmitificant modes del mercat dietètic que no serveixen.',
-    'nutrition.benefits.weight.details': 'Acompanyament basat tant en l\'educació nutricional general com els indicadors psicobiològics per perdre greix o construir massa muscular a través de solucions empàtiques enfocant-se en l\'alliberament dels teus pèls inflamatoris.',
-    'nutrition.benefits.prevention.details': 'Aprofundint en aquelles condicions subjacents com els paràmetres autoimmunes o deficiències de micronutrients. Reforcem el sistema digestiu com el centre neuràlgic on l\'ecosistema bacterià optimitza qualsevol símptoma crònic i protegeix a llarg termini.',
+    'massage.techniques.deepTissue.details':
+      'Focus en les capes més profundes del teixit muscular, descomponent nusos i adherències. Ideal per a la tensió crònica i la recuperació atlètica, proporciona un alliberament immediat de les restriccions musculars i articulatories més tossudes.',
+    'massage.techniques.recovery.details':
+      "Una fusió d'estiraments, compressions i cops específics dissenyats per eliminar la fatiga miofascial i el dolor post-entrenament. Accelera l'eliminació de l'àcid làctic i restaura la fluïdesa del teixit per a un millor rendiment esportiu i funcionalitat.",
+    'massage.techniques.relaxation.details':
+      "Incorporant moviments fluids i rítmics amb una pressió controlada per calmar el sistema nerviós, alleujar l'estrès acumulat i promoure un son i una regeneració de qualitat. Restaura l'equilibri entre el cos actiu i el repòs.",
+    'kinesiology.benefits.balance.details':
+      "La kinesiologia actua com el llenguatge a través del qual desxifrem l'estrès ocult que el teu cos ha acumulat. Corregint els patrons energètics desequilibrats mitjançant proves musculars, recuperem la teva harmonia de manera orgànica i permanent.",
+    'kinesiology.benefits.posture.details':
+      "Treballem directament sobre la tensió muscular arrelada als estrèssors emocionals i metabòlics. A l'alliberar-los, l'estructura física recupera el seu espai adequat millorant dràsticament l'oxigenació, l'alineació de la columna i prevenint dolors freqüents.",
+    'kinesiology.benefits.stress.details':
+      'Identificant quines històries passades o situacions presents romanen "bloquejades" en una resposta de lluita/fugida dins el teu sistema autonòmic. Proporciona espai per "des-activar" la resistència i reduir ràpidament els processos d\'ansietat o cansament mental.',
+    'kinesiology.benefits.energy.details':
+      'Els buits energètics disminueixen a mesura que obrim els meridians del cos. El resultat és una presència i claredat sostingudes durant el dia que reemplaça el cansament constant, aprofitant directament les defenses del teu cos i la recàrrega metabòlica.',
+    'nutrition.benefits.habits.details':
+      'Abordem la transició cap a una alimentació saludable fent petits ajustaments consistents a la teva rutina actual sense restriccions poc raonables, generant solucions factibles segons el teu temps a la feina i les compres diàries.',
+    'nutrition.benefits.knowledge.details':
+      "T'ajudem a comprendre quin tipus d'alimentació processa millor al teu organisme, tenint en compte possibles sensibilitats, l'ambient on vius i desmitificant modes del mercat dietètic que no serveixen.",
+    'nutrition.benefits.weight.details':
+      "Acompanyament basat tant en l'educació nutricional general com els indicadors psicobiològics per perdre greix o construir massa muscular a través de solucions empàtiques enfocant-se en l'alliberament dels teus pèls inflamatoris.",
+    'nutrition.benefits.prevention.details':
+      "Aprofundint en aquelles condicions subjacents com els paràmetres autoimmunes o deficiències de micronutrients. Reforcem el sistema digestiu com el centre neuràlgic on l'ecosistema bacterià optimitza qualsevol símptoma crònic i protegeix a llarg termini.",
   },
   es: {
-
     'massage.bento.title': 'Técnicas Especializadas',
     'massage.bento.subtitle': 'Terapia personalizada para una recuperación óptima.',
     'massage.techniques.deepTissue': 'Tejido Profundo',
@@ -61,20 +71,30 @@ export const bentoTranslations: Record<Language, Record<string, string>> = {
     'home.bento.testimonial.quote': '"Un antes y un después en mi bienestar."',
     'home.bento.testimonial.author': 'Maria G.',
     'home.bento.testimonial.role': 'Paciente frecuente',
-    'massage.techniques.deepTissue.details': 'Enfoque en las capas más profundas del tejido muscular, deshaciendo nudos y adherencias. Ideal para la tensión crónica y la recuperación atlética, proporciona una liberación inmediata de las restricciones musculares y articulares más persistentes.',
-    'massage.techniques.recovery.details': 'Una fusión de estiramientos, compresiones y percusiones específicas diseñadas para eliminar la fatiga miofascial y el dolor post-entrenamiento. Acelera la eliminación del ácido láctico y restaura la fluidez de los tejidos para un mejor rendimiento deportivo.',
-    'massage.techniques.relaxation.details': 'Incorporando movimientos fluidos y rítmicos con una presión controlada para calmar el sistema nervioso, aliviar el estrés acumulado y promover un sueño reparador y la regeneración celular. Restaura el equilibrio entre la actividad y el descanso profundo.',
-    'kinesiology.benefits.balance.details': 'La kinesiología actúa como el lenguaje mediante el cual desciframos el estrés oculto que tu cuerpo ha acumulado. Al corregir los patrones energéticos desequilibrados mediante la respuesta muscular, recuperamos tu armonía de forma orgánica y permanente.',
-    'kinesiology.benefits.posture.details': 'Trabajamos directamente sobre la tensión muscular arraigada en estresores emocionales o metabólicos. Al liberarlos, la estructura física recupera su espacio adecuado mejorando drásticamente la alineación de la columna, la flexión y previniendo que el dolor recurra.',
-    'kinesiology.benefits.stress.details': 'Identificando qué historias o situaciones permanecen "congeladas" en una respuesta de lucha/huida dentro de tu sistema nervioso. Aporta el espacio de contención para "desactivar" la reactividad automática y reducir rápidamente los procesos de ansiedad y cansancio.',
-    'kinesiology.benefits.energy.details': 'Los bloqueos energéticos disminuyen a medida que restablecemos los meridianos de tu cuerpo. El resultado es una presencia y claridad sostenidas durante el día en lugar de fatiga constante, reactivando la recarga natural y potenciando las defensas biológicas.',
-    'nutrition.benefits.habits.details': 'Abordamos la transición hacia una alimentación saludable realizando pequeños ajustes consistentes a tu rutina diaria sin restricciones insensatas. Creamos soluciones factibles adaptadas a tus horarios de trabajo, cocina y ritmo real.',
-    'nutrition.benefits.knowledge.details': 'Te ayudamos a comprender qué tipo de alimentación procesa mejor tu organismo, teniendo en cuenta posibles sensibilidades y el contexto en que vives, desmitificando dietas restrictivas del mercado que a la larga no te sirven.',
-    'nutrition.benefits.weight.details': 'Acompañamiento basado en la educación nutricional y marcadores psicobiológicos para recomponer tu base física. Nos enfocamos en un metabolismo liberado de señales inflamatorias en lugar de estresarte con prohibiciones.',
-    'nutrition.benefits.prevention.details': 'Atendiendo posibles condiciones latentes o desbalances crónicos. Reforzamos tu sistema digestivo como el centro central donde florece un ecosistema microscópico, optimizando procesos de largo plazo y protegiéndote preventivamente.',
+    'massage.techniques.deepTissue.details':
+      'Enfoque en las capas más profundas del tejido muscular, deshaciendo nudos y adherencias. Ideal para la tensión crónica y la recuperación atlética, proporciona una liberación inmediata de las restricciones musculares y articulares más persistentes.',
+    'massage.techniques.recovery.details':
+      'Una fusión de estiramientos, compresiones y percusiones específicas diseñadas para eliminar la fatiga miofascial y el dolor post-entrenamiento. Acelera la eliminación del ácido láctico y restaura la fluidez de los tejidos para un mejor rendimiento deportivo.',
+    'massage.techniques.relaxation.details':
+      'Incorporando movimientos fluidos y rítmicos con una presión controlada para calmar el sistema nervioso, aliviar el estrés acumulado y promover un sueño reparador y la regeneración celular. Restaura el equilibrio entre la actividad y el descanso profundo.',
+    'kinesiology.benefits.balance.details':
+      'La kinesiología actúa como el lenguaje mediante el cual desciframos el estrés oculto que tu cuerpo ha acumulado. Al corregir los patrones energéticos desequilibrados mediante la respuesta muscular, recuperamos tu armonía de forma orgánica y permanente.',
+    'kinesiology.benefits.posture.details':
+      'Trabajamos directamente sobre la tensión muscular arraigada en estresores emocionales o metabólicos. Al liberarlos, la estructura física recupera su espacio adecuado mejorando drásticamente la alineación de la columna, la flexión y previniendo que el dolor recurra.',
+    'kinesiology.benefits.stress.details':
+      'Identificando qué historias o situaciones permanecen "congeladas" en una respuesta de lucha/huida dentro de tu sistema nervioso. Aporta el espacio de contención para "desactivar" la reactividad automática y reducir rápidamente los procesos de ansiedad y cansancio.',
+    'kinesiology.benefits.energy.details':
+      'Los bloqueos energéticos disminuyen a medida que restablecemos los meridianos de tu cuerpo. El resultado es una presencia y claridad sostenidas durante el día en lugar de fatiga constante, reactivando la recarga natural y potenciando las defensas biológicas.',
+    'nutrition.benefits.habits.details':
+      'Abordamos la transición hacia una alimentación saludable realizando pequeños ajustes consistentes a tu rutina diaria sin restricciones insensatas. Creamos soluciones factibles adaptadas a tus horarios de trabajo, cocina y ritmo real.',
+    'nutrition.benefits.knowledge.details':
+      'Te ayudamos a comprender qué tipo de alimentación procesa mejor tu organismo, teniendo en cuenta posibles sensibilidades y el contexto en que vives, desmitificando dietas restrictivas del mercado que a la larga no te sirven.',
+    'nutrition.benefits.weight.details':
+      'Acompañamiento basado en la educación nutricional y marcadores psicobiológicos para recomponer tu base física. Nos enfocamos en un metabolismo liberado de señales inflamatorias en lugar de estresarte con prohibiciones.',
+    'nutrition.benefits.prevention.details':
+      'Atendiendo posibles condiciones latentes o desbalances crónicos. Reforzamos tu sistema digestivo como el centro central donde florece un ecosistema microscópico, optimizando procesos de largo plazo y protegiéndote preventivamente.',
   },
   en: {
-
     'massage.bento.title': 'Specialized Techniques',
     'massage.bento.subtitle': 'Personalized therapy for optimal recovery.',
     'massage.techniques.deepTissue': 'Deep Tissue',
@@ -97,20 +117,30 @@ export const bentoTranslations: Record<Language, Record<string, string>> = {
     'home.bento.testimonial.quote': '"A before and after in my wellbeing."',
     'home.bento.testimonial.author': 'Maria G.',
     'home.bento.testimonial.role': 'Frequent Patient',
-    'massage.techniques.deepTissue.details': 'Focusing on the deepest layers of muscle tissue to untangle stubborn knots and adhesions. Ideal for chronic tension and athletic recovery, this work delivers immediate release from persistent muscular and fascial restrictions.',
-    'massage.techniques.recovery.details': 'A customized arrangement of stretches, active compressions, and deliberate strokes formulated to eliminate myofascial fatigue and post-workout soreness. Rapidly flushes lactic acid and restores tissue fluidity for heightened sports performance.',
-    'massage.techniques.relaxation.details': 'Using rhythmic, cascading effleurage with intentionally comforting pressure to downregulate an overactive nervous system. It mitigates accumulated stress while fostering profound cellular regeneration and uninterrupted sleep.',
-    'kinesiology.benefits.balance.details': 'Applied Kinesiology becomes the decoder for hidden somatic stress. By correcting energetic disruptions through highly responsive muscle testing, your innate baseline harmony is pieced back together thoroughly and gently.',
-    'kinesiology.benefits.posture.details': 'By releasing muscular holding patterns rooted in metabolic or emotional defense, your physical scaffolding unspools. This effectively rehabilitates spine alignment and joint mechanics from the inside out.',
-    'kinesiology.benefits.stress.details': 'Locates the exact narratives or past moments "locked" inside your autonomic survival loop. It grants the somatic permission to exit fight-or-flight, quickly bringing anxiety or cognitive burnout down to a solid calm.',
-    'kinesiology.benefits.energy.details': 'Energy leakages are sealed as your body\'s organ meridians are rebooted. Expect crisp, sustainable clarity throughout your afternoon, a revitalized immune response, and a metabolic rhythm that feels endlessly vital.',
-    'nutrition.benefits.habits.details': 'Transitioning to a nourishing lifestyle by instituting incremental and realistic adjustments rather than exhaustive restrictions. We engineer bespoke food routines aligned exactly with your work schedule and kitchen capabilities.',
-    'nutrition.benefits.knowledge.details': 'Discover the precise nutritional blueprint your organism requires. We dissect personal food sensitivities while demystifying dietary fads, ultimately equipping you with genuine insights on bio-individuality.',
-    'nutrition.benefits.weight.details': 'Expert guidance reliant upon holistic nutritional science to address fat loss or muscular gain. Our empathic protocol prioritizes metabolic healing and resolving inflammation profiles over rigid mathematical starvation.',
-    'nutrition.benefits.prevention.details': 'Focusing heavily on robust preventative strategies via long-term micronutrient optimization and gut microbiome strength. Protecting the digestive ecosystem proactively safeguards against chronic illness and accelerates systemic resilience.',
+    'massage.techniques.deepTissue.details':
+      'Focusing on the deepest layers of muscle tissue to untangle stubborn knots and adhesions. Ideal for chronic tension and athletic recovery, this work delivers immediate release from persistent muscular and fascial restrictions.',
+    'massage.techniques.recovery.details':
+      'A customized arrangement of stretches, active compressions, and deliberate strokes formulated to eliminate myofascial fatigue and post-workout soreness. Rapidly flushes lactic acid and restores tissue fluidity for heightened sports performance.',
+    'massage.techniques.relaxation.details':
+      'Using rhythmic, cascading effleurage with intentionally comforting pressure to downregulate an overactive nervous system. It mitigates accumulated stress while fostering profound cellular regeneration and uninterrupted sleep.',
+    'kinesiology.benefits.balance.details':
+      'Applied Kinesiology becomes the decoder for hidden somatic stress. By correcting energetic disruptions through highly responsive muscle testing, your innate baseline harmony is pieced back together thoroughly and gently.',
+    'kinesiology.benefits.posture.details':
+      'By releasing muscular holding patterns rooted in metabolic or emotional defense, your physical scaffolding unspools. This effectively rehabilitates spine alignment and joint mechanics from the inside out.',
+    'kinesiology.benefits.stress.details':
+      'Locates the exact narratives or past moments "locked" inside your autonomic survival loop. It grants the somatic permission to exit fight-or-flight, quickly bringing anxiety or cognitive burnout down to a solid calm.',
+    'kinesiology.benefits.energy.details':
+      "Energy leakages are sealed as your body's organ meridians are rebooted. Expect crisp, sustainable clarity throughout your afternoon, a revitalized immune response, and a metabolic rhythm that feels endlessly vital.",
+    'nutrition.benefits.habits.details':
+      'Transitioning to a nourishing lifestyle by instituting incremental and realistic adjustments rather than exhaustive restrictions. We engineer bespoke food routines aligned exactly with your work schedule and kitchen capabilities.',
+    'nutrition.benefits.knowledge.details':
+      'Discover the precise nutritional blueprint your organism requires. We dissect personal food sensitivities while demystifying dietary fads, ultimately equipping you with genuine insights on bio-individuality.',
+    'nutrition.benefits.weight.details':
+      'Expert guidance reliant upon holistic nutritional science to address fat loss or muscular gain. Our empathic protocol prioritizes metabolic healing and resolving inflammation profiles over rigid mathematical starvation.',
+    'nutrition.benefits.prevention.details':
+      'Focusing heavily on robust preventative strategies via long-term micronutrient optimization and gut microbiome strength. Protecting the digestive ecosystem proactively safeguards against chronic illness and accelerates systemic resilience.',
   },
   ru: {
-
     'massage.bento.title': 'Специализированные методы',
     'massage.bento.subtitle': 'Индивидуальная терапия для оптимального восстановления.',
     'massage.techniques.deepTissue': 'Глубокие ткани',
@@ -133,16 +163,27 @@ export const bentoTranslations: Record<Language, Record<string, string>> = {
     'home.bento.testimonial.quote': '"До и после в моем самочувствии."',
     'home.bento.testimonial.author': 'Мария Г.',
     'home.bento.testimonial.role': 'Постоянный пациент',
-    'massage.techniques.deepTissue.details': 'Воздействие на самые глубокие слои мышечной ткани, разрушая упрямые узлы и спайки. Идеально подходит для снятия хронического напряжения и восстановления спортсменов; обеспечивает немедленное освобождение от стойких мышечных и фасциальных ограничений.',
-    'massage.techniques.recovery.details': 'Специализированная смесь растяжек, компрессий и конкретных приемов, предназначенная для устранения миофасциальной усталости и боли после тренировок. Ускоряет выведение молочной кислоты и восстанавливает подвижность тканей для лучшей спортивной формы.',
-    'massage.techniques.relaxation.details': 'Использование ритмичных, плавных движений с выверенным давлением для успокоения перегруженной нервной системы. Это снимает накопленный стресс, способствуя глубокой клеточной регенерации и непрерывному восстанавливающему сну.',
-    'kinesiology.benefits.balance.details': 'Кинезиология функционирует как язык, с помощью которого мы расшифровываем скрытый стресс, накопленный вашим телом. Исправляя энергетические нарушения с помощью мышечного тестирования, мы восстанавливаем вашу гармонию естественным и надежным путем.',
-    'kinesiology.benefits.posture.details': 'Снимая мышечное напряжение, коренящееся в эмоциональных или физических стрессорах, физическая структура тела расслабляется и занимает правильное положение. Это резко улучшает баланс позвоночника и механику суставов с самого основания.',
-    'kinesiology.benefits.stress.details': 'Мы находим, какие именно ситуации продолжают находиться в реакции «бей или беги» вашей нервной системы. Это дает возможность «снять» сопротивление, быстро уменьшая беспокойство или симптомы умственного выгорания.',
-    'kinesiology.benefits.energy.details': 'Утечки энергии устраняются по мере восстановления энергетических меридианов. В результате вы получаете стабильную дневную ясность ума и устойчивую бодрость, а также обновленную иммунную систему и метаболическое восстановление.',
-    'nutrition.benefits.habits.details': 'Мы переходим к здоровому образу жизни, внося небольшие реалистичные коррективы, избегая непомерных ограничений. Индивидуальные решения подбираются конкретно под ваш рабочий график и организацию питания вне дома.',
-    'nutrition.benefits.knowledge.details': 'Мы помогаем понять, какие именно продукты лучше всего усваиваются вашим организмом, учитывая скрытую чувствительность и опровергая распространенные диетические мифы, не приносящие реальной пользы.',
-    'nutrition.benefits.weight.details': 'Сопровождение, основанное как на нутрициологическом образовании, так и на психобиологических потребностях. Мы фокусируемся на метаболическом исцелении и устранении воспаления вместо того, чтобы устраивать стресс из строгих подсчетов и голоданий.',
-    'nutrition.benefits.prevention.details': 'Мы уделяем большое внимание потенциальным долгосрочным дефицитам микроэлементов и укреплению микробиома. Повышение защитных сил пищеварительной системы профилактически защищает от хронических заболеваний и улучшает здоровье.',
-  }
+    'massage.techniques.deepTissue.details':
+      'Воздействие на самые глубокие слои мышечной ткани, разрушая упрямые узлы и спайки. Идеально подходит для снятия хронического напряжения и восстановления спортсменов; обеспечивает немедленное освобождение от стойких мышечных и фасциальных ограничений.',
+    'massage.techniques.recovery.details':
+      'Специализированная смесь растяжек, компрессий и конкретных приемов, предназначенная для устранения миофасциальной усталости и боли после тренировок. Ускоряет выведение молочной кислоты и восстанавливает подвижность тканей для лучшей спортивной формы.',
+    'massage.techniques.relaxation.details':
+      'Использование ритмичных, плавных движений с выверенным давлением для успокоения перегруженной нервной системы. Это снимает накопленный стресс, способствуя глубокой клеточной регенерации и непрерывному восстанавливающему сну.',
+    'kinesiology.benefits.balance.details':
+      'Кинезиология функционирует как язык, с помощью которого мы расшифровываем скрытый стресс, накопленный вашим телом. Исправляя энергетические нарушения с помощью мышечного тестирования, мы восстанавливаем вашу гармонию естественным и надежным путем.',
+    'kinesiology.benefits.posture.details':
+      'Снимая мышечное напряжение, коренящееся в эмоциональных или физических стрессорах, физическая структура тела расслабляется и занимает правильное положение. Это резко улучшает баланс позвоночника и механику суставов с самого основания.',
+    'kinesiology.benefits.stress.details':
+      'Мы находим, какие именно ситуации продолжают находиться в реакции «бей или беги» вашей нервной системы. Это дает возможность «снять» сопротивление, быстро уменьшая беспокойство или симптомы умственного выгорания.',
+    'kinesiology.benefits.energy.details':
+      'Утечки энергии устраняются по мере восстановления энергетических меридианов. В результате вы получаете стабильную дневную ясность ума и устойчивую бодрость, а также обновленную иммунную систему и метаболическое восстановление.',
+    'nutrition.benefits.habits.details':
+      'Мы переходим к здоровому образу жизни, внося небольшие реалистичные коррективы, избегая непомерных ограничений. Индивидуальные решения подбираются конкретно под ваш рабочий график и организацию питания вне дома.',
+    'nutrition.benefits.knowledge.details':
+      'Мы помогаем понять, какие именно продукты лучше всего усваиваются вашим организмом, учитывая скрытую чувствительность и опровергая распространенные диетические мифы, не приносящие реальной пользы.',
+    'nutrition.benefits.weight.details':
+      'Сопровождение, основанное как на нутрициологическом образовании, так и на психобиологических потребностях. Мы фокусируемся на метаболическом исцелении и устранении воспаления вместо того, чтобы устраивать стресс из строгих подсчетов и голоданий.',
+    'nutrition.benefits.prevention.details':
+      'Мы уделяем большое внимание потенциальным долгосрочным дефицитам микроэлементов и укреплению микробиома. Повышение защитных сил пищеварительной системы профилактически защищает от хронических заболеваний и улучшает здоровье.',
+  },
 };

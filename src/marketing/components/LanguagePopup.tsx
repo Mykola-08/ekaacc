@@ -2,12 +2,18 @@ import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { Language } from '@/marketing/contexts/LanguageTypes';
 import { X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useScrollLock } from '@/marketing/hooks/useScrollLock';
+import { useScrollLock } from '@/hooks/use-scroll-lock';
+
+import { useEffect } from 'react';
 
 export default function LanguagePopup() {
   const { showLanguagePopup, setShowLanguagePopup, confirmLanguage, t } = useLanguage();
 
-  useScrollLock(showLanguagePopup);
+  const { lock, unlock } = useScrollLock({ autoLock: false });
+  useEffect(() => {
+    if (showLanguagePopup) lock();
+    else unlock();
+  }, [showLanguagePopup, lock, unlock]);
 
   if (!showLanguagePopup) return null;
 

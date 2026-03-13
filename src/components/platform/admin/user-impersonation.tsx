@@ -174,7 +174,7 @@ export function UserImpersonationDialog({
             </AlertDescription>
           </Alert>
 
-          <div className="space-y-4">
+          <div className="">
             <div className="relative">
               <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
               <Input
@@ -186,7 +186,7 @@ export function UserImpersonationDialog({
             </div>
 
             <ScrollArea className="h-75 rounded-lg border">
-              <div className="space-y-2 p-4">
+              <div className="p-4">
                 {loading ? (
                   <div className="flex h-32 items-center justify-center">
                     <div className="text-muted-foreground">Loading users...</div>
@@ -237,7 +237,7 @@ export function UserImpersonationDialog({
           </div>
 
           {selectedUser && (
-            <div className="space-y-2">
+            <div className="">
               <Label htmlFor="reason">Reason for Impersonation *</Label>
               <Textarea
                 id="reason"
@@ -268,7 +268,7 @@ export function UserImpersonationDialog({
           >
             {isImpersonating ? (
               <>
-                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-primary-foreground" />
+                <div className="border-primary-foreground mr-2 h-4 w-4 animate-spin rounded-full border-b-2" />
                 Starting Impersonation...
               </>
             ) : (
@@ -314,19 +314,19 @@ export function ImpersonationBanner({
   };
 
   return (
-    <div className="border-b border-warning/30 bg-warning/20 px-4 py-3">
+    <div className="border-warning/30 bg-warning/20 border-b px-4 py-3">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <div className="flex items-center gap-3">
-          <Shield className="h-5 w-5 text-warning" />
+          <Shield className="text-warning h-5 w-5" />
           <div className="text-sm">
-            <span className="font-medium text-warning">
+            <span className="text-warning font-medium">
               Impersonating: {impersonation.targetUserEmail || impersonation.targetUserId || 'User'}
             </span>
-            <span className="ml-2 text-warning">
+            <span className="text-warning ml-2">
               (Original: {impersonation.originalUserEmail || 'Admin'})
             </span>
             {impersonation.reason && (
-              <span className="ml-2 text-warning">• Reason: {impersonation.reason}</span>
+              <span className="text-warning ml-2">• Reason: {impersonation.reason}</span>
             )}
           </div>
         </div>
@@ -339,7 +339,7 @@ export function ImpersonationBanner({
         >
           {isEnding ? (
             <>
-              <div className="mr-2 h-3 w-3 animate-spin rounded-full border-b-2 border-warning" />
+              <div className="border-warning mr-2 h-3 w-3 animate-spin rounded-full border-b-2" />
               Ending...
             </>
           ) : (

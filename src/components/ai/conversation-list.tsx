@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * AI Chat Conversation Sidebar
@@ -6,11 +6,11 @@
  * Lists past conversations and allows creating new ones.
  */
 
-import * as motion from "motion/react-client";
-import { AnimatePresence } from "motion/react";
-import { cn } from "@/lib/utils";
-import { Plus, MessageSquare, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import * as motion from 'motion/react-client';
+import { AnimatePresence } from 'motion/react';
+import { cn } from '@/lib/utils';
+import { Plus, MessageSquare, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface Conversation {
   id: string;
@@ -42,27 +42,25 @@ export function ConversationList({
         </Button>
       </div>
 
-      <div className="flex-1 space-y-0.5 overflow-y-auto px-2 pb-2">
+      <div className=".5 flex-1 overflow-y-auto px-2 pb-2">
         <AnimatePresence initial={false}>
           {conversations.map((conv) => (
             <motion.button
               key={conv.id}
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
+              animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => onSelect(conv.id)}
               className={cn(
-                "group flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm transition-colors",
+                'group flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm transition-colors',
                 activeId === conv.id
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
               <MessageSquare className="h-3.5 w-3.5 shrink-0" />
-              <span className="min-w-0 flex-1 truncate">
-                {conv.title || "New conversation"}
-              </span>
+              <span className="min-w-0 flex-1 truncate">{conv.title || 'New conversation'}</span>
               <button
                 onClick={(e) => {
                   e.stopPropagation();

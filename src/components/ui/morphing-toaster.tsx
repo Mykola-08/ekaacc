@@ -34,13 +34,16 @@ interface MorphNotification {
   createdAt: number;
 }
 
-const TYPE_CONFIG: Record<NotificationType, {
-  icon: any;
-  color: string;
-  bgColor: string;
-  borderColor: string;
-  progressColor: string;
-}> = {
+const TYPE_CONFIG: Record<
+  NotificationType,
+  {
+    icon: any;
+    color: string;
+    bgColor: string;
+    borderColor: string;
+    progressColor: string;
+  }
+> = {
   success: {
     icon: CheckmarkCircle02Icon,
     color: 'text-success',
@@ -87,10 +90,14 @@ function emit() {
   listeners.forEach((l) => l());
 }
 
-function addNotification(type: NotificationType, message: string, options?: { description?: string; duration?: number }) {
+function addNotification(
+  type: NotificationType,
+  message: string,
+  options?: { description?: string; duration?: number }
+) {
   const id = `morph-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
   const duration = options?.duration ?? (type === 'error' ? 5000 : type === 'loading' ? 0 : 3000);
-  
+
   const notification: MorphNotification = {
     id,
     type,
@@ -104,7 +111,7 @@ function addNotification(type: NotificationType, message: string, options?: { de
   if (notifications.length >= 3) {
     notifications = notifications.slice(-2);
   }
-  
+
   notifications = [...notifications, notification];
   emit();
 
@@ -166,14 +173,22 @@ function useNotifications() {
   React.useEffect(() => {
     const listener = () => rerender((c) => c + 1);
     listeners.add(listener);
-    return () => { listeners.delete(listener); };
+    return () => {
+      listeners.delete(listener);
+    };
   }, []);
 
   return notifications;
 }
 
 // --- Component ---
-function MorphNotificationItem({ notification, onDismiss }: { notification: MorphNotification; onDismiss: () => void }) {
+function MorphNotificationItem({
+  notification,
+  onDismiss,
+}: {
+  notification: MorphNotification;
+  onDismiss: () => void;
+}) {
   const config = TYPE_CONFIG[notification.type];
 
   return (
@@ -186,7 +201,7 @@ function MorphNotificationItem({ notification, onDismiss }: { notification: Morp
       className={cn(
         'pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border px-4 py-3 shadow-lg backdrop-blur-sm',
         config.bgColor,
-        config.borderColor,
+        config.borderColor
       )}
       style={{ maxWidth: 380 }}
     >
@@ -209,8 +224,8 @@ function MorphNotificationItem({ notification, onDismiss }: { notification: Morp
         )}
       />
 
-      <div className="flex-1 min-w-0">
-        <p className={cn('text-sm font-medium leading-snug', config.color)}>
+      <div className="min-w-0 flex-1">
+        <p className={cn('text-sm leading-snug font-medium', config.color)}>
           {notification.message}
         </p>
         {notification.description && (

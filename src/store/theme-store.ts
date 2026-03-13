@@ -12,20 +12,9 @@ export type AccentColor =
   | 'amber'
   | 'indigo';
 
-export type FontFamily =
-  | 'system'
-  | 'inter'
-  | 'geist'
-  | 'poppins'
-  | 'dm-sans'
-  | 'space-grotesk';
+export type FontFamily = 'system' | 'inter' | 'geist' | 'poppins' | 'dm-sans' | 'space-grotesk';
 
-export type TextColorPreset =
-  | 'default'
-  | 'warm'
-  | 'cool'
-  | 'high-contrast'
-  | 'muted-soft';
+export type TextColorPreset = 'default' | 'warm' | 'cool' | 'high-contrast' | 'muted-soft';
 
 export type UIRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 
@@ -122,10 +111,7 @@ export const ACCENT_COLORS: Record<
   },
 };
 
-export const FONT_FAMILIES: Record<
-  FontFamily,
-  { label: string; css: string; premium: boolean }
-> = {
+export const FONT_FAMILIES: Record<FontFamily, { label: string; css: string; premium: boolean }> = {
   system: {
     label: 'System Default',
     css: 'system-ui, -apple-system, sans-serif',
@@ -206,8 +192,7 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>((set) => ({
   theme: DEFAULT_THEME,
   isLoaded: false,
-  setTheme: (partial) =>
-    set((state) => ({ theme: { ...state.theme, ...partial } })),
+  setTheme: (partial) => set((state) => ({ theme: { ...state.theme, ...partial } })),
   resetTheme: () => set({ theme: DEFAULT_THEME }),
   setLoaded: () => set({ isLoaded: true }),
 }));

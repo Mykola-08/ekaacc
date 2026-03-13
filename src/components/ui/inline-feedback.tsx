@@ -23,12 +23,15 @@ interface InlineFeedbackProps {
   onDismiss?: () => void;
 }
 
-const STATUS_CONFIG: Record<Exclude<FeedbackStatus, 'idle'>, {
-  icon: any;
-  color: string;
-  bgColor: string;
-  borderColor: string;
-}> = {
+const STATUS_CONFIG: Record<
+  Exclude<FeedbackStatus, 'idle'>,
+  {
+    icon: any;
+    color: string;
+    bgColor: string;
+    borderColor: string;
+  }
+> = {
   loading: {
     icon: Loading03Icon,
     color: 'text-muted-foreground',
@@ -100,11 +103,7 @@ export function InlineFeedback({
       >
         <HugeiconsIcon
           icon={config.icon}
-          className={cn(
-            'size-4 shrink-0',
-            config.color,
-            status === 'loading' && 'animate-spin'
-          )}
+          className={cn('size-4 shrink-0', config.color, status === 'loading' && 'animate-spin')}
         />
         <span className={cn('text-sm', config.color)}>{message}</span>
       </motion.div>

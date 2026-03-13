@@ -1742,10 +1742,11 @@ export const translations: Record<Language, Record<string, string>> = {
     'page.bookings.subtitle': 'Consulta el teu historial de sessions i les properes cites.',
     'page.bookings.newBooking': 'Nova Reserva',
     'page.crisis.title': 'Suport en Crisi',
-    'page.crisis.subtitle': 'Si estàs en perill immediat, truca als serveis d\'emergència ara.',
-    'page.crisis.description': 'Aquest espai és per a orientació de suport urgent. Si es tracta d\'una emergència, utilitza primer els serveis d\'emergència de la teva zona.',
+    'page.crisis.subtitle': "Si estàs en perill immediat, truca als serveis d'emergència ara.",
+    'page.crisis.description':
+      "Aquest espai és per a orientació de suport urgent. Si es tracta d'una emergència, utilitza primer els serveis d'emergència de la teva zona.",
     'page.crisis.emergency': 'Emergència',
-    'page.crisis.emergencyDesc': 'Truca al número d\'emergències local immediatament.',
+    'page.crisis.emergencyDesc': "Truca al número d'emergències local immediatament.",
     'page.crisis.followUp': 'Necessites Seguiment',
     'page.crisis.followUpDesc': 'Contacta amb el teu terapeuta i revisa el teu pla de seguretat.',
     'page.crisis.viewSessions': 'Veure Properes Sessions',
@@ -2078,7 +2079,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'page.bookings.newBooking': 'New Booking',
     'page.crisis.title': 'Crisis Support',
     'page.crisis.subtitle': 'If you are in immediate danger, call local emergency services now.',
-    'page.crisis.description': 'This space is for urgent support guidance. If this is an emergency, use emergency services in your area first.',
+    'page.crisis.description':
+      'This space is for urgent support guidance. If this is an emergency, use emergency services in your area first.',
     'page.crisis.emergency': 'Emergency',
     'page.crisis.emergencyDesc': 'Call your local emergency number immediately.',
     'page.crisis.followUp': 'Need Follow-up Care',
@@ -4052,8 +4054,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'page.bookings.subtitle': 'Consulta tu historial de sesiones y próximas citas.',
     'page.bookings.newBooking': 'Nueva Reserva',
     'page.crisis.title': 'Soporte en Crisis',
-    'page.crisis.subtitle': 'Si estás en peligro inmediato, llama a los servicios de emergencia ahora.',
-    'page.crisis.description': 'Este espacio es para orientación de apoyo urgente. Si es una emergencia, utiliza primero los servicios de emergencia de tu zona.',
+    'page.crisis.subtitle':
+      'Si estás en peligro inmediato, llama a los servicios de emergencia ahora.',
+    'page.crisis.description':
+      'Este espacio es para orientación de apoyo urgente. Si es una emergencia, utiliza primero los servicios de emergencia de tu zona.',
     'page.crisis.emergency': 'Emergencia',
     'page.crisis.emergencyDesc': 'Llama al número de emergencias local inmediatamente.',
     'page.crisis.followUp': 'Necesitas Seguimiento',
@@ -4063,7 +4067,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'page.resources.title': 'Materiales y Recursos',
     'page.resources.subtitle': 'Accede a contenido educativo, ejercicios y guías de bienestar.',
     'page.features.title': 'Todas las Funciones',
-    'page.features.subtitle': 'Explora todas las herramientas y páginas disponibles en un solo lugar.',
+    'page.features.subtitle':
+      'Explora todas las herramientas y páginas disponibles en un solo lugar.',
     'page.dashboard.dailyUpdate': 'Actualización Diaria',
     'page.dashboard.goodMorning': 'Buenos días',
     'page.dashboard.goodAfternoon': 'Buenas tardes',
@@ -6089,8 +6094,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'page.bookings.subtitle': 'Просмотрите историю сессий и предстоящие записи.',
     'page.bookings.newBooking': 'Новая Запись',
     'page.crisis.title': 'Экстренная Помощь',
-    'page.crisis.subtitle': 'Если вы в непосредственной опасности, позвоните в службу спасения немедленно.',
-    'page.crisis.description': 'Это пространство для срочной поддержки. Если это чрезвычайная ситуация, сначала воспользуйтесь службами экстренной помощи.',
+    'page.crisis.subtitle':
+      'Если вы в непосредственной опасности, позвоните в службу спасения немедленно.',
+    'page.crisis.description':
+      'Это пространство для срочной поддержки. Если это чрезвычайная ситуация, сначала воспользуйтесь службами экстренной помощи.',
     'page.crisis.emergency': 'Экстренный Случай',
     'page.crisis.emergencyDesc': 'Позвоните по номеру экстренной помощи немедленно.',
     'page.crisis.followUp': 'Нужно Наблюдение',

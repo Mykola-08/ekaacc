@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
@@ -10,12 +10,7 @@ interface LazyImageProps {
   onLoad?: () => void;
 }
 
-export default function LazyImage({
-  src,
-  alt,
-  className = '',
-  onLoad
-}: LazyImageProps) {
+export default function LazyImage({ src, alt, className = '', onLoad }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -34,10 +29,8 @@ export default function LazyImage({
         }}
         priority={false}
       />
-      
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-gray-100 dark:bg-gray-800 animate-pulse" />
-      )}
+
+      {!isLoaded && <div className="absolute inset-0 animate-pulse bg-gray-100" />}
     </div>
   );
 }

@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl">
+        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
             <motion.div
@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
               className="mb-8 flex flex-col items-center gap-4 text-center"
             >
               <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
+                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
                   <AnimatePresence mode="wait">
                     {emailSent ? (
                       <motion.div
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
                         transition={{ duration: 0.5, type: 'spring', bounce: 0.4 }}
                         className="flex h-14 w-14 items-center justify-center"
                       >
-                        <CheckCircle2 className="h-8 w-8 text-success" />
+                        <CheckCircle2 className="text-success h-8 w-8" />
                       </motion.div>
                     ) : (
                       <motion.div
@@ -100,8 +100,8 @@ export default function ForgotPasswordPage() {
                   </AnimatePresence>
                 </div>
               </div>
-              <div className="space-y-2">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <div className="">
+                <h1 className="text-foreground text-2xl font-semibold tracking-tight">
                   {emailSent ? 'Check Your Email' : 'Forgot Password?'}
                 </h1>
                 <p className="text-muted-foreground max-w-sm text-sm font-medium">
@@ -120,13 +120,13 @@ export default function ForgotPasswordPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-                  className="space-y-4"
+                  className=""
                 >
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="text-muted-foreground rounded-lg border border-border/50 bg-muted/50 p-4 text-center text-sm"
+                    className="text-muted-foreground border-border/50 bg-muted/50 rounded-lg border p-4 text-center text-sm"
                   >
                     <p className="font-medium">
                       Click the link in the email to reset your password.
@@ -146,7 +146,7 @@ export default function ForgotPasswordPage() {
                 <motion.form
                   key="form"
                   onSubmit={handleSubmit}
-                  className="space-y-6"
+                  className=""
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -155,7 +155,7 @@ export default function ForgotPasswordPage() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                    className="space-y-2"
+                    className=""
                   >
                     <label
                       htmlFor="email"
@@ -181,11 +181,7 @@ export default function ForgotPasswordPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                   >
-                    <Button
-                      type="submit"
-                      className="auth-submit-btn"
-                      disabled={isLoading}
-                    >
+                    <Button type="submit" className="auth-submit-btn" disabled={isLoading}>
                       {isLoading ? (
                         <Loader2 className="h-5 w-5 animate-spin" />
                       ) : (
@@ -208,7 +204,7 @@ export default function ForgotPasswordPage() {
             >
               <Link
                 href="/login"
-                className="text-foreground inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:text-primary"
+                className="text-foreground hover:text-primary inline-flex items-center gap-1 text-sm font-semibold transition-colors"
               >
                 <ArrowLeft className="h-3 w-3" />
                 Back to Sign In

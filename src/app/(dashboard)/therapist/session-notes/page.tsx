@@ -2,13 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { RichTextEditor } from '@/components/platform/editor/rich-text-editor';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -34,6 +28,7 @@ import {
   History,
   Plus,
   Trash2,
+  Sparkles,
 } from 'lucide-react';
 import { PageSection } from '@/components/ui/page-section';
 import { Descendant } from 'slate';
@@ -49,7 +44,9 @@ import { Badge } from '@/components/ui/badge';
 
 function serializeSlate(nodes: Descendant[] | undefined): string {
   if (!nodes) return '';
-  return nodes.map((n: any) => (n.children ? n.children.map((c: any) => c.text).join('') : '')).join('\n');
+  return nodes
+    .map((n: any) => (n.children ? n.children.map((c: any) => c.text).join('') : ''))
+    .join('\n');
 }
 
 export default function SessionNotesPage() {
@@ -136,19 +133,36 @@ export default function SessionNotesPage() {
     } else {
       setError(result.error || 'Failed to save');
     }
-  }, [sessionDate, clientId, sessionDuration, sessionType, moodRating, notes, observations, goals, homework, editingNoteId, setLoading, setSuccess, setError]);
+  }, [
+    sessionDate,
+    clientId,
+    sessionDuration,
+    sessionType,
+    moodRating,
+    notes,
+    observations,
+    goals,
+    homework,
+    editingNoteId,
+    setLoading,
+    setSuccess,
+    setError,
+  ]);
 
-  const handleDelete = useCallback(async (noteId: string) => {
-    setLoading('Deleting...');
-    const result = await deleteSessionNote(noteId);
-    if (result.success) {
-      setSuccess('Note deleted');
-      setPastNotes((prev) => prev.filter((n) => n.id !== noteId));
-      if (editingNoteId === noteId) handleNewNote();
-    } else {
-      setError(result.error || 'Failed to delete');
-    }
-  }, [editingNoteId, setLoading, setSuccess, setError]);
+  const handleDelete = useCallback(
+    async (noteId: string) => {
+      setLoading('Deleting...');
+      const result = await deleteSessionNote(noteId);
+      if (result.success) {
+        setSuccess('Note deleted');
+        setPastNotes((prev) => prev.filter((n) => n.id !== noteId));
+        if (editingNoteId === noteId) handleNewNote();
+      } else {
+        setError(result.error || 'Failed to delete');
+      }
+    },
+    [editingNoteId, setLoading, setSuccess, setError]
+  );
 
   const handleLoadNote = (note: any) => {
     setEditingNoteId(note.id);
@@ -173,7 +187,7 @@ export default function SessionNotesPage() {
   }, [handleSave]);
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 py-6">
+    <div className="container mx-auto max-w-6xl py-6">
       <PageSection
         title="Session Notes"
         description="Document your therapy session with comprehensive notes"
@@ -181,7 +195,12 @@ export default function SessionNotesPage() {
         actions={
           <div className="flex items-center gap-3">
             <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
-            <Button variant="outline" size="sm" onClick={() => setShowHistory(!showHistory)} className="gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowHistory(!showHistory)}
+              className="gap-2"
+            >
               <History className="h-4 w-4" />
               History ({pastNotes.length})
             </Button>
@@ -189,7 +208,12 @@ export default function SessionNotesPage() {
               <Plus className="h-4 w-4" />
               New Note
             </Button>
-            <Button onClick={handleSave} size="lg" className="gap-2" disabled={feedback.status === 'loading'}>
+            <Button
+              onClick={handleSave}
+              size="lg"
+              className="gap-2"
+              disabled={feedback.status === 'loading'}
+            >
               <FileTextIcon className="h-5 w-5" />
               {editingNoteId ? 'Update Note' : 'Save Note'}
             </Button>
@@ -205,13 +229,15 @@ export default function SessionNotesPage() {
           </CardHeader>
           <CardContent>
             {pastNotes.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-4 text-center">No session notes yet. Create your first one above.</p>
+              <p className="text-muted-foreground py-4 text-center text-sm">
+                No session notes yet. Create your first one above.
+              </p>
             ) : (
-              <div className="space-y-2 max-h-64 overflow-y-auto">
+              <div className="max-h-64 overflow-y-auto">
                 {pastNotes.map((note) => (
                   <div
                     key={note.id}
-                    className={`flex items-center justify-between rounded-lg border p-3 cursor-pointer transition-colors hover:bg-muted/50 ${editingNoteId === note.id ? 'border-primary bg-primary/5' : ''}`}
+                    className={`hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors ${editingNoteId === note.id ? 'border-primary bg-primary/5' : ''}`}
                     onClick={() => handleLoadNote(note)}
                   >
                     <div className="flex items-center gap-3">
@@ -221,18 +247,28 @@ export default function SessionNotesPage() {
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <div className="text-sm font-medium">{note.client?.full_name || 'Unknown client'}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {new Date(note.session_date).toLocaleDateString()} &middot; {note.duration_minutes}min
-                          {note.is_draft && <Badge variant="outline" className="ml-2 text-[10px]">Draft</Badge>}
+                        <div className="text-sm font-medium">
+                          {note.client?.full_name || 'Unknown client'}
+                        </div>
+                        <div className="text-muted-foreground text-xs">
+                          {new Date(note.session_date).toLocaleDateString()} &middot;{' '}
+                          {note.duration_minutes}min
+                          {note.is_draft && (
+                            <Badge variant="outline" className="ml-2 text-[10px]">
+                              Draft
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </div>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                      onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }}
+                      className="text-muted-foreground hover:text-destructive h-8 w-8"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(note.id);
+                      }}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -252,7 +288,7 @@ export default function SessionNotesPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <div className="space-y-2">
+            <div className="">
               <Label htmlFor="client" className="flex items-center gap-2">
                 <UserCircle className="h-4 w-4" />
                 Client
@@ -263,13 +299,15 @@ export default function SessionNotesPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {clients.map((c: any) => (
-                    <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>
+                    <SelectItem key={c.id} value={c.id}>
+                      {c.full_name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="space-y-2">
+            <div className="">
               <Label htmlFor="date" className="flex items-center gap-2">
                 <CalendarDays className="h-4 w-4" />
                 Session Date
@@ -282,7 +320,7 @@ export default function SessionNotesPage() {
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="">
               <Label htmlFor="duration" className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
                 Duration (min)
@@ -300,7 +338,7 @@ export default function SessionNotesPage() {
               </Select>
             </div>
 
-            <div className="space-y-2">
+            <div className="">
               <Label htmlFor="type" className="flex items-center gap-2">
                 <FileText className="h-4 w-4" />
                 Session Type
@@ -319,7 +357,7 @@ export default function SessionNotesPage() {
             </div>
           </div>
 
-          <div className="mt-4 space-y-2">
+          <div className="mt-4">
             <Label htmlFor="mood" className="flex items-center gap-2">
               <Smile className="h-4 w-4" />
               Client Mood Rating (1-10)
@@ -342,7 +380,7 @@ export default function SessionNotesPage() {
       </Card>
 
       {/* Notes Tabs */}
-      <Tabs defaultValue="notes" className="space-y-4">
+      <Tabs defaultValue="notes" className="">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="notes" className="gap-2">
             <FileText className="h-4 w-4" />
@@ -362,13 +400,62 @@ export default function SessionNotesPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="notes" className="space-y-4">
+        <TabsContent value="notes" className="">
           <Card>
-            <CardHeader>
-              <CardTitle>Session Notes</CardTitle>
-              <CardDescription>
-                Document what happened during the session, client&apos;s concerns, and discussion points
-              </CardDescription>
+            <CardHeader className="flex flex-row items-start justify-between pb-4">
+              <div>
+                <CardTitle>Session Notes</CardTitle>
+                <CardDescription>
+                  Document what happened during the session, client&apos;s concerns, and discussion
+                  points
+                </CardDescription>
+              </div>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setNotes([
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          text: 'Subjective: Client reports feeling anxious this week, rating mood at 4/10. Sleep is disrupted...',
+                          bold: true,
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          text: 'Objective: Client appeared restless, tapping foot during session. Engaged in breathing exercises.',
+                          bold: true,
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          text: 'Assessment: Elevated anxiety symptoms related to work stress.',
+                          bold: true,
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          text: 'Plan: Continue CBT techniques. Practice 4-7-8 breathing nightly. Reassess next week.',
+                          bold: true,
+                        },
+                      ],
+                    },
+                  ] as any);
+                }}
+              >
+                <Sparkles className="text-primary mr-2 h-4 w-4" />
+                Auto-Draft from Scratchpad
+              </Button>
             </CardHeader>
             <CardContent className="p-0">
               <RichTextEditor
@@ -381,13 +468,13 @@ export default function SessionNotesPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="observations" className="space-y-4">
+        <TabsContent value="observations" className="">
           <Card>
             <CardHeader>
               <CardTitle>Clinical Observations</CardTitle>
               <CardDescription>
-                Note your professional observations about the client&apos;s mental state, behavior, and
-                progress
+                Note your professional observations about the client&apos;s mental state, behavior,
+                and progress
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
@@ -401,7 +488,7 @@ export default function SessionNotesPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="goals" className="space-y-4">
+        <TabsContent value="goals" className="">
           <Card>
             <CardHeader>
               <CardTitle>Treatment Goals & Progress</CardTitle>
@@ -420,7 +507,7 @@ export default function SessionNotesPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="homework" className="space-y-4">
+        <TabsContent value="homework" className="">
           <Card>
             <CardHeader>
               <CardTitle>Homework & Action Items</CardTitle>
@@ -447,7 +534,7 @@ export default function SessionNotesPage() {
           <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
             <div>
               <h4 className="mb-2 font-semibold">Note-Taking Tips</h4>
-              <ul className="text-muted-foreground space-y-1">
+              <ul className="text-muted-foreground">
                 <li>Be concise but thorough</li>
                 <li>Use objective language</li>
                 <li>Focus on relevant details</li>
@@ -455,14 +542,14 @@ export default function SessionNotesPage() {
             </div>
             <div>
               <h4 className="mb-2 font-semibold">Privacy & Security</h4>
-              <ul className="text-muted-foreground space-y-1">
+              <ul className="text-muted-foreground">
                 <li>Notes stored with row-level security</li>
                 <li>Only you can access your notes</li>
               </ul>
             </div>
             <div>
               <h4 className="mb-2 font-semibold">Keyboard Shortcuts</h4>
-              <ul className="text-muted-foreground space-y-1">
+              <ul className="text-muted-foreground">
                 <li>Ctrl/Cmd + B: Bold</li>
                 <li>Ctrl/Cmd + I: Italic</li>
                 <li>Ctrl/Cmd + S: Save</li>

@@ -65,6 +65,14 @@ export async function getModel(key: ModelKey = 'chat') {
 }
 
 /**
+ * Get the embedding model instance.
+ */
+export async function getEmbeddingModel() {
+  const provider = await getProvider();
+  return provider.textEmbeddingModel('text-embedding-3-small');
+}
+
+/**
  * Invalidate the cached provider (call after API key rotation).
  */
 export function resetProvider() {

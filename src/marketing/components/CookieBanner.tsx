@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -88,7 +87,7 @@ export default function CookieBanner() {
                 </div>
 
                 {/* Content */}
-                <div className="min-w-0 flex-1 space-y-3">
+                <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3 sm:gap-0">
                       <div className="bg-primary/5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full sm:hidden">

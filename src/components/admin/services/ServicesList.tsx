@@ -39,7 +39,7 @@ export function ServicesList({ services }: ServicesListProps) {
   });
 
   return (
-    <div className="animate-fade-in h-full w-full space-y-8 p-6 md:p-12">
+    <div className="animate-fade-in h-full w-full p-6 md:p-12">
       <PageSection
         title="Services Catalog"
         description="Manage offerings, pricing and visibility."
@@ -62,7 +62,7 @@ export function ServicesList({ services }: ServicesListProps) {
         onFilterChange={setFilter}
       />
 
-      <div className="space-y-4">
+      <div className="">
         {filteredServices.length === 0 ? (
           <EmptyState icon={Layers01Icon} title="No services found" />
         ) : (
@@ -119,7 +119,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
         )}
 
         {service.active ? (
-          <div className="mx-2 h-2 w-2 rounded-full bg-success/100" title="Active" />
+          <div className="bg-success/100 mx-2 h-2 w-2 rounded-full" title="Active" />
         ) : (
           <div className="bg-muted-foreground/30 mx-2 h-2 w-2 rounded-full" title="Inactive" />
         )}

@@ -87,7 +87,7 @@ export default function AuthCallback() {
 
   return (
     <div className="bg-muted/30 flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md space-y-8">
+      <div className="w-full max-w-md">
         <div className="text-center">
           <h2 className="text-foreground mt-6 text-3xl font-extrabold">Completing sign in...</h2>
           <p className="text-muted-foreground mt-2 text-sm">

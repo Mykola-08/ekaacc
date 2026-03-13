@@ -13,6 +13,9 @@ import { resolveFeatures } from '@/lib/features';
 import { FeaturesProvider } from '@/context/FeaturesContext';
 import { createClient } from '@/lib/supabase/server';
 import { Suspense } from 'react';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: {
@@ -39,8 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'EKA Balance - Teràpies Integratives',
-    description:
-      'Serveis premium de benestar amb teràpies integratives a Barcelona.',
+    description: 'Serveis premium de benestar amb teràpies integratives a Barcelona.',
   },
   alternates: {
     canonical: 'https://ekabalance.com',
@@ -60,7 +62,9 @@ export const viewport: Viewport = {
 // Async wrapper to fetch features and pass to provider
 async function FeaturesWrapper({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   let role = 'client';
   if (user) {
@@ -70,11 +74,7 @@ async function FeaturesWrapper({ children }: { children: React.ReactNode }) {
 
   const features = await resolveFeatures({ userId: user?.id, role });
 
-  return (
-    <FeaturesProvider features={features}>
-      {children}
-    </FeaturesProvider>
-  );
+  return <FeaturesProvider features={features}>{children}</FeaturesProvider>;
 }
 
 export default function RootLayout({
@@ -83,8 +83,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ca" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body className={cn("font-sans antialiased", GeistSans.variable, GeistMono.variable)} suppressHydrationWarning>
+    <html
+      lang="ca"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+      className={cn('font-sans', inter.variable)}
+    >
+      <body
+        className={cn('font-sans antialiased', GeistSans.variable, GeistMono.variable)}
+        suppressHydrationWarning
+      >
         <a href="#main-content" className="ux-skip-link">
           Skip to main content
         </a>
@@ -95,7 +103,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <Suspense fallback={<div className="min-h-screen bg-background" />}>
+            <Suspense fallback={<div className="bg-background min-h-screen" />}>
               <FeaturesWrapper>
                 <LanguageProvider>
                   <TooltipProvider>

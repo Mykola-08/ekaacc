@@ -27,12 +27,12 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ error, errorInfo });
-    
+
     // Log error to console in development
     if (process.env.NODE_ENV === 'development') {
       console.error('ErrorBoundary caught an error:', error, errorInfo);
     }
-    
+
     // In production, you might want to send this to an error reporting service
     // logErrorToService(error, errorInfo);
   }
@@ -52,52 +52,49 @@ export default class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl  max-w-md w-full p-8 text-center">
-            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <AlertTriangle className="w-10 h-10 text-red-500" />
+        <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+          <div className="w-full max-w-md rounded-3xl bg-white p-8 text-center">
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
+              <AlertTriangle className="h-10 w-10 text-red-500" />
             </div>
-            
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+
+            <h1 className="mb-4 text-2xl font-bold text-gray-900">
               Ups! Alguna cosa ha anat malament
             </h1>
-            
-            <p className="text-gray-600 mb-8">
-              Ho sentim, s'ha produït un error inesperat. Prova de recarregar la pàgina o torna a l'inici.
+
+            <p className="mb-8 text-gray-600">
+              Ho sentim, s'ha produït un error inesperat. Prova de recarregar la pàgina o torna a
+              l'inici.
             </p>
 
             {this.state.error && process.env.NODE_ENV === 'development' && (
               <details className="mb-6 text-left">
-                <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700 font-medium">
+                <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700">
                   Detalls de l&apos;error
                 </summary>
-                <div className="mt-4 p-4 bg-gray-100 rounded-lg border border-gray-200">
-                  <p className="font-mono text-sm font-bold text-red-700 mb-2">
+                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-100 p-4">
+                  <p className="mb-2 font-mono text-sm font-bold text-red-700">
                     {this.state.error.name}: {this.state.error.message}
                   </p>
-                  <pre className="text-xs text-gray-700 whitespace-pre-wrap overflow-auto max-h-60">
+                  <pre className="max-h-60 overflow-auto text-xs whitespace-pre-wrap text-gray-700">
                     {this.state.errorInfo?.componentStack}
                   </pre>
                 </div>
               </details>
             )}
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                onClick={this.handleRetry}
-                variant="default"
-                className="w-full sm:w-auto"
-              >
-                <RefreshCw className="w-4 h-4 mr-2" />
+
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
+              <Button onClick={this.handleRetry} variant="default" className="w-full sm:w-auto">
+                <RefreshCw className="mr-2 h-4 w-4" />
                 Tornar a intentar
               </Button>
-              
+
               <Button
-                onClick={() => window.location.href = '/'}
+                onClick={() => (window.location.href = '/')}
                 variant="outline"
                 className="w-full sm:w-auto"
               >
-                <Home className="w-4 h-4 mr-2" />
+                <Home className="mr-2 h-4 w-4" />
                 Anar a l'inici
               </Button>
             </div>
@@ -111,41 +108,27 @@ export default class ErrorBoundary extends Component<Props, State> {
 }
 
 // Simple error fallback component
-export function ErrorFallback({ 
-  error, 
-  resetError 
-}: { 
-  error: Error; 
-  resetError: () => void; 
-}) {
+export function ErrorFallback({ error, resetError }: { error: Error; resetError: () => void }) {
   return (
-    <div className="p-8 bg-red-50 border border-red-200 rounded-2xl">
-      <div className="flex items-center mb-4">
-        <AlertTriangle className="w-6 h-6 text-red-500 mr-3" />
-        <h2 className="text-lg font-medium text-red-900">
-          Error en aquesta secció
-        </h2>
+    <div className="rounded-2xl border border-red-200 bg-red-50 p-8">
+      <div className="mb-4 flex items-center">
+        <AlertTriangle className="mr-3 h-6 w-6 text-red-500" />
+        <h2 className="text-lg font-medium text-red-900">Error en aquesta secció</h2>
       </div>
-      
-      <p className="text-red-700 mb-4">
-        S'ha produït un error en aquesta part de l'aplicació.
-      </p>
-      
+
+      <p className="mb-4 text-red-700">S'ha produït un error en aquesta part de l'aplicació.</p>
+
       <button
         onClick={resetError}
-        className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+        className="rounded-lg bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600"
       >
         Tornar a intentar
       </button>
-      
+
       {process.env.NODE_ENV === 'development' && (
         <details className="mt-4">
-          <summary className="cursor-pointer text-sm text-red-600">
-            Detalls de l'error
-          </summary>
-          <pre className="mt-2 text-xs text-red-800 whitespace-pre-wrap">
-            {error.message}
-          </pre>
+          <summary className="cursor-pointer text-sm text-red-600">Detalls de l'error</summary>
+          <pre className="mt-2 text-xs whitespace-pre-wrap text-red-800">{error.message}</pre>
         </details>
       )}
     </div>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Mood Logged Card
@@ -7,8 +7,8 @@
  * Animated entry with motion primitives.
  */
 
-import * as motion from "motion/react-client";
-import { cn } from "@/lib/utils";
+import * as motion from 'motion/react-client';
+import { cn } from '@/lib/utils';
 
 interface MoodLoggedProps {
   mood: string;
@@ -18,19 +18,19 @@ interface MoodLoggedProps {
 }
 
 const moodEmojis: Record<string, string> = {
-  excellent: "🌟",
-  good: "😊",
-  neutral: "😐",
-  bad: "😔",
-  terrible: "😢",
+  excellent: '🌟',
+  good: '😊',
+  neutral: '😐',
+  bad: '😔',
+  terrible: '😢',
 };
 
 const moodColors: Record<string, string> = {
-  excellent: "from-success/20 to-success/10 border-success/30",
-  good: "from-info/20 to-info/10 border-primary/30",
-  neutral: "from-warning/20 to-warning/10 border-vip-gold-1/30",
-  bad: "from-warning/20 to-destructive/10 border-warning/30",
-  terrible: "from-destructive/20 to-destructive/10 border-destructive/30",
+  excellent: 'from-success/20 to-success/10 border-success/30',
+  good: 'from-info/20 to-info/10 border-primary/30',
+  neutral: 'from-warning/20 to-warning/10 border-vip-gold-1/30',
+  bad: 'from-warning/20 to-destructive/10 border-warning/30',
+  terrible: 'from-destructive/20 to-destructive/10 border-destructive/30',
 };
 
 function Gauge({ label, value, max = 10 }: { label: string; value: number; max?: number }) {
@@ -39,11 +39,13 @@ function Gauge({ label, value, max = 10 }: { label: string; value: number; max?:
     <div className="flex flex-col gap-1.5">
       <div className="flex justify-between text-xs">
         <span className="text-muted-foreground">{label}</span>
-        <span className="font-medium tabular-nums">{value}/{max}</span>
+        <span className="font-medium tabular-nums">
+          {value}/{max}
+        </span>
       </div>
-      <div className="bg-muted h-1.5 rounded-full overflow-hidden">
+      <div className="bg-muted h-1.5 overflow-hidden rounded-full">
         <motion.div
-          className="h-full rounded-full bg-linear-to-r from-primary to-primary/70"
+          className="from-primary to-primary/70 h-full rounded-full bg-linear-to-r"
           initial={{ width: 0 }}
           animate={{ width: `${pct}%` }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -60,27 +62,25 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "rounded-lg border bg-linear-to-br p-4 w-full max-w-sm",
+        'w-full max-w-sm rounded-lg border bg-linear-to-br p-4',
         moodColors[mood] || moodColors.neutral
       )}
     >
-      <div className="flex items-center gap-3 mb-3">
-        <span className="text-3xl">{moodEmojis[mood] || "📝"}</span>
+      <div className="mb-3 flex items-center gap-3">
+        <span className="text-3xl">{moodEmojis[mood] || '📝'}</span>
         <div>
           <p className="text-sm font-semibold capitalize">{mood}</p>
           <p className="text-muted-foreground text-xs">Mood logged</p>
         </div>
       </div>
 
-      <div className="space-y-2.5">
+      <div className=".5">
         <Gauge label="Mood Score" value={score} />
         {energy != null && <Gauge label="Energy" value={energy} />}
         {stress != null && <Gauge label="Stress" value={stress} />}
       </div>
 
-      <p className="text-muted-foreground mt-3 text-xs">
-        ✓ Saved to your wellness journal
-      </p>
+      <p className="text-muted-foreground mt-3 text-xs">✓ Saved to your wellness journal</p>
     </motion.div>
   );
 }

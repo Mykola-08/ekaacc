@@ -236,5 +236,35 @@ export function createTools(userId: string) {
         };
       },
     }),
+    updateUserProfile: tool({
+      description: 'Update the user\'s AI profile with explicit details or preferences learned during the conversation. Use this to remember crucial long-term insights about the user.',
+      inputSchema: z.object({
+        category: z.enum(['behavior_patterns', 'preferences', 'adaptive_settings']),
+        key: z.string().describe('The name of the trait or preference (e.g. "communication_style", "trigger_topics")'),
+        value: z.any().describe('The value to set. Can be string, array, or object.'),
+      }),
+      execute: async ({ category, key, value }) => {
+        // Read current
+        const { rows } = await db.query(
+          `SELECT ${category} FROM ai_personalization_profiles WHERE user_id = $1`,
+          [userId]
+        );
+        const current = rows[0]?.[category] || {};
+        
+        // Update
+        current[key] = value;
+
+        // Save
+        await db.query(
+          `INSERT INTO ai_personalization_profiles (user_id, ${category}) 
+           VALUES ($1, $2)
+           ON CONFLICT (user_id) 
+           DO UPDATE SET ${category} = $2, last_updated = NOW()`,
+          [userId, JSON.stringify(current)]
+        );
+
+        return { success: true, message: `Profile updated: ${category}.${key} set successfully.` };
+      }
+    }),
   };
 }

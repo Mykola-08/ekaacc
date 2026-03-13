@@ -66,7 +66,10 @@ export const bookingService = {
       const { error } = await supabaseAdmin
         .from('bookings')
         .update({
-          outcome_data_public: { payment_proof_url: proofUrl, payment_proof_submitted_at: new Date().toISOString() },
+          outcome_data_public: {
+            payment_proof_url: proofUrl,
+            payment_proof_submitted_at: new Date().toISOString(),
+          },
         })
         .eq('id', bookingId);
 
@@ -222,6 +225,19 @@ export const bookingService = {
       return bookingService.getBooking(id);
     } catch {
       return null;
+    }
+  },
+
+  deleteBooking: async (id: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const { error } = await supabaseAdmin.from('bookings').delete().eq('id', id);
+
+      if (error) {
+        return { success: false, error: 'Failed to delete booking' };
+      }
+      return { success: true };
+    } catch (e) {
+      return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
     }
   },
 

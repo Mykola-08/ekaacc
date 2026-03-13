@@ -23,6 +23,7 @@ export default [
     ignores: [
       'eslint.config.mjs',
       'tailwind.config.js',
+      'tailwind.config.ts',
       'postcss.config.js',
       'next.config.mjs',
       '**/*.d.ts',
@@ -30,6 +31,10 @@ export default [
       '.next/**',
       'dist/**',
       'api/**',
+      '.agents/**',
+      '.prettierrc.js',
+      'scripts/**',
+      'supabase/**',
     ],
   },
   ...compat.extends('plugin:@typescript-eslint/recommended'),

@@ -107,34 +107,34 @@ const ServiceCard = ({ service }: { service: Service }) => {
   const Icon = iconMap[service.icon] || Activity;
 
   return (
-    <div className="rounded-lg border-none border-border/10 bg-foreground/40 p-6 backdrop-blur-sm transition-colors hover:border-border/20">
+    <div className="border-border/10 bg-foreground/40 hover:border-border/20 rounded-lg border-none p-6 backdrop-blur-sm transition-colors">
       <div className="mb-4 flex items-start justify-between">
-        <div className="bg-card/5 rounded-xl p-2 text-primary-foreground">
+        <div className="bg-card/5 text-primary-foreground rounded-xl p-2">
           <Icon className="h-5 w-5" />
         </div>
         <div className="flex flex-col items-end">
           {service.uptime && (
-            <span className="font-mono text-xs text-success">{service.uptime} uptime</span>
+            <span className="text-success font-mono text-xs">{service.uptime} uptime</span>
           )}
           {service.latency && (
-            <span className="font-mono text-xs text-muted-foreground">{service.latency}ms</span>
+            <span className="text-muted-foreground font-mono text-xs">{service.latency}ms</span>
           )}
         </div>
       </div>
 
-      <h3 className="mb-1 text-lg font-semibold text-primary-foreground">{service.name}</h3>
-      <p className="mb-4 h-10 text-sm text-muted-foreground">{service.description}</p>
+      <h3 className="text-primary-foreground mb-1 text-lg font-semibold">{service.name}</h3>
+      <p className="text-muted-foreground mb-4 h-10 text-sm">{service.description}</p>
 
       <div className="mt-auto flex items-center justify-between">
         <StatusBadge status={service.status} />
         {service.status === 'coming-soon' && (
-          <span className="text-xs text-muted-foreground">Planned for future release</span>
+          <span className="text-muted-foreground text-xs">Planned for future release</span>
         )}
         {service.status === 'building' && (
-          <span className="text-xs text-muted-foreground">Discord integration coming</span>
+          <span className="text-muted-foreground text-xs">Discord integration coming</span>
         )}
         {service.error && (
-          <span className="max-w-37.5 truncate text-xs text-destructive" title={service.error}>
+          <span className="text-destructive max-w-37.5 truncate text-xs" title={service.error}>
             {service.error}
           </span>
         )}
@@ -147,12 +147,12 @@ const MetricCard = ({ metric }: { metric: Metric }) => {
   const Icon = iconMap[metric.icon] || Activity;
 
   return (
-    <div className="rounded-lg border-none border-border/10 bg-foreground/40 p-6 backdrop-blur-sm">
+    <div className="border-border/10 bg-foreground/40 rounded-lg border-none p-6 backdrop-blur-sm">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-sm text-muted-foreground">{metric.label}</span>
+        <span className="text-muted-foreground text-sm">{metric.label}</span>
         <Icon className={cn('h-4 w-4', metric.color || 'text-primary-foreground')} />
       </div>
-      <div className="font-mono text-2xl font-semibold text-primary-foreground">{metric.value}</div>
+      <div className="text-primary-foreground font-mono text-2xl font-semibold">{metric.value}</div>
     </div>
   );
 };
@@ -184,7 +184,7 @@ export default function StatusPage() {
   if (loading && !data) {
     return (
       <div className="bg-background flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="text-primary h-8 w-8 animate-spin" />
       </div>
     );
   }
@@ -199,9 +199,9 @@ export default function StatusPage() {
 
   return (
     <div className="bg-background text-foreground min-h-screen p-8 font-sans">
-      <div className="mx-auto max-w-6xl space-y-12">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
-        <div className="space-y-2">
+        <div className="">
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-semibold tracking-tight">System Status</h1>
@@ -210,7 +210,7 @@ export default function StatusPage() {
               </p>
             </div>
             {data?.userRole && (
-              <span className="rounded border border-border px-2 py-1 font-mono text-xs text-muted-foreground">
+              <span className="border-border text-muted-foreground rounded border px-2 py-1 font-mono text-xs">
                 View: {data.userRole}
               </span>
             )}
@@ -233,9 +233,9 @@ export default function StatusPage() {
             )}
           >
             {overallStatus === 'operational' ? (
-              <CheckCircle2 className="h-6 w-6 text-success" />
+              <CheckCircle2 className="text-success h-6 w-6" />
             ) : (
-              <AlertCircle className="h-6 w-6 text-warning" />
+              <AlertCircle className="text-warning h-6 w-6" />
             )}
           </div>
           <div>
@@ -278,27 +278,27 @@ export default function StatusPage() {
         </div>
 
         {/* Legend */}
-        <div className="mt-12 border-t border-border/10 pt-8">
-          <h3 className="mb-4 text-sm font-semibold text-foreground">Status Legend</h3>
+        <div className="border-border/10 mt-12 border-t pt-8">
+          <h3 className="text-foreground mb-4 text-sm font-semibold">Status Legend</h3>
           <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
-              <span className="font-medium text-foreground">Operational</span>
+              <CheckCircle2 className="text-success h-4 w-4" />
+              <span className="text-foreground font-medium">Operational</span>
               <span className="text-muted-foreground">- Service is running normally</span>
             </div>
             <div className="flex items-center gap-2">
-              <Construction className="h-4 w-4 text-warning" />
-              <span className="font-medium text-foreground">Building</span>
+              <Construction className="text-warning h-4 w-4" />
+              <span className="text-foreground font-medium">Building</span>
               <span className="text-muted-foreground">- Active development or enhancement</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" />
-              <span className="font-medium text-foreground">Coming Soon</span>
+              <Clock className="text-primary h-4 w-4" />
+              <span className="text-foreground font-medium">Coming Soon</span>
               <span className="text-muted-foreground">- Planned for future release</span>
             </div>
             <div className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4 text-destructive" />
-              <span className="font-medium text-foreground">Maintenance</span>
+              <AlertCircle className="text-destructive h-4 w-4" />
+              <span className="text-foreground font-medium">Maintenance</span>
               <span className="text-muted-foreground">- Temporarily unavailable</span>
             </div>
           </div>

@@ -9,8 +9,7 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
     'env-missing';
 
-  const cookieDomain =
-    process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined;
+  const cookieDomain = process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined;
 
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {

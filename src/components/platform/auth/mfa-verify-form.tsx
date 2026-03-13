@@ -120,7 +120,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
       animate="visible"
       className="mx-auto flex w-full max-w-md flex-col gap-6"
     >
-      <Card className="relative overflow-hidden rounded-3xl border border-border/20 bg-card/70 shadow-sm backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           {/* Header */}
           <motion.div
@@ -130,15 +130,15 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
             className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative mb-2">
-              <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border border-border/10 bg-primary/10 shadow-sm">
-                <Shield className="h-7 w-7 text-primary" />
+              <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border shadow-sm">
+                <Shield className="text-primary h-7 w-7" />
               </div>
             </div>
-            <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+            <div className="">
+              <h1 className="text-foreground text-2xl font-semibold tracking-tight">
                 Two-Factor Authentication
               </h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 Enter the 6-digit code from your authenticator app
               </p>
             </div>
@@ -164,7 +164,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="h-14 w-12 rounded-md border-input bg-muted/50 text-center text-xl font-semibold transition-all focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10"
+                  className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-14 w-12 rounded-md text-center text-xl font-semibold transition-all focus:ring-4"
                   disabled={loading}
                 />
               ))}
@@ -179,7 +179,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="mb-4 rounded-md bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive"
+                className="bg-destructive/10 text-destructive mb-4 rounded-md px-4 py-3 text-center text-sm font-medium"
               >
                 {error}
               </motion.div>
@@ -191,25 +191,21 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
             variants={withDelay(fadeInUpSmall, 0.3)}
             initial="hidden"
             animate="visible"
-            className="space-y-3"
+            className=""
           >
             <Button
               onClick={() => handleSubmit()}
-              className="h-12 w-full rounded-full bg-primary text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow active:scale-[0.98] disabled:opacity-70"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold shadow-sm transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
               disabled={loading || code.some((d) => !d)}
             >
-              {loading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
-              ) : (
-                'Verify'
-              )}
+              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Verify'}
             </Button>
 
             {onCancel && (
               <Button
                 variant="ghost"
                 onClick={onCancel}
-                className="h-10 w-full rounded-full text-sm font-medium text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground h-10 w-full rounded-full text-sm font-medium"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to login

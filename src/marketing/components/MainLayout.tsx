@@ -22,7 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { Language } from '@/marketing/contexts/LanguageTypes';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
-import { useClickOutside } from '@/marketing/hooks/useClickOutside';
+import { useClickAway } from '@/hooks/use-click-away';
 import { useAnalytics } from '@/marketing/hooks/useAnalytics';
 import { Button } from '@/marketing/components/ui/button';
 
@@ -49,7 +49,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showMobileCTA, setShowMobileCTA] = useState(false);
-  const navRef = useClickOutside<HTMLDivElement>(() => setActiveDropdown(null));
+  const navRef = useRef<HTMLDivElement>(null);
+  useClickAway(() => setActiveDropdown(null), navRef);
 
   // Hover intent management for dropdown
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -274,7 +275,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {/* Logo */}
                 <Link
                   href="/"
-                  className="group mx-auto mb-8 flex w-fit items-center justify-center space-x-2 opacity-80 hover:opacity-100"
+                  className="group mx-auto mb-8 flex w-fit items-center justify-center opacity-80 hover:opacity-100"
                 >
                   <div className="relative h-8 w-8">
                     <Image
@@ -289,7 +290,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 </Link>
 
                 {/* Contact Info */}
-                <div className="mb-8 space-y-1 text-xs text-gray-500">
+                <div className="mb-8 text-xs text-gray-500">
                   <p>Carrer Pelai, 12, 08001 Barcelona</p>
                   <p>contact@ekabalance.com</p>
                 </div>
@@ -298,7 +299,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 <div className="mx-auto mb-10 w-full max-w-4xl">
                   <div className="mb-8 grid grid-cols-2 gap-8 px-4 text-left md:grid-cols-4">
                     {/* Column 1: Core Services */}
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col">
                       <h4 className="mb-2 font-semibold text-gray-900">{t('nav.services')}</h4>
                       <Link
                         href="/services"
@@ -327,7 +328,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     </div>
 
                     {/* Column 2: Specific Modalities */}
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col">
                       <h4 className="mb-2 font-semibold text-gray-900">EKA Balance</h4>
                       <Link
                         href="/360-revision"
@@ -344,7 +345,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     </div>
 
                     {/* Column 3: Company */}
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col">
                       <h4 className="mb-2 font-semibold text-gray-900">{t('nav.aboutElena')}</h4>
                       <Link
                         href="/about-elena"
@@ -361,7 +362,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     </div>
 
                     {/* Column 4: Resources */}
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col">
                       <h4 className="mb-2 font-semibold text-gray-900">Legal</h4>
                       <Link
                         href="/discounts"
@@ -393,11 +394,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
                 {/* Language Selector */}
                 <div className="mb-8">
-                  <div className="mb-4 flex items-center justify-center space-x-2">
+                  <div className="mb-4 flex items-center justify-center">
                     <Globe className="h-3 w-3 text-gray-400" />
                     <span className="text-xs text-gray-400">{t('footer.selectLanguage')}</span>
                   </div>
-                  <div className="flex justify-center space-x-2">
+                  <div className="flex justify-center">
                     {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
                       <button
                         key={lang}
@@ -414,18 +415,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         {lang === 'ru' && 'Russian'}
                       </button>
                     ))}
-                    {/* Always show 'English' label for the language button */}
-                    <button
-                      key="language-english"
-                      onClick={() => setLanguage('en')}
-                      className={`rounded px-2 py-1 text-xs transition-colors duration-200 ${
-                        language === 'en'
-                          ? 'bg-gray-200 font-medium text-black'
-                          : 'text-gray-500 hover:bg-gray-100'
-                      }`}
-                    >
-                      English
-                    </button>
                   </div>
                 </div>
 
@@ -465,10 +454,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </Link>
 
               {/* Desktop Navigation - Centered - Apple Style */}
-              <div
-                ref={navBarRef}
-                className="relative hidden items-center justify-center space-x-8 md:flex"
-              >
+              <div ref={navBarRef} className="relative hidden items-center justify-center md:flex">
                 {navigation.map((item) => (
                   <div
                     key={item.name}
@@ -613,7 +599,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </div>
 
               {/* Right side actions - Search/Bag style icons usually, here just Booking CTA but simpler */}
-              <div className="flex flex-shrink-0 items-center space-x-3 sm:space-x-4">
+              <div className="sm: flex flex-shrink-0 items-center">
                 {/* Reserva Button - Visible on mobile now */}
                 <Button
                   asChild
@@ -655,7 +641,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   >
                     <X className="h-6 w-6" />
                   </button>
-                  <div className="space-y-6 p-6 pb-24">
+                  <div className="p-6 pb-24">
                     {/* Home */}
                     <div className="border-b border-gray-200/50 pb-4">
                       <Link
@@ -676,7 +662,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                       >
                         {t('nav.services')}
                       </Link>
-                      <div className="mt-2 ml-4 space-y-2">
+                      <div className="mt-2 ml-4">
                         {navigation
                           .find((n) => n.name === t('nav.services'))
                           ?.dropdownItems?.map((dropdownItem) => (

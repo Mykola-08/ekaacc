@@ -9,15 +9,9 @@ import { PermissionGate } from '@/components/dashboard/auth/PermissionGate';
  * `system_settings.read` permission, which Admin role has by default.
  * Any user with this permission (via custom overrides) can also access.
  */
-export default function ConsoleLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ConsoleLayout({ children }: { children: React.ReactNode }) {
   return (
-    <PermissionGate
-      permission={{ group: 'system_settings', action: 'read' }}
-    >
+    <PermissionGate permission={{ group: 'system_settings', action: 'read' }}>
       {children}
     </PermissionGate>
   );

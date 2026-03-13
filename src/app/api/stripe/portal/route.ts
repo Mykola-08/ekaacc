@@ -35,9 +35,6 @@ export async function POST() {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error('Stripe portal error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create billing portal session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create billing portal session' }, { status: 500 });
   }
 }

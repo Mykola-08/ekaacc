@@ -9,25 +9,21 @@ import Link from 'next/link';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { useLanguage } from '@/context/LanguageContext';
 
-export function BookingsPageContent({
-  bookings,
-  userId,
-}: {
-  bookings: any[];
-  userId: string;
-}) {
+export function BookingsPageContent({ bookings, userId }: { bookings: any[]; userId: string }) {
   const { t } = useLanguage();
 
   return (
     <motion.div
-      className="space-y-8 px-4 py-8 md:px-8"
+      className="px-4 py-8 md:px-8"
       initial={{ opacity: 0, scale: 0.98, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
     >
       <DashboardHeader
         title={t('page.bookings.title') || 'Your Bookings'}
-        subtitle={t('page.bookings.subtitle') || 'View your session history and upcoming appointments.'}
+        subtitle={
+          t('page.bookings.subtitle') || 'View your session history and upcoming appointments.'
+        }
       >
         <Button asChild variant="default">
           <Link href="/book">
@@ -37,7 +33,7 @@ export function BookingsPageContent({
         </Button>
       </DashboardHeader>
 
-      <div className="overflow-hidden rounded-lg border border-border bg-card p-1">
+      <div className="border-border bg-card overflow-hidden rounded-lg border p-1">
         <div className="p-6 md:p-8">
           <BookingHistoryList bookings={bookings} userId={userId} />
         </div>

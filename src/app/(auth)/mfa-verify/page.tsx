@@ -56,7 +56,7 @@ export default function MFAVerifyPage() {
       <div className="auth-page">
         <div className="auth-page-gradient" />
         <div className="relative z-10 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <Loader2 className="text-primary h-8 w-8 animate-spin" />
         </div>
       </div>
     );
@@ -65,7 +65,7 @@ export default function MFAVerifyPage() {
   return (
     <div className="auth-page">
       <div className="auth-page-gradient" />
-      <div className="relative z-10 w-full flex-1 flex flex-col items-center justify-center">
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center">
         <MFAVerifyForm
           factorId={factorId}
           onCancel={() => {

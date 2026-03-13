@@ -25,13 +25,13 @@ export function DashboardHeader({
   return (
     <div
       className={cn(
-        'mb-6 flex flex-col items-end justify-between gap-3 border-b border-border pb-4 transition-colors md:flex-row',
+        'border-border mb-6 flex flex-col items-end justify-between gap-3 border-b pb-4 transition-colors md:flex-row',
         className
       )}
     >
-      <div className="space-y-0.5">
-        <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
-        {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+      <div className=".5">
+        <h2 className="text-foreground text-lg font-semibold tracking-tight">{title}</h2>
+        {subtitle && <p className="text-muted-foreground text-sm">{subtitle}</p>}
       </div>
 
       <div className="flex w-full items-center gap-3 md:w-auto">{children}</div>

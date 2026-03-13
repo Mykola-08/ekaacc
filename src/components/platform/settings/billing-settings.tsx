@@ -85,18 +85,18 @@ export function BillingSettings() {
   if (loading) {
     return (
       <div className="flex justify-center p-8">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="">
       {/* Current Subscription */}
       <Card className="rounded-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <ShieldCheck className="h-5 w-5 text-primary" />
+            <ShieldCheck className="text-primary h-5 w-5" />
             Current Subscription
           </CardTitle>
           <CardDescription>Manage your plan and billing details</CardDescription>
@@ -109,7 +109,10 @@ export function BillingSettings() {
                   <h3 className="text-lg font-semibold">{subscription.plan_name}</h3>
                   <StatusBadge status={subscription.status} showIcon={false} />
                   {subscription.cancel_at_period_end && (
-                    <Badge variant="outline" className="border-warning/30 bg-warning/10 text-warning">
+                    <Badge
+                      variant="outline"
+                      className="border-warning/30 bg-warning/10 text-warning"
+                    >
                       Cancels at period end
                     </Badge>
                   )}
@@ -135,16 +138,13 @@ export function BillingSettings() {
           ) : (
             <div className="py-6 text-center">
               <div className="bg-muted/30 mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full">
-                <ShieldCheck className="h-7 w-7 text-muted-foreground/50" />
+                <ShieldCheck className="text-muted-foreground/50 h-7 w-7" />
               </div>
-              <p className="font-medium text-foreground">You are on the Free plan</p>
+              <p className="text-foreground font-medium">You are on the Free plan</p>
               <p className="text-muted-foreground mt-1 mb-4 text-sm">
                 Upgrade to unlock premium features and priority support.
               </p>
-              <Button
-                onClick={() => router.push('/finances?tab=plans')}
-                className="rounded-xl"
-              >
+              <Button onClick={() => router.push('/finances?tab=plans')} className="rounded-xl">
                 View Plans
               </Button>
             </div>
@@ -171,7 +171,7 @@ export function BillingSettings() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2">
-                <CreditCard className="h-5 w-5 text-primary" />
+                <CreditCard className="text-primary h-5 w-5" />
                 Payment Methods
               </CardTitle>
               <CardDescription>Cards on file for subscriptions and purchases</CardDescription>
@@ -190,19 +190,19 @@ export function BillingSettings() {
         </CardHeader>
         <CardContent>
           {paymentMethods.length > 0 ? (
-            <div className="space-y-3">
+            <div className="">
               {paymentMethods.map((pm) => (
                 <div
                   key={pm.id}
-                  className="flex items-center justify-between rounded-xl border border-border bg-muted/30 p-4"
+                  className="border-border bg-muted/30 flex items-center justify-between rounded-xl border p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-14 items-center justify-center rounded-lg bg-card text-xs font-semibold uppercase tracking-wider text-muted-foreground shadow-sm">
+                    <div className="bg-card text-muted-foreground flex h-10 w-14 items-center justify-center rounded-lg text-xs font-semibold tracking-wider uppercase shadow-sm">
                       {pm.brand}
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground">•••• {pm.last4}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-foreground font-semibold">•••• {pm.last4}</p>
+                      <p className="text-muted-foreground text-xs">
                         Expires {String(pm.exp_month).padStart(2, '0')}/{pm.exp_year}
                       </p>
                     </div>
@@ -217,8 +217,8 @@ export function BillingSettings() {
             </div>
           ) : (
             <div className="py-6 text-center">
-              <CreditCard className="mx-auto mb-3 h-8 w-8 text-muted-foreground/40" />
-              <p className="text-sm text-muted-foreground">
+              <CreditCard className="text-muted-foreground/40 mx-auto mb-3 h-8 w-8" />
+              <p className="text-muted-foreground text-sm">
                 No payment methods on file.{' '}
                 {subscription
                   ? 'Add one via the subscription portal.'
@@ -233,18 +233,18 @@ export function BillingSettings() {
       <Card className="rounded-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Receipt className="h-5 w-5 text-primary" />
+            <Receipt className="text-primary h-5 w-5" />
             Billing History
           </CardTitle>
           <CardDescription>Recent invoices and transactions</CardDescription>
         </CardHeader>
         <CardContent>
           {invoices.length > 0 ? (
-            <div className="space-y-3">
+            <div className="">
               {invoices.map((invoice) => (
                 <div
                   key={invoice.id}
-                  className="flex items-center justify-between rounded-xl border border-border p-4 transition-colors hover:bg-muted/30"
+                  className="border-border hover:bg-muted/30 flex items-center justify-between rounded-xl border p-4 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -263,10 +263,10 @@ export function BillingSettings() {
                       )}
                     </div>
                     <div>
-                      <p className="font-medium text-foreground">
+                      <p className="text-foreground font-medium">
                         {invoice.description || 'Payment'}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         {new Date(invoice.created_at).toLocaleDateString('en-IE', {
                           day: 'numeric',
                           month: 'short',
@@ -277,7 +277,7 @@ export function BillingSettings() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <span className="font-semibold text-foreground">
+                      <span className="text-foreground font-semibold">
                         {new Intl.NumberFormat('en-IE', {
                           style: 'currency',
                           currency: invoice.currency,
@@ -310,9 +310,9 @@ export function BillingSettings() {
             </div>
           ) : (
             <div className="py-8 text-center">
-              <Receipt className="mx-auto mb-3 h-8 w-8 text-muted-foreground/40" />
-              <p className="font-medium text-foreground">No billing history yet</p>
-              <p className="text-sm text-muted-foreground">
+              <Receipt className="text-muted-foreground/40 mx-auto mb-3 h-8 w-8" />
+              <p className="text-foreground font-medium">No billing history yet</p>
+              <p className="text-muted-foreground text-sm">
                 Invoices will appear here once you make a purchase.
               </p>
             </div>

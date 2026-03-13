@@ -40,7 +40,7 @@ function StatCard({ title, value, icon }: { title: string; value: string; icon: 
 
 function ClientsPageSkeleton() {
   return (
-    <div className="space-y-6">
+    <div className="">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <Skeleton className="h-24" />
         <Skeleton className="h-24" />
@@ -48,12 +48,12 @@ function ClientsPageSkeleton() {
       </div>
       <Card>
         <CardContent className="p-6">
-          <div className="space-y-4">
+          <div className="">
             {[...Array(5)].map((_, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Skeleton className="h-10 w-10 rounded-full" />
-                  <div className="space-y-1">
+                  <div className="">
                     <Skeleton className="h-4 w-24" />
                     <Skeleton className="h-3 w-32" />
                   </div>
@@ -129,7 +129,7 @@ export default function TherapistClientsPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="space-y-6">
+      <div className="">
         <PageSection
           title="Clients"
           description="Manage your client relationships and view their profiles."
@@ -151,7 +151,7 @@ export default function TherapistClientsPage() {
         {loading ? (
           <ClientsPageSkeleton />
         ) : (
-          <div className="space-y-6">
+          <div className="">
             {/* Stats Cards */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <StatCard

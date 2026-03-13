@@ -1,4 +1,4 @@
-﻿"use client";
+﻿'use client';
 
 /**
  * Wallet Balance Card
@@ -6,8 +6,8 @@
  * Displays the user's wallet balance with a sleek gradient card.
  */
 
-import * as motion from "motion/react-client";
-import { Wallet } from "lucide-react";
+import * as motion from 'motion/react-client';
+import { Wallet } from 'lucide-react';
 
 interface WalletBalanceProps {
   balance: number;
@@ -15,8 +15,8 @@ interface WalletBalanceProps {
 }
 
 function formatCurrency(amount: number, currency: string): string {
-  return new Intl.NumberFormat("en", {
-    style: "currency",
+  return new Intl.NumberFormat('en', {
+    style: 'currency',
     currency,
     minimumFractionDigits: 2,
   }).format(amount);
@@ -28,10 +28,10 @@ export function WalletBalanceCard({ balance, currency }: WalletBalanceProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="relative overflow-hidden rounded-lg border bg-linear-to-br from-primary/10 via-primary/5 to-transparent p-4 w-full max-w-sm"
+      className="from-primary/10 via-primary/5 relative w-full max-w-sm overflow-hidden rounded-lg border bg-linear-to-br to-transparent p-4"
     >
       {/* Decorative circle */}
-      <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/5" />
+      <div className="bg-primary/5 absolute -top-6 -right-6 h-24 w-24 rounded-full" />
 
       <div className="relative flex items-center gap-3">
         <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
@@ -40,7 +40,7 @@ export function WalletBalanceCard({ balance, currency }: WalletBalanceProps) {
         <div>
           <p className="text-muted-foreground text-xs font-medium">Wallet Balance</p>
           <motion.p
-            className="text-foreground text-xl font-semibold tabular-nums tracking-tight"
+            className="text-foreground text-xl font-semibold tracking-tight tabular-nums"
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}

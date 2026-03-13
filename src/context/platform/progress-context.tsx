@@ -66,7 +66,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
               animate={{ scaleX: progress / 100 }}
               exit={{ scaleX: 1, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="from-primary to-primary fixed top-0 right-0 left-0 z-50 h-1 origin-left bg-linear-to-r via-accent"
+              className="from-primary to-primary via-accent fixed top-0 right-0 left-0 z-50 h-1 origin-left bg-linear-to-r"
             />
 
             {/* Loading overlay for long operations */}
@@ -77,7 +77,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
                 exit={{ opacity: 0 }}
                 className="bg-background/80 fixed inset-0 z-40 flex items-center justify-center backdrop-blur-sm"
               >
-                <div className="space-y-4 text-center">
+                <div className="text-center">
                   <Loader2 className="text-primary mx-auto h-12 w-12 animate-spin" />
                   <p className="text-muted-foreground text-sm">{message}</p>
                   <p className="text-primary text-xs font-semibold">{Math.round(progress)}%</p>

@@ -16,10 +16,19 @@ export default async function UserDeepControlPage({ params }: { params: Promise<
   // Parallel Fetching
   const [profileRes, purchasesRes, enrollmentsRes, auditRes, featuresRes] = await Promise.all([
     supabase.from('profiles').select('*').eq('id', id).single(),
-    supabase.from('external_purchases').select('*').eq('user_id', id).order('purchase_date', { ascending: false }),
+    supabase
+      .from('external_purchases')
+      .select('*')
+      .eq('user_id', id)
+      .order('purchase_date', { ascending: false }),
     supabase.from('feature_enrollments').select('*').eq('user_id', id),
-    supabase.from('audit_events').select('*').or(`actor_id.eq.${id},resource_id.eq.${id}`).order('created_at', { ascending: false }).limit(20),
-    supabase.from('features').select('*').order('key')
+    supabase
+      .from('audit_events')
+      .select('*')
+      .or(`actor_id.eq.${id},resource_id.eq.${id}`)
+      .order('created_at', { ascending: false })
+      .limit(20),
+    supabase.from('features').select('*').order('key'),
   ]);
 
   const profile = profileRes.data;
@@ -28,19 +37,21 @@ export default async function UserDeepControlPage({ params }: { params: Promise<
   }
 
   return (
-    <div className="space-y-6 p-6 max-w-6xl mx-auto">
+    <div className="mx-auto max-w-6xl p-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex items-center gap-4">
-          <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary">
+          <div className="bg-primary/10 text-primary flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold">
             {profile.full_name?.[0] || '?'}
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{profile.full_name}</h1>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-sm text-muted-foreground mt-1">
+            <div className="text-muted-foreground mt-1 flex flex-col gap-1 text-sm sm:flex-row sm:items-center sm:gap-3">
               <span>{profile.email}</span>
               <span className="hidden sm:inline">•</span>
-              <Badge variant="secondary" className="capitalize w-fit">{profile.role}</Badge>
+              <Badge variant="secondary" className="w-fit capitalize">
+                {profile.role}
+              </Badge>
               <span className="hidden sm:inline">•</span>
               <span className="font-mono text-xs">{id}</span>
             </div>
@@ -52,7 +63,7 @@ export default async function UserDeepControlPage({ params }: { params: Promise<
         </div>
       </div>
 
-      <Tabs defaultValue="overview" className="space-y-4">
+      <Tabs defaultValue="overview" className="">
         <TabsList className="w-full justify-start overflow-x-auto">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="features">Feature Flags</TabsTrigger>
@@ -66,28 +77,28 @@ export default async function UserDeepControlPage({ params }: { params: Promise<
             <CardHeader>
               <CardTitle>Profile Details</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
+            <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="">
                 <Label>Full Name</Label>
                 <Input defaultValue={profile.full_name} readOnly />
               </div>
-              <div className="space-y-2">
+              <div className="">
                 <Label>Email</Label>
                 <Input defaultValue={profile.email || ''} readOnly />
               </div>
-              <div className="space-y-2">
+              <div className="">
                 <Label>Phone</Label>
                 <Input defaultValue={profile.phone || ''} readOnly />
               </div>
-              <div className="space-y-2">
+              <div className="">
                 <Label>City</Label>
                 <Input defaultValue={profile.city || ''} readOnly />
               </div>
-              <div className="space-y-2">
+              <div className="">
                 <Label>Trust Score</Label>
                 <Input defaultValue={profile.trust_score} readOnly />
               </div>
-              <div className="space-y-2">
+              <div className="">
                 <Label>Verification Level</Label>
                 <Input defaultValue={profile.verification_level} readOnly />
               </div>
@@ -130,22 +141,24 @@ export default async function UserDeepControlPage({ params }: { params: Promise<
               <CardTitle>Recent Activity</CardTitle>
             </CardHeader>
             <CardContent>
-               <div className="space-y-0 border rounded-md divide-y">
-                 {auditRes.data?.map((log: any) => (
-                   <div key={log.id} className="p-3 hover:bg-muted/50 transition-colors">
-                     <div className="flex justify-between items-start mb-1">
-                       <span className="font-semibold text-sm">{log.event_type}</span>
-                       <span className="text-xs text-muted-foreground">{new Date(log.created_at).toLocaleString()}</span>
-                     </div>
-                     <div className="text-xs text-muted-foreground break-all font-mono bg-muted/30 p-1.5 rounded">
-                       {JSON.stringify(log.metadata)}
-                     </div>
-                   </div>
-                 ))}
-                 {(!auditRes.data || auditRes.data.length === 0) && (
-                    <div className="p-8 text-center text-muted-foreground">No audit logs found.</div>
-                 )}
-               </div>
+              <div className="divide-y rounded-md border">
+                {auditRes.data?.map((log: any) => (
+                  <div key={log.id} className="hover:bg-muted/50 p-3 transition-colors">
+                    <div className="mb-1 flex items-start justify-between">
+                      <span className="text-sm font-semibold">{log.event_type}</span>
+                      <span className="text-muted-foreground text-xs">
+                        {new Date(log.created_at).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="text-muted-foreground bg-muted/30 rounded p-1.5 font-mono text-xs break-all">
+                      {JSON.stringify(log.metadata)}
+                    </div>
+                  </div>
+                ))}
+                {(!auditRes.data || auditRes.data.length === 0) && (
+                  <div className="text-muted-foreground p-8 text-center">No audit logs found.</div>
+                )}
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

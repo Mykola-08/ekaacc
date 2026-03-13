@@ -569,15 +569,38 @@ class SecurityMonitoringService {
    * Send notification for alert
    */
   private sendNotification(alert: SecurityAlert): void {
-    // This would integrate with your notification system
-    // For now, we'll just log it
     console.warn(`Security Alert: ${alert.title} - ${alert.description}`);
 
-    // TODO: Implement actual notification sending
-    // - Email notifications
-    // - Webhook notifications
-    // - Push notifications
-    // - Slack/Teams integration
+    try {
+      // Async so we don't block
+      import('@/lib/platform/services/email-client').then(({ getResend }) => {
+        const resend = getResend();
+        const adminEmail = process.env.ADMIN_EMAIL || 'contact@ekabalance.com';
+        const sender = process.env.EMAIL_SENDER || 'Eka Platform <onboarding@resend.dev>';
+
+        const htmlContent = `
+          <div style="font-family: sans-serif; color: #333;">
+            <h2 style="color: ${alert.severity === 'critical' ? 'red' : alert.severity === 'high' ? 'orange' : 'black'}">Security Alert: ${alert.title}</h2>
+            <p><strong>Severity:</strong> ${alert.severity}</p>
+            <p><strong>Time:</strong> ${alert.timestamp}</p>
+            <p><strong>User ID:</strong> ${alert.userId || 'N/A'}</p>
+            <hr />
+            <p>${alert.description}</p>
+          </div>
+        `;
+
+        resend.emails
+          .send({
+            from: sender,
+            to: [adminEmail],
+            subject: `[${alert.severity.toUpperCase()}] Eka Security Alert: ${alert.title}`,
+            html: htmlContent,
+          })
+          .catch((err) => console.error('Failed to send security alert email', err));
+      });
+    } catch (e) {
+      console.error('Error triggering security alert notification', e);
+    }
   }
 
   /**

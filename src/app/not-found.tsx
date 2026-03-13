@@ -10,16 +10,16 @@ export default function NotFound() {
     <div className="bg-background relative flex min-h-screen items-center justify-center overflow-hidden px-4">
       {/* Background blobs for "sensations" */}
       <div className="bg-primary/20 absolute top-1/4 -left-20 h-80 w-80 rounded-full blur-3xl" />
-      <div className="absolute -right-20 bottom-1/4 h-80 w-80 rounded-full bg-accent/10 blur-3xl" />
+      <div className="bg-accent/10 absolute -right-20 bottom-1/4 h-80 w-80 rounded-full blur-3xl" />
 
       <div className="relative z-10 w-full max-w-md text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="space-y-8 rounded-3xl border border-border/40 bg-card/60 p-12 shadow-sm backdrop-blur-2xl"
+          className="border-border/40 bg-card/60 rounded-3xl border p-12 shadow-sm backdrop-blur-2xl"
         >
-          <div className="space-y-4">
+          <div className="">
             <h1 className="text-foreground/20 text-8xl font-light tracking-tighter">404</h1>
             <h2 className="text-foreground text-3xl font-semibold tracking-tight">
               Page Not Found
@@ -30,11 +30,11 @@ export default function NotFound() {
             </p>
           </div>
 
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col">
             <Link href="/">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 shadow-primary/25 w-full rounded-lg border-none py-6 text-primary-foreground shadow-lg"
+                className="bg-primary hover:bg-primary/90 shadow-primary/25 text-primary-foreground w-full rounded-lg border-none py-6 shadow-lg"
               >
                 <Home className="mr-2 h-5 w-5" />
                 Back to Home

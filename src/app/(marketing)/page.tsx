@@ -1,14 +1,26 @@
 import { Metadata } from 'next';
 import HomeContent from '@/marketing/components/HomeContent';
 
-
 export const metadata: Metadata = {
-  title: "EKA Balance | Elena Kucherova - Teràpies Somàtiques a Barcelona",
-  description: "Restaura la teva vitalitat sistèmica amb Elena Kucherova. Especialista en integració somàtica, kinesiologia i regulació del sistema nerviós a Barcelona.",
-  keywords: ["Elena Kucherova", "EKA Balance", "Teràpies Somàtiques", "Barcelona", "Kinesiologia", "Integració Somàtica", "Benestar", "Salut", "Movement Lesson", "JKA"],
+  title: 'EKA Balance | Elena Kucherova - Teràpies Somàtiques a Barcelona',
+  description:
+    'Restaura la teva vitalitat sistèmica amb Elena Kucherova. Especialista en integració somàtica, kinesiologia i regulació del sistema nerviós a Barcelona.',
+  keywords: [
+    'Elena Kucherova',
+    'EKA Balance',
+    'Teràpies Somàtiques',
+    'Barcelona',
+    'Kinesiologia',
+    'Integració Somàtica',
+    'Benestar',
+    'Salut',
+    'Movement Lesson',
+    'JKA',
+  ],
   openGraph: {
-    title: "EKA Balance | Elena Kucherova",
-    description: "Restaura la teva vitalitat sistèmica. Centre de referència en teràpies somàtiques i regulació del sistema nerviós a Barcelona.",
+    title: 'EKA Balance | Elena Kucherova',
+    description:
+      'Restaura la teva vitalitat sistèmica. Centre de referència en teràpies somàtiques i regulació del sistema nerviós a Barcelona.',
     type: 'website',
     images: [
       {
@@ -18,7 +30,7 @@ export const metadata: Metadata = {
         alt: 'EKA Balance Logo',
       },
     ],
-  }
+  },
 };
 
 export default function Home() {

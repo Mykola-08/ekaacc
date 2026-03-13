@@ -13,10 +13,10 @@ export default async function AvailabilityPage() {
   }
 
   return (
-    <div className="space-y-8 px-4 py-8 md:px-8">
-      <div className="space-y-1">
-        <h2 className="text-2xl font-semibold tracking-tight text-foreground">Availability</h2>
-        <p className="text-sm font-medium text-muted-foreground">
+    <div className="px-4 py-8 md:px-8">
+      <div className="">
+        <h2 className="text-foreground text-2xl font-semibold tracking-tight">Availability</h2>
+        <p className="text-muted-foreground text-sm font-medium">
           Manage your schedule and availability for client sessions.
         </p>
       </div>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Mood Trend Card
@@ -6,8 +6,8 @@
  * Visualizes mood history with a mini sparkline chart and trend indicator.
  */
 
-import * as motion from "motion/react-client";
-import { cn } from "@/lib/utils";
+import * as motion from 'motion/react-client';
+import { cn } from '@/lib/utils';
 
 interface MoodDataPoint {
   score: number;
@@ -18,14 +18,14 @@ interface MoodDataPoint {
 interface MoodTrendProps {
   moods: MoodDataPoint[];
   averageScore: number;
-  trend: "improving" | "declining" | "stable";
+  trend: 'improving' | 'declining' | 'stable';
   days: number;
 }
 
 const trendConfig = {
-  improving: { label: "Improving", icon: "?", color: "text-success", bg: "bg-success/10" },
-  declining: { label: "Declining", icon: "?", color: "text-destructive", bg: "bg-destructive/10" },
-  stable: { label: "Stable", icon: "?", color: "text-primary", bg: "bg-primary/10" },
+  improving: { label: 'Improving', icon: '?', color: 'text-success', bg: 'bg-success/10' },
+  declining: { label: 'Declining', icon: '?', color: 'text-destructive', bg: 'bg-destructive/10' },
+  stable: { label: 'Stable', icon: '?', color: 'text-primary', bg: 'bg-primary/10' },
 };
 
 function Sparkline({ data }: { data: number[] }) {
@@ -46,7 +46,7 @@ function Sparkline({ data }: { data: number[] }) {
   });
 
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-10" preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${width} ${height}`} className="h-10 w-full" preserveAspectRatio="none">
       <defs>
         <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.3" />
@@ -55,7 +55,7 @@ function Sparkline({ data }: { data: number[] }) {
       </defs>
       {/* Fill area */}
       <motion.polygon
-        points={`${padding},${height} ${points.join(" ")} ${width - padding},${height}`}
+        points={`${padding},${height} ${points.join(' ')} ${width - padding},${height}`}
         fill="url(#sparkGrad)"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -63,7 +63,7 @@ function Sparkline({ data }: { data: number[] }) {
       />
       {/* Line */}
       <motion.polyline
-        points={points.join(" ")}
+        points={points.join(' ')}
         fill="none"
         stroke="var(--primary)"
         strokeWidth="2"
@@ -86,14 +86,20 @@ export function MoodTrendCard({ moods, averageScore, trend, days }: MoodTrendPro
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card rounded-lg border p-4 w-full max-w-sm"
+      className="bg-card w-full max-w-sm rounded-lg border p-4"
     >
-      <div className="flex items-center justify-between mb-3">
+      <div className="mb-3 flex items-center justify-between">
         <div>
           <p className="text-sm font-semibold">Mood Trend</p>
           <p className="text-muted-foreground text-xs">Last {days} days</p>
         </div>
-        <div className={cn("flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium", cfg.bg, cfg.color)}>
+        <div
+          className={cn(
+            'flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium',
+            cfg.bg,
+            cfg.color
+          )}
+        >
           <span>{cfg.icon}</span>
           <span>{cfg.label}</span>
         </div>

@@ -32,74 +32,71 @@ export default function AppleHero() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex(prev => (prev + 1) % heroImages.length);
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
     }, 7000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative w-full min-h-[90vh] bg-[#fdfdfd] flex flex-col items-center justify-start pt-32 pb-16 overflow-hidden">
-      
+    <section className="relative flex min-h-[90vh] w-full flex-col items-center justify-start overflow-hidden bg-[#fdfdfd] pt-32 pb-16">
       {/* Subtle background glows for depth */}
-      <div className="absolute top-0 left-0 w-full h-[500px] overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-[100px] mix-blend-multiply" />
-        <div className="absolute top-[10%] right-[-5%] w-[30%] h-[30%] bg-purple-100/40 rounded-full blur-[80px] mix-blend-multiply" />
+      <div className="pointer-events-none absolute top-0 left-0 h-[500px] w-full overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] h-[40%] w-[40%] rounded-full bg-blue-100/50 mix-blend-multiply blur-[100px]" />
+        <div className="absolute top-[10%] right-[-5%] h-[30%] w-[30%] rounded-full bg-purple-100/40 mix-blend-multiply blur-[80px]" />
       </div>
 
       {/* Content Layer - Centered Text */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 text-center mb-12 sm:mb-16">
+      <div className="relative z-20 mx-auto mb-12 w-full max-w-7xl px-6 text-center sm:mb-16">
         <AnimateIn delay={0.1} duration={0.8} from="bottom">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/60 border border-gray-200/60  backdrop-blur-md mb-8">
-            <Sparkles className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-medium text-gray-800 tracking-wide">EKA Balance Method</span>
+          <div className="mb-8 inline-flex items-center rounded-full border border-gray-200/60 bg-white/60 px-4 py-1.5 backdrop-blur-md">
+            <Sparkles className="h-4 w-4 text-blue-600" />
+            <span className="text-sm font-medium tracking-wide text-gray-800">
+              EKA Balance Method
+            </span>
           </div>
         </AnimateIn>
 
         <AnimateIn delay={0.2} duration={0.8} from="bottom">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[1.05] mb-6 text-gray-900 ">
+          <h1 className="mb-6 text-5xl leading-[1.05] font-semibold tracking-tight text-gray-900 md:text-7xl lg:text-8xl">
             {t('hero.title')}
           </h1>
         </AnimateIn>
 
         <AnimateIn delay={0.3} duration={0.8} from="bottom">
-          <p className="text-xl md:text-2xl font-medium text-gray-500 max-w-2xl mx-auto mb-10 text-balance leading-relaxed">
+          <p className="mx-auto mb-10 max-w-2xl text-xl leading-relaxed font-medium text-balance text-gray-500 md:text-2xl">
             {t('hero.subtitle')}
           </p>
         </AnimateIn>
 
         <AnimateIn delay={0.4} duration={0.8} from="bottom">
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             {/* Primary Button */}
             <Button
               asChild
               variant="default"
-              size="xl"
-              className="px-8 py-6 text-lg h-auto rounded-full w-full sm:w-auto   transition-all duration-300"
+              size="lg"
+              className="h-auto w-full rounded-full px-8 py-6 text-lg transition-all duration-300 sm:w-auto"
               onClick={() => logEvent('hero_first_time_click')}
             >
-              <Link href="/first-time">
-                {t('hero.firstTime')}
-              </Link>
+              <Link href="/first-time">{t('hero.firstTime')}</Link>
             </Button>
 
             {/* Secondary Button */}
             <Button
               asChild
               variant="outline"
-              size="xl"
-              className="px-8 py-6 text-lg h-auto rounded-full w-full sm:w-auto backdrop-blur-md bg-white/50 border-gray-300 hover:bg-white/80 transition-all duration-300"
+              size="lg"
+              className="h-auto w-full rounded-full border-gray-300 bg-white/50 px-8 py-6 text-lg backdrop-blur-md transition-all duration-300 hover:bg-white/80 sm:w-auto"
               onClick={() => logEvent('hero_services_click')}
             >
-              <Link href="/services">
-                {t('hero.discoverServices')}
-              </Link>
+              <Link href="/services">{t('hero.discoverServices')}</Link>
             </Button>
           </div>
         </AnimateIn>
       </div>
 
       {/* Image Container - Rounded Apple Style */}
-      <div className="relative w-full max-w-[90%] md:max-w-6xl aspect-video md:aspect-[21/9] rounded-[32px] md:rounded-[48px] overflow-hidden _20px_40px_rgba(0,0,0,0.08)] mx-auto group">
+      <div className="_20px_40px_rgba(0,0,0,0.08)] group relative mx-auto aspect-video w-full max-w-[90%] overflow-hidden rounded-[32px] md:aspect-[21/9] md:max-w-6xl md:rounded-[48px]">
         {/* Only render current, previous and next images to avoid loading all 12 */}
         {heroImages.map((image, index) => {
           const prev = (currentImageIndex - 1 + heroImages.length) % heroImages.length;
@@ -110,7 +107,7 @@ export default function AppleHero() {
             <div
               key={image}
               className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${
-                index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                index === currentImageIndex ? 'z-10 opacity-100' : 'z-0 opacity-0'
               }`}
             >
               <Image
@@ -125,7 +122,7 @@ export default function AppleHero() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
               />
               {/* Subtle Gradient Overlay for depth */}
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-transparent pointer-events-none" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-transparent" />
             </div>
           );
         })}

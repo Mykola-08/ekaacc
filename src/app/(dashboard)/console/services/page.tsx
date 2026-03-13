@@ -5,8 +5,8 @@ export default async function ServicesPage() {
   const services = await getAdminServices();
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 space-y-8 duration-500">
-      <div className="space-y-4">
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="">
         <h1 className="text-3xl font-semibold">Services Management</h1>
         <ServicesList services={services} />
       </div>

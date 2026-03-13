@@ -7,9 +7,13 @@ export async function generateStaticParams() {
   return products.map((p) => ({ id: p.id }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
   const { id } = await params;
-  const product = products.find(p => p.id === id || p.id.toLowerCase() === id.toLowerCase());
+  const product = products.find((p) => p.id === id || p.id.toLowerCase() === id.toLowerCase());
   if (!product) return { title: 'Product Not Found | EKA Balance' };
 
   const name = getLocalized(product.name, 'en');
@@ -29,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const product = products.find(p => p.id === id || p.id.toLowerCase() === id.toLowerCase());
+  const product = products.find((p) => p.id === id || p.id.toLowerCase() === id.toLowerCase());
   if (!product) return notFound();
 
   return <AgenyzProductContent id={id} />;

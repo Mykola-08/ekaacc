@@ -67,7 +67,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="">
       <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
       <div className="bg-muted/30 border-border rounded-xl border p-4">
         <PaymentElement
@@ -79,11 +79,11 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="inline-flex w-full items-center justify-center rounded-xl border border-transparent bg-foreground px-6 py-3 text-base font-semibold text-background shadow-lg transition-all hover:bg-foreground/90 focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="bg-foreground text-background hover:bg-foreground/90 focus:ring-foreground inline-flex w-full items-center justify-center rounded-xl border border-transparent px-6 py-3 text-base font-semibold shadow-lg transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {loading ? (
           <>
-            <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent"></div>
+            <div className="border-background mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></div>
             Processing...
           </>
         ) : (
@@ -110,7 +110,11 @@ export function WalletContentHeadless({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [pmLoading, setPmLoading] = useState(true);
-  const { feedback: walletFeedback, setError: setWalletError, reset: resetWalletFeedback } = useMorphingFeedback();
+  const {
+    feedback: walletFeedback,
+    setError: setWalletError,
+    reset: resetWalletFeedback,
+  } = useMorphingFeedback();
   const router = useRouter();
 
   // Load real payment methods
@@ -162,7 +166,7 @@ export function WalletContentHeadless({
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-8 px-4 py-8 pb-12 md:px-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 pb-12 md:px-8">
       {/* Header */}
       <div className="animate-fade-in flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div>
@@ -172,17 +176,22 @@ export function WalletContentHeadless({
           <p className="text-muted-foreground mt-2 text-lg">
             Manage your credits, transactions, and membership plans.
           </p>
-          <InlineFeedback status={walletFeedback.status} message={walletFeedback.message} onDismiss={resetWalletFeedback} className="mt-2" />
+          <InlineFeedback
+            status={walletFeedback.status}
+            message={walletFeedback.message}
+            onDismiss={resetWalletFeedback}
+            className="mt-2"
+          />
         </div>
       </div>
 
       {/* Main Content */}
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Left Column: Balance & TopUp */}
-        <div className="space-y-8 lg:col-span-2">
+        <div className="lg:col-span-2">
           {/* Balance Card */}
-          <div className="animate-slide-up relative overflow-hidden rounded-3xl bg-foreground p-8 text-background shadow-sm">
-            <div className="pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br from-foreground/80 to-foreground blur-3xl" />
+          <div className="animate-slide-up bg-foreground text-background relative overflow-hidden rounded-3xl p-8 shadow-sm">
+            <div className="from-foreground/80 to-foreground pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br blur-3xl" />
 
             <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
@@ -196,7 +205,7 @@ export function WalletContentHeadless({
                 <label className="text-muted-foreground/80 text-sm font-medium">
                   Quick Top-up Amount
                 </label>
-                <div className="flex rounded-xl bg-muted p-1">
+                <div className="bg-muted flex rounded-xl p-1">
                   {amounts.map((amt) => (
                     <button
                       key={amt}
@@ -214,7 +223,7 @@ export function WalletContentHeadless({
                 </div>
                 <button
                   onClick={handleTopUpClick}
-                  className="bg-card hover:bg-muted mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold text-foreground shadow-sm transition-colors"
+                  className="bg-card hover:bg-muted text-foreground mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold shadow-sm transition-colors"
                 >
                   <Plus className="h-5 w-5" />
                   Add Funds
@@ -224,17 +233,13 @@ export function WalletContentHeadless({
           </div>
 
           {/* Transactions & Plans Tabs */}
-          <TabGroup
-            as="div"
-            className="animate-slide-up space-y-6"
-            style={{ animationDelay: '100ms' }}
-          >
-            <TabList className="bg-muted/80 flex w-fit space-x-2 rounded-lg p-1.5">
+          <TabGroup as="div" className="animate-slide-up" style={{ animationDelay: '100ms' }}>
+            <TabList className="bg-muted/80 flex w-fit rounded-lg p-1.5">
               <Tab
                 className={({ selected }) =>
                   cn(
                     'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
-                    'focus:ring-2 focus:ring-ring/5',
+                    'focus:ring-ring/5 focus:ring-2',
                     selected
                       ? 'bg-card text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
@@ -247,7 +252,7 @@ export function WalletContentHeadless({
                 className={({ selected }) =>
                   cn(
                     'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
-                    'focus:ring-2 focus:ring-ring/5',
+                    'focus:ring-ring/5 focus:ring-2',
                     selected
                       ? 'bg-card text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
@@ -259,11 +264,11 @@ export function WalletContentHeadless({
             </TabList>
 
             <TabPanels>
-              <TabPanel className="bg-card min-h-100 rounded-3xl border border-border p-8 shadow-sm focus:outline-none">
+              <TabPanel className="bg-card border-border min-h-100 rounded-3xl border p-8 shadow-sm focus:outline-none">
                 {initialTransactions.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                      <History className="h-8 w-8 text-muted-foreground/60" />
+                      <History className="text-muted-foreground/60 h-8 w-8" />
                     </div>
                     <p className="font-medium">No transactions yet</p>
                     <p className="text-sm">
@@ -271,11 +276,11 @@ export function WalletContentHeadless({
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="">
                     {initialTransactions.slice(0, 10).map((tx) => (
                       <div
                         key={tx.id}
-                        className="hover:bg-muted/30 group flex items-center justify-between rounded-lg border border-transparent p-4 transition-colors hover:border-border"
+                        className="hover:bg-muted/30 group hover:border-border flex items-center justify-between rounded-lg border border-transparent p-4 transition-colors"
                       >
                         <div className="flex items-center gap-4">
                           <div
@@ -316,11 +321,11 @@ export function WalletContentHeadless({
                 )}
               </TabPanel>
 
-              <TabPanel className="bg-card min-h-100 rounded-lg border border-border p-8 shadow-sm focus:outline-none">
+              <TabPanel className="bg-card border-border min-h-100 rounded-lg border p-8 shadow-sm focus:outline-none">
                 {initialPlans.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                      <Wallet className="h-8 w-8 text-muted-foreground/60" />
+                      <Wallet className="text-muted-foreground/60 h-8 w-8" />
                     </div>
                     <p className="font-medium">No active plans</p>
                     <p className="text-sm">Purchase a bundle or subscription to see it here.</p>
@@ -330,7 +335,7 @@ export function WalletContentHeadless({
                     {initialPlans.map((plan) => (
                       <div
                         key={plan.id}
-                        className="bg-muted/30 relative overflow-hidden rounded-lg border border-border p-6"
+                        className="bg-muted/30 border-border relative overflow-hidden rounded-lg border p-6"
                       >
                         <div className="relative z-10">
                           <h3 className="text-foreground mb-1 text-lg font-semibold">
@@ -339,9 +344,9 @@ export function WalletContentHeadless({
                           <p className="text-muted-foreground mb-4 text-sm">
                             {plan.credits_remaining} / {plan.credits_total} credits remaining
                           </p>
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                          <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
                             <div
-                              className="h-full rounded-full bg-foreground"
+                              className="bg-foreground h-full rounded-full"
                               style={{
                                 width: `${(plan.credits_remaining / plan.credits_total) * 100}%`,
                               }}
@@ -358,26 +363,23 @@ export function WalletContentHeadless({
         </div>
 
         {/* Right Column: Info / Help */}
-        <div
-          className="animate-slide-up space-y-6 lg:col-span-1"
-          style={{ animationDelay: '200ms' }}
-        >
-          <div className="bg-card rounded-3xl border border-border p-8 shadow-sm">
+        <div className="animate-slide-up lg:col-span-1" style={{ animationDelay: '200ms' }}>
+          <div className="bg-card border-border rounded-3xl border p-8 shadow-sm">
             <h3 className="text-foreground mb-4 text-xl font-semibold">Payment Methods</h3>
             {pmLoading ? (
-              <div className="space-y-3">
+              <div className="">
                 {[1, 2].map((i) => (
-                  <div key={i} className="h-16 animate-pulse rounded-lg bg-muted" />
+                  <div key={i} className="bg-muted h-16 animate-pulse rounded-lg" />
                 ))}
               </div>
             ) : paymentMethods.length > 0 ? (
-              <div className="space-y-3 mb-4">
+              <div className="mb-4">
                 {paymentMethods.map((pm) => (
                   <div
                     key={pm.id}
-                    className="bg-muted/30 flex items-center gap-3 rounded-lg border border-border p-4"
+                    className="bg-muted/30 border-border flex items-center gap-3 rounded-lg border p-4"
                   >
-                    <div className="text-muted-foreground flex h-6 w-10 items-center justify-center rounded bg-muted text-xs font-semibold uppercase">
+                    <div className="text-muted-foreground bg-muted flex h-6 w-10 items-center justify-center rounded text-xs font-semibold uppercase">
                       {pm.brand}
                     </div>
                     <div className="flex-1">
@@ -387,7 +389,7 @@ export function WalletContentHeadless({
                       </p>
                     </div>
                     {pm.is_default && (
-                      <span className="rounded-full bg-foreground/10 px-2.5 py-0.5 text-2xs font-semibold text-foreground">
+                      <span className="bg-foreground/10 text-2xs text-foreground rounded-full px-2.5 py-0.5 font-semibold">
                         Default
                       </span>
                     )}
@@ -395,10 +397,12 @@ export function WalletContentHeadless({
                 ))}
               </div>
             ) : (
-              <div className="bg-muted/30 mb-4 flex flex-col items-center justify-center rounded-lg border border-border py-8 text-center">
-                <CreditCard className="mb-2 h-8 w-8 text-muted-foreground/40" />
-                <p className="text-sm text-muted-foreground">No payment methods saved</p>
-                <p className="text-xs text-muted-foreground/70">Add a card by topping up your wallet</p>
+              <div className="bg-muted/30 border-border mb-4 flex flex-col items-center justify-center rounded-lg border py-8 text-center">
+                <CreditCard className="text-muted-foreground/40 mb-2 h-8 w-8" />
+                <p className="text-muted-foreground text-sm">No payment methods saved</p>
+                <p className="text-muted-foreground/70 text-xs">
+                  Add a card by topping up your wallet
+                </p>
               </div>
             )}
             <button
@@ -409,20 +413,20 @@ export function WalletContentHeadless({
             </button>
           </div>
 
-          <div className="rounded-3xl border border-primary/10 bg-primary/5 p-8 shadow-sm">
+          <div className="border-primary/10 bg-primary/5 rounded-3xl border p-8 shadow-sm">
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <AlertCircle className="h-5 w-5 text-primary" />
+              <div className="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+                <AlertCircle className="text-primary h-5 w-5" />
               </div>
               <div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">Need Help?</h3>
-                <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                <h3 className="text-foreground mb-2 text-lg font-semibold">Need Help?</h3>
+                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                   If you have questions about your balance or transactions, our support team is here
                   to help.
                 </p>
                 <a
                   href="mailto:support@eka.care"
-                  className="text-sm font-semibold text-primary underline hover:text-primary/80"
+                  className="text-primary hover:text-primary/80 text-sm font-semibold underline"
                 >
                   Contact Support
                 </a>
@@ -444,7 +448,7 @@ export function WalletContentHeadless({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-foreground/25 backdrop-blur-sm" />
+            <div className="bg-foreground/25 fixed inset-0 backdrop-blur-sm" />
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -475,8 +479,10 @@ export function WalletContentHeadless({
                   <div className="mt-2">
                     <p className="text-muted-foreground mb-6 text-sm">
                       You are about to add{' '}
-                      <span className="text-foreground text-base font-semibold">€{topUpAmount}</span> to
-                      your wallet.
+                      <span className="text-foreground text-base font-semibold">
+                        €{topUpAmount}
+                      </span>{' '}
+                      to your wallet.
                     </p>
 
                     {clientSecret ? (
@@ -488,7 +494,7 @@ export function WalletContentHeadless({
                       </Elements>
                     ) : (
                       <div className="flex justify-center py-12">
-                        <div className="border-border h-8 w-8 animate-spin rounded-full border-4 border-t-foreground"></div>
+                        <div className="border-border border-t-foreground h-8 w-8 animate-spin rounded-full border-4"></div>
                       </div>
                     )}
                   </div>

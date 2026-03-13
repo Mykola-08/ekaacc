@@ -78,7 +78,7 @@ export default function GlobalError({
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="space-y-4">
+              <CardContent className="">
                 {process.env.NODE_ENV === 'development' && (
                   <div className="bg-muted rounded-xl p-4 text-sm">
                     <p className="text-destructive mb-2 font-semibold">Error Details:</p>

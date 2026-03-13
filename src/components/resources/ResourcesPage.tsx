@@ -52,7 +52,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-10 px-4 py-8 pb-20 md:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 pb-20 md:px-8">
       <DashboardHeader
         title="Materials Library"
         subtitle="Curated resources to support your progress between sessions."
@@ -115,7 +115,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                   </div>
                 )}
                 <div className="absolute top-6 left-6">
-                  <Badge className="text-primary flex items-center rounded-full border-0 bg-card/90 px-4 py-2 text-2xs font-semibold tracking-widest uppercase shadow-lg backdrop-blur-md">
+                  <Badge className="text-primary bg-card/90 text-2xs flex items-center rounded-full border-0 px-4 py-2 font-semibold tracking-widest uppercase shadow-lg backdrop-blur-md">
                     {resource.category === 'video' && (
                       <HugeiconsIcon icon={PlayIcon} size={14} className="mr-2" strokeWidth={2.5} />
                     )}
@@ -139,7 +139,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                   </Badge>
                 </div>
                 {resource.isPremium && (
-                  <div className="absolute top-6 right-6 rounded-lg bg-warning p-3 text-warning-foreground shadow-sm">
+                  <div className="bg-warning text-warning-foreground absolute top-6 right-6 rounded-lg p-3 shadow-sm">
                     <HugeiconsIcon icon={LockIcon} size={16} strokeWidth={3} />
                   </div>
                 )}
@@ -153,7 +153,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                 </CardDescription>
               </CardHeader>
               <CardFooter className="mt-auto p-8 pt-0">
-                <Button className="bg-secondary text-foreground hover:bg-primary h-10 w-full rounded-lg text-lg font-semibold shadow-none transition-all duration-500 hover:text-primary-foreground hover:shadow-sm">
+                <Button className="bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground h-10 w-full rounded-lg text-lg font-semibold shadow-none transition-all duration-500 hover:shadow-sm">
                   View Content
                 </Button>
               </CardFooter>

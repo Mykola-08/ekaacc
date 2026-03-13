@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createCheckoutSession } from '@/server/payment/service';
+import { createClient } from '@/lib/supabase/server';
 
 const ALLOWED_ORIGINS = [
   'https://ekabalance.com',
@@ -11,6 +12,15 @@ const ALLOWED_ORIGINS = [
 
 export async function POST(req: Request) {
   try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await req.json();
     const rawOrigin = req.headers.get('origin') || new URL(req.url).origin;
     const origin = ALLOWED_ORIGINS.includes(rawOrigin) ? rawOrigin : ALLOWED_ORIGINS[0];
@@ -18,6 +28,7 @@ export async function POST(req: Request) {
     const result = await createCheckoutSession({
       ...body,
       origin,
+      userId: user.id, // Explicitly pass the validated user ID to the service
     });
 
     if (result.error) {

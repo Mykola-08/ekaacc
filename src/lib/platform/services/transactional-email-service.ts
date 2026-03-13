@@ -75,7 +75,7 @@ export class TransactionalEmailService {
       }
 
       const { error } = await resend.emails.send({
-        from: 'Eka <onboarding@resend.dev>', // TODO: Update sender
+        from: process.env.EMAIL_SENDER || 'Eka <onboarding@resend.dev>', // Update with production domain in env
         to: [user.email],
         subject: subject || `New ${type} from your therapist`,
         html: html,

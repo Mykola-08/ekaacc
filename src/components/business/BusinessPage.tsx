@@ -12,7 +12,7 @@ export function BusinessPage() {
     <div className="bg-background animate-fade-in min-h-screen">
       {/* Hero Section */}
       <section className="bg-primary text-primary-foreground relative overflow-hidden pt-32 pb-32">
-        <div className="pointer-events-none absolute inset-0 bg-foreground/20" />
+        <div className="bg-foreground/20 pointer-events-none absolute inset-0" />
         <div
           className="absolute inset-0 opacity-20"
           style={{

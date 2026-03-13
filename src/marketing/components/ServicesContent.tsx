@@ -26,7 +26,7 @@ export default function ServicesContent() {
           badge: t('services.integralWellbeingFor'),
           title: `${t('services.ourServices')} ${t('services.ourServices2')}`.trim(),
           subtitle: t('services.wellnessPath'),
-          icon: <Heart className="w-4 h-4" />
+          icon: <Heart className="h-4 w-4" />,
         }}
         className="bg-[#fbfbfd]"
         mainClassName="bg-transparent"
@@ -34,16 +34,20 @@ export default function ServicesContent() {
         {/* Services Grid (Core) - Transparent Background */}
         <section className="py-16">
           <div className="section-container">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-6 tracking-tight">
-                {t('services.coreTitle') || t('services.exploreOurServices') || 'Integral Therapies'}
+            <div className="mx-auto mb-16 max-w-3xl text-center">
+              <h2 className="mb-6 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                {t('services.coreTitle') ||
+                  t('services.exploreOurServices') ||
+                  'Integral Therapies'}
               </h2>
-              <p className="text-lg text-gray-500 max-w-2xl mx-auto font-normal leading-relaxed">
-                {t('services.coreDesc') || t('services.descriptionPrefix') || 'From relaxing massages to specialized kinesiology therapies.'}
+              <p className="mx-auto max-w-2xl text-lg leading-relaxed font-normal text-gray-500">
+                {t('services.coreDesc') ||
+                  t('services.descriptionPrefix') ||
+                  'From relaxing massages to specialized kinesiology therapies.'}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
               {SERVICES_DATA.map((service, index) => (
                 <motion.div
                   key={service.id}
@@ -60,12 +64,14 @@ export default function ServicesContent() {
         </section>
 
         {/* Disclaimer */}
-        <section className="py-16 bg-transparent">
+        <section className="bg-transparent py-16">
           <div className="section-container">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-white p-8 rounded-3xl border border-gray-200/50 ">
-                <p className="text-sm text-gray-500 leading-relaxed font-medium">
-                  <span className="font-semibold text-gray-900 block mb-2 text-base">{t('services.disclaimerPrefix')}:</span>
+            <div className="mx-auto max-w-4xl text-center">
+              <div className="rounded-3xl border border-gray-200/50 bg-white p-8">
+                <p className="text-sm leading-relaxed font-medium text-gray-500">
+                  <span className="mb-2 block text-base font-semibold text-gray-900">
+                    {t('services.disclaimerPrefix')}:
+                  </span>
                   {t('services.disclaimerBody')}
                 </p>
               </div>

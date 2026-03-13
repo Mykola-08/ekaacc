@@ -6,8 +6,6 @@ import { Palette } from 'lucide-react';
 import PersonalizedServiceTemplate from '@/marketing/components/templates/PersonalizedServiceTemplate';
 
 export default function ArtistsContent() {
-
-
   return (
     <PersonalizedServiceTemplate
       serviceId="artists"
@@ -16,15 +14,15 @@ export default function ArtistsContent() {
       seoKeys={{
         title: 'seo.artists.title',
         description: 'seo.artists.description',
-        keywords: 'seo.artists.keywords'
+        keywords: 'seo.artists.keywords',
       }}
       recommendedServices={[
         {
           titleKey: 'artists.session.title', // Reusing existing key
           descriptionKey: 'artists.session.cta', // Reusing
           href: '/booking',
-          duration: '60 min'
-        }
+          duration: '60 min',
+        },
       ]}
       showMethodology={false}
     />

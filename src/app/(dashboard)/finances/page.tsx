@@ -16,16 +16,15 @@ const BillingTab = dynamic(
   () => import('./tabs/BillingTab').then((m) => ({ default: m.BillingTab })),
   { loading: () => <TabSkeleton /> }
 );
-const PlansTab = dynamic(
-  () => import('./tabs/PlansTab').then((m) => ({ default: m.PlansTab })),
-  { loading: () => <TabSkeleton /> }
-);
+const PlansTab = dynamic(() => import('./tabs/PlansTab').then((m) => ({ default: m.PlansTab })), {
+  loading: () => <TabSkeleton />,
+});
 
 function TabSkeleton() {
   return (
-    <div className="space-y-4 py-6">
+    <div className="py-6">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="h-24 animate-pulse rounded-lg bg-muted" />
+        <div key={i} className="bg-muted h-24 animate-pulse rounded-lg" />
       ))}
     </div>
   );
@@ -42,7 +41,7 @@ function FinancesContent() {
 
   return (
     <motion.div
-      className="space-y-8 px-4 py-8 md:px-8"
+      className="px-4 py-8 md:px-8"
       initial={{ opacity: 0, scale: 0.98, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}

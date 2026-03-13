@@ -47,8 +47,13 @@ export function JournalPage() {
 
   const fetchEntries = async () => {
     setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setLoading(false); return; }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setLoading(false);
+      return;
+    }
     const { data, error } = await supabase
       .from('journal_entries')
       .select('*')
@@ -62,7 +67,9 @@ export function JournalPage() {
 
   const handleSave = async () => {
     if (!newEntry.text) return;
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return;
     const moodObj = MOODS.find((m) => m.id === newEntry.mood);
     const { data, error } = await supabase
@@ -76,7 +83,10 @@ export function JournalPage() {
       })
       .select()
       .single();
-    if (error) { toast.error('Could not save entry.'); return; }
+    if (error) {
+      toast.error('Could not save entry.');
+      return;
+    }
     if (data) setEntries([data, ...entries]);
     setNewEntry({ title: '', text: '', mood: 'neutral' });
     setIsNewEntryOpen(false);
@@ -91,83 +101,85 @@ export function JournalPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-4 py-8 md:px-8">
+    <div className="mx-auto max-w-4xl px-4 py-8 md:px-8">
       <DashboardHeader title="Reflections" subtitle="Your private wellness journal.">
-          <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
-            <DialogTrigger asChild>
-              <Button className="h-12 rounded-lg px-6 text-sm font-semibold shadow-sm transition-all hover:scale-105 active:scale-95">
-                <Plus className="mr-2 h-5 w-5" strokeWidth={2.5} />
-                New Entry
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-card rounded-lg border-0 p-8 shadow-2xl sm:max-w-150">
-              <DialogHeader>
-                <DialogTitle className="text-foreground text-2xl font-black tracking-tight">
-                  New Reflection
-                </DialogTitle>
-              </DialogHeader>
-              <div className="grid gap-6 py-6">
-                <div className="flex justify-center gap-3 pb-2">
-                  {MOODS.map((m) => (
-                    <button
-                      key={m.id}
-                      onClick={() => setNewEntry({ ...newEntry, mood: m.id })}
+        <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
+          <DialogTrigger asChild>
+            <Button className="h-12 rounded-lg px-6 text-sm font-semibold shadow-sm transition-all hover:scale-105 active:scale-95">
+              <Plus className="mr-2 h-5 w-5" strokeWidth={2.5} />
+              New Entry
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-card rounded-lg border-0 p-8 shadow-2xl sm:max-w-150">
+            <DialogHeader>
+              <DialogTitle className="text-foreground text-2xl font-black tracking-tight">
+                New Reflection
+              </DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-6 py-6">
+              <div className="flex justify-center gap-3 pb-2">
+                {MOODS.map((m) => (
+                  <button
+                    key={m.id}
+                    onClick={() => setNewEntry({ ...newEntry, mood: m.id })}
+                    className={cn(
+                      'rounded-full p-4 transition-all duration-300',
+                      newEntry.mood === m.id
+                        ? `${m.bg} scale-110 shadow-inner ring-2 ring-black/5`
+                        : 'hover:bg-card'
+                    )}
+                  >
+                    <m.icon
                       className={cn(
-                        'rounded-full p-4 transition-all duration-300',
-                        newEntry.mood === m.id
-                          ? `${m.bg} scale-110 shadow-inner ring-2 ring-black/5`
-                          : 'hover:bg-card'
+                        'h-8 w-8',
+                        m.color,
+                        newEntry.mood !== m.id && 'opacity-40 grayscale'
                       )}
-                    >
-                      <m.icon
-                        className={cn(
-                          'h-8 w-8',
-                          m.color,
-                          newEntry.mood !== m.id && 'opacity-40 grayscale'
-                        )}
-                        strokeWidth={2.5}
-                      />
-                    </button>
-                  ))}
-                </div>
-                <Input
-                  placeholder="Title (optional)"
-                  value={newEntry.title}
-                  onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
-                  className="bg-secondary placeholder:text-muted-foreground text-foreground h-14 rounded-xl border-none px-6 py-4 text-lg font-semibold focus-visible:ring-0"
-                />
-                <Textarea
-                  placeholder="How are you feeling today?"
-                  value={newEntry.text}
-                  onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
-                  className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-50 resize-none rounded-xl border-none p-6 text-base leading-relaxed focus-visible:ring-0"
-                />
+                      strokeWidth={2.5}
+                    />
+                  </button>
+                ))}
               </div>
-              <DialogFooter>
-                <Button
-                  onClick={handleSave}
-                  className="h-14 w-full rounded-xl text-lg font-semibold shadow-sm transition-transform active:scale-95"
-                >
-                  Save Entry
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+              <Input
+                placeholder="Title (optional)"
+                value={newEntry.title}
+                onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
+                className="bg-secondary placeholder:text-muted-foreground text-foreground h-14 rounded-xl border-none px-6 py-4 text-lg font-semibold focus-visible:ring-0"
+              />
+              <Textarea
+                placeholder="How are you feeling today?"
+                value={newEntry.text}
+                onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
+                className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-50 resize-none rounded-xl border-none p-6 text-base leading-relaxed focus-visible:ring-0"
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                onClick={handleSave}
+                className="h-14 w-full rounded-xl text-lg font-semibold shadow-sm transition-transform active:scale-95"
+              >
+                Save Entry
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </DashboardHeader>
 
       {loading ? (
-        <div className="space-y-4">
+        <div className="">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-32 animate-pulse rounded-lg bg-muted" />
+            <div key={i} className="bg-muted h-32 animate-pulse rounded-lg" />
           ))}
         </div>
       ) : entries.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-border bg-muted/30 py-20 text-center">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-card shadow-sm">
-            <BookOpen className="h-8 w-8 text-muted-foreground/50" />
+        <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed py-20 text-center">
+          <div className="bg-card mb-4 flex h-16 w-16 items-center justify-center rounded-full shadow-sm">
+            <BookOpen className="text-muted-foreground/50 h-8 w-8" />
           </div>
-          <h3 className="text-lg font-semibold text-foreground">No entries yet</h3>
-          <p className="mt-1 text-sm text-muted-foreground">Start journaling to track your wellness.</p>
+          <h3 className="text-foreground text-lg font-semibold">No entries yet</h3>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Start journaling to track your wellness.
+          </p>
         </div>
       ) : (
         <motion.div layout className="grid grid-cols-1 gap-6 pb-20">
@@ -179,7 +191,7 @@ export function JournalPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={entry.id}
-                className="group rounded-lg border border-transparent bg-card p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-border hover:shadow-md"
+                className="group bg-card hover:border-border rounded-lg border border-transparent p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="mb-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-5">
@@ -192,10 +204,10 @@ export function JournalPage() {
                       <m.icon className={cn('h-7 w-7', m.color)} strokeWidth={2.5} />
                     </div>
                     <div>
-                      <h3 className="mb-1 text-xl font-semibold tracking-tight text-foreground">
+                      <h3 className="text-foreground mb-1 text-xl font-semibold tracking-tight">
                         {title}
                       </h3>
-                      <div className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">
+                      <div className="text-muted-foreground flex items-center gap-2 text-xs font-semibold tracking-wider uppercase">
                         <Calendar className="h-3.5 w-3.5" strokeWidth={2.5} />
                         {new Date(entry.created_at).toLocaleDateString()}
                       </div>
@@ -203,7 +215,7 @@ export function JournalPage() {
                   </div>
                 </div>
                 <div className="pl-0 md:pl-19">
-                  <p className="text-base font-medium leading-relaxed text-muted-foreground">
+                  <p className="text-muted-foreground text-base leading-relaxed font-medium">
                     {entry.content}
                   </p>
                 </div>

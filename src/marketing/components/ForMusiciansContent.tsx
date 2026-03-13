@@ -12,18 +12,18 @@ export default function ForMusiciansContent() {
     {
       id: 'musician-q1',
       question: t('personalized.musicians.faq.q1'),
-      answer: t('personalized.musicians.faq.a1')
+      answer: t('personalized.musicians.faq.a1'),
     },
     {
       id: 'musician-q2',
       question: t('personalized.musicians.faq.q2'),
-      answer: t('personalized.musicians.faq.a2')
+      answer: t('personalized.musicians.faq.a2'),
     },
     {
       id: 'musician-q3',
       question: t('personalized.musicians.faq.q3'),
-      answer: t('personalized.musicians.faq.a3')
-    }
+      answer: t('personalized.musicians.faq.a3'),
+    },
   ];
 
   const recommendedServices = [
@@ -31,14 +31,14 @@ export default function ForMusiciansContent() {
       titleKey: 'personalized.musicians.services.feldenkraisExpression.title',
       descriptionKey: 'personalized.musicians.services.feldenkraisExpression.description',
       href: '/services/feldenkrais',
-      duration: '60-90 min'
+      duration: '60-90 min',
     },
     {
       titleKey: 'personalized.musicians.services.kinesiologyPerformance.title',
       descriptionKey: 'personalized.musicians.services.kinesiologyPerformance.description',
       href: '/services/kinesiology',
-      duration: '60 min'
-    }
+      duration: '60 min',
+    },
   ];
 
   return (
@@ -49,7 +49,7 @@ export default function ForMusiciansContent() {
       seoKeys={{
         title: 'seo.musicians.title',
         description: 'seo.musicians.description',
-        keywords: 'seo.musicians.keywords'
+        keywords: 'seo.musicians.keywords',
       }}
       recommendedServices={recommendedServices}
       faqItems={faqItems}

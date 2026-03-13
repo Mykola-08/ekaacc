@@ -19,7 +19,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
           <h4 className="mb-2 text-base font-semibold tracking-tight text-gray-900 sm:mb-3 sm:text-lg">
             {t('services.mainBenefits') || 'Main Benefits'}
           </h4>
-          <ul className="space-y-1.5 sm:space-y-2">
+          <ul className=".5 sm:">
             {service.benefitsKeys.map((key, i) => (
               <li
                 key={i}

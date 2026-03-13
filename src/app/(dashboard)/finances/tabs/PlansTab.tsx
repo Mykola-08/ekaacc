@@ -54,7 +54,7 @@ export function PlansTab() {
     return (
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-80 animate-pulse rounded-lg bg-muted" />
+          <div key={i} className="bg-muted h-80 animate-pulse rounded-lg" />
         ))}
       </div>
     );
@@ -62,10 +62,10 @@ export function PlansTab() {
 
   if (plans.length === 0) {
     return (
-      <div className="rounded-lg border-2 border-dashed border-border bg-muted/30 py-20 text-center">
-        <Crown className="mx-auto mb-4 h-10 w-10 text-muted-foreground/50" />
-        <h3 className="text-lg font-semibold text-foreground">No plans available</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
+      <div className="border-border bg-muted/30 rounded-lg border-2 border-dashed py-20 text-center">
+        <Crown className="text-muted-foreground/50 mx-auto mb-4 h-10 w-10" />
+        <h3 className="text-foreground text-lg font-semibold">No plans available</h3>
+        <p className="text-muted-foreground mt-1 text-sm">
           Check back soon for subscription options.
         </p>
       </div>
@@ -77,11 +77,11 @@ export function PlansTab() {
       {plans.map((plan, idx) => (
         <Card
           key={plan.id}
-          className="relative rounded-lg border-border bg-card shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-sm"
+          className="border-border bg-card relative rounded-lg shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-sm"
         >
           {idx === Math.floor(plans.length / 2) && (
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <Badge className="bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
+              <Badge className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold">
                 Popular
               </Badge>
             </div>
@@ -90,28 +90,29 @@ export function PlansTab() {
             <CardTitle className="text-2xl">{plan.name}</CardTitle>
             <div className="pt-2 text-3xl font-semibold">
               €{(plan.price_cents / 100).toFixed(2)}
-              <span className="text-base font-normal text-muted-foreground">
-                {' '}/ {plan.credits_total} session{plan.credits_total !== 1 ? 's' : ''}
+              <span className="text-muted-foreground text-base font-normal">
+                {' '}
+                / {plan.credits_total} session{plan.credits_total !== 1 ? 's' : ''}
               </span>
             </div>
             {plan.description && (
-              <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
+              <p className="text-muted-foreground mt-2 text-sm">{plan.description}</p>
             )}
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="">
             <div className="flex items-center gap-2 text-sm">
-              <Check className="h-4 w-4 text-success" />
+              <Check className="text-success h-4 w-4" />
               {plan.credits_total} session credit{plan.credits_total !== 1 ? 's' : ''}
             </div>
             {plan.validity_days && (
               <div className="flex items-center gap-2 text-sm">
-                <Check className="h-4 w-4 text-success" />
+                <Check className="text-success h-4 w-4" />
                 Valid for {plan.validity_days} days
               </div>
             )}
             {plan.features?.map((feature, fidx) => (
               <div key={fidx} className="flex items-center gap-2 text-sm">
-                <Check className="h-4 w-4 text-success" />
+                <Check className="text-success h-4 w-4" />
                 {feature}
               </div>
             ))}

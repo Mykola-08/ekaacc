@@ -1,7 +1,4 @@
-import type {
-  PermissionGroup,
-  PermissionAction,
-} from '@/lib/platform/config/role-permissions';
+import type { PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions';
 
 // ─── Types ─────────────────────────────────────────────────────────
 
@@ -10,12 +7,7 @@ export interface PagePermission {
   action: PermissionAction;
 }
 
-export type SidebarSectionId =
-  | 'overview'
-  | 'care'
-  | 'manage'
-  | 'platform'
-  | 'account';
+export type SidebarSectionId = 'overview' | 'care' | 'manage' | 'platform' | 'account';
 
 export interface PageConfig {
   path: string;

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * AI Widgets Sidebar
@@ -7,13 +7,13 @@
  * shown alongside the AI chat view.
  */
 
-import { DailySummaryWidget } from "@/components/ai/widgets/daily-summary";
-import { MoodWidget } from "@/components/ai/widgets/mood-widget";
-import { InsightsPanel } from "@/components/ai/widgets/insights-panel";
+import { DailySummaryWidget } from '@/components/ai/widgets/daily-summary';
+import { MoodWidget } from '@/components/ai/widgets/mood-widget';
+import { InsightsPanel } from '@/components/ai/widgets/insights-panel';
 
 export function AIWidgetsSidebar() {
   return (
-    <div className="space-y-4">
+    <div className="">
       <DailySummaryWidget />
       <MoodWidget />
       <InsightsPanel />

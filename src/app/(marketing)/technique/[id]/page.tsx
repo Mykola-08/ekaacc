@@ -2,12 +2,12 @@ import { Metadata } from 'next';
 import TechniqueDetailContent from '@/marketing/components/TechniqueDetailContent';
 
 const techniqueMap: Record<string, string> = {
-  'myofascial': 'Detailed technique description',
-  'kinesio': 'Kinesiology and movement',
-  'reflexology': 'Reflexology points',
-  'lymphatic': 'Lymphatic drainage',
-  'craniosacral': 'Craniosacral therapy',
-  'acupressure': 'Acupressure points'
+  myofascial: 'Detailed technique description',
+  kinesio: 'Kinesiology and movement',
+  reflexology: 'Reflexology points',
+  lymphatic: 'Lymphatic drainage',
+  craniosacral: 'Craniosacral therapy',
+  acupressure: 'Acupressure points',
 };
 
 export async function generateStaticParams() {
@@ -16,7 +16,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
   const { id } = await params;
   // Note: True localization for metadata requires server-side translation logic or mapped static strings.
   // For now using a generic title format.
@@ -28,7 +32,5 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function TechniquePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  return (
-    <TechniqueDetailContent id={id} />
-  );
+  return <TechniqueDetailContent id={id} />;
 }

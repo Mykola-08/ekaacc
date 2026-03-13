@@ -60,18 +60,20 @@ export function ChatInterface() {
         return;
       }
 
-      const channelIds = participation.map(p => p.channel_id);
+      const channelIds = participation.map((p) => p.channel_id);
 
       const { data: channelData } = await supabase
         .from('chat_channels')
-        .select(`
+        .select(
+          `
           id,
           type,
           updated_at,
           chat_participants(
             profile:profiles(id, full_name, avatar_url)
           )
-        `)
+        `
+        )
         .in('id', channelIds)
         .order('updated_at', { ascending: false });
 
@@ -100,13 +102,15 @@ export function ChatInterface() {
     const fetchMessages = async () => {
       const { data } = await supabase
         .from('chat_messages')
-        .select(`
+        .select(
+          `
           id,
           content,
           sender_id,
           created_at,
           sender:profiles(id, full_name, avatar_url)
-        `)
+        `
+        )
         .eq('channel_id', activeChannelId)
         .order('created_at', { ascending: true });
 
@@ -187,20 +191,20 @@ export function ChatInterface() {
   const channelTitle = otherParticipants.map((p) => p.full_name).join(', ') || 'Chat';
 
   return (
-    <div className="flex h-full flex-col md:flex-row bg-background text-foreground">
+    <div className="bg-background text-foreground flex h-full flex-col md:flex-row">
       {/* Sidebar List */}
-      <div className="w-full border-b border-border md:w-80 md:border-b-0 md:border-r">
+      <div className="border-border w-full border-b md:w-80 md:border-r md:border-b-0">
         <div className="p-4">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search messages..." className="pl-9 bg-secondary/50 border-0" />
+            <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
+            <Input placeholder="Search messages..." className="bg-secondary/50 border-0 pl-9" />
           </div>
         </div>
         <ScrollArea className="h-[calc(100%-5rem)]">
-          <div className="space-y-1 p-2">
+          <div className="p-2">
             {channels.map((channel) => {
-              const others = channel.participants.filter(p => p.id !== user?.id);
-              const title = others.map(p => p.full_name).join(', ') || 'Unknown';
+              const others = channel.participants.filter((p) => p.id !== user?.id);
+              const title = others.map((p) => p.full_name).join(', ') || 'Unknown';
               const isActive = channel.id === activeChannelId;
 
               return (
@@ -208,8 +212,8 @@ export function ChatInterface() {
                   key={channel.id}
                   onClick={() => setActiveChannelId(channel.id)}
                   className={cn(
-                    "flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors",
-                    isActive ? "bg-accent text-accent-foreground" : "hover:bg-muted"
+                    'flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors',
+                    isActive ? 'bg-accent text-accent-foreground' : 'hover:bg-muted'
                   )}
                 >
                   <Avatar>
@@ -218,12 +222,12 @@ export function ChatInterface() {
                   </Avatar>
                   <div className="flex-1 overflow-hidden">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium truncate">{title}</span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="truncate font-medium">{title}</span>
+                      <span className="text-muted-foreground text-xs">
                         {format(new Date(channel.updated_at), 'MMM d')}
                       </span>
                     </div>
-                    <p className="truncate text-xs text-muted-foreground">
+                    <p className="text-muted-foreground truncate text-xs">
                       {/* Last message placeholder - would need a real join or field */}
                       View conversation
                     </p>
@@ -232,7 +236,7 @@ export function ChatInterface() {
               );
             })}
             {channels.length === 0 && (
-              <div className="p-4 text-center text-sm text-muted-foreground">
+              <div className="text-muted-foreground p-4 text-center text-sm">
                 No conversations yet.
               </div>
             )}
@@ -241,78 +245,92 @@ export function ChatInterface() {
       </div>
 
       {/* Chat Window */}
-      <div className="flex flex-1 flex-col h-[600px] md:h-auto">
+      <div className="flex h-[600px] flex-1 flex-col md:h-auto">
         {activeChannelId ? (
           <>
             {/* Header */}
-            <header className="flex h-16 items-center justify-between border-b border-border px-6">
+            <header className="border-border flex h-16 items-center justify-between border-b px-6">
               <div className="flex items-center gap-3">
                 <Avatar className="h-9 w-9">
                   <AvatarImage src={otherParticipants[0]?.avatar_url} />
                   <AvatarFallback>{channelTitle.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="font-semibold text-sm">{channelTitle}</h3>
+                  <h3 className="text-sm font-semibold">{channelTitle}</h3>
                   <div className="flex items-center gap-1.5">
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success/75 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+                      <span className="bg-success/75 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+                      <span className="bg-success relative inline-flex h-2 w-2 rounded-full"></span>
                     </span>
-                    <span className="text-xs text-muted-foreground">Online</span>
+                    <span className="text-muted-foreground text-xs">Online</span>
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-primary h-8 w-8"
+                >
                   <Phone className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-primary h-8 w-8"
+                >
                   <Video className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-primary h-8 w-8"
+                >
                   <MoreVertical className="h-4 w-4" />
                 </Button>
               </div>
             </header>
 
             {/* Messages */}
-            <ScrollArea className="flex-1 p-4 bg-secondary/10">
-              <div className="space-y-4 max-w-3xl mx-auto">
+            <ScrollArea className="bg-secondary/10 flex-1 p-4">
+              <div className="mx-auto max-w-3xl">
                 {messages.map((msg, i) => {
                   const isMe = msg.sender_id === user?.id;
-                  const showAvatar = !isMe && (i === 0 || messages[i - 1].sender_id !== msg.sender_id);
+                  const showAvatar =
+                    !isMe && (i === 0 || messages[i - 1].sender_id !== msg.sender_id);
 
                   return (
                     <div
                       key={msg.id}
-                      className={cn(
-                        "flex w-full gap-2",
-                        isMe ? "justify-end" : "justify-start"
-                      )}
+                      className={cn('flex w-full gap-2', isMe ? 'justify-end' : 'justify-start')}
                     >
                       {!isMe && (
                         <div className="w-8 shrink-0">
                           {showAvatar && (
                             <Avatar className="h-8 w-8">
                               <AvatarImage src={msg.sender?.avatar_url} />
-                              <AvatarFallback>{msg.sender?.full_name?.substring(0, 2) || '?'}</AvatarFallback>
+                              <AvatarFallback>
+                                {msg.sender?.full_name?.substring(0, 2) || '?'}
+                              </AvatarFallback>
                             </Avatar>
                           )}
                         </div>
                       )}
                       <div
                         className={cn(
-                          "max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-sm",
+                          'max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-sm',
                           isMe
-                            ? "bg-primary text-primary-foreground rounded-tr-none"
-                            : "bg-card text-card-foreground border border-border rounded-tl-none"
+                            ? 'bg-primary text-primary-foreground rounded-tr-none'
+                            : 'bg-card text-card-foreground border-border rounded-tl-none border'
                         )}
                       >
                         <p>{msg.content}</p>
-                        <span className={cn(
-                          "mt-1 block text-[10px] opacity-70",
-                          isMe ? "text-primary-foreground" : "text-muted-foreground"
-                        )}>
+                        <span
+                          className={cn(
+                            'mt-1 block text-[10px] opacity-70',
+                            isMe ? 'text-primary-foreground' : 'text-muted-foreground'
+                          )}
+                        >
                           {format(new Date(msg.created_at), 'h:mm a')}
                         </span>
                       </div>
@@ -324,30 +342,42 @@ export function ChatInterface() {
             </ScrollArea>
 
             {/* Input */}
-            <div className="p-4 bg-card border-t border-border">
-              <form onSubmit={handleSendMessage} className="flex gap-2 max-w-3xl mx-auto">
-                <Button type="button" variant="ghost" size="icon" className="shrink-0 text-muted-foreground">
+            <div className="bg-card border-border border-t p-4">
+              <form onSubmit={handleSendMessage} className="mx-auto flex max-w-3xl gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground shrink-0"
+                >
                   <PlusSignIcon className="h-5 w-5" />
                 </Button>
                 <Input
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-1 bg-secondary/50 border-0 focus-visible:ring-1"
+                  className="bg-secondary/50 flex-1 border-0 focus-visible:ring-1"
                 />
-                <Button type="submit" size="icon" disabled={!inputText.trim()} className="shrink-0 rounded-full">
+                <Button
+                  type="submit"
+                  size="icon"
+                  disabled={!inputText.trim()}
+                  className="shrink-0 rounded-full"
+                >
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
             </div>
           </>
         ) : (
-          <div className="flex h-full flex-col items-center justify-center text-muted-foreground p-8 text-center">
-            <div className="mb-4 rounded-full bg-muted p-4">
+          <div className="text-muted-foreground flex h-full flex-col items-center justify-center p-8 text-center">
+            <div className="bg-muted mb-4 rounded-full p-4">
               <MessageSquare className="h-8 w-8" />
             </div>
-            <h3 className="mb-1 text-lg font-semibold text-foreground">No Chat Selected</h3>
-            <p className="max-w-xs text-sm">Select a conversation from the sidebar to start messaging.</p>
+            <h3 className="text-foreground mb-1 text-lg font-semibold">No Chat Selected</h3>
+            <p className="max-w-xs text-sm">
+              Select a conversation from the sidebar to start messaging.
+            </p>
           </div>
         )}
       </div>
@@ -357,7 +387,16 @@ export function ChatInterface() {
 
 function PlusSignIcon({ className }: { className?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
       <path d="M5 12h14" />
       <path d="M12 5v14" />
     </svg>

@@ -18,9 +18,7 @@ export async function getAppearancePreferences(): Promise<Partial<ThemeCustomiza
   return meta || null;
 }
 
-export async function saveAppearancePreferences(
-  prefs: Partial<ThemeCustomization>
-) {
+export async function saveAppearancePreferences(prefs: Partial<ThemeCustomization>) {
   const supabase = await createClient();
   const {
     data: { user },

@@ -79,7 +79,7 @@ export default function ConsoleDashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-150 items-center justify-center bg-linear-to-br from-muted to-info/30 dark:from-background dark:to-info/10">
+      <div className="from-muted to-info/30 flex min-h-150 items-center justify-center bg-linear-to-br">
         <LoadingSpinner size="lg" message="Loading dashboard..." />
       </div>
     );

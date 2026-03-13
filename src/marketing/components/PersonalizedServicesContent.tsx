@@ -16,7 +16,7 @@ export default function PersonalizedServicesContent() {
 
   return (
     <>
-      <SEOUpdater 
+      <SEOUpdater
         titleKey="seo.personalized.title"
         descriptionKey="seo.personalized.description"
         keywordsKey="seo.personalized.keywords"
@@ -26,55 +26,55 @@ export default function PersonalizedServicesContent() {
           title: t('personalizedServices.title'),
           subtitle: t('personalizedServices.subtitle'),
           badge: t('services.therapiesFor'),
-          icon: <Star className="w-4 h-4" />
+          icon: <Star className="h-4 w-4" />,
         }}
         className="bg-white"
       >
         {/* Intro / CTA Section */}
-        <div className="text-center -mt-8 mb-16 animate-fade-in relative z-20 px-6">
-
-             <div className="mt-8 flex justify-center">
-                <Link href="/booking">
-                  <Button
-                      size="xl"
-                      variant="default"
-                      className="px-8 py-4 "
-                  >
-                      {t('personalizedServices.cta')}
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-            </div>
+        <div className="animate-fade-in relative z-20 -mt-8 mb-16 px-6 text-center">
+          <div className="mt-8 flex justify-center">
+            <Link href="/booking">
+              <Button size="lg" variant="default" className="px-8 py-4">
+                {t('personalizedServices.cta')}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
 
-      {/* Service List - Gray Background for Cards */}
-      <section className="bg-secondary py-16 sm:py-24">
-        <div className="section-container">
-           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="heading-2 mb-4 text-black">
-              {t('personalizedServices.choose.title')}
-            </h2>
-            <p className="text-body-lg text-gray-500">
-              {t('personalizedServices.choose.subtitle')}
-            </p>
-          </div>
+        {/* Service List - Gray Background for Cards */}
+        <section className="bg-secondary py-16 sm:py-24">
+          <div className="section-container">
+            <div className="mx-auto mb-16 max-w-3xl text-center">
+              <h2 className="heading-2 mb-4 text-black">
+                {t('personalizedServices.choose.title')}
+              </h2>
+              <p className="text-body-lg text-gray-500">
+                {t('personalizedServices.choose.subtitle')}
+              </p>
+            </div>
 
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">     
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
               {PERSONALIZED_SERVICES_DATA.map((service, index) => (
                 <motion.div
-                    key={service.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={index === PERSONALIZED_SERVICES_DATA.length - 1 && PERSONALIZED_SERVICES_DATA.length % 2 !== 0 ? "lg:col-span-2 max-w-2xl mx-auto w-full" : ""}
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={
+                    index === PERSONALIZED_SERVICES_DATA.length - 1 &&
+                    PERSONALIZED_SERVICES_DATA.length % 2 !== 0
+                      ? 'mx-auto w-full max-w-2xl lg:col-span-2'
+                      : ''
+                  }
                 >
-                    <PersonalizedServiceCard service={service} />
+                  <PersonalizedServiceCard service={service} />
                 </motion.div>
               ))}
-           </div>
-        </div>
-      </section>
+            </div>
+          </div>
+        </section>
       </PageLayout>
     </>
   );

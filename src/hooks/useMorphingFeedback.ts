@@ -55,40 +55,55 @@ export function useMorphingFeedback(options: UseMorphingFeedbackOptions = {}) {
     setFeedback({ status: 'idle', message: '' });
   }, [clearTimer]);
 
-  const setLoading = useCallback((message: string = 'Processing...') => {
-    clearTimer();
-    setFeedback({ status: 'loading', message });
-  }, [clearTimer]);
+  const setLoading = useCallback(
+    (message: string = 'Processing...') => {
+      clearTimer();
+      setFeedback({ status: 'loading', message });
+    },
+    [clearTimer]
+  );
 
-  const setSuccess = useCallback((message: string = 'Done') => {
-    clearTimer();
-    setFeedback({ status: 'success', message });
-    if (successDuration > 0) {
-      timerRef.current = setTimeout(() => {
-        setFeedback({ status: 'idle', message: '' });
-      }, successDuration);
-    }
-  }, [clearTimer, successDuration]);
+  const setSuccess = useCallback(
+    (message: string = 'Done') => {
+      clearTimer();
+      setFeedback({ status: 'success', message });
+      if (successDuration > 0) {
+        timerRef.current = setTimeout(() => {
+          setFeedback({ status: 'idle', message: '' });
+        }, successDuration);
+      }
+    },
+    [clearTimer, successDuration]
+  );
 
-  const setError = useCallback((message: string = 'Something went wrong') => {
-    clearTimer();
-    setFeedback({ status: 'error', message });
-    if (errorDuration > 0) {
-      timerRef.current = setTimeout(() => {
-        setFeedback({ status: 'idle', message: '' });
-      }, errorDuration);
-    }
-  }, [clearTimer, errorDuration]);
+  const setError = useCallback(
+    (message: string = 'Something went wrong') => {
+      clearTimer();
+      setFeedback({ status: 'error', message });
+      if (errorDuration > 0) {
+        timerRef.current = setTimeout(() => {
+          setFeedback({ status: 'idle', message: '' });
+        }, errorDuration);
+      }
+    },
+    [clearTimer, errorDuration]
+  );
 
-  const setWarning = useCallback((message: string = 'Warning') => {
-    clearTimer();
-    setFeedback({ status: 'warning', message });
-  }, [clearTimer]);
+  const setWarning = useCallback(
+    (message: string = 'Warning') => {
+      clearTimer();
+      setFeedback({ status: 'warning', message });
+    },
+    [clearTimer]
+  );
 
-  const setInfo = useCallback((message: string = 'Info') => {
-    clearTimer();
-    setFeedback({ status: 'info', message });
-  }, [clearTimer]);
+  const setInfo = useCallback(
+    (message: string = 'Info') => {
+      clearTimer();
+      setFeedback({ status: 'info', message });
+    },
+    [clearTimer]
+  );
 
   return {
     feedback,

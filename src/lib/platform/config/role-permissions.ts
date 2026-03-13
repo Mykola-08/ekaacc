@@ -1,9 +1,4 @@
-export type SystemRole =
-  | 'admin'
-  | 'therapist'
-  | 'client'
-  | 'patient'
-  | 'reception';
+export type SystemRole = 'admin' | 'therapist' | 'client' | 'patient' | 'reception';
 
 // Extended type for potential future roles or mapped roles, user-facing
 export type DisplayRole = SystemRole | 'content manager' | 'marketing';
@@ -133,10 +128,10 @@ export const SYSTEM_ROLES: Record<SystemRole, RoleDefinition> = {
     isSystemRole: true,
     canBeModified: false,
     permissions: [
-       { group: 'content_management', action: 'read', conditions: { patient_content: true } },
-       { group: 'appointment_management', action: 'create' },
-       { group: 'appointment_management', action: 'read', conditions: { own: true } },
-       // ... same as patient usually
+      { group: 'content_management', action: 'read', conditions: { patient_content: true } },
+      { group: 'appointment_management', action: 'create' },
+      { group: 'appointment_management', action: 'read', conditions: { own: true } },
+      // ... same as patient usually
     ],
   },
   reception: {

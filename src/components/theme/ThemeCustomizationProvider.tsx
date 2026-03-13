@@ -88,8 +88,7 @@ function applyThemeToDOM(theme: ThemeCustomization) {
   root.style.fontFamily = fontDef.css;
 
   // 4. Text color preset (premium)
-  const textPreset =
-    TEXT_COLOR_PRESETS[theme.textColorPreset] || TEXT_COLOR_PRESETS.default;
+  const textPreset = TEXT_COLOR_PRESETS[theme.textColorPreset] || TEXT_COLOR_PRESETS.default;
   if (theme.textColorPreset !== 'default') {
     if (!isDark) {
       root.style.setProperty('--foreground', textPreset.fg);
@@ -107,8 +106,7 @@ function applyThemeToDOM(theme: ThemeCustomization) {
   }
 
   // 6. UI radius
-  const radiusDef =
-    UI_RADIUS_VALUES[theme.uiRadius] || UI_RADIUS_VALUES.lg;
+  const radiusDef = UI_RADIUS_VALUES[theme.uiRadius] || UI_RADIUS_VALUES.lg;
   root.style.setProperty('--radius', radiusDef.value);
 }
 

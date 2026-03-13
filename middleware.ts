@@ -151,7 +151,8 @@ export async function middleware(request: NextRequest) {
 
   if (!user && isProtectedRoute) {
     const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('next', pathname);
+    const destination = request.nextUrl.pathname + request.nextUrl.search;
+    loginUrl.searchParams.set('next', destination);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -162,11 +163,17 @@ export async function middleware(request: NextRequest) {
     const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (aal && aal.currentLevel === 'aal1' && aal.nextLevel === 'aal2') {
       const mfaUrl = new URL('/mfa-verify', request.url);
+      const nextUrl = request.nextUrl.searchParams.get('next');
+      if (nextUrl) {
+        mfaUrl.searchParams.set('next', nextUrl);
+      }
       return NextResponse.redirect(mfaUrl);
     }
 
-    const dashboardUrl = new URL('/dashboard', request.url);
-    return NextResponse.redirect(dashboardUrl);
+    const nextUrl = request.nextUrl.searchParams.get('next');
+    const redirectTarget = nextUrl && nextUrl.startsWith('/') ? nextUrl : '/dashboard';
+    const redirectUrl = new URL(redirectTarget, request.url);
+    return NextResponse.redirect(redirectUrl);
   }
 
   // Allow access to marketing pages and other public routes

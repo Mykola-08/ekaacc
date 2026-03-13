@@ -66,7 +66,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
   };
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 mx-auto w-full max-w-7xl space-y-8 duration-500">
+    <div className="animate-in fade-in slide-in-from-bottom-4 mx-auto w-full max-w-7xl duration-500">
       {/* Header */}
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
@@ -75,7 +75,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
             Manage your account preferences and settings.
           </p>
         </div>
-        <button className="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90">
+        <button className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 rounded-lg px-6 py-3 font-semibold shadow-sm transition-colors">
           <Save className="h-5 w-5" />
           <span>Save Changes</span>
         </button>
@@ -85,7 +85,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
         <div className="grid grid-cols-12 gap-6">
           {/* Sidebar / Tab List */}
           <div className="col-span-12 md:col-span-3">
-            <TabList className="flex flex-col space-y-2">
+            <TabList className="flex flex-col">
               {categories.map(({ name, icon: Icon }) => (
                 <Tab
                   key={name}
@@ -93,7 +93,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                     cn(
                       'flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 outline-none',
                       selected
-                        ? 'bg-primary/5 text-primary shadow-sm ring-1 ring-primary/10'
+                        ? 'bg-primary/5 text-primary ring-primary/10 shadow-sm ring-1'
                         : 'text-muted-foreground hover:bg-card hover:text-foreground'
                     )
                   }
@@ -109,8 +109,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           <div className="col-span-12 md:col-span-9">
             <TabPanels>
               {/* Profile Panel */}
-              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
-                <div className="space-y-8">
+              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+                <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Personal Information</h2>
                     <p className="text-muted-foreground mt-1 text-sm">
@@ -118,11 +118,11 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-6 border-b border-border pb-6">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-2xl font-semibold text-primary">
+                  <div className="border-border flex items-center gap-6 border-b pb-6">
+                    <div className="bg-primary/10 text-primary flex h-20 w-20 items-center justify-center rounded-full text-2xl font-semibold">
                       {currentUser.initials || 'U'}
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <button className="bg-card border-border text-foreground/90 hover:bg-muted/30 rounded-xl border px-4 py-2 text-sm font-medium transition-colors">
                         Change photo
                       </button>
@@ -131,7 +131,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                   </div>
 
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <div className="space-y-2">
+                    <div className="">
                       <label
                         htmlFor="fullName"
                         className="text-foreground/90 block text-sm font-medium"
@@ -144,10 +144,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <label
                         htmlFor="email"
                         className="text-foreground/90 block text-sm font-medium"
@@ -160,10 +160,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
                       />
                     </div>
-                    <div className="col-span-full space-y-2">
+                    <div className="col-span-full">
                       <label htmlFor="bio" className="text-foreground/90 block text-sm font-medium">
                         Bio
                       </label>
@@ -173,7 +173,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         rows={4}
                         value={formData.bio}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
                         placeholder="Write a few sentences about yourself."
                       />
                     </div>
@@ -182,8 +182,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Notifications Panel */}
-              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
-                <div className="space-y-8">
+              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+                <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Notifications</h2>
                     <p className="text-muted-foreground mt-1 text-sm">
@@ -191,7 +191,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                     </p>
                   </div>
 
-                  <div className="space-y-6">
+                  <div className="">
                     <Field className="flex items-center justify-between">
                       <span className="flex flex-col">
                         <Label className="text-foreground text-sm font-medium">
@@ -206,7 +206,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         onChange={() => handleToggle('marketingEmails')}
                         className={cn(
                           formData.marketingEmails ? 'bg-primary' : 'bg-muted',
-                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
+                          'focus:ring-primary relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-offset-2 focus:outline-none'
                         )}
                       >
                         <span
@@ -218,7 +218,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         />
                       </Switch>
                     </Field>
-                    <div className="border-t border-border" />
+                    <div className="border-border border-t" />
                     <Field className="flex items-center justify-between">
                       <span className="flex flex-col">
                         <Label className="text-foreground text-sm font-medium">
@@ -233,7 +233,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         onChange={() => handleToggle('securityEmails')}
                         className={cn(
                           formData.securityEmails ? 'bg-primary' : 'bg-muted',
-                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
+                          'focus:ring-primary relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-offset-2 focus:outline-none'
                         )}
                       >
                         <span
@@ -245,7 +245,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         />
                       </Switch>
                     </Field>
-                    <div className="border-t border-border" />
+                    <div className="border-border border-t" />
                     <Field className="flex items-center justify-between">
                       <span className="flex flex-col">
                         <Label className="text-foreground text-sm font-medium">
@@ -260,7 +260,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         onChange={() => handleToggle('activityEmails')}
                         className={cn(
                           formData.activityEmails ? 'bg-primary' : 'bg-muted',
-                          'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
+                          'focus:ring-primary relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-offset-2 focus:outline-none'
                         )}
                       >
                         <span
@@ -277,8 +277,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Security Panel */}
-              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
-                <div className="space-y-8">
+              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+                <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Security</h2>
                     <p className="text-muted-foreground mt-1 text-sm">
@@ -286,8 +286,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                     </p>
                   </div>
 
-                  <div className="max-w-md space-y-6">
-                    <div className="space-y-2">
+                  <div className="max-w-md">
+                    <div className="">
                       <label className="text-foreground/90 block text-sm font-medium">
                         Current Password
                       </label>
@@ -296,7 +296,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         className="border-border bg-muted/30 block w-full rounded-xl p-3"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <label className="text-foreground/90 block text-sm font-medium">
                         New Password
                       </label>
@@ -305,7 +305,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         className="border-border bg-muted/30 block w-full rounded-xl p-3"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <label className="text-foreground/90 block text-sm font-medium">
                         Confirm Password
                       </label>
@@ -314,7 +314,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         className="border-border bg-muted/30 block w-full rounded-xl p-3"
                       />
                     </div>
-                    <button className="rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-foreground/90">
+                    <button className="bg-foreground text-background hover:bg-foreground/90 rounded-xl px-4 py-2 text-sm font-medium transition-colors">
                       Update Password
                     </button>
                   </div>
@@ -322,15 +322,15 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Preferences Panel */}
-              <TabPanel className="bg-card rounded-lg p-8 shadow-sm ring-1 ring-border outline-none">
-                <div className="space-y-8">
+              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+                <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Preferences</h2>
                     <p className="text-muted-foreground mt-1 text-sm">Customize your experience.</p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <div className="space-y-2">
+                    <div className="">
                       <label
                         htmlFor="language"
                         className="text-foreground/90 block text-sm font-medium"
@@ -342,14 +342,14 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="language"
                         value={formData.language}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
                       >
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
                         <option value="fr">French</option>
                       </select>
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <label
                         htmlFor="timezone"
                         className="text-foreground/90 block text-sm font-medium"
@@ -361,14 +361,14 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="timezone"
                         value={formData.timezone}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground block w-full rounded-lg p-3 focus:border-primary focus:ring-primary sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
                       >
                         <option value="UTC">UTC</option>
                         <option value="EST">Eastern Time</option>
                         <option value="PST">Pacific Time</option>
                       </select>
                     </div>
-                    <div className="col-span-full border-t border-border pt-4">
+                    <div className="border-border col-span-full border-t pt-4">
                       <Field className="flex items-center justify-between">
                         <span className="flex flex-col">
                           <Label className="text-foreground text-sm font-medium">Dark Mode</Label>
@@ -381,7 +381,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                           onChange={() => handleToggle('darkMode')}
                           className={cn(
                             formData.darkMode ? 'bg-primary' : 'bg-muted',
-                            'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:outline-none'
+                            'focus:ring-primary relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-offset-2 focus:outline-none'
                           )}
                         >
                           <span

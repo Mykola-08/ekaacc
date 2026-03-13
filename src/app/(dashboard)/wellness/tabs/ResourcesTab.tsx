@@ -26,9 +26,9 @@ export function ResourcesTab() {
 
   if (loading) {
     return (
-      <div className="space-y-4">
+      <div className="">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-24 animate-pulse rounded-lg bg-muted" />
+          <div key={i} className="bg-muted h-24 animate-pulse rounded-lg" />
         ))}
       </div>
     );

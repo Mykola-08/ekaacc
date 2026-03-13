@@ -4,7 +4,7 @@ import { Database, HardDrive, Server, Activity } from 'lucide-react';
 
 export default function DatabasePage() {
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 space-y-8 duration-500">
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-foreground flex items-center gap-3 text-4xl font-semibold tracking-tight">
@@ -13,7 +13,7 @@ export default function DatabasePage() {
           <p className="text-muted-foreground mt-2 text-lg">System database administration.</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1.5 rounded-full bg-success px-3 py-1 text-xs font-semibold text-success-foreground ring-1 ring-success/20">
+          <span className="bg-success text-success-foreground ring-success/20 flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ring-1">
             <Activity className="h-3 w-3" />
             Healthy
           </span>
@@ -22,9 +22,9 @@ export default function DatabasePage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="bg-card rounded-lg p-8 shadow-sm ring-1 shadow-border/50 ring-border">
+        <div className="bg-card shadow-border/50 ring-border rounded-lg p-8 shadow-sm ring-1">
           <div className="mb-6 flex items-center gap-4">
-            <div className="bg-primary flex h-12 w-12 items-center justify-center rounded-lg text-primary-foreground">
+            <div className="bg-primary text-primary-foreground flex h-12 w-12 items-center justify-center rounded-lg">
               <Database className="h-6 w-6" />
             </div>
             <div>
@@ -32,23 +32,23 @@ export default function DatabasePage() {
               <p className="text-muted-foreground text-sm">us-east-1 (N. Virginia)</p>
             </div>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-border py-3">
+          <div className="">
+            <div className="border-border flex items-center justify-between border-b py-3">
               <span className="text-muted-foreground text-sm">Connection Pool</span>
               <span className="text-foreground font-mono text-sm font-medium">45/100</span>
             </div>
-            <div className="flex items-center justify-between border-b border-border py-3">
+            <div className="border-border flex items-center justify-between border-b py-3">
               <span className="text-muted-foreground text-sm">Cache Hit Rate</span>
               <span className="text-foreground font-mono text-sm font-medium">99.4%</span>
             </div>
-            <div className="flex items-center justify-between border-b border-border py-3">
+            <div className="border-border flex items-center justify-between border-b py-3">
               <span className="text-muted-foreground text-sm">Storage Used</span>
               <span className="text-foreground font-mono text-sm font-medium">12.4 GB</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-card flex flex-col items-center justify-center rounded-lg p-8 text-center shadow-sm ring-1 shadow-border/50 ring-border">
+        <div className="bg-card shadow-border/50 ring-border flex flex-col items-center justify-center rounded-lg p-8 text-center shadow-sm ring-1">
           <div className="bg-muted/40 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
             <Server className="text-muted-foreground/80 h-8 w-8" />
           </div>
@@ -56,7 +56,7 @@ export default function DatabasePage() {
           <p className="text-muted-foreground mb-6 max-w-xs text-sm">
             Configure read replicas, manage automated backups, and handle point-in-time recovery.
           </p>
-          <button className="text-sm font-medium text-primary hover:text-primary/80">
+          <button className="text-primary hover:text-primary/80 text-sm font-medium">
             Manage Configuration &rarr;
           </button>
         </div>

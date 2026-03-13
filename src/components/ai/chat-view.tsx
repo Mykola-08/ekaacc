@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * AI Chat View
@@ -7,24 +7,23 @@
  * and visual blocks into a complete AI chat experience.
  */
 
-import { useState, useCallback, useEffect, useMemo } from "react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import {
-  ChatContainerRoot,
-  ChatContainerContent,
-  ChatContainerScrollAnchor,
-} from "@/components/prompt-kit/chat-container";
-import { ScrollButton } from "@/components/prompt-kit/scroll-button";
-import { Loader } from "@/components/prompt-kit/loader";
-import { ChatMessage } from "@/components/ai/chat-message";
-import { ChatInput } from "@/components/ai/chat-input";
-import { ChatWelcome } from "@/components/ai/chat-welcome";
-import { ConversationList } from "@/components/ai/conversation-list";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { PanelLeft } from "lucide-react";
-import { toast } from "@/components/ui/morphing-toaster";
+  Conversation,
+  ConversationContent,
+  ConversationScrollButton,
+} from '@/components/ai-elements/conversation';
+import { Loader } from '@/components/ui/loader';
+import { ChatMessage } from '@/components/ai/chat-message';
+import { ChatInput } from '@/components/ai/chat-input';
+import { ChatWelcome } from '@/components/ai/chat-welcome';
+import { ConversationList } from '@/components/ai/conversation-list';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
+import { PanelLeft } from 'lucide-react';
+import { toast } from '@/components/ui/morphing-toaster';
 
 interface Conversation {
   id: string;
@@ -36,34 +35,26 @@ export function AIChatView() {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
 
   // Memoize transport so it updates when conversationId changes
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: "/api/ai/chat",
+        api: '/api/ai/chat',
         body: { conversationId },
       }),
     [conversationId]
   );
 
-  const {
-    messages,
-    sendMessage,
-    status,
-    stop,
-    setMessages,
-    regenerate,
-    error,
-  } = useChat({
+  const { messages, sendMessage, status, stop, setMessages, regenerate, error } = useChat({
     transport,
     onError: (err) => {
-      toast.error(err.message || "Failed to get AI response");
+      toast.error(err.message || 'Failed to get AI response');
     },
   });
 
-  const isLoading = status === "submitted" || status === "streaming";
+  const isLoading = status === 'submitted' || status === 'streaming';
 
   // Load conversations on mount
   useEffect(() => {
@@ -72,7 +63,7 @@ export function AIChatView() {
 
   const fetchConversations = useCallback(async () => {
     try {
-      const res = await fetch("/api/ai/conversations");
+      const res = await fetch('/api/ai/conversations');
       if (res.ok) {
         const data = await res.json();
         setConversations(data.conversations || []);
@@ -85,7 +76,7 @@ export function AIChatView() {
   const handleNewConversation = useCallback(() => {
     setConversationId(null);
     setMessages([]);
-    setInput("");
+    setInput('');
     setSidebarOpen(false);
   }, [setMessages]);
 
@@ -98,16 +89,16 @@ export function AIChatView() {
           setConversationId(id);
           // Convert DB messages to UIMessage format with parts
           const chatMessages = (data.messages || [])
-            .filter((m: any) => m.role !== "system")
+            .filter((m: any) => m.role !== 'system')
             .map((m: any) => ({
               id: m.id,
               role: m.role,
-              parts: [{ type: "text" as const, text: m.content }],
+              parts: [{ type: 'text' as const, text: m.content }],
             }));
           setMessages(chatMessages);
         }
       } catch {
-        toast.error("Failed to load conversation");
+        toast.error('Failed to load conversation');
       }
       setSidebarOpen(false);
     },
@@ -117,13 +108,13 @@ export function AIChatView() {
   const handleDeleteConversation = useCallback(
     async (id: string) => {
       try {
-        await fetch(`/api/ai/conversations?id=${id}`, { method: "DELETE" });
+        await fetch(`/api/ai/conversations?id=${id}`, { method: 'DELETE' });
         setConversations((prev) => prev.filter((c) => c.id !== id));
         if (conversationId === id) {
           handleNewConversation();
         }
       } catch {
-        toast.error("Failed to delete conversation");
+        toast.error('Failed to delete conversation');
       }
     },
     [conversationId, handleNewConversation]
@@ -132,13 +123,13 @@ export function AIChatView() {
   const handleSend = useCallback(() => {
     const text = input.trim();
     if (!text) return;
-    setInput("");
+    setInput('');
     sendMessage({ text });
   }, [input, sendMessage]);
 
   const handleSuggestion = useCallback(
     (text: string) => {
-      setInput("");
+      setInput('');
       sendMessage({ text });
     },
     [sendMessage]
@@ -146,7 +137,7 @@ export function AIChatView() {
 
   const handleCopy = useCallback((content: string) => {
     navigator.clipboard.writeText(content);
-    toast.success("Copied to clipboard");
+    toast.success('Copied to clipboard');
   }, []);
 
   const hasMessages = messages.length > 0;
@@ -196,30 +187,27 @@ export function AIChatView() {
         {/* Messages */}
         <div className="relative flex-1 overflow-hidden">
           {hasMessages ? (
-            <ChatContainerRoot className="h-full">
-              <ChatContainerContent className="space-y-4 px-4 py-4">
+            <Conversation className="h-full">
+              <ConversationContent className="px-4 py-4">
                 {messages.map((message, i) => (
                   <ChatMessage
                     key={message.id}
                     message={message}
-                    isLast={i === messages.length - 1 && message.role === "assistant"}
+                    isLast={i === messages.length - 1 && message.role === 'assistant'}
                     onCopy={handleCopy}
                     onRegenerate={() => regenerate()}
                   />
                 ))}
 
-                {isLoading &&
-                  messages[messages.length - 1]?.role === "user" && (
-                    <div className="flex items-center gap-3 pl-12">
-                      <Loader variant="typing" className="text-muted-foreground" />
-                    </div>
-                  )}
+                {isLoading && messages[messages.length - 1]?.role === 'user' && (
+                  <div className="flex items-center gap-3 pl-12">
+                    <Loader variant="typing" className="text-muted-foreground" />
+                  </div>
+                )}
+              </ConversationContent>
 
-                <ChatContainerScrollAnchor />
-              </ChatContainerContent>
-
-              <ScrollButton className="absolute bottom-20 right-4" />
-            </ChatContainerRoot>
+              <ConversationScrollButton className="absolute right-4 bottom-20" />
+            </Conversation>
           ) : (
             <ChatWelcome onSuggestion={handleSuggestion} />
           )}
@@ -236,7 +224,7 @@ export function AIChatView() {
             showSuggestions={false}
             onSuggestion={handleSuggestion}
           />
-          <p className="text-muted-foreground mt-2 text-center text-2xs">
+          <p className="text-muted-foreground text-2xs mt-2 text-center">
             EKA can make mistakes. Not a substitute for professional medical advice.
           </p>
         </div>

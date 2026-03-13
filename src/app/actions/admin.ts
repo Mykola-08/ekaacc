@@ -8,7 +8,7 @@ const purchaseSchema = z.object({
   userId: z.string().uuid(),
   itemName: z.string().min(1),
   source: z.string().min(1),
-  status: z.string().default('ordered')
+  status: z.string().default('ordered'),
 });
 
 export async function logExternalPurchase(prevState: any, formData: FormData) {
@@ -18,7 +18,7 @@ export async function logExternalPurchase(prevState: any, formData: FormData) {
     userId: formData.get('userId'),
     itemName: formData.get('itemName'),
     source: formData.get('source'),
-    status: formData.get('status') || 'ordered'
+    status: formData.get('status') || 'ordered',
   };
 
   const validated = purchaseSchema.safeParse(rawData);
@@ -57,7 +57,7 @@ export async function toggleFeatureOverride(userId: string, featureId: string, e
     await supabase.from('feature_enrollments').insert({
       user_id: userId,
       feature_id: featureId,
-      enabled
+      enabled,
     });
   }
 
@@ -69,16 +69,19 @@ export async function getAdminBookings(page = 1, limit = 10, status = 'all', sea
 
   let query = supabase
     .from('bookings')
-    .select('*, client:profiles!client_id(full_name, email), therapist:profiles!therapist_id(full_name)', { count: 'exact' });
+    .select(
+      '*, client:profiles!client_id(full_name, email), therapist:profiles!therapist_id(full_name)',
+      { count: 'exact' }
+    );
 
   if (status && status !== 'all') {
     query = query.eq('status', status);
   }
 
   if (search) {
-     // Naive search implementation
-     // In real app, use full text search or filter by related profile fields if possible
-     // For now, ignoring deep search to avoid complex join filtering issues with Supabase simple client
+    // Naive search implementation
+    // In real app, use full text search or filter by related profile fields if possible
+    // For now, ignoring deep search to avoid complex join filtering issues with Supabase simple client
   }
 
   const { data, count, error } = await query

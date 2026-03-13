@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { useScrollLock } from '@/marketing/hooks/useScrollLock';
+import { useScrollLock } from '@/hooks/use-scroll-lock';
 
 interface BentoItemProps {
   title: string;
@@ -41,7 +41,11 @@ export function ServiceBentoItem({
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  useScrollLock(isOpen);
+  const { lock, unlock } = useScrollLock({ autoLock: false });
+  useEffect(() => {
+    if (isOpen) lock();
+    else unlock();
+  }, [isOpen, lock, unlock]);
 
   function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
     const { left, top } = currentTarget.getBoundingClientRect();

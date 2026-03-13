@@ -21,12 +21,7 @@ export default function PlatformLayout({
 }>) {
   return (
     <LanguageProvider>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <main id="main-content" tabIndex={-1}>
           {children}
         </main>

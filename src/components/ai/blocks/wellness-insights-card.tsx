@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Wellness Insights Card
@@ -6,9 +6,9 @@
  * Displays AI-generated wellness insights with action items.
  */
 
-import * as motion from "motion/react-client";
-import { Brain, ChevronRight, Lightbulb, TrendingUp, Heart, Target, Zap } from "lucide-react";
-import { cn } from "@/lib/utils";
+import * as motion from 'motion/react-client';
+import { Brain, ChevronRight, Lightbulb, TrendingUp, Heart, Target, Zap } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface Insight {
   type: string;
@@ -22,13 +22,13 @@ interface WellnessInsightsProps {
 }
 
 const typeConfig: Record<string, { icon: typeof Brain; color: string }> = {
-  wellness: { icon: Heart, color: "text-destructive" },
-  therapy: { icon: Brain, color: "text-chart-4" },
-  behavioral: { icon: Target, color: "text-warning" },
-  progress: { icon: TrendingUp, color: "text-success" },
-  recommendation: { icon: Lightbulb, color: "text-primary" },
-  mood: { icon: Zap, color: "text-warning" },
-  engagement: { icon: TrendingUp, color: "text-info" },
+  wellness: { icon: Heart, color: 'text-destructive' },
+  therapy: { icon: Brain, color: 'text-chart-4' },
+  behavioral: { icon: Target, color: 'text-warning' },
+  progress: { icon: TrendingUp, color: 'text-success' },
+  recommendation: { icon: Lightbulb, color: 'text-primary' },
+  mood: { icon: Zap, color: 'text-warning' },
+  engagement: { icon: TrendingUp, color: 'text-info' },
 };
 
 export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
@@ -39,7 +39,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card w-full max-w-md space-y-3 rounded-lg border p-4"
+      className="bg-card w-full max-w-md rounded-lg border p-4"
     >
       <div className="flex items-center gap-2">
         <Brain className="text-primary h-4 w-4" />
@@ -59,14 +59,14 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
             className="bg-muted/50 rounded-xl p-3"
           >
             <div className="mb-1.5 flex items-center gap-2">
-              <Icon className={cn("h-4 w-4", cfg.color)} />
+              <Icon className={cn('h-4 w-4', cfg.color)} />
               <p className="text-sm font-medium">{insight.title}</p>
             </div>
             <p className="text-muted-foreground mb-2 text-xs leading-relaxed">
               {insight.description}
             </p>
             {insight.actionItems && insight.actionItems.length > 0 && (
-              <ul className="space-y-1">
+              <ul className="">
                 {insight.actionItems.map((item, j) => (
                   <li key={j} className="flex items-start gap-1.5 text-xs">
                     <ChevronRight className="text-primary mt-0.5 h-3 w-3 shrink-0" />

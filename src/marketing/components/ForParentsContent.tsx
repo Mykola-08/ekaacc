@@ -14,21 +14,21 @@ export default function ForParentsContent() {
       seoKeys={{
         title: 'seo.parents.title',
         description: 'seo.parents.description',
-        keywords: 'seo.parents.keywords'
+        keywords: 'seo.parents.keywords',
       }}
       recommendedServices={[
         {
           titleKey: 'personalized.parents.services.emotionalKinesiology.title',
           descriptionKey: 'personalized.parents.services.emotionalKinesiology.description',
           href: '/services/kinesiology',
-          duration: '60-90 min'
+          duration: '60-90 min',
         },
         {
           titleKey: 'personalized.parents.services.relaxingMassage.title',
           descriptionKey: 'personalized.parents.services.relaxingMassage.description',
           href: '/services/massage',
-          duration: '60-90 min'
-        }
+          duration: '60-90 min',
+        },
       ]}
       showMethodology={false}
     />

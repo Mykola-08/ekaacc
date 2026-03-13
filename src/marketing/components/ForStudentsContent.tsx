@@ -14,21 +14,21 @@ export default function ForStudentsContent() {
       seoKeys={{
         title: 'seo.students.title',
         description: 'seo.students.description',
-        keywords: 'seo.students.keywords'
+        keywords: 'seo.students.keywords',
       }}
       recommendedServices={[
         {
           titleKey: 'personalized.students.services.kinesiologyStress.title',
           descriptionKey: 'personalized.students.services.kinesiologyStress.description',
           href: '/services/kinesiology',
-          duration: '60 min'
+          duration: '60 min',
         },
         {
           titleKey: 'personalized.students.services.relaxingMassage.title',
           descriptionKey: 'personalized.students.services.relaxingMassage.description',
           href: '/services/massage',
-          duration: '60-90 min'
-        }
+          duration: '60-90 min',
+        },
       ]}
       showMethodology={false}
     />

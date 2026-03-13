@@ -10,15 +10,9 @@ import { Separator } from '@/components/ui/separator';
 
 // ─── Permission helper ─────────────────────────────────────────────
 
-function can(
-  permissions: any[],
-  group: string,
-  action: string
-): boolean {
+function can(permissions: any[], group: string, action: string): boolean {
   return permissions.some(
-    (p) =>
-      p.group === group &&
-      (p.action === action || p.action === 'manage')
+    (p) => p.group === group && (p.action === action || p.action === 'manage')
   );
 }
 
@@ -33,7 +27,9 @@ function getGreeting(): string {
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login');
 
@@ -63,9 +59,7 @@ export default async function DashboardPage() {
   queries.nextBooking = supabase
     .from('bookings')
     .select('*, therapist:therapist_id(full_name), client:client_id(full_name)')
-    .or(
-      `client_id.eq.${profile?.id},therapist_id.eq.${profile?.id}`
-    )
+    .or(`client_id.eq.${profile?.id},therapist_id.eq.${profile?.id}`)
     .eq('status', 'scheduled')
     .gte('starts_at', now)
     .order('starts_at')
@@ -160,20 +154,18 @@ export default async function DashboardPage() {
   keys.forEach((k, i) => (data[k] = values[i]));
 
   return (
-    <div className="space-y-6 p-4 md:p-6 max-w-6xl mx-auto">
+    <div className="mx-auto max-w-6xl p-4 md:p-6">
       {/* ── Welcome ──────────────────────────────────────────────── */}
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-semibold tracking-tight">
           {getGreeting()}, {firstName}
         </h1>
-        <p className="text-sm text-muted-foreground">
-          Here&apos;s what&apos;s happening today.
-        </p>
+        <p className="text-muted-foreground text-sm">Here&apos;s what&apos;s happening today.</p>
       </div>
 
       {/* ── Platform Stats (admin/manager only) ─────────────────── */}
       {canManageUsers && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <StatsCard label="Users" value={data.totalUsers} />
           <StatsCard label="Bookings" value={data.totalBookings} />
           <StatsCard label="Today" value={data.todayBookings} accent />
@@ -184,15 +176,12 @@ export default async function DashboardPage() {
       {/* ── Therapist quick stats ────────────────────────────────── */}
       {canUseTherapistTools && !canManageUsers && (
         <div className="grid grid-cols-2 gap-3">
-          <StatsCard label="Today&apos;s Sessions" value={data.todayClients} accent />
-          <StatsCard
-            label="Upcoming"
-            value={data.nextBooking?.length || 0}
-          />
+          <StatsCard label="Today's Sessions" value={data.todayClients} accent />
+          <StatsCard label="Upcoming" value={data.nextBooking?.length || 0} />
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {/* ── Upcoming Appointments ──────────────────────────────── */}
         <Card className="lg:col-span-2">
           <CardHeader className="pb-3">
@@ -207,7 +196,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             {data.nextBooking?.length > 0 ? (
-              <div className="space-y-2">
+              <div className="">
                 {data.nextBooking.map((b: any) => {
                   const otherPerson = canUseTherapistTools
                     ? b.client?.full_name
@@ -218,12 +207,10 @@ export default async function DashboardPage() {
                       className="flex items-center justify-between rounded-lg border p-3"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="h-8 w-1 rounded-full bg-primary" />
+                        <div className="bg-primary h-8 w-1 rounded-full" />
                         <div>
-                          <p className="text-sm font-medium">
-                            {otherPerson || 'Appointment'}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-sm font-medium">{otherPerson || 'Appointment'}</p>
+                          <p className="text-muted-foreground text-xs">
                             {new Date(b.starts_at).toLocaleDateString(undefined, {
                               weekday: 'short',
                               month: 'short',
@@ -254,9 +241,7 @@ export default async function DashboardPage() {
               </div>
             ) : (
               <div className="py-8 text-center">
-                <p className="text-sm text-muted-foreground">
-                  No upcoming appointments
-                </p>
+                <p className="text-muted-foreground text-sm">No upcoming appointments</p>
                 <Link href="/bookings">
                   <Button variant="outline" size="sm" className="mt-3">
                     Book a session
@@ -268,7 +253,7 @@ export default async function DashboardPage() {
         </Card>
 
         {/* ── Right Column ──────────────────────────────────────── */}
-        <div className="space-y-4">
+        <div className="">
           {/* Quick Actions */}
           <Card>
             <CardHeader className="pb-3">
@@ -276,34 +261,42 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent className="grid gap-1.5">
               <Link href="/bookings">
-                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
                   Book Session
                 </Button>
               </Link>
               <Link href="/journal">
-                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
                   Write Journal
                 </Button>
               </Link>
               <Link href="/chat">
-                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
                   Send Message
                 </Button>
               </Link>
               <Link href="/resources">
-                <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
                   Resources
                 </Button>
               </Link>
               {canUseTherapistTools && (
                 <>
                   <Link href="/therapist/clients">
-                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-full justify-start text-xs"
+                    >
                       Client Directory
                     </Button>
                   </Link>
                   <Link href="/availability">
-                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-full justify-start text-xs"
+                    >
                       Manage Availability
                     </Button>
                   </Link>
@@ -312,12 +305,20 @@ export default async function DashboardPage() {
               {canManageUsers && (
                 <>
                   <Link href="/console/users">
-                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-full justify-start text-xs"
+                    >
                       Manage Users
                     </Button>
                   </Link>
                   <Link href="/console/permissions">
-                    <Button variant="outline" size="sm" className="w-full justify-start h-8 text-xs">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-full justify-start text-xs"
+                    >
                       Permissions
                     </Button>
                   </Link>
@@ -332,11 +333,9 @@ export default async function DashboardPage() {
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium">Plan</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">
-                    {data.plan?.name || 'Free'}
-                  </span>
+                  <span className="text-sm font-medium">{data.plan?.name || 'Free'}</span>
                   <Badge variant={data.plan ? 'default' : 'secondary'}>
                     {data.plan ? 'Active' : 'Basic'}
                   </Badge>
@@ -359,7 +358,7 @@ export default async function DashboardPage() {
               <CardContent>
                 <p className="text-2xl font-semibold tracking-tight">
                   {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
-                  <span className="text-sm font-normal text-muted-foreground">
+                  <span className="text-muted-foreground text-sm font-normal">
                     {data.wallet.currency}
                   </span>
                 </p>
@@ -383,14 +382,12 @@ export default async function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {data.goals.map((goal: any) => (
-                <div key={goal.id} className="space-y-2 rounded-lg border p-3">
+                <div key={goal.id} className="rounded-lg border p-3">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium truncate">{goal.title}</span>
-                    <span className="text-muted-foreground text-xs">
-                      {goal.progress}%
-                    </span>
+                    <span className="truncate font-medium">{goal.title}</span>
+                    <span className="text-muted-foreground text-xs">{goal.progress}%</span>
                   </div>
                   <Progress value={goal.progress} className="h-1.5" />
                 </div>
@@ -402,7 +399,7 @@ export default async function DashboardPage() {
 
       {/* ── Journal & Assignments ────────────────────────────────── */}
       {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {/* Recent Journal */}
           {data.journalEntries?.length > 0 && (
             <Card>
@@ -417,17 +414,15 @@ export default async function DashboardPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
+                <div className="">
                   {data.journalEntries.map((entry: any) => (
                     <div
                       key={entry.id}
                       className="flex items-center justify-between rounded-lg border p-3"
                     >
                       <div>
-                        <p className="text-sm font-medium truncate">
-                          {entry.title || 'Untitled'}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="truncate text-sm font-medium">{entry.title || 'Untitled'}</p>
+                        <p className="text-muted-foreground text-xs">
                           {new Date(entry.created_at).toLocaleDateString(undefined, {
                             month: 'short',
                             day: 'numeric',
@@ -460,16 +455,16 @@ export default async function DashboardPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
+                <div className="">
                   {data.assignments.map((a: any) => (
                     <div
                       key={a.id}
                       className="flex items-center justify-between rounded-lg border p-3"
                     >
                       <div>
-                        <p className="text-sm font-medium truncate">{a.title}</p>
+                        <p className="truncate text-sm font-medium">{a.title}</p>
                         {a.due_date && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Due{' '}
                             {new Date(a.due_date).toLocaleDateString(undefined, {
                               month: 'short',
@@ -495,7 +490,7 @@ export default async function DashboardPage() {
 
       {/* ── Admin Quick Links ────────────────────────────────────── */}
       {canManageSystem && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <QuickLink
             href="/admin/features"
             title="Feature Flags"
@@ -519,22 +514,12 @@ export default async function DashboardPage() {
 
 // ─── Sub-components ─────────────────────────────────────────────────
 
-function StatsCard({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: number;
-  accent?: boolean;
-}) {
+function StatsCard({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
   return (
     <Card>
-      <CardContent className="pt-4 pb-3 px-4">
-        <p className="text-xs font-medium text-muted-foreground">{label}</p>
-        <p
-          className={`text-2xl font-semibold tracking-tight ${accent ? 'text-primary' : ''}`}
-        >
+      <CardContent className="px-4 pt-4 pb-3">
+        <p className="text-muted-foreground text-xs font-medium">{label}</p>
+        <p className={`text-2xl font-semibold tracking-tight ${accent ? 'text-primary' : ''}`}>
           {value}
         </p>
       </CardContent>
@@ -553,10 +538,10 @@ function QuickLink({
 }) {
   return (
     <Link href={href}>
-      <Card className="h-full transition-colors hover:bg-muted/50">
-        <CardContent className="pt-4 pb-3 px-4">
+      <Card className="hover:bg-muted/50 h-full transition-colors">
+        <CardContent className="px-4 pt-4 pb-3">
           <p className="text-sm font-medium">{title}</p>
-          <p className="text-xs text-muted-foreground mt-1">{description}</p>
+          <p className="text-muted-foreground mt-1 text-xs">{description}</p>
         </CardContent>
       </Card>
     </Link>

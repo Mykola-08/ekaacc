@@ -115,7 +115,7 @@ export function BotSettings({ channels }: BotSettingsProps) {
   const groupChannels = channels.filter((c) => c.type === 'group' || c.type === 'supergroup');
 
   return (
-    <div className="space-y-6">
+    <div className="">
       {/* Bot Info */}
       <Card>
         <CardHeader>
@@ -123,21 +123,19 @@ export function BotSettings({ channels }: BotSettingsProps) {
         </CardHeader>
         <CardContent>
           {botInfo ? (
-            <div className="space-y-2 text-sm">
+            <div className="text-sm">
               <div className="flex items-center gap-2">
                 <span className="font-medium">Name:</span>
                 <span>{botInfo.first_name}</span>
-                {botInfo.username && (
-                  <Badge variant="outline">@{botInfo.username}</Badge>
-                )}
+                {botInfo.username && <Badge variant="outline">@{botInfo.username}</Badge>}
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium">Bot ID:</span>
-                <code className="rounded bg-muted px-1.5 py-0.5 text-xs">{botInfo.id}</code>
+                <code className="bg-muted rounded px-1.5 py-0.5 text-xs">{botInfo.id}</code>
               </div>
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {isPending ? 'Loading bot info…' : 'Could not load bot info. Check your bot token.'}
             </p>
           )}
@@ -149,8 +147,8 @@ export function BotSettings({ channels }: BotSettingsProps) {
         <CardHeader>
           <CardTitle className="text-base">Webhook Configuration</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-1.5">
+        <CardContent className="">
+          <div className=".5">
             <Label>Webhook URL</Label>
             <div className="flex gap-2">
               <Input
@@ -166,7 +164,7 @@ export function BotSettings({ channels }: BotSettingsProps) {
           </div>
 
           {webhookInfo && (
-            <div className="space-y-2 rounded-lg border bg-muted/50 p-3 text-sm">
+            <div className="bg-muted/50 rounded-lg border p-3 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Status</span>
                 <Badge variant={webhookInfo.url ? 'default' : 'destructive'}>
@@ -180,7 +178,7 @@ export function BotSettings({ channels }: BotSettingsProps) {
               {webhookInfo.last_error_message && (
                 <div className="flex items-start justify-between gap-2">
                   <span className="text-muted-foreground">Last Error</span>
-                  <span className="text-right text-destructive">
+                  <span className="text-destructive text-right">
                     {webhookInfo.last_error_message}
                   </span>
                 </div>
@@ -205,11 +203,11 @@ export function BotSettings({ channels }: BotSettingsProps) {
           </Button>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Push the bot&apos;s command menu to Telegram. This updates what users see when
-            they type &ldquo;/&rdquo; in chat.
+          <p className="text-muted-foreground text-sm">
+            Push the bot&apos;s command menu to Telegram. This updates what users see when they type
+            &ldquo;/&rdquo; in chat.
           </p>
-          <div className="mt-3 space-y-1 text-sm">
+          <div className="mt-3 text-sm">
             {[
               { cmd: '/start', desc: 'Get started with EKA Balance' },
               { cmd: '/help', desc: 'Show help message' },
@@ -220,7 +218,7 @@ export function BotSettings({ channels }: BotSettingsProps) {
               { cmd: '/unlink', desc: 'Unlink account' },
             ].map(({ cmd, desc }) => (
               <div key={cmd} className="flex items-center gap-3">
-                <code className="w-20 rounded bg-muted px-1.5 py-0.5 text-xs font-medium">
+                <code className="bg-muted w-20 rounded px-1.5 py-0.5 text-xs font-medium">
                   {cmd}
                 </code>
                 <span className="text-muted-foreground">{desc}</span>
@@ -236,8 +234,8 @@ export function BotSettings({ channels }: BotSettingsProps) {
           <CardHeader>
             <CardTitle className="text-base">Group Default Permissions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
+          <CardContent className="">
+            <p className="text-muted-foreground text-sm">
               Set default permissions for all non-admin members of a group.
             </p>
             <Select value={selectedChannel} onValueChange={setSelectedChannel}>
@@ -253,7 +251,7 @@ export function BotSettings({ channels }: BotSettingsProps) {
               </SelectContent>
             </Select>
 
-            <div className="space-y-3">
+            <div className="">
               {(
                 [
                   ['can_send_messages', 'Send Messages'],

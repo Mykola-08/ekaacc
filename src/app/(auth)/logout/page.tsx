@@ -15,9 +15,9 @@ export default function LogoutPage() {
   return (
     <div className="auth-page">
       <div className="auth-page-gradient" />
-      <Card className="relative z-10 w-full max-w-md rounded-3xl border-border/20 bg-card/70 text-center shadow-md backdrop-blur-2xl">
-        <CardHeader className="flex flex-col items-center space-y-4 pb-2">
-          <div className="rounded-2xl border border-border/10 bg-card p-1 shadow-sm">
+      <Card className="border-border/20 bg-card/70 relative z-10 w-full max-w-md rounded-3xl text-center shadow-md backdrop-blur-2xl">
+        <CardHeader className="flex flex-col items-center pb-2">
+          <div className="border-border/10 bg-card rounded-2xl border p-1 shadow-sm">
             <Image
               src="/images/eka_logo.png"
               alt="EKA Balance"
@@ -27,10 +27,10 @@ export default function LogoutPage() {
               className="rounded-xl"
             />
           </div>
-          <div className="rounded-full bg-success/20 p-2">
-            <CheckCircle2 className="h-8 w-8 text-success" />
+          <div className="bg-success/20 rounded-full p-2">
+            <CheckCircle2 className="text-success h-8 w-8" />
           </div>
-          <div className="space-y-1">
+          <div className="">
             <CardTitle className="text-2xl font-semibold tracking-tight">Signed Out</CardTitle>
             <CardDescription className="text-base">
               You have been successfully signed out of your account.
@@ -39,11 +39,10 @@ export default function LogoutPage() {
         </CardHeader>
         <CardContent className="pb-6">
           <p className="text-muted-foreground text-sm">
-            Thank you for using EKA Balance. Your session has been securely
-            terminated.
+            Thank you for using EKA Balance. Your session has been securely terminated.
           </p>
         </CardContent>
-        <CardFooter className="flex flex-col space-y-2">
+        <CardFooter className="flex flex-col">
           <Button asChild className="auth-submit-btn" size="lg">
             <Link href="/api/auth/login">Sign In Again</Link>
           </Button>

@@ -23,14 +23,14 @@ interface AccordionProps {
   children: React.ReactNode;
 }
 
-export function Accordion({ 
-  type = 'single', 
+export function Accordion({
+  type = 'single',
   collapsible = false,
-  defaultValue, 
+  defaultValue,
   value: controlledValue,
   onValueChange,
   className,
-  children 
+  children,
 }: AccordionProps) {
   // Simple internal state management for uncontrolled usage
   const [internalValue, setInternalValue] = React.useState<string | string[]>(
@@ -56,9 +56,7 @@ export function Accordion({
 
   return (
     <AccordionContext.Provider value={{ value, onValueChange: handleValueChange, type }}>
-      <div className={cn('w-full', className)}>
-        {children}
-      </div>
+      <div className={cn('w-full', className)}>{children}</div>
     </AccordionContext.Provider>
   );
 }
@@ -93,8 +91,8 @@ export function AccordionTrigger({ children, className, value: itemValue }: Acco
   const context = React.useContext(AccordionContext);
   if (!context) throw new Error('AccordionTrigger must be used within Accordion');
 
-  const isOpen = Array.isArray(context.value) 
-    ? context.value.includes(itemValue!) 
+  const isOpen = Array.isArray(context.value)
+    ? context.value.includes(itemValue!)
     : context.value === itemValue;
 
   return (
@@ -127,8 +125,8 @@ export function AccordionContent({ children, className, value: itemValue }: Acco
   const context = React.useContext(AccordionContext);
   if (!context) throw new Error('AccordionContent must be used within Accordion');
 
-  const isOpen = Array.isArray(context.value) 
-    ? context.value.includes(itemValue!) 
+  const isOpen = Array.isArray(context.value)
+    ? context.value.includes(itemValue!)
     : context.value === itemValue;
 
   return (
@@ -141,9 +139,7 @@ export function AccordionContent({ children, className, value: itemValue }: Acco
           transition={{ duration: 0.3, ease: 'easeInOut' }}
           className="overflow-hidden bg-transparent"
         >
-          <div className={cn('pb-4 pt-0', className)}>
-            {children}
-          </div>
+          <div className={cn('pt-0 pb-4', className)}>{children}</div>
         </motion.div>
       )}
     </AnimatePresence>

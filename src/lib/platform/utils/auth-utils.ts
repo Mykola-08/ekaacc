@@ -49,10 +49,7 @@ export async function getUserPermissions(userId: string): Promise<Permission[]> 
 
   // Query role_permissions table using the role name (lowercase)
   const { data, error } = await safeSupabaseQuery<any[]>(
-    supabase
-      .from('role_permissions')
-      .select('*')
-      .eq('role', roleName.toLowerCase())
+    supabase.from('role_permissions').select('*').eq('role', roleName.toLowerCase())
   );
 
   if (error || !data) {
@@ -191,9 +188,7 @@ export async function getUserAuditLogs(userId: string, limit = 50): Promise<any[
  * Returns distinct roles from the role_permissions table.
  */
 export async function getAllRoles(): Promise<UserRole[]> {
-  const { data, error } = await supabase
-    .from('role_permissions')
-    .select('role');
+  const { data, error } = await supabase.from('role_permissions').select('role');
 
   if (error || !data) {
     console.error('Error fetching roles:', error);
@@ -210,9 +205,7 @@ export async function getAllRoles(): Promise<UserRole[]> {
  * Returns all entries from role_permissions table.
  */
 export async function getAllPermissions(): Promise<Permission[]> {
-  const { data, error } = await supabase
-    .from('role_permissions')
-    .select('*');
+  const { data, error } = await supabase.from('role_permissions').select('*');
 
   if (error || !data) {
     console.error('Error fetching permissions:', error);

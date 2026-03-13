@@ -1,10 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import {
-  createPostAction,
-  publishPostAction,
-} from '@/server/telegram/actions';
+import { createPostAction, publishPostAction } from '@/server/telegram/actions';
 import type { TelegramChannel } from '@/server/telegram/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,9 +23,7 @@ interface PostComposerProps {
 }
 
 export function PostComposer({ channels }: PostComposerProps) {
-  const [selectedChannel, setSelectedChannel] = useState(
-    channels[0]?.id ?? ''
-  );
+  const [selectedChannel, setSelectedChannel] = useState(channels[0]?.id ?? '');
   const [content, setContent] = useState('');
   const [parseMode, setParseMode] = useState<'HTML' | 'Markdown'>('HTML');
   const [mediaUrl, setMediaUrl] = useState('');
@@ -125,9 +120,9 @@ export function PostComposer({ channels }: PostComposerProps) {
       <CardHeader>
         <CardTitle className="text-base">Compose Post</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="">
         {/* Channel selector */}
-        <div className="space-y-1.5">
+        <div className=".5">
           <Label>Channel</Label>
           <Select value={selectedChannel} onValueChange={setSelectedChannel}>
             <SelectTrigger>
@@ -144,7 +139,7 @@ export function PostComposer({ channels }: PostComposerProps) {
         </div>
 
         {/* Content */}
-        <div className="space-y-1.5">
+        <div className=".5">
           <Label>Message</Label>
           <Textarea
             placeholder="Write your post content…"
@@ -152,18 +147,13 @@ export function PostComposer({ channels }: PostComposerProps) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-          <p className="text-xs text-muted-foreground">
-            {content.length} characters
-          </p>
+          <p className="text-muted-foreground text-xs">{content.length} characters</p>
         </div>
 
         {/* Parse mode */}
-        <div className="space-y-1.5">
+        <div className=".5">
           <Label>Format</Label>
-          <Select
-            value={parseMode}
-            onValueChange={(v) => setParseMode(v as 'HTML' | 'Markdown')}
-          >
+          <Select value={parseMode} onValueChange={(v) => setParseMode(v as 'HTML' | 'Markdown')}>
             <SelectTrigger className="w-40">
               <SelectValue />
             </SelectTrigger>
@@ -175,7 +165,7 @@ export function PostComposer({ channels }: PostComposerProps) {
         </div>
 
         {/* Media URL */}
-        <div className="space-y-1.5">
+        <div className=".5">
           <Label>Photo URL (optional)</Label>
           <Input
             placeholder="https://..."
@@ -186,15 +176,12 @@ export function PostComposer({ channels }: PostComposerProps) {
 
         {/* Schedule toggle */}
         <div className="flex items-center gap-2">
-          <Switch
-            checked={scheduleEnabled}
-            onCheckedChange={setScheduleEnabled}
-          />
+          <Switch checked={scheduleEnabled} onCheckedChange={setScheduleEnabled} />
           <Label>Schedule for later</Label>
         </div>
 
         {scheduleEnabled && (
-          <div className="space-y-1.5">
+          <div className=".5">
             <Label>Schedule Date & Time</Label>
             <Input
               type="datetime-local"

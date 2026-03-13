@@ -42,12 +42,12 @@ const dataService = {
         .order('created_at', { ascending: false });
 
       if (error) return [];
-      
+
       return (data || []).map((u: any) => ({
         id: u.id,
         email: u.email,
         name: u.raw_user_meta_data?.full_name || u.raw_user_meta_data?.name,
-        created_at: u.created_at
+        created_at: u.created_at,
       })) as DataUser[];
     } catch {
       return [];

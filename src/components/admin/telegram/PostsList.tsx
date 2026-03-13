@@ -1,11 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import {
-  listPostsAction,
-  publishPostAction,
-  deletePostAction,
-} from '@/server/telegram/actions';
+import { listPostsAction, publishPostAction, deletePostAction } from '@/server/telegram/actions';
 import type { TelegramChannel, TelegramPost } from '@/server/telegram/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -76,7 +72,7 @@ export function PostsList({ channels }: PostsListProps) {
   if (channels.length === 0) {
     return (
       <Card>
-        <CardContent className="py-12 text-center text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground py-12 text-center text-sm">
           No channels connected.
         </CardContent>
       </Card>
@@ -84,7 +80,7 @@ export function PostsList({ channels }: PostsListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="">
       <div className="flex flex-wrap items-center gap-3">
         <Select value={selectedChannel} onValueChange={setSelectedChannel}>
           <SelectTrigger className="w-60">
@@ -110,29 +106,32 @@ export function PostsList({ channels }: PostsListProps) {
             <SelectItem value="failed">Failed</SelectItem>
           </SelectContent>
         </Select>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-muted-foreground text-sm">
           {posts.length} post{posts.length !== 1 ? 's' : ''}
         </span>
       </div>
 
       {posts.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-sm text-muted-foreground">
+          <CardContent className="text-muted-foreground py-12 text-center text-sm">
             {isPending ? 'Loading…' : 'No posts found.'}
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-3">
+        <div className="">
           {posts.map((post) => (
             <Card key={post.id}>
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0 flex-1 space-y-2">
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <Badge variant={STATUS_COLORS[post.status] ?? 'outline'} className="capitalize">
+                      <Badge
+                        variant={STATUS_COLORS[post.status] ?? 'outline'}
+                        className="capitalize"
+                      >
                         {post.status}
                       </Badge>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-muted-foreground text-xs">
                         {post.published_at
                           ? `Published ${new Date(post.published_at).toLocaleString()}`
                           : post.scheduled_at
@@ -145,11 +144,9 @@ export function PostsList({ channels }: PostsListProps) {
                         </Badge>
                       )}
                     </div>
-                    <p className="line-clamp-3 whitespace-pre-wrap text-sm">
-                      {post.content}
-                    </p>
+                    <p className="line-clamp-3 text-sm whitespace-pre-wrap">{post.content}</p>
                     {post.error_message && (
-                      <p className="text-xs text-destructive">{post.error_message}</p>
+                      <p className="text-destructive text-xs">{post.error_message}</p>
                     )}
                   </div>
                   <div className="flex shrink-0 gap-1">

@@ -10,9 +10,7 @@ type ToastApi = {
 type ToastWindow = Window & { toast?: ToastApi };
 
 export function useToast() {
-  const toastApi = typeof window !== 'undefined'
-    ? (window as ToastWindow).toast
-    : undefined;
+  const toastApi = typeof window !== 'undefined' ? (window as ToastWindow).toast : undefined;
 
   return {
     success: (title: string, message?: string, options?: Partial<Toast>) =>

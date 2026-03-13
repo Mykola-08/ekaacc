@@ -18,11 +18,7 @@ import { getAppearancePreferences } from '@/app/actions/appearance';
  * controlled by the permission system.
  */
 
-async function DashboardShellLoader({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+async function DashboardShellLoader({ children }: { children: React.ReactNode }) {
   await connection();
   const supabase = await createClient();
   const {
@@ -57,21 +53,17 @@ async function DashboardShellLoader({
   );
 }
 
-export default function UnifiedDashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function UnifiedDashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen bg-background">
-          <div className="hidden md:block w-64 border-r border-border bg-card animate-pulse" />
+        <div className="bg-background flex min-h-screen">
+          <div className="border-border bg-card hidden w-64 animate-pulse border-r md:block" />
           <div className="flex-1 p-6">
-            <div className="h-8 w-48 bg-muted rounded animate-pulse mb-6" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-muted mb-6 h-8 w-48 animate-pulse rounded" />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="h-32 bg-muted rounded-lg animate-pulse" />
+                <div key={i} className="bg-muted h-32 animate-pulse rounded-lg" />
               ))}
             </div>
           </div>

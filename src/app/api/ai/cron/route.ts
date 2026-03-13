@@ -24,7 +24,9 @@ export async function GET(req: NextRequest) {
       // Check for admin user session
       const { createClient } = await import('@/lib/supabase/server');
       const supabase = await createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!user) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -59,9 +61,6 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error('[AI Cron]', error);
-    return NextResponse.json(
-      { error: 'Background analysis failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Background analysis failed' }, { status: 500 });
   }
 }

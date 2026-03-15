@@ -65,6 +65,7 @@ import {
   AlertCircleIcon,
   Briefcase01Icon,
   FileAddIcon,
+  Target01Icon,
 } from '@hugeicons/core-free-icons';
 
 // ─── Icon mapping ──────────────────────────────────────────────────
@@ -94,6 +95,7 @@ const ICON_MAP: Record<string, any> = {
   database: Database01Icon,
   refresh: Refresh01Icon,
   alert: AlertCircleIcon,
+  target: Target01Icon,
   briefcase: Briefcase01Icon,
   'file-add': FileAddIcon,
 };
@@ -308,9 +310,9 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
 
   return (
     <Sidebar
-      variant="floating"
+      variant="inset"
       collapsible="icon"
-      className="dashboard-sidebar m-4 overflow-hidden rounded-[24px] border border-border/50 shadow-sm"
+      className="dashboard-sidebar border-r"
     >
       <SidebarHeader>
         <SidebarMenu>

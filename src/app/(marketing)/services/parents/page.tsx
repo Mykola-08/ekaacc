@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForParentsContent from '@/marketing/components/ForParentsContent';
+import PersonaContent from '@/marketing/components/PersonaContent';
 
 export const metadata: Metadata = {
   title: 'Bienestar para Madres y Padres | EKA Balance',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ParentsPage() {
-  return <ForParentsContent />;
+  return <PersonaContent persona="parents" />;
 }

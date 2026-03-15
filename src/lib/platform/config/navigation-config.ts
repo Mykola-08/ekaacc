@@ -441,7 +441,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'forms',
       label: 'Forms',
-      href: '/forms',
+      href: '/settings/forms',
       icon: 'FileText',
       category: 'content',
       order: 1,

@@ -1,0 +1,8 @@
+
+> ekaacc@1.0.0 check
+> npm run lint && npm run typecheck
+
+
+> ekaacc@1.0.0 lint
+> eslint --ignore-pattern eslint.config.mjs .
+

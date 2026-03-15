@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForOfficeWorkersContent from '@/marketing/components/ForOfficeWorkersContent';
+import PersonaContent from '@/marketing/components/PersonaContent';
 
 export const metadata: Metadata = {
   title: 'Bienestar para Oficinistas - Ergonomía y Salud | EKA Balance',
@@ -17,5 +17,5 @@ export const metadata: Metadata = {
 };
 
 export default function OfficeWorkersPage() {
-  return <ForOfficeWorkersContent />;
+  return <PersonaContent persona="office-workers" />;
 }

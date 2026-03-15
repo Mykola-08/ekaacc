@@ -4,10 +4,11 @@
  * AI Chat Welcome Screen
  *
  * Shown when no conversation is active. Features the EKA branding,
- * greeting, and suggestion prompts with motion animations.
+ * greeting, quick action cards, and AI Elements suggestions.
  */
 
 import * as motion from 'motion/react-client';
+import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
 import { Brain, Heart, Calendar, TrendingUp, Sparkles, MessageCircle } from 'lucide-react';
 
 interface ChatWelcomeProps {
@@ -99,6 +100,24 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
             </motion.button>
           );
         })}
+      </motion.div>
+
+      {/* Suggestions scroll */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.5 }}
+        className="w-full max-w-lg"
+      >
+        <Suggestions className="justify-center">
+          {QUICK_ACTIONS.map((action) => (
+            <Suggestion
+              key={action.label}
+              suggestion={action.prompt}
+              onClick={() => onSuggestion(action.prompt)}
+            />
+          ))}
+        </Suggestions>
       </motion.div>
 
       {/* Subtle hint */}

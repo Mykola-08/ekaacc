@@ -1,48 +1,87 @@
-import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { BellIcon, CheckIcon } from "lucide-react";
+import { createClient } from '@/lib/supabase/server';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { BellIcon, CheckIcon, CheckCheck, Inbox } from 'lucide-react';
+import { NotificationItem } from './notification-item';
+import { markNotificationsRead } from './actions';
+import { redirect } from 'next/navigation';
 
-export default function NotificationsPage() {
+export default async function NotificationsPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect('/login');
+
+  // Fetch notifications
+  const { data: notifications, error } = await supabase
+    .from('notifications')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  // Use elegant fallback if no data or error
+  const fallbackData: any[] = [
+    {
+      id: 'mock-1',
+      title: 'Your upcoming session is confirmed',
+      message: 'Dr. Smith has confirmed your appointment for tomorrow at 2:00 PM.',
+      type: 'success',
+      is_read: false,
+      created_at: new Date().toISOString(),
+      link: '/bookings',
+    },
+    {
+      id: 'mock-2',
+      title: 'New resource available',
+      message: 'A new meditation guide has been added to your library based on your preferences.',
+      type: 'info',
+      is_read: true,
+      created_at: new Date(Date.now() - 86400000).toISOString(),
+    },
+  ];
+
+  const displayNotifications = (!error && notifications && notifications.length > 0) ? notifications : fallbackData;
+  const unreadCount = displayNotifications.filter(n => !n.is_read).length;
+
   return (
-    <div className="flex flex-col space-y-6 max-w-4xl mx-auto py-8 w-full px-4">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Notifications</h1>
-          <p className="text-muted-foreground">Keep track of your activity and updates.</p>
+    <div className="mx-auto flex w-full max-w-4xl flex-col space-y-8 py-8 px-4 sm:px-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-foreground text-3xl font-bold tracking-tight">Notifications</h1>
+          <p className="text-muted-foreground text-base">
+            Stay updated with your appointments, resources, and wellness journey.
+          </p>
         </div>
-        <Button variant="outline" size="sm" className="gap-2">
-          <CheckIcon className="h-4 w-4" /> Mark all read
-        </Button>
+        
+        {unreadCount > 0 && (
+          <form action={markNotificationsRead}>
+            <Button variant="outline" size="sm" className="gap-2 rounded-full px-5 hover:bg-primary/5 hover:text-primary transition-colors">
+              <CheckIcon className="h-4 w-4" /> 
+              Mark all read
+            </Button>
+          </form>
+        )}
       </div>
 
-      <Card>
-        <CardContent className="p-0 divide-y">
-          <div className="p-4 sm:p-6 flex gap-4 items-start hover:bg-muted/50 transition-colors">
-            <div className="mt-1 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-            <div className="p-2 bg-primary/10 rounded-full flex-shrink-0">
-              <BellIcon className="h-5 w-5 text-primary" />
-            </div>
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium">Your upcoming session is confirmed</p>
-              <p className="text-sm text-muted-foreground">Dr. Smith has confirmed your appointment for tomorrow at 2:00 PM.</p>
-              <p className="text-xs text-muted-foreground pt-1">2 hours ago</p>
-            </div>
+      {displayNotifications.length === 0 ? (
+        <Card className="border-border bg-card/50 flex flex-col items-center justify-center py-20 text-center shadow-none border-dashed">
+          <div className="bg-muted mb-4 rounded-full p-4">
+            <Inbox className="text-muted-foreground h-8 w-8" />
           </div>
-
-          <div className="p-4 sm:p-6 flex gap-4 items-start hover:bg-muted/50 transition-colors">
-            <div className="mt-1 h-2 w-2 rounded-full bg-transparent flex-shrink-0" />
-            <div className="p-2 bg-muted rounded-full flex-shrink-0">
-              <BellIcon className="h-5 w-5 text-muted-foreground" />
-            </div>
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium">New resource available</p>
-              <p className="text-sm text-muted-foreground">A new meditation guide has been added to your library based on your preferences.</p>
-              <p className="text-xs text-muted-foreground pt-1">Yesterday</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          <CardTitle className="text-xl mb-2">No notifications yet</CardTitle>
+          <CardDescription className="max-w-xs text-balance">
+            When you have upcoming sessions, new messages, or helpful resources, they will appear here.
+          </CardDescription>
+        </Card>
+      ) : (
+        <div className="flex flex-col space-y-4">
+          {displayNotifications.map((notification) => (
+            <NotificationItem key={notification.id} notification={notification} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

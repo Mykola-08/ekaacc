@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForBusinessContent from '@/marketing/components/ForBusinessContent';
+import PersonaContent from '@/marketing/components/PersonaContent';
 
 export const metadata: Metadata = {
   title: 'Corporate Wellness Programs & Workplace Health | EKA Balance for Business',
@@ -20,5 +20,5 @@ export const metadata: Metadata = {
 };
 
 export default function BusinessPage() {
-  return <ForBusinessContent />;
+  return <PersonaContent persona="business" />;
 }

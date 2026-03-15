@@ -72,7 +72,6 @@ export default function PageLayout({
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="mb-6 inline-flex items-center rounded-full border border-white/20 bg-black/30 px-4 py-1.5 text-xs font-semibold tracking-widest text-white/90 uppercase backdrop-blur-md"
                   >
-                    {heroData.icon && <span className="mr-2 text-white">{heroData.icon}</span>}
                     {heroData.badge}
                   </motion.div>
                 )}
@@ -119,7 +118,6 @@ export default function PageLayout({
                     transition={{ duration: 0.5 }}
                     className="mb-6 inline-flex items-center rounded-full border border-gray-200 bg-white/50 px-4 py-1.5 text-xs font-semibold tracking-widest text-gray-500 uppercase backdrop-blur-md"
                   >
-                    {heroData.icon && <span className="mr-2 text-gray-700">{heroData.icon}</span>}
                     {heroData.badge}
                   </motion.div>
                 )}

@@ -109,7 +109,7 @@ export default function TherapistBillingPage() {
           level="h2"
           actions={
             <div className="flex gap-2">
-              <Button onClick={loadInvoices} variant="outline" loading={loading}>
+              <Button onClick={loadInvoices} variant="outline" disabled={loading}>
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Refresh
               </Button>

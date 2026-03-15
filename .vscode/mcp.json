@@ -18,6 +18,14 @@
 			],
 			"type": "stdio"
 		},
+		"plate": {
+			"command": "npx",
+			"args": [
+				"shadcn@latest",
+				"mcp"
+			],
+			"type": "stdio"
+		},
 		"microsoft/markitdown": {
 			"type": "stdio",
 			"command": "uvx",
@@ -26,6 +34,13 @@
 			],
 			"gallery": "https://api.mcp.github.com",
 			"version": "1.0.0"
+		},
+		"sequential-thinking": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@modelcontextprotocol/server-sequential-thinking"
+			]
 		}
 	},
 	"inputs": []

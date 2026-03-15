@@ -1,0 +1,39 @@
+
+> ekaacc@1.0.0 typecheck
+> tsc --noEmit
+
+src/app/(dashboard)/finances/page.tsx(8,133): error TS2724: '"@hugeicons/core-free-icons"' has no exported member named 'DocumentTextIcon'. Did you mean 'DocumentCodeIcon'?
+src/app/(dashboard)/goals/page.tsx(5,71): error TS2724: '"@hugeicons/core-free-icons"' has no exported member named 'Trophy01Icon'. Did you mean 'Copy01Icon'?
+src/app/(dashboard)/goals/page.tsx(5,85): error TS2724: '"@hugeicons/core-free-icons"' has no exported member named 'ChartArrowUpIcon'. Did you mean 'AArrowUpIcon'?
+src/components/ai-elements/schema-display.tsx(110,34): error TS2322: Type 'ReactNode' is not assignable to type 'string | TrustedHTML'.
+  Type 'number' is not assignable to type 'string | TrustedHTML'.
+src/components/ai-kit.tsx(17,25): error TS2307: Cannot find module '../use-chat' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(1,30): error TS2307: Cannot find module './plugins/align-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(2,36): error TS2307: Cannot find module './plugins/basic-blocks-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(3,35): error TS2307: Cannot find module './plugins/basic-marks-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(4,32): error TS2307: Cannot find module './plugins/callout-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(5,34): error TS2307: Cannot find module './plugins/code-block-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(6,31): error TS2307: Cannot find module './plugins/column-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(7,32): error TS2307: Cannot find module './plugins/comment-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(8,29): error TS2307: Cannot find module './plugins/date-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(9,29): error TS2307: Cannot find module './plugins/font-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(10,35): error TS2307: Cannot find module './plugins/line-height-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(11,29): error TS2307: Cannot find module './plugins/link-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(12,29): error TS2307: Cannot find module './plugins/list-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(13,29): error TS2307: Cannot find module './plugins/markdown-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(14,29): error TS2307: Cannot find module './plugins/math-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(15,30): error TS2307: Cannot find module './plugins/media-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(16,32): error TS2307: Cannot find module './plugins/mention-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(17,35): error TS2307: Cannot find module './plugins/suggestion-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(18,30): error TS2307: Cannot find module './plugins/table-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(19,28): error TS2307: Cannot find module './plugins/toc-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(20,31): error TS2307: Cannot find module './plugins/toggle-base-kit' or its corresponding type declarations.
+src/components/settings-dialog.tsx(44,30): error TS2307: Cannot find module './plugins/ai-kit' or its corresponding type declarations.
+src/components/ui/comment.tsx(155,5): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(164,20): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(221,19): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(445,21): error TS2339: Property 'tf' does not exist on type 'never'.
+src/components/ui/comment.tsx(452,5): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(555,21): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(570,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'SetStateAction<Value>'.
+src/components/use-chat.ts(21,34): error TS2307: Cannot find module './plugins/discussion-kit' or its corresponding type declarations.

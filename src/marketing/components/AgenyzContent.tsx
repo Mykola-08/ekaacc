@@ -33,11 +33,10 @@ export default function AgenyzContent() {
       />
       <PageLayout
         hero={{
-          title: t('agenyz.page.title') || 'Unlock Your Cellular Potential',
+          title: t('agenyz.page.title'),
           subtitle:
-            t('agenyz.page.subtitle') ||
-            'Bio-available supplements designed to restore balance, defy aging, and fuel your vitality at the DNA level.',
-          badge: t('agenyz.hero.biohacking') || 'Bio-Innovation',
+            t('agenyz.page.subtitle'),
+          badge: t('agenyz.hero.biohacking'),
           icon: <Dna className="h-4 w-4" />,
           backgroundImage:
             'https://images.pexels.com/photos/3184451/pexels-photo-3184451.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -56,7 +55,7 @@ export default function AgenyzContent() {
               variant="outline"
               className="rounded-full border-gray-200 bg-white/90 px-8 text-gray-800 backdrop-blur-sm hover:bg-gray-50"
             >
-              {t('agenyz.cta.visitStore') || 'Visit Agenyz Store'}
+              {t('agenyz.cta.visitStore')}
             </Button>
           </a>
         </div>
@@ -71,11 +70,10 @@ export default function AgenyzContent() {
               className="mb-16 text-center"
             >
               <h2 className="mb-6 text-4xl font-semibold tracking-tighter text-gray-900 md:text-5xl lg:text-6xl">
-                {t('agenyz.bento.title') || 'Smart Cell Food'}
+                {t('agenyz.bento.title')}
               </h2>
               <p className="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-gray-500 md:text-xl">
-                {t('agenyz.bento.subtitle') ||
-                  'The next generation of bio-innovation for your longevity and health.'}
+                {t('agenyz.bento.subtitle')}
               </p>
             </motion.div>
 
@@ -109,7 +107,7 @@ export default function AgenyzContent() {
                     </div>
                   }
                   bookUrl={`/agenyz/${product.id}`}
-                  bookText={t('agenyz.viewDetails') || 'Full details'}
+                  bookText={t('agenyz.viewDetails')}
                 />
               ))}
             </div>
@@ -120,14 +118,13 @@ export default function AgenyzContent() {
           <div className="mx-auto max-w-7xl px-4 sm:px-8">
             <div className="mb-16 text-center">
               <span className="text-primary-600 mb-4 block text-sm font-semibold tracking-wider uppercase">
-                {t('agenyz.catalogue.subtitle') || 'Our Collection'}
+                {t('agenyz.catalogue.subtitle')}
               </span>
               <h2 className="mb-6 text-4xl font-semibold tracking-tight text-gray-900 md:text-5xl">
-                {t('agenyz.catalogue.title') || 'Agenyz Product Catalogue'}
+                {t('agenyz.catalogue.title')}
               </h2>
               <p className="mx-auto max-w-2xl text-xl font-medium text-gray-500">
-                {t('agenyz.catalogue.desc') ||
-                  'Explore our comprehensive range of bio-additives and functional foods designed for your cellular health.'}
+                {t('agenyz.catalogue.desc')}
               </p>
             </div>
 
@@ -199,7 +196,7 @@ export default function AgenyzContent() {
 
                       <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-6">
                         <span className="text-sm font-bold text-gray-400 transition-colors group-hover:text-gray-900">
-                          {t('agenyz.viewDetails') || 'View details'}
+                          {t('agenyz.viewDetails')}
                         </span>
                         <div className="group-hover:bg-primary flex h-10 w-10 items-center justify-center rounded-full border border-gray-100 bg-white transition-all duration-300 group-hover:text-white">
                           <ArrowRight className="h-5 w-5" />

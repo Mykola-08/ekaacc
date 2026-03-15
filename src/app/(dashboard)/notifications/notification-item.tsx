@@ -62,39 +62,45 @@ export function NotificationItem({ notification }: { notification: Notification 
     <div
       onClick={handleClick}
       className={cn(
-        'group border-border bg-card relative overflow-hidden rounded-2xl border p-6 transition-all hover:-translate-y-0.5',
-        !notification.is_read && 'border-primary/20 bg-primary/2',
+        'group border-border bg-card relative overflow-hidden rounded-2xl border p-5 sm:p-6 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5',
+        !notification.is_read ? 'border-primary/20 bg-primary/[0.02]' : 'shadow-sm',
         notification.link && 'cursor-pointer',
-        isPending && 'opacity-60'
+        isPending && 'opacity-60 pointer-events-none'
       )}
     >
-      <div className="flex gap-5">
+      <div className="flex gap-4 sm:gap-5">
         <div
           className={cn(
-            'flex h-12 w-12 shrink-0 items-center justify-center rounded-full border',
+            'flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-105',
             styleMap[notification.type] || 'border-muted bg-muted text-muted-foreground'
           )}
         >
-          {iconMap[notification.type] || <Info className="h-6 w-6" strokeWidth={2.5} />}
+          {iconMap[notification.type] || <Info className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.25} />}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3">
-            <h3 className="text-foreground text-lg font-semibold">{notification.title}</h3>
-            {!notification.is_read && <span className="bg-primary h-2 w-2 rounded-full" />}
-            <span className="text-muted-foreground bg-secondary ml-auto shrink-0 rounded-full px-2 py-0.5 text-xs font-medium">
-              {new Date(notification.created_at).toLocaleDateString()}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 mb-1">
+            <div className="flex items-center gap-2">
+              <h3 className="text-foreground text-base sm:text-lg font-semibold tracking-tight text-balance">
+                {notification.title}
+              </h3>
+              {!notification.is_read && <span className="bg-primary h-2 w-2 rounded-full shadow-[0_0_8px_rgba(var(--primary),0.5)]" />}
+            </div>
+            <span className="text-muted-foreground shrink-0 text-xs font-medium tabular-nums">
+              {new Date(notification.created_at).toLocaleDateString(undefined, { 
+                month: 'short', day: 'numeric', year: 'numeric' 
+              })}
             </span>
           </div>
-          <p className="text-muted-foreground leading-relaxed font-medium">
+          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-2xl text-pretty">
             {notification.message}
           </p>
         </div>
-        <div className="flex shrink-0 items-start gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+        <div className="flex shrink-0 flex-col sm:flex-row items-center sm:items-start gap-1 sm:opacity-0 transition-opacity duration-200 group-hover:opacity-100">
           {!notification.is_read && (
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-full"
               onClick={handleMarkRead}
               disabled={isPending}
               title="Mark as read"
@@ -105,7 +111,7 @@ export function NotificationItem({ notification }: { notification: Notification 
           <Button
             variant="ghost"
             size="icon"
-            className="text-destructive hover:text-destructive h-8 w-8"
+            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8 rounded-full"
             onClick={handleDelete}
             disabled={isPending}
             title="Delete notification"

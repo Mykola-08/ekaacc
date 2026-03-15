@@ -38,10 +38,10 @@ export default function DiscountsContent() {
   return (
     <PageLayout
       hero={{
-        title: t('discounts.title') || 'Descomptes Exclusius',
+        title: t('discounts.title'),
         subtitle:
-          t('discounts.subtitle') || 'Aprofita les nostres ofertes especials per cuidar-te millor.',
-        badge: t('discounts.badge') || 'Ofertes Especials',
+          t('discounts.subtitle'),
+        badge: t('discounts.badge'),
         icon: <Tag className="h-4 w-4" />,
       }}
     >
@@ -56,7 +56,7 @@ export default function DiscountsContent() {
           >
             <Check className="h-5 w-5" />
             <span className="font-medium">
-              {t('discounts.success') || 'Descompte aplicat correctament!'}
+              {t('discounts.success')}
             </span>
           </motion.div>
         )}
@@ -84,7 +84,7 @@ export default function DiscountsContent() {
                 className="flex items-center rounded-full bg-white/20 px-3 py-1.5 text-sm transition-colors hover:bg-white/30"
               >
                 <X className="h-4 w-4" />
-                <span>{t('discounts.remove') || 'Remove'}</span>
+                <span>{t('discounts.remove')}</span>
               </button>
             </div>
           </motion.div>
@@ -114,7 +114,7 @@ export default function DiscountsContent() {
                   </div>
                   {discount.isActive && (
                     <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold tracking-wide text-green-700 uppercase">
-                      {t('discounts.activeBadge') || 'Actiu'}
+                      {t('discounts.activeBadge')}
                     </span>
                   )}
                 </div>
@@ -124,7 +124,7 @@ export default function DiscountsContent() {
                   <div className="mb-4 flex items-baseline">
                     <span className="text-4xl font-bold text-blue-600">{discount.percentage}%</span>
                     <span className="ml-2 font-medium text-gray-500">
-                      {t('discounts.off') || 'OFF'}
+                      {t('discounts.off')}
                     </span>
                   </div>
                   <p className="text-sm leading-relaxed text-gray-600">{discount.description}</p>
@@ -144,14 +144,14 @@ export default function DiscountsContent() {
                         onClick={() => navigator.clipboard.writeText(discount.code || '')}
                         className="px-2 py-1 text-xs font-medium text-gray-500 transition-colors hover:text-blue-600"
                       >
-                        {t('discounts.copy') || 'Copia'}
+                        {t('discounts.copy')}
                       </button>
                     </div>
 
                     {selectedDiscount?.code === discount.code ? (
                       <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-green-100 bg-green-50 py-3 text-center text-sm font-medium text-green-700">
                         <Check className="h-4 w-4" />
-                        {t('discounts.activeBadge') || 'Descompte actiu'}
+                        {t('discounts.activeBadge')}
                       </div>
                     ) : (
                       <Button
@@ -159,7 +159,7 @@ export default function DiscountsContent() {
                         variant="default"
                         className="w-full rounded-xl py-3"
                       >
-                        {t('discounts.apply') || 'Aplicar descompte'}
+                        {t('discounts.apply')}
                       </Button>
                     )}
                   </div>
@@ -175,11 +175,10 @@ export default function DiscountsContent() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto mb-16 max-w-3xl text-center">
             <h2 className="mb-4 text-3xl font-bold text-gray-900">
-              {t('discounts.howToUse.title') || 'Com utilitzar els descomptes'}
+              {t('discounts.howToUse.title')}
             </h2>
             <p className="text-gray-600">
-              {t('discounts.howToUse.subtitle') ||
-                'És molt fàcil, només has de seguir aquests passos.'}
+              {t('discounts.howToUse.subtitle')}
             </p>
           </div>
 
@@ -187,23 +186,21 @@ export default function DiscountsContent() {
             {[
               {
                 icon: <Users />,
-                title: t('discounts.step1.title') || '1. Tria el teu servei',
+                title: t('discounts.step1.title'),
                 desc:
-                  t('discounts.step1.description') ||
-                  'Navega pels nostres serveis i tria el que més et convingui.',
+                  t('discounts.step1.description'),
               },
               {
                 icon: <Tag />,
-                title: t('discounts.step2.title') || '2. Aplica el codi',
+                title: t('discounts.step2.title'),
                 desc:
-                  t('discounts.step2.description') ||
-                  'Introdueix el codi de descompte al moment de fer la reserva.',
+                  t('discounts.step2.description'),
               },
               {
                 icon: <Percent />,
-                title: t('discounts.step3.title') || '3. Gaudeix',
+                title: t('discounts.step3.title'),
                 desc:
-                  t('discounts.step3.description') || 'Gaudeix del teu servei amb el preu reduït.',
+                  t('discounts.step3.description'),
               },
             ].map((step, idx) => (
               <div key={idx} className="p-6 text-center">

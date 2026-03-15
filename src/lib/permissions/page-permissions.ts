@@ -82,6 +82,13 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'care',
   },
   {
+    path: '/goals',
+    label: 'Goals & Plans',
+    icon: 'target',
+    permission: null,
+    section: 'care',
+  },
+  {
     path: '/journal',
     label: 'Journal',
     icon: 'book',
@@ -102,13 +109,13 @@ export const SIDEBAR_NAV: PageConfig[] = [
     permission: null,
     section: 'care',
   },
-  // {
-  //   path: '/ai-insights',
-  //   label: 'AI Assistant',
-  //   icon: 'sparkle',
-  //   permission: null,
-  //   section: 'care',
-  // },
+  {
+    path: '/ai-insights',
+    label: 'AI Assistant',
+    icon: 'sparkle',
+    permission: null,
+    section: 'care',
+  },
   {
     path: '/therapist/clients',
     label: 'Clients',
@@ -151,27 +158,27 @@ export const SIDEBAR_NAV: PageConfig[] = [
     permission: { group: 'therapist_tools', action: 'create' },
     section: 'care',
   },
-  // {
-  //   path: '/community',
-  //   label: 'Community',
-  //   icon: 'message',
-  //   permission: null,
-  //   section: 'care',
-  // },
-  // {
-  //   path: '/forms',
-  //   label: 'Forms',
-  //   icon: 'file-add',
-  //   permission: null,
-  //   section: 'care',
-  // },
-  // {
-  //   path: '/crisis',
-  //   label: 'Crisis Support',
-  //   icon: 'alert',
-  //   permission: null,
-  //   section: 'care',
-  // },
+  {
+    path: '/community',
+    label: 'Community',
+    icon: 'message',
+    permission: null,
+    section: 'care',
+  },
+  {
+    path: '/forms',
+    label: 'Forms',
+    icon: 'file-add',
+    permission: null,
+    section: 'care',
+  },
+  {
+    path: '/crisis',
+    label: 'Crisis Support',
+    icon: 'alert',
+    permission: null,
+    section: 'care',
+  },
 
   // ── Manage ────────────────────────────────────────────────────────
   {
@@ -195,13 +202,13 @@ export const SIDEBAR_NAV: PageConfig[] = [
     permission: { group: 'financial_management', action: 'manage' },
     section: 'manage',
   },
-  // {
-  //   path: '/finances',
-  //   label: 'Finances',
-  //   icon: 'wallet',
-  //   permission: null,
-  //   section: 'manage',
-  // },
+  {
+    path: '/finances',
+    label: 'Finances',
+    icon: 'wallet',
+    permission: null,
+    section: 'manage',
+  },
 
   // ── Platform (admin/management) ───────────────────────────────────
   {

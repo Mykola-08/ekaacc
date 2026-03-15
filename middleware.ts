@@ -137,7 +137,6 @@ export async function middleware(request: NextRequest) {
     '/therapist',
     '/console',
     '/resources',
-    '/crisis',
     '/book',
     '/notifications',
     '/availability',

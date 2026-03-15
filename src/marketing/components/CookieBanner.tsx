@@ -125,7 +125,7 @@ export default function CookieBanner() {
                       variant="outline"
                       className="h-9 flex-1 rounded-xl border-gray-300 px-4 text-xs font-medium text-gray-600 transition-all hover:bg-gray-100 sm:flex-none"
                     >
-                      {t('cookies.reject') || 'Rebutjar'}
+                      {t('cookies.reject')}
                     </Button>
 
                     <button

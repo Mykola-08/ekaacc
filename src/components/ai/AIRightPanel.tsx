@@ -17,10 +17,18 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { useRightPanel } from '@/context/platform/right-panel-context';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useWebLLMAvailable } from '@/hooks/use-webllm';
+import { WebLLMChatTransport } from '@/lib/platform/integrations/webllm';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, PanelLeft, Plus } from 'lucide-react';
+import { X, PanelLeft, Plus, Globe, Monitor } from 'lucide-react';
 import { toast } from '@/components/ui/morphing-toaster';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface ConversationItem {
   id: string;
@@ -36,14 +44,18 @@ export function AIRightPanel() {
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [input, setInput] = useState('');
+  const [useWebLLMMode, setUseWebLLMMode] = useState(false);
+  const webllmAvailable = useWebLLMAvailable();
 
   const transport = useMemo(
     () =>
-      new DefaultChatTransport({
-        api: '/api/ai/chat',
-        body: { conversationId },
-      }),
-    [conversationId]
+      useWebLLMMode && webllmAvailable
+        ? new WebLLMChatTransport()
+        : new DefaultChatTransport({
+            api: '/api/ai/chat',
+            body: { conversationId },
+          }),
+    [conversationId, useWebLLMMode, webllmAvailable]
   );
 
   const { messages, sendMessage, status, stop, setMessages, regenerate } = useChat({
@@ -54,6 +66,7 @@ export function AIRightPanel() {
   });
 
   const isLoading = status === 'submitted' || status === 'streaming';
+  const isStreaming = status === 'streaming';
 
   useEffect(() => {
     if (isOpen) fetchConversations();
@@ -147,6 +160,8 @@ export function AIRightPanel() {
             hasMessages={hasMessages}
             messages={messages}
             isLoading={isLoading}
+            isStreaming={isStreaming}
+            status={status}
             input={input}
             setInput={setInput}
             handleSend={handleSend}
@@ -162,6 +177,9 @@ export function AIRightPanel() {
             handleNewConversation={handleNewConversation}
             handleDeleteConversation={handleDeleteConversation}
             onClose={close}
+            webllmAvailable={webllmAvailable}
+            useWebLLM={useWebLLMMode}
+            onToggleWebLLM={() => setUseWebLLMMode(!useWebLLMMode)}
           />
         </SheetContent>
       </Sheet>
@@ -184,6 +202,8 @@ export function AIRightPanel() {
               hasMessages={hasMessages}
               messages={messages}
               isLoading={isLoading}
+              isStreaming={isStreaming}
+              status={status}
               input={input}
               setInput={setInput}
               handleSend={handleSend}
@@ -199,6 +219,9 @@ export function AIRightPanel() {
               handleNewConversation={handleNewConversation}
               handleDeleteConversation={handleDeleteConversation}
               onClose={close}
+              webllmAvailable={webllmAvailable}
+              useWebLLM={useWebLLMMode}
+              onToggleWebLLM={() => setUseWebLLMMode(!useWebLLMMode)}
             />
           </div>
         </motion.aside>
@@ -213,6 +236,8 @@ interface PanelContentProps {
   hasMessages: boolean;
   messages: ReturnType<typeof useChat>['messages'];
   isLoading: boolean;
+  isStreaming: boolean;
+  status: ReturnType<typeof useChat>['status'];
   input: string;
   setInput: (v: string) => void;
   handleSend: () => void;
@@ -228,12 +253,17 @@ interface PanelContentProps {
   handleNewConversation: () => void;
   handleDeleteConversation: (id: string) => Promise<void>;
   onClose: () => void;
+  webllmAvailable: boolean;
+  useWebLLM: boolean;
+  onToggleWebLLM: () => void;
 }
 
 function PanelContent({
   hasMessages,
   messages,
   isLoading,
+  isStreaming,
+  status,
   input,
   setInput,
   handleSend,
@@ -249,6 +279,9 @@ function PanelContent({
   handleNewConversation,
   handleDeleteConversation,
   onClose,
+  webllmAvailable,
+  useWebLLM,
+  onToggleWebLLM,
 }: PanelContentProps) {
   return (
     <>
@@ -274,9 +307,30 @@ function PanelContent({
 
         <div className="flex-1">
           <h2 className="text-sm font-semibold">EKA Assistant</h2>
-          <p className="text-muted-foreground text-xs">Your AI wellness companion</p>
+          <p className="text-muted-foreground text-xs">
+            {useWebLLM ? 'WebLLM (local)' : 'Your AI wellness companion'}
+          </p>
         </div>
 
+        {webllmAvailable && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant={useWebLLM ? 'default' : 'ghost'}
+                  size="icon"
+                  className="size-8"
+                  onClick={onToggleWebLLM}
+                >
+                  {useWebLLM ? <Monitor className="size-4" /> : <Globe className="size-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {useWebLLM ? 'Using WebLLM (local)' : 'Switch to WebLLM'}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
         <Button variant="ghost" size="icon" className="size-8" onClick={handleNewConversation}>
           <Plus className="size-4" />
           <span className="sr-only">New conversation</span>
@@ -291,12 +345,13 @@ function PanelContent({
       <div className="relative flex-1 overflow-hidden">
         {hasMessages ? (
           <Conversation className="h-full">
-            <ConversationContent className="px-4 py-4">
+            <ConversationContent className="gap-8 px-4 py-4">
               {messages.map((message, i) => (
                 <ChatMessage
                   key={message.id}
                   message={message}
                   isLast={i === messages.length - 1 && message.role === 'assistant'}
+                  isStreaming={isStreaming}
                   onCopy={handleCopy}
                   onRegenerate={() => regenerate()}
                 />
@@ -307,7 +362,7 @@ function PanelContent({
                 </div>
               )}
             </ConversationContent>
-            <ConversationScrollButton className="absolute right-4 bottom-20" />
+            <ConversationScrollButton />
           </Conversation>
         ) : (
           <ChatWelcome onSuggestion={handleSuggestion} />
@@ -321,7 +376,7 @@ function PanelContent({
           onChange={setInput}
           onSubmit={handleSend}
           onStop={stop}
-          isLoading={isLoading}
+          status={status}
           showSuggestions={false}
           onSuggestion={handleSuggestion}
         />

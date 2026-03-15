@@ -15,7 +15,8 @@ import { AIRightPanel } from '@/components/ai/AIRightPanel';
 import { RightPanelProvider, useRightPanel } from '@/context/platform/right-panel-context';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { BotMessageSquare } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SparklesIcon } from '@hugeicons/core-free-icons';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,7 +28,7 @@ import type { UserProfile } from '@/lib/platform/types/auth-types';
 
 /* ─── Page title mapping ─────────────────────────── */
 const PAGE_TITLES: Record<string, string> = {
-  '/dashboard': 'Overview',
+  '/dashboard': 'Dashboard',
   '/bookings': 'Bookings',
   '/finances': 'Finances',
   '/wellness': 'Wellness',
@@ -98,20 +99,17 @@ function AIToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className={cn('h-8 w-8 rounded-full', isOpen && 'bg-accent')}
+      className={cn('size-8', isOpen && 'bg-accent')}
       onClick={toggle}
       aria-label={isOpen ? 'Close AI Assistant' : 'Open AI Assistant'}
     >
-      <BotMessageSquare className="size-4" />
+      <HugeiconsIcon icon={SparklesIcon} className="size-4" />
     </Button>
   );
 }
 
 /**
- * Unified Dashboard Shell
- *
- * Provides the complete shell for ALL dashboard pages — client, therapist,
- * and admin alike. Dynamic page titles, breadcrumb nav, notification center.
+ * Unified Dashboard Shell — shadcn dashboard-01 pattern
  */
 export function UnifiedDashboardShell({
   children,
@@ -129,20 +127,26 @@ export function UnifiedDashboardShell({
   return (
     <ProgressProvider>
       <RightPanelProvider>
-      <div className="dashboard-theme contents">
-        <ImpersonationWrapper>
-          <SidebarProvider className="dashboard-sidebar text-foreground font-sans">
-            <UnifiedSidebar profile={profile} permissions={permissions} />
+        <div className="dashboard-theme contents">
+          <ImpersonationWrapper>
+            <SidebarProvider
+              className="dashboard-sidebar text-foreground font-sans"
+              style={
+                {
+                  '--sidebar-width': 'calc(var(--spacing) * 72)',
+                  '--header-height': 'calc(var(--spacing) * 12)',
+                } as React.CSSProperties
+              }
+            >
+              <UnifiedSidebar profile={profile} permissions={permissions} />
 
-            <SidebarInset className="dashboard-inset bg-muted/20 flex min-w-0 flex-1 flex-col">
-              {/* Floating Header */}
-              <div className="sticky top-0 z-50 p-2 md:p-4">
-                <header className="bg-background border border-border/50 flex h-14 w-full shrink-0 items-center justify-between gap-2 rounded-[24px] px-4 shadow-sm">
-                  <div className="flex items-center gap-2">
-                    <SidebarTrigger className="-ml-1 h-8 w-8 rounded-full" />
+              <SidebarInset>
+                <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+                  <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+                    <SidebarTrigger className="-ml-1" />
                     <Separator
                       orientation="vertical"
-                      className="mr-1 data-[orientation=vertical]:h-4"
+                      className="mx-2 data-[orientation=vertical]:h-4"
                     />
 
                     {/* Breadcrumbs on desktop, title on mobile */}
@@ -153,7 +157,7 @@ export function UnifiedDashboardShell({
                             {i > 0 && <BreadcrumbSeparator />}
                             <BreadcrumbItem>
                               {crumb.isLast ? (
-                                <span className="text-foreground text-sm font-semibold">
+                                <span className="text-foreground text-sm font-medium">
                                   {crumb.label}
                                 </span>
                               ) : (
@@ -169,31 +173,34 @@ export function UnifiedDashboardShell({
                         ))}
                       </BreadcrumbList>
                     </Breadcrumb>
-                    <h1 className="text-foreground text-sm font-semibold tracking-tight sm:hidden">
+                    <h1 className="text-base font-medium sm:hidden">
                       {pageTitle}
                     </h1>
-                  </div>
 
-                  <div className="ml-auto flex items-center gap-1">
-                    <NotificationDropdown />
-                    <AIToggle />
+                    <div className="ml-auto flex items-center gap-1">
+                      <NotificationDropdown />
+                      <AIToggle />
+                    </div>
                   </div>
                 </header>
-              </div>
 
-              <main id="main-content" className="flex-1 space-y-4 p-4 md:p-6" tabIndex={-1}>
-                {children}
-              </main>
-            </SidebarInset>
+                <div className="flex flex-1 flex-col">
+                  <div className="@container/main flex flex-1 flex-col gap-2">
+                    <main id="main-content" tabIndex={-1}>
+                      {children}
+                    </main>
+                  </div>
+                </div>
+              </SidebarInset>
 
-            <AIRightPanel />
-          </SidebarProvider>
+              <AIRightPanel />
+            </SidebarProvider>
 
-          <MorphingToaster />
-          <OnlineStatusIndicator />
-          {process.env.NODE_ENV === 'development' && <DebugStatus />}
-        </ImpersonationWrapper>{' '}
-      </div>{' '}
+            <MorphingToaster />
+            <OnlineStatusIndicator />
+            {process.env.NODE_ENV === 'development' && <DebugStatus />}
+          </ImpersonationWrapper>
+        </div>
       </RightPanelProvider>
     </ProgressProvider>
   );

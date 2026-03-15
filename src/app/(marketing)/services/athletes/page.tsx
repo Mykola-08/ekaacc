@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForAthletesContent from '@/marketing/components/ForAthletesContent';
+import PersonaContent from '@/marketing/components/PersonaContent';
 
 export const metadata: Metadata = {
   title: 'Rendimiento para Deportistas | EKA Balance',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AthletesPage() {
-  return <ForAthletesContent />;
+  return <PersonaContent persona="athletes" />;
 }

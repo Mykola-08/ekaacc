@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+
+@plugin 'tailwind-scrollbar-hide';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
@@ -7,30 +9,39 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ─── abVKEfg Preset Tokens (Monochrome, Rounded) ─── */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  /* ─── abVKEfg Preset Tokens & Unified Brand ─── */
+  --background: #F9F9F8; /* Canvas */
+  --foreground: oklch(0.145 0 0); /* Soft Black */
+  --card: #FEFFFE; /* Pure White Surface */
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover: #FEFFFE;
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.145 0 0); /* Pure black/zinc */
+  --primary: #4DAFFF; /* Apple Blue Action */
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: #999999; /* Muted Gray */
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --accent-light: oklch(0.98 0 0);
   --accent-dark: oklch(0.3 0 0);
-  --primary-600: oklch(0.25 0 0);
+  --primary-600: #3b82f6; /* Adjust primary deeper shade */
   --destructive: oklch(0.58 0.22 27);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.145 0 0);
-  --radius: 1rem; /* Extremely rounded baseline */
+  --border: #F5F5F5; /* Very Light Border */
+  --input: #F5F5F5;
+  --ring: #4DAFFF;
+  --radius: 0.5rem; /* maia minimalist */
+  
+  /* ─── Standardized Shadows ─── */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --apple-shadow: 0 0 0 0 transparent;
+  --apple-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --apple-shadow-large: 0 8px 24px rgba(0, 0, 0, 0.05);
   --success: oklch(0.6 0.17 145);
   --success-foreground: oklch(0.985 0 0);
   --warning: oklch(0.75 0.18 75);
@@ -67,6 +78,10 @@
   --marketing-accent: #f59e0b;
   --marketing-accent-light: #fef3c7;
   --marketing-accent-dark: #92400e;
+  --invert: var(--color-zinc-900);
+  --invert-foreground: var(--color-zinc-50);
+  --highlight: oklch(0.852 0.199 91.936);
+  --brand: oklch(0.623 0.214 259.815);
 }
 
 .dark {
@@ -77,8 +92,8 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: #4DAFFF;
+  --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -87,11 +102,12 @@
   --accent-foreground: oklch(0.985 0 0);
   --accent-light: oklch(0.3 0 0);
   --accent-dark: oklch(0.2 0 0);
-  --primary-600: oklch(0.85 0 0);
+  --primary-600: #3b82f6;
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
+  --ring: #4DAFFF;
   --ring: oklch(0.8 0 0);
   --success: oklch(0.55 0.15 145);
   --success-foreground: oklch(0.985 0 0);
@@ -124,6 +140,10 @@
   --vip-gold-3: oklch(0.61 0.12 75);
   --vip-gold-4: oklch(0.89 0.07 95);
   --vip-gold-5: oklch(0.58 0.1 70);
+  --invert: var(--color-zinc-700);
+  --invert-foreground: var(--color-zinc-50);
+  --highlight: oklch(0.852 0.199 91.936);
+  --brand: oklch(0.707 0.165 254.624);
 }
 
 @theme {
@@ -1463,7 +1483,19 @@
       background-position: 0% 0%;
     }
   }
-}
+  --inset-shadow-lg: inset 0 10px 8px color-mix(in oklch, var(--background) 7%, transparent)
+;
+  --color-invert-foreground: var(--invert-foreground);
+  --color-invert: var(--invert);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning: var(--warning);
+  --color-info-foreground: var(--info-foreground);
+  --color-info: var(--info);
+  --color-success-foreground: var(--success-foreground);
+  --color-success: var(--success);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-brand: var(--brand);
+  --color-highlight: var(--highlight)}
 
 @import './dashboard.css';
 

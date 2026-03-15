@@ -855,7 +855,6 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           {/* Header */}
           <div className="mb-12 text-center">
             <div className="mb-8 inline-flex items-center rounded-full bg-blue-100 px-6 py-3">
-              <Sparkles className="mr-2 h-5 w-5 text-blue-600" />
               <span className="font-medium text-blue-700">
                 {t('discovery.recommendation.badge')}
               </span>

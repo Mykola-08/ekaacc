@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForMusiciansContent from '@/marketing/components/ForMusiciansContent';
+import PersonaContent from '@/marketing/components/PersonaContent';
 
 export const metadata: Metadata = {
   title: 'Salud y Rendimiento para Músicos | EKA Balance',
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function MusiciansPage() {
-  return <ForMusiciansContent />;
+  return <PersonaContent persona="musicians" />;
 }

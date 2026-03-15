@@ -294,7 +294,6 @@ export default function VIPContent() {
             transition={{ duration: 0.8 }}
           >
             <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white px-4 py-2">
-              <Crown className="h-5 w-5 text-amber-500" />
               <span className="font-medium tracking-wide text-amber-800">VIP CLUB</span>
             </div>
 

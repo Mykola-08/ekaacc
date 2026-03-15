@@ -49,7 +49,6 @@ export default function AppleHero() {
       <div className="relative z-20 mx-auto mb-12 w-full max-w-7xl px-6 text-center sm:mb-16">
         <AnimateIn delay={0.1} duration={0.8} from="bottom">
           <div className="mb-8 inline-flex items-center rounded-full border border-gray-200/60 bg-white/60 px-4 py-1.5 backdrop-blur-md">
-            <Sparkles className="h-4 w-4 text-blue-600" />
             <span className="text-sm font-medium tracking-wide text-gray-800">
               EKA Balance Method
             </span>

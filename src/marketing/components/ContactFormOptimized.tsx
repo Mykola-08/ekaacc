@@ -29,11 +29,11 @@ import { Textarea } from '@/marketing/components/ui/textarea';
 // Zod Schema for Validation
 const createContactSchema = (t: (key: string) => string) =>
   z.object({
-    name: z.string().min(2, t('contact.form.name') + ' is too short'),
-    email: z.string().email(t('contact.form.email') + ' is invalid'),
-    phone: z.string().min(9, t('contact.form.phone') + ' is too short'),
-    service: z.string().min(1, t('contact.form.service.placeholder')),
-    message: z.string().min(10, t('contact.form.message') + ' is too short'),
+      name: z.string().min(2, t('contact.form.error.nameMin')),
+      email: z.string().email(t('contact.form.error.emailInvalid')),
+      phone: z.string().min(9, t('contact.form.error.phoneMin')),
+      service: z.string().min(1, t('contact.form.service.placeholder')),
+      message: z.string().min(10, t('contact.form.error.messageMin')),
     preferred_contact: z.enum(['email', 'phone', 'whatsapp']),
     preferred_time: z.string().optional(),
     source: z.string().optional(),

@@ -3,6 +3,11 @@ import { Language } from './LanguageTypes';
 // Extended translations for services and specialized content
 export const servicesTranslations: Record<Language, Record<string, string>> = {
   ca: {
+    'contact.form.error.nameMin': 'El nom és massa curt',
+    'contact.form.error.emailInvalid': 'El correu electrònic no és vàlid',
+    'contact.form.error.phoneMin': 'El telèfon és massa curt',
+    'contact.form.error.messageMin': 'El missatge és massa curt',
+
     'booking.smart.title': 'Com vols reservar?',
     'booking.smart.subtitle': "Tria l'opció que et sigui més còmoda",
     'booking.smart.quick': 'WhatsApp directe',
@@ -723,6 +728,11 @@ export const servicesTranslations: Record<Language, Record<string, string>> = {
   },
 
   en: {
+    'contact.form.error.nameMin': 'Name is too short',
+    'contact.form.error.emailInvalid': 'Email is invalid',
+    'contact.form.error.phoneMin': 'Phone is too short',
+    'contact.form.error.messageMin': 'Message is too short',
+
     'booking.smart.title': 'How would you like to book?',
     'booking.smart.subtitle': 'Choose the option that suits you best',
     'booking.smart.quick': 'Direct WhatsApp',
@@ -1453,6 +1463,11 @@ export const servicesTranslations: Record<Language, Record<string, string>> = {
   },
 
   es: {
+    'contact.form.error.nameMin': 'El nombre es demasiado corto',
+    'contact.form.error.emailInvalid': 'El correo electrónico no es válido',
+    'contact.form.error.phoneMin': 'El teléfono es demasiado corto',
+    'contact.form.error.messageMin': 'El mensaje es demasiado corto',
+
     'booking.smart.title': '¿cómo quieres reservar?',
     'booking.smart.subtitle': 'Elige la opción que te sea más cómoda',
     'booking.smart.quick': 'WhatsApp directo',
@@ -2206,6 +2221,11 @@ export const servicesTranslations: Record<Language, Record<string, string>> = {
   },
 
   ru: {
+    'contact.form.error.nameMin': 'Имя слишком короткое',
+    'contact.form.error.emailInvalid': 'Неверный адрес электронной почты',
+    'contact.form.error.phoneMin': 'Телефон слишком короткий',
+    'contact.form.error.messageMin': 'Сообщение слишком короткое',
+
     'booking.smart.title': 'Как вы хотите забронировать?',
     'booking.smart.subtitle': 'Выберите удобный для вас вариант',
     'booking.smart.quick': 'Написать в WhatsApp',

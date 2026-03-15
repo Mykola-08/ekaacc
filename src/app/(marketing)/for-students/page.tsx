@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ForStudentsContent from '@/marketing/components/ForStudentsContent';
+import PersonaContent from '@/marketing/components/PersonaContent';
 
 export const metadata: Metadata = {
   title: 'Focus y Calma para Estudiantes | EKA Balance',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function StudentsPage() {
-  return <ForStudentsContent />;
+  return <PersonaContent persona="students" />;
 }

@@ -254,10 +254,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       href: '/services',
       hasDropdown: true,
       dropdownItems: [
-        { name: t('services.massage.title') || 'Massage', href: '/services/massage' },
-        { name: t('services.kinesiology.title') || 'Kinesiology', href: '/services/kinesiology' },
-        { name: t('services.nutrition.title') || 'Nutrition', href: '/services/nutrition' },
-        { name: t('service.supplements.title') || 'Supplements', href: '/services/supplements' },
+        { name: t('services.massage.title'), href: '/services/massage' },
+        { name: t('services.kinesiology.title'), href: '/services/kinesiology' },
+        { name: t('services.nutrition.title'), href: '/services/nutrition' },
+        { name: t('service.supplements.title'), href: '/services/supplements' },
       ],
     },
     {
@@ -269,7 +269,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       href: '/360-revision',
     },
     {
-      name: t('personalizedServices.business') || 'For Business',
+      name: t('personalizedServices.business'),
       href: '/for-business',
     },
   ];
@@ -491,55 +491,29 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           />
                         </Link>
 
-                        {/* Hover bridge — spans full width of dropdown zone for seamless mouse travel, enlarged for wider safe zone */}
-                        {activeDropdown === item.name && dropdownPosition && (
-                          <div
-                            className="fixed z-[49]"
-                            style={{
-                              top: dropdownPosition.triggerBottom - 15,
-                              left: dropdownPosition.left - 30,
-                              width: dropdownPosition.width + 60,
-                              height: dropdownPosition.top - dropdownPosition.triggerBottom + 30,
-                            }}
-                            onMouseEnter={() => keepMenuOpen(item.name)}
-                            onMouseLeave={scheduleHide}
-                            aria-hidden="true"
-                          />
-                        )}
-
-                        {/* Dropdown — positioned relative to viewport, flush with header */}
-                        <AnimatePresence>
-                          {activeDropdown === item.name && dropdownPosition && (
-                            <motion.div
-                              initial={{ opacity: 0, scaleY: 0.95, y: -4 }}
-                              animate={{ opacity: 1, scaleY: 1, y: 0 }}
-                              exit={{ opacity: 0, scaleY: 0.95, y: -4 }}
-                              transition={{ duration: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
-                              className="fixed z-40"
-                              style={{
-                                top: dropdownPosition.triggerBottom, // Start exactly from the bottom of the nav trigger
-                                left: dropdownPosition.left - 40, // Add large invisible left padding zone
-                                width: dropdownPosition.width + 80, // Expand width by total horizontal padding
-                                transformOrigin: `${40 + (dropdownPosition.originX / 100) * dropdownPosition.width}px top`,
-                                paddingTop: Math.max(
-                                  0,
-                                  dropdownPosition.top - dropdownPosition.triggerBottom
-                                ),
-                                paddingLeft: 40, // Left invisible safe zone
-                                paddingRight: 40, // Right invisible safe zone
-                                paddingBottom: 40, // Bottom invisible safe zone
-                              }}
-                              onMouseEnter={() => keepMenuOpen(item.name)}
-                              onMouseLeave={scheduleHide}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Escape') {
-                                  setActiveDropdown(null);
-                                }
-                              }}
-                              role="menu"
-                              aria-label={`${item.name} submenu`}
-                            >
-                              {/* Inner content wrapper with the actual visual styling */}
+                        {/* Hover bridge & Dropdown Container via CSS */}
+                          <AnimatePresence>
+                            {activeDropdown === item.name && (
+                              <motion.div
+                                initial={{ opacity: 0, scaleY: 0.95, y: -4 }}
+                                animate={{ opacity: 1, scaleY: 1, y: 0 }}
+                                exit={{ opacity: 0, scaleY: 0.95, y: -4 }}
+                                transition={{ duration: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+                                className="absolute top-full left-1/2 z-40 w-[280px] -translate-x-1/2 pt-4"
+                                style={{ transformOrigin: 'top center' }}
+                                onMouseEnter={() => keepMenuOpen(item.name)}
+                                onMouseLeave={scheduleHide}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Escape') {
+                                    setActiveDropdown(null);
+                                  }
+                                }}
+                                role="menu"
+                                aria-label={`${item.name} submenu`}
+                              >
+                                {/* Invisible padding zone for hover target bridge */}
+                                <div className="absolute inset-x-[-40px] top-0 h-8" aria-hidden="true" />
+                                {/* Inner content wrapper with the actual visual styling */}
                               <div className="relative mx-auto w-[280px] overflow-hidden rounded-b-2xl border border-t-0 border-white/60 bg-white/95 ring-1 ring-black/[0.04] drop-shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl">
                                 {/* Subtle blend line at the top connection point */}
                                 <div className="absolute inset-x-0 top-0 h-[1px] bg-white/40" />
@@ -637,7 +611,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         >
                           <Link href="/dashboard">
                             <LayoutDashboard className="h-4 w-4" />
-                            {t('nav.dashboard') || 'Dashboard'}
+                            {t('nav.dashboard')}
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -645,7 +619,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           className="cursor-pointer gap-2 rounded-md p-2 text-sm text-red-600 focus:bg-red-50 focus:text-red-700"
                         >
                           <LogOut className="h-4 w-4" />
-                          {t('auth.signOut') || 'Log out'}
+                          {t('auth.signOut')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -657,7 +631,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                       className="h-8 rounded-full px-4 text-[12px] font-medium transition-colors hover:bg-gray-100/50"
                     >
                       <Link href="/login" suppressHydrationWarning>
-                        {t('auth.signIn') || 'Log in'}
+                        {t('auth.signIn')}
                       </Link>
                     </Button>
                   )}
@@ -712,7 +686,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         onClick={() => setIsMenuOpen(false)}
                         className="block py-3 text-2xl font-semibold tracking-tight text-gray-900"
                       >
-                        {t('nav.home') || 'Home'}
+                        {t('nav.home')}
                       </Link>
                     </div>
 
@@ -748,7 +722,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         onClick={() => setIsMenuOpen(false)}
                         className="block py-3 text-2xl font-semibold tracking-tight text-gray-900"
                       >
-                        {t('personalizedServices.business') || 'For Business'}
+                        {t('personalizedServices.business')}
                       </Link>
                     </div>
 

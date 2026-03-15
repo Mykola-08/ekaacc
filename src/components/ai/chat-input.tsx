@@ -3,31 +3,30 @@
 /**
  * AI Chat Input
  *
- * Chat input bar with prompt-kit primitives, suggestion pills, and motion animations.
+ * Uses AI Elements PromptInput and Suggestion primitives.
  */
 
-import { useRef, useCallback } from 'react';
 import * as motion from 'motion/react-client';
 import { AnimatePresence } from 'motion/react';
 import {
   PromptInput,
   PromptInputTextarea,
-  PromptInputBody,
   PromptInputFooter,
   PromptInputTools,
   PromptInputButton,
   PromptInputSubmit,
-  type PromptInputMessage,
 } from '@/components/ai-elements/prompt-input';
 import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
-import { Send, Square, Paperclip } from 'lucide-react';
+import { Paperclip } from 'lucide-react';
+import type { ChatStatus } from 'ai';
 
 interface ChatInputProps {
   value: string;
   onChange: (value: string) => void;
   onSubmit: () => void;
   onStop?: () => void;
-  isLoading: boolean;
+  status?: ChatStatus;
+  isLoading?: boolean;
   showSuggestions?: boolean;
   onSuggestion?: (suggestion: string) => void;
 }
@@ -46,19 +45,15 @@ export function ChatInput({
   onChange,
   onSubmit,
   onStop,
+  status,
   isLoading,
   showSuggestions = false,
   onSuggestion,
 }: ChatInputProps) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleSubmit = useCallback(() => {
-    if (!value.trim() || isLoading) return;
-    onSubmit();
-  }, [value, isLoading, onSubmit]);
+  const chatStatus = status ?? (isLoading ? 'streaming' : 'ready');
 
   return (
-    <div className="">
+    <div className="flex flex-col gap-2">
       {/* Suggestions */}
       <AnimatePresence>
         {showSuggestions && (
@@ -68,14 +63,9 @@ export function ChatInput({
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.3 }}
           >
-            <Suggestions className="pb-1">
+            <Suggestions>
               {SUGGESTIONS.map((s) => (
-                <Suggestion
-                  key={s}
-                  suggestion={s}
-                  onClick={onSuggestion}
-                  className="border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 rounded-full px-3! py-1! text-xs font-medium"
-                />
+                <Suggestion key={s} suggestion={s} onClick={() => onSuggestion?.(s)} />
               ))}
             </Suggestions>
           </motion.div>
@@ -84,40 +74,22 @@ export function ChatInput({
 
       {/* Input bar */}
       <PromptInput
-        onSubmit={(msg, e) => {
-          e.preventDefault();
-          handleSubmit();
+        onSubmit={({ text }) => {
+          if (text.trim()) onSubmit();
         }}
-        className="bg-muted/50 border-border/50 focus-within:border-primary/30 rounded-lg border pb-2 backdrop-blur-sm transition-colors"
       >
-        <PromptInputBody>
-          <PromptInputTextarea
-            ref={textareaRef}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Ask EKA anything..."
-            className="min-h-11 resize-none border-0 bg-transparent px-4 pt-3 pb-0 text-sm focus-visible:ring-0"
-          />
-        </PromptInputBody>
-        <PromptInputFooter className="px-3 pt-2">
+        <PromptInputTextarea
+          placeholder="Ask EKA anything..."
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        <PromptInputFooter>
           <PromptInputTools>
-            <PromptInputButton
-              tooltip={{ content: 'Attach file' }}
-              type="button"
-              className="text-muted-foreground hover:text-foreground h-8 w-8 cursor-pointer rounded p-0"
-            >
-              <Paperclip className="h-4 w-4" />
+            <PromptInputButton tooltip="Attach file">
+              <Paperclip className="size-4" />
             </PromptInputButton>
           </PromptInputTools>
-
-          <div className="flex-1" />
-
-          <PromptInputSubmit
-            status={isLoading ? 'streaming' : 'ready'}
-            onStop={onStop}
-            disabled={!value.trim() && !isLoading}
-            className="h-auto rounded-lg px-2 py-1"
-          />
+          <PromptInputSubmit status={chatStatus} onStop={onStop} />
         </PromptInputFooter>
       </PromptInput>
     </div>

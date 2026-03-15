@@ -3,8 +3,8 @@
 /**
  * AI Chat View
  *
- * Main chat interface combining prompt-kit, motion primitives,
- * and visual blocks into a complete AI chat experience.
+ * Main chat interface using AI Elements conversation primitives,
+ * visual blocks, and the full-page chat experience.
  */
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
@@ -22,10 +22,18 @@ import { ChatWelcome } from '@/components/ai/chat-welcome';
 import { ConversationList } from '@/components/ai/conversation-list';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { PanelLeft } from 'lucide-react';
+import { PanelLeft, Globe, Monitor } from 'lucide-react';
 import { toast } from '@/components/ui/morphing-toaster';
+import { useWebLLMAvailable } from '@/hooks/use-webllm';
+import { WebLLMChatTransport } from '@/lib/platform/integrations/webllm';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
-interface Conversation {
+interface ConversationItem {
   id: string;
   title: string | null;
   updatedAt: string;
@@ -33,18 +41,22 @@ interface Conversation {
 
 export function AIChatView() {
   const [conversationId, setConversationId] = useState<string | null>(null);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState<ConversationItem[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [input, setInput] = useState('');
+  const [useWebLLM, setUseWebLLM] = useState(false);
+  const webllmAvailable = useWebLLMAvailable();
 
-  // Memoize transport so it updates when conversationId changes
+  // Memoize transport — switches between server API and WebLLM
   const transport = useMemo(
     () =>
-      new DefaultChatTransport({
-        api: '/api/ai/chat',
-        body: { conversationId },
-      }),
-    [conversationId]
+      useWebLLM && webllmAvailable
+        ? new WebLLMChatTransport()
+        : new DefaultChatTransport({
+            api: '/api/ai/chat',
+            body: { conversationId },
+          }),
+    [conversationId, useWebLLM, webllmAvailable]
   );
 
   const { messages, sendMessage, status, stop, setMessages, regenerate, error } = useChat({
@@ -55,6 +67,7 @@ export function AIChatView() {
   });
 
   const isLoading = status === 'submitted' || status === 'streaming';
+  const isStreaming = status === 'streaming';
 
   // Load conversations on mount
   useEffect(() => {
@@ -180,20 +193,48 @@ export function AIChatView() {
 
           <div className="flex-1">
             <h1 className="text-sm font-semibold">EKA Assistant</h1>
-            <p className="text-muted-foreground text-xs">Your AI wellness companion</p>
+            <p className="text-muted-foreground text-xs">
+              {useWebLLM && webllmAvailable ? 'WebLLM (local)' : 'Your AI wellness companion'}
+            </p>
           </div>
+
+          {/* WebLLM toggle */}
+          {webllmAvailable && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={useWebLLM ? 'default' : 'ghost'}
+                    size="icon"
+                    className="size-8"
+                    onClick={() => setUseWebLLM(!useWebLLM)}
+                  >
+                    {useWebLLM ? (
+                      <Monitor className="size-4" />
+                    ) : (
+                      <Globe className="size-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {useWebLLM ? 'Using WebLLM (local)' : 'Switch to WebLLM'}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
 
         {/* Messages */}
         <div className="relative flex-1 overflow-hidden">
           {hasMessages ? (
             <Conversation className="h-full">
-              <ConversationContent className="px-4 py-4">
+              <ConversationContent className="gap-8 px-4 py-4">
                 {messages.map((message, i) => (
                   <ChatMessage
                     key={message.id}
                     message={message}
                     isLast={i === messages.length - 1 && message.role === 'assistant'}
+                    isStreaming={isStreaming}
                     onCopy={handleCopy}
                     onRegenerate={() => regenerate()}
                   />
@@ -206,7 +247,7 @@ export function AIChatView() {
                 )}
               </ConversationContent>
 
-              <ConversationScrollButton className="absolute right-4 bottom-20" />
+              <ConversationScrollButton />
             </Conversation>
           ) : (
             <ChatWelcome onSuggestion={handleSuggestion} />
@@ -220,7 +261,7 @@ export function AIChatView() {
             onChange={setInput}
             onSubmit={handleSend}
             onStop={stop}
-            isLoading={isLoading}
+            status={status}
             showSuggestions={false}
             onSuggestion={handleSuggestion}
           />

@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Zap } from 'lucide-react';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import PersonalizedServiceTemplate from '@/marketing/components/templates/PersonalizedServiceTemplate';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ZapIcon } from '@hugeicons/core-free-icons';
 
 export default function ForAthletesContent() {
   const { t } = useLanguage();
@@ -45,7 +46,7 @@ export default function ForAthletesContent() {
     <PersonalizedServiceTemplate
       serviceId="athletes"
       translationKey="personalized.athletes"
-      Icon={Zap}
+      Icon={ZapIcon}
       seoKeys={{
         title: 'seo.athletes.title',
         description: 'seo.athletes.description',

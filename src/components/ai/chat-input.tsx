@@ -6,8 +6,6 @@
  * Uses AI Elements PromptInput and Suggestion primitives.
  */
 
-import * as motion from 'motion/react-client';
-import { AnimatePresence } from 'motion/react';
 import {
   PromptInput,
   PromptInputTextarea,
@@ -17,8 +15,9 @@ import {
   PromptInputSubmit,
 } from '@/components/ai-elements/prompt-input';
 import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
-import { Paperclip } from 'lucide-react';
 import type { ChatStatus } from 'ai';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Attachment01Icon } from '@hugeicons/core-free-icons';
 
 interface ChatInputProps {
   value: string;
@@ -55,22 +54,17 @@ export function ChatInput({
   return (
     <div className="flex flex-col gap-2">
       {/* Suggestions */}
-      <AnimatePresence>
+      
         {showSuggestions && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={{ duration: 0.3 }}
-          >
+          <div>
             <Suggestions>
               {SUGGESTIONS.map((s) => (
                 <Suggestion key={s} suggestion={s} onClick={() => onSuggestion?.(s)} />
               ))}
             </Suggestions>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      
 
       {/* Input bar */}
       <PromptInput
@@ -86,7 +80,7 @@ export function ChatInput({
         <PromptInputFooter>
           <PromptInputTools>
             <PromptInputButton tooltip="Attach file">
-              <Paperclip className="size-4" />
+              <HugeiconsIcon icon={Attachment01Icon} className="size-4"  />
             </PromptInputButton>
           </PromptInputTools>
           <PromptInputSubmit status={chatStatus} onStop={onStop} />

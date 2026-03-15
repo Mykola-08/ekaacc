@@ -7,7 +7,8 @@ import type { PermissionGroup, PermissionAction } from '@/lib/platform/config/ro
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { Shield } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ShieldIcon } from '@hugeicons/core-free-icons';
 
 interface PermissionGateProps {
   children: ReactNode;
@@ -77,7 +78,7 @@ export function PermissionGate({
       fallback || (
         <div className="flex min-h-100 items-center justify-center">
           <Alert className="max-w-md">
-            <Shield className="h-4 w-4" />
+            <HugeiconsIcon icon={ShieldIcon} className="size-4"  />
             <AlertTitle>Authentication Required</AlertTitle>
             <AlertDescription>Please sign in to access this content.</AlertDescription>
             <div className="mt-4">
@@ -96,7 +97,7 @@ export function PermissionGate({
       fallback || (
         <div className="flex min-h-100 items-center justify-center">
           <Alert className="max-w-md" variant="destructive">
-            <Shield className="h-4 w-4" />
+            <HugeiconsIcon icon={ShieldIcon} className="size-4"  />
             <AlertTitle>Access Denied</AlertTitle>
             <AlertDescription>
               You don&apos;t have the required permission to access this page.

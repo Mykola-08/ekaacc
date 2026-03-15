@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { MFAVerifyForm } from '@/components/platform/auth/mfa-verify-form';
-import { Loader2 } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
 
 export default function MFAVerifyPage() {
   const router = useRouter();
@@ -56,7 +57,7 @@ export default function MFAVerifyPage() {
       <div className="auth-page">
         <div className="auth-page-gradient" />
         <div className="relative z-10 flex items-center justify-center">
-          <Loader2 className="text-primary h-8 w-8 animate-spin" />
+          <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin"  />
         </div>
       </div>
     );

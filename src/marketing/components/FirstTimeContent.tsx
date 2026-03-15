@@ -3,7 +3,8 @@
 import PersonalizedOnboarding from '@/marketing/components/PersonalizedOnboarding';
 import PageLayout from '@/marketing/components/PageLayout';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
-import { Sparkles } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SparklesIcon } from '@hugeicons/core-free-icons';
 
 export default function FirstTimeContent() {
   const { t } = useLanguage();
@@ -16,7 +17,7 @@ export default function FirstTimeContent() {
           t('onboarding.welcome.description') ||
           'Descubre tu plan personalizado respondiendo unas breves preguntas.',
         badge: t('hero.firstTime') || 'First Time',
-        icon: <Sparkles className="h-4 w-4" />,
+        icon: <HugeiconsIcon icon={SparklesIcon} className="size-4"  />,
       }}
       className="bg-secondary"
     >

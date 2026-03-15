@@ -1,12 +1,13 @@
 'use client';
 
 import ContactFormOptimized from '@/marketing/components/ContactForm';
-import { MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 
 import PageLayout from './PageLayout';
 import SEOUpdater from '@/marketing/components/SEOUpdater';
 import FAQ from '@/marketing/components/FAQ';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Message01Icon } from '@hugeicons/core-free-icons';
 
 export default function ContactContent() {
   const { t } = useLanguage();
@@ -25,7 +26,7 @@ export default function ContactContent() {
             t('contact.hero.description') ||
             "Estem aquí per ajudar-te. Envia'ns un missatge i et respondrem el més aviat possible.",
           badge: t('contact.hero.badge') || 'Contacte',
-          icon: <MessageCircle className="h-4 w-4" />,
+          icon: <HugeiconsIcon icon={Message01Icon} className="size-4"  />,
         }}
       >
         {/* Contact Layout Section */}

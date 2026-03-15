@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AlertCircle } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import {
   createContext,
@@ -15,6 +14,7 @@ import {
 } from "react";
 import type { TProps as JsxParserProps } from "react-jsx-parser";
 import JsxParser from "react-jsx-parser";
+import { AlertTriangleIcon } from 'lucide-react';
 
 interface JSXPreviewContextValue {
   jsx: string;
@@ -298,7 +298,7 @@ export const JSXPreviewError = memo(
           renderChildren(children, error)
         ) : (
           <>
-            <AlertCircle className="size-4 shrink-0" />
+            <AlertTriangleIcon className="size-4 shrink-0" />
             <span>{error.message}</span>
           </>
         )}

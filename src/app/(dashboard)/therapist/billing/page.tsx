@@ -13,13 +13,15 @@ import {
 } from '@/components/ui/table';
 import { StatusBadge } from '@/components/ui/status-badge';
 import React, { useEffect, useState, useCallback } from 'react';
-import { RefreshCw, PlusCircle } from 'lucide-react';
+
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';
-import { DollarCircleIcon } from '@hugeicons/core-free-icons';
+import { DollarCircleIcon, Refresh01Icon, PlusSignCircleIcon } from '@hugeicons/core-free-icons';
+
 
 import fxService from '@/lib/platform/services/platform-service';
 import { useToast } from '@/hooks/platform/ui/use-toast';
+import { HugeiconsIcon } from '@hugeicons/react';
 function BillingSkeleton() {
   return (
     <Card className="p-4">
@@ -46,7 +48,7 @@ function NoInvoicesEmptyState({ onCreate }: { onCreate: () => void }) {
       description="There are no invoices for this client yet."
       action={
         <Button onClick={onCreate} variant="default">
-          <PlusCircle className="mr-2 h-4 w-4" />
+          <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4"  />
           Create First Invoice
         </Button>
       }
@@ -101,20 +103,20 @@ export default function TherapistBillingPage() {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="px-4 lg:px-6">
         <PageSection
           title="Client Billing"
           description="Manage invoices and payments for your clients."
           level="h2"
           actions={
             <div className="flex gap-2">
-              <Button onClick={loadInvoices} variant="outline" disabled={loading}>
-                <RefreshCw className="mr-2 h-4 w-4" />
+              <Button onClick={loadInvoices} variant="outline" size="sm" disabled={loading}>
+                <HugeiconsIcon icon={Refresh01Icon} className="mr-2 size-4"  />
                 Refresh
               </Button>
-              <Button onClick={createInvoice} variant="default">
-                <PlusCircle className="mr-2 h-4 w-4" />
+              <Button onClick={createInvoice} variant="default" size="sm">
+                <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4"  />
                 Create Invoice
               </Button>
             </div>
@@ -122,7 +124,7 @@ export default function TherapistBillingPage() {
         />
 
         {/* Billing Table */}
-        <Card>
+        <Card className="mx-4 lg:mx-6">
           <CardContent className="p-0">
             {loading ? (
               <BillingSkeleton />

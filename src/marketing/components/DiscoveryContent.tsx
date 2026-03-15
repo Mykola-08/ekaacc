@@ -1,22 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  ArrowRight,
-  ArrowLeft,
-  Heart,
-  Brain,
-  Sparkles,
-  CheckCircle,
-  MapPin,
-  Globe,
-  MessageCircle,
-  ClipboardList,
-  type LucideIcon,
-} from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/marketing/components/ui/button';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
+import { ArrowRight01Icon, ArrowLeft01Icon, FavouriteIcon, Brain01Icon, SparklesIcon, CheckmarkCircle01Icon, Location01Icon, GlobeIcon, Message01Icon, ClipboardIcon } from '@hugeicons/core-free-icons';
 
 interface FormData {
   location: string;
@@ -34,7 +23,7 @@ interface Recommendation {
   price: string;
   duration: string;
   benefits: string[];
-  icon: LucideIcon;
+  icon: IconSvgElement;
   color: string;
   analysis?: {
     problem?: string;
@@ -142,9 +131,9 @@ export default function DiscoveryContent() {
   // But since 't' is from hook, we can keep them inside or use useMemo
   // For simplicity and clarity, I'll use useMemo for large arrays
   const locations = [
-    { id: 'barcelona', title: t('discovery.location.barcelona'), icon: MapPin },
-    { id: 'rubi', title: t('discovery.location.rubi'), icon: MapPin },
-    { id: 'online', title: t('discovery.location.online'), icon: Globe },
+    { id: 'barcelona', title: t('discovery.location.barcelona'), icon: Location01Icon },
+    { id: 'rubi', title: t('discovery.location.rubi'), icon: Location01Icon },
+    { id: 'online', title: t('discovery.location.online'), icon: GlobeIcon },
   ];
 
   const userTypes = [
@@ -262,7 +251,7 @@ export default function DiscoveryContent() {
           t('discovery.recommendation.online.benefit3'),
           t('discovery.recommendation.online.benefit4'),
         ],
-        icon: Globe,
+        icon: GlobeIcon,
         color: 'blue',
       };
     }
@@ -448,7 +437,7 @@ export default function DiscoveryContent() {
           t('discovery.recommendation.integrative.benefit3'),
           t('discovery.recommendation.integrative.benefit4'),
         ]),
-        icon: Sparkles,
+        icon: SparklesIcon,
         color: 'blue',
         analysis,
         diagnosis,
@@ -467,7 +456,7 @@ export default function DiscoveryContent() {
           t('discovery.recommendation.emotional.benefit3'),
           t('discovery.recommendation.emotional.benefit4'),
         ]),
-        icon: Brain,
+        icon: Brain01Icon,
         color: 'purple',
         analysis,
         diagnosis,
@@ -493,7 +482,7 @@ export default function DiscoveryContent() {
           t('discovery.recommendation.manual.benefit3'),
           t('discovery.recommendation.manual.benefit4'),
         ]),
-        icon: Heart,
+        icon: FavouriteIcon,
         color: 'orange',
         analysis,
         diagnosis,
@@ -512,7 +501,7 @@ export default function DiscoveryContent() {
         t('discovery.recommendation.relax.benefit3'),
         t('discovery.recommendation.relax.benefit4'),
       ]),
-      icon: Heart,
+      icon: FavouriteIcon,
       color: 'green',
       analysis,
       diagnosis,
@@ -592,7 +581,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           <div className="mx-auto max-w-4xl px-4 sm:px-8">
             <div className="mb-12 text-center">
               <div className="mb-8 inline-flex items-center rounded-full bg-green-100 px-6 py-3">
-                <CheckCircle className="mr-2 h-5 w-5 text-green-600" />
+                <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-2 size-5 text-green-600"  />
                 <span className="font-medium text-green-700">
                   {t('discovery.recommendation.badge')}
                 </span>
@@ -672,7 +661,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 <div className="mb-8 text-center">
                   {Icon && (
                     <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white">
-                      <Icon className="h-10 w-10 text-gray-700" />
+                      <HugeiconsIcon icon={Icon} className="size-10 text-gray-700" />
                     </div>
                   )}
 
@@ -740,7 +729,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     onClick={handleBooking}
                     className="flex items-center justify-center rounded-full bg-[#25D366] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[#128C7E]"
                   >
-                    <MessageCircle className="mr-2 h-5 w-5" />
+                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-5"  />
                     {t('booking.direct.button')}
                   </button>
                   <button
@@ -754,7 +743,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             ) : (
               <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-8 sm:p-12">
                 <h2 className="mb-8 flex items-center justify-center text-2xl font-semibold text-gray-900">
-                  <ClipboardList className="mr-3 h-6 w-6 text-blue-600" />
+                  <HugeiconsIcon icon={ClipboardIcon} className="mr-3 size-6 text-blue-600"  />
                   {t('discovery.diagnosis.title')}
                 </h2>
 
@@ -823,7 +812,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     onClick={handleBooking}
                     className="flex items-center justify-center rounded-full bg-[#25D366] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[#128C7E]"
                   >
-                    <MessageCircle className="mr-2 h-5 w-5" />
+                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-5"  />
                     {t('booking.direct.button')}
                   </button>
                   <button
@@ -912,7 +901,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                               : 'bg-gray-100 text-gray-600'
                           }`}
                         >
-                          <LocIcon className="h-6 w-6" />
+                          <HugeiconsIcon icon={LocIcon} className="size-6" />
                         </div>
                         <h3 className="font-semibold text-gray-900">{loc.title}</h3>
                       </button>
@@ -996,7 +985,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       <div className="flex items-center justify-between">
                         <span className="font-medium text-gray-900">{option}</span>
                         {formData.tensionAreas.includes(option) && (
-                          <CheckCircle className="h-5 w-5 text-blue-600" />
+                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-5 text-blue-600"  />
                         )}
                       </div>
                     </button>
@@ -1097,7 +1086,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 }`}
                 disabled={currentStep === 0}
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
                 {t('discovery.back')}
               </button>
 
@@ -1112,7 +1101,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 className="w-auto"
               >
                 {currentStep === 6 ? t('discovery.seeRecommendation') : t('discovery.next')}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4"  />
               </Button>
             </div>
           </div>

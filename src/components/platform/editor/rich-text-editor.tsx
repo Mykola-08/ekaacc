@@ -8,22 +8,10 @@ import { withHistory } from 'slate-history';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import {
-  Bold,
-  Italic,
-  Underline,
-  Strikethrough,
-  Code,
-  Heading1,
-  Heading2,
-  Heading3,
-  List,
-  ListOrdered,
-  Quote,
-  Save,
-  Sparkles,
-} from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { FloppyDiskIcon, ListViewIcon, SparklesIcon } from '@hugeicons/core-free-icons';
+import { Bold, Italic, Underline, Strikethrough, Code, Heading1, Heading2, Heading3, ListOrdered, Quote } from 'lucide-react';
 
 const HOTKEYS: Record<string, string> = {
   'mod+b': 'bold',
@@ -61,7 +49,7 @@ export function RichTextEditor({
   );
 
   const renderElement = useCallback((props: RenderElementProps) => <Element {...props} />, []);
-  const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
+  const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf01Icon {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   const handleChange = (newValue: Descendant[]) => {
@@ -94,7 +82,7 @@ export function RichTextEditor({
             <BlockButton format="heading-three" icon={Heading3} />
             <Separator orientation="vertical" className="mx-1 h-6" />
             <BlockButton format="numbered-list" icon={ListOrdered} />
-            <BlockButton format="bulleted-list" icon={List} />
+            <BlockButton format="bulleted-list" icon={ListViewIcon} />
             <BlockButton format="block-quote" icon={Quote} />
 
             <div className="flex-1" />
@@ -103,7 +91,7 @@ export function RichTextEditor({
             {showAIAssist && (
               <>
                 <Button variant="outline" size="sm" className="gap-2">
-                  <Sparkles className="h-4 w-4" />
+                  <HugeiconsIcon icon={SparklesIcon} className="size-4"  />
                   AI Assist
                 </Button>
                 <Separator orientation="vertical" className="mx-1 h-6" />
@@ -113,7 +101,7 @@ export function RichTextEditor({
             {/* Save button */}
             {onSave && (
               <Button onClick={handleSave} size="sm" className="gap-2">
-                <Save className="h-4 w-4" />
+                <HugeiconsIcon icon={FloppyDiskIcon} className="size-4"  />
                 Save
               </Button>
             )}
@@ -241,7 +229,7 @@ const Element = ({ attributes, children, element }: RenderElementProps) => {
 };
 
 // Leaf renderer
-const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
+const Leaf01Icon = ({ attributes, children, leaf }: RenderLeafProps) => {
   if ((leaf as any).bold) {
     children = <strong>{children}</strong>;
   }

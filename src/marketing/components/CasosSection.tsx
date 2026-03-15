@@ -1,15 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Activity, Brain, Heart, Zap, Moon } from 'lucide-react';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import AnimateIn from './AnimateIn';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
+import { ArrowRight01Icon, Activity01Icon, Brain01Icon, FavouriteIcon, ZapIcon, Moon01Icon } from '@hugeicons/core-free-icons';
 
 interface Problem {
   id: string;
   titleKey: string;
   descriptionKey: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: IconSvgElement;
   color: string;
   href: string;
 }
@@ -22,7 +23,7 @@ export default function CasosSection() {
       id: 'back-pain',
       titleKey: 'casos.problems.backPain.title',
       descriptionKey: 'casos.problems.backPain.description',
-      icon: Activity,
+      icon: Activity01Icon,
       color: 'blue',
       href: '/cases/back-pain',
     },
@@ -30,7 +31,7 @@ export default function CasosSection() {
       id: 'stress-anxiety',
       titleKey: 'casos.problems.stress.title',
       descriptionKey: 'casos.problems.stress.description',
-      icon: Brain,
+      icon: Brain01Icon,
       color: 'purple',
       href: '/cases/stress-anxiety',
     },
@@ -38,7 +39,7 @@ export default function CasosSection() {
       id: 'digestive-problems',
       titleKey: 'casos.problems.digestive.title',
       descriptionKey: 'casos.problems.digestive.description',
-      icon: Heart,
+      icon: FavouriteIcon,
       color: 'green',
       href: '/cases/digestive-problems',
     },
@@ -46,7 +47,7 @@ export default function CasosSection() {
       id: 'migraines',
       titleKey: 'casos.problems.migraines.title',
       descriptionKey: 'casos.problems.migraines.description',
-      icon: Brain,
+      icon: Brain01Icon,
       color: 'red',
       href: '/cases/migraines',
     },
@@ -54,7 +55,7 @@ export default function CasosSection() {
       id: 'low-energy',
       titleKey: 'casos.problems.lowEnergy.title',
       descriptionKey: 'casos.problems.lowEnergy.description',
-      icon: Zap,
+      icon: ZapIcon,
       color: 'orange',
       href: '/cases/low-energy',
     },
@@ -62,7 +63,7 @@ export default function CasosSection() {
       id: 'sleep-difficulties',
       titleKey: 'casos.problems.sleep.title',
       descriptionKey: 'casos.problems.sleep.description',
-      icon: Moon,
+      icon: Moon01Icon,
       color: 'indigo',
       href: '/cases/sleep-difficulties',
     },
@@ -91,7 +92,7 @@ export default function CasosSection() {
                   className="group apple-card block h-full p-8 transition-colors duration-300"
                 >
                   <div className="text-primary group-hover:bg-primary mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-background transition-colors duration-300 group-hover:text-white">
-                    <ProblemIcon className="h-6 w-6 stroke-[1.5px]" />
+                    <HugeiconsIcon icon={ProblemIcon} className="h-6 w-6 stroke-[1.5px]" />
                   </div>
 
                   <h3 className="mb-3 text-[1.25rem] font-semibold tracking-tight text-foreground">
@@ -104,7 +105,7 @@ export default function CasosSection() {
 
                   <div className="mt-auto flex items-center text-sm font-medium text-foreground transition-opacity group-hover:opacity-70">
                     {t('casos.section.readMore')}
-                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <HugeiconsIcon icon={ArrowRight01Icon} className="ml-1 size-4 transition-transform group-hover:translate-x-1"  />
                   </div>
                 </Link>
               </AnimateIn>
@@ -144,7 +145,7 @@ export default function CasosSection() {
               className="inline-flex items-center rounded-full bg-[#0071e3] px-8 py-4 font-medium text-white transition duration-200 hover:bg-[#0077ED] active:scale-[0.97]"
             >
               {t('casos.section.viewAll')}
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
             </Link>
             <Link
               href="/first-time"

@@ -6,7 +6,7 @@ const RichTextEditor = dynamic(
   () => import('@/components/platform/editor/rich-text-editor').then((m) => m.RichTextEditor),
   {
     ssr: false,
-    loading: () => <div className="bg-muted h-75 w-full animate-pulse rounded-xl" />,
+    loading: () => <div className="bg-muted h-75 w-full animate-pulse rounded-lg" />,
   }
 );
 import { cn } from '@/lib/utils';
@@ -24,20 +24,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
-import {
-  FileText,
-  UserCircle,
-  CalendarDays,
-  Clock,
-  Smile,
-  Target,
-  CheckSquare,
-  FileText as FileTextIcon,
-  History,
-  Plus,
-  Trash2,
-  Sparkles,
-} from 'lucide-react';
+
 import { PageSection } from '@/components/ui/page-section';
 import { Descendant } from 'slate';
 import {
@@ -49,6 +36,9 @@ import {
 } from '@/server/therapist/session-notes-actions';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { File01Icon, Calendar02Icon, Clock01Icon, SmileIcon, Target01Icon, WorkHistoryIcon, Add01Icon, Delete01Icon, SparklesIcon, UserCircleIcon, CheckListIcon } from '@hugeicons/core-free-icons';
+
 
 function serializeSlate(nodes: Descendant[] | undefined): string {
   if (!nodes) return '';
@@ -195,11 +185,12 @@ export default function SessionNotesPage() {
   }, [handleSave]);
 
   return (
-    <div className="container mx-auto max-w-6xl py-6">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="px-4 lg:px-6">
       <PageSection
         title="Session Notes"
         description="Document your therapy session with comprehensive notes"
-        icon={FileText}
+        icon={File01Icon}
         actions={
           <div className="flex items-center gap-3">
             <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
@@ -209,20 +200,20 @@ export default function SessionNotesPage() {
               onClick={() => setShowHistory(!showHistory)}
               className="gap-2"
             >
-              <History className="h-4 w-4" />
+              <HugeiconsIcon icon={WorkHistoryIcon} className="size-4"  />
               History ({pastNotes.length})
             </Button>
             <Button variant="outline" size="sm" onClick={handleNewNote} className="gap-2">
-              <Plus className="h-4 w-4" />
+              <HugeiconsIcon icon={Add01Icon} className="size-4"  />
               New Note
             </Button>
             <Button
               onClick={handleSave}
-              size="lg"
+              size="sm"
               className="gap-2"
               disabled={feedback.status === 'loading'}
             >
-              <FileTextIcon className="h-5 w-5" />
+              <HugeiconsIcon icon={File01Icon} className="size-4"  />
               {editingNoteId ? 'Update Note' : 'Save Note'}
             </Button>
           </div>
@@ -246,8 +237,8 @@ export default function SessionNotesPage() {
                   <div
                     key={note.id}
                     className={cn(
-                      'hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition-colors',
-                      editingNoteId === note.id && 'border-primary bg-primary/5'
+                      'hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors',
+                      editingNoteId === note.id && 'border-primary bg-muted'
                     )}
                     onClick={() => handleLoadNote(note)}
                   >
@@ -281,7 +272,7 @@ export default function SessionNotesPage() {
                         handleDelete(note.id);
                       }}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <HugeiconsIcon icon={Delete01Icon} className="size-4"  />
                     </Button>
                   </div>
                 ))}
@@ -290,9 +281,10 @@ export default function SessionNotesPage() {
           </CardContent>
         </Card>
       )}
+      </div>
 
       {/* Session Info Card */}
-      <Card>
+      <Card className="mx-4 lg:mx-6">
         <CardHeader>
           <CardTitle>Session Information</CardTitle>
           <CardDescription>Basic details about this therapy session</CardDescription>
@@ -301,7 +293,7 @@ export default function SessionNotesPage() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div className="">
               <Label htmlFor="client" className="flex items-center gap-2">
-                <UserCircle className="h-4 w-4" />
+                <HugeiconsIcon icon={UserCircleIcon} className="size-4" />
                 Client
               </Label>
               <Select value={clientId} onValueChange={setClientId}>
@@ -320,7 +312,7 @@ export default function SessionNotesPage() {
 
             <div className="">
               <Label htmlFor="date" className="flex items-center gap-2">
-                <CalendarDays className="h-4 w-4" />
+                <HugeiconsIcon icon={Calendar02Icon} className="size-4"  />
                 Session Date
               </Label>
               <Input
@@ -333,7 +325,7 @@ export default function SessionNotesPage() {
 
             <div className="">
               <Label htmlFor="duration" className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
+                <HugeiconsIcon icon={Clock01Icon} className="size-4"  />
                 Duration (min)
               </Label>
               <Select value={sessionDuration} onValueChange={setSessionDuration}>
@@ -351,7 +343,7 @@ export default function SessionNotesPage() {
 
             <div className="">
               <Label htmlFor="type" className="flex items-center gap-2">
-                <FileText className="h-4 w-4" />
+                <HugeiconsIcon icon={File01Icon} className="size-4"  />
                 Session Type
               </Label>
               <Select value={sessionType} onValueChange={setSessionType}>
@@ -370,7 +362,7 @@ export default function SessionNotesPage() {
 
           <div className="mt-4">
             <Label htmlFor="mood" className="flex items-center gap-2">
-              <Smile className="h-4 w-4" />
+              <HugeiconsIcon icon={SmileIcon} className="size-4"  />
               Client Mood Rating (1-10)
             </Label>
             <div className="flex gap-2">
@@ -391,22 +383,23 @@ export default function SessionNotesPage() {
       </Card>
 
       {/* Notes Tabs */}
+      <div className="px-4 lg:px-6">
       <Tabs defaultValue="notes" className="">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="notes" className="gap-2">
-            <FileText className="h-4 w-4" />
+            <HugeiconsIcon icon={File01Icon} className="size-4"  />
             Session Notes
           </TabsTrigger>
           <TabsTrigger value="observations" className="gap-2">
-            <UserCircle className="h-4 w-4" />
+            <HugeiconsIcon icon={UserCircleIcon} className="size-4" />
             Observations
           </TabsTrigger>
           <TabsTrigger value="goals" className="gap-2">
-            <Target className="h-4 w-4" />
+            <HugeiconsIcon icon={Target01Icon} className="size-4"  />
             Goals
           </TabsTrigger>
           <TabsTrigger value="homework" className="gap-2">
-            <CheckSquare className="h-4 w-4" />
+            <HugeiconsIcon icon={CheckListIcon} className="size-4" />
             Homework
           </TabsTrigger>
         </TabsList>
@@ -464,7 +457,7 @@ export default function SessionNotesPage() {
                   ] as any);
                 }}
               >
-                <Sparkles className="text-primary mr-2 h-4 w-4" />
+                <HugeiconsIcon icon={SparklesIcon} className="mr-2 size-4"  />
                 Auto-Draft from Scratchpad
               </Button>
             </CardHeader>
@@ -538,11 +531,12 @@ export default function SessionNotesPage() {
           </Card>
         </TabsContent>
       </Tabs>
+      </div>
 
       {/* Quick Tips */}
-      <Card className="bg-muted/50">
+      <Card className="mx-4 lg:mx-6 bg-muted/50">
         <CardContent className="pt-6">
-          <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 text-sm @xl/main:grid-cols-3">
             <div>
               <h4 className="mb-2 font-semibold">Note-Taking Tips</h4>
               <ul className="text-muted-foreground">

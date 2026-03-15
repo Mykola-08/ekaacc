@@ -3,9 +3,10 @@
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { useBooking } from '@/marketing/hooks/useBooking';
 import { Button } from '@/marketing/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import ParallaxBackground from '@/marketing/components/ParallaxBackground';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
 export default function CTASection() {
   const { t } = useLanguage();
@@ -33,7 +34,7 @@ export default function CTASection() {
                 className="h-auto w-full rounded-full bg-white px-10 py-6 text-lg font-medium text-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-gray-50 sm:w-auto"
               >
                 {t('common.bookNow')}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
               </Button>
               <Link href="/booking" className="w-full sm:w-auto">
                 <Button

@@ -6,12 +6,6 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
-import {
-  ChevronRightIcon,
-  FileIcon,
-  FolderIcon,
-  FolderOpenIcon,
-} from "lucide-react";
 import type { HTMLAttributes, ReactNode } from "react";
 import {
   createContext,
@@ -20,6 +14,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { ChevronRightIcon, FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
 
 interface FileTreeContextType {
   expandedPaths: Set<string>;

@@ -25,22 +25,16 @@ import { Badge } from '@/components/ui/badge';
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  RefreshCw,
-  PlusCircle,
-  Activity,
-  Calendar,
-  Users,
-  Trash2,
-  Edit2,
-  Archive,
-} from 'lucide-react';
-import { UserGroupIcon } from '@hugeicons/core-free-icons';
+
+import { UserGroupIcon, Refresh01Icon, PlusSignCircleIcon, Activity01Icon, Calendar03Icon, UserMultipleIcon, Delete01Icon, PencilEdit01Icon, Archive01Icon } from '@hugeicons/core-free-icons';
+
+
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';
 
 import fxService from '@/lib/platform/services/platform-service';
 import { useToast } from '@/hooks/platform/ui/use-toast';
+import { HugeiconsIcon } from '@hugeicons/react';
 // --- Reusable Components ---
 
 function StatCard({ title, value, icon }: { title: string; value: string; icon: React.ReactNode }) {
@@ -93,7 +87,7 @@ function NoClientsEmptyState({ onCreate }: { onCreate: () => void }) {
       description="Your clients will appear here once they are added to the platform."
       action={
         <Button onClick={onCreate} variant="default">
-          <PlusCircle className="mr-2 h-4 w-4" />
+          <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4"  />
           Add New Client
         </Button>
       }
@@ -155,20 +149,20 @@ export default function TherapistClientsPage() {
   const hasSelection = selectedIds.size > 0;
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="px-4 lg:px-6">
         <PageSection
           title="Clients"
           description="Manage your client relationships and view their profiles."
           level="h2"
           actions={
             <div className="flex gap-2">
-              <Button onClick={loadClients} variant="outline" disabled={loading}>
-                <RefreshCw className="mr-2 h-4 w-4" />
+              <Button onClick={loadClients} variant="outline" size="sm" disabled={loading}>
+                <HugeiconsIcon icon={Refresh01Icon} className="mr-2 size-4"  />
                 Refresh
               </Button>
-              <Button onClick={handleNewClient} disabled={loading} variant="default">
-                <PlusCircle className="mr-2 h-4 w-4" />
+              <Button onClick={handleNewClient} disabled={loading} variant="default" size="sm">
+                <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4"  />
                 New Client
               </Button>
             </div>
@@ -178,28 +172,28 @@ export default function TherapistClientsPage() {
         {loading ? (
           <ClientsPageSkeleton />
         ) : (
-          <div className="">
+          <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-3">
               <StatCard
                 title="Total Clients"
                 value={clients.length.toString()}
-                icon={<Users className="text-muted-foreground h-4 w-4" />}
+                icon={<HugeiconsIcon icon={UserMultipleIcon} className="text-muted-foreground size-4"  />}
               />
               <StatCard
                 title="Active This Week"
                 value="-"
-                icon={<Activity className="text-muted-foreground h-4 w-4" />}
+                icon={<HugeiconsIcon icon={Activity01Icon} className="text-muted-foreground size-4"  />}
               />
               <StatCard
                 title="New This Month"
                 value="-"
-                icon={<Calendar className="text-muted-foreground h-4 w-4" />}
+                icon={<HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-4"  />}
               />
             </div>
 
             {/* Clients Table */}
-            <Card>
+            <Card className="mx-4 lg:mx-6">
               <CardContent className="p-0">
                 {clients.length === 0 ? (
                   <NoClientsEmptyState onCreate={handleNewClient} />
@@ -287,7 +281,7 @@ export default function TherapistClientsPage() {
                 <ActionBarItem
                   onClick={() => toast({ title: 'Edit', description: 'Edit logic goes here.' })}
                 >
-                  <Edit2 className="mr-2 h-4 w-4" />
+                  <HugeiconsIcon icon={PencilEdit01Icon} className="mr-2 size-4" />
                   Edit
                 </ActionBarItem>
                 <ActionBarItem
@@ -295,7 +289,7 @@ export default function TherapistClientsPage() {
                     toast({ title: 'Archived', description: 'Archived selected clients.' })
                   }
                 >
-                  <Archive className="mr-2 h-4 w-4" />
+                  <HugeiconsIcon icon={Archive01Icon} className="mr-2 size-4" />
                   Archive
                 </ActionBarItem>
                 <ActionBarSeparator />
@@ -305,12 +299,12 @@ export default function TherapistClientsPage() {
                     toast({ title: 'Deleted', description: 'Deleted selected clients.' })
                   }
                 >
-                  <Trash2 className="mr-2 h-4 w-4" />
+                  <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4"  />
                   Delete
                 </ActionBarItem>
               </ActionBarGroup>
             </ActionBar>
-          </div>
+          </>
         )}
       </div>
     </div>

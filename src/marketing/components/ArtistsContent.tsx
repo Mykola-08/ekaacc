@@ -1,16 +1,17 @@
 'use client';
 
 import React from 'react';
-import { Palette } from 'lucide-react';
 
 import PersonalizedServiceTemplate from '@/marketing/components/templates/PersonalizedServiceTemplate';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { PaintBoardIcon } from '@hugeicons/core-free-icons';
 
 export default function ArtistsContent() {
   return (
     <PersonalizedServiceTemplate
       serviceId="artists"
       translationKey="personalized.artists" // Strategy: I'll need to define this, OR I can rely on 'artists' if I change the key
-      Icon={Palette}
+      Icon={PaintBoardIcon}
       seoKeys={{
         title: 'seo.artists.title',
         description: 'seo.artists.description',

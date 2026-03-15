@@ -5,16 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  XCircle,
-  ArrowLeft,
-  Ban,
-  Navigation,
-  CalendarDays,
-} from 'lucide-react';
+import { Calendar03Icon, Clock01Icon, Location01Icon, CancelCircleIcon, ArrowLeft01Icon, Cancel01Icon, Navigation01Icon, Calendar02Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/morphing-toaster';
 import { cancelBookingAction } from '@/server/actions/booking-actions';
@@ -72,9 +64,9 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
   if (!bookings || bookings.length === 0) {
     return (
-      <div className="bg-card/50 border-muted flex flex-col items-center justify-center rounded-2xl border-2 border-dashed py-24 text-center">
+      <div className="bg-card border-muted flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-24 text-center">
         <div className="bg-background mb-6 rounded-full p-6">
-          <Calendar className="text-muted-foreground h-8 w-8" strokeWidth={2} />
+          <HugeiconsIcon icon={Calendar03Icon} className="size-8 text-muted-foreground" />
         </div>
         <h3 className="text-foreground text-xl font-semibold tracking-tight">No bookings yet</h3>
         <p className="text-muted-foreground mt-2 max-w-xs font-medium">
@@ -88,12 +80,12 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
   const past = bookings.filter((b) => new Date(b.startTime) <= new Date());
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
+    <div>
       {upcoming.length > 0 && (
         <div className="">
           <h2 className="text-foreground flex items-center gap-3 text-xl font-semibold">
             Upcoming
-            <span className="bg-foreground text-background rounded-2xl px-2.5 py-1 font-mono text-xs font-semibold">
+            <span className="bg-foreground text-background rounded-lg px-2.5 py-1 font-mono text-xs font-semibold">
               {upcoming.length}
             </span>
           </h2>
@@ -144,7 +136,7 @@ function BookingCard({
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-2xl transition-all duration-300',
+        'group relative overflow-hidden rounded-lg transition-all duration-300',
         isUpcoming
           ? 'bg-card border border-transparent hover:-translate-y-0.5'
           : 'bg-card border-border border'
@@ -155,7 +147,7 @@ function BookingCard({
           {/* Enhanced Date Block */}
           <div
             className={cn(
-              'flex h-18 min-w-18 flex-col items-center justify-center rounded-2xl',
+              'flex h-18 min-w-18 flex-col items-center justify-center rounded-lg',
               isUpcoming ? 'bg-primary/10 text-primary' : 'bg-secondary/50 text-muted-foreground'
             )}
           >
@@ -172,7 +164,7 @@ function BookingCard({
               <StatusBadge status={booking.status} />
               {isUpcoming && booking.serviceName && (
                 <span className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
-                  <MapPin className="h-3 w-3" strokeWidth={2.5} /> In-person
+                  <HugeiconsIcon icon={Location01Icon} className="size-3" /> In-person
                 </span>
               )}
             </div>
@@ -188,7 +180,7 @@ function BookingCard({
 
             <div className="text-muted-foreground flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium">
               <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" strokeWidth={2.5} />
+                <HugeiconsIcon icon={Clock01Icon} className="size-4" />
                 {format(new Date(booking.startTime), 'h:mm a')} -{' '}
                 {format(new Date(booking.endTime), 'h:mm a')}
               </div>
@@ -204,7 +196,7 @@ function BookingCard({
               className="text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive h-9 w-full rounded-full text-xs font-semibold md:w-32"
               onClick={handleCancel}
             >
-              <Ban className="mr-2 h-3 w-3" strokeWidth={2.5} />
+              <HugeiconsIcon icon={Cancel01Icon} className="mr-2 size-3" />
               Cancel
             </Button>
             <Button
@@ -213,7 +205,7 @@ function BookingCard({
               onClick={() => toast.info('Rescheduling coming soon')}
               className="text-muted-foreground hover:text-foreground h-9 w-full rounded-full text-xs font-semibold md:w-32"
             >
-              <CalendarDays className="mr-2 h-3 w-3" strokeWidth={2.5} />
+              <HugeiconsIcon icon={Calendar02Icon} className="mr-2 size-3" />
               Reschedule
             </Button>
             <Button
@@ -221,7 +213,7 @@ function BookingCard({
               size="sm"
               className="text-primary h-9 w-full p-0 text-xs font-semibold hover:no-underline hover:opacity-80 md:w-32"
             >
-              <Navigation className="mr-2 h-3 w-3" strokeWidth={2.5} />
+              <HugeiconsIcon icon={Navigation01Icon} className="mr-2 size-3" />
               Details
             </Button>
           </div>
@@ -234,7 +226,7 @@ function BookingCard({
               size="sm"
               className="h-9 w-full rounded-full text-xs font-semibold md:w-auto"
             >
-              <ArrowLeft className="mr-2 h-3 w-3" strokeWidth={2.5} />
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-3" />
               Book Again
             </Button>
           </div>

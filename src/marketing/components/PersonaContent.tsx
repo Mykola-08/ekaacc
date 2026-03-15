@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Zap, Music, Monitor, Brain, Users } from 'lucide-react';
+
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import PersonalizedServiceTemplate from '@/marketing/components/templates/PersonalizedServiceTemplate';
 import ForBusinessContent from '@/marketing/components/ForBusinessContent';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Brain01Icon, ComputerActivityIcon, ComputerIcon, MusicNote01Icon, UserMultipleIcon, ZapIcon } from '@hugeicons/core-free-icons';
 
 export type PersonaType = 'athletes' | 'business' | 'musicians' | 'office-workers' | 'students' | 'parents';
 
@@ -23,7 +25,7 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
     athletes: {
       serviceId: 'athletes',
       translationKey: 'personalized.athletes',
-      Icon: Zap,
+      Icon: ZapIcon,
       seoKeys: {
         title: 'seo.athletes.title',
         description: 'seo.athletes.description',
@@ -53,7 +55,7 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
     musicians: {
       serviceId: 'musicians',
       translationKey: 'personalized.musicians',
-      Icon: Music,
+      Icon: MusicNote01Icon,
       seoKeys: {
         title: 'seo.musicians.title',
         description: 'seo.musicians.description',
@@ -83,7 +85,7 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
     'office-workers': {
       serviceId: 'office-workers',
       translationKey: 'personalized.officeWorkers',
-      Icon: Monitor,
+      Icon: ComputerIcon,
       seoKeys: {
         title: 'seo.officeWorkers.title',
         description: 'seo.officeWorkers.description',
@@ -113,7 +115,7 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
     students: {
       serviceId: 'students',
       translationKey: 'personalized.students',
-      Icon: Brain,
+      Icon: Brain01Icon,
       seoKeys: {
         title: 'seo.students.title',
         description: 'seo.students.description',
@@ -138,7 +140,7 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
     parents: {
       serviceId: 'parents',
       translationKey: 'personalized.parents',
-      Icon: Users,
+      Icon: UserMultipleIcon,
       seoKeys: {
         title: 'seo.parents.title',
         description: 'seo.parents.description',

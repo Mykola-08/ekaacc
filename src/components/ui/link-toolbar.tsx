@@ -19,7 +19,6 @@ import {
   useFloatingLinkInsertState,
 } from '@platejs/link/react';
 import { cva } from 'class-variance-authority';
-import { ExternalLink, Link, Text, Unlink } from 'lucide-react';
 import { KEYS } from 'platejs';
 import {
   useEditorRef,
@@ -30,6 +29,9 @@ import {
 
 import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowUpRight01Icon, Link01Icon } from '@hugeicons/core-free-icons';
+import { Text, Unlink } from 'lucide-react';
 
 const popoverVariants = cva(
   'z-50 w-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md outline-hidden'
@@ -102,7 +104,7 @@ export function LinkFloatingToolbar({
     <div className="flex w-[330px] flex-col" {...inputProps}>
       <div className="flex items-center">
         <div className="flex items-center pr-1 pl-2 text-muted-foreground">
-          <Link className="size-4" />
+          <HugeiconsIcon icon={Link01Icon} className="size-4"  />
         </div>
 
         <FloatingLinkUrlInput
@@ -202,7 +204,7 @@ function LinkOpenButton() {
       aria-label="Open link in a new tab"
       target="_blank"
     >
-      <ExternalLink width={18} />
+      <HugeiconsIcon icon={ArrowUpRight01Icon} width={18}  />
     </a>
   );
 }

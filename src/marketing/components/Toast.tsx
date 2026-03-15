@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CheckmarkCircle01Icon, Alert01Icon, InformationCircleIcon, Cancel01Icon } from '@hugeicons/core-free-icons';
 
 declare global {
   interface Window {
@@ -71,14 +72,14 @@ function ToastComponent({ toast, onClose }: ToastProps) {
   const getIcon = () => {
     switch (toast.type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-600" />;
+        return <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-5 text-green-600"  />;
       case 'error':
-        return <AlertCircle className="h-5 w-5 text-red-600" />;
+        return <HugeiconsIcon icon={Alert01Icon} className="size-5 text-red-600"  />;
       case 'warning':
-        return <AlertCircle className="h-5 w-5 text-yellow-600" />;
+        return <HugeiconsIcon icon={Alert01Icon} className="size-5 text-yellow-600"  />;
       case 'info':
       default:
-        return <Info className="h-5 w-5 text-blue-600" />;
+        return <HugeiconsIcon icon={InformationCircleIcon} className="size-5 text-blue-600"  />;
     }
   };
 
@@ -127,7 +128,7 @@ function ToastComponent({ toast, onClose }: ToastProps) {
         onClick={handleClose}
         className="absolute top-4 right-4 rounded-full p-0.5 text-current opacity-70 transition-opacity hover:bg-black/5 hover:opacity-100"
       >
-        <X className="h-4 w-4" />
+        <HugeiconsIcon icon={Cancel01Icon} className="size-4"  />
       </button>
 
       {/* Progress bar for duration */}

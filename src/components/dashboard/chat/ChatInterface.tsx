@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Send, MoreVertical, Phone, Video, Search, MessageSquare } from 'lucide-react';
 import { format } from 'date-fns';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SentIcon, MoreVerticalIcon, TelephoneIcon, Video01Icon, Search01Icon, Message01Icon } from '@hugeicons/core-free-icons';
 
 type Channel = {
   id: string;
@@ -196,7 +197,7 @@ export function ChatInterface() {
       <div className="border-border w-full border-b md:w-80 md:border-r md:border-b-0">
         <div className="p-4">
           <div className="relative">
-            <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
+            <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-2.5 left-2.5 size-4"  />
             <Input placeholder="Search messages..." className="bg-secondary/50 border-0 pl-9" />
           </div>
         </div>
@@ -212,7 +213,7 @@ export function ChatInterface() {
                   key={channel.id}
                   onClick={() => setActiveChannelId(channel.id)}
                   className={cn(
-                    'flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors',
+                    'flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors',
                     isActive ? 'bg-accent text-accent-foreground' : 'hover:bg-muted'
                   )}
                 >
@@ -272,21 +273,21 @@ export function ChatInterface() {
                   size="icon"
                   className="text-muted-foreground hover:text-primary h-8 w-8"
                 >
-                  <Phone className="h-4 w-4" />
+                  <HugeiconsIcon icon={TelephoneIcon} className="size-4"  />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="text-muted-foreground hover:text-primary h-8 w-8"
                 >
-                  <Video className="h-4 w-4" />
+                  <HugeiconsIcon icon={Video01Icon} className="size-4"  />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="text-muted-foreground hover:text-primary h-8 w-8"
                 >
-                  <MoreVertical className="h-4 w-4" />
+                  <HugeiconsIcon icon={MoreVerticalIcon} className="size-4"  />
                 </Button>
               </div>
             </header>
@@ -364,7 +365,7 @@ export function ChatInterface() {
                   disabled={!inputText.trim()}
                   className="shrink-0 rounded-full"
                 >
-                  <Send className="h-4 w-4" />
+                  <HugeiconsIcon icon={SentIcon} className="size-4"  />
                 </Button>
               </form>
             </div>
@@ -372,7 +373,7 @@ export function ChatInterface() {
         ) : (
           <div className="text-muted-foreground flex h-full flex-col items-center justify-center p-8 text-center">
             <div className="bg-muted mb-4 rounded-full p-4">
-              <MessageSquare className="h-8 w-8" />
+              <HugeiconsIcon icon={Message01Icon} className="size-8"  />
             </div>
             <h3 className="text-foreground mb-1 text-lg font-semibold">No Chat Selected</h3>
             <p className="max-w-xs text-sm">

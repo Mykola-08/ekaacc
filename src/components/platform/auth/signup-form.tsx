@@ -20,9 +20,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
-import { Loader2 } from 'lucide-react';
-import { fadeInUpLarge, scaleIn, fadeInLeft, fadeInUpSmall, fadeIn, withDelay } from '@/lib/motion';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
 
 const signUpSchema = z
   .object({
@@ -99,23 +98,17 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
   }
 
   return (
-    <motion.div
-      variants={fadeInUpLarge}
-      initial="hidden"
-      animate="visible"
+    <div
       className="mx-auto w-full max-w-120"
     >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-lg border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           {/* Header */}
-          <motion.div
-            variants={withDelay(scaleIn, 0.1)}
-            initial="hidden"
-            animate="visible"
+          <div
             className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative mb-2">
-              <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
+              <div className="border-border/10 bg-card relative overflow-hidden rounded-lg border p-1">
                 <Image
                   src="/images/eka_logo.png"
                   alt="EKA Balance"
@@ -132,16 +125,13 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
               </h1>
               <p className="text-muted-foreground text-sm">Join EKA Balance today</p>
             </div>
-          </motion.div>
+          </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="">
               {/* Full Name & Username */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <motion.div
-                  variants={withDelay(fadeInLeft, 0.2)}
-                  initial="hidden"
-                  animate="visible"
+                <div
                 >
                   <FormField
                     control={form.control}
@@ -163,12 +153,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                       </FormItem>
                     )}
                   />
-                </motion.div>
+                </div>
 
-                <motion.div
-                  variants={withDelay(fadeInLeft, 0.25)}
-                  initial="hidden"
-                  animate="visible"
+                <div
                 >
                   <FormField
                     control={form.control}
@@ -190,10 +177,10 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                       </FormItem>
                     )}
                   />
-                </motion.div>
+                </div>
               </div>
 
-              <motion.div variants={withDelay(fadeInLeft, 0.3)} initial="hidden" animate="visible">
+              <div>
                 <FormField
                   control={form.control}
                   name="email"
@@ -215,13 +202,10 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     </FormItem>
                   )}
                 />
-              </motion.div>
+              </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <motion.div
-                  variants={withDelay(fadeInLeft, 0.35)}
-                  initial="hidden"
-                  animate="visible"
+                <div
                 >
                   <FormField
                     control={form.control}
@@ -244,12 +228,9 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                       </FormItem>
                     )}
                   />
-                </motion.div>
+                </div>
 
-                <motion.div
-                  variants={withDelay(fadeInLeft, 0.4)}
-                  initial="hidden"
-                  animate="visible"
+                <div
                 >
                   <FormField
                     control={form.control}
@@ -272,11 +253,11 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                       </FormItem>
                     )}
                   />
-                </motion.div>
+                </div>
               </div>
 
               {/* Referral Code */}
-              <motion.div variants={withDelay(fadeInLeft, 0.42)} initial="hidden" animate="visible">
+              <div>
                 <FormField
                   control={form.control}
                   name="referralCode"
@@ -301,27 +282,20 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     </FormItem>
                   )}
                 />
-              </motion.div>
+              </div>
 
-              <AnimatePresence mode="wait">
+              
                 {form.formState.errors.root && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
+                  <div
                   >
                     <FormMessage className="bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-center text-sm font-medium">
                       {form.formState.errors.root.message}
                     </FormMessage>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
+              
 
-              <motion.div
-                variants={withDelay(fadeInUpSmall, 0.45)}
-                initial="hidden"
-                animate="visible"
+              <div
                 className="pt-2"
               >
                 <Button
@@ -329,16 +303,13 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                   className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
                   disabled={isLoading}
                 >
-                  {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Create Account'}
+                  {isLoading ? <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  /> : 'Create Account'}
                 </Button>
-              </motion.div>
+              </div>
             </form>
           </Form>
 
-          <motion.div
-            variants={withDelay(fadeIn, 0.5)}
-            initial="hidden"
-            animate="visible"
+          <div
             className="mt-6 text-center"
           >
             <p className="text-muted-foreground text-sm">
@@ -350,15 +321,12 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                 Sign in
               </Link>
             </p>
-          </motion.div>
+          </div>
         </CardContent>
       </Card>
 
       {/* Footer / Terms */}
-      <motion.div
-        variants={withDelay(fadeIn, 0.6)}
-        initial="hidden"
-        animate="visible"
+      <div
         className="mt-6 text-center"
       >
         <p className="text-muted-foreground px-4 text-xs">
@@ -379,7 +347,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
           </Link>
           .
         </p>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

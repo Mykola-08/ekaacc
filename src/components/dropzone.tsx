@@ -1,11 +1,12 @@
 'use client'
 
-import { CheckCircle, File, Loader2, Upload, X } from 'lucide-react'
 import { createContext, useCallback, useContext, type PropsWithChildren } from 'react'
 
 import { cn } from '@/lib/utils'
 import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload'
 import { Button } from '@/components/ui/button'
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CheckmarkCircle01Icon, File01Icon, Loading03Icon, Upload01Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
 
 export const formatBytes = (
   bytes: number,
@@ -87,7 +88,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
   if (isSuccess) {
     return (
       <div className={cn('flex flex-row items-center gap-x-2 justify-center', className)}>
-        <CheckCircle size={16} className="text-primary" />
+        <HugeiconsIcon icon={CheckmarkCircle01Icon} size={16} className="text-primary"  />
         <p className="text-primary text-sm">
           Successfully uploaded {files.length} file{files.length > 1 ? 's' : ''}
         </p>
@@ -112,7 +113,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
               </div>
             ) : (
               <div className="h-10 w-10 rounded border bg-muted flex items-center justify-center">
-                <File size={18} />
+                <HugeiconsIcon icon={File01Icon} size={18}  />
               </div>
             )}
 
@@ -148,7 +149,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
                 className="shrink-0 justify-self-end text-muted-foreground hover:text-foreground"
                 onClick={() => handleRemoveFile(file.name)}
               >
-                <X />
+                <HugeiconsIcon icon={Cancel01Icon}  />
               </Button>
             )}
           </div>
@@ -169,7 +170,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
           >
             {loading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin"  />
                 Uploading...
               </>
             ) : (
@@ -191,7 +192,7 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
 
   return (
     <div className={cn('flex flex-col items-center gap-y-2', className)}>
-      <Upload size={20} className="text-muted-foreground" />
+      <HugeiconsIcon icon={Upload01Icon} size={20} className="text-muted-foreground"  />
       <p className="text-sm">
         Upload{!!maxFiles && maxFiles > 1 ? ` ${maxFiles}` : ''} file
         {!maxFiles || maxFiles > 1 ? 's' : ''}

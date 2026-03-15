@@ -1,5 +1,13 @@
 import { createClient } from '@/lib/supabase/server';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -7,6 +15,9 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { getUserPermissions } from '@/lib/permissions/actions';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ChartUpIcon, Calendar03Icon, Wallet01Icon, Target01Icon, UserGroupIcon } from '@hugeicons/core-free-icons';
+
 
 // ─── Permission helper ─────────────────────────────────────────────
 
@@ -154,379 +165,381 @@ export default async function DashboardPage() {
   keys.forEach((k, i) => (data[k] = values[i]));
 
   return (
-    <div className="flex-1 space-y-4">
-      <div className="flex flex-col space-y-6">
-        {/* ── Welcome ──────────────────────────────────────────────── */}
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      {/* ── Welcome ──────────────────────────────────────────────── */}
+      <div className="px-4 lg:px-6">
         <p className="text-muted-foreground text-sm">
           {getGreeting()}, {firstName}. Here&apos;s what&apos;s happening today.
         </p>
+      </div>
 
-        {/* ── Platform Stats (admin/manager only) ─────────────────── */}
-        {canManageUsers && (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <StatsCard label="Users" value={data.totalUsers} />
-            <StatsCard label="Bookings" value={data.totalBookings} />
-            <StatsCard label="Today" value={data.todayBookings} accent />
-            <StatsCard label="Active Plans" value={data.activeSubs} />
-          </div>
-        )}
+      {/* ── Platform Stats (admin/manager only) ─────────────────── */}
+      {canManageUsers && (
+        <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+          <StatsCard label="Total Users" value={data.totalUsers} icon={UserGroupIcon} />
+          <StatsCard label="All Bookings" value={data.totalBookings} icon={Calendar03Icon} />
+          <StatsCard label="Today" value={data.todayBookings} icon={ChartUpIcon} accent />
+          <StatsCard label="Active Plans" value={data.activeSubs} icon={Target01Icon} />
+        </div>
+      )}
 
-        {/* ── Therapist quick stats ────────────────────────────────── */}
-        {canUseTherapistTools && !canManageUsers && (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <StatsCard label="Today's Sessions" value={data.todayClients} accent />
-            <StatsCard label="Upcoming" value={data.nextBooking?.length || 0} />
-          </div>
-        )}
+      {/* ── Therapist quick stats ────────────────────────────────── */}
+      {canUseTherapistTools && !canManageUsers && (
+        <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+          <StatsCard label="Today's Sessions" value={data.todayClients} icon={Calendar03Icon} accent />
+          <StatsCard label="Upcoming" value={data.nextBooking?.length || 0} icon={ChartUpIcon} />
+        </div>
+      )}
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {/* ── Upcoming Appointments ──────────────────────────────── */}
-          <Card className="lg:col-span-2">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium">Upcoming</CardTitle>
-                <Link href="/bookings">
-                  <Button variant="ghost" size="sm" className="h-7 text-xs">
-                    View all
-                  </Button>
+      <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6">
+        {/* ── Upcoming Appointments ──────────────────────────────── */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardDescription>Upcoming</CardDescription>
+            <CardAction>
+              <Link href="/bookings">
+                <Button variant="ghost" size="sm" className="h-7 text-xs">
+                  View all
+                </Button>
+              </Link>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            {data.nextBooking?.length > 0 ? (
+              <div className="space-y-3">
+                {data.nextBooking.map((b: any) => {
+                  const otherPerson = canUseTherapistTools
+                    ? b.client?.full_name
+                    : b.therapist?.full_name;
+                  return (
+                    <div
+                      key={b.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="bg-primary h-8 w-1 rounded-full" />
+                        <div>
+                          <p className="text-sm font-medium">{otherPerson || 'Appointment'}</p>
+                          <p className="text-muted-foreground text-xs">
+                            {new Date(b.starts_at).toLocaleDateString(undefined, {
+                              weekday: 'short',
+                              month: 'short',
+                              day: 'numeric',
+                            })}{' '}
+                            at{' '}
+                            {new Date(b.starts_at).toLocaleTimeString(undefined, {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge
+                        variant={
+                          b.status === 'scheduled'
+                            ? 'default'
+                            : b.status === 'completed'
+                              ? 'secondary'
+                              : 'outline'
+                        }
+                      >
+                        {b.status}
+                      </Badge>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="py-8 text-center">
+                <p className="text-muted-foreground text-sm">No upcoming appointments</p>
+                <Link href="/bookings" className="mt-4 flex justify-center">
+                  <Button variant="default">Book a session</Button>
                 </Link>
               </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* ── Right Column ──────────────────────────────────────── */}
+        <div className="flex flex-col gap-4">
+          {/* Quick Actions */}
+          <Card>
+            <CardHeader>
+              <CardDescription>Quick Actions</CardDescription>
             </CardHeader>
-            <CardContent>
-              {data.nextBooking?.length > 0 ? (
-                <div className="space-y-4">
-                  {data.nextBooking.map((b: any) => {
-                    const otherPerson = canUseTherapistTools
-                      ? b.client?.full_name
-                      : b.therapist?.full_name;
-                    return (
-                      <div
-                        key={b.id}
-                        className="flex items-center justify-between rounded-2xl border p-3"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="bg-primary h-8 w-1 rounded-full" />
-                          <div>
-                            <p className="text-sm font-medium">{otherPerson || 'Appointment'}</p>
-                            <p className="text-muted-foreground text-xs">
-                              {new Date(b.starts_at).toLocaleDateString(undefined, {
-                                weekday: 'short',
-                                month: 'short',
-                                day: 'numeric',
-                              })}{' '}
-                              at{' '}
-                              {new Date(b.starts_at).toLocaleTimeString(undefined, {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                              })}
-                            </p>
-                          </div>
-                        </div>
-                        <Badge
-                          variant={
-                            b.status === 'scheduled'
-                              ? 'default'
-                              : b.status === 'completed'
-                                ? 'secondary'
-                                : 'outline'
-                          }
-                        >
-                          {b.status}
-                        </Badge>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="py-8 text-center">
-                  <p className="text-muted-foreground text-sm">No upcoming appointments</p>
-                  <Link href="/bookings" className="mt-4 flex justify-center">
-                    <Button variant="default">Book a session</Button>
+            <CardContent className="grid gap-1.5">
+              <Link href="/bookings">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                  Book Session
+                </Button>
+              </Link>
+              <Link href="/journal">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                  Write Journal
+                </Button>
+              </Link>
+              <Link href="/chat">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                  Send Message
+                </Button>
+              </Link>
+              <Link href="/wellness">
+                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                  Resources
+                </Button>
+              </Link>
+              {canUseTherapistTools && (
+                <>
+                  <Link href="/therapist/clients">
+                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                      Client Directory
+                    </Button>
                   </Link>
-                </div>
+                  <Link href="/availability">
+                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                      Manage Availability
+                    </Button>
+                  </Link>
+                </>
+              )}
+              {canManageUsers && (
+                <>
+                  <Link href="/console/users">
+                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                      Manage Users
+                    </Button>
+                  </Link>
+                  <Link href="/console/permissions">
+                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
+                      Permissions
+                    </Button>
+                  </Link>
+                </>
               )}
             </CardContent>
           </Card>
 
-          {/* ── Right Column ──────────────────────────────────────── */}
-          <div className="space-y-4">
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Quick Actions</CardTitle>
+          {/* Plan Info (clients) */}
+          {!canUseTherapistTools && (
+            <Card className="@container/card">
+              <CardHeader>
+                <CardDescription>Plan</CardDescription>
+                <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                  {data.plan?.name || 'Free'}
+                </CardTitle>
+                <CardAction>
+                  <Badge variant={data.plan ? 'default' : 'secondary'}>
+                    {data.plan ? 'Active' : 'Basic'}
+                  </Badge>
+                </CardAction>
               </CardHeader>
-              <CardContent className="grid gap-1.5">
-                <Link href="/bookings">
-                  <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                    Book Session
-                  </Button>
-                </Link>
-                <Link href="/journal">
-                  <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                    Write Journal
-                  </Button>
-                </Link>
-                <Link href="/chat">
-                  <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                    Send Message
-                  </Button>
-                </Link>
-                <Link href="/wellness">
-                  <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                    Resources
-                  </Button>
-                </Link>
-                {canUseTherapistTools && (
-                  <>
-                    <Link href="/therapist/clients">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-8 w-full justify-start text-xs"
-                      >
-                        Client Directory
-                      </Button>
-                    </Link>
-                    <Link href="/availability">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-8 w-full justify-start text-xs"
-                      >
-                        Manage Availability
-                      </Button>
-                    </Link>
-                  </>
-                )}
-                {canManageUsers && (
-                  <>
-                    <Link href="/console/users">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-8 w-full justify-start text-xs"
-                      >
-                        Manage Users
-                      </Button>
-                    </Link>
-                    <Link href="/console/permissions">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-8 w-full justify-start text-xs"
-                      >
-                        Permissions
-                      </Button>
-                    </Link>
-                  </>
-                )}
-              </CardContent>
+              {!data.plan && (
+                <CardFooter>
+                  <Link href="/settings?section=billing" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full text-xs">
+                      Upgrade Plan
+                    </Button>
+                  </Link>
+                </CardFooter>
+              )}
             </Card>
+          )}
 
-            {/* Plan Info (clients) */}
-            {!canUseTherapistTools && (
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium">Plan</CardTitle>
-                </CardHeader>
-                <CardContent className="">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{data.plan?.name || 'Free'}</span>
-                    <Badge variant={data.plan ? 'default' : 'secondary'}>
-                      {data.plan ? 'Active' : 'Basic'}
-                    </Badge>
-                  </div>
-                  {!data.plan && (
-                    <Link href="/settings?section=billing">
-                      <Button variant="outline" size="sm" className="w-full text-xs">
-                        Upgrade Plan
-                      </Button>
-                    </Link>
-                  )}
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Wallet Balance */}
-            {data.wallet && (
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium">Balance</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-semibold tracking-tight">
-                    {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
-                    <span className="text-muted-foreground text-sm font-normal">
-                      {data.wallet.currency}
-                    </span>
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+          {/* Wallet Balance */}
+          {data.wallet && (
+            <Card className="@container/card">
+              <CardHeader>
+                <CardDescription>Balance</CardDescription>
+                <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                  {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
+                  <span className="text-muted-foreground text-sm font-normal">
+                    {data.wallet.currency}
+                  </span>
+                </CardTitle>
+                <CardAction>
+                  <Badge variant="outline">
+                    <HugeiconsIcon icon={Wallet01Icon} strokeWidth={2} />
+                    Wallet
+                  </Badge>
+                </CardAction>
+              </CardHeader>
+            </Card>
+          )}
         </div>
+      </div>
 
-        {/* ── Wellness Goals (clients) ─────────────────────────────── */}
-        {data.goals?.length > 0 && (
+      {/* ── Wellness Goals (clients) ─────────────────────────────── */}
+      {data.goals?.length > 0 && (
+        <div className="px-4 lg:px-6">
           <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium">Active Goals</CardTitle>
+            <CardHeader>
+              <CardDescription>Active Goals</CardDescription>
+              <CardAction>
                 <Link href="/wellness">
                   <Button variant="ghost" size="sm" className="h-7 text-xs">
                     Manage
                   </Button>
                 </Link>
-              </div>
+              </CardAction>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {data.goals.map((goal: any) => (
-                  <div key={goal.id} className="rounded-2xl border p-3">
+                  <div key={goal.id} className="rounded-lg border p-3">
                     <div className="flex items-center justify-between text-sm">
                       <span className="truncate font-medium">{goal.title}</span>
                       <span className="text-muted-foreground text-xs">{goal.progress}%</span>
                     </div>
-                    <Progress value={goal.progress} className="h-1.5" />
+                    <Progress value={goal.progress} className="mt-2 h-1.5" />
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
-        )}
+        </div>
+      )}
 
-        {/* ── Journal & Assignments ────────────────────────────────── */}
-        {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {/* Recent Journal */}
-            {data.journalEntries?.length > 0 && (
-              <Card>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-medium">Recent Journal</CardTitle>
-                    <Link href="/journal">
-                      <Button variant="ghost" size="sm" className="h-7 text-xs">
-                        View all
-                      </Button>
-                    </Link>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {data.journalEntries.map((entry: any) => (
-                      <div
-                        key={entry.id}
-                        className="flex items-center justify-between rounded-2xl border p-3"
-                      >
-                        <div>
-                          <p className="truncate text-sm font-medium">
-                            {entry.title || 'Untitled'}
-                          </p>
+      {/* ── Journal & Assignments ────────────────────────────────── */}
+      {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
+        <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-2 lg:px-6">
+          {/* Recent Journal */}
+          {data.journalEntries?.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardDescription>Recent Journal</CardDescription>
+                <CardAction>
+                  <Link href="/journal">
+                    <Button variant="ghost" size="sm" className="h-7 text-xs">
+                      View all
+                    </Button>
+                  </Link>
+                </CardAction>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {data.journalEntries.map((entry: any) => (
+                    <div
+                      key={entry.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div>
+                        <p className="truncate text-sm font-medium">
+                          {entry.title || 'Untitled'}
+                        </p>
+                        <p className="text-muted-foreground text-xs">
+                          {new Date(entry.created_at).toLocaleDateString(undefined, {
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </p>
+                      </div>
+                      {entry.mood && (
+                        <Badge variant="outline" className="text-xs">
+                          {entry.mood}
+                        </Badge>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Assignments / Homework */}
+          {data.assignments?.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardDescription>Assignments</CardDescription>
+                <CardAction>
+                  <Link href="/assignments">
+                    <Button variant="ghost" size="sm" className="h-7 text-xs">
+                      View all
+                    </Button>
+                  </Link>
+                </CardAction>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {data.assignments.map((a: any) => (
+                    <div
+                      key={a.id}
+                      className="flex items-center justify-between rounded-lg border p-3"
+                    >
+                      <div>
+                        <p className="truncate text-sm font-medium">{a.title}</p>
+                        {a.due_date && (
                           <p className="text-muted-foreground text-xs">
-                            {new Date(entry.created_at).toLocaleDateString(undefined, {
+                            Due{' '}
+                            {new Date(a.due_date).toLocaleDateString(undefined, {
                               month: 'short',
                               day: 'numeric',
                             })}
                           </p>
-                        </div>
-                        {entry.mood && (
-                          <Badge variant="outline" className="text-xs">
-                            {entry.mood}
-                          </Badge>
                         )}
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Assignments / Homework */}
-            {data.assignments?.length > 0 && (
-              <Card>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-medium">Assignments</CardTitle>
-                    <Link href="/assignments">
-                      <Button variant="ghost" size="sm" className="h-7 text-xs">
-                        View all
-                      </Button>
-                    </Link>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {data.assignments.map((a: any) => (
-                      <div
-                        key={a.id}
-                        className="flex items-center justify-between rounded-2xl border p-3"
+                      <Badge
+                        variant={a.status === 'in_progress' ? 'default' : 'secondary'}
+                        className="text-xs"
                       >
-                        <div>
-                          <p className="truncate text-sm font-medium">{a.title}</p>
-                          {a.due_date && (
-                            <p className="text-muted-foreground text-xs">
-                              Due{' '}
-                              {new Date(a.due_date).toLocaleDateString(undefined, {
-                                month: 'short',
-                                day: 'numeric',
-                              })}
-                            </p>
-                          )}
-                        </div>
-                        <Badge
-                          variant={a.status === 'in_progress' ? 'default' : 'secondary'}
-                          className="text-xs"
-                        >
-                          {a.status === 'in_progress' ? 'In Progress' : 'Pending'}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        )}
+                        {a.status === 'in_progress' ? 'In Progress' : 'Pending'}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
 
-        {/* ── Admin Quick Links ────────────────────────────────────── */}
-        {canManageSystem && (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <QuickLink
-              href="/console/features"
-              title="Feature Flags"
-              description="Control feature rollouts and overrides"
-            />
-            <QuickLink
-              href="/console/audit"
-              title="Audit Log"
-              description="Monitor system events and actions"
-            />
-            <QuickLink
-              href="/console/analytics"
-              title="Analytics"
-              description="Platform performance and insights"
-            />
-          </div>
-        )}
-      </div>
+      {/* ── Admin Quick Links ────────────────────────────────────── */}
+      {canManageSystem && (
+        <div className="grid grid-cols-1 gap-4 px-4 sm:grid-cols-3 lg:px-6">
+          <QuickLink
+            href="/console/features"
+            title="Feature Flags"
+            description="Control feature rollouts and overrides"
+          />
+          <QuickLink
+            href="/console/audit"
+            title="Audit Log"
+            description="Monitor system events and actions"
+          />
+          <QuickLink
+            href="/console/analytics"
+            title="Analytics"
+            description="Platform performance and insights"
+          />
+        </div>
+      )}
     </div>
   );
 }
 
-function StatsCard({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
+function StatsCard({
+  label,
+  value,
+  icon,
+  accent,
+}: {
+  label: string;
+  value: number;
+  icon: any;
+  accent?: boolean;
+}) {
   return (
-    <Card
-      className={cn(
-        'bg-background relative flex w-full flex-col overflow-hidden',
-        accent && 'border-primary/50'
-      )}
-    >
-      <CardContent className="px-4 pt-4 pb-3">
-        <p className="text-muted-foreground text-xs font-medium">{label}</p>
-        <p className={cn('mt-1 text-2xl font-semibold tracking-tight', accent && 'text-primary')}>
+    <Card className="@container/card">
+      <CardHeader>
+        <CardDescription>{label}</CardDescription>
+        <CardTitle className={cn('text-2xl font-semibold tabular-nums @[250px]/card:text-3xl', accent && 'text-primary')}>
           {value}
-        </p>
-      </CardContent>
+        </CardTitle>
+        <CardAction>
+          <Badge variant="outline">
+            <HugeiconsIcon icon={icon} strokeWidth={2} />
+          </Badge>
+        </CardAction>
+      </CardHeader>
     </Card>
   );
 }
@@ -543,10 +556,10 @@ function QuickLink({
   return (
     <Link href={href}>
       <Card className="hover:bg-muted/50 h-full transition-colors">
-        <CardContent className="px-4 pt-4 pb-3">
-          <p className="text-sm font-medium">{title}</p>
-          <p className="text-muted-foreground mt-1 text-xs">{description}</p>
-        </CardContent>
+        <CardHeader>
+          <CardDescription>{title}</CardDescription>
+          <CardTitle className="text-sm">{description}</CardTitle>
+        </CardHeader>
       </Card>
     </Link>
   );

@@ -3,16 +3,9 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import {
-  TrendingUp,
-  TrendingDown,
-  HeartPulse,
-  Target,
-  BarChart3,
-  Moon,
-  Zap,
-  Brain,
-} from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ChartIncreaseIcon, ChartDecreaseIcon, HeartCheckIcon, Target01Icon, BarChartIcon, Moon01Icon, ZapIcon, Brain02Icon } from '@hugeicons/core-free-icons';
+
 import { createClient } from '@/lib/supabase/client';
 import {
   Area,
@@ -144,12 +137,14 @@ export default function ReportsPage() {
 
   if (loading) {
     return (
-      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <h1 className="text-foreground text-4xl font-semibold tracking-tight">My Reports</h1>
-        <p className="text-muted-foreground mt-2 text-lg">Your personal progress summary.</p>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+        <div className="px-4 lg:px-6">
+          <h1 className="text-2xl font-semibold tracking-tight">My Reports</h1>
+          <p className="text-sm text-muted-foreground mt-1">Your personal progress summary.</p>
+        </div>
+        <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-muted h-32 animate-pulse rounded-2xl" />
+            <div key={i} className="bg-muted h-32 animate-pulse rounded-lg" />
           ))}
         </div>
       </div>
@@ -157,34 +152,34 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center px-4 lg:px-6">
         <div>
-          <h1 className="text-foreground text-4xl font-semibold tracking-tight">My Reports</h1>
-          <p className="text-muted-foreground mt-2 text-lg">Your personal progress summary for the last 30 days.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">My Reports</h1>
+          <p className="text-sm text-muted-foreground mt-1">Your personal progress summary for the last 30 days.</p>
         </div>
         <Badge variant="outline" className="w-fit">
-          <BarChart3 className="mr-1 h-3 w-3" />
+          <HugeiconsIcon icon={BarChartIcon} className="mr-1 size-3" />
           {wellnessEntries.length} entries
         </Badge>
       </div>
 
       {/* Summary Cards */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-border rounded-2xl">
+      <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 *:data-[slot=card]:shadow-xs">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Sessions Completed</CardTitle>
-            <HeartPulse className="text-destructive h-4 w-4" />
+            <HugeiconsIcon icon={HeartCheckIcon} className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{sessionsCompleted}</div>
             <p className="text-muted-foreground text-xs">Total therapy sessions</p>
           </CardContent>
         </Card>
-        <Card className="border-border rounded-2xl">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Goals Achieved</CardTitle>
-            <Target className="text-warning h-4 w-4" />
+            <HugeiconsIcon icon={Target01Icon} className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{completedGoals}/{totalGoals}</div>
@@ -195,23 +190,23 @@ export default function ReportsPage() {
             </p>
           </CardContent>
         </Card>
-        <Card className="border-border rounded-2xl">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Journal Entries</CardTitle>
-            <Brain className="text-primary h-4 w-4" />
+            <HugeiconsIcon icon={Brain02Icon} className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{journalCount}</div>
             <p className="text-muted-foreground text-xs">Total journal entries</p>
           </CardContent>
         </Card>
-        <Card className="border-border rounded-2xl">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Mood Trend</CardTitle>
             {stats && stats.moodTrend >= 0 ? (
-              <TrendingUp className="text-success h-4 w-4" />
+              <HugeiconsIcon icon={ChartIncreaseIcon} className="size-4 text-muted-foreground" />
             ) : (
-              <TrendingDown className="text-destructive h-4 w-4" />
+              <HugeiconsIcon icon={ChartDecreaseIcon} className="size-4 text-muted-foreground" />
             )}
           </CardHeader>
           <CardContent>
@@ -225,7 +220,7 @@ export default function ReportsPage() {
 
       {/* Mood History Chart */}
       {stats && (
-        <Card className="mt-8 border-border rounded-2xl">
+        <Card className="mx-4 lg:mx-6">
           <CardHeader>
             <CardTitle>Mood History</CardTitle>
             <CardDescription>Daily mood scores over the past 30 days</CardDescription>
@@ -268,7 +263,7 @@ export default function ReportsPage() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="border-border bg-background rounded-2xl border p-2">
+                          <div className="border bg-background rounded-lg p-2">
                             <p className="text-muted-foreground mb-1 text-xs">{label}</p>
                             <p className="text-primary text-sm font-bold">Mood: {payload[0].value}/10</p>
                           </div>
@@ -294,7 +289,7 @@ export default function ReportsPage() {
 
       {/* Weekly Averages */}
       {weeklyData.length > 0 && (
-        <Card className="mt-8 border-border rounded-2xl">
+        <Card className="mx-4 lg:mx-6">
           <CardHeader>
             <CardTitle>Weekly Averages</CardTitle>
             <CardDescription>Average mood, energy, and stress management by week</CardDescription>
@@ -321,7 +316,7 @@ export default function ReportsPage() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="border-border bg-background rounded-2xl border p-2">
+                          <div className="border bg-background rounded-lg p-2">
                             <p className="text-muted-foreground mb-1 text-xs">{label}</p>
                             {payload.map((p: any) => (
                               <p key={p.dataKey} className="text-sm font-medium" style={{ color: p.color }}>
@@ -346,22 +341,22 @@ export default function ReportsPage() {
 
       {/* Wellness Metrics Summary */}
       {stats && (
-        <Card className="mt-8 border-border rounded-2xl">
+        <Card className="mx-4 lg:mx-6">
           <CardHeader>
             <CardTitle>Wellness Metrics Summary</CardTitle>
             <CardDescription>Your average scores across all tracked metrics</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
               {[
-                { label: 'Mood', value: stats.avgMood, max: 10, icon: TrendingUp, color: 'text-primary', bg: 'bg-primary' },
-                { label: 'Energy', value: stats.avgEnergy, max: 10, icon: Zap, color: 'text-warning', bg: 'bg-warning' },
-                { label: 'Stress Mgmt', value: stats.avgStress, max: 10, icon: Brain, color: 'text-success', bg: 'bg-success' },
-                { label: 'Sleep Quality', value: stats.avgSleep, max: 5, icon: Moon, color: 'text-chart-4', bg: 'bg-chart-4' },
+                { label: 'Mood', value: stats.avgMood, max: 10, icon: ChartIncreaseIcon },
+                { label: 'Energy', value: stats.avgEnergy, max: 10, icon: ZapIcon },
+                { label: 'Stress Mgmt', value: stats.avgStress, max: 10, icon: Brain02Icon },
+                { label: 'Sleep Quality', value: stats.avgSleep, max: 5, icon: Moon01Icon },
               ].map((metric) => (
                 <div key={metric.label} className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <metric.icon className={`h-4 w-4 ${metric.color}`} />
+                    <HugeiconsIcon icon={metric.icon} className="size-4 text-muted-foreground" />
                     <span className="text-sm font-medium">{metric.label}</span>
                   </div>
                   <div className="text-2xl font-semibold">
@@ -369,7 +364,7 @@ export default function ReportsPage() {
                   </div>
                   <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
                     <div
-                      className={`h-full rounded-full ${metric.bg} transition-all duration-500`}
+                      className="h-full rounded-full bg-primary transition-all duration-500"
                       style={{ width: `${(metric.value / metric.max) * 100}%` }}
                     />
                   </div>
@@ -382,9 +377,9 @@ export default function ReportsPage() {
 
       {/* Empty State */}
       {!stats && (
-        <div className="border-border bg-muted/30 mt-8 rounded-2xl border-2 border-dashed py-20 text-center">
-          <BarChart3 className="text-muted-foreground/50 mx-auto mb-4 h-10 w-10" />
-          <h3 className="text-foreground text-lg font-semibold">No report data yet</h3>
+        <div className="mx-4 lg:mx-6 rounded-lg border-2 border-dashed py-20 text-center">
+          <HugeiconsIcon icon={BarChartIcon} className="text-muted-foreground mx-auto mb-4 size-10" />
+          <h3 className="text-lg font-semibold">No report data yet</h3>
           <p className="text-muted-foreground mt-1 text-sm">
             Start tracking your wellness to see reports and trends here.
           </p>

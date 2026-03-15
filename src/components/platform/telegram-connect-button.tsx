@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { generateTelegramConnectCode } from '@/app/actions/telegram-actions';
-import { Loader2, ExternalLink } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon, ArrowUpRight01Icon } from '@hugeicons/core-free-icons';
 import {
   Dialog,
   DialogContent,
@@ -31,7 +32,7 @@ export function TelegramConnectButton({ botUsername = 'ekabalancebot' }: { botUs
   return (
     <>
       <Button variant="outline" size="sm" onClick={handleConnect} disabled={loading}>
-        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        {loading ? <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin"  /> : null}
         Connect Telegram
       </Button>
 
@@ -56,7 +57,7 @@ export function TelegramConnectButton({ botUsername = 'ekabalancebot' }: { botUs
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Open Telegram <ExternalLink className="ml-2 h-4 w-4" />
+                    Open Telegram <HugeiconsIcon icon={ArrowUpRight01Icon} className="ml-2 size-4"  />
                   </a>
                 </Button>
               )}

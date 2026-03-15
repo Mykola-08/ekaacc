@@ -1,43 +1,34 @@
 'use client';
 
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/context/platform/auth-context';
-import { supabase } from '@/lib/platform/supabase';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { StatusBadge } from '@/components/ui/status-badge';
 import {
-  UserPlus,
-  Edit,
-  Search,
-  AlertTriangle,
-  CheckCircle,
-  XCircle,
-  Check,
-  ChevronDown,
-  Trash2,
-  Calendar,
-  Clock,
-} from 'lucide-react';
-import {
   Dialog,
-  DialogPanel,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
-  Transition,
-  TransitionChild,
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-} from '@headlessui/react';
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: (string | undefined | null | false)[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Edit01Icon, Search01Icon, UserAdd01Icon } from '@hugeicons/core-free-icons';
 
 const roleAssignmentSchema = z.object({
   userId: z.string().min(1, 'User is required'),
@@ -82,11 +73,8 @@ export function RoleManagementPanelHeadless() {
     },
   });
 
-  // Mock data for now since actual backend connection might need Supabase types
   const fetchUsers = async () => {
     setLoading(false);
-    // In a real scenario, we'd fetch from Supabase here like in the original file
-    // For redesign purposes, we'll keep the UI strict
     setUsers([
       {
         id: '1',
@@ -123,36 +111,32 @@ export function RoleManagementPanelHeadless() {
   };
 
   return (
-    <div className="">
+    <div className="space-y-6">
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-foreground text-xl font-semibold">User Roles</h2>
           <p className="text-muted-foreground text-sm">Manage user access and permissions.</p>
         </div>
-        <button
-          onClick={() => setIsAssignDialogOpen(true)}
-          className="bg-foreground text-background hover:bg-foreground/90 flex items-center gap-2 rounded-xl px-4 py-2.5 transition-colors"
-        >
-          <UserPlus className="h-4 w-4" />
-          <span>Assign Role</span>
-        </button>
+        <Button onClick={() => setIsAssignDialogOpen(true)}>
+          <HugeiconsIcon icon={UserAdd01Icon} className="size-4" />
+          Assign Role
+        </Button>
       </div>
 
-      <div className="group relative w-full sm:w-96">
-        <Search className="text-muted-foreground/80 group-focus-within:text-primary absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transition-colors" />
-        <input
-          type="text"
+      <div className="relative w-full sm:w-96">
+        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+        <Input
           placeholder="Search users..."
-          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 focus:border-primary w-full rounded-2xl border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none"
+          className="pl-10"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="bg-card ring-border overflow-hidden rounded-2xl ring-1">
+      <div className="bg-card ring-border overflow-hidden rounded-lg ring-1">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
-            <thead className="bg-muted/30/50">
+            <thead className="bg-muted/50">
               <tr>
                 <th className="text-muted-foreground py-4 pr-3 pl-6 text-left text-xs font-semibold tracking-wide uppercase">
                   User
@@ -173,10 +157,10 @@ export function RoleManagementPanelHeadless() {
             </thead>
             <tbody className="divide-border bg-card divide-y">
               {users.map((user) => (
-                <tr key={user.id} className="hover:bg-muted/30/50 transition-colors">
+                <tr key={user.id} className="hover:bg-muted/50 transition-colors">
                   <td className="py-4 pr-3 pl-6 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-semibold">
+                      <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-full font-semibold">
                         {user.name.charAt(0)}
                       </div>
                       <div className="ml-4">
@@ -186,11 +170,7 @@ export function RoleManagementPanelHeadless() {
                     </div>
                   </td>
                   <td className="px-3 py-4 whitespace-nowrap">
-                    <span
-                      className={cn(
-                        'bg-primary/5 text-primary ring-primary/10 inline-flex items-center rounded-2xl px-2 py-1 text-xs font-medium tracking-wider uppercase ring-1 ring-inset'
-                      )}
-                    >
+                    <span className="bg-primary/5 text-primary ring-primary/10 inline-flex items-center rounded-lg px-2 py-1 text-xs font-medium tracking-wider uppercase ring-1 ring-inset">
                       {user.role}
                     </span>
                   </td>
@@ -201,9 +181,9 @@ export function RoleManagementPanelHeadless() {
                     {new Date(user.lastLoginAt).toLocaleDateString()}
                   </td>
                   <td className="relative py-4 pr-6 pl-3 text-right text-sm font-medium whitespace-nowrap">
-                    <button className="text-muted-foreground/80 hover:bg-primary/5 hover:text-primary rounded-2xl p-2 transition-colors">
-                      <Edit className="h-4 w-4" />
-                    </button>
+                    <Button variant="ghost" size="icon">
+                      <HugeiconsIcon icon={Edit01Icon} className="size-4" />
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -212,111 +192,60 @@ export function RoleManagementPanelHeadless() {
         </div>
       </div>
 
-      <Transition appear show={isAssignDialogOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={() => setIsAssignDialogOpen(false)}>
-          <TransitionChild
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="bg-foreground/25 fixed inset-0 backdrop-blur-sm" />
-          </TransitionChild>
+      <Dialog open={isAssignDialogOpen} onOpenChange={setIsAssignDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Assign Role</DialogTitle>
+            <DialogDescription>Grant specific permissions to a user.</DialogDescription>
+          </DialogHeader>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <TransitionChild
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-2xl p-8 text-left align-middle transition-all">
-                  <DialogTitle as="h3" className="text-foreground text-xl leading-6 font-semibold">
-                    Assign Role
-                  </DialogTitle>
-                  <div className="mt-2">
-                    <p className="text-muted-foreground text-sm">
-                      Grant specific permissions to a user.
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
-                    <div>
-                      <label className="text-foreground/90 mb-1 block text-sm font-medium">
-                        User ID
-                      </label>
-                      <input
-                        {...register('userId')}
-                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-2xl p-3 text-sm"
-                        placeholder="Select user..."
-                      />
-                      {errors.userId && (
-                        <p className="text-destructive mt-1 text-xs">{errors.userId.message}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="text-foreground/90 mb-1 block text-sm font-medium">
-                        Role
-                      </label>
-                      <select
-                        {...register('role')}
-                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-2xl p-3 text-sm"
-                      >
-                        <option value="">Select a role</option>
-                        <option value="admin">Admin</option>
-                        <option value="therapist">Therapist</option>
-                        <option value="user">User</option>
-                      </select>
-                      {errors.role && (
-                        <p className="text-destructive mt-1 text-xs">{errors.role.message}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="text-foreground/90 mb-1 block text-sm font-medium">
-                        Reason
-                      </label>
-                      <textarea
-                        {...register('reason')}
-                        rows={3}
-                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-2xl p-3 text-sm"
-                        placeholder="Why is this role being assigned?"
-                      />
-                      {errors.reason && (
-                        <p className="text-destructive mt-1 text-xs">{errors.reason.message}</p>
-                      )}
-                    </div>
-
-                    <div className="mt-8 flex justify-end gap-3">
-                      <button
-                        type="button"
-                        className="text-foreground/90 hover:bg-muted inline-flex justify-center rounded-xl px-4 py-2.5 text-sm font-medium transition-colors"
-                        onClick={() => setIsAssignDialogOpen(false)}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        className="bg-foreground text-background hover:bg-foreground/90 inline-flex justify-center rounded-xl px-6 py-2.5 text-sm font-medium transition-colors"
-                      >
-                        Assign Role
-                      </button>
-                    </div>
-                  </form>
-                </DialogPanel>
-              </TransitionChild>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-2">
+              <Label>User ID</Label>
+              <Input {...register('userId')} placeholder="Select user..." />
+              {errors.userId && (
+                <p className="text-destructive text-xs">{errors.userId.message}</p>
+              )}
             </div>
-          </div>
-        </Dialog>
-      </Transition>
+
+            <div className="space-y-2">
+              <Label>Role</Label>
+              <Select onValueChange={(val) => setValue('role', val)} value={watch('role')}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="therapist">Therapist</SelectItem>
+                  <SelectItem value="user">User</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.role && (
+                <p className="text-destructive text-xs">{errors.role.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Reason</Label>
+              <Textarea
+                {...register('reason')}
+                rows={3}
+                placeholder="Why is this role being assigned?"
+              />
+              {errors.reason && (
+                <p className="text-destructive text-xs">{errors.reason.message}</p>
+              )}
+            </div>
+
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setIsAssignDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Assign Role</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

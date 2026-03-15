@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Plus, Pencil } from 'lucide-react';
+
 import {
   Dialog,
   DialogContent,
@@ -16,6 +16,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { createAssignment, updateAssignment } from './actions';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Add01Icon, PencilIcon } from '@hugeicons/core-free-icons';
 import {
   Select,
   SelectContent,
@@ -91,7 +93,7 @@ export function AssignmentManager({
         >
           <DialogTrigger asChild>
             <Button className="gap-2" onClick={openCreate}>
-              <Plus className="h-4 w-4" /> Create Assignment
+              <HugeiconsIcon icon={Add01Icon} className="size-4"  /> Create Assignment
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -203,7 +205,7 @@ export function AssignmentManager({
                   className="gap-1"
                   onClick={() => openEdit(a)}
                 >
-                  <Pencil className="h-3 w-3" /> Edit
+                  <HugeiconsIcon icon={PencilIcon} className="size-3"  /> Edit
                 </Button>
               </div>
             </CardContent>

@@ -10,8 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
 import { sendClientErrorReport } from '@/lib/observability/client-error-reporting';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Alert01Icon, Home01Icon, Refresh01Icon } from '@hugeicons/core-free-icons';
 // import { PageContainer } from '@/components/platform/eka/page-container';
 // import { SurfacePanel } from '@/components/platform/eka/surface-panel';
 
@@ -70,7 +71,7 @@ export default function GlobalError({
             <Card className="w-full max-w-lg">
               <CardHeader>
                 <div className="text-destructive mb-4 flex items-center gap-2">
-                  <AlertTriangle className="h-6 w-6" />
+                  <HugeiconsIcon icon={Alert01Icon} className="size-6"  />
                   <CardTitle>Application Error</CardTitle>
                 </div>
                 <CardDescription>
@@ -110,7 +111,7 @@ export default function GlobalError({
 
               <CardFooter className="flex flex-wrap gap-2">
                 <Button onClick={reset} variant="default" className="flex-1 sm:flex-none">
-                  <RefreshCw className="mr-2 h-4 w-4" />
+                  <HugeiconsIcon icon={Refresh01Icon} className="mr-2 size-4"  />
                   Try Again
                 </Button>
                 <Button
@@ -118,7 +119,7 @@ export default function GlobalError({
                   variant="outline"
                   className="flex-1 sm:flex-none"
                 >
-                  <Home className="mr-2 h-4 w-4" />
+                  <HugeiconsIcon icon={Home01Icon} className="mr-2 size-4"  />
                   Go Home
                 </Button>
               </CardFooter>

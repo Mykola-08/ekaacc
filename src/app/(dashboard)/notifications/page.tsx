@@ -1,7 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BellIcon, CheckIcon, CheckCheck, Inbox } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CheckmarkCircle02Icon, InboxIcon } from '@hugeicons/core-free-icons';
+
 import { NotificationItem } from './notification-item';
 import { markNotificationsRead } from './actions';
 import { redirect } from 'next/navigation';
@@ -46,42 +48,44 @@ export default async function NotificationsPage() {
   const unreadCount = displayNotifications.filter(n => !n.is_read).length;
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col space-y-8 py-8 px-4 sm:px-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between px-4 lg:px-6">
         <div className="space-y-1">
-          <h1 className="text-foreground text-3xl font-bold tracking-tight">Notifications</h1>
-          <p className="text-muted-foreground text-base">
+          <h1 className="text-2xl font-semibold tracking-tight">Notifications</h1>
+          <p className="text-sm text-muted-foreground">
             Stay updated with your appointments, resources, and wellness journey.
           </p>
         </div>
         
         {unreadCount > 0 && (
           <form action={markNotificationsRead}>
-            <Button variant="outline" size="sm" className="gap-2 rounded-full px-5 hover:bg-primary/5 hover:text-primary transition-colors">
-              <CheckIcon className="h-4 w-4" /> 
+            <Button variant="outline" size="sm" className="gap-2">
+              <HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-4" /> 
               Mark all read
             </Button>
           </form>
         )}
       </div>
 
-      {displayNotifications.length === 0 ? (
-        <Card className="border-border bg-card/50 flex flex-col items-center justify-center py-20 text-center shadow-none border-dashed">
-          <div className="bg-muted mb-4 rounded-full p-4">
-            <Inbox className="text-muted-foreground h-8 w-8" />
+      <div className="px-4 lg:px-6">
+        {displayNotifications.length === 0 ? (
+          <Card className="flex flex-col items-center justify-center py-20 text-center border-dashed">
+            <div className="bg-muted mb-4 rounded-lg p-4">
+              <HugeiconsIcon icon={InboxIcon} className="text-muted-foreground size-8" />
+            </div>
+            <CardTitle className="text-xl mb-2">No notifications yet</CardTitle>
+            <CardDescription className="max-w-xs text-balance">
+              When you have upcoming sessions, new messages, or helpful resources, they will appear here.
+            </CardDescription>
+          </Card>
+        ) : (
+          <div className="flex flex-col space-y-4">
+            {displayNotifications.map((notification) => (
+              <NotificationItem key={notification.id} notification={notification} />
+            ))}
           </div>
-          <CardTitle className="text-xl mb-2">No notifications yet</CardTitle>
-          <CardDescription className="max-w-xs text-balance">
-            When you have upcoming sessions, new messages, or helpful resources, they will appear here.
-          </CardDescription>
-        </Card>
-      ) : (
-        <div className="flex flex-col space-y-4">
-          {displayNotifications.map((notification) => (
-            <NotificationItem key={notification.id} notification={notification} />
-          ))}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

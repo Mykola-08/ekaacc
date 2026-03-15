@@ -7,7 +7,8 @@
  */
 
 import * as motion from 'motion/react-client';
-import { Wallet } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Wallet01Icon } from '@hugeicons/core-free-icons';
 
 interface WalletBalanceProps {
   balance: number;
@@ -35,7 +36,7 @@ export function WalletBalanceCard({ balance, currency }: WalletBalanceProps) {
 
       <div className="relative flex items-center gap-3">
         <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
-          <Wallet className="text-primary h-5 w-5" />
+          <HugeiconsIcon icon={Wallet01Icon} className="text-primary size-5"  />
         </div>
         <div>
           <p className="text-muted-foreground text-xs font-medium">Wallet Balance</p>

@@ -1,0 +1,232 @@
+src/app/(auth)/reset-password/page.tsx(187,40): error TS2552: Cannot find name 'Lock01Icon'. Did you mean 'LockIcon'?
+src/app/(dashboard)/donations/reports/page.tsx(82,34): error TS2304: Cannot find name 'HeartIcon'.
+src/app/(dashboard)/donations/reports/page.tsx(102,36): error TS2304: Cannot find name 'HeartIcon'.
+src/app/(dashboard)/settings/privacy/page.tsx(633,44): error TS2552: Cannot find name 'Lock01Icon'. Did you mean 'Clock01Icon'?
+src/app/(dashboard)/therapist/session-notes/page.tsx(193,9): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<{ className?: string; }>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<{ className?: string; }>'.
+src/app/(dashboard)/therapist/session-notes/page.tsx(365,36): error TS2552: Cannot find name 'SmileFreeIcon'. Did you mean 'SmileIcon'?
+src/app/(dashboard)/therapist/templates/page.tsx(294,40): error TS2552: Cannot find name 'Filter01Icon'. Did you mean 'File01Icon'?
+src/app/(marketing)/agenyz/[id]/AgenyzProductContent.tsx(121,38): error TS2304: Cannot find name 'Zap01Icon'.
+src/app/(marketing)/agenyz/[id]/AgenyzProductContent.tsx(168,42): error TS2304: Cannot find name 'Zap01Icon'.
+src/app/(marketing)/agenyz/[id]/AgenyzProductContent.tsx(252,42): error TS2304: Cannot find name 'Zap01Icon'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(17,24): error TS2304: Cannot find name 'Activity'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(18,29): error TS2304: Cannot find name 'Brain'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(20,5): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(25,16): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(26,25): error TS2304: Cannot find name 'Zap'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(28,5): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(34,5): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/app/(marketing)/cases/[id]/CaseDetailContent.tsx(40,5): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/components/admin/services/ServicesList.tsx(110,18): error TS2322: Type '"success"' is not assignable to type '"link" | "outline" | "default" | "secondary" | "ghost" | "destructive"'.
+src/components/ai-elements/artifact.tsx(60,19): error TS2304: Cannot find name 'XIcon'.
+src/components/ai-elements/chain-of-thought.tsx(87,12): error TS2304: Cannot find name 'BrainIcon'.
+src/components/ai-elements/chain-of-thought.tsx(91,12): error TS2304: Cannot find name 'ChevronDownIcon'.
+src/components/ai-elements/chain-of-thought.tsx(119,18): error TS2304: Cannot find name 'DotIcon'.
+src/components/ai-elements/checkpoint.tsx(41,6): error TS2304: Cannot find name 'BookmarkIcon'.
+src/components/ai-elements/jsx-preview.tsx(300,14): error TS2304: Cannot find name 'HugeiconsIcon'.
+src/components/ai-elements/jsx-preview.tsx(300,34): error TS2304: Cannot find name 'Alert01Icon'.
+src/components/ai-elements/prompt-input.tsx(444,8): error TS2304: Cannot find name 'HugeiconsIcon'.
+src/components/ai-elements/prompt-input.tsx(444,28): error TS2304: Cannot find name 'GlobeIcon'.
+src/components/ai/blocks/wellness-insights-card.tsx(63,16): error TS2604: JSX element type 'Icon' does not have any construct or call signatures.
+src/components/ai/blocks/wellness-insights-card.tsx(63,16): error TS2786: 'Icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/ai/chat-welcome.tsx(95,18): error TS2604: JSX element type 'Icon' does not have any construct or call signatures.
+src/components/ai/chat-welcome.tsx(95,18): error TS2786: 'Icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/ai/widgets/daily-summary.tsx(72,16): error TS2604: JSX element type 'TimeIcon' does not have any construct or call signatures.
+src/components/ai/widgets/daily-summary.tsx(72,16): error TS2786: 'TimeIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/ai/widgets/insights-panel.tsx(138,24): error TS2604: JSX element type 'Icon' does not have any construct or call signatures.
+src/components/ai/widgets/insights-panel.tsx(138,24): error TS2786: 'Icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/business/BusinessPage.tsx(91,18): error TS2604: JSX element type 'feature.icon' does not have any construct or call signatures.
+src/components/business/BusinessPage.tsx(91,18): error TS2786: 'feature.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/community/CommunityChannelList.tsx(33,36): error TS2304: Cannot find name 'Lock01Icon'.
+src/components/community/CommunityFeed.tsx(167,40): error TS2304: Cannot find name 'HeartIcon'.
+src/components/dashboard/chat/ChatInterface.tsx(276,40): error TS2304: Cannot find name 'Phone01Icon'.
+src/components/data-table.tsx(139,2): error TS2322: Type 'true | "" | "indeterminate"' is not assignable to type 'CheckedState'.
+  Type '""' is not assignable to type 'CheckedState'.
+src/components/editor-base-kit.tsx(1,30): error TS2307: Cannot find module './plugins/align-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(2,36): error TS2307: Cannot find module './plugins/basic-blocks-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(3,35): error TS2307: Cannot find module './plugins/basic-marks-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(4,32): error TS2307: Cannot find module './plugins/callout-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(5,34): error TS2307: Cannot find module './plugins/code-block-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(6,31): error TS2307: Cannot find module './plugins/column-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(7,32): error TS2307: Cannot find module './plugins/comment-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(8,29): error TS2307: Cannot find module './plugins/date-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(9,29): error TS2307: Cannot find module './plugins/font-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(10,35): error TS2307: Cannot find module './plugins/line-height-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(11,29): error TS2307: Cannot find module './plugins/link-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(12,29): error TS2307: Cannot find module './plugins/list-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(13,29): error TS2307: Cannot find module './plugins/markdown-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(14,29): error TS2307: Cannot find module './plugins/math-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(15,30): error TS2307: Cannot find module './plugins/media-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(16,32): error TS2307: Cannot find module './plugins/mention-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(17,35): error TS2307: Cannot find module './plugins/suggestion-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(18,30): error TS2307: Cannot find module './plugins/table-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(19,28): error TS2307: Cannot find module './plugins/toc-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(20,31): error TS2307: Cannot find module './plugins/toggle-base-kit' or its corresponding type declarations.
+src/components/journal/JournalPage.tsx(31,34): error TS2552: Cannot find name 'SmileFreeIcon'. Did you mean 'SmileIcon'?
+src/components/journal/JournalPage.tsx(32,36): error TS2304: Cannot find name 'MehFreeIcon'.
+src/components/journal/JournalPage.tsx(33,32): error TS2304: Cannot find name 'SadFreeIcon'.
+src/components/platform/admin/analytics-dashboard-headless.tsx(195,14): error TS2604: JSX element type 'BarChartIcon' does not have any construct or call signatures.
+src/components/platform/admin/analytics-dashboard-headless.tsx(195,14): error TS2786: 'BarChartIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/admin/analytics-dashboard-headless.tsx(259,14): error TS2604: JSX element type 'Activity01Icon' does not have any construct or call signatures.
+src/components/platform/admin/analytics-dashboard-headless.tsx(259,14): error TS2786: 'Activity01Icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/admin/analytics-dashboard-headless.tsx(273,14): error TS2604: JSX element type 'BarChartIcon' does not have any construct or call signatures.
+src/components/platform/admin/analytics-dashboard-headless.tsx(273,14): error TS2786: 'BarChartIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/admin/analytics-dashboard-headless.tsx(337,16): error TS2339: Property 'ListViewIcon' does not exist on type '_internal_ComponentTab & { Group: _internal_ComponentTabGroup; List: _internal_ComponentTabList; Panels: _internal_ComponentTabPanels; Panel: _internal_ComponentTabPanel; }'.
+src/components/platform/admin/analytics-dashboard-headless.tsx(354,17): error TS2339: Property 'ListViewIcon' does not exist on type '_internal_ComponentTab & { Group: _internal_ComponentTabGroup; List: _internal_ComponentTabList; Panels: _internal_ComponentTabPanels; Panel: _internal_ComponentTabPanel; }'.
+src/components/platform/admin/role-management-panel-headless.tsx(125,12): error TS2604: JSX element type 'UserAdd01Icon' does not have any construct or call signatures.
+src/components/platform/admin/role-management-panel-headless.tsx(125,12): error TS2786: 'UserAdd01Icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/admin/role-management-panel-headless.tsx(194,24): error TS2604: JSX element type 'Edit01Icon' does not have any construct or call signatures.
+src/components/platform/admin/role-management-panel-headless.tsx(194,24): error TS2786: 'Edit01Icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/admin/user-management-headless.tsx(152,66): error TS2304: Cannot find name 'UserIcon'.
+src/components/platform/editor/rich-text-editor.tsx(13,26): error TS2440: Import declaration conflicts with local declaration of 'Leaf01Icon'.
+src/components/platform/settings/billing-settings.tsx(91,14): error TS2604: JSX element type 'ShieldIcon' does not have any construct or call signatures.
+src/components/platform/settings/billing-settings.tsx(91,14): error TS2786: 'ShieldIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/settings/billing-settings.tsx(133,18): error TS2604: JSX element type 'ShieldIcon' does not have any construct or call signatures.
+src/components/platform/settings/billing-settings.tsx(133,18): error TS2786: 'ShieldIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/settings/billing-settings.tsx(228,14): error TS2604: JSX element type 'ReceiptTextIcon' does not have any construct or call signatures.
+src/components/platform/settings/billing-settings.tsx(228,14): error TS2786: 'ReceiptTextIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/settings/billing-settings.tsx(254,26): error TS2604: JSX element type 'ReceiptTextIcon' does not have any construct or call signatures.
+src/components/platform/settings/billing-settings.tsx(254,26): error TS2786: 'ReceiptTextIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/settings/billing-settings.tsx(305,16): error TS2604: JSX element type 'ReceiptTextIcon' does not have any construct or call signatures.
+src/components/platform/settings/billing-settings.tsx(305,16): error TS2786: 'ReceiptTextIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/settings/settings-content-headless.tsx(52,30): error TS2304: Cannot find name 'UserIcon'.
+src/components/platform/wallet/wallet-content-headless.tsx(272,44): error TS2304: Cannot find name 'HistoryIcon'.
+src/components/settings-dialog.tsx(44,29): error TS2307: Cannot find module './plugins/ai-kit' or its corresponding type declarations.
+src/components/ui/comment.tsx(155,5): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(164,20): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(221,19): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(445,22): error TS2339: Property 'tf' does not exist on type 'never'.
+src/components/ui/comment.tsx(452,5): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(555,21): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(570,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'SetStateAction<Value>'.
+src/components/ui/list-toolbar-button.tsx(55,30): error TS2304: Cannot find name 'List01Icon'.
+src/components/ui/status-badge.tsx(2,22): error TS2305: Module '"@/components/ui/badge"' has no exported member 'BadgeProps'.
+src/components/use-chat.ts(21,34): error TS2307: Cannot find module './plugins/discussion-kit' or its corresponding type declarations.
+src/marketing/components/AboutElenaContent.tsx(114,34): error TS2304: Cannot find name 'HeartIcon'.
+src/marketing/components/ArtistsContent.tsx(14,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasoDetailContent.tsx(39,26): error TS2304: Cannot find name 'Activity'.
+src/marketing/components/CasoDetailContent.tsx(41,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/marketing/components/CasoDetailContent.tsx(47,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/marketing/components/CasoDetailContent.tsx(52,18): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/marketing/components/CasoDetailContent.tsx(53,27): error TS2304: Cannot find name 'Zap'.
+src/marketing/components/CasoDetailContent.tsx(55,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/marketing/components/CasoDetailContent.tsx(61,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/marketing/components/CasoDetailContent.tsx(67,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<any>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<any>'.
+src/marketing/components/CasosContent.tsx(53,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosContent.tsx(62,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosContent.tsx(71,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosContent.tsx(80,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosContent.tsx(89,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosContent.tsx(98,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosContent.tsx(107,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosContent.tsx(116,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/CasosSection.tsx(26,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<{ className?: string; }>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<{ className?: string; }>'.
+src/marketing/components/CasosSection.tsx(34,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<{ className?: string; }>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<{ className?: string; }>'.
+src/marketing/components/CasosSection.tsx(42,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<{ className?: string; }>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<{ className?: string; }>'.
+src/marketing/components/CasosSection.tsx(50,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<{ className?: string; }>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<{ className?: string; }>'.
+src/marketing/components/CasosSection.tsx(58,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<{ className?: string; }>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<{ className?: string; }>'.
+src/marketing/components/CasosSection.tsx(66,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ComponentType<{ className?: string; }>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ComponentType<{ className?: string; }>'.
+src/marketing/components/ContactForm.tsx(255,20): error TS2604: JSX element type 'item.icon' does not have any construct or call signatures.
+src/marketing/components/ContactForm.tsx(255,20): error TS2786: 'item.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/marketing/components/ContactForm.tsx(388,44): error TS2304: Cannot find name 'Phone01Icon'.
+src/marketing/components/ContactForm.tsx(486,28): error TS2604: JSX element type 'option.icon' does not have any construct or call signatures.
+src/marketing/components/ContactForm.tsx(486,28): error TS2786: 'option.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/marketing/components/ContactForm.tsx(630,42): error TS2304: Cannot find name 'Phone01Icon'.
+src/marketing/components/ContactFormOptimized.tsx(257,20): error TS2604: JSX element type 'item.icon' does not have any construct or call signatures.
+src/marketing/components/ContactFormOptimized.tsx(257,20): error TS2786: 'item.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/marketing/components/ContactFormOptimized.tsx(390,44): error TS2304: Cannot find name 'Phone01Icon'.
+src/marketing/components/ContactFormOptimized.tsx(488,28): error TS2604: JSX element type 'option.icon' does not have any construct or call signatures.
+src/marketing/components/ContactFormOptimized.tsx(488,28): error TS2786: 'option.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/marketing/components/ContactFormOptimized.tsx(632,42): error TS2304: Cannot find name 'Phone01Icon'.
+src/marketing/components/DiscoveryContent.tsx(746,40): error TS2304: Cannot find name 'Clipboard01Icon'.
+src/marketing/components/FooterPillMenu.tsx(42,18): error TS2604: JSX element type 'item.icon' does not have any construct or call signatures.
+src/marketing/components/FooterPillMenu.tsx(42,18): error TS2786: 'item.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/marketing/components/ForAthletesContent.tsx(49,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/ForMusiciansContent.tsx(49,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/ForOfficeWorkersContent.tsx(49,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/ForParentsContent.tsx(14,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/ForStudentsContent.tsx(14,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/KinesiologyContent.tsx(19,9): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/MassageContent.tsx(19,9): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/NutritionContent.tsx(22,9): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/PersonaContent.tsx(174,7): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/ServicesContent.tsx(30,38): error TS2304: Cannot find name 'HeartIcon'.
+src/marketing/components/VIPContent.tsx(351,22): error TS2604: JSX element type 'service.icon' does not have any construct or call signatures.
+src/marketing/components/VIPContent.tsx(351,22): error TS2786: 'service.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.

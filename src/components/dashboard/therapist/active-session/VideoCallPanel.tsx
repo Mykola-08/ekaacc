@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef } from 'react';
 import DailyIframe, { DailyCall } from '@daily-co/daily-js';
 import { Button } from '@/components/ui/button';
-import { Video, Mic, MicOff, VideoOff } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Video01Icon, Mic01Icon, MicOff01Icon, VideoOffIcon } from '@hugeicons/core-free-icons';
 
 interface VideoCallPanelProps {
   roomUrl?: string; // e.g. "https://yourdomain.daily.co/hello"
@@ -74,7 +75,7 @@ export function VideoCallPanel({ roomUrl }: VideoCallPanelProps) {
 
   if (!roomUrl) {
     return (
-      <div className="bg-muted/20 border-muted-foreground/30 text-muted-foreground flex h-full items-center justify-center rounded-2xl border border-dashed p-8 text-center">
+      <div className="bg-muted/20 border-muted-foreground/30 text-muted-foreground flex h-full items-center justify-center rounded-lg border border-dashed p-8 text-center">
         <p>No video room linked to this session yet.</p>
       </div>
     );
@@ -91,12 +92,12 @@ export function VideoCallPanel({ roomUrl }: VideoCallPanelProps) {
       {/* The Daily iframe container */}
       <div
         ref={containerRef}
-        className="relative w-full flex-1 overflow-hidden rounded-2xl bg-black"
+        className="relative w-full flex-1 overflow-hidden rounded-lg bg-black"
       >
         {!hasJoined && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/80">
             <Button onClick={joinCall} size="lg" className="gap-2">
-              <Video className="h-5 w-5" />
+              <HugeiconsIcon icon={Video01Icon} className="size-5"  />
               Join Patient Video Call
             </Button>
           </div>
@@ -104,7 +105,7 @@ export function VideoCallPanel({ roomUrl }: VideoCallPanelProps) {
       </div>
 
       {hasJoined && (
-        <div className="bg-muted/30 flex justify-center gap-4 rounded-2xl border p-2">
+        <div className="bg-muted/30 flex justify-center gap-4 rounded-lg border p-2">
           {/* Native controls shown via Daily frame, but you can build custom wrappers if needed. */}
           <Button variant="destructive" onClick={leaveCall}>
             End Call

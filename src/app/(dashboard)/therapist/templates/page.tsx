@@ -25,22 +25,11 @@ import { Skeleton } from '@/components/ui';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import React, { useEffect, useState, useMemo } from 'react';
-import {
-  FileText,
-  Search,
-  Filter,
-  Download,
-  Copy,
-  Plus,
-  TrendingUp,
-  User as UserIcon,
-  Sparkles,
-} from 'lucide-react';
+
 import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { format } from 'date-fns';
-import { motion } from 'motion/react';
 import {
   TherapistTemplate,
   AutofillData,
@@ -48,6 +37,8 @@ import {
 } from '@/lib/platform/types/template-types';
 import type { User as UserType, Session } from '@/lib/platform/types/types';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { File01Icon, Search01Icon, FilterIcon, Download01Icon, Copy01Icon, Add01Icon, AnalyticsUpIcon, UserIcon, SparklesIcon } from '@hugeicons/core-free-icons';
 
 export default function TherapistTemplatesPage() {
   const { user: currentUser } = useAuth();
@@ -225,8 +216,8 @@ export default function TherapistTemplatesPage() {
 
   if (isLoading) {
     return (
-      <div className="bg-muted/30 min-h-screen">
-        <div className="">
+      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+        <div className="px-4 lg:px-6">
           <div className="flex items-center justify-between">
             <div>
               <Skeleton className="h-8 w-64" />
@@ -234,7 +225,8 @@ export default function TherapistTemplatesPage() {
             </div>
             <Skeleton className="h-10 w-48" />
           </div>
-          <Card>
+        </div>
+          <Card className="mx-4 lg:mx-6">
             <CardContent className="pt-6">
               <div className="flex gap-4">
                 <Skeleton className="h-10 flex-1" />
@@ -242,7 +234,7 @@ export default function TherapistTemplatesPage() {
               </div>
             </CardContent>
           </Card>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
             {[...Array(6)].map((_, i) => (
               <Card key={i}>
                 <CardHeader>
@@ -264,45 +256,32 @@ export default function TherapistTemplatesPage() {
               </Card>
             ))}
           </div>
-        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-muted/30 min-h-screen">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className=""
-      >
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between px-4 lg:px-6">
             <div>
-              <h3 className="text-2xl font-semibold">Report Templates</h3>
-              <p className="text-muted-foreground mt-1">
+              <h3 className="text-2xl font-semibold tracking-tight">Report Templates</h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 Professional templates with smart autofill from client data
               </p>
             </div>
-            <Button variant="default" className="gap-2">
-              <Plus className="h-4 w-4" />
+            <Button variant="default" size="sm" className="gap-2">
+              <HugeiconsIcon icon={Add01Icon} className="size-4"  />
               Create Custom Template
             </Button>
-          </div>
-        </motion.div>
+        </div>
 
         {/* Search and Filter */}
-        <Card>
+        <Card className="mx-4 lg:mx-6">
           <CardContent className="pt-6">
             <div className="flex gap-4">
               <div className="relative flex-1">
-                <Search className="text-muted-foreground/80 absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
+                <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform"  />
                 <Input
                   placeholder="Search templates..."
                   className="pl-9"
@@ -312,7 +291,7 @@ export default function TherapistTemplatesPage() {
               </div>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger className="w-48">
-                  <Filter className="mr-2 h-4 w-4" />
+                  <HugeiconsIcon icon={FilterIcon} className="mr-2 size-4"  />
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent>
@@ -329,34 +308,14 @@ export default function TherapistTemplatesPage() {
         </Card>
 
         {/* Templates Grid */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {filteredTemplates.map((template, index) => (
-            <motion.div
-              key={template.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-            >
+        <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
+          {filteredTemplates.map((template) => (
+            <div key={template.id}>
               <Card className="flex h-full cursor-pointer flex-col">
                 <CardHeader>
                   <div className="flex items-start justify-between">
-                    <FileText className="text-primary mb-2 h-8 w-8" />
-                    <Badge
-                      color={
-                        template.category === 'progress'
-                          ? 'primary'
-                          : template.category === 'assessment'
-                            ? 'purple'
-                            : template.category === 'treatment-plan'
-                              ? 'green'
-                              : template.category === 'session-notes'
-                                ? 'orange'
-                                : template.category === 'discharge'
-                                  ? 'red'
-                                  : 'gray'
-                      }
-                      variant="secondary"
-                    >
+                    <HugeiconsIcon icon={File01Icon} className="mb-2 size-8 text-muted-foreground"  />
+                    <Badge variant="secondary">
                       {template.category.replace('-', ' ')}
                     </Badge>
                   </div>
@@ -366,11 +325,11 @@ export default function TherapistTemplatesPage() {
                 <CardContent className="flex flex-1 flex-col justify-between">
                   <div className="text-muted-foreground mb-4 text-xs">
                     <div className="flex items-center gap-2">
-                      <TrendingUp className="h-3 w-3" />
+                      <HugeiconsIcon icon={AnalyticsUpIcon} className="size-3"  />
                       <span>Used {template.useCount} times</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Sparkles className="h-3 w-3" />
+                      <HugeiconsIcon icon={SparklesIcon} className="size-3"  />
                       <span>{template.fields.length} auto-fill fields</span>
                     </div>
                   </div>
@@ -383,17 +342,16 @@ export default function TherapistTemplatesPage() {
                   </Button>
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
 
       {/* Template Modal */}
       <Dialog open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
         <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
+              <HugeiconsIcon icon={File01Icon} className="size-5"  />
               {selectedTemplate?.name}
             </DialogTitle>
             <DialogDescription>
@@ -404,7 +362,7 @@ export default function TherapistTemplatesPage() {
           <div className="p-1">
             <div className="">
               <Label className="flex items-center gap-2">
-                <UserIcon className="h-4 w-4" />
+                <HugeiconsIcon icon={UserIcon} className="size-4"  />
                 Select Client *
               </Label>
               <Select value={selectedClient} onValueChange={setSelectedClient}>
@@ -425,7 +383,7 @@ export default function TherapistTemplatesPage() {
               <Card className="bg-muted/30">
                 <CardHeader className="p-4">
                   <CardTitle className="flex items-center gap-2 text-sm">
-                    <Sparkles className="h-4 w-4" />
+                    <HugeiconsIcon icon={SparklesIcon} className="size-4"  />
                     Auto-filled Information
                   </CardTitle>
                 </CardHeader>
@@ -517,7 +475,7 @@ export default function TherapistTemplatesPage() {
               Cancel
             </Button>
             <Button onClick={handleGenerateReport} variant="default" className="gap-2">
-              <FileText className="h-4 w-4" />
+              <HugeiconsIcon icon={File01Icon} className="size-4"  />
               Generate Report
             </Button>
           </DialogFooter>
@@ -530,7 +488,7 @@ export default function TherapistTemplatesPage() {
           <DialogHeader>
             <DialogTitle>Generated Report Preview</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="bg-muted/30 h-96 rounded-2xl border p-4">
+          <ScrollArea className="bg-muted/30 h-96 rounded-lg border p-4">
             <p className="text-sm whitespace-pre-wrap">{previewContent}</p>
           </ScrollArea>
           <DialogFooter>
@@ -538,11 +496,11 @@ export default function TherapistTemplatesPage() {
               Close
             </Button>
             <Button onClick={handleCopyToClipboard} variant="outline" className="gap-2">
-              <Copy className="h-4 w-4" />
+              <HugeiconsIcon icon={Copy01Icon} className="size-4"  />
               Copy
             </Button>
             <Button onClick={handleDownload} variant="default" className="gap-2">
-              <Download className="h-4 w-4" />
+              <HugeiconsIcon icon={Download01Icon} className="size-4"  />
               Download
             </Button>
           </DialogFooter>

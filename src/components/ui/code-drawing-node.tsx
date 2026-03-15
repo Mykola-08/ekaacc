@@ -28,7 +28,6 @@ import {
   useSelected,
 } from 'platejs/react';
 import debounce from 'lodash/debounce.js';
-import { Trash2, DownloadIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -37,6 +36,9 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from '@/components/ui/popover';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Delete01Icon } from '@hugeicons/core-free-icons';
+import { DownloadIcon } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -255,7 +257,7 @@ export function CodeDrawingElement(
             onClick={removeNode}
             title="Delete"
           >
-            <Trash2 className="size-4" />
+            <HugeiconsIcon icon={Delete01Icon} className="size-4"  />
           </Button>
         </div>
       </PopoverContent>

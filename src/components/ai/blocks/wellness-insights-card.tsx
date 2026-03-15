@@ -7,8 +7,9 @@
  */
 
 import * as motion from 'motion/react-client';
-import { Brain, ChevronRight, Lightbulb, TrendingUp, Heart, Target, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
+import { AnalyticsUpIcon, ArrowRight01Icon, Brain01Icon, BulbIcon, FavouriteIcon, Idea01Icon, Target01Icon, ZapIcon } from '@hugeicons/core-free-icons';
 
 interface Insight {
   type: string;
@@ -21,14 +22,14 @@ interface WellnessInsightsProps {
   insights: Insight[];
 }
 
-const typeConfig: Record<string, { icon: typeof Brain; color: string }> = {
-  wellness: { icon: Heart, color: 'text-destructive' },
-  therapy: { icon: Brain, color: 'text-chart-4' },
-  behavioral: { icon: Target, color: 'text-warning' },
-  progress: { icon: TrendingUp, color: 'text-success' },
-  recommendation: { icon: Lightbulb, color: 'text-primary' },
-  mood: { icon: Zap, color: 'text-warning' },
-  engagement: { icon: TrendingUp, color: 'text-info' },
+const typeConfig: Record<string, { icon: IconSvgElement; color: string }> = {
+  wellness: { icon: FavouriteIcon, color: 'text-destructive' },
+  therapy: { icon: Brain01Icon, color: 'text-chart-4' },
+  behavioral: { icon: Target01Icon, color: 'text-warning' },
+  progress: { icon: AnalyticsUpIcon, color: 'text-success' },
+  recommendation: { icon: BulbIcon, color: 'text-primary' },
+  mood: { icon: ZapIcon, color: 'text-warning' },
+  engagement: { icon: AnalyticsUpIcon, color: 'text-info' },
 };
 
 export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
@@ -42,7 +43,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
       className="bg-card w-full max-w-md rounded-lg border p-4"
     >
       <div className="flex items-center gap-2">
-        <Brain className="text-primary h-4 w-4" />
+        <HugeiconsIcon icon={Brain01Icon} className="text-primary size-4"  />
         <p className="text-sm font-semibold">Wellness Insights</p>
       </div>
 
@@ -59,7 +60,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
             className="bg-muted/50 rounded-xl p-3"
           >
             <div className="mb-1.5 flex items-center gap-2">
-              <Icon className={cn('h-4 w-4', cfg.color)} />
+              <HugeiconsIcon icon={Icon} className={cn('h-4 w-4', cfg.color)} />
               <p className="text-sm font-medium">{insight.title}</p>
             </div>
             <p className="text-muted-foreground mb-2 text-xs leading-relaxed">
@@ -69,7 +70,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
               <ul className="">
                 {insight.actionItems.map((item, j) => (
                   <li key={j} className="flex items-start gap-1.5 text-xs">
-                    <ChevronRight className="text-primary mt-0.5 h-3 w-3 shrink-0" />
+                    <HugeiconsIcon icon={ArrowRight01Icon} className="text-primary mt-0.5 size-3 shrink-0"  />
                     <span>{item}</span>
                   </li>
                 ))}

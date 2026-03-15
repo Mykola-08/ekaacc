@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Receipt, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { FavouriteIcon, InvoiceIcon, ArrowUpRight01Icon, ArrowTurnDownIcon } from '@hugeicons/core-free-icons';
+
 
 interface Transaction {
   id: string;
@@ -57,7 +59,7 @@ export default function DonationReportsPage() {
           <p className="text-muted-foreground mt-2 text-lg">Your donation and payment history.</p>
         </div>
         <Badge variant="outline" className="w-fit">
-          <Receipt className="mr-1 h-3 w-3" />
+          <HugeiconsIcon icon={InvoiceIcon} className="mr-1 size-3"  />
           {transactions.length} transactions
         </Badge>
       </div>
@@ -67,7 +69,7 @@ export default function DonationReportsPage() {
         <Card className="border-border rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
-            <Receipt className="text-primary h-4 w-4" />
+            <HugeiconsIcon icon={InvoiceIcon} className="text-primary size-4"  />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{transactions.length}</div>
@@ -77,7 +79,7 @@ export default function DonationReportsPage() {
         <Card className="border-border rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Amount</CardTitle>
-            <Heart className="text-destructive h-4 w-4" />
+            <HugeiconsIcon icon={FavouriteIcon} className="text-destructive size-4"  />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">
@@ -97,7 +99,7 @@ export default function DonationReportsPage() {
         <CardContent>
           {transactions.length === 0 ? (
             <div className="border-border bg-muted/30 rounded-2xl border-2 border-dashed py-12 text-center">
-              <Heart className="text-muted-foreground/50 mx-auto mb-4 h-10 w-10" />
+              <HugeiconsIcon icon={FavouriteIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
               <h3 className="text-foreground text-lg font-semibold">No transactions yet</h3>
               <p className="text-muted-foreground mt-1 text-sm">
                 Your donation and payment history will appear here.
@@ -113,11 +115,11 @@ export default function DonationReportsPage() {
                   <div className="flex items-center gap-3">
                     {txn.amount >= 0 ? (
                       <div className="bg-success/10 flex h-9 w-9 items-center justify-center rounded-full">
-                        <ArrowUpRight className="text-success h-4 w-4" />
+                        <HugeiconsIcon icon={ArrowUpRight01Icon} className="text-success size-4"  />
                       </div>
                     ) : (
                       <div className="bg-destructive/10 flex h-9 w-9 items-center justify-center rounded-full">
-                        <ArrowDownRight className="text-destructive h-4 w-4" />
+                        <HugeiconsIcon icon={ArrowTurnDownIcon} className="text-destructive size-4"  />
                       </div>
                     )}
                     <div>

@@ -7,7 +7,8 @@ import { Button } from '@/marketing/components/ui/button';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { useAnalytics } from '@/marketing/hooks/useAnalytics';
 import AnimateIn from './AnimateIn';
-import { Sparkles } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SparklesIcon } from '@hugeicons/core-free-icons';
 
 // Verified massage therapy in beautiful spa environments — all URLs confirmed on Pexels
 const heroImages = [

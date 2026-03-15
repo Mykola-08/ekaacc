@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'motion/react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -10,11 +9,8 @@ export function CrisisPageContent() {
   const { t } = useLanguage();
 
   return (
-    <motion.div
+    <div
       className="mx-auto max-w-4xl px-4 py-8 md:px-8"
-      initial={{ opacity: 0, scale: 0.98, y: 10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
     >
       <Card className="border-destructive/30 bg-destructive/5 rounded-xl border">
         <CardContent className="p-8">
@@ -23,13 +19,13 @@ export function CrisisPageContent() {
               'This space is for urgent support guidance. If this is an emergency, use emergency services in your area first.'}
           </p>
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="border-border bg-card rounded-2xl border p-5">
+            <div className="border-border bg-card rounded-lg border p-5">
               <h3 className="text-lg font-semibold">{t('page.crisis.emergency') || 'Emergency'}</h3>
               <p className="text-muted-foreground mt-2 text-sm">
                 {t('page.crisis.emergencyDesc') || 'Call your local emergency number immediately.'}
               </p>
             </div>
-            <div className="border-border bg-card rounded-2xl border p-5">
+            <div className="border-border bg-card rounded-lg border p-5">
               <h3 className="text-lg font-semibold">
                 {t('page.crisis.followUp') || 'Need Follow-up Care'}
               </h3>
@@ -51,6 +47,6 @@ export function CrisisPageContent() {
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }

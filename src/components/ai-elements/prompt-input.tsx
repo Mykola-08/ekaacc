@@ -33,7 +33,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import type { ChatStatus, FileUIPart, SourceDocumentUIPart } from 'ai';
-import { CornerDownLeftIcon, ImageIcon, Monitor, PlusIcon, SquareIcon, XIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import type {
   ChangeEvent,
@@ -58,6 +57,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { CornerDownLeftIcon, ImageIcon, PlusIcon, SquareIcon, XIcon, Globe } from 'lucide-react';
 
 // ============================================================================
 // Helpers
@@ -441,7 +441,7 @@ export const PromptInputActionAddScreenshot = ({
 
   return (
     <DropdownMenuItem {...props} onSelect={handleSelect}>
-      <Monitor className="mr-2 size-4" />
+      <Globe className="mr-2 size-4" />
       {label}
     </DropdownMenuItem>
   );

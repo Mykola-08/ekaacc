@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import type { SlateElementProps } from 'platejs/static';
 
-import { ChevronRight } from 'lucide-react';
 import { SlateElement } from 'platejs/static';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
 export function ToggleElementStatic(props: SlateElementProps) {
   return (
@@ -12,7 +13,7 @@ export function ToggleElementStatic(props: SlateElementProps) {
         className="-left-0.5 absolute top-0 size-6 cursor-pointer select-none items-center justify-center rounded-md p-px text-muted-foreground transition-colors hover:bg-accent [&_svg]:size-4"
         contentEditable={false}
       >
-        <ChevronRight className="rotate-0 transition-transform duration-75" />
+        <HugeiconsIcon icon={ArrowRight01Icon} className="rotate-0 transition-transform duration-75"  />
       </div>
       {props.children}
     </SlateElement>

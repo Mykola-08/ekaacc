@@ -1,6 +1,5 @@
 'use client';
 
-import { Heart, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { SERVICES_DATA } from '@/marketing/shared/constants';
@@ -10,6 +9,8 @@ import ServiceCard from '@/marketing/components/ServiceCard';
 import PageLayout from './PageLayout';
 import SEOUpdater from '@/marketing/components/SEOUpdater';
 import CTASection from '@/marketing/components/CTASection';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { FavouriteIcon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
 export default function ServicesContent() {
   const { t } = useLanguage();
@@ -26,7 +27,7 @@ export default function ServicesContent() {
           badge: t('services.integralWellbeingFor'),
           title: `${t('services.ourServices')} ${t('services.ourServices2')}`.trim(),
           subtitle: t('services.wellnessPath'),
-          icon: <Heart className="h-4 w-4" />,
+          icon: <HugeiconsIcon icon={FavouriteIcon} className="size-4"  />,
         }}
         className="bg-background"
         mainClassName="bg-transparent"

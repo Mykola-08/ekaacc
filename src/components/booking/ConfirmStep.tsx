@@ -1,9 +1,10 @@
 'use client';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { createNewBookingAction } from '@/server/actions/booking-actions';
-import { CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CheckmarkCircle01Icon, Loading03Icon, Alert01Icon } from '@hugeicons/core-free-icons';
 
 interface ConfirmStepProps {
   selectedService: any;
@@ -72,12 +73,10 @@ export function ConfirmStep({
 
   if (success) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
+      <div
         className="flex h-full min-h-100 flex-col items-center justify-center space-y-6 text-center"
       >
-        <CheckCircle2 className="h-20 w-20 text-emerald-500" />
+        <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-20 text-primary" />
         <h2 className="text-foreground text-3xl font-bold">Booking Confirmed!</h2>
         <p className="text-muted-foreground max-w-sm">
           We\'ve sent a confirmation to your email. We look forward to seeing you.
@@ -89,7 +88,7 @@ export function ConfirmStep({
         >
           View My Bookings
         </Button>
-      </motion.div>
+      </div>
     );
   }
 
@@ -101,8 +100,8 @@ export function ConfirmStep({
       </div>
 
       {error && (
-        <div className="bg-destructive/10 text-destructive flex items-center gap-3 rounded-[16px] p-4">
-          <AlertCircle className="h-5 w-5" />
+        <div className="bg-destructive/10 text-destructive flex items-center gap-3 rounded-lg p-4">
+          <HugeiconsIcon icon={Alert01Icon} className="size-5" />
           <span>{error}</span>
         </div>
       )}
@@ -113,22 +112,20 @@ export function ConfirmStep({
             <label htmlFor="firstName" className="text-sm font-medium">
               First name
             </label>
-            <input
+            <Input
               required
               id="firstName"
               name="firstName"
-              className="bg-muted/50 placeholder:text-muted-foreground focus-visible:ring-ring flex h-11 w-full rounded-2xl border-none px-4 py-2 text-sm focus-visible:ring-2 focus-visible:outline-none"
             />
           </div>
           <div className="space-y-2">
             <label htmlFor="lastName" className="text-sm font-medium">
               Last name
             </label>
-            <input
+            <Input
               required
               id="lastName"
               name="lastName"
-              className="bg-muted/50 placeholder:text-muted-foreground focus-visible:ring-ring flex h-11 w-full rounded-2xl border-none px-4 py-2 text-sm focus-visible:ring-2 focus-visible:outline-none"
             />
           </div>
         </div>
@@ -136,23 +133,21 @@ export function ConfirmStep({
           <label htmlFor="email" className="text-sm font-medium">
             Email address
           </label>
-          <input
+          <Input
             required
             type="email"
             id="email"
             name="email"
-            className="bg-muted/50 placeholder:text-muted-foreground focus-visible:ring-ring flex h-11 w-full rounded-2xl border-none px-4 py-2 text-sm focus-visible:ring-2 focus-visible:outline-none"
           />
         </div>
         <div className="space-y-2">
           <label htmlFor="phone" className="text-sm font-medium">
             Phone number (optional)
           </label>
-          <input
+          <Input
             type="tel"
             id="phone"
             name="phone"
-            className="bg-muted/50 placeholder:text-muted-foreground focus-visible:ring-ring flex h-11 w-full rounded-2xl border-none px-4 py-2 text-sm focus-visible:ring-2 focus-visible:outline-none"
           />
         </div>
 
@@ -163,7 +158,7 @@ export function ConfirmStep({
             disabled={loading}
             className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 w-full rounded-full text-lg"
           >
-            {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : 'Confirm Booking'}
+            {loading ? <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-5 animate-spin" /> : 'Confirm Booking'}
           </Button>
         </div>
       </form>

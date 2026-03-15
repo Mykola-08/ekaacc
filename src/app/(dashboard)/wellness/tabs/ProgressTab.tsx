@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState, useMemo, useEffect } from 'react';
-import { TrendingUp, TrendingDown, HeartPulse, Target, SmilePlus } from 'lucide-react';
+
 import { createClient } from '@/lib/supabase/client';
 
 interface WellnessEntry {
@@ -26,6 +26,8 @@ const ENERGY_MAP: Record<string, number> = {
 };
 const STRESS_MAP: Record<string, number> = { minimal: 9, mild: 7, moderate: 5, high: 3, severe: 1 };
 
+import { HugeiconsIcon } from '@hugeicons/react';
+import { AnalyticsUpIcon, ArrowTurnDownIcon, Pulse01Icon, Target01Icon, SmilePlusIcon } from '@hugeicons/core-free-icons';
 import {
   Area,
   AreaChart,
@@ -127,7 +129,7 @@ export function ProgressTab() {
   if (!stats) {
     return (
       <div className="border-border bg-muted/30 rounded-2xl border-2 border-dashed py-20 text-center">
-        <SmilePlus className="text-muted-foreground/50 mx-auto mb-4 h-10 w-10" />
+        <HugeiconsIcon icon={SmilePlusIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
         <h3 className="text-foreground text-lg font-semibold">No wellness data yet</h3>
         <p className="text-muted-foreground mt-1 text-sm">
           Start tracking your mood and wellness to see progress here.
@@ -144,9 +146,9 @@ export function ProgressTab() {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Avg. Mood</CardTitle>
             {stats.moodTrend >= 0 ? (
-              <TrendingUp className="text-success h-4 w-4" />
+              <HugeiconsIcon icon={AnalyticsUpIcon} className="text-success size-4"  />
             ) : (
-              <TrendingDown className="text-destructive h-4 w-4" />
+              <HugeiconsIcon icon={ArrowTurnDownIcon} className="text-destructive size-4"  />
             )}
           </CardHeader>
           <CardContent>
@@ -166,7 +168,7 @@ export function ProgressTab() {
         <Card className="border-border rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Avg. Energy</CardTitle>
-            <TrendingUp className="text-primary h-4 w-4" />
+            <HugeiconsIcon icon={AnalyticsUpIcon} className="text-primary size-4"  />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{stats.avgEnergy.toFixed(1)}/10</div>
@@ -182,7 +184,7 @@ export function ProgressTab() {
         <Card className="border-border rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Sessions</CardTitle>
-            <HeartPulse className="text-destructive h-4 w-4" />
+            <HugeiconsIcon icon={Pulse01Icon} className="text-destructive size-4"  />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{sessionsCompleted}</div>
@@ -192,7 +194,7 @@ export function ProgressTab() {
         <Card className="border-border rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Goals</CardTitle>
-            <Target className="text-warning h-4 w-4" />
+            <HugeiconsIcon icon={Target01Icon} className="text-warning size-4"  />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">

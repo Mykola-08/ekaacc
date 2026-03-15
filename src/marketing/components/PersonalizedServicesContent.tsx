@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { Button } from '@/marketing/components/ui/button';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { PERSONALIZED_SERVICES_DATA } from '@/marketing/shared/constants';
-import { ArrowRight, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import PersonalizedServiceCard from '@/marketing/components/PersonalizedServiceCard';
 import PageLayout from './PageLayout';
 import SEOUpdater from '@/marketing/components/SEOUpdater';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon, StarIcon } from '@hugeicons/core-free-icons';
 
 export default function PersonalizedServicesContent() {
   const { t } = useLanguage();
@@ -26,7 +27,7 @@ export default function PersonalizedServicesContent() {
           title: t('personalizedServices.title'),
           subtitle: t('personalizedServices.subtitle'),
           badge: t('services.therapiesFor'),
-          icon: <Star className="h-4 w-4" />,
+          icon: <HugeiconsIcon icon={StarIcon} className="size-4"  />,
         }}
         className="bg-white"
       >
@@ -36,7 +37,7 @@ export default function PersonalizedServicesContent() {
             <Link href="/booking">
               <Button size="lg" variant="default" className="px-8 py-4">
                 {t('personalizedServices.cta')}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
               </Button>
             </Link>
           </div>

@@ -13,8 +13,10 @@ export default async function AvailabilityPage() {
   }
 
   return (
-    <div className="flex-1 space-y-4">
-      <AvailabilityManager />
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="px-4 lg:px-6">
+        <AvailabilityManager />
+      </div>
     </div>
   );
 }

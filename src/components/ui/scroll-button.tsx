@@ -3,8 +3,9 @@
 import { Button, buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { type VariantProps } from "class-variance-authority"
-import { ChevronDown } from "lucide-react"
 import { useStickToBottomContext } from "use-stick-to-bottom"
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowDown01Icon } from '@hugeicons/core-free-icons';
 
 export type ScrollButtonProps = {
   className?: string
@@ -34,7 +35,7 @@ function ScrollButton({
       onClick={() => scrollToBottom()}
       {...props}
     >
-      <ChevronDown className="h-5 w-5" />
+      <HugeiconsIcon icon={ArrowDown01Icon} className="size-5"  />
     </Button>
   )
 }

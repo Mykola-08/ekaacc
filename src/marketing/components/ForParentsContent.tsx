@@ -1,16 +1,17 @@
 'use client';
 
 import React from 'react';
-import { Users } from 'lucide-react';
 
 import PersonalizedServiceTemplate from '@/marketing/components/templates/PersonalizedServiceTemplate';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { UserMultipleIcon } from '@hugeicons/core-free-icons';
 
 export default function ForParentsContent() {
   return (
     <PersonalizedServiceTemplate
       serviceId="parents"
       translationKey="personalized.parents"
-      Icon={Users}
+      Icon={UserMultipleIcon}
       seoKeys={{
         title: 'seo.parents.title',
         description: 'seo.parents.description',

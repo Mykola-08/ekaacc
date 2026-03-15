@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { MorphingActionButton } from '@/components/ui/MorphingActionButton';
-import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { morphToast } from '@/components/ui/morphing-toaster';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Add01Icon } from '@hugeicons/core-free-icons';
 
 export function PurchaseLog({ userId, purchases }: any) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -30,7 +31,7 @@ export function PurchaseLog({ userId, purchases }: any) {
     <div className="">
       <form
         action={handleSubmit}
-        className="bg-muted/20 flex flex-col items-end gap-4 rounded-2xl border p-4 md:flex-row"
+        className="bg-muted/20 flex flex-col items-end gap-4 rounded-lg border p-4 md:flex-row"
       >
         <input type="hidden" name="userId" value={userId} />
         <div className="grid w-full gap-2">
@@ -49,7 +50,7 @@ export function PurchaseLog({ userId, purchases }: any) {
           type="submit"
           status={status}
           idleLabel="Log Purchase"
-          icon={<Plus className="h-4 w-4" />}
+          icon={<HugeiconsIcon icon={Add01Icon} className="size-4"  />}
           className="w-full md:w-auto"
         />
       </form>

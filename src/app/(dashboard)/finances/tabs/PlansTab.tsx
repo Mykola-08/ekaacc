@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Check, Crown } from 'lucide-react';
+
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Tick02Icon, CrownIcon } from '@hugeicons/core-free-icons';
 
 interface SubscriptionPlan {
   id: string;
@@ -63,7 +65,7 @@ export function PlansTab() {
   if (plans.length === 0) {
     return (
       <div className="border-border bg-muted/30 rounded-3xl border-2 border-dashed py-20 text-center">
-        <Crown className="text-muted-foreground/50 mx-auto mb-4 h-10 w-10" />
+        <HugeiconsIcon icon={CrownIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
         <h3 className="text-foreground text-lg font-semibold">No plans available</h3>
         <p className="text-muted-foreground mt-1 text-sm">
           Check back soon for subscription options.
@@ -101,18 +103,18 @@ export function PlansTab() {
           </CardHeader>
           <CardContent className="">
             <div className="flex items-center gap-2 text-sm">
-              <Check className="text-success h-4 w-4" />
+              <HugeiconsIcon icon={Tick02Icon} className="text-success size-4"  />
               {plan.credits_total} session credit{plan.credits_total !== 1 ? 's' : ''}
             </div>
             {plan.validity_days && (
               <div className="flex items-center gap-2 text-sm">
-                <Check className="text-success h-4 w-4" />
+                <HugeiconsIcon icon={Tick02Icon} className="text-success size-4"  />
                 Valid for {plan.validity_days} days
               </div>
             )}
             {plan.features?.map((feature, fidx) => (
               <div key={fidx} className="flex items-center gap-2 text-sm">
-                <Check className="text-success h-4 w-4" />
+                <HugeiconsIcon icon={Tick02Icon} className="text-success size-4"  />
                 {feature}
               </div>
             ))}

@@ -5,18 +5,9 @@ import { products, getLocalized } from '@/app/(marketing)/agenyz/products';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { Button } from '@/marketing/components/ui/button';
 import Link from 'next/link';
-import {
-  ArrowLeft,
-  Check,
-  ShoppingBag,
-  MessageCircle,
-  Leaf,
-  Clock,
-  ShieldCheck,
-  Zap,
-  Microscope,
-} from 'lucide-react';
 import { motion } from 'framer-motion';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowLeft01Icon, Tick02Icon, Message01Icon, Leaf01Icon, Clock01Icon, ZapIcon, ShoppingBag01Icon, ShieldIcon, MicroscopeIcon } from '@hugeicons/core-free-icons';
 
 export default function AgenyzProductContent({ id }: { id: string }) {
   const { language, t } = useLanguage();
@@ -74,7 +65,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
           href="/agenyz"
           className="group hover: inline-flex items-center rounded-full border border-gray-100 bg-white/80 px-5 py-2.5 text-gray-500 backdrop-blur-md transition-colors hover:text-black"
         >
-          <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4 transition-transform group-hover:-translate-x-1"  />
           <span className="text-sm font-semibold tracking-tight">{t('common.back') || 'Back'}</span>
         </Link>
       </div>
@@ -106,7 +97,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                   className="absolute right-0 -bottom-4 z-20 flex items-center gap-4 rounded-[2rem] border border-white/20 bg-white/90 p-5 backdrop-blur-xl md:-right-4 md:bottom-12"
                 >
                   <div className="bg-primary-50 text-primary-600 flex h-12 w-12 items-center justify-center rounded-2xl">
-                    <Leaf className="h-6 w-6" />
+                    <HugeiconsIcon icon={Leaf01Icon} className="size-6"  />
                   </div>
                   <div>
                     <p className="mb-0.5 text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase">
@@ -127,7 +118,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-8 inline-flex items-center rounded-full border border-gray-100 bg-gray-100 px-4 py-1.5 text-[10px] font-bold tracking-[0.2em] text-gray-600 uppercase"
               >
-                <Zap className="text-primary-500 mr-2 h-3 w-3" />
+                <HugeiconsIcon icon={ZapIcon} className="text-primary-500 mr-2 size-3"  />
                 {t(`agenyz.category.${product.category}`) || product.category}{' '}
                 {t('agenyz.label.series') || 'Series'}
               </motion.div>
@@ -158,7 +149,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50">
-                    <ShieldCheck className="h-5 w-5 text-blue-500" />
+                    <HugeiconsIcon icon={ShieldIcon} className="size-5 text-blue-500" />
                   </div>
                   <span className="text-sm font-bold tracking-tight text-gray-900">
                     {t('agenyz.label.dnaProtection') || 'DNA Protection'}
@@ -166,7 +157,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-50">
-                    <Microscope className="h-5 w-5 text-purple-500" />
+                    <HugeiconsIcon icon={MicroscopeIcon} className="size-5 text-purple-500" />
                   </div>
                   <span className="text-sm font-bold tracking-tight text-gray-900">
                     {t('agenyz.label.labTested') || 'Lab Tested'}
@@ -174,7 +165,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-50">
-                    <Zap className="h-5 w-5 text-yellow-500" />
+                    <HugeiconsIcon icon={ZapIcon} className="size-5 text-yellow-500"  />
                   </div>
                   <span className="text-sm font-bold tracking-tight text-gray-900">
                     {t('agenyz.label.highBioavailability') || 'High Bioavailability'}
@@ -198,7 +189,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                     size="xl"
                     className="bg-primary hover:bg-primary-600 w-full rounded-full px-10 py-7 text-lg font-bold text-white shadow-black/10 transition-all sm:w-auto"
                   >
-                    <ShoppingBag className="mr-3 h-6 w-6" />
+                    <HugeiconsIcon icon={ShoppingBag01Icon} className="mr-3 size-6" />
                     {t('agenyz.buyNow') || 'Order Now'}
                   </Button>
                 </a>
@@ -208,7 +199,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                     variant="outline"
                     className="w-full rounded-full border-gray-200 px-10 py-7 text-lg font-bold text-gray-900 transition-all hover:bg-gray-50 sm:w-auto"
                   >
-                    <MessageCircle className="mr-3 h-6 w-6" />
+                    <HugeiconsIcon icon={Message01Icon} className="mr-3 size-6"  />
                     {t('common.askQuestions') || 'Consult Expert'}
                   </Button>
                 </Link>
@@ -235,7 +226,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               {translatedIngredients.length > 0 && (
                 <div className="rounded-2xl border border-gray-100 bg-white p-8 md:p-10">
                   <h3 className="mb-8 flex items-center text-2xl font-light text-gray-900">
-                    <Leaf className="mr-3 h-6 w-6 text-green-500" />
+                    <HugeiconsIcon icon={Leaf01Icon} className="mr-3 size-6 text-green-500"  />
                     {t('agenyz.ingredients') || 'Active Interactions'}
                   </h3>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -258,7 +249,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#000035] to-[#000060] p-8 text-white">
                   <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-blue-500/20 blur-2xl" />
                   <h3 className="relative z-10 mb-6 flex items-center text-xl font-medium">
-                    <Zap className="mr-2 h-5 w-5 text-yellow-400" />
+                    <HugeiconsIcon icon={ZapIcon} className="mr-2 size-5 text-yellow-400"  />
                     {t('agenyz.benefits') || 'Key Benefits'}
                   </h3>
                   <ul className="relative z-10">
@@ -267,7 +258,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                         key={i}
                         className="flex items-start text-sm leading-relaxed text-blue-100"
                       >
-                        <Check className="mt-0.5 mr-3 h-4 w-4 flex-shrink-0 text-green-400" />
+                        <HugeiconsIcon icon={Tick02Icon} className="mt-0.5 mr-3 size-4 flex-shrink-0 text-green-400"  />
                         {b}
                       </li>
                     ))}
@@ -278,7 +269,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               {translatedUsage && (
                 <div className="rounded-2xl border border-purple-100 bg-purple-50 p-8">
                   <h3 className="mb-4 flex items-center text-lg font-medium text-purple-900">
-                    <Clock className="mr-2 h-5 w-5 text-purple-600" />
+                    <HugeiconsIcon icon={Clock01Icon} className="mr-2 size-5 text-purple-600"  />
                     {t('agenyz.usage') || 'How to Use'}
                   </h3>
                   <p className="leading-relaxed font-light text-purple-800/80">{translatedUsage}</p>
@@ -288,7 +279,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               <div className="grid grid-cols-2 gap-4 rounded-2xl border border-gray-100 bg-white p-6">
                 <div className="p-2 text-center">
                   <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 text-gray-400">
-                    <ShieldCheck className="h-5 w-5" />
+                    <HugeiconsIcon icon={ShieldIcon} className="size-5" />
                   </div>
                   <p className="text-xs font-semibold text-gray-500 uppercase">
                     {t('agenyz.label.quality') || 'Quality'}
@@ -296,7 +287,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 </div>
                 <div className="p-2 text-center">
                   <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 text-gray-400">
-                    <Leaf className="h-5 w-5" />
+                    <HugeiconsIcon icon={Leaf01Icon} className="size-5"  />
                   </div>
                   <p className="text-xs font-semibold text-gray-500 uppercase">
                     {t('agenyz.label.natural') || 'Natural'}

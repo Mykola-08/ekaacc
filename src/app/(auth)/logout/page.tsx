@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CheckmarkCircle01Icon } from '@hugeicons/core-free-icons';
 import {
   Card,
   CardContent,
@@ -9,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { CheckCircle2 } from 'lucide-react';
 
 export default function LogoutPage() {
   return (
@@ -28,7 +29,7 @@ export default function LogoutPage() {
             />
           </div>
           <div className="bg-success/20 rounded-full p-2">
-            <CheckCircle2 className="text-success h-8 w-8" />
+            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success size-8"  />
           </div>
           <div className="">
             <CardTitle className="text-2xl font-semibold tracking-tight">Signed Out</CardTitle>

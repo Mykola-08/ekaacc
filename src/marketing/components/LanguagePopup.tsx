@@ -1,10 +1,11 @@
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { Language } from '@/marketing/contexts/LanguageTypes';
-import { X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
 
 import { useEffect } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Cancel01Icon, GlobeIcon } from '@hugeicons/core-free-icons';
 
 export default function LanguagePopup() {
   const { showLanguagePopup, setShowLanguagePopup, confirmLanguage, t } = useLanguage();
@@ -48,12 +49,12 @@ export default function LanguagePopup() {
             className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
             aria-label="Close"
           >
-            <X className="h-4 w-4" aria-hidden="true" />
+            <HugeiconsIcon icon={Cancel01Icon} className="size-4" aria-hidden="true"  />
           </button>
 
           <div className="mb-4 text-center">
             <div className="bg-primary/5 mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full">
-              <Globe className="text-primary h-5 w-5" />
+              <HugeiconsIcon icon={GlobeIcon} className="text-primary size-5"  />
             </div>
             <h2 className="mb-0.5 text-lg leading-tight font-medium tracking-tight text-gray-900">
               {t('language.popup.title')}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
 
 /**
  * Standardized page header used across all pages.
@@ -20,8 +21,8 @@ export interface PageSectionProps {
   actions?: React.ReactNode;
   /** Badge rendered next to the title. */
   badge?: React.ReactNode;
-  /** Icon component rendered before the title. */
-  icon?: React.ComponentType<{ className?: string }>;
+  /** Icon data from @hugeicons/core-free-icons. */
+  icon?: IconSvgElement;
   /** Heading level: 'h1' (page), 'h2' (section), 'h3' (subsection). @default 'h1' */
   level?: 'h1' | 'h2' | 'h3';
   className?: string;
@@ -52,7 +53,7 @@ export function PageSection({
         <div className="flex items-center gap-3">
           {Icon && (
             <div className="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
-              <Icon className="text-foreground h-5 w-5" />
+              <HugeiconsIcon icon={Icon} className="text-foreground h-5 w-5" />
             </div>
           )}
           <div>

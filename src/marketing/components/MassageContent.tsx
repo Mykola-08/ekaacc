@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Heart } from 'lucide-react';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import CoreServiceTemplate from '@/marketing/components/templates/CoreServiceTemplate';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { FavouriteIcon } from '@hugeicons/core-free-icons';
 
 export default function MassageContent() {
   const { t } = useLanguage();
@@ -15,7 +16,7 @@ export default function MassageContent() {
         titleKey: 'services.massage.title',
         subtitleKey: 'services.massage.description',
         badgeKey: 'services.massage.subtitle',
-        icon: Heart,
+        icon: FavouriteIcon,
       }}
       bentoGrid={{
         titleKey: 'massage.bento.title',

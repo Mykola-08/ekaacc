@@ -7,10 +7,10 @@ import { TherapistStep } from './TherapistStep';
 import { DateTimeStep } from './DateTimeStep';
 import { ConfirmStep } from './ConfirmStep';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
 
 const STEPS_COUNT = 4;
 
@@ -54,13 +54,13 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
   if (loading) {
     return (
       <div className="dashboard-theme flex min-h-100 items-center justify-center">
-        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+        <HugeiconsIcon icon={Loading03Icon} className="size-8 text-muted-foreground animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="dashboard-theme min-h-screen bg-[#F4F4F5] p-4 md:p-8 isolate relative">
+    <div className="dashboard-theme min-h-screen bg-muted p-4 md:p-8 isolate relative">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10">
           <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
@@ -75,16 +75,11 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
           <div className="w-full lg:w-2/3 space-y-8">
             <BookingStepIndicator currentStep={currentStep} totalSteps={STEPS_COUNT} />
 
-            <Card className="bg-white overflow-hidden rounded-[36px] border-none shadow-sm min-h-125 flex flex-col pt-10 px-8 pb-8 relative">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  className="grow"
-                >
+            <Card className="bg-card overflow-hidden rounded-lg border-none shadow-sm min-h-125 flex flex-col pt-10 px-8 pb-8 relative">
+              <div
+                key={currentStep}
+                className="grow"
+              >
                   {currentStep === 1 && (
                     <ServiceStep
                       services={services}
@@ -121,8 +116,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                       onLoad={(val) => setIsSubmitting(val)}
                     />
                   )}
-                </motion.div>
-              </AnimatePresence>
+                </div>
 
               {currentStep < 4 && (
                 <div className="border-border/50 mt-8 flex items-center justify-between border-t pt-6">
@@ -148,7 +142,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
           </div>
 
           <div className="w-full lg:w-1/3 sticky top-8">
-            <Card className="bg-white rounded-[36px] p-8 border-none shadow-sm">
+            <Card className="bg-card rounded-lg p-8 border-none shadow-sm">
               <h3 className="text-xl font-bold mb-6">Your Session Summary</h3>
               
               <div className="space-y-6">

@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import type { ToolUIPart } from "ai";
-import { ChevronDownIcon, Code } from "lucide-react";
 import type { ComponentProps } from "react";
 
 import { getStatusBadge } from "./tool";
+import { ChevronDownIcon, CodeIcon as Code } from 'lucide-react';
 
 export type SandboxRootProps = ComponentProps<typeof Collapsible>;
 

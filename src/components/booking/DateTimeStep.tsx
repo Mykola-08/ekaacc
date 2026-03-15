@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { getAvailableSlotsAction } from '@/server/actions/booking-actions';
-import { Loader2 } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
 
 interface DateTimeStepProps {
   selectedDate?: Date;
@@ -61,7 +62,7 @@ export function DateTimeStep({
       </div>
 
       <div className="flex flex-col gap-8 sm:flex-row">
-        <div className="bg-muted/20 rounded-[24px] border p-2 shadow-sm">
+        <div className="bg-muted/20 rounded-lg border p-2 shadow-sm">
           <Calendar
             mode="single"
             selected={selectedDate}
@@ -69,7 +70,7 @@ export function DateTimeStep({
               onSelectDate(d);
               onSelectTime('');
             }}
-            className="rounded-[16px]"
+            className="rounded-lg"
             disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
           />
         </div>
@@ -87,7 +88,7 @@ export function DateTimeStep({
 
           {loading ? (
             <div className="flex justify-center py-8">
-              <Loader2 className="text-muted-foreground animate-spin" />
+              <HugeiconsIcon icon={Loading03Icon} className="text-muted-foreground animate-spin" />
             </div>
           ) : selectedDate ? (
             <div className="grid grid-cols-3 gap-3">

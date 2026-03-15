@@ -2,23 +2,14 @@
 
 import React, { useState } from 'react';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import {
-  Shield,
-  Users,
-  Activity,
-  BarChart3,
-  Settings,
-  Calendar,
-  DollarSign,
-  Eye,
-  Package,
-} from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useAuth } from '@/context/platform/auth-context';
 import { AdminBookingTable } from '@/components/platform/admin/AdminBookingTable';
 import { RoleManagementPanelHeadless as RoleManagementPanel } from '@/components/platform/admin/role-management-panel-headless';
 import { AdminKPI } from '@/app/actions/admin';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ShieldIcon, UserIcon, Settings01Icon, Calendar03Icon, CreditCardIcon, EyeIcon } from '@hugeicons/core-free-icons';
 
 function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
@@ -63,7 +54,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
         <div className="bg-card text-card-foreground rounded-xl border">
           <div className="flex flex-row items-center justify-between p-6 pb-2">
             <h3 className="text-sm font-medium tracking-tight">Total Revenue</h3>
-            <DollarSign className="text-muted-foreground h-4 w-4" />
+            <HugeiconsIcon icon={CreditCardIcon} className="text-muted-foreground size-4"  />
           </div>
           <div className="p-6 pt-0">
             <div className="text-2xl font-bold">{stats.revenueMtd}</div>

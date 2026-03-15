@@ -15,16 +15,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  PlayIcon,
-  LegalDocumentIcon,
-  ActivityIcon,
-  LockIcon,
-  Search01Icon,
-  Image01Icon,
-} from '@hugeicons/core-free-icons';
-import { motion } from 'motion/react';
-import { scaleIn } from '@/lib/motion';
+import { PlayIcon, LegalDocumentIcon, ActivityIcon, LockIcon, Search01Icon, Image01Icon } from '@hugeicons/core-free-icons';
 
 interface ResourcesPageProps {
   initialResources: ResourceItem[];
@@ -87,11 +78,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
       {/* Grid */}
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filtered.map((resource) => (
-          <motion.div
-            layout
-            variants={scaleIn}
-            initial="hidden"
-            animate="visible"
+          <div
             key={resource.id}
           >
             <Card className="bg-card text-foreground group border-border/50 hover: relative flex h-full flex-col overflow-hidden rounded-lg border border-none transition-all duration-700 hover:-translate-y-3">
@@ -152,7 +139,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                 </Button>
               </CardFooter>
             </Card>
-          </motion.div>
+          </div>
         ))}
       </div>
     </div>

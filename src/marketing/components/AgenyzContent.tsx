@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/marketing/components/ui/button';
-import { ArrowRight, CheckCircle2, Dna, Sparkles } from 'lucide-react';
+
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,6 +11,8 @@ import PageLayout from '@/marketing/components/PageLayout';
 import SEOUpdater from '@/marketing/components/SEOUpdater';
 import { products, categories, getLocalized } from '@/app/(marketing)/agenyz/products';
 import { ServiceBentoItem } from '@/marketing/components/ui/service-bento';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon, CheckmarkCircle01Icon, DnaIcon, SparklesIcon } from '@hugeicons/core-free-icons';
 
 export default function AgenyzContent() {
   const { language, t } = useLanguage();
@@ -37,7 +39,7 @@ export default function AgenyzContent() {
           subtitle:
             t('agenyz.page.subtitle'),
           badge: t('agenyz.hero.biohacking'),
-          icon: <Dna className="h-4 w-4" />,
+          icon: <HugeiconsIcon icon={DnaIcon} className="size-4"  />,
           backgroundImage:
             'https://images.pexels.com/photos/3184451/pexels-photo-3184451.jpeg?auto=compress&cs=tinysrgb&w=1600',
         }}
@@ -46,7 +48,7 @@ export default function AgenyzContent() {
           <Button asChild size="lg" className="hover: rounded-full px-8 transition-all">
             <Link href="/booking">
               {t('common.bookNow')}
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
             </Link>
           </Button>
           <a href="https://agenyz.es" target="_blank" rel="noopener noreferrer">
@@ -98,7 +100,7 @@ export default function AgenyzContent() {
                         <ul className="mt-4">
                           {product.benefits.map((b, i) => (
                             <li key={i} className="flex items-center text-sm text-gray-600">
-                              <CheckCircle2 className="text-primary-500 mr-2 h-4 w-4" />
+                              <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-primary-500 mr-2 size-4"  />
                               {getLocalized(b, language)}
                             </li>
                           ))}
@@ -181,7 +183,7 @@ export default function AgenyzContent() {
                           </div>
                         ) : (
                           <div className="flex h-20 w-20 items-center justify-center rounded-full border border-gray-50 bg-white text-gray-200">
-                            <Sparkles className="h-10 w-10" />
+                            <HugeiconsIcon icon={SparklesIcon} className="size-10"  />
                           </div>
                         )}
                       </div>
@@ -199,7 +201,7 @@ export default function AgenyzContent() {
                           {t('agenyz.viewDetails')}
                         </span>
                         <div className="group-hover:bg-primary flex h-10 w-10 items-center justify-center rounded-full border border-gray-100 bg-white transition-all duration-300 group-hover:text-white">
-                          <ArrowRight className="h-5 w-5" />
+                          <HugeiconsIcon icon={ArrowRight01Icon} className="size-5"  />
                         </div>
                       </div>
                     </motion.div>

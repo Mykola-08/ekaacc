@@ -2,20 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Sparkles, Calendar, Briefcase, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { cn } from '@/marketing/shared/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Home01Icon, SparklesIcon, Calendar03Icon, Briefcase01Icon, Message01Icon } from '@hugeicons/core-free-icons';
 
 export default function FooterPillMenu() {
   const pathname = usePathname();
   const { t } = useLanguage();
 
   const items = [
-    { href: '/', label: t('nav.home'), icon: Home },
-    { href: '/services', label: t('nav.services'), icon: Sparkles },
-    { href: '/for-business', label: t('personalizedServices.business'), icon: Briefcase },
-    { href: '/booking', label: t('nav.bookNow'), icon: Calendar },
+    { href: '/', label: t('nav.home'), icon: Home01Icon },
+    { href: '/services', label: t('nav.services'), icon: SparklesIcon },
+    { href: '/for-business', label: t('personalizedServices.business'), icon: Briefcase01Icon },
+    { href: '/booking', label: t('nav.bookNow'), icon: Calendar03Icon },
   ];
 
   return (
@@ -38,7 +39,7 @@ export default function FooterPillMenu() {
                   isActive ? 'bg-gold/20' : 'bg-transparent group-hover:bg-gray-100'
                 )}
               >
-                <item.icon className={cn('h-4 w-4 sm:h-5 sm:w-5', isActive && 'fill-current')} />
+                <HugeiconsIcon icon={item.icon} className={cn('h-4 w-4 sm:h-5 sm:w-5', isActive && 'fill-current')} />
               </div>
 
               <span className="mt-0.5 max-w-[4rem] overflow-hidden text-center text-[9px] leading-tight text-ellipsis whitespace-nowrap sm:max-w-none sm:text-[10px]">

@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreditCardAddIcon, Rocket01Icon } from '@hugeicons/core-free-icons';
+
 import { HugeiconsIcon } from '@hugeicons/react';
 import { useCheckout } from '@paykit-sdk/react';
 import { toast } from 'sonner';

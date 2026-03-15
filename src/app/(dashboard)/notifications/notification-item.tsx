@@ -4,8 +4,10 @@ import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Info, CheckCircle, AlertTriangle, AlertCircle, Clock, Check, Trash2 } from 'lucide-react';
+
 import { markNotificationRead, deleteNotification } from './actions';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { InformationCircleIcon, CheckmarkCircle01Icon, Alert01Icon, Clock01Icon, Tick02Icon, Delete01Icon } from '@hugeicons/core-free-icons';
 
 interface Notification {
   id: string;
@@ -19,11 +21,11 @@ interface Notification {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  info: <Info className="h-6 w-6" strokeWidth={2.5} />,
-  success: <CheckCircle className="h-6 w-6" strokeWidth={2.5} />,
-  warning: <AlertTriangle className="h-6 w-6" strokeWidth={2.5} />,
-  error: <AlertCircle className="h-6 w-6" strokeWidth={2.5} />,
-  reminder: <Clock className="h-6 w-6" strokeWidth={2.5} />,
+  info: <HugeiconsIcon icon={InformationCircleIcon} className="size-6"  />,
+  success: <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6"  />,
+  warning: <HugeiconsIcon icon={Alert01Icon} className="size-6"  />,
+  error: <HugeiconsIcon icon={Alert01Icon} className="size-6"  />,
+  reminder: <HugeiconsIcon icon={Clock01Icon} className="size-6"  />,
 };
 
 const styleMap: Record<string, string> = {
@@ -75,7 +77,7 @@ export function NotificationItem({ notification }: { notification: Notification 
             styleMap[notification.type] || 'border-muted bg-muted text-muted-foreground'
           )}
         >
-          {iconMap[notification.type] || <Info className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.25} />}
+          {iconMap[notification.type] || <HugeiconsIcon icon={InformationCircleIcon} className="size-5 sm:h-6 sm:w-6"  />}
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 mb-1">
@@ -105,7 +107,7 @@ export function NotificationItem({ notification }: { notification: Notification 
               disabled={isPending}
               title="Mark as read"
             >
-              <Check className="h-4 w-4" />
+              <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
             </Button>
           )}
           <Button
@@ -116,7 +118,7 @@ export function NotificationItem({ notification }: { notification: Notification 
             disabled={isPending}
             title="Delete notification"
           >
-            <Trash2 className="h-4 w-4" />
+            <HugeiconsIcon icon={Delete01Icon} className="size-4"  />
           </Button>
         </div>
       </div>

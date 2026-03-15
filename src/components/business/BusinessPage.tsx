@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { CheckCircle2, Building2, Users, TrendingUp, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { AnalyticsUpIcon, ArrowRight01Icon, Building02Icon, CheckmarkCircle01Icon, UserIcon, UserMultipleIcon } from '@hugeicons/core-free-icons';
 
 export function BusinessPage() {
   return (
@@ -25,7 +26,7 @@ export function BusinessPage() {
             variant="outline"
             className="border-primary-foreground/20 text-primary-foreground bg-primary-foreground/10 mb-8 px-3 py-1.5 tracking-wider uppercase"
           >
-            <Building2 className="mr-2 h-3 w-3" />
+            <HugeiconsIcon icon={Building02Icon} className="mr-2 size-3"  />
             Corporate Solutions
           </Badge>
 
@@ -46,7 +47,7 @@ export function BusinessPage() {
                 className="bg-background text-foreground hover:bg-background/90 h-14 rounded-full px-8 text-lg"
               >
                 Contact Sales
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4"  />
               </Button>
             </Link>
             <Link href="/pricing">
@@ -67,17 +68,17 @@ export function BusinessPage() {
         <div className="grid gap-8 md:grid-cols-3">
           {[
             {
-              icon: TrendingUp,
+              icon: AnalyticsUpIcon,
               title: 'Boost Productivity',
               desc: 'Reduce burnout and improve mental clarity through regular somatic sessions aiming to lower cortisol.',
             },
             {
-              icon: Users,
+              icon: UserMultipleIcon,
               title: 'Team Retention',
               desc: 'Show your team you care. Wellness perks are a top factor in employee satisfaction and retention.',
             },
             {
-              icon: CheckCircle2,
+              icon: CheckmarkCircle01Icon,
               title: 'Postural Health',
               desc: 'Offset the physical toll of desk work with specialized structural integration focused on alignment.',
             },
@@ -87,7 +88,7 @@ export function BusinessPage() {
               className="border-border p-10 transition-transform duration-500 hover:-translate-y-2"
             >
               <div className="bg-primary/10 text-primary mb-6 flex h-16 w-16 items-center justify-center rounded-lg">
-                <feature.icon className="h-8 w-8" />
+              <HugeiconsIcon icon={feature.icon} className="h-8 w-8" />
               </div>
               <h3 className="text-foreground mb-4 font-serif text-2xl">{feature.title}</h3>
               <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>

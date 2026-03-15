@@ -36,37 +36,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  Layout01Icon,
-  Calendar03Icon,
-  Wallet01Icon,
-  UserCircleIcon,
-  Settings01Icon,
-  Clock01Icon,
-  BookOpen01Icon,
-  Shield01Icon,
-  CreditCardIcon,
-  UserGroupIcon,
-  FolderOpenIcon,
-  ChartBarLineIcon,
-  Message01Icon,
-  Edit02Icon,
-  Wrench01Icon,
-  SparklesIcon,
-  HeartCheckIcon,
-  UnfoldMoreIcon,
-  UserCheck01Icon,
-  Notification03Icon,
-  Logout03Icon,
-  CheckListIcon,
-  ToggleOnIcon,
-  Database01Icon,
-  Refresh01Icon,
-  AlertCircleIcon,
-  Briefcase01Icon,
-  FileAddIcon,
-  Target01Icon,
-} from '@hugeicons/core-free-icons';
+import { Layout01Icon, Calendar03Icon, Wallet01Icon, UserCircleIcon, Settings01Icon, Clock01Icon, BookOpen01Icon, Shield01Icon, CreditCardIcon, UserGroupIcon, FolderOpenIcon, ChartBarLineIcon, Message01Icon, Edit02Icon, Wrench01Icon, SparklesIcon, HeartCheckIcon, UnfoldMoreIcon, UserCheck01Icon, Notification03Icon, Logout03Icon, CheckListIcon, ToggleOnIcon, Database01Icon, Refresh01Icon, AlertCircleIcon, Briefcase01Icon, FileAddIcon, Target01Icon } from '@hugeicons/core-free-icons';
 
 // ─── Icon mapping ──────────────────────────────────────────────────
 
@@ -196,9 +166,9 @@ function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-2xl">
+              <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={avatarUrl} alt={displayName} />
-                <AvatarFallback className="rounded-2xl">{initials}</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{displayName}</span>
@@ -208,16 +178,16 @@ function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-2xl"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
             side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-2xl">
+                <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={avatarUrl} alt={displayName} />
-                  <AvatarFallback className="rounded-2xl">{initials}</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{displayName}</span>
@@ -319,7 +289,7 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild tooltip="EKA">
               <Link href="/dashboard">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-2xl">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">

@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Monitor } from 'lucide-react';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import PersonalizedServiceTemplate from '@/marketing/components/templates/PersonalizedServiceTemplate';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ComputerActivityIcon, ComputerIcon } from '@hugeicons/core-free-icons';
 
 export default function ForOfficeWorkersContent() {
   const { t } = useLanguage();
@@ -45,7 +46,7 @@ export default function ForOfficeWorkersContent() {
     <PersonalizedServiceTemplate
       serviceId="office-workers"
       translationKey="personalized.officeWorkers"
-      Icon={Monitor}
+      Icon={ComputerIcon}
       seoKeys={{
         title: 'seo.officeWorkers.title',
         description: 'seo.officeWorkers.description',

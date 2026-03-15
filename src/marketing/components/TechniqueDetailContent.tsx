@@ -2,9 +2,10 @@
 
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import CTASection from '@/marketing/components/CTASection';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowLeft01Icon } from '@hugeicons/core-free-icons';
 
 // Move map to shared or props if needed, but safe here for rendering logic if id is passed
 const techniqueMap: Record<string, string> = {
@@ -44,7 +45,7 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
           href="/#techniques"
           className="group mb-8 inline-flex items-center text-gray-600 transition-colors hover:text-blue-600"
         >
-          <ArrowLeft className="mr-2 h-5 w-5 transition-colors" />
+          <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-5 transition-colors"  />
           {t('common.back')}
         </Link>
 

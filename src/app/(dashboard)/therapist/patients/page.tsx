@@ -33,24 +33,24 @@ export default async function PatientManagerPage() {
   );
 
   return (
-    <div className="mx-auto max-w-6xl p-6">
-      <div className="flex items-center justify-between">
-        <p className="text-muted-foreground">Manage your active caseload.</p>
-        <Button>Add New Patient</Button>
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="flex items-center justify-between px-4 lg:px-6">
+        <p className="text-sm text-muted-foreground">Manage your active caseload.</p>
+        <Button size="sm">Add New Patient</Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
         {uniquePatients.map((patient: any) => (
           <Link key={patient.id} href={`/therapist/patients/${patient.id}`} className="group">
-            <Card className="hover:border-primary/50 transition-colors">
+            <Card className="transition-colors">
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    <Avatar className="h-12 w-12 border">
+                    <Avatar className="size-12 border">
                       <AvatarFallback>{patient.full_name?.[0]}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h3 className="group-hover:text-primary font-semibold transition-colors">
+                      <h3 className="font-semibold">
                         {patient.full_name}
                       </h3>
                       <p className="text-muted-foreground text-xs">{patient.email}</p>
@@ -73,7 +73,7 @@ export default async function PatientManagerPage() {
           </Link>
         ))}
         {uniquePatients.length === 0 && (
-          <div className="text-muted-foreground col-span-full rounded-xl border-2 border-dashed py-12 text-center">
+          <div className="text-muted-foreground col-span-full rounded-lg border-2 border-dashed py-12 text-center text-sm">
             No patients found associated with your account.
           </div>
         )}

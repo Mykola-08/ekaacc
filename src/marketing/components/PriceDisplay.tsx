@@ -1,5 +1,6 @@
-import { TrendingDown, TrendingUp, Star } from 'lucide-react';
 import { useDiscount } from '@/marketing/contexts/DiscountContext';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowTurnDownIcon, AnalyticsUpIcon, StarIcon } from '@hugeicons/core-free-icons';
 
 interface PriceDisplayProps {
   basePriceCents: number;
@@ -46,7 +47,7 @@ export default function PriceDisplay({
         <div className="flex items-center">
           {hasDiscount && (
             <>
-              <TrendingDown className="h-4 w-4 text-green-500" />
+              <HugeiconsIcon icon={ArrowTurnDownIcon} className="size-4 text-green-500"  />
               <span className="text-sm text-gray-500 line-through">
                 {formatPrice(basePriceCents)}
               </span>
@@ -55,7 +56,7 @@ export default function PriceDisplay({
 
           {hasSurcharge && (
             <>
-              <TrendingUp className="h-4 w-4 text-orange-500" />
+              <HugeiconsIcon icon={AnalyticsUpIcon} className="size-4 text-orange-500"  />
               <span className="text-sm text-gray-500 line-through">
                 {formatPrice(basePriceCents)}
               </span>
@@ -67,7 +68,7 @@ export default function PriceDisplay({
       {/* Special Badge */}
       {hasDiscount && selectedDiscount && (
         <div className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
-          <Star className="mr-1 h-3 w-3" />
+          <HugeiconsIcon icon={StarIcon} className="mr-1 size-3"  />
           {selectedDiscount.name} -{selectedDiscount.percentage}%
         </div>
       )}

@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Hash, Lock, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { HashtagIcon, LockIcon, Add01Icon } from '@hugeicons/core-free-icons';
 
 export function CommunityChannelList({ channels, activeChannelId, onSelectChannel }: any) {
   return (
@@ -13,7 +14,7 @@ export function CommunityChannelList({ channels, activeChannelId, onSelectChanne
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">Communities</CardTitle>
           <Button variant="ghost" size="icon" className="h-8 w-8">
-            <Plus className="h-4 w-4" />
+            <HugeiconsIcon icon={Add01Icon} className="size-4"  />
           </Button>
         </div>
       </CardHeader>
@@ -29,9 +30,9 @@ export function CommunityChannelList({ channels, activeChannelId, onSelectChanne
             onClick={() => onSelectChannel(channel.id)}
           >
             {channel.type === 'private' ? (
-              <Lock className="text-muted-foreground h-4 w-4" />
+              <HugeiconsIcon icon={LockIcon} className="text-muted-foreground size-4"  />
             ) : (
-              <Hash className="text-muted-foreground h-4 w-4" />
+              <HugeiconsIcon icon={HashtagIcon} className="text-muted-foreground size-4"  />
             )}
             {channel.name || 'General'}
           </Button>

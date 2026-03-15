@@ -3,9 +3,10 @@
 import dynamic from 'next/dynamic';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, BarChart3, Library } from 'lucide-react';
 import { Suspense } from 'react';
-import { motion } from 'motion/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { BookOpen02Icon, BarChartIcon, LibraryIcon } from '@hugeicons/core-free-icons';
+
 
 const JournalTab = dynamic(
   () => import('./tabs/JournalTab').then((m) => ({ default: m.JournalTab })),
@@ -24,9 +25,9 @@ const ResourcesTab = dynamic(
 
 function TabSkeleton() {
   return (
-    <div className="py-6">
+    <div className="py-6 space-y-4">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-muted h-24 animate-pulse rounded-2xl" />
+        <div key={i} className="bg-muted h-24 animate-pulse rounded-lg" />
       ))}
     </div>
   );
@@ -45,39 +46,36 @@ function WellnessContent() {
   };
 
   return (
-    <motion.div
-      className=""
-      initial={{ opacity: 0, scale: 0.98, y: 10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
-    >
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="grid w-full max-w-md grid-cols-3">
-          <TabsTrigger value="journal" className="gap-2">
-            <BookOpen className="h-4 w-4" />
-            Journal
-          </TabsTrigger>
-          <TabsTrigger value="progress" className="gap-2">
-            <BarChart3 className="h-4 w-4" />
-            Progress
-          </TabsTrigger>
-          <TabsTrigger value="resources" className="gap-2">
-            <Library className="h-4 w-4" />
-            Resources
-          </TabsTrigger>
-        </TabsList>
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="px-4 lg:px-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+          <TabsList className="mb-4">
+            <TabsTrigger value="journal" className="gap-2">
+              <HugeiconsIcon icon={BookOpen02Icon} className="size-4" />
+              Journal
+            </TabsTrigger>
+            <TabsTrigger value="progress" className="gap-2">
+              <HugeiconsIcon icon={BarChartIcon} className="size-4" />
+              Progress
+            </TabsTrigger>
+            <TabsTrigger value="resources" className="gap-2">
+              <HugeiconsIcon icon={LibraryIcon} className="size-4" />
+              Resources
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="journal" className="mt-6">
-          <JournalTab />
-        </TabsContent>
-        <TabsContent value="progress" className="mt-6">
-          <ProgressTab />
-        </TabsContent>
-        <TabsContent value="resources" className="mt-6">
-          <ResourcesTab />
-        </TabsContent>
-      </Tabs>
-    </motion.div>
+          <TabsContent value="journal" className="mt-4">
+            <JournalTab />
+          </TabsContent>
+          <TabsContent value="progress" className="mt-4">
+            <ProgressTab />
+          </TabsContent>
+          <TabsContent value="resources" className="mt-4">
+            <ResourcesTab />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
   );
 }
 

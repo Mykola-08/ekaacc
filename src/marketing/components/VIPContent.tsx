@@ -3,22 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  Crown,
-  Home,
-  Clock,
-  Sparkles,
-  Check,
-  Shield,
-  Star,
-  Award,
-  Zap,
-  Globe,
-  Diamond,
-} from 'lucide-react';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import SEOUpdater from '@/marketing/components/SEOUpdater';
 import CTASection from '@/marketing/components/CTASection';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CrownIcon, Home01Icon, Clock01Icon, SparklesIcon, Tick02Icon, ShieldIcon, StarIcon, ZapIcon, GlobeIcon, Award01Icon, Diamond01Icon } from '@hugeicons/core-free-icons';
 
 // --- Constants & Data ---
 
@@ -54,22 +43,22 @@ const defaultPlans = [
 
 const defaultLuxuryFeatures = [
   {
-    icon: Diamond,
+    icon: Diamond01Icon,
     title: 'vip.mostExclusive',
     description: 'vip.experienceDescription',
   },
   {
-    icon: Award,
+    icon: Award01Icon,
     title: 'vip.voicesOfExcellence',
     description: 'vip.testimonialsSubtitle',
   },
   {
-    icon: Globe,
+    icon: GlobeIcon,
     title: 'vip.benefits.barcelona',
     description: 'vip.benefits.barcelonaDesc',
   },
   {
-    icon: Zap,
+    icon: ZapIcon,
     title: 'vip.service.priority.title',
     description: 'vip.service.priority.description',
   },
@@ -77,7 +66,7 @@ const defaultLuxuryFeatures = [
 
 const vipServices = [
   {
-    icon: Home,
+    icon: Home01Icon,
     title: 'vip.service.displacements.title',
     description: 'vip.service.displacements.description',
     features: [
@@ -88,7 +77,7 @@ const vipServices = [
     ],
   },
   {
-    icon: Clock,
+    icon: Clock01Icon,
     title: 'vip.service.health.title',
     description: 'vip.service.health.description',
     features: [
@@ -99,7 +88,7 @@ const vipServices = [
     ],
   },
   {
-    icon: Sparkles,
+    icon: SparklesIcon,
     title: 'vip.service.family.title',
     description: 'vip.service.family.description',
     features: [
@@ -110,7 +99,7 @@ const vipServices = [
     ],
   },
   {
-    icon: Shield,
+    icon: ShieldIcon,
     title: 'vip.service.priority.title',
     description: 'vip.service.priority.description',
     features: [
@@ -213,7 +202,7 @@ const ComparativeTable = () => {
   const renderValue = (val: string | boolean) => {
     if (typeof val === 'boolean') {
       return val ? (
-        <Check className="mx-auto h-5 w-5 text-amber-600" />
+        <HugeiconsIcon icon={Tick02Icon} className="mx-auto size-5 text-amber-600"  />
       ) : (
         <div className="mx-auto h-1.5 w-1.5 rounded-full bg-gray-300" />
       );
@@ -321,14 +310,14 @@ export default function VIPContent() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {defaultLuxuryFeatures.map((feature, idx) => {
-              const Icon = feature.icon || Diamond;
+              const Icon = feature.icon || Diamond01Icon;
               return (
                 <div
                   key={idx}
                   className="group rounded-2xl border border-gray-100 bg-gray-50 p-8 transition-colors hover:border-amber-100"
                 >
                   <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-gray-100 bg-white transition-colors">
-                    <Icon className="h-7 w-7 text-amber-600" />
+                    <HugeiconsIcon icon={Icon} className="size-7 text-amber-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-bold text-gray-900">{t(feature.title)}</h3>
                   <p className="leading-relaxed text-gray-600">{t(feature.description)}</p>
@@ -359,7 +348,7 @@ export default function VIPContent() {
               >
                 <div className="flex items-start gap-6">
                   <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-amber-50">
-                    <service.icon className="h-8 w-8 text-amber-600" />
+                    <HugeiconsIcon icon={service.icon} className="h-8 w-8 text-amber-600" />
                   </div>
                   <div>
                     <h3 className="mb-4 text-2xl font-bold text-gray-900">{t(service.title)}</h3>
@@ -416,7 +405,7 @@ export default function VIPContent() {
                 <div className="mb-8">
                   {plan.features.map((feature: string, i: number) => (
                     <div key={i} className="flex items-start gap-3">
-                      <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-500" />
+                      <HugeiconsIcon icon={Tick02Icon} className="mt-0.5 size-5 flex-shrink-0 text-amber-500"  />
                       <span className="text-sm text-gray-700">{t(feature)}</span>
                     </div>
                   ))}
@@ -455,7 +444,7 @@ export default function VIPContent() {
               >
                 <div className="mb-6 flex gap-1">
                   {[...Array(test.rating)].map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                    <HugeiconsIcon icon={StarIcon} key={j} className="size-4 fill-amber-400 text-amber-400"  />
                   ))}
                 </div>
                 <p className="mb-8 leading-relaxed text-gray-300 italic">"{t(test.comment)}"</p>

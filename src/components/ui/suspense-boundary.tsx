@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
-import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
 
 interface SuspenseBoundaryProps {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ export function SuspenseBoundary({ children, fallback, className }: SuspenseBoun
             )}
           >
             <div className="flex flex-col items-center gap-4">
-              <Loader2 className="text-primary h-8 w-8 animate-spin" />
+              <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin"  />
               <span className="text-sm font-medium">Carregant...</span>
             </div>
           </div>

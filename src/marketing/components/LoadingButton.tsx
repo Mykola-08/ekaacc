@@ -1,6 +1,7 @@
 import { Button, ButtonProps } from '@/marketing/components/ui/button';
-import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
 
 export interface LoadingButtonProps extends ButtonProps {
   loading?: boolean;
@@ -21,7 +22,7 @@ export default function LoadingButton({
     >
       {loading ? (
         <>
-          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-5 animate-spin"  />
           {children}
         </>
       ) : (

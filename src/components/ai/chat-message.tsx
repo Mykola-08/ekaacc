@@ -16,8 +16,9 @@ import {
   MessageResponse,
 } from '@/components/ai-elements/message';
 import { VisualBlockRenderer } from '@/components/ai/blocks';
-import { Copy, ThumbsUp, ThumbsDown, RotateCcw } from 'lucide-react';
 import type { UIMessage } from 'ai';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Copy01Icon, ThumbsUpIcon, ThumbsDownIcon, RotateIcon } from '@hugeicons/core-free-icons';
 
 interface ChatMessageProps {
   message: UIMessage;
@@ -94,17 +95,17 @@ export function ChatMessage({
               tooltip="Copy"
               onClick={() => onCopy?.(textContent)}
             >
-              <Copy className="size-3.5" />
+              <HugeiconsIcon icon={Copy01Icon} className="size-3.5"  />
             </MessageAction>
             <MessageAction tooltip="Good response">
-              <ThumbsUp className="size-3.5" />
+              <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5"  />
             </MessageAction>
             <MessageAction tooltip="Bad response">
-              <ThumbsDown className="size-3.5" />
+              <HugeiconsIcon icon={ThumbsDownIcon} className="size-3.5"  />
             </MessageAction>
             {isLast && (
               <MessageAction tooltip="Regenerate" onClick={onRegenerate}>
-                <RotateCcw className="size-3.5" />
+                <HugeiconsIcon icon={RotateIcon} className="size-3.5"  />
               </MessageAction>
             )}
           </MessageActions>

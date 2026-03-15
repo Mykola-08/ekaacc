@@ -7,7 +7,6 @@ import {
   useIndentTodoToolBarButton,
   useIndentTodoToolBarButtonState,
 } from '@platejs/list/react';
-import { List, ListOrdered, ListTodoIcon } from 'lucide-react';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import {
@@ -18,6 +17,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ListViewIcon } from '@hugeicons/core-free-icons';
+import { ListOrdered, ListTodoIcon } from 'lucide-react';
 import {
   ToolbarButton,
   ToolbarSplitButton,
@@ -50,7 +52,7 @@ export function BulletedListToolbarButton() {
         }}
         data-state={pressed ? 'on' : 'off'}
       >
-        <List className="size-4" />
+        <HugeiconsIcon icon={ListViewIcon} className="size-4"  />
       </ToolbarSplitButtonPrimary>
 
       <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>

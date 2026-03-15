@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { BookOpen, Plus, Calendar, Smile, Frown, Meh } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Book02Icon, Add01Icon, Calendar03Icon, SmileIcon, Sad01Icon, MehIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from '@/components/ui/morphing-toaster';
@@ -28,9 +28,9 @@ interface JournalEntry {
 }
 
 const MOODS = [
-  { id: 'happy', score: 8, icon: Smile, color: 'text-success', bg: 'bg-success/10' },
-  { id: 'neutral', score: 5, icon: Meh, color: 'text-warning', bg: 'bg-warning/10' },
-  { id: 'sad', score: 2, icon: Frown, color: 'text-destructive', bg: 'bg-destructive/10' },
+  { id: 'happy', score: 8, icon: SmileIcon, color: 'text-success', bg: 'bg-success/10' },
+  { id: 'neutral', score: 5, icon: MehIcon, color: 'text-warning', bg: 'bg-warning/10' },
+  { id: 'sad', score: 2, icon: Sad01Icon, color: 'text-destructive', bg: 'bg-destructive/10' },
 ];
 
 export function JournalPage() {
@@ -104,8 +104,8 @@ export function JournalPage() {
       <div className="mb-6 flex items-center justify-end gap-2">
         <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
           <DialogTrigger asChild>
-            <Button className="h-12 rounded-lg px-6 text-sm font-semibold transition-all hover:scale-105 active:scale-95">
-              <Plus className="mr-2 h-5 w-5" strokeWidth={2.5} />
+            <Button className="h-12 rounded-lg px-6 text-sm font-semibold transition-all">
+              <HugeiconsIcon icon={Add01Icon} className="mr-2 size-5" />
               New Entry
             </Button>
           </DialogTrigger>
@@ -128,13 +128,13 @@ export function JournalPage() {
                         : 'hover:bg-card'
                     )}
                   >
-                    <m.icon
+                    <HugeiconsIcon
+                      icon={m.icon}
                       className={cn(
-                        'h-8 w-8',
+                        'size-8',
                         m.color,
                         newEntry.mood !== m.id && 'opacity-40 grayscale'
                       )}
-                      strokeWidth={2.5}
                     />
                   </button>
                 ))}
@@ -171,9 +171,9 @@ export function JournalPage() {
           ))}
         </div>
       ) : entries.length === 0 ? (
-        <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed py-20 text-center">
+        <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-20 text-center">
           <div className="bg-card mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-            <BookOpen className="text-muted-foreground/50 h-8 w-8" />
+            <HugeiconsIcon icon={Book02Icon} className="size-8 text-muted-foreground/50" />
           </div>
           <h3 className="text-foreground text-lg font-semibold">No entries yet</h3>
           <p className="text-muted-foreground mt-1 text-sm">
@@ -181,16 +181,14 @@ export function JournalPage() {
           </p>
         </div>
       ) : (
-        <motion.div layout className="grid grid-cols-1 gap-6 pb-20">
+        <div className="grid grid-cols-1 gap-6 pb-20">
           {entries.map((entry) => {
             const m = getMoodById(entry.mood);
             const title = entry.metadata?.title || 'Journal Entry';
             return (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+              <div
                 key={entry.id}
-                className="group bg-card hover:border-border hover: rounded-lg border border-transparent p-8 transition-all duration-500 hover:-translate-y-1"
+                className="group bg-card hover:border-border rounded-lg border border-transparent p-8 transition-all duration-500 hover:-translate-y-1"
               >
                 <div className="mb-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-5">
@@ -200,14 +198,14 @@ export function JournalPage() {
                         m.bg
                       )}
                     >
-                      <m.icon className={cn('h-7 w-7', m.color)} strokeWidth={2.5} />
+                      <HugeiconsIcon icon={m.icon} className={cn('size-7', m.color)} />
                     </div>
                     <div>
                       <h3 className="text-foreground mb-1 text-xl font-semibold tracking-tight">
                         {title}
                       </h3>
                       <div className="text-muted-foreground flex items-center gap-2 text-xs font-semibold tracking-wider uppercase">
-                        <Calendar className="h-3.5 w-3.5" strokeWidth={2.5} />
+                        <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
                         {new Date(entry.created_at).toLocaleDateString()}
                       </div>
                     </div>
@@ -218,10 +216,10 @@ export function JournalPage() {
                     {entry.content}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       )}
     </div>
   );

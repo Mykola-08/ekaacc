@@ -6,18 +6,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import FooterUncover from '@/marketing/components/FooterUncover';
 import { usePathname } from 'next/navigation';
-import {
-  Menu,
-  X,
-  Globe,
-  Hand,
-  Brain,
-  Apple,
-  Pill,
-  Network,
-  RotateCcw,
-  ChevronDown,
-} from 'lucide-react';
+
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { Language } from '@/marketing/contexts/LanguageTypes';
@@ -26,7 +15,10 @@ import { useClickAway } from '@/hooks/use-click-away';
 import { useAnalytics } from '@/marketing/hooks/useAnalytics';
 import { Button } from '@/marketing/components/ui/button';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
-import { User, LogOut, LayoutDashboard } from 'lucide-react';
+
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Menu01Icon, Cancel01Icon, GlobeIcon, Brain01Icon, RotateIcon, ArrowDown01Icon, UserIcon, Logout01Icon, DashboardSquare01Icon, HandPointingDown01Icon, Apple01Icon, PillIcon } from '@hugeicons/core-free-icons';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -242,10 +234,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
   // Icon map for dropdown items
   const serviceIcons: Record<string, React.ReactNode> = {
-    '/services/massage': <Hand className="h-4 w-4" />,
-    '/services/kinesiology': <Brain className="h-4 w-4" />,
-    '/services/nutrition': <Apple className="h-4 w-4" />,
-    '/services/supplements': <Pill className="h-4 w-4" />,
+    '/services/massage': <HugeiconsIcon icon={HandPointingDown01Icon} className="size-4" />,
+    '/services/kinesiology': <HugeiconsIcon icon={Brain01Icon} className="size-4"  />,
+    '/services/nutrition': <HugeiconsIcon icon={Apple01Icon} className="size-4" />,
+    '/services/supplements': <HugeiconsIcon icon={PillIcon} className="size-4" />,
   };
 
   const navigation: NavItem[] = [
@@ -405,7 +397,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {/* Language Selector */}
                 <div className="mb-8">
                   <div className="mb-4 flex items-center justify-center">
-                    <Globe className="h-3 w-3 text-gray-400" />
+                    <HugeiconsIcon icon={GlobeIcon} className="size-3 text-gray-400"  />
                     <span className="text-xs text-gray-400">{t('footer.selectLanguage')}</span>
                   </div>
                   <div className="flex justify-center">
@@ -486,9 +478,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           suppressHydrationWarning
                         >
                           {item.name}
-                          <ChevronDown
-                            className={`h-3 w-3 text-gray-400 transition-transform duration-300 ${activeDropdown === item.name ? 'rotate-180 text-gray-700' : 'group-hover/trigger:translate-y-[1px]'}`}
-                          />
+                          <HugeiconsIcon icon={ArrowDown01Icon}
+                            className={`size-3 text-gray-400 transition-transform duration-300 ${activeDropdown === item.name ? 'rotate-180 text-gray-700' : 'group-hover/trigger:translate-y-[1px]'}`}
+                           />
                         </Link>
 
                         {/* Hover bridge & Dropdown Container via CSS */}
@@ -535,7 +527,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                       >
                                         <span className="group-hover/item:bg-primary/10 group-hover/item:text-primary flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100/80 text-gray-500 transition-colors duration-150">
                                           {serviceIcons[dropdownItem.href] || (
-                                            <Hand className="h-4 w-4" />
+                                            <HugeiconsIcon icon={HandPointingDown01Icon} className="size-4" />
                                           )}
                                         </span>
                                         <span className="font-medium">{dropdownItem.name}</span>
@@ -600,7 +592,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <User className="h-4 w-4" />
+                            <HugeiconsIcon icon={UserIcon} className="size-4"  />
                           )}
                         </button>
                       </DropdownMenuTrigger>
@@ -610,7 +602,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           className="cursor-pointer gap-2 rounded-md p-2 text-sm"
                         >
                           <Link href="/dashboard">
-                            <LayoutDashboard className="h-4 w-4" />
+                            <HugeiconsIcon icon={DashboardSquare01Icon} className="size-4"  />
                             {t('nav.dashboard')}
                           </Link>
                         </DropdownMenuItem>
@@ -618,7 +610,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           onClick={() => signOut()}
                           className="cursor-pointer gap-2 rounded-md p-2 text-sm text-red-600 focus:bg-red-50 focus:text-red-700"
                         >
-                          <LogOut className="h-4 w-4" />
+                          <HugeiconsIcon icon={Logout01Icon} className="size-4"  />
                           {t('auth.signOut')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -655,7 +647,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   className="ml-1 p-1 text-gray-800 transition-colors hover:text-black md:hidden"
                   aria-label="Toggle menu"
                 >
-                  {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                  {isMenuOpen ? <HugeiconsIcon icon={Cancel01Icon} className="size-5"  /> : <HugeiconsIcon icon={Menu01Icon} className="size-5"  />}
                 </button>
               </div>
             </div>
@@ -676,7 +668,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     className="absolute top-4 right-6 p-2 text-gray-800 transition-colors hover:text-black"
                     aria-label="Close menu"
                   >
-                    <X className="h-6 w-6" />
+                    <HugeiconsIcon icon={Cancel01Icon} className="size-6"  />
                   </button>
                   <div className="p-6 pb-24">
                     {/* Home */}

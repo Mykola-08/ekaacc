@@ -1,0 +1,52 @@
+src/app/(dashboard)/settings/privacy/page.tsx(31,243): error TS2724: '"@hugeicons/core-free-icons"' has no exported member named 'SmartTelephoneIcon'. Did you mean 'SmartPhoneIcon'?
+src/components/admin/services/ServicesList.tsx(110,18): error TS2322: Type '"success"' is not assignable to type '"link" | "outline" | "default" | "secondary" | "ghost" | "destructive"'.
+src/components/business/BusinessPage.tsx(91,18): error TS2604: JSX element type 'feature.icon' does not have any construct or call signatures.
+src/components/business/BusinessPage.tsx(91,18): error TS2786: 'feature.icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/data-table.tsx(139,2): error TS2322: Type 'true | "" | "indeterminate"' is not assignable to type 'CheckedState'.
+  Type '""' is not assignable to type 'CheckedState'.
+src/components/editor-base-kit.tsx(1,30): error TS2307: Cannot find module './plugins/align-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(2,36): error TS2307: Cannot find module './plugins/basic-blocks-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(3,35): error TS2307: Cannot find module './plugins/basic-marks-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(4,32): error TS2307: Cannot find module './plugins/callout-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(5,34): error TS2307: Cannot find module './plugins/code-block-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(6,31): error TS2307: Cannot find module './plugins/column-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(7,32): error TS2307: Cannot find module './plugins/comment-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(8,29): error TS2307: Cannot find module './plugins/date-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(9,29): error TS2307: Cannot find module './plugins/font-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(10,35): error TS2307: Cannot find module './plugins/line-height-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(11,29): error TS2307: Cannot find module './plugins/link-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(12,29): error TS2307: Cannot find module './plugins/list-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(13,29): error TS2307: Cannot find module './plugins/markdown-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(14,29): error TS2307: Cannot find module './plugins/math-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(15,30): error TS2307: Cannot find module './plugins/media-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(16,32): error TS2307: Cannot find module './plugins/mention-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(17,35): error TS2307: Cannot find module './plugins/suggestion-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(18,30): error TS2307: Cannot find module './plugins/table-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(19,28): error TS2307: Cannot find module './plugins/toc-base-kit' or its corresponding type declarations.
+src/components/editor-base-kit.tsx(20,31): error TS2307: Cannot find module './plugins/toggle-base-kit' or its corresponding type declarations.
+src/components/platform/admin/user-management-headless.tsx(152,66): error TS2604: JSX element type 'UserIcon' does not have any construct or call signatures.
+src/components/platform/admin/user-management-headless.tsx(152,66): error TS2786: 'UserIcon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/platform/settings/settings-content-headless.tsx(102,20): error TS2604: JSX element type 'Icon' does not have any construct or call signatures.
+src/components/platform/settings/settings-content-headless.tsx(102,20): error TS2786: 'Icon' cannot be used as a JSX component.
+  Its type 'IconSvgObject' is not a valid JSX element type.
+    Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType'.
+src/components/settings-dialog.tsx(44,29): error TS2307: Cannot find module './plugins/ai-kit' or its corresponding type declarations.
+src/components/ui/comment.tsx(155,5): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(164,20): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(221,19): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(445,22): error TS2339: Property 'tf' does not exist on type 'never'.
+src/components/ui/comment.tsx(452,5): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(555,21): error TS18047: 'commentEditor' is possibly 'null'.
+src/components/ui/comment.tsx(570,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'SetStateAction<Value>'.
+src/components/ui/status-badge.tsx(2,22): error TS2305: Module '"@/components/ui/badge"' has no exported member 'BadgeProps'.
+src/components/use-chat.ts(21,34): error TS2307: Cannot find module './plugins/discussion-kit' or its corresponding type declarations.
+src/marketing/components/KinesiologyContent.tsx(19,9): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/MassageContent.tsx(19,9): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+src/marketing/components/NutritionContent.tsx(22,9): error TS2322: Type 'IconSvgObject' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.
+  Type '[string, { [key: string]: string | number; }][]' is not assignable to type 'ElementType<any, keyof IntrinsicElements>'.

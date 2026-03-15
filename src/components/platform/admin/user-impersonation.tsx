@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, Shield, AlertTriangle, Eye, LogOut } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -22,6 +21,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { supabase } from '@/lib/platform/supabase';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search01Icon, ShieldIcon, Alert01Icon, EyeIcon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
 interface User {
   id: string;
@@ -157,7 +158,7 @@ export function UserImpersonationDialog({
       <DialogContent className="max-h-[80vh] max-w-4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
+            <HugeiconsIcon icon={ShieldIcon} className="size-5"  />
             User Impersonation
           </DialogTitle>
           <DialogDescription>
@@ -167,7 +168,7 @@ export function UserImpersonationDialog({
 
         <div className="grid gap-6">
           <Alert>
-            <AlertTriangle className="h-4 w-4" />
+            <HugeiconsIcon icon={Alert01Icon} className="size-4"  />
             <AlertDescription>
               You are about to impersonate another user. All actions taken during impersonation will
               be logged. Make sure to provide a valid reason for this action.
@@ -176,7 +177,7 @@ export function UserImpersonationDialog({
 
           <div className="">
             <div className="relative">
-              <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
+              <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform"  />
               <Input
                 placeholder="Search users by email, username, or name..."
                 value={searchTerm}
@@ -185,7 +186,7 @@ export function UserImpersonationDialog({
               />
             </div>
 
-            <ScrollArea className="h-75 rounded-2xl border">
+            <ScrollArea className="h-75 rounded-lg border">
               <div className="p-4">
                 {loading ? (
                   <div className="flex h-32 items-center justify-center">
@@ -226,7 +227,7 @@ export function UserImpersonationDialog({
                               Member since {new Date(user.created_at).toLocaleDateString()}
                             </p>
                           </div>
-                          {selectedUser?.id === user.id && <Eye className="text-primary h-5 w-5" />}
+                          {selectedUser?.id === user.id && <HugeiconsIcon icon={EyeIcon} className="text-primary size-5"  />}
                         </div>
                       </CardContent>
                     </Card>
@@ -273,7 +274,7 @@ export function UserImpersonationDialog({
               </>
             ) : (
               <>
-                <Eye className="mr-2 h-4 w-4" />
+                <HugeiconsIcon icon={EyeIcon} className="mr-2 size-4"  />
                 Start Impersonation
               </>
             )}
@@ -317,7 +318,7 @@ export function ImpersonationBanner({
     <div className="border-warning/30 bg-warning/20 border-b px-4 py-3">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <div className="flex items-center gap-3">
-          <Shield className="text-warning h-5 w-5" />
+          <HugeiconsIcon icon={ShieldIcon} className="text-warning size-5"  />
           <div className="text-sm">
             <span className="text-warning font-medium">
               Impersonating: {impersonation.targetUserEmail || impersonation.targetUserId || 'User'}
@@ -344,7 +345,7 @@ export function ImpersonationBanner({
             </>
           ) : (
             <>
-              <LogOut className="mr-2 h-3 w-3" />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="mr-2 size-3"  />
               End Impersonation
             </>
           )}

@@ -4,9 +4,10 @@ import React, { useState, useEffect, MouseEvent } from 'react';
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Cancel01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
 interface BentoItemProps {
   title: string;
@@ -174,7 +175,7 @@ export function ServiceBentoItem({
                       onClick={() => setIsOpen(false)}
                       className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-xl transition-colors hover:bg-black/40 sm:top-5 sm:right-5"
                     >
-                      <X size={18} />
+                      <HugeiconsIcon icon={Cancel01Icon} size={18}  />
                     </button>
 
                     <div className="flex h-full w-full flex-col md:flex-row">
@@ -200,7 +201,7 @@ export function ServiceBentoItem({
                                 {readMoreUrl && (
                                   <Link href={readMoreUrl} className="flex-1">
                                     <span className="flex w-full items-center justify-center rounded-full border border-white/20 bg-black/40 px-4 py-2 text-xs font-semibold whitespace-nowrap text-white backdrop-blur-md transition hover:bg-black/60">
-                                      {readMoreText} <ArrowRight className="ml-1.5 h-3 w-3" />
+                                      {readMoreText} <HugeiconsIcon icon={ArrowRight01Icon} className="ml-1.5 size-3"  />
                                     </span>
                                   </Link>
                                 )}
@@ -227,7 +228,7 @@ export function ServiceBentoItem({
                               {readMoreUrl && (
                                 <Link href={readMoreUrl} className="w-full">
                                   <span className="flex w-full items-center justify-center rounded-xl bg-gray-100 px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-black transition hover:bg-gray-200">
-                                    {readMoreText} <ArrowRight className="ml-1.5 h-3 w-3" />
+                                    {readMoreText} <HugeiconsIcon icon={ArrowRight01Icon} className="ml-1.5 size-3"  />
                                   </span>
                                 </Link>
                               )}
@@ -257,7 +258,7 @@ export function ServiceBentoItem({
                             {readMoreUrl && (
                               <Link href={readMoreUrl} className="flex-1">
                                 <span className="flex w-full items-center justify-center rounded-full bg-gray-100 px-6 py-3.5 text-base font-medium whitespace-nowrap text-black transition hover:bg-gray-200">
-                                  {readMoreText} <ArrowRight className="ml-2 h-4 w-4" />
+                                  {readMoreText} <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4"  />
                                 </span>
                               </Link>
                             )}

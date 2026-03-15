@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Button } from '@/marketing/components/ui/button';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
-import { Heart, Star } from 'lucide-react';
 import CTASection from '@/marketing/components/CTASection';
 import PageLayout from '@/marketing/components/PageLayout';
 import { ServiceBentoItem } from '@/marketing/components/ui/service-bento';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { FavouriteIcon, StarIcon } from '@hugeicons/core-free-icons';
 
 export default function AboutElenaContent() {
   const { t } = useLanguage();
@@ -106,11 +107,11 @@ export default function AboutElenaContent() {
           className="flex flex-wrap justify-center gap-4"
         >
           <div className="bg-secondary inline-flex items-center rounded-full border border-gray-200/50 px-6 py-3">
-            <Star className="mr-2 h-4 w-4 text-yellow-500" />
+            <HugeiconsIcon icon={StarIcon} className="mr-2 size-4 text-yellow-500"  />
             <span className="font-medium text-gray-700">15+ {t('hero.stats.experience')}</span>
           </div>
           <div className="bg-secondary inline-flex items-center rounded-full border border-gray-200/50 px-6 py-3">
-            <Heart className="mr-2 h-4 w-4 text-red-500" />
+            <HugeiconsIcon icon={FavouriteIcon} className="mr-2 size-4 text-red-500"  />
             <span className="font-medium text-gray-700">96% {t('hero.stats.clients')}</span>
           </div>
         </motion.div>

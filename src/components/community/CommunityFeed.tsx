@@ -6,10 +6,11 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { MessageCircle, Heart, MoreHorizontal, Send } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Message01Icon, FavouriteIcon, MoreHorizontalIcon, SentIcon } from '@hugeicons/core-free-icons';
 import {
   createCommunityPost,
   togglePostLike,
@@ -117,7 +118,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
         {/* Empty State */}
         {posts.length === 0 && (
           <div className="text-muted-foreground py-12 text-center">
-            <MessageCircle className="mx-auto mb-4 h-12 w-12 opacity-30" />
+            <HugeiconsIcon icon={Message01Icon} className="mx-auto mb-4 size-12 opacity-30"  />
             <p className="text-lg font-medium">No posts yet</p>
             <p className="text-sm">Be the first to share something with the community!</p>
           </div>
@@ -163,7 +164,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
                   onClick={() => handleLike(post.id)}
                   disabled={isPending}
                 >
-                  <Heart className="h-4 w-4" /> {post.likes || 0}
+                  <HugeiconsIcon icon={FavouriteIcon} className="size-4"  /> {post.likes || 0}
                 </Button>
                 <Button
                   variant="ghost"
@@ -171,7 +172,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
                   className="text-muted-foreground hover:text-primary gap-2"
                   onClick={() => handleToggleComments(post.id)}
                 >
-                  <MessageCircle className="h-4 w-4" /> {post.replies_count || 0}
+                  <HugeiconsIcon icon={Message01Icon} className="size-4"  /> {post.replies_count || 0}
                 </Button>
               </div>
 
@@ -219,7 +220,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
                       className="h-9"
                       onClick={() => handleAddComment(post.id)}
                     >
-                      <Send className="h-4 w-4" />
+                      <HugeiconsIcon icon={SentIcon} className="size-4"  />
                     </Button>
                   </div>
                 </div>

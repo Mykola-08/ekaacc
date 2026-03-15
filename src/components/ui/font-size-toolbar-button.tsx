@@ -6,7 +6,6 @@ import type { TElement } from 'platejs';
 
 import { toUnitLess } from '@platejs/basic-styles';
 import { FontSizePlugin } from '@platejs/basic-styles/react';
-import { Minus, Plus } from 'lucide-react';
 import { KEYS } from 'platejs';
 import { useEditorPlugin, useEditorSelector } from 'platejs/react';
 
@@ -18,6 +17,9 @@ import {
 import { cn } from '@/lib/utils';
 
 import { ToolbarButton } from './toolbar';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Add01Icon } from '@hugeicons/core-free-icons';
+import { Minus } from 'lucide-react';
 
 const DEFAULT_FONT_SIZE = '16';
 
@@ -147,7 +149,7 @@ export function FontSizeToolbarButton() {
       </Popover>
 
       <ToolbarButton onClick={() => handleFontSizeChange(1)}>
-        <Plus />
+        <HugeiconsIcon icon={Add01Icon}  />
       </ToolbarButton>
     </div>
   );

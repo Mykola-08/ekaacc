@@ -9,11 +9,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { Tool } from "ai";
-import { BotIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { memo } from "react";
 
 import { CodeBlock } from "./code-block";
+import { BotIcon } from 'lucide-react';
 
 export type AgentProps = ComponentProps<"div">;
 

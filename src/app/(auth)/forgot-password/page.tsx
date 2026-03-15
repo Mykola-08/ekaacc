@@ -9,8 +9,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { toast } from '@/components/ui/morphing-toaster';
 import { motion, AnimatePresence } from 'motion/react';
-import { Loader2, Mail, ArrowLeft, CheckCircle2, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon, Mail01Icon, ArrowLeft01Icon, CheckmarkCircle01Icon, SparklesIcon } from '@hugeicons/core-free-icons';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -77,7 +78,7 @@ export default function ForgotPasswordPage() {
                         transition={{ duration: 0.5, type: 'spring', bounce: 0.4 }}
                         className="flex h-14 w-14 items-center justify-center"
                       >
-                        <CheckCircle2 className="text-success h-8 w-8" />
+                        <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success size-8"  />
                       </motion.div>
                     ) : (
                       <motion.div
@@ -138,7 +139,7 @@ export default function ForgotPasswordPage() {
                     onClick={() => setEmailSent(false)}
                     className="border-border/50 bg-muted/20 hover:bg-muted/40 h-9 w-full rounded-lg transition-all"
                   >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
                     Try another email
                   </Button>
                 </motion.div>
@@ -164,7 +165,7 @@ export default function ForgotPasswordPage() {
                       Email Address
                     </label>
                     <div className="relative">
-                      <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+                      <HugeiconsIcon icon={Mail01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"  />
                       <Input
                         id="email"
                         type="email"
@@ -183,10 +184,10 @@ export default function ForgotPasswordPage() {
                   >
                     <Button type="submit" className="auth-submit-btn" disabled={isLoading}>
                       {isLoading ? (
-                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  />
                       ) : (
                         <span className="flex items-center gap-2">
-                          <Sparkles className="h-4 w-4" />
+                          <HugeiconsIcon icon={SparklesIcon} className="size-4"  />
                           Send Reset Link
                         </span>
                       )}
@@ -206,7 +207,7 @@ export default function ForgotPasswordPage() {
                 href="/login"
                 className="text-foreground hover:text-primary inline-flex items-center gap-1 text-sm font-semibold transition-colors"
               >
-                <ArrowLeft className="h-3 w-3" />
+                <HugeiconsIcon icon={ArrowLeft01Icon} className="size-3"  />
                 Back to Sign In
               </Link>
             </motion.div>

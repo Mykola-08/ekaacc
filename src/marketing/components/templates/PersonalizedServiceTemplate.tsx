@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import PageLayout from '@/marketing/components/PageLayout';
@@ -11,6 +10,8 @@ import SEOUpdater from '@/marketing/components/SEOUpdater';
 import FAQ from '@/marketing/components/FAQ';
 import CTASection from '@/marketing/components/CTASection';
 import { PERSONALIZED_SERVICES_DATA } from '@/marketing/shared/constants';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
+import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
 interface RecommendedService {
   titleKey: string;
@@ -27,7 +28,7 @@ interface MethodStep {
 interface PersonalizedServiceTemplateProps {
   serviceId: string;
   translationKey: string;
-  Icon: React.ElementType;
+  Icon: IconSvgElement;
   seoKeys: {
     title: string;
     description: string;
@@ -208,7 +209,7 @@ export default function PersonalizedServiceTemplate({
               href={`/booking?service=${encodeURIComponent(t(`${translationKey}.hero.title`))}`}
             >
               {t('nav.bookNow')}
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
             </Link>
           </Button>
           <Link href="/booking">

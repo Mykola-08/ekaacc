@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { User, Trash2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { deleteFamilyMember } from '@/server/family/actions';
 import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { InlineFeedbackCompact } from '@/components/ui/inline-feedback';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { UserIcon, Delete01Icon, Alert01Icon } from '@hugeicons/core-free-icons';
 import {
   Dialog,
   DialogContent,
@@ -24,7 +25,7 @@ export function FamilyList({ members }: { members: any[] }) {
   if (!members || members.length === 0) {
     return (
       <div className="text-muted-foreground animate-in fade-in zoom-in rounded-lg border border-dashed p-8 text-center duration-500">
-        <User className="text-muted-foreground/30 mx-auto mb-3 h-12 w-12" />
+        <HugeiconsIcon icon={UserIcon} className="text-muted-foreground/30 mx-auto mb-3 size-12"  />
         <p>No family members added yet.</p>
         <p className="text-muted-foreground/70 mt-1 text-xs">
           Add a dependent to book services for them.
@@ -56,7 +57,7 @@ export function FamilyList({ members }: { members: any[] }) {
           >
             <Avatar className="border-border/60 bg-muted/40 h-12 w-12 border">
               <AvatarFallback className="bg-muted/50 text-muted-foreground font-serif text-lg">
-                {member.full_name?.charAt(0) || <User className="h-5 w-5" />}
+                {member.full_name?.charAt(0) || <HugeiconsIcon icon={UserIcon} className="size-5"  />}
               </AvatarFallback>
             </Avatar>
 
@@ -80,7 +81,7 @@ export function FamilyList({ members }: { members: any[] }) {
               className="text-muted-foreground/50 hover:bg-destructive/10 hover:text-destructive absolute top-3 right-3 h-9 w-9 rounded-xl opacity-0 transition-all group-hover:opacity-100"
               onClick={() => setDeletingId(member.id)}
             >
-              <Trash2 className="h-4 w-4" />
+              <HugeiconsIcon icon={Delete01Icon} className="size-4"  />
             </Button>
           </div>
         ))}
@@ -90,7 +91,7 @@ export function FamilyList({ members }: { members: any[] }) {
         <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 sm:max-w-100">
           <div className="flex flex-col items-center p-8 pb-6 text-center">
             <div className="bg-destructive/10 mb-6 flex h-16 w-16 items-center justify-center rounded-full">
-              <AlertCircle className="text-destructive h-8 w-8" />
+              <HugeiconsIcon icon={Alert01Icon} className="text-destructive size-8"  />
             </div>
             <DialogTitle className="text-foreground mb-2 font-serif text-xl">
               Remove Family Member?

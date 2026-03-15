@@ -22,10 +22,11 @@ import { ChatWelcome } from '@/components/ai/chat-welcome';
 import { ConversationList } from '@/components/ai/conversation-list';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
-import { PanelLeft, Globe, Monitor } from 'lucide-react';
 import { toast } from '@/components/ui/morphing-toaster';
 import { useWebLLMAvailable } from '@/hooks/use-webllm';
 import { WebLLMChatTransport } from '@/lib/platform/integrations/webllm';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { PanelLeftIcon, GlobeIcon } from '@hugeicons/core-free-icons';
 import {
   Tooltip,
   TooltipContent,
@@ -176,7 +177,7 @@ export function AIChatView() {
           <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8 lg:hidden">
-                <PanelLeft className="h-4 w-4" />
+                <HugeiconsIcon icon={PanelLeftIcon} className="size-4"  />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-72 p-0">
@@ -210,9 +211,9 @@ export function AIChatView() {
                     onClick={() => setUseWebLLM(!useWebLLM)}
                   >
                     {useWebLLM ? (
-                      <Monitor className="size-4" />
+                      <HugeiconsIcon icon={GlobeIcon} className="size-4"  />
                     ) : (
-                      <Globe className="size-4" />
+                      <HugeiconsIcon icon={GlobeIcon} className="size-4"  />
                     )}
                   </Button>
                 </TooltipTrigger>

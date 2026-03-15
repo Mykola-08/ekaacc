@@ -1,22 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Tab } from '@headlessui/react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import {
-  BarChart as BarChartIcon,
-  Users,
-  Activity,
-  TrendingUp,
-  Download,
-  RefreshCw,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  ChevronDown,
-  LayoutGrid,
-  PieChart as PieChartIcon,
-  List,
-} from 'lucide-react';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { LoadingSpinner } from '@/components/ui/loading-states';
 import {
@@ -34,10 +27,12 @@ import {
   Cell,
 } from 'recharts';
 import { format } from 'date-fns';
-
-function classNames(...classes: (string | boolean | undefined | null)[]) {
-  return classes.filter(Boolean).join(' ');
-}
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Activity01Icon, Alert01Icon, AnalyticsUpIcon, BarChartIcon, Clock01Icon, Refresh01Icon, UserIcon } from '@hugeicons/core-free-icons'; Cell,
+} from 'recharts';
+import { format } from 'date-fns';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Activity01Icon, Alert01Icon, AnalyticsUpIcon, BarChartIcon, Clock01Icon, Refresh01Icon, UserIcon } from '@hugeicons/core-free-icons';
 
 interface AnalyticsData {
   overview: {
@@ -185,16 +180,11 @@ export function AnalyticsDashboardHeadless() {
     return (
       <div className="flex flex-col items-center justify-center py-20">
         <div className="bg-destructive/10 mb-4 rounded-full p-4">
-          <AlertTriangle className="text-destructive h-8 w-8" />
+          <HugeiconsIcon icon={Alert01Icon} className="text-destructive size-8"  />
         </div>
         <h3 className="text-foreground text-lg font-semibold">Failed to load analytics</h3>
         <p className="text-muted-foreground mt-1 mb-6">We couldn't retrieve the latest data.</p>
-        <button
-          onClick={handleRefresh}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 py-2.5 font-medium transition-colors"
-        >
-          Try Again
-        </button>
+        <Button onClick={handleRefresh}>Try Again</Button>
       </div>
     );
   }
@@ -205,7 +195,7 @@ export function AnalyticsDashboardHeadless() {
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-foreground flex items-center gap-3 text-4xl font-semibold tracking-tight">
-            <BarChartIcon className="text-muted-foreground/80 h-8 w-8" />
+            <HugeiconsIcon icon={BarChartIcon} className="text-muted-foreground/80 h-8 w-8" />
             Analytics
           </h1>
           <p className="text-muted-foreground mt-2 text-lg">System metrics and user analytics.</p>
@@ -234,7 +224,7 @@ export function AnalyticsDashboardHeadless() {
             className="text-muted-foreground hover:text-foreground p-2 transition-colors disabled:opacity-50"
             title="Refresh"
           >
-            <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+            <HugeiconsIcon icon={Refresh01Icon} className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`}  />
           </button>
 
           <div className="bg-border h-6 w-px" />
@@ -250,26 +240,26 @@ export function AnalyticsDashboardHeadless() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-card ring-border rounded-2xl p-6 ring-1">
+        <div className="bg-card ring-border rounded-lg p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
-            <span className="text-muted-foreground text-sm font-medium">Total Users</span>
-            <Users className="text-primary h-5 w-5" />
+            <span className="text-muted-foreground text-sm font-medium">Total UserMultipleIcon</span>
+            <HugeiconsIcon icon={UserIcon} className="text-primary size-5"  />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.totalUsers.toLocaleString()}
           </div>
           <div className="flex items-center text-sm">
             <span className="bg-success text-success flex items-center rounded-full px-2 py-0.5 font-medium">
-              <TrendingUp className="mr-1 h-3 w-3" />+{analytics.overview.newUsers}
+              <HugeiconsIcon icon={AnalyticsUpIcon} className="mr-1 size-3"  />+{analytics.overview.newUsers}
             </span>
             <span className="text-muted-foreground/80 ml-2">this period</span>
           </div>
         </div>
 
-        <div className="bg-card ring-border rounded-2xl p-6 ring-1">
+        <div className="bg-card ring-border rounded-lg p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Active Users</span>
-            <Activity className="text-success h-5 w-5" />
+            <HugeiconsIcon icon={Activity01Icon} className="text-success h-5 w-5" />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.activeUsers.toLocaleString()}
@@ -280,27 +270,27 @@ export function AnalyticsDashboardHeadless() {
           </div>
         </div>
 
-        <div className="bg-card ring-border rounded-2xl p-6 ring-1">
+        <div className="bg-card ring-border rounded-lg p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Conversion Rate</span>
-            <BarChartIcon className="text-warning h-5 w-5" />
+            <HugeiconsIcon icon={BarChartIcon} className="text-warning h-5 w-5" />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.conversionRate.toFixed(1)}%
           </div>
           <div className="flex items-center text-sm">
             <span className="bg-success text-success flex items-center rounded-full px-2 py-0.5 font-medium">
-              <TrendingUp className="mr-1 h-3 w-3" />
+              <HugeiconsIcon icon={AnalyticsUpIcon} className="mr-1 size-3"  />
               +2.1%
             </span>
             <span className="text-muted-foreground/80 ml-2">vs last period</span>
           </div>
         </div>
 
-        <div className="bg-card ring-border rounded-2xl p-6 ring-1">
+        <div className="bg-card ring-border rounded-lg p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Avg Session</span>
-            <Clock className="text-chart-4 h-5 w-5" />
+            <HugeiconsIcon icon={Clock01Icon} className="text-chart-4 size-5"  />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {Math.floor(analytics.overview.avgSessionDuration / 60)}m{' '}
@@ -311,7 +301,7 @@ export function AnalyticsDashboardHeadless() {
       </div>
 
       {/* System Health */}
-      <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+      <div className="bg-card ring-border rounded-lg p-8 ring-1">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
             <h3 className="text-foreground text-lg font-semibold">System Health</h3>
@@ -371,7 +361,7 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="focus:outline-none">
             {/* Overview Panel Content */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+              <div className="bg-card ring-border rounded-lg p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">User Growth Trend</h3>
                   <p className="text-muted-foreground text-sm">User acquisition over time</p>
@@ -425,7 +415,7 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
 
-              <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+              <div className="bg-card ring-border rounded-lg p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">Activity by Hour</h3>
                   <p className="text-muted-foreground text-sm">Peak usage times</p>
@@ -468,7 +458,7 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Users Panel - just duplication for tabs demo */}
-            <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+            <div className="bg-card ring-border rounded-lg p-8 ring-1">
               <div className="mb-6">
                 <h3 className="text-foreground text-lg font-semibold">User Growth Details</h3>
                 <p className="text-muted-foreground text-sm">Detailed user acquisition metrics</p>
@@ -509,9 +499,9 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Activity Panel */}
-            <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+            <div className="bg-card ring-border rounded-lg p-8 ring-1">
               <div className="mb-6">
-                <h3 className="text-foreground text-lg font-semibold">Hourly Activity Pattern</h3>
+                <h3 className="text-foreground text-lg font-semibold">Hourly Activity01Icon Pattern</h3>
                 <p className="text-muted-foreground text-sm">User activity throughout the day</p>
               </div>
               <div className="h-100 w-full">
@@ -530,7 +520,7 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Top Pages */}
-            <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+            <div className="bg-card ring-border rounded-lg p-8 ring-1">
               <div className="mb-6">
                 <h3 className="text-foreground text-lg font-semibold">Most Visited Pages</h3>
                 <p className="text-muted-foreground text-sm">Top performing content</p>
@@ -569,7 +559,7 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="focus:outline-none">
             {/* Segments */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+              <div className="bg-card ring-border rounded-lg p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">User Segments</h3>
                   <p className="text-muted-foreground text-sm">User distribution by segment</p>
@@ -609,7 +599,7 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
 
-              <div className="bg-card ring-border rounded-2xl p-8 ring-1">
+              <div className="bg-card ring-border rounded-lg p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">Segment Details</h3>
                   <p className="text-muted-foreground text-sm">Breakdown by user segments</p>
@@ -618,7 +608,7 @@ export function AnalyticsDashboardHeadless() {
                   {analytics.userSegments.map((segment, index) => (
                     <div
                       key={segment.segment}
-                      className="bg-muted/30 hover:bg-muted flex items-center justify-between rounded-2xl p-3 transition-colors"
+                      className="bg-muted/30 hover:bg-muted flex items-center justify-between rounded-lg p-3 transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <div

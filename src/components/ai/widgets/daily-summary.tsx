@@ -9,10 +9,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import * as motion from 'motion/react-client';
-import { Sun, Moon, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/morphing-toaster';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Sun01Icon, Moon01Icon, Refresh01Icon } from '@hugeicons/core-free-icons';
 
 export function DailySummaryWidget({ className }: { className?: string }) {
   const [summary, setSummary] = useState<string | null>(null);
@@ -48,7 +49,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
   const hour = new Date().getHours();
   const isEvening = hour >= 18 || hour < 6;
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  const TimeIcon = isEvening ? Moon : Sun;
+  const TimeIcon = isEvening ? Moon01Icon : Sun01Icon;
 
   return (
     <motion.div
@@ -68,7 +69,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
-              <TimeIcon className="text-primary h-4 w-4" />
+              <HugeiconsIcon icon={TimeIcon} className="text-primary h-4 w-4" />
             </div>
             <div>
               <h3 className="text-sm font-semibold">{greeting}</h3>
@@ -82,7 +83,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
             onClick={handleRefresh}
             disabled={refreshing}
           >
-            <RefreshCw className={cn('h-3.5 w-3.5', refreshing && 'animate-spin')} />
+            <HugeiconsIcon icon={Refresh01Icon} className={cn('h-3.5 w-3.5', refreshing && 'animate-spin')}  />
           </Button>
         </div>
 

@@ -12,18 +12,10 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { StatusBadge } from '@/components/ui/status-badge';
-import {
-  Loader2,
-  Check,
-  AlertTriangle,
-  Download,
-  ExternalLink,
-  Receipt,
-  CreditCard,
-  ShieldCheck,
-} from 'lucide-react';
 import { createClient } from '@/lib/platform/supabase/client';
 import { useRouter } from 'next/navigation';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Alert01Icon, ArrowUpRight01Icon, CreditCardIcon, Loading03Icon, ReceiptTextIcon, ShieldIcon, Tick02Icon } from '@hugeicons/core-free-icons';
 import {
   getInvoices,
   getSubscription,
@@ -85,7 +77,7 @@ export function BillingSettings() {
   if (loading) {
     return (
       <div className="flex justify-center p-8">
-        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+        <HugeiconsIcon icon={Loading03Icon} className="text-muted-foreground size-8 animate-spin"  />
       </div>
     );
   }
@@ -93,10 +85,10 @@ export function BillingSettings() {
   return (
     <div className="">
       {/* Current Subscription */}
-      <Card className="rounded-[24px]">
+      <Card className="rounded-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <ShieldCheck className="text-primary h-5 w-5" />
+            <HugeiconsIcon icon={ShieldIcon} className="text-primary h-5 w-5" />
             Current Subscription
           </CardTitle>
           <CardDescription>Manage your plan and billing details</CardDescription>
@@ -138,7 +130,7 @@ export function BillingSettings() {
           ) : (
             <div className="py-6 text-center">
               <div className="bg-muted/30 mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full">
-                <ShieldCheck className="text-muted-foreground/50 h-7 w-7" />
+                <HugeiconsIcon icon={ShieldIcon} className="text-muted-foreground/50 h-7 w-7" />
               </div>
               <p className="text-foreground font-medium">You are on the Free plan</p>
               <p className="text-muted-foreground mt-1 mb-4 text-sm">
@@ -158,7 +150,7 @@ export function BillingSettings() {
               disabled={portalLoading}
               className="rounded-xl"
             >
-              {portalLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {portalLoading && <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin"  />}
               Manage Subscription
             </Button>
           </CardFooter>
@@ -166,12 +158,12 @@ export function BillingSettings() {
       </Card>
 
       {/* Payment Methods */}
-      <Card className="rounded-[24px]">
+      <Card className="rounded-lg">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2">
-                <CreditCard className="text-primary h-5 w-5" />
+                <HugeiconsIcon icon={CreditCardIcon} className="text-primary size-5"  />
                 Payment Methods
               </CardTitle>
               <CardDescription>Cards on file for subscriptions and purchases</CardDescription>
@@ -197,7 +189,7 @@ export function BillingSettings() {
                   className="border-border bg-muted/30 flex items-center justify-between rounded-xl border p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="bg-card text-muted-foreground flex h-10 w-14 items-center justify-center rounded-[24px] text-xs font-semibold tracking-wider uppercase">
+                    <div className="bg-card text-muted-foreground flex h-10 w-14 items-center justify-center rounded-lg text-xs font-semibold tracking-wider uppercase">
                       {pm.brand}
                     </div>
                     <div>
@@ -217,7 +209,7 @@ export function BillingSettings() {
             </div>
           ) : (
             <div className="py-6 text-center">
-              <CreditCard className="text-muted-foreground/40 mx-auto mb-3 h-8 w-8" />
+              <HugeiconsIcon icon={CreditCardIcon} className="text-muted-foreground/40 mx-auto mb-3 size-8"  />
               <p className="text-muted-foreground text-sm">
                 No payment methods on file.{' '}
                 {subscription
@@ -230,10 +222,10 @@ export function BillingSettings() {
       </Card>
 
       {/* Billing History */}
-      <Card className="rounded-[24px]">
+      <Card className="rounded-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Receipt className="text-primary h-5 w-5" />
+            <HugeiconsIcon icon={ReceiptTextIcon} className="text-primary h-5 w-5" />
             Billing History
           </CardTitle>
           <CardDescription>Recent invoices and transactions</CardDescription>
@@ -257,9 +249,9 @@ export function BillingSettings() {
                       }`}
                     >
                       {invoice.status === 'paid' ? (
-                        <Check className="h-4 w-4" />
+                        <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
                       ) : (
-                        <Receipt className="h-4 w-4" />
+                        <HugeiconsIcon icon={ReceiptTextIcon} className="h-4 w-4" />
                       )}
                     </div>
                     <div>
@@ -300,7 +292,7 @@ export function BillingSettings() {
                           rel="noopener noreferrer"
                           title="View invoice"
                         >
-                          <ExternalLink className="h-4 w-4" />
+                          <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4"  />
                         </a>
                       </Button>
                     )}
@@ -310,7 +302,7 @@ export function BillingSettings() {
             </div>
           ) : (
             <div className="py-8 text-center">
-              <Receipt className="text-muted-foreground/40 mx-auto mb-3 h-8 w-8" />
+              <HugeiconsIcon icon={ReceiptTextIcon} className="text-muted-foreground/40 mx-auto mb-3 h-8 w-8" />
               <p className="text-foreground font-medium">No billing history yet</p>
               <p className="text-muted-foreground text-sm">
                 Invoices will appear here once you make a purchase.

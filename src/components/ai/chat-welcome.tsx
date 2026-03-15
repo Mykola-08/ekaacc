@@ -9,7 +9,8 @@
 
 import * as motion from 'motion/react-client';
 import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
-import { Brain, Heart, Calendar, TrendingUp, Sparkles, MessageCircle } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Brain01Icon, FavouriteIcon, Calendar03Icon, AnalyticsUpIcon, SparklesIcon, Message01Icon } from '@hugeicons/core-free-icons';
 
 interface ChatWelcomeProps {
   userName?: string | null;
@@ -18,25 +19,25 @@ interface ChatWelcomeProps {
 
 const QUICK_ACTIONS = [
   {
-    icon: Heart,
+    icon: FavouriteIcon,
     label: 'Log my mood',
     description: "Track how you're feeling",
     prompt: "I'd like to log my mood today.",
   },
   {
-    icon: TrendingUp,
+    icon: AnalyticsUpIcon,
     label: 'Mood trends',
     description: 'See your patterns',
     prompt: 'Show me my mood trend for the past two weeks.',
   },
   {
-    icon: Calendar,
+    icon: Calendar03Icon,
     label: 'My sessions',
     description: 'View upcoming bookings',
     prompt: 'What sessions do I have coming up?',
   },
   {
-    icon: Brain,
+    icon: Brain01Icon,
     label: 'Get insights',
     description: 'AI wellness analysis',
     prompt: 'Generate personalized wellness insights for me.',
@@ -61,7 +62,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg"
         >
-          <Sparkles className="text-primary h-8 w-8" />
+          <HugeiconsIcon icon={SparklesIcon} className="text-primary size-8"  />
         </motion.div>
         <h1 className="text-foreground mb-1 text-2xl font-semibold tracking-tight">
           {greeting}
@@ -91,7 +92,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
               className="bg-muted/50 hover:bg-muted group hover:border-primary/20 flex items-start gap-3 rounded-xl border p-3 text-left transition-all"
             >
               <div className="bg-primary/10 group-hover:bg-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors">
-                <Icon className="text-primary h-4 w-4" />
+                <HugeiconsIcon icon={Icon} className="text-primary h-4 w-4" />
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-medium">{action.label}</p>
@@ -127,7 +128,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
         transition={{ duration: 0.4, delay: 0.6 }}
         className="text-muted-foreground flex items-center gap-1.5 text-xs"
       >
-        <MessageCircle className="h-3 w-3" />
+        <HugeiconsIcon icon={Message01Icon} className="size-3"  />
         <span>Ask me anything about your wellness journey</span>
       </motion.div>
     </div>

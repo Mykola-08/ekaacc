@@ -2,8 +2,10 @@ import { getResources } from '@/server/resources/service';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { PlayCircle, FileText, Activity, Layers, Share2, BookmarkPlus } from 'lucide-react';
+
 import Link from 'next/link';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { PlayCircleIcon, File01Icon, Activity01Icon, Layers01Icon, Share01Icon, Bookmark01Icon } from '@hugeicons/core-free-icons';
 
 export default async function TherapistResourcesPage() {
   const resources = await getResources();
@@ -12,8 +14,8 @@ export default async function TherapistResourcesPage() {
   const displayResources = resources.length > 0 ? resources : fallbackResources;
 
   return (
-    <div className="animate-in fade-in zoom-in container mx-auto max-w-6xl space-y-8 p-6 duration-500">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
         {displayResources.map((resource) => (
           <ResourceCard key={resource.id} resource={resource} />
         ))}
@@ -26,26 +28,26 @@ function ResourceCard({ resource }: { resource: any }) {
   const getIcon = (category: string) => {
     switch (category) {
       case 'video':
-        return <PlayCircle className="h-4 w-4" />;
+        return <HugeiconsIcon icon={PlayCircleIcon} className="size-4"  />;
       case 'meditation':
-        return <Activity className="h-4 w-4" />;
+        return <HugeiconsIcon icon={Activity01Icon} className="size-4"  />;
       case 'protocol':
       case 'kinesiology':
-        return <Layers className="h-4 w-4" />;
+        return <HugeiconsIcon icon={Layers01Icon} className="size-4"  />;
       case 'article':
       default:
-        return <FileText className="h-4 w-4" />;
+        return <HugeiconsIcon icon={File01Icon} className="size-4"  />;
     }
   };
 
   return (
-    <Card className="group border-border/50 relative flex h-full flex-col overflow-hidden transition-all duration-300">
+    <Card className="group relative flex h-full flex-col overflow-hidden">
       {resource.imageUrl && (
         <div className="bg-muted h-48 w-full overflow-hidden">
           <img
             src={resource.imageUrl}
             alt={resource.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover"
           />
         </div>
       )}
@@ -55,22 +57,22 @@ function ResourceCard({ resource }: { resource: any }) {
             {getIcon(resource.category)}
             <span className="ml-1.5">{resource.category}</span>
           </Badge>
-          <div className="flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="flex gap-2">
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground hover:text-primary h-8 w-8"
+              className="text-muted-foreground size-8"
               title="Bookmark"
             >
-              <BookmarkPlus className="h-5 w-5" />
+              <HugeiconsIcon icon={Bookmark01Icon} className="size-5"  />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground hover:text-primary h-8 w-8"
+              className="text-muted-foreground size-8"
               title="Share with Client"
             >
-              <Share2 className="h-5 w-5" />
+              <HugeiconsIcon icon={Share01Icon} className="size-5"  />
             </Button>
           </div>
         </div>
@@ -80,9 +82,9 @@ function ResourceCard({ resource }: { resource: any }) {
       <CardContent className="mt-auto flex flex-1 flex-col justify-end pt-4">
         <Link
           href={`/therapist/resources/${resource.id}`}
-          className="text-primary inline-flex items-center text-sm font-medium tracking-wider uppercase transition-all group-hover:gap-2 hover:underline"
+          className="text-primary inline-flex items-center text-sm font-medium hover:underline"
         >
-          Open Resource <span className="opacity-0 group-hover:opacity-100">&rarr;</span>
+          Open Resource &rarr;
         </Link>
       </CardContent>
     </Card>

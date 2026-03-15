@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Loader2, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from './button';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon, Tick02Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
 
 export interface MorphingActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   status?: 'idle' | 'loading' | 'success' | 'error';
@@ -66,7 +67,7 @@ export function MorphingActionButton({
             exit={{ opacity: 0, y: -10 }}
             className="flex items-center gap-2"
           >
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin"  />
             <span>{loadingLabel}</span>
           </motion.div>
         )}
@@ -78,7 +79,7 @@ export function MorphingActionButton({
             animate={{ opacity: 1, scale: 1 }}
             className="flex items-center gap-2"
           >
-            <Check className="h-4 w-4" />
+            <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
             <span>{successLabel}</span>
           </motion.div>
         )}
@@ -90,7 +91,7 @@ export function MorphingActionButton({
             animate={{ opacity: 1, scale: 1 }}
             className="flex items-center gap-2"
           >
-            <X className="h-4 w-4" />
+            <HugeiconsIcon icon={Cancel01Icon} className="size-4"  />
             <span>{errorLabel}</span>
           </motion.div>
         )}

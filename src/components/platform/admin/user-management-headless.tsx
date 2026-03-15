@@ -1,28 +1,28 @@
 'use client';
 
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { listUsers, updateUserRole } from '@/app/actions/admin-users';
 import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
-import { User as UserIcon, Search, RefreshCw, MoreVertical, Check, Shield } from 'lucide-react';
 import {
-  Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-  Transition,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from '@headlessui/react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { SYSTEM_ROLES } from '@/lib/platform/config/role-permissions';
-
-function cn(...inputs: (string | undefined | null | false)[]) {
-  return twMerge(clsx(inputs));
-}
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search01Icon, Refresh01Icon, MoreVerticalIcon, UserIcon } from '@hugeicons/core-free-icons';
 
 export function UserManagementHeadless() {
   const [users, setUsers] = useState<any[]>([]);
@@ -47,7 +47,6 @@ export function UserManagementHeadless() {
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     const originalUsers = [...users];
-    // Optimistic update
     setUsers(
       users.map((u) =>
         u.id === userId ? { ...u, user_metadata: { ...u.user_metadata, role: newRole } } : u
@@ -69,7 +68,7 @@ export function UserManagementHeadless() {
   );
 
   return (
-    <div className="">
+    <div className="space-y-6">
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-foreground text-xl font-semibold">User Management</h2>
@@ -83,54 +82,37 @@ export function UserManagementHeadless() {
             className="mt-2"
           />
         </div>
-        <button
-          onClick={loadUsers}
-          disabled={loading}
-          className="bg-card text-foreground/90 border-border hover:bg-muted/30 flex items-center gap-2 rounded-2xl border px-4 py-2.5 transition-colors disabled:opacity-50"
-        >
-          <RefreshCw className={cn('h-4 w-4', loading ? 'animate-spin' : '')} />
-          <span>Refresh</span>
-        </button>
+        <Button variant="outline" onClick={loadUsers} disabled={loading}>
+          <HugeiconsIcon icon={Refresh01Icon} className={cn('size-4', loading ? 'animate-spin' : '')} />
+          Refresh
+        </Button>
       </div>
 
-      <div className="group relative w-full sm:w-96">
-        <Search className="text-muted-foreground/80 group-focus-within:text-primary absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transition-colors" />
-        <input
-          type="text"
+      <div className="relative w-full sm:w-96">
+        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+        <Input
           placeholder="Search users by email or ID..."
-          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 focus:border-primary w-full rounded-2xl border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none"
+          className="pl-10"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="bg-card ring-border overflow-hidden rounded-2xl ring-1">
+      <div className="bg-card ring-border overflow-hidden rounded-lg ring-1">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
-            <thead className="bg-muted/30/50">
+            <thead className="bg-muted/50">
               <tr>
-                <th
-                  scope="col"
-                  className="text-muted-foreground py-4 pr-3 pl-6 text-left text-xs font-semibold tracking-wide uppercase"
-                >
+                <th className="text-muted-foreground py-4 pr-3 pl-6 text-left text-xs font-semibold tracking-wide uppercase">
                   User
                 </th>
-                <th
-                  scope="col"
-                  className="text-muted-foreground px-3 py-4 text-left text-xs font-semibold tracking-wide uppercase"
-                >
+                <th className="text-muted-foreground px-3 py-4 text-left text-xs font-semibold tracking-wide uppercase">
                   Role
                 </th>
-                <th
-                  scope="col"
-                  className="text-muted-foreground px-3 py-4 text-left text-xs font-semibold tracking-wide uppercase"
-                >
+                <th className="text-muted-foreground px-3 py-4 text-left text-xs font-semibold tracking-wide uppercase">
                   Joined
                 </th>
-                <th
-                  scope="col"
-                  className="text-muted-foreground relative py-4 pr-6 pl-3 text-right text-xs font-semibold tracking-wide uppercase"
-                >
+                <th className="text-muted-foreground relative py-4 pr-6 pl-3 text-right text-xs font-semibold tracking-wide uppercase">
                   <span className="sr-only">Actions</span>
                 </th>
               </tr>
@@ -144,128 +126,54 @@ export function UserManagementHeadless() {
                 </tr>
               )}
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-muted/30/50 group transition-colors">
+                <tr key={user.id} className="hover:bg-muted/50 group transition-colors">
                   <td className="py-4 pr-3 pl-6 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="border-background from-muted to-muted text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 bg-linear-to-br font-semibold">
-                        {user.email?.charAt(0).toUpperCase() || <UserIcon className="h-5 w-5" />}
+                      <div className="border-background from-muted to-muted text-primary flex size-10 shrink-0 items-center justify-center rounded-full border-2 bg-linear-to-br font-semibold">
+                        {user.email?.charAt(0).toUpperCase() || <HugeiconsIcon icon={UserIcon} className="size-5" />}
                       </div>
                       <div className="ml-4">
                         <div className="text-foreground font-medium">{user.email}</div>
-                        <div className="text-muted-foreground/80 font-mono text-xs">{user.id}</div>
+                        <div className="text-muted-foreground font-mono text-xs">{user.id}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="text-muted-foreground relative z-10 w-48 px-3 py-4 text-sm whitespace-nowrap">
+                  <td className="relative z-10 w-48 px-3 py-4 text-sm whitespace-nowrap">
                     <div className="w-40">
-                      <Listbox
+                      <Select
                         value={user.user_metadata?.role || 'User'}
-                        onChange={(val) => handleRoleChange(user.id, val)}
+                        onValueChange={(val) => handleRoleChange(user.id, val)}
                       >
-                        <div className="relative">
-                          <ListboxButton className="bg-card/50 hover:bg-card ring-border focus:ring-primary relative w-full cursor-default rounded-2xl py-2 pr-10 pl-3 text-left ring-1 transition-colors ring-inset focus:ring-2 focus:outline-none sm:text-sm sm:leading-6">
-                            <span className="text-foreground/90 block truncate font-medium">
-                              {user.user_metadata?.role || 'User'}
-                            </span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                              <Shield
-                                className="text-muted-foreground/80 h-4 w-4"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </ListboxButton>
-                          <Transition
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <ListboxOptions className="bg-card ring-opacity-5 ring-border absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-2xl py-1 text-base ring-1 focus:outline-none sm:text-sm">
-                              {Object.keys(SYSTEM_ROLES).map((role) => (
-                                <ListboxOption
-                                  key={role}
-                                  className={({ active }) =>
-                                    cn(
-                                      active ? 'bg-primary/5 text-foreground' : 'text-foreground',
-                                      'relative cursor-default py-2 pr-4 pl-10 select-none'
-                                    )
-                                  }
-                                  value={role}
-                                >
-                                  {({ selected }) => (
-                                    <>
-                                      <span
-                                        className={cn(
-                                          'block truncate',
-                                          selected ? 'font-medium' : 'font-normal'
-                                        )}
-                                      >
-                                        {role}
-                                      </span>
-                                      {selected ? (
-                                        <span className="text-primary absolute inset-y-0 left-0 flex items-center pl-3">
-                                          <Check className="h-5 w-5" aria-hidden="true" />
-                                        </span>
-                                      ) : null}
-                                    </>
-                                  )}
-                                </ListboxOption>
-                              ))}
-                            </ListboxOptions>
-                          </Transition>
-                        </div>
-                      </Listbox>
+                        <SelectTrigger className="h-9">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.keys(SYSTEM_ROLES).map((role) => (
+                            <SelectItem key={role} value={role}>
+                              {role}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </td>
                   <td className="text-muted-foreground px-3 py-4 text-sm whitespace-nowrap">
                     {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="relative py-4 pr-6 pl-3 text-right text-sm font-medium whitespace-nowrap">
-                    <Menu as="div" className="relative inline-block text-left">
-                      <MenuButton className="text-muted-foreground/80 hover:text-muted-foreground hover:bg-muted/30 rounded-2xl p-2 outline-none">
-                        <MoreVertical className="h-5 w-5" />
-                      </MenuButton>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <MenuItems className="bg-card ring-opacity-5 ring-border absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-2xl ring-1 focus:outline-none">
-                          <div className="p-1">
-                            <MenuItem>
-                              {({ active }) => (
-                                <button
-                                  className={cn(
-                                    active ? 'bg-muted/30' : '',
-                                    'group text-foreground flex w-full items-center rounded-2xl px-2 py-2 text-sm'
-                                  )}
-                                >
-                                  View Details
-                                </button>
-                              )}
-                            </MenuItem>
-                            <MenuItem>
-                              {({ active }) => (
-                                <button
-                                  className={cn(
-                                    active
-                                      ? 'bg-destructive/10 text-destructive'
-                                      : 'text-foreground',
-                                    'group flex w-full items-center rounded-2xl px-2 py-2 text-sm'
-                                  )}
-                                >
-                                  Suspend User
-                                </button>
-                              )}
-                            </MenuItem>
-                          </div>
-                        </MenuItems>
-                      </Transition>
-                    </Menu>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <HugeiconsIcon icon={MoreVerticalIcon} className="size-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive focus:text-destructive">
+                          Suspend User
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </td>
                 </tr>
               ))}

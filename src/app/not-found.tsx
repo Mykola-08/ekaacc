@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui';
-import { Home, ArrowLeft } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Home01Icon, ArrowLeft01Icon } from '@hugeicons/core-free-icons';
 
 export default function NotFound() {
   return (
@@ -36,7 +37,7 @@ export default function NotFound() {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 shadow-primary/25 text-primary-foreground w-full rounded-lg border-none py-6"
               >
-                <Home className="mr-2 h-5 w-5" />
+                <HugeiconsIcon icon={Home01Icon} className="mr-2 size-5"  />
                 Back to Home
               </Button>
             </Link>
@@ -45,7 +46,7 @@ export default function NotFound() {
               onClick={() => window.history.back()}
               className="text-muted-foreground hover:text-foreground flex w-full items-center justify-center py-2 text-sm font-medium transition-colors"
             >
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
               Go Back
             </button>
           </div>

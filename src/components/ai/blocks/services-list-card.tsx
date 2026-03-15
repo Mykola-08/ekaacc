@@ -7,7 +7,8 @@
  */
 
 import * as motion from 'motion/react-client';
-import { Sparkles, Clock } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SparklesIcon, Clock01Icon } from '@hugeicons/core-free-icons';
 
 interface Service {
   id: string;
@@ -51,7 +52,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
       className="bg-card w-full max-w-md rounded-lg border p-4"
     >
       <div className="mb-3 flex items-center gap-2">
-        <Sparkles className="text-primary h-4 w-4" />
+        <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4"  />
         <p className="text-sm font-semibold">Available Services</p>
       </div>
 
@@ -67,7 +68,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">{s.name}</p>
               <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                <Clock className="h-3 w-3" />
+                <HugeiconsIcon icon={Clock01Icon} className="size-3"  />
                 <span>{s.duration} min</span>
               </div>
             </div>

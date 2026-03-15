@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { CheckCircle2, Star, Clock } from 'lucide-react';
 import { useBooking } from '@/marketing/hooks/useBooking';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import PageLayout from '@/marketing/components/PageLayout';
@@ -11,6 +10,8 @@ import SEOUpdater from '@/marketing/components/SEOUpdater';
 import FAQ from '@/marketing/components/FAQ';
 import CTASection from '@/marketing/components/CTASection';
 import { SERVICES_DATA } from '@/marketing/shared/constants';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
+import { CheckmarkCircle01Icon, StarIcon, Clock01Icon } from '@hugeicons/core-free-icons';
 
 interface PricingOption {
   duration: number | string;
@@ -31,7 +32,7 @@ interface CoreServiceTemplateProps {
     titleKey: string;
     subtitleKey: string;
     badgeKey: string;
-    icon?: React.ElementType;
+    icon?: IconSvgElement;
   };
   bentoGrid?: {
     titleKey: string;
@@ -179,7 +180,7 @@ export default function CoreServiceTemplate({
                       <div
                         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${iconStyle} transition-transform duration-500 group-hover:scale-110`}
                       >
-                        <CheckCircle2 className="h-6 w-6" />
+                        <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6"  />
                       </div>
                       <div className="flex min-h-[3rem] flex-1 items-center">
                         <h3 className="text-xl font-medium tracking-tight text-gray-900">
@@ -219,7 +220,7 @@ export default function CoreServiceTemplate({
                   <div
                     className={`relative z-10 mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-[1.25rem] bg-white transition-transform duration-500 group-hover:scale-110 ${iconStyle}`}
                   >
-                    <Clock className="h-7 w-7" />
+                    <HugeiconsIcon icon={Clock01Icon} className="size-7"  />
                   </div>
 
                   {option.nameKey && (
@@ -275,7 +276,7 @@ export default function CoreServiceTemplate({
                   >
                     <div className="mb-4 flex gap-1 text-yellow-400">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-current" />
+                        <HugeiconsIcon icon={StarIcon} key={i} className="size-5 fill-current"  />
                       ))}
                     </div>
                     <p className="mb-6 flex-grow text-lg text-gray-600 italic">

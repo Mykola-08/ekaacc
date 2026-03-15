@@ -11,9 +11,8 @@ import { Label } from '@/components/ui/label';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
-import { Loader2 } from 'lucide-react';
-import { fadeInUpLarge, scaleIn, fadeInLeft, fadeInUpSmall, fadeIn, withDelay } from '@/lib/motion';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
 
 type LoginFormProps = React.ComponentProps<'div'> & {
   enabledProviders?: {
@@ -81,25 +80,19 @@ export function LoginForm({
   };
 
   return (
-    <motion.div
-      variants={fadeInUpLarge}
-      initial="hidden"
-      animate="visible"
+    <div
       className={cn('mx-auto flex w-full max-w-100 flex-col gap-6', className)}
       {...props}
     >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-lg border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             {/* Header */}
-            <motion.div
-              variants={withDelay(scaleIn, 0.1)}
-              initial="hidden"
-              animate="visible"
+            <div
               className="mb-4 flex flex-col items-center gap-4 text-center"
             >
               <div className="relative mb-2">
-                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
+                <div className="border-border/10 bg-card relative overflow-hidden rounded-lg border p-1">
                   <Image
                     src="/images/eka_logo.png"
                     alt="EKA Balance"
@@ -116,14 +109,11 @@ export function LoginForm({
                 </h1>
                 <p className="text-muted-foreground text-sm">Sign in to your account</p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Form Fields */}
             <div className="">
-              <motion.div
-                variants={withDelay(fadeInLeft, 0.2)}
-                initial="hidden"
-                animate="visible"
+              <div
                 className=".5"
               >
                 <Label htmlFor="email" className="text-foreground text-sm font-medium">
@@ -140,12 +130,9 @@ export function LoginForm({
                     className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-xl px-4 text-base transition-all focus:ring-4"
                   />
                 </div>
-              </motion.div>
+              </div>
 
-              <motion.div
-                variants={withDelay(fadeInLeft, 0.3)}
-                initial="hidden"
-                animate="visible"
+              <div
                 className=".5"
               >
                 <div className="flex items-center justify-between">
@@ -170,43 +157,36 @@ export function LoginForm({
                     className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-xl px-4 text-base transition-all focus:ring-4"
                   />
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Error Message */}
-            <AnimatePresence mode="wait">
+            
               {error && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: 'auto', marginTop: 0 }}
-                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ duration: 0.2 }}
+                <div
                   className="bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-center text-sm font-medium"
                 >
                   {error}
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
 
             {/* Submit Button */}
-            <motion.div variants={withDelay(fadeInUpSmall, 0.4)} initial="hidden" animate="visible">
+            <div>
               <Button
                 type="submit"
                 className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
                 disabled={loading}
               >
-                {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Sign In'}
+                {loading ? <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  /> : 'Sign In'}
               </Button>
-            </motion.div>
+            </div>
           </form>
         </CardContent>
       </Card>
 
       {/* Sign Up Link */}
-      <motion.div
-        variants={withDelay(fadeIn, 0.5)}
-        initial="hidden"
-        animate="visible"
+      <div
         className="text-center"
       >
         <p className="text-muted-foreground text-sm">
@@ -218,12 +198,9 @@ export function LoginForm({
             Sign up now
           </Link>
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={withDelay(fadeIn, 0.6)}
-        initial="hidden"
-        animate="visible"
+      <div
         className="mt-6 text-center"
       >
         <p className="text-muted-foreground px-4 text-xs">
@@ -244,7 +221,7 @@ export function LoginForm({
           </Link>
           .
         </p>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

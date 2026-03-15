@@ -8,22 +8,11 @@
  */
 
 import { useEffect, useState, useCallback } from 'react';
-import * as motion from 'motion/react-client';
-import { AnimatePresence } from 'motion/react';
-import {
-  Brain,
-  ChevronRight,
-  Heart,
-  Lightbulb,
-  Target,
-  TrendingUp,
-  Zap,
-  RefreshCw,
-  Sparkles,
-} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/morphing-toaster';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
+import { AnalyticsUpIcon, ArrowRight01Icon, Brain01Icon, BulbIcon, FavouriteIcon, Idea01Icon, Refresh01Icon, SparklesIcon, Target01Icon, ZapIcon } from '@hugeicons/core-free-icons';
 
 interface Insight {
   id: string;
@@ -35,14 +24,14 @@ interface Insight {
   createdAt: string;
 }
 
-const typeConfig: Record<string, { icon: typeof Brain; color: string; bg: string }> = {
-  wellness: { icon: Heart, color: 'text-destructive', bg: 'bg-destructive/10' },
-  therapy: { icon: Brain, color: 'text-chart-4', bg: 'bg-chart-4/100/10' },
-  behavioral: { icon: Target, color: 'text-warning', bg: 'bg-warning/10' },
-  progress: { icon: TrendingUp, color: 'text-success', bg: 'bg-success/10' },
-  recommendation: { icon: Lightbulb, color: 'text-primary', bg: 'bg-primary/10' },
-  mood: { icon: Zap, color: 'text-warning', bg: 'bg-warning/10' },
-  engagement: { icon: TrendingUp, color: 'text-info', bg: 'bg-info/10' },
+const typeConfig: Record<string, { icon: IconSvgElement; color: string; bg: string }> = {
+  wellness: { icon: FavouriteIcon, color: 'text-destructive', bg: 'bg-destructive/10' },
+  therapy: { icon: Brain01Icon, color: 'text-chart-4', bg: 'bg-chart-4/100/10' },
+  behavioral: { icon: Target01Icon, color: 'text-warning', bg: 'bg-warning/10' },
+  progress: { icon: AnalyticsUpIcon, color: 'text-success', bg: 'bg-success/10' },
+  recommendation: { icon: BulbIcon, color: 'text-primary', bg: 'bg-primary/10' },
+  mood: { icon: ZapIcon, color: 'text-warning', bg: 'bg-warning/10' },
+  engagement: { icon: AnalyticsUpIcon, color: 'text-info', bg: 'bg-info/10' },
 };
 
 export function InsightsPanel({ className }: { className?: string }) {
@@ -86,16 +75,13 @@ export function InsightsPanel({ className }: { className?: string }) {
   }, [fetchInsights]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+    <div
       className={cn('bg-card rounded-lg border p-5', className)}
     >
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
-            <Sparkles className="text-primary h-4 w-4" />
+            <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4"  />
           </div>
           <div>
             <h3 className="text-sm font-semibold">AI Insights</h3>
@@ -109,7 +95,7 @@ export function InsightsPanel({ className }: { className?: string }) {
           disabled={generating}
           className="h-8 gap-1.5 text-xs"
         >
-          <RefreshCw className={cn('h-3.5 w-3.5', generating && 'animate-spin')} />
+          <HugeiconsIcon icon={Refresh01Icon} className={cn('h-3.5 w-3.5', generating && 'animate-spin')}  />
           {generating ? 'Generating...' : 'Refresh'}
         </Button>
       </div>
@@ -122,7 +108,7 @@ export function InsightsPanel({ className }: { className?: string }) {
         </div>
       ) : insights.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-8 text-center">
-          <Brain className="text-muted-foreground h-8 w-8" />
+          <HugeiconsIcon icon={Brain01Icon} className="text-muted-foreground size-8"  />
           <div>
             <p className="text-muted-foreground text-sm">No insights yet</p>
             <p className="text-muted-foreground text-xs">
@@ -135,26 +121,21 @@ export function InsightsPanel({ className }: { className?: string }) {
         </div>
       ) : (
         <div className=".5">
-          <AnimatePresence mode="popLayout">
+          
             {insights.slice(0, 5).map((insight, i) => {
               const cfg = typeConfig[insight.type] || typeConfig.wellness;
               const Icon = cfg.icon;
 
               return (
-                <motion.div
+                <div
                   key={insight.id}
-                  layout
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
                   className="bg-muted/40 rounded-xl p-3"
                 >
                   <div className="mb-1 flex items-center gap-2">
                     <div
                       className={cn('flex h-6 w-6 items-center justify-center rounded-md', cfg.bg)}
                     >
-                      <Icon className={cn('h-3.5 w-3.5', cfg.color)} />
+                      <HugeiconsIcon icon={Icon} className={cn('h-3.5 w-3.5', cfg.color)} />
                     </div>
                     <p className="flex-1 text-sm font-medium">{insight.title}</p>
                     <span className="text-muted-foreground text-2xs">
@@ -168,18 +149,18 @@ export function InsightsPanel({ className }: { className?: string }) {
                     <ul className=".5 mt-2 pl-8">
                       {insight.actionItems.slice(0, 3).map((item, j) => (
                         <li key={j} className="flex items-start gap-1.5 text-xs">
-                          <ChevronRight className="text-primary mt-0.5 h-3 w-3 shrink-0" />
+                          <HugeiconsIcon icon={ArrowRight01Icon} className="text-primary mt-0.5 size-3 shrink-0"  />
                           <span className="text-muted-foreground">{item}</span>
                         </li>
                       ))}
                     </ul>
                   )}
-                </motion.div>
+                </div>
               );
             })}
-          </AnimatePresence>
+          
         </div>
       )}
-    </motion.div>
+    </div>
   );
 }

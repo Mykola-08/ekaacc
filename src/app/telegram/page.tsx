@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { CalendarIcon, Clock, CheckCircle2, History } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { TelegramClientUI } from './telegram-client-ui';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Clock01Icon, CheckmarkCircle01Icon, WorkHistoryIcon, Calendar03Icon } from '@hugeicons/core-free-icons';
 
 export default async function TelegramDashboardPage() {
   const supabase = await createClient();
@@ -73,13 +74,13 @@ export default async function TelegramDashboardPage() {
         <div className="grid grid-cols-2 gap-3">
           <Button asChild size="lg" className="h-14 w-full rounded-2xl">
             <Link href="/booking">
-              <CalendarIcon className="mr-2 size-5" />
+              <HugeiconsIcon icon={Calendar03Icon} className="mr-2 size-5" />
               Nova Reserva
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="bg-card h-14 w-full rounded-2xl">
             <Link href="/dashboard/wallet">
-              <History className="mr-2 size-5" />
+              <HugeiconsIcon icon={WorkHistoryIcon} className="mr-2 size-5"  />
               El meu Moneder
             </Link>
           </Button>
@@ -88,7 +89,7 @@ export default async function TelegramDashboardPage() {
         {/* Upcoming */}
         <section>
           <h2 className="mb-3 flex items-center text-lg font-semibold">
-            <Clock className="text-primary mr-2 size-5" />
+            <HugeiconsIcon icon={Clock01Icon} className="text-primary mr-2 size-5"  />
             Properes Cites
           </h2>
 
@@ -104,7 +105,7 @@ export default async function TelegramDashboardPage() {
                       <div>
                         <p className="font-semibold">{booking.service?.title || 'Servei EKA'}</p>
                         <p className="text-muted-foreground mt-1 flex items-center text-sm">
-                          <CalendarIcon className="mr-1 inline size-3" />
+                          <HugeiconsIcon icon={Calendar03Icon} className="mr-1 inline size-3" />
                           {format(new Date(booking.start_time), 'dd MMM, HH:mm')}
                         </p>
                       </div>
@@ -122,7 +123,7 @@ export default async function TelegramDashboardPage() {
           ) : (
             <Card className="bg-muted/20 border-dashed">
               <CardContent className="text-muted-foreground flex flex-col items-center p-6 text-center text-sm">
-                <CalendarIcon className="mx-auto mb-2 size-8 opacity-20" />
+                <HugeiconsIcon icon={Calendar03Icon} className="mx-auto mb-2 size-8 opacity-20" />
                 No tens cites programades.
               </CardContent>
             </Card>
@@ -132,7 +133,7 @@ export default async function TelegramDashboardPage() {
         {/* Past Bookings */}
         <section>
           <h2 className="mt-8 mb-3 flex items-center text-lg font-semibold">
-            <CheckCircle2 className="text-muted-foreground mr-2 size-5" />
+            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-muted-foreground mr-2 size-5"  />
             Historial Recent
           </h2>
 

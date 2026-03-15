@@ -6,7 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Settings, Users, Move, Eye, MessageCircle, Mic, Plus } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Settings01Icon, UserIcon, Move01Icon, EyeIcon, Message01Icon, Mic01Icon, Add01Icon } from '@hugeicons/core-free-icons';
 
 interface ConstellationRole {
   id: string;
@@ -74,11 +75,11 @@ export function ConstellationManager() {
       <div className="bg-muted/10 relative flex flex-1 flex-col overflow-hidden rounded-xl border">
         <div className="bg-background flex items-center justify-between border-b p-3">
           <div className="flex items-center gap-2 text-sm font-medium">
-            <Users className="text-primary h-4 w-4" />
+            <HugeiconsIcon icon={UserIcon} className="text-primary size-4"  />
             System Map
           </div>
           <Button variant="outline" size="sm" onClick={addRole}>
-            <Plus className="mr-1 h-4 w-4" /> Add Role
+            <HugeiconsIcon icon={Add01Icon} className="mr-1 size-4"  /> Add Role
           </Button>
         </div>
         <div className="relative flex-1 p-4">
@@ -134,7 +135,7 @@ export function ConstellationManager() {
 
               <div className="mt-4 border-t pt-4">
                 <h4 className="text-primary mb-2 flex items-center gap-2 text-sm font-semibold">
-                  <MessageCircle className="h-4 w-4" /> Recommended Phrases
+                  <HugeiconsIcon icon={Message01Icon} className="size-4"  /> Recommended Phrases
                 </h4>
                 <div className="space-y-2">
                   {suggestedPhrases.map((phrase, i) => (
@@ -159,7 +160,7 @@ export function ConstellationManager() {
         <Card className="flex h-48 flex-col">
           <CardContent className="flex h-full flex-col p-4">
             <Label className="mb-2 flex items-center gap-2">
-              <Eye className="h-4 w-4" /> Systemic Environment
+              <HugeiconsIcon icon={EyeIcon} className="size-4"  /> Systemic Environment
             </Label>
             <Textarea
               value={environmentNotes}

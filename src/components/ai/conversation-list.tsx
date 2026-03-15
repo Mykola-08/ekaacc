@@ -6,11 +6,10 @@
  * Lists past conversations and allows creating new ones.
  */
 
-import * as motion from 'motion/react-client';
-import { AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
-import { Plus, MessageSquare, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Add01Icon, Message01Icon, Delete01Icon } from '@hugeicons/core-free-icons';
 
 interface Conversation {
   id: string;
@@ -38,19 +37,15 @@ export function ConversationList({
       <div className="flex items-center justify-between p-3">
         <h2 className="text-sm font-semibold">Conversations</h2>
         <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onNew}>
-          <Plus className="h-4 w-4" />
+          <HugeiconsIcon icon={Add01Icon} className="size-4"  />
         </Button>
       </div>
 
       <div className=".5 flex-1 overflow-y-auto px-2 pb-2">
-        <AnimatePresence initial={false}>
+        
           {conversations.map((conv) => (
-            <motion.button
+            <button
               key={conv.id}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
               onClick={() => onSelect(conv.id)}
               className={cn(
                 'group flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm transition-colors',
@@ -59,7 +54,7 @@ export function ConversationList({
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
-              <MessageSquare className="h-3.5 w-3.5 shrink-0" />
+              <HugeiconsIcon icon={Message01Icon} className="size-3.5 shrink-0"  />
               <span className="min-w-0 flex-1 truncate">{conv.title || 'New conversation'}</span>
               <button
                 onClick={(e) => {
@@ -68,11 +63,11 @@ export function ConversationList({
                 }}
                 className="text-muted-foreground hover:text-destructive shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
               >
-                <Trash2 className="h-3 w-3" />
+                <HugeiconsIcon icon={Delete01Icon} className="size-3"  />
               </button>
-            </motion.button>
+            </button>
           ))}
-        </AnimatePresence>
+        
 
         {conversations.length === 0 && (
           <p className="text-muted-foreground px-3 py-4 text-center text-xs">

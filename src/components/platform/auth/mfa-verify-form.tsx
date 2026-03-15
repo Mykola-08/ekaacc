@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { motion, AnimatePresence } from 'motion/react';
-import { Loader2, Shield, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { challengeMFA, verifyMFAChallenge } from '@/app/actions/mfa';
-import { fadeInUpLarge, scaleIn, fadeInLeft, fadeInUpSmall, fadeIn, withDelay } from '@/lib/motion';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon, ShieldIcon, ArrowLeft01Icon } from '@hugeicons/core-free-icons';
 
 interface MFAVerifyFormProps {
   factorId: string;
@@ -114,24 +113,18 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
   };
 
   return (
-    <motion.div
-      variants={fadeInUpLarge}
-      initial="hidden"
-      animate="visible"
+    <div
       className="mx-auto flex w-full max-w-md flex-col gap-6"
     >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-lg border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           {/* Header */}
-          <motion.div
-            variants={withDelay(scaleIn, 0.1)}
-            initial="hidden"
-            animate="visible"
+          <div
             className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative mb-2">
-              <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border">
-                <Shield className="text-primary h-7 w-7" />
+              <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-lg border">
+                <HugeiconsIcon icon={ShieldIcon} className="text-primary size-7"  />
               </div>
             </div>
             <div className="">
@@ -142,13 +135,10 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                 Enter the 6-digit code from your authenticator app
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Code Input */}
-          <motion.div
-            variants={withDelay(fadeInLeft, 0.2)}
-            initial="hidden"
-            animate="visible"
+          <div
             className="mb-6"
           >
             <div className="flex justify-center gap-3" onPaste={handlePaste}>
@@ -169,28 +159,21 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                 />
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Error */}
-          <AnimatePresence mode="wait">
+          
             {error && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
+              <div
                 className="bg-destructive/10 text-destructive mb-4 rounded-xl px-4 py-3 text-center text-sm font-medium"
               >
                 {error}
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          
 
           {/* Submit */}
-          <motion.div
-            variants={withDelay(fadeInUpSmall, 0.3)}
-            initial="hidden"
-            animate="visible"
+          <div
             className=""
           >
             <Button
@@ -198,7 +181,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
               className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
               disabled={loading || code.some((d) => !d)}
             >
-              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Verify'}
+              {loading ? <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  /> : 'Verify'}
             </Button>
 
             {onCancel && (
@@ -207,13 +190,13 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                 onClick={onCancel}
                 className="text-muted-foreground hover:text-foreground h-10 w-full rounded-full text-sm font-medium"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
                 Back to login
               </Button>
             )}
-          </motion.div>
+          </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }

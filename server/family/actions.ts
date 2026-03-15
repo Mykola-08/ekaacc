@@ -86,7 +86,7 @@ export async function addFamilyMember(prevState: any, formData: FormData) {
     // Create a new managed profile
     const { error } = await supabase.from('profiles').insert({
       full_name: validated.data.full_name,
-      dob: validated.data.dob || null, 
+      dob: validated.data.dob || null,
       managed_by: userProfile.id,
       metadata: { relationship: validated.data.relationship },
       role: 'client', // Default role
@@ -123,7 +123,7 @@ export async function deleteFamilyMember(memberId: string) {
     .from('profiles')
     .delete()
     .eq('id', memberId)
-    .eq('managed_by', userProfile.id); 
+    .eq('managed_by', userProfile.id);
 
   if (error) return { success: false, message: error.message };
 

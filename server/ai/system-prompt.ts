@@ -2,7 +2,7 @@
  * AI System Prompt
  *
  * Central system prompt for the EKA wellness AI assistant.
- * Optimized for professional AI agents using structured XML tags 
+ * Optimized for professional AI agents using structured XML tags
  * and token-dense instructions to reduce latency and memory overhead.
  */
 
@@ -38,7 +38,7 @@ export function buildSystemPrompt(userContext: string): string {
 </tools_usage>
 
 <user_context>
-${userContext || "No additional context available."}
+${userContext || 'No additional context available.'}
 </user_context>
 
 Priority: Remain supportive and ensure the user feels heard.`;

@@ -13,9 +13,8 @@ import { resolveFeatures } from '@/lib/features';
 import { FeaturesProvider } from '@/context/FeaturesContext';
 import { createClient } from '@/lib/supabase/server';
 import { Suspense } from 'react';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+import Script from 'next/script';
+import { TelegramWebAppProvider } from '@/components/platform/telegram-web-app-provider';
 
 export const metadata: Metadata = {
   title: {
@@ -67,12 +66,28 @@ async function FeaturesWrapper({ children }: { children: React.ReactNode }) {
   } = await supabase.auth.getUser();
 
   let role = 'client';
+  let tenantId = 'default';
   if (user) {
-    const { data } = await supabase.from('profiles').select('role').eq('auth_id', user.id).single();
-    role = data?.role || 'client';
+    // Determine user role and tenant. EKA platform may use profiles or users table; check both if needed.
+    const { data } = await supabase
+      .from('users')
+      .select('role, tenant_id')
+      .eq('id', user.id)
+      .single();
+    if (data) {
+      role = data.role || 'client';
+      tenantId = data.tenant_id || 'default';
+    } else {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('auth_id', user.id)
+        .single();
+      role = profile?.role || 'client';
+    }
   }
 
-  const features = await resolveFeatures({ userId: user?.id, role });
+  const features = await resolveFeatures({ userId: user?.id, role, tenantId });
 
   return <FeaturesProvider features={features}>{children}</FeaturesProvider>;
 }
@@ -83,12 +98,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ca"
-      data-scroll-behavior="smooth"
-      suppressHydrationWarning
-      className={cn('font-sans', inter.variable)}
-    >
+    <html lang="ca" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
         className={cn('font-sans antialiased', GeistSans.variable, GeistMono.variable)}
         suppressHydrationWarning
@@ -96,26 +106,28 @@ export default function RootLayout({
         <a href="#main-content" className="ux-skip-link">
           Skip to main content
         </a>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AuthProvider>
-            <Suspense fallback={<div className="bg-background min-h-screen" />}>
-              <FeaturesWrapper>
-                <LanguageProvider>
-                  <TooltipProvider>
-                    <MorphingToaster />
-                    <GlobalErrorReporter />
-                    {children}
-                  </TooltipProvider>
-                </LanguageProvider>
-              </FeaturesWrapper>
-            </Suspense>
-          </AuthProvider>
-        </ThemeProvider>
+        <TelegramWebAppProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AuthProvider>
+              <Suspense fallback={<div className="bg-background min-h-screen" />}>
+                <FeaturesWrapper>
+                  <LanguageProvider>
+                    <TooltipProvider>
+                      <MorphingToaster />
+                      <GlobalErrorReporter />
+                      {children}
+                    </TooltipProvider>
+                  </LanguageProvider>
+                </FeaturesWrapper>
+              </Suspense>
+            </AuthProvider>
+          </ThemeProvider>
+        </TelegramWebAppProvider>
       </body>
     </html>
   );

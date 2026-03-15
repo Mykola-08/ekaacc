@@ -199,7 +199,7 @@ function MorphNotificationItem({
       exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.15 } }}
       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
       className={cn(
-        'pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border px-4 py-3 shadow-lg backdrop-blur-sm',
+        'pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border px-4 py-3 backdrop-blur-sm',
         config.bgColor,
         config.borderColor
       )}

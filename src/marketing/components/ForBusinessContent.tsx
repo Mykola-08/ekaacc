@@ -50,11 +50,7 @@ export default function ForBusinessContent() {
         }}
       >
         <div className="relative z-20 mt-4 mb-20 flex flex-col justify-center gap-4 sm:flex-row">
-          <Button
-            asChild
-            size="lg"
-            className="rounded-full px-8 shadow-md transition-all hover:shadow-lg"
-          >
+          <Button asChild size="lg" className="hover: rounded-full px-8 transition-all">
             <Link href="/booking">
               {t('nav.bookNow')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -71,7 +67,7 @@ export default function ForBusinessContent() {
         </div>
 
         {/* Apple-Style Bento Section */}
-        <section className="relative overflow-hidden bg-[#fbfbfd] py-20">
+        <section className="relative overflow-hidden bg-background py-20">
           <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -188,7 +184,7 @@ export default function ForBusinessContent() {
               <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-full w-full max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-100/50 blur-3xl" />
 
               {/* Plan 1 - Teams */}
-              <div className="relative flex h-full flex-col rounded-[2rem] border border-gray-100 bg-white p-8 shadow-xl shadow-gray-200/20 transition-all duration-300 sm:p-10">
+              <div className="relative flex h-full flex-col rounded-[2rem] border border-gray-100 bg-white p-8 shadow-gray-200/20 transition-all duration-300 sm:p-10">
                 <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-bl-full bg-blue-400 opacity-10" />
                 <h3 className="relative z-10 mb-3 text-3xl font-semibold tracking-tight text-gray-900">
                   {t('personalized.business.plans.teams.title')}
@@ -236,14 +232,14 @@ export default function ForBusinessContent() {
 
                 <Button
                   asChild
-                  className="relative z-10 w-full rounded-2xl bg-gray-900 py-6 text-lg text-white hover:bg-black"
+                  className="bg-primary hover:bg-primary-600 relative z-10 w-full rounded-2xl py-6 text-lg text-white"
                 >
                   <Link href="/booking?subject=teams">{t('common.getStarted')}</Link>
                 </Button>
               </div>
 
               {/* Plan 2 - Office */}
-              <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-gray-900 p-8 shadow-2xl transition-transform duration-300 sm:p-10">
+              <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-gray-900 p-8 transition-transform duration-300 sm:p-10">
                 <div className="pointer-events-none absolute top-0 right-0 h-48 w-48 rounded-bl-full bg-white opacity-20" />
                 <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-32 rounded-tr-full bg-blue-500 opacity-10" />
 

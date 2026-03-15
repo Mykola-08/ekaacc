@@ -100,10 +100,10 @@ export default function ResetPasswordPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="relative z-10"
         >
-          <Card className="border-border/20 bg-card/70 relative mx-auto w-full max-w-md overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
+          <Card className="border-border/20 bg-card/70 relative mx-auto w-full max-w-md overflow-hidden rounded-2xl border backdrop-blur-2xl">
             <CardContent className="p-10">
               <div className="flex flex-col items-center gap-4 text-center">
-                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
+                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
                   <Image
                     src="/images/eka_logo.png"
                     alt="EKA Balance"
@@ -140,7 +140,7 @@ export default function ResetPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
+        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
             <motion.div
@@ -149,7 +149,7 @@ export default function ResetPasswordPage() {
               transition={{ delay: 0.1, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
               className="mb-8 flex flex-col items-center gap-4 text-center"
             >
-              <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
+              <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
                 <Image
                   src="/images/eka_logo.png"
                   alt="EKA Balance"

@@ -142,7 +142,7 @@ export default function ToolsPage() {
   };
 
   return (
-    <div className="p-6">
+    <div>
       <h1 className="mb-4 text-2xl font-semibold">Test Tools</h1>
       <p className="text-muted-foreground mb-4 text-sm">
         Role: <strong>{role}</strong>
@@ -177,7 +177,7 @@ export default function ToolsPage() {
           {log.length === 0 && <p className="text-muted-foreground text-sm">No actions yet</p>}
           <ul className="text-sm">
             {log.map((l, i) => (
-              <li key={i} className="break-words">
+              <li key={i} className="wrap-break-word">
                 {l}
               </li>
             ))}

@@ -120,7 +120,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
       animate="visible"
       className="mx-auto flex w-full max-w-md flex-col gap-6"
     >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           {/* Header */}
           <motion.div
@@ -130,7 +130,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
             className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative mb-2">
-              <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border shadow-sm">
+              <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border">
                 <Shield className="text-primary h-7 w-7" />
               </div>
             </div>
@@ -164,7 +164,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-14 w-12 rounded-md text-center text-xl font-semibold transition-all focus:ring-4"
+                  className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-14 w-12 rounded-xl text-center text-xl font-semibold transition-all focus:ring-4"
                   disabled={loading}
                 />
               ))}
@@ -179,7 +179,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="bg-destructive/10 text-destructive mb-4 rounded-md px-4 py-3 text-center text-sm font-medium"
+                className="bg-destructive/10 text-destructive mb-4 rounded-xl px-4 py-3 text-center text-sm font-medium"
               >
                 {error}
               </motion.div>
@@ -195,7 +195,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
           >
             <Button
               onClick={() => handleSubmit()}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold shadow-sm transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
               disabled={loading || code.some((d) => !d)}
             >
               {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Verify'}

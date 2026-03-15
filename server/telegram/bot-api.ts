@@ -23,7 +23,10 @@ async function getToken(): Promise<string> {
   return cachedToken;
 }
 
-async function callApi<T>(method: string, body?: Record<string, unknown>): Promise<TelegramApiResponse<T>> {
+async function callApi<T>(
+  method: string,
+  body?: Record<string, unknown>
+): Promise<TelegramApiResponse<T>> {
   const token = await getToken();
   const url = `${TG_API_BASE}/bot${token}/${method}`;
 
@@ -151,11 +154,15 @@ export async function sendDocument(
 
 // ─── Chat Management ────────────────────────────────────────
 
-export async function getChat(chatId: number | string): Promise<TelegramApiResponse<TelegramChatInfo>> {
+export async function getChat(
+  chatId: number | string
+): Promise<TelegramApiResponse<TelegramChatInfo>> {
   return callApi<TelegramChatInfo>('getChat', { chat_id: chatId });
 }
 
-export async function getChatMemberCount(chatId: number | string): Promise<TelegramApiResponse<number>> {
+export async function getChatMemberCount(
+  chatId: number | string
+): Promise<TelegramApiResponse<number>> {
   return callApi<number>('getChatMemberCount', { chat_id: chatId });
 }
 
@@ -384,9 +391,7 @@ export async function unpinAllChatMessages(
   return callApi<boolean>('unpinAllChatMessages', { chat_id: chatId });
 }
 
-export async function leaveChat(
-  chatId: number | string
-): Promise<TelegramApiResponse<boolean>> {
+export async function leaveChat(chatId: number | string): Promise<TelegramApiResponse<boolean>> {
   return callApi<boolean>('leaveChat', { chat_id: chatId });
 }
 // ─── Bot Commands ───────────────────────────────────────────
@@ -398,5 +403,19 @@ export async function setMyCommands(
   return callApi<boolean>('setMyCommands', {
     commands,
     scope,
+  });
+}
+
+// ─── Inline Mode ───────────────────────────────────────────
+
+export async function answerInlineQuery(
+  inlineQueryId: string,
+  results: Array<any>,
+  options?: { cache_time?: number; is_personal?: boolean; next_offset?: string; button?: any }
+): Promise<TelegramApiResponse<boolean>> {
+  return callApi<boolean>('answerInlineQuery', {
+    inline_query_id: inlineQueryId,
+    results,
+    ...options,
   });
 }

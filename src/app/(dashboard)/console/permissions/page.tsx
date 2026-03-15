@@ -39,7 +39,7 @@ export default async function PermissionsPage() {
   const actions = [...new Set(rolePermissions.map((r: any) => r.action))].sort();
 
   return (
-    <div className="mx-auto max-w-7xl p-4 md:p-6">
+    <div className="mx-auto max-w-7xl">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Permissions</h1>
         <p className="text-muted-foreground text-sm">

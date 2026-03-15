@@ -156,7 +156,7 @@ export default function CoreServiceTemplate({
         )}
 
         {/* Benefits Section - Apple Bento Layout */}
-        <section className="bg-[#fbfbfd] py-16 sm:py-20 lg:py-24">
+        <section className="bg-background py-16 sm:py-20 lg:py-24">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <div className="mb-16 text-center">
               <h2 className="mb-4 text-4xl font-semibold tracking-tighter text-black md:text-5xl">
@@ -167,25 +167,26 @@ export default function CoreServiceTemplate({
               </p>
             </div>
 
-            <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:grid-cols-3">
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8">
               {features.benefits.map((benefit, index) => {
                 const title = t(benefit) !== benefit ? t(benefit) : benefit;
                 return (
                   <div
                     key={index}
-                    className="group relative flex min-h-[180px] flex-col justify-start overflow-hidden rounded-[2rem] border border-gray-100 bg-white p-6 transition-all duration-500 sm:rounded-[2.5rem] sm:p-8 md:p-10"
+                    className="group flex flex-col justify-center rounded-[2rem] border border-gray-100 bg-white p-6 transition-all duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] md:p-8"
                   >
-                    <div className="absolute -top-4 -right-4 transform p-8 opacity-[0.03] transition-opacity duration-500 group-hover:scale-110 group-hover:opacity-[0.05]">
-                      <CheckCircle2 className="h-40 w-40" />
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${iconStyle} transition-transform duration-500 group-hover:scale-110`}
+                      >
+                        <CheckCircle2 className="h-6 w-6" />
+                      </div>
+                      <div className="flex min-h-[3rem] flex-1 items-center">
+                        <h3 className="text-xl font-medium tracking-tight text-gray-900">
+                          {title}
+                        </h3>
+                      </div>
                     </div>
-                    <div
-                      className={`relative z-10 mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-gray-50 sm:rounded-2xl ${iconStyle} shrink-0 transition-transform duration-500 group-hover:scale-110`}
-                    >
-                      <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6" />
-                    </div>
-                    <h3 className="relative z-10 w-[95%] text-xl leading-[1.2] font-semibold tracking-tight text-gray-900 sm:text-2xl md:text-3xl">
-                      {title}
-                    </h3>
                   </div>
                 );
               })}
@@ -211,7 +212,7 @@ export default function CoreServiceTemplate({
               {pricing.options.map((option, index) => (
                 <div
                   key={index}
-                  className="group relative flex flex-col items-center overflow-hidden rounded-[2rem] border border-gray-100 bg-[#fbfbfd] p-6 text-center transition-all duration-500 hover:border-gray-200 sm:rounded-[2.5rem] sm:p-8 md:p-10"
+                  className="group relative flex flex-col items-center overflow-hidden rounded-[2rem] border border-gray-100 bg-background p-6 text-center transition-all duration-500 hover:border-gray-200 sm:rounded-[2.5rem] sm:p-8 md:p-10"
                 >
                   <div className="absolute top-0 right-0 z-0 h-32 w-32 rounded-bl-full bg-gray-100 opacity-50 transition-colors duration-500 group-hover:bg-blue-50" />
 
@@ -250,7 +251,7 @@ export default function CoreServiceTemplate({
                       onClick={() => navigateToBooking()}
                       variant="default"
                       size="lg"
-                      className="w-full rounded-full bg-[#1d1d1f] text-lg font-medium text-white transition-all hover:bg-[#000000]"
+                      className="bg-primary hover:bg-primary-600 w-full rounded-full text-lg font-medium text-white transition-all"
                     >
                       {t('common.bookNow')}
                     </Button>
@@ -270,7 +271,7 @@ export default function CoreServiceTemplate({
                 {testimonials.items.map((testimonial, i) => (
                   <div
                     key={i}
-                    className="flex h-full flex-col rounded-3xl border border-gray-100 bg-gray-50 p-8 transition duration-300 hover:bg-white"
+                    className="flex h-full flex-col rounded-2xl border border-gray-100 bg-gray-50 p-8 transition duration-300 hover:bg-white"
                   >
                     <div className="mb-4 flex gap-1 text-yellow-400">
                       {[...Array(testimonial.rating)].map((_, i) => (

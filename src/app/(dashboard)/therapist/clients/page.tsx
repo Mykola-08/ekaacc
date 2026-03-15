@@ -3,7 +3,7 @@
 import { Avatar } from '@/components/ui/avatar';
 import { AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui';
 import {
   Table,
@@ -13,11 +13,28 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  ActionBar,
+  ActionBarGroup,
+  ActionBarItem,
+  ActionBarSeparator,
+  ActionBarSelection,
+} from '@/components/ui/action-bar';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { RefreshCw, PlusCircle, Activity, Calendar, Mail, Phone, Users } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import {
+  RefreshCw,
+  PlusCircle,
+  Activity,
+  Calendar,
+  Users,
+  Trash2,
+  Edit2,
+  Archive,
+} from 'lucide-react';
 import { UserGroupIcon } from '@hugeicons/core-free-icons';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';
@@ -73,7 +90,7 @@ function NoClientsEmptyState({ onCreate }: { onCreate: () => void }) {
     <EmptyState
       icon={UserGroupIcon}
       title="No Clients Found"
-      description="Get started by adding your first client."
+      description="Your clients will appear here once they are added to the platform."
       action={
         <Button onClick={onCreate} variant="default">
           <PlusCircle className="mr-2 h-4 w-4" />
@@ -89,16 +106,17 @@ function NoClientsEmptyState({ onCreate }: { onCreate: () => void }) {
 export default function TherapistClientsPage() {
   const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const { toast } = useToast();
 
   const loadClients = useCallback(async () => {
     setLoading(true);
+    setSelectedIds(new Set());
     try {
       const users: any[] = await fxService.getUsers();
       const patients = users.filter((u) => !u.role || u.role.name === 'Patient');
       setClients(patients);
-    } catch (e) {
-      console.error(e);
+    } catch {
       toast({ title: 'Error', description: 'Failed to load clients', variant: 'destructive' });
     } finally {
       setLoading(false);
@@ -109,23 +127,32 @@ export default function TherapistClientsPage() {
     loadClients();
   }, [loadClients]);
 
-  const createDemoClient = async () => {
-    const id = `mock-${Date.now()}`;
-    const data = {
-      id,
-      name: `Demo Client ${clients.length + 1}`,
-      email: `demo${clients.length + 1}@example.com`,
-      role: 'Patient',
-    };
-    try {
-      await fxService.updateUser(id, data);
-      toast({ title: 'Success', description: 'Demo client created' });
-      await loadClients();
-    } catch (e) {
-      console.error(e);
-      toast({ title: 'Error', description: 'Failed to create client', variant: 'destructive' });
+  const router = useRouter();
+
+  const handleNewClient = () => {
+    // TODO: implement client creation flow
+    toast({ title: 'Coming soon', description: 'Client creation is not yet available.' });
+  };
+
+  const toggleRow = (id: string) => {
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
+  };
+
+  const toggleAll = () => {
+    if (selectedIds.size === clients.length && clients.length > 0) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(clients.map((c) => c.id)));
     }
   };
+
+  const hasSelection = selectedIds.size > 0;
 
   return (
     <div className="container mx-auto p-6">
@@ -140,7 +167,7 @@ export default function TherapistClientsPage() {
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Refresh
               </Button>
-              <Button onClick={createDemoClient} disabled={loading} variant="default">
+              <Button onClick={handleNewClient} disabled={loading} variant="default">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 New Client
               </Button>
@@ -175,11 +202,18 @@ export default function TherapistClientsPage() {
             <Card>
               <CardContent className="p-0">
                 {clients.length === 0 ? (
-                  <NoClientsEmptyState onCreate={createDemoClient} />
+                  <NoClientsEmptyState onCreate={handleNewClient} />
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
+                        <TableHead className="w-12 text-center">
+                          <Checkbox
+                            checked={selectedIds.size === clients.length && clients.length > 0}
+                            onCheckedChange={toggleAll}
+                            aria-label="Select all rows"
+                          />
+                        </TableHead>
                         <TableHead>
                           <span className="text-sm font-medium">Client</span>
                         </TableHead>
@@ -192,46 +226,90 @@ export default function TherapistClientsPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {clients.map((client) => (
-                        <TableRow key={client.id}>
-                          <TableCell>
-                            <Link
-                              href={`/therapist/person/${client.id}`}
-                              className="group flex items-center gap-3"
-                            >
-                              <Avatar className="h-8 w-8">
-                                <AvatarFallback>
-                                  {(client.name || 'C').charAt(0).toUpperCase()}
-                                </AvatarFallback>
-                              </Avatar>
-                              <span className="font-medium group-hover:underline">
-                                {client.name || client.id}
+                      {clients.map((client) => {
+                        const isSelected = selectedIds.has(client.id);
+                        return (
+                          <TableRow
+                            key={client.id}
+                            className={isSelected ? 'bg-muted/20' : ''}
+                            data-state={isSelected ? 'selected' : undefined}
+                          >
+                            <TableCell className="text-center">
+                              <Checkbox
+                                checked={isSelected}
+                                onCheckedChange={() => toggleRow(client.id)}
+                                aria-label={`Select ${client.name}`}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <Link
+                                href={`/therapist/person/${client.id}`}
+                                className="group flex items-center gap-3"
+                              >
+                                <Avatar className="h-8 w-8">
+                                  <AvatarFallback>
+                                    {(client.name || 'C').charAt(0).toUpperCase()}
+                                  </AvatarFallback>
+                                </Avatar>
+                                <span className="font-medium group-hover:underline">
+                                  {client.name || client.id}
+                                </span>
+                              </Link>
+                            </TableCell>
+                            <TableCell>
+                              <span className="text-muted-foreground text-sm">
+                                {client.email || '-'}
                               </span>
-                            </Link>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-muted-foreground text-sm">
-                              {client.email || '-'}
-                            </span>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                (window.location.href = `/therapist/person/${client.id}`)
-                              }
-                            >
-                              View Profile
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => router.push(`/therapist/person/${client.id}`)}
+                              >
+                                View Profile
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                     </TableBody>
                   </Table>
                 )}
               </CardContent>
             </Card>
+
+            {/* Floating Action Bar (Dice UI) */}
+            <ActionBar open={hasSelection}>
+              <ActionBarSelection>{selectedIds.size} selected</ActionBarSelection>
+              <ActionBarSeparator />
+              <ActionBarGroup>
+                <ActionBarItem
+                  onClick={() => toast({ title: 'Edit', description: 'Edit logic goes here.' })}
+                >
+                  <Edit2 className="mr-2 h-4 w-4" />
+                  Edit
+                </ActionBarItem>
+                <ActionBarItem
+                  onClick={() =>
+                    toast({ title: 'Archived', description: 'Archived selected clients.' })
+                  }
+                >
+                  <Archive className="mr-2 h-4 w-4" />
+                  Archive
+                </ActionBarItem>
+                <ActionBarSeparator />
+                <ActionBarItem
+                  variant="destructive"
+                  onClick={() =>
+                    toast({ title: 'Deleted', description: 'Deleted selected clients.' })
+                  }
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
+                </ActionBarItem>
+              </ActionBarGroup>
+            </ActionBar>
           </div>
         )}
       </div>

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import {
   Attachment,
   AttachmentPreview,
   AttachmentRemove,
   Attachments,
-} from "@/components/ai-elements/attachments";
+} from '@/components/ai-elements/attachments';
 import {
   Message,
   MessageAction,
@@ -19,24 +19,19 @@ import {
   MessageContent,
   MessageResponse,
   MessageToolbar,
-} from "@/components/ai-elements/message";
-import {
-  CopyIcon,
-  RefreshCcwIcon,
-  ThumbsDownIcon,
-  ThumbsUpIcon,
-} from "lucide-react";
-import { nanoid } from "nanoid";
-import { memo, useCallback, useState } from "react";
+} from '@/components/ai-elements/message';
+import { CopyIcon, RefreshCcwIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
+import { nanoid } from 'nanoid';
+import { memo, useCallback, useState } from 'react';
 
 const messages: {
   key: string;
-  from: "user" | "assistant";
+  from: 'user' | 'assistant';
   versions?: { id: string; content: string }[];
   content?: string;
   attachments?: {
     id: string;
-    type: "file";
+    type: 'file';
     url: string;
     mediaType?: string;
     filename?: string;
@@ -45,26 +40,26 @@ const messages: {
   {
     attachments: [
       {
-        filename: "palace-of-fine-arts.jpg",
+        filename: 'palace-of-fine-arts.jpg',
         id: nanoid(),
-        mediaType: "image/jpeg",
-        type: "file",
-        url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop",
+        mediaType: 'image/jpeg',
+        type: 'file',
+        url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
       },
       {
-        filename: "react-hooks-guide.pdf",
+        filename: 'react-hooks-guide.pdf',
         id: nanoid(),
-        mediaType: "application/pdf",
-        type: "file",
-        url: "",
+        mediaType: 'application/pdf',
+        type: 'file',
+        url: '',
       },
     ],
-    content: "How do React hooks work and when should I use them?",
-    from: "user",
+    content: 'How do React hooks work and when should I use them?',
+    from: 'user',
     key: nanoid(),
   },
   {
-    from: "assistant",
+    from: 'assistant',
     key: nanoid(),
     versions: [
       {
@@ -173,7 +168,7 @@ const handleCopy = (content: string) => {
 };
 
 const handleRetry = () => {
-  console.log("Retrying...");
+  console.log('Retrying...');
 };
 
 interface LikeActionProps {
@@ -182,28 +177,16 @@ interface LikeActionProps {
   onToggle: (key: string) => void;
 }
 
-const LikeAction = memo(
-  ({ messageKey, isLiked, onToggle }: LikeActionProps) => {
-    const handleClick = useCallback(
-      () => onToggle(messageKey),
-      [messageKey, onToggle]
-    );
-    return (
-      <MessageAction
-        label="Like"
-        onClick={handleClick}
-        tooltip="Like this response"
-      >
-        <ThumbsUpIcon
-          className="size-4"
-          fill={isLiked ? "currentColor" : "none"}
-        />
-      </MessageAction>
-    );
-  }
-);
+const LikeAction = memo(({ messageKey, isLiked, onToggle }: LikeActionProps) => {
+  const handleClick = useCallback(() => onToggle(messageKey), [messageKey, onToggle]);
+  return (
+    <MessageAction label="Like" onClick={handleClick} tooltip="Like this response">
+      <ThumbsUpIcon className="size-4" fill={isLiked ? 'currentColor' : 'none'} />
+    </MessageAction>
+  );
+});
 
-LikeAction.displayName = "LikeAction";
+LikeAction.displayName = 'LikeAction';
 
 interface DislikeActionProps {
   messageKey: string;
@@ -211,28 +194,16 @@ interface DislikeActionProps {
   onToggle: (key: string) => void;
 }
 
-const DislikeAction = memo(
-  ({ messageKey, isDisliked, onToggle }: DislikeActionProps) => {
-    const handleClick = useCallback(
-      () => onToggle(messageKey),
-      [messageKey, onToggle]
-    );
-    return (
-      <MessageAction
-        label="Dislike"
-        onClick={handleClick}
-        tooltip="Dislike this response"
-      >
-        <ThumbsDownIcon
-          className="size-4"
-          fill={isDisliked ? "currentColor" : "none"}
-        />
-      </MessageAction>
-    );
-  }
-);
+const DislikeAction = memo(({ messageKey, isDisliked, onToggle }: DislikeActionProps) => {
+  const handleClick = useCallback(() => onToggle(messageKey), [messageKey, onToggle]);
+  return (
+    <MessageAction label="Dislike" onClick={handleClick} tooltip="Dislike this response">
+      <ThumbsDownIcon className="size-4" fill={isDisliked ? 'currentColor' : 'none'} />
+    </MessageAction>
+  );
+});
 
-DislikeAction.displayName = "DislikeAction";
+DislikeAction.displayName = 'DislikeAction';
 
 interface CopyActionProps {
   content: string;
@@ -241,17 +212,13 @@ interface CopyActionProps {
 const CopyAction = memo(({ content }: CopyActionProps) => {
   const handleClick = useCallback(() => handleCopy(content), [content]);
   return (
-    <MessageAction
-      label="Copy"
-      onClick={handleClick}
-      tooltip="Copy to clipboard"
-    >
+    <MessageAction label="Copy" onClick={handleClick} tooltip="Copy to clipboard">
       <CopyIcon className="size-4" />
     </MessageAction>
   );
 });
 
-CopyAction.displayName = "CopyAction";
+CopyAction.displayName = 'CopyAction';
 
 const Example = () => {
   const [liked, setLiked] = useState<Record<string, boolean>>({});
@@ -279,7 +246,7 @@ const Example = () => {
                   </MessageContent>
                 ))}
               </MessageBranchContent>
-              {message.from === "assistant" && (
+              {message.from === 'assistant' && (
                 <MessageToolbar>
                   <MessageBranchSelector>
                     <MessageBranchPrevious />
@@ -304,11 +271,7 @@ const Example = () => {
                       messageKey={message.key}
                       onToggle={handleToggleDislike}
                     />
-                    <CopyAction
-                      content={
-                        message.versions?.find((v) => v.id)?.content || ""
-                      }
-                    />
+                    <CopyAction content={message.versions?.find((v) => v.id)?.content || ''} />
                   </MessageActions>
                 </MessageToolbar>
               )}
@@ -326,19 +289,15 @@ const Example = () => {
                 </Attachments>
               )}
               <MessageContent>
-                {message.from === "assistant" ? (
+                {message.from === 'assistant' ? (
                   <MessageResponse>{message.content}</MessageResponse>
                 ) : (
                   message.content
                 )}
               </MessageContent>
-              {message.from === "assistant" && message.versions && (
+              {message.from === 'assistant' && message.versions && (
                 <MessageActions>
-                  <MessageAction
-                    label="Retry"
-                    onClick={handleRetry}
-                    tooltip="Regenerate response"
-                  >
+                  <MessageAction label="Retry" onClick={handleRetry} tooltip="Regenerate response">
                     <RefreshCcwIcon className="size-4" />
                   </MessageAction>
                   <LikeAction
@@ -351,7 +310,7 @@ const Example = () => {
                     messageKey={message.key}
                     onToggle={handleToggleDislike}
                   />
-                  <CopyAction content={message.content || ""} />
+                  <CopyAction content={message.content || ''} />
                 </MessageActions>
               )}
             </div>

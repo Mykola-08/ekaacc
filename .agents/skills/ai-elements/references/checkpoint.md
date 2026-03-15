@@ -1,8 +1,13 @@
 # Checkpoint
 
-A simple component for marking conversation history points and restoring the chat to a previous state.
+A simple component for marking conversation history points and restoring the
+chat to a previous state.
 
-The `Checkpoint` component provides a way to mark specific points in a conversation history and restore the chat to that state. Inspired by VSCode's Copilot checkpoint feature, it allows users to revert to an earlier conversation state while maintaining a clear visual separation between different conversation segments.
+The `Checkpoint` component provides a way to mark specific points in a
+conversation history and restore the chat to that state. Inspired by VSCode's
+Copilot checkpoint feature, it allows users to revert to an earlier conversation
+state while maintaining a clear visual separation between different conversation
+segments.
 
 See `scripts/checkpoint.tsx` for this example.
 
@@ -24,29 +29,30 @@ npx ai-elements@latest add checkpoint
 
 ## Usage with AI SDK
 
-Build a chat interface with conversation checkpoints that allow users to restore to previous states.
+Build a chat interface with conversation checkpoints that allow users to restore
+to previous states.
 
 Add the following component to your frontend:
 
 ```tsx title="app/page.tsx"
-"use client";
+'use client';
 
-import { useState, Fragment } from "react";
-import { useChat } from "@ai-sdk/react";
+import { useState, Fragment } from 'react';
+import { useChat } from '@ai-sdk/react';
 import {
   Checkpoint,
   CheckpointIcon,
   CheckpointTrigger,
-} from "@/components/ai-elements/checkpoint";
+} from '@/components/ai-elements/checkpoint';
 import {
   Message,
   MessageContent,
   MessageResponse,
-} from "@/components/ai-elements/message";
+} from '@/components/ai-elements/message';
 import {
   Conversation,
   ConversationContent,
-} from "@/components/ai-elements/conversation";
+} from '@/components/ai-elements/conversation';
 
 type CheckpointType = {
   id: string;
@@ -77,7 +83,7 @@ const CheckpointDemo = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 relative size-full rounded-lg border h-[600px]">
+    <div className="relative mx-auto size-full h-[600px] max-w-4xl rounded-lg border p-6">
       <Conversation>
         <ConversationContent>
           {messages.map((message, index) => {
@@ -143,7 +149,8 @@ useEffect(() => {
 
 ### Branching Conversations
 
-Use checkpoints to enable conversation branching where users can explore different conversation paths:
+Use checkpoints to enable conversation branching where users can explore
+different conversation paths:
 
 ```tsx
 const restoreAndBranch = (messageIndex: number) => {
@@ -160,24 +167,24 @@ const restoreAndBranch = (messageIndex: number) => {
 
 ### `<Checkpoint />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `React.ReactNode` | - | The checkpoint icon and trigger components. Automatically includes a Separator at the end. |
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Any other props are spread to the root div. |
+| Prop       | Type                                   | Default | Description                                                                                |
+| ---------- | -------------------------------------- | ------- | ------------------------------------------------------------------------------------------ |
+| `children` | `React.ReactNode`                      | -       | The checkpoint icon and trigger components. Automatically includes a Separator at the end. |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -       | Any other props are spread to the root div.                                                |
 
 ### `<CheckpointIcon />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `React.ReactNode` | - | Custom icon content. If not provided, defaults to a BookmarkIcon from lucide-react. |
-| `...props` | `LucideProps` | - | Any other props are spread to the BookmarkIcon component. |
+| Prop       | Type              | Default | Description                                                                         |
+| ---------- | ----------------- | ------- | ----------------------------------------------------------------------------------- |
+| `children` | `React.ReactNode` | -       | Custom icon content. If not provided, defaults to a BookmarkIcon from lucide-react. |
+| `...props` | `LucideProps`     | -       | Any other props are spread to the BookmarkIcon component.                           |
 
 ### `<CheckpointTrigger />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `React.ReactNode` | - | The text or content to display in the trigger button. |
-| `tooltip` | `string` | - | Optional tooltip text shown on hover. |
-| `variant` | `string` | - | The button variant style. |
-| `size` | `string` | - | The button size. |
-| `...props` | `React.ComponentProps<typeof Button>` | - | Any other props are spread to the underlying shadcn/ui Button component. |
+| Prop       | Type                                  | Default | Description                                                              |
+| ---------- | ------------------------------------- | ------- | ------------------------------------------------------------------------ |
+| `children` | `React.ReactNode`                     | -       | The text or content to display in the trigger button.                    |
+| `tooltip`  | `string`                              | -       | Optional tooltip text shown on hover.                                    |
+| `variant`  | `string`                              | -       | The button variant style.                                                |
+| `size`     | `string`                              | -       | The button size.                                                         |
+| `...props` | `React.ComponentProps<typeof Button>` | -       | Any other props are spread to the underlying shadcn/ui Button component. |

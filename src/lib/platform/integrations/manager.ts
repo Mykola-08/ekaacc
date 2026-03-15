@@ -38,7 +38,7 @@ export class IntegrationManager {
       new SupabaseIntegration({
         enabled: true,
         url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-        serviceKey: process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY,
+        serviceKey: process.env.SUPABASE_SECRET_KEY,
       })
     );
 

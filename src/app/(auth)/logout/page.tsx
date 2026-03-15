@@ -15,9 +15,9 @@ export default function LogoutPage() {
   return (
     <div className="auth-page">
       <div className="auth-page-gradient" />
-      <Card className="border-border/20 bg-card/70 relative z-10 w-full max-w-md rounded-3xl text-center shadow-md backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative z-10 w-full max-w-md rounded-2xl text-center backdrop-blur-2xl">
         <CardHeader className="flex flex-col items-center pb-2">
-          <div className="border-border/10 bg-card rounded-2xl border p-1 shadow-sm">
+          <div className="border-border/10 bg-card rounded-2xl border p-1">
             <Image
               src="/images/eka_logo.png"
               alt="EKA Balance"

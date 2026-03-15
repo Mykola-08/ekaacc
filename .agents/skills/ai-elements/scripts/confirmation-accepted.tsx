@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Confirmation,
@@ -6,30 +6,25 @@ import {
   ConfirmationRejected,
   ConfirmationRequest,
   ConfirmationTitle,
-} from "@/components/ai-elements/confirmation";
-import { CheckIcon, XIcon } from "lucide-react";
-import { nanoid } from "nanoid";
+} from '@/components/ai-elements/confirmation';
+import { CheckIcon, XIcon } from 'lucide-react';
+import { nanoid } from 'nanoid';
 
 const Example = () => (
   <div className="w-full max-w-2xl">
-    <Confirmation
-      approval={{ approved: true, id: nanoid() }}
-      state="approval-responded"
-    >
+    <Confirmation approval={{ approved: true, id: nanoid() }} state="approval-responded">
       <ConfirmationTitle>
         <ConfirmationRequest>
-          This tool wants to delete the file{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 text-sm">
-            /tmp/example.txt
-          </code>
-          . Do you approve this action?
+          This tool wants to delete the file{' '}
+          <code className="bg-muted rounded px-1.5 py-0.5 text-sm">/tmp/example.txt</code>. Do you
+          approve this action?
         </ConfirmationRequest>
         <ConfirmationAccepted>
           <CheckIcon className="size-4 text-green-600 dark:text-green-400" />
           <span>You approved this tool execution</span>
         </ConfirmationAccepted>
         <ConfirmationRejected>
-          <XIcon className="size-4 text-destructive" />
+          <XIcon className="text-destructive size-4" />
           <span>You rejected this tool execution</span>
         </ConfirmationRejected>
       </ConfirmationTitle>

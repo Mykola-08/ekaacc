@@ -84,11 +84,10 @@ export default function TherapistTemplatesPage() {
           id: `template-${i + 1}`,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
-          useCount: Math.floor(Math.random() * 50),
+          useCount: 0,
         }));
         setTemplates(initialTemplates);
-      } catch (error) {
-        console.error('Failed to load data:', error);
+      } catch {
         toast({
           title: 'Error',
           description: 'Could not load necessary data.',
@@ -338,7 +337,7 @@ export default function TherapistTemplatesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
             >
-              <Card className="flex h-full cursor-pointer flex-col transition-shadow hover:shadow-sm">
+              <Card className="flex h-full cursor-pointer flex-col">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <FileText className="text-primary mb-2 h-8 w-8" />
@@ -531,7 +530,7 @@ export default function TherapistTemplatesPage() {
           <DialogHeader>
             <DialogTitle>Generated Report Preview</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="bg-muted/30 h-96 rounded-lg border p-4">
+          <ScrollArea className="bg-muted/30 h-96 rounded-2xl border p-4">
             <p className="text-sm whitespace-pre-wrap">{previewContent}</p>
           </ScrollArea>
           <DialogFooter>

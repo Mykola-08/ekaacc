@@ -13,7 +13,7 @@ export default function DashboardLoading() {
           <Skeleton className="h-8 w-48" />
           <Skeleton className="h-4 w-72" />
         </div>
-        <Skeleton className="h-10 w-32 rounded-lg" />
+        <Skeleton className="h-10 w-32 rounded-2xl" />
       </div>
 
       {/* Content area skeleton */}
@@ -33,7 +33,7 @@ export default function DashboardLoading() {
         <Skeleton className="h-5 w-36" />
         <div className="pt-2">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-12 w-full rounded-lg" />
+            <Skeleton key={i} className="h-12 w-full rounded-2xl" />
           ))}
         </div>
       </div>

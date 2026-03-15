@@ -111,14 +111,14 @@ export default function CaseDetailContent({ id }: { id: string }) {
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
           <Link
             href="/cases"
-            className="mb-8 inline-flex items-center rounded-full border border-gray-100 bg-white px-4 py-2 text-sm font-medium text-gray-500 shadow-sm transition-colors hover:text-blue-600 hover:shadow"
+            className="mb-8 inline-flex items-center rounded-full border border-gray-100 bg-white px-4 py-2 text-sm font-medium text-gray-500 transition-colors hover:text-blue-600 hover:shadow"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             {t('casos.title')}
           </Link>
 
           <div
-            className={`mx-auto h-20 w-20 rounded-3xl ${colorClass.bg} mb-6 flex items-center justify-center shadow-inner`}
+            className={`mx-auto h-20 w-20 rounded-2xl ${colorClass.bg} mb-6 flex items-center justify-center`}
           >
             <Icon className={`h-10 w-10 ${colorClass.text}`} />
           </div>
@@ -175,7 +175,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
         </div>
 
         {/* Treatment & Results */}
-        <div className="rounded-apple-xl relative overflow-hidden bg-gray-900 p-8 text-white shadow-2xl md:p-12">
+        <div className="rounded-apple-xl relative overflow-hidden bg-gray-900 p-8 text-white md:p-12">
           <div
             className={`absolute top-0 right-0 h-96 w-96 ${colorClass.bg.replace('bg-', 'bg-')} translate-x-1/2 -translate-y-1/2 rounded-full opacity-10 blur-3xl`}
           />
@@ -200,11 +200,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
 
           <div className="mt-12 border-t border-white/10 pt-8 text-center">
             <Link href={config.href}>
-              <Button
-                size="lg"
-                variant="secondary"
-                className="border-none px-8 py-4 font-bold shadow-lg"
-              >
+              <Button size="lg" variant="secondary" className="border-none px-8 py-4 font-bold">
                 {t('common.bookNow')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>

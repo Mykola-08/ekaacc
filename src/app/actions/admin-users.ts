@@ -39,7 +39,7 @@ export async function updateUserRole(userId: string, role: string) {
   try {
     await requireAdmin();
     await adminService.updateUserRole(userId, role);
-    revalidatePath('/admin/users');
+    revalidatePath('/console/users');
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };

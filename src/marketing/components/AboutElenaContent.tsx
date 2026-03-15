@@ -166,7 +166,7 @@ export default function AboutElenaContent() {
         </section>
 
         {/* Target Audience Bento */}
-        <section className="bg-[#fbfbfd] py-24">
+        <section className="bg-background py-24">
           <div className="section-container relative z-10">
             <div className="mb-16 text-center">
               <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">

@@ -192,7 +192,7 @@ export default function ContactFormOptimized() {
         animate={{ opacity: 1, scale: 1 }}
         className="mx-auto max-w-2xl"
       >
-        <div className="rounded-3xl border border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-12 text-center">
+        <div className="rounded-2xl border border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-12 text-center">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -334,7 +334,7 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="overflow-hidden rounded-3xl border border-gray-200 bg-white"
+            className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
           >
             <div className="p-8 md:p-10">
               <form onSubmit={handleSubmit} className="">

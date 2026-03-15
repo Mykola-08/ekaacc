@@ -96,7 +96,7 @@ export function ChatInput({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Ask EKA anything..."
-            className="min-h-11 resize-none border-0 bg-transparent px-4 pt-3 pb-0 text-sm shadow-none focus-visible:ring-0"
+            className="min-h-11 resize-none border-0 bg-transparent px-4 pt-3 pb-0 text-sm focus-visible:ring-0"
           />
         </PromptInputBody>
         <PromptInputFooter className="px-3 pt-2">

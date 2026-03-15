@@ -1,7 +1,15 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { RichTextEditor } from '@/components/platform/editor/rich-text-editor';
+import dynamic from 'next/dynamic';
+const RichTextEditor = dynamic(
+  () => import('@/components/platform/editor/rich-text-editor').then((m) => m.RichTextEditor),
+  {
+    ssr: false,
+    loading: () => <div className="bg-muted h-75 w-full animate-pulse rounded-xl" />,
+  }
+);
+import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -237,7 +245,10 @@ export default function SessionNotesPage() {
                 {pastNotes.map((note) => (
                   <div
                     key={note.id}
-                    className={`hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors ${editingNoteId === note.id ? 'border-primary bg-primary/5' : ''}`}
+                    className={cn(
+                      'hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition-colors',
+                      editingNoteId === note.id && 'border-primary bg-primary/5'
+                    )}
                     onClick={() => handleLoadNote(note)}
                   >
                     <div className="flex items-center gap-3">

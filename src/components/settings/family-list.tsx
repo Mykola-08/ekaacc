@@ -52,7 +52,7 @@ export function FamilyList({ members }: { members: any[] }) {
         {members.map((member) => (
           <div
             key={member.id}
-            className="group bg-card border-border/60 hover:border-border relative flex items-start gap-4 rounded-lg border p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+            className="group bg-card border-border/60 hover:border-border hover: relative flex items-start gap-4 rounded-lg border p-5 transition-all hover:-translate-y-1"
           >
             <Avatar className="border-border/60 bg-muted/40 h-12 w-12 border">
               <AvatarFallback className="bg-muted/50 text-muted-foreground font-serif text-lg">
@@ -87,7 +87,7 @@ export function FamilyList({ members }: { members: any[] }) {
       </div>
 
       <Dialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
-        <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 shadow-sm sm:max-w-100">
+        <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 sm:max-w-100">
           <div className="flex flex-col items-center p-8 pb-6 text-center">
             <div className="bg-destructive/10 mb-6 flex h-16 w-16 items-center justify-center rounded-full">
               <AlertCircle className="text-destructive h-8 w-8" />
@@ -111,7 +111,7 @@ export function FamilyList({ members }: { members: any[] }) {
             <Button
               variant="destructive"
               onClick={handleDelete}
-              className="bg-destructive shadow-destructive/20 hover:bg-destructive/90 h-11 flex-1 rounded-xl shadow-md"
+              className="bg-destructive shadow-destructive/20 hover:bg-destructive/90 h-11 flex-1 rounded-xl"
             >
               Remove Member
             </Button>

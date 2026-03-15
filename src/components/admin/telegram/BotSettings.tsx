@@ -164,7 +164,7 @@ export function BotSettings({ channels }: BotSettingsProps) {
           </div>
 
           {webhookInfo && (
-            <div className="bg-muted/50 rounded-lg border p-3 text-sm">
+            <div className="bg-muted/50 rounded-2xl border p-3 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Status</span>
                 <Badge variant={webhookInfo.url ? 'default' : 'destructive'}>

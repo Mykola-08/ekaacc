@@ -21,7 +21,7 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'EKA Account <onboarding@resend.dev>', // Update with your verified domain
+        from: 'Eka Balance <hello@ekabalance.com>', // Verified domain
         to,
         subject,
         html,

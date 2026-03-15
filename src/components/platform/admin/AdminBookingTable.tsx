@@ -102,7 +102,7 @@ export function AdminBookingTable() {
 
       <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
 
-      <div className="rounded-md border">
+      <div className="rounded-xl border">
         <Table>
           <TableHeader>
             <TableRow>

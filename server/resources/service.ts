@@ -1,90 +1,88 @@
 'use server';
 
-import { db } from '@/lib/db';
+import { createClient } from '@/lib/supabase/server';
 import { v4 as uuid } from 'uuid';
 
 export interface ResourceItem {
   id: string;
   title: string;
   description: string;
-  content: string; // Markdown or HTML
-  category: 'article' | 'video' | 'exercise' | 'meditation';
+  content: string; // Markdown or JSON
+  category:
+    | 'article'
+    | 'video'
+    | 'exercise'
+    | 'meditation'
+    | 'protocol'
+    | 'worksheet'
+    | 'kinesiology';
   tags: string[];
   imageUrl?: string;
   videoUrl?: string; // YouTube/Vimeo
-  authorId: string;
+  authorId?: string;
   isPremium: boolean;
-  publishedAt: Date;
+  publishedAt: string;
 }
 
-export async function getResources(category?: string) {
-  try {
-    const query = category
-      ? `SELECT * FROM resources WHERE category = $1 ORDER BY published_at DESC`
-      : `SELECT * FROM resources ORDER BY published_at DESC`;
+export interface ClinicalProtocol {
+  id: string;
+  title: string;
+  version: string;
+  description: string;
+  modality: string;
+  content_json: any; // Format of standard structured steps
+  created_at: string;
+}
 
-    const params = category ? [category] : [];
+export async function getResources(category?: string): Promise<ResourceItem[]> {
+  const supabase = await createClient();
+  let query = supabase.from('resources').select('*').order('created_at', { ascending: false });
 
-    // Fallback Mock until DB migration
-    // const { rows } = await db.query(query, params);
-    // console.log('Mocking resources for now');
-    return MOCK_RESOURCES.filter((r) => !category || r.category === category);
-  } catch (error) {
+  if (category) {
+    query = query.eq('category', category);
+  }
+
+  const { data, error } = await query;
+  if (error) {
     console.error('Error fetching resources:', error);
     return [];
   }
+
+  return data.map((d: any) => ({
+    id: d.id,
+    title: d.title,
+    description: d.description,
+    content: d.content,
+    category: d.category,
+    tags: d.tags || [],
+    imageUrl: d.image_url,
+    videoUrl: d.video_url,
+    authorId: d.author_id,
+    isPremium: d.is_premium,
+    publishedAt: d.published_at ?? d.created_at,
+  }));
 }
 
-export async function createResource(data: Omit<ResourceItem, 'id' | 'publishedAt'>) {
-  // Mock Implementation
-  const newResource = {
-    ...data,
-    id: uuid(),
-    publishedAt: new Date(),
-  };
-  MOCK_RESOURCES.unshift(newResource);
-  return newResource;
-}
+export async function getClinicalProtocols(): Promise<ClinicalProtocol[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('clinical_protocols')
+    .select('*')
+    .order('title', { ascending: true });
 
-const MOCK_RESOURCES: ResourceItem[] = [
-  {
-    id: '1',
-    title: 'Understanding Structural Integration',
-    description: 'How fascia manipulation restores balance to your body.',
-    content: 'Long form content...',
-    category: 'article',
-    tags: ['fascia', 'education'],
-    imageUrl:
-      'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=2070&auto=format&fit=crop',
-    authorId: 'admin',
-    isPremium: false,
-    publishedAt: new Date('2023-10-01'),
-  },
-  {
-    id: '2',
-    title: '5-Minute Morning Stretch Routine',
-    description: 'Start your day with these simple movements.',
-    content: 'Video content...',
-    category: 'video',
-    tags: ['movement', 'morning'],
-    imageUrl:
-      'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=2070&auto=format&fit=crop',
-    videoUrl: 'https://youtube.com/watch?v=mock',
-    authorId: 'admin',
-    isPremium: false,
-    publishedAt: new Date('2023-10-05'),
-  },
-  {
-    id: '3',
-    title: 'Box Breathing for Anxiety',
-    description: 'A guided session to lower cortisol levels immediately.',
-    content: 'Audio...',
-    category: 'meditation',
-    tags: ['anxiety', 'breathwork'],
-    imageUrl:
-      'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=2000&auto=format&fit=crop',
-    authorId: 'admin',
-    isPremium: true,
-    publishedAt: new Date('2023-10-10'),
-  },
-];
+  if (error) {
+    console.error('Error fetching protocols:', error);
+    const { getLocalFileProtocols } = await import('./fallbacks');
+    const fallbacks = await getLocalFileProtocols();
+    return fallbacks.map((f) => ({
+      id: f.id,
+      title: f.name,
+      version: f.version,
+      description: f.name,
+      modality: f.type,
+      content_json: f.contentJson,
+      created_at: new Date().toISOString(),
+    }));
+  }
+  return data || [];
+}

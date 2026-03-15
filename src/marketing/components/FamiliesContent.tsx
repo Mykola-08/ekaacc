@@ -48,7 +48,7 @@ export default function FamiliesContent() {
               </span>
             </div>
 
-            <h1 className="text-eka-dark mb-6 text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
+            <h1 className="-primary mb-6 text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
               {t('elena.target.families.title')}
             </h1>
 
@@ -92,7 +92,7 @@ export default function FamiliesContent() {
         {Hero}
 
         {/* Recommended Services - Added for better UX */}
-        <section className="bg-[#fbfbfd] py-24">
+        <section className="bg-background py-24">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
             <div className="mb-16 text-center">
               <h2 className="mb-4 text-4xl font-semibold tracking-tighter text-gray-900 md:text-5xl">

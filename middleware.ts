@@ -5,8 +5,7 @@ export async function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || '';
   const pathname = request.nextUrl.pathname;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   // 1. Initialize initial response (NextResponse.next)
   // We use this to capture cookies from Supabase
@@ -16,13 +15,13 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!supabaseUrl || !supabaseKey) {
     // Keep public routes functional when env is misconfigured.
     return response;
   }
 
   // 2. Supabase Auth Logic
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       get(name: string) {
         return request.cookies.get(name)?.value;

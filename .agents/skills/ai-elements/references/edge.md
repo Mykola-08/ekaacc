@@ -1,10 +1,11 @@
 # Edge
 
-Customizable edge components for React Flow canvases with animated and temporary states.
+Customizable edge components for React Flow canvases with animated and temporary
+states.
 
-The `Edge` component provides two pre-styled edge types for React Flow canvases: `Temporary` for dashed temporary connections and `Animated` for connections with animated indicators.
-
-
+The `Edge` component provides two pre-styled edge types for React Flow canvases:
+`Temporary` for dashed temporary connections and `Animated` for connections with
+animated indicators.
 
 ## Installation
 
@@ -27,26 +28,29 @@ npx ai-elements@latest add edge
 
 ### `Edge.Temporary`
 
-A dashed edge style for temporary or preview connections. Uses a simple Bezier path with a dashed stroke pattern.
+A dashed edge style for temporary or preview connections. Uses a simple Bezier
+path with a dashed stroke pattern.
 
 ### `Edge.Animated`
 
-A solid edge with an animated circle that moves along the path. The animation repeats indefinitely with a 2-second duration, providing visual feedback for active connections.
+A solid edge with an animated circle that moves along the path. The animation
+repeats indefinitely with a 2-second duration, providing visual feedback for
+active connections.
 
 ## Props
 
 Both edge types accept standard React Flow `EdgeProps`:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `id` | `string` | - | Unique identifier for the edge. |
-| `source` | `string` | - | ID of the source node. |
-| `target` | `string` | - | ID of the target node. |
-| `sourceX` | `number` | - | X coordinate of the source handle (Temporary only). |
-| `sourceY` | `number` | - | Y coordinate of the source handle (Temporary only). |
-| `targetX` | `number` | - | X coordinate of the target handle (Temporary only). |
-| `targetY` | `number` | - | Y coordinate of the target handle (Temporary only). |
-| `sourcePosition` | `Position` | - | Position of the source handle (Left, Right, Top, Bottom). |
-| `targetPosition` | `Position` | - | Position of the target handle (Left, Right, Top, Bottom). |
-| `markerEnd` | `string` | - | SVG marker ID for the edge end (Animated only). |
-| `style` | `React.CSSProperties` | - | Custom styles for the edge (Animated only). |
+| Prop             | Type                  | Default | Description                                               |
+| ---------------- | --------------------- | ------- | --------------------------------------------------------- |
+| `id`             | `string`              | -       | Unique identifier for the edge.                           |
+| `source`         | `string`              | -       | ID of the source node.                                    |
+| `target`         | `string`              | -       | ID of the target node.                                    |
+| `sourceX`        | `number`              | -       | X coordinate of the source handle (Temporary only).       |
+| `sourceY`        | `number`              | -       | Y coordinate of the source handle (Temporary only).       |
+| `targetX`        | `number`              | -       | X coordinate of the target handle (Temporary only).       |
+| `targetY`        | `number`              | -       | Y coordinate of the target handle (Temporary only).       |
+| `sourcePosition` | `Position`            | -       | Position of the source handle (Left, Right, Top, Bottom). |
+| `targetPosition` | `Position`            | -       | Position of the target handle (Left, Right, Top, Bottom). |
+| `markerEnd`      | `string`              | -       | SVG marker ID for the edge end (Animated only).           |
+| `style`          | `React.CSSProperties` | -       | Custom styles for the edge (Animated only).               |

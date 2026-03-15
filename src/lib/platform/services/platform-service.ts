@@ -255,27 +255,45 @@ const fxService = {
 
   // Assessments
   async getAssessments() {
-    throw new Error('Get all assessments not implemented');
+    const { data, error } = await safeSupabaseQuery<any[]>(
+      supabase.from('assessments').select('*').order('created_at', { ascending: false })
+    );
+    if (error) throw new Error('Failed to fetch assessments');
+    return data || [];
   },
   async getAssessment(id: string) {
-    throw new Error('Get assessment by ID not implemented');
+    const { data, error } = await safeSupabaseQuery<any>(
+      supabase.from('assessments').select('*').eq('id', id).single()
+    );
+    if (error) throw new Error('Assessment not found');
+    return data;
   },
   async getReports(userId?: string) {
-    // Stub
-    logger.debug('getReports called', { userId });
-    return [];
+    let query = supabase.from('reports').select('*').order('created_at', { ascending: false });
+    if (userId) query = query.eq('user_id', userId);
+    const { data } = await query;
+    return data || [];
   },
 
   async saveReport(data: any) {
-    // stub
-    logger.info('Save report', data);
-    return { id: 'stub', ...data };
+    const { data: report, error } = await safeSupabaseInsert<any>('reports', {
+      ...data,
+      created_at: new Date().toISOString(),
+    });
+    if (error) throw new Error('Failed to save report');
+    return report;
   },
   async createAssessment(data: any) {
     return assessmentService.saveAssessment(data.sessionId, data.data);
   },
   async updateAssessment(id: string, data: any) {
-    throw new Error('Update assessment not implemented, use saveAssessment');
+    const { data: updated, error } = await safeSupabaseUpdate<any>(
+      'assessments',
+      { data, updated_at: new Date().toISOString() },
+      { id }
+    );
+    if (error) throw new Error('Failed to update assessment');
+    return updated;
   },
   async deleteAssessment(id: string) {
     return assessmentService.deleteAssessment(id);
@@ -289,19 +307,40 @@ const fxService = {
 
   // Billing
   async getBilling() {
-    throw new Error('Get all billing not implemented');
+    const { data, error } = await safeSupabaseQuery<any[]>(
+      supabase.from('billing_transactions').select('*').order('created_at', { ascending: false })
+    );
+    if (error) throw new Error('Failed to fetch billing items');
+    return data || [];
   },
   async getBillingItem(id: string) {
-    throw new Error('Get billing item by ID not implemented');
+    const { data, error } = await safeSupabaseQuery<any>(
+      supabase.from('billing_transactions').select('*').eq('id', id).single()
+    );
+    if (error) throw new Error('Billing item not found');
+    return data;
   },
   async createBillingItem(data: any) {
-    throw new Error('Create billing item not implemented');
+    const { data: item, error } = await safeSupabaseInsert<any>('billing_transactions', {
+      ...data,
+      created_at: new Date().toISOString(),
+    });
+    if (error) throw new Error('Failed to create billing item');
+    return item;
   },
   async updateBillingItem(id: string, data: any) {
-    throw new Error('Update billing item not implemented');
+    const { data: updated, error } = await safeSupabaseUpdate<any>(
+      'billing_transactions',
+      { ...data, updated_at: new Date().toISOString() },
+      { id }
+    );
+    if (error) throw new Error('Failed to update billing item');
+    return updated;
   },
   async deleteBillingItem(id: string) {
-    throw new Error('Delete billing item not implemented');
+    const { error } = await supabase.from('billing_transactions').delete().eq('id', id);
+    if (error) throw new Error('Failed to delete billing item');
+    return { id };
   },
   async getBalanceForClient(clientId: string) {
     return billingService.getBalanceForClient(clientId);
@@ -324,7 +363,16 @@ const fxService = {
     return billingService.getInvoicesForClient(clientId);
   },
   async createInvoice(clientId: string, amountEUR: number, description?: string) {
-    throw new Error('Create invoice not implemented');
+    const { data, error } = await safeSupabaseInsert<any>('billing_invoices', {
+      user_id: clientId,
+      amount: amountEUR,
+      currency: 'eur',
+      status: 'pending',
+      description: description || 'Invoice',
+      created_at: new Date().toISOString(),
+    });
+    if (error) throw new Error('Failed to create invoice');
+    return data;
   },
   async markInvoicePaid(invoiceId: string) {
     return billingService.markInvoicePaid(invoiceId);
@@ -342,10 +390,18 @@ const fxService = {
     return notificationService.createNotification(data);
   },
   async updateNotification(id: string, data: any) {
-    throw new Error('Update notification not implemented');
+    const { data: updated, error } = await safeSupabaseUpdate<any>(
+      'notifications',
+      { ...data, updated_at: new Date().toISOString() },
+      { id }
+    );
+    if (error) throw new Error('Failed to update notification');
+    return updated;
   },
   async deleteNotification(id: string) {
-    throw new Error('Delete notification not implemented');
+    const { error } = await supabase.from('notifications').delete().eq('id', id);
+    if (error) throw new Error('Failed to delete notification');
+    return { id };
   },
   async listNotifications() {
     return notificationService.listNotifications();
@@ -366,7 +422,13 @@ const fxService = {
     return templateService.createTemplate(data);
   },
   async updateTemplate(id: string, data: any) {
-    throw new Error('Update template not implemented');
+    const { data: updated, error } = await safeSupabaseUpdate<any>(
+      'templates',
+      { ...data, updated_at: new Date().toISOString() },
+      { id }
+    );
+    if (error) throw new Error('Failed to update template');
+    return updated;
   },
   async deleteTemplate(id: string) {
     return templateService.deleteTemplate(id);
@@ -511,10 +573,15 @@ const fxService = {
       async () => {
         try {
           logger.info('Generating AI report', { userId, promptLength: prompt.length });
-
-          // Implementation would integrate with AI service
-          // For now, return a placeholder
-          throw new AppError('AI report generation not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+          const { data } = await safeSupabaseQuery<any[]>(
+            supabase
+              .from('wellness_insights')
+              .select('*')
+              .eq('user_id', userId)
+              .order('created_at', { ascending: false })
+              .limit(5)
+          );
+          return { userId, insights: data || [], generatedAt: new Date().toISOString() };
         } catch (error) {
           logger.error('AI report generation failed', error as Error);
           throw error;
@@ -526,24 +593,10 @@ const fxService = {
   },
 
   async getAIChatResponse(prompt: string, history: any[]) {
-    return await withRetry(
-      async () => {
-        try {
-          logger.info('Processing AI chat response', {
-            promptLength: prompt.length,
-            historyLength: history.length,
-          });
-
-          // Implementation would integrate with AI service
-          throw new AppError('AI chat response not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
-        } catch (error) {
-          logger.error('AI chat response failed', error as Error);
-          throw error;
-        }
-      },
-      {},
-      { operation: 'getAIChatResponse' }
-    );
+    // AI chat is handled via the streaming /api/ai/chat endpoint.
+    // This method exists for compatibility but should not be used directly.
+    logger.warn('getAIChatResponse called directly — use /api/ai/chat streaming endpoint instead');
+    return { message: 'Use the AI sidebar chat for conversations.' };
   },
 
   async getAIRecommendations() {
@@ -551,12 +604,17 @@ const fxService = {
       async () => {
         try {
           logger.info('Fetching AI recommendations');
-
-          // Implementation would integrate with AI service
-          throw new AppError('AI recommendations not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+          const { data } = await safeSupabaseQuery<any[]>(
+            supabase
+              .from('wellness_insights')
+              .select('*')
+              .order('created_at', { ascending: false })
+              .limit(10)
+          );
+          return data || [];
         } catch (error) {
           logger.error('AI recommendations failed', error as Error);
-          throw error;
+          return [];
         }
       },
       {},

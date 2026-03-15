@@ -23,7 +23,10 @@ function getSupabase() {
  * Register a channel or group the bot has been added to.
  * Fetches live info from Telegram and upserts into the DB.
  */
-export async function registerChannel(chatId: number, createdBy?: string): Promise<TelegramChannel | null> {
+export async function registerChannel(
+  chatId: number,
+  createdBy?: string
+): Promise<TelegramChannel | null> {
   const supabase = getSupabase();
 
   // Fetch live info from Telegram
@@ -32,7 +35,7 @@ export async function registerChannel(chatId: number, createdBy?: string): Promi
 
   const chat = chatRes.result;
   const countRes = await botApi.getChatMemberCount(chatId);
-  const memberCount = countRes.ok ? countRes.result ?? 0 : 0;
+  const memberCount = countRes.ok ? (countRes.result ?? 0) : 0;
 
   // Check if bot is admin
   const meRes = await botApi.getMe();
@@ -134,7 +137,10 @@ export async function getChannel(channelId: string): Promise<TelegramChannel | n
 // ─── Post Management ────────────────────────────────────────
 
 /** Create a draft or scheduled post. */
-export async function createPost(input: CreatePostInput, createdBy: string): Promise<TelegramPost | null> {
+export async function createPost(
+  input: CreatePostInput,
+  createdBy: string
+): Promise<TelegramPost | null> {
   const supabase = getSupabase();
   const { data, error } = await supabase
     .from('telegram_posts')
@@ -442,7 +448,10 @@ export async function updateChannelTitle(channelId: string, title: string): Prom
   return result.ok === true;
 }
 
-export async function updateChannelDescription(channelId: string, description: string): Promise<boolean> {
+export async function updateChannelDescription(
+  channelId: string,
+  description: string
+): Promise<boolean> {
   const channel = await getChannel(channelId);
   if (!channel) return false;
   const result = await botApi.setChatDescription(channel.chat_id, description);

@@ -133,7 +133,7 @@ export default function CasoDetailContent() {
         </Link>
 
         <div
-          className={`mx-auto h-24 w-24 rounded-[24px] ${accentColorClass} mb-8 flex items-center justify-center`}
+          className={`mx-auto h-24 w-24 rounded-2xl ${accentColorClass} mb-8 flex items-center justify-center`}
         >
           <Icon className="h-12 w-12" />
         </div>

@@ -136,4 +136,3 @@ Balance. Updated every few weeks based on
 
 - https://growth.design/psychology
 - Source attributed to Dan Benoni and Louis-Xavier Lavallee.
-

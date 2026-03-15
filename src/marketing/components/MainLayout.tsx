@@ -25,6 +25,15 @@ import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { useClickAway } from '@/hooks/use-click-away';
 import { useAnalytics } from '@/marketing/hooks/useAnalytics';
 import { Button } from '@/marketing/components/ui/button';
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
+import { User, LogOut, LayoutDashboard } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const ToastContainer = dynamic(() => import('@/marketing/components/Toast'), { ssr: false });
 const LanguagePopup = dynamic(() => import('@/marketing/components/LanguagePopup'), { ssr: false });
@@ -37,6 +46,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   const { t, language, setLanguage } = useLanguage();
   const { logPageView } = useAnalytics();
+  const { isAuthenticated, user, signOut } = useSimpleAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Log page views
@@ -454,7 +464,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </Link>
 
               {/* Desktop Navigation - Centered - Apple Style */}
-              <div ref={navBarRef} className="relative hidden items-center justify-center md:flex">
+              <div
+                ref={navBarRef}
+                className="relative hidden items-center justify-center gap-6 md:flex"
+              >
                 {navigation.map((item) => (
                   <div
                     key={item.name}
@@ -465,7 +478,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                       <>
                         <Link
                           href={item.href}
-                          className="nav-trigger group/trigger -mx-4 flex items-center gap-1 px-4 py-4 text-[13px] font-medium tracking-tight text-gray-800 transition-colors duration-200 hover:text-black"
+                          className="nav-trigger group/trigger flex items-center gap-1 py-4 text-[13px] font-medium tracking-tight text-gray-800 transition-colors duration-200 hover:text-black"
                           onMouseEnter={(e) => openDropdown(e, item.name)}
                           onMouseLeave={scheduleHide}
                           onFocus={(e) => openDropdown(e, item.name)}
@@ -588,7 +601,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     ) : (
                       <Link
                         href={item.href}
-                        className="-mx-4 px-4 py-4 text-[13px] font-medium tracking-tight text-gray-800 transition-colors duration-200 hover:text-black"
+                        className="py-4 text-[13px] font-medium tracking-tight text-gray-800 transition-colors duration-200 hover:text-black"
                         suppressHydrationWarning
                       >
                         {item.name}
@@ -599,7 +612,57 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </div>
 
               {/* Right side actions - Search/Bag style icons usually, here just Booking CTA but simpler */}
-              <div className="sm: flex flex-shrink-0 items-center">
+              <div className="flex flex-shrink-0 items-center gap-3">
+                {/* Auth UI */}
+                <div className="hidden items-center tracking-tight sm:flex">
+                  {isAuthenticated ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-gray-50 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-200 focus:outline-none">
+                          {user?.user_metadata?.avatar_url ? (
+                            <img
+                              src={user.user_metadata.avatar_url}
+                              alt="Profile"
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <User className="h-4 w-4" />
+                          )}
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48 p-2">
+                        <DropdownMenuItem
+                          asChild
+                          className="cursor-pointer gap-2 rounded-md p-2 text-sm"
+                        >
+                          <Link href="/dashboard">
+                            <LayoutDashboard className="h-4 w-4" />
+                            {t('nav.dashboard') || 'Dashboard'}
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => signOut()}
+                          className="cursor-pointer gap-2 rounded-md p-2 text-sm text-red-600 focus:bg-red-50 focus:text-red-700"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          {t('auth.signOut') || 'Log out'}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 rounded-full px-4 text-[12px] font-medium transition-colors hover:bg-gray-100/50"
+                    >
+                      <Link href="/login" suppressHydrationWarning>
+                        {t('auth.signIn') || 'Log in'}
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+
                 {/* Reserva Button - Visible on mobile now */}
                 <Button
                   asChild
@@ -615,7 +678,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {/* Mobile menu button */}
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="p-1 text-gray-800 transition-colors hover:text-black md:hidden"
+                  className="ml-1 p-1 text-gray-800 transition-colors hover:text-black md:hidden"
                   aria-label="Toggle menu"
                 >
                   {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

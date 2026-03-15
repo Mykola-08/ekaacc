@@ -195,6 +195,16 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       ],
       metadata: { roleSpecific: 'Therapist' },
     },
+    {
+      id: 'booking-links',
+      label: 'Booking Links',
+      href: '/therapist/booking-links',
+      icon: 'Link',
+      category: 'appointments',
+      order: 4,
+      permissions: [{ group: 'appointment_management', action: 'create' }],
+      metadata: { roleSpecific: 'Therapist' },
+    },
 
     // Patient Items
     {
@@ -323,8 +333,8 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     // Administration Items
     {
       id: 'admin',
-      label: 'Admin Panel',
-      href: '/admin',
+      label: 'Console',
+      href: '/console',
       icon: 'Shield',
       category: 'administration',
       order: 1,
@@ -333,7 +343,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'users',
       label: 'User Management',
-      href: '/admin/users',
+      href: '/console/users',
       icon: 'Users',
       category: 'administration',
       order: 2,
@@ -342,7 +352,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'subscriptions',
       label: 'Subscriptions',
-      href: '/admin/subscriptions',
+      href: '/console/subscriptions',
       icon: 'CreditCard',
       category: 'administration',
       order: 3,
@@ -351,7 +361,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'payments',
       label: 'Payments',
-      href: '/admin/payments',
+      href: '/console/payments',
       icon: 'DollarSign',
       category: 'administration',
       order: 4,
@@ -360,7 +370,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
     {
       id: 'community-setup',
       label: 'Community Setup',
-      href: '/admin/community-setup',
+      href: '/console/community',
       icon: 'Users',
       category: 'administration',
       order: 5,

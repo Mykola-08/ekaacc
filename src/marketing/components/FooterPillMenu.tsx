@@ -29,7 +29,7 @@ export default function FooterPillMenu() {
               href={item.href}
               className={cn(
                 'group relative flex w-auto min-w-[3.5rem] flex-1 flex-col items-center justify-center rounded-full py-1 transition-all duration-300',
-                isActive ? 'text-eka-dark font-medium' : 'text-gray-500 hover:text-gray-900'
+                isActive ? '-primary font-medium' : 'text-gray-500 hover:text-gray-900'
               )}
             >
               <div

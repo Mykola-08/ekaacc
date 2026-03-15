@@ -1,8 +1,11 @@
 # Shimmer
 
-An animated text shimmer component for creating eye-catching loading states and progressive reveal effects.
+An animated text shimmer component for creating eye-catching loading states and
+progressive reveal effects.
 
-The `Shimmer` component provides an animated shimmer effect that sweeps across text, perfect for indicating loading states, progressive reveals, or drawing attention to dynamic content in AI applications.
+The `Shimmer` component provides an animated shimmer effect that sweeps across
+text, perfect for indicating loading states, progressive reveals, or drawing
+attention to dynamic content in AI applications.
 
 See `scripts/shimmer.tsx` for this example.
 
@@ -39,10 +42,10 @@ See `scripts/shimmer-elements.tsx` for this example.
 
 ### `<Shimmer />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `string` | - | The text content to apply the shimmer effect to. |
-| `as` | `ElementType` | - | The HTML element or React component to render. |
-| `className` | `string` | - | Additional CSS classes to apply to the component. |
-| `duration` | `number` | `2` | The duration of the shimmer animation in seconds. |
-| `spread` | `number` | `2` | The spread multiplier for the shimmer gradient, multiplied by text length. |
+| Prop        | Type          | Default | Description                                                                |
+| ----------- | ------------- | ------- | -------------------------------------------------------------------------- |
+| `children`  | `string`      | -       | The text content to apply the shimmer effect to.                           |
+| `as`        | `ElementType` | -       | The HTML element or React component to render.                             |
+| `className` | `string`      | -       | Additional CSS classes to apply to the component.                          |
+| `duration`  | `number`      | `2`     | The duration of the shimmer animation in seconds.                          |
+| `spread`    | `number`      | `2`     | The spread multiplier for the shimmer gradient, multiplied by text length. |

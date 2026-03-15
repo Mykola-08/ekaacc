@@ -54,7 +54,7 @@ export function NotificationDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="bg-card border-border mt-4 w-90 rounded-xl border p-6"
+        className="bg-card border-border mt-4 w-90 rounded-xl border p-4"
       >
         <DropdownMenuLabel className="text-foreground flex items-center justify-between px-2 py-3 text-base font-semibold tracking-tight">
           Notifications
@@ -80,7 +80,7 @@ export function NotificationDropdown() {
               <DropdownMenuItem
                 key={n.id}
                 className={cn(
-                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-lg border border-transparent p-4 transition-all outline-none',
+                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-2xl border border-transparent p-4 transition-all outline-none',
                   !n.read ? 'bg-secondary' : 'bg-transparent'
                 )}
               >

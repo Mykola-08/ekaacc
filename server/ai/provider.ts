@@ -35,7 +35,8 @@ export async function getProvider() {
   if (_provider) return _provider;
 
   const apiKey = await getOpenAIApiKey();
-  const openRouterApiKey = (await getConfig('OPENROUTER_API_KEY')) || process.env.OPENROUTER_API_KEY;
+  const openRouterApiKey =
+    (await getConfig('OPENROUTER_API_KEY')) || process.env.OPENROUTER_API_KEY;
   const key = openRouterApiKey || apiKey;
 
   if (!key) {

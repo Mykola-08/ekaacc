@@ -1,5 +1,5 @@
 import { LoginForm } from '@/components/platform/auth/login-form';
-import { Suspense } from 'react';
+import { SuspenseBoundary } from '@/components/ui/suspense-boundary';
 
 export default function LoginPage() {
   return (
@@ -8,9 +8,9 @@ export default function LoginPage() {
       <div className="auth-page-gradient" />
 
       <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center">
-        <Suspense fallback={<div>Loading form...</div>}>
+        <SuspenseBoundary>
           <LoginForm />
-        </Suspense>
+        </SuspenseBoundary>
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, X, Clock, Calendar as CalendarIcon, Save } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { toast } from '@/components/ui/morphing-toaster';
 import { StatsCard } from './StatsCard';
 
@@ -61,16 +60,13 @@ export function AvailabilityManager() {
   };
 
   return (
-    <div className="">
-      <DashboardHeader
-        title="Availability"
-        subtitle="Manage your weekly working hours and time blocks."
-      >
+    <div className="flex-1 space-y-4">
+      <div className="mb-6 flex items-center justify-end gap-2">
         <Button
           onClick={handleSave}
           disabled={!hasChanges}
           className={cn(
-            'h-10 rounded-lg px-6 font-semibold transition-all',
+            'h-10 rounded-2xl px-6 font-semibold transition-all',
             hasChanges
               ? 'bg-foreground text-background hover:bg-foreground/90'
               : 'bg-secondary text-muted-foreground cursor-not-allowed opacity-50'
@@ -79,9 +75,9 @@ export function AvailabilityManager() {
           <Save className="mr-2 h-4 w-4" strokeWidth={2.5} />
           Save Changes
         </Button>
-      </DashboardHeader>
+      </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         {/* Quick Stats */}
         <StatsCard
           icon={Clock}
@@ -97,7 +93,7 @@ export function AvailabilityManager() {
         />
       </div>
 
-      <div className="bg-card border-border overflow-hidden rounded-xl border p-6 md:p-8">
+      <div className="bg-card border-border overflow-hidden rounded-xl border p-6">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -108,7 +104,7 @@ export function AvailabilityManager() {
                 {DAYS.map((day) => (
                   <th
                     key={day}
-                    className="text-foreground min-w-[80px] pb-6 text-center text-sm font-semibold tracking-wider uppercase"
+                    className="text-foreground min-w-20 pb-6 text-center text-sm font-semibold tracking-wider uppercase"
                   >
                     {day}
                   </th>
@@ -128,7 +124,7 @@ export function AvailabilityManager() {
                         <button
                           onClick={() => toggleSlot(day, hour)}
                           className={cn(
-                            'flex h-10 w-full items-center justify-center rounded-lg border-2 transition-all duration-200',
+                            'flex h-10 w-full items-center justify-center rounded-2xl border-2 transition-all duration-200',
                             isAvailable
                               ? 'bg-card hover:border-primary text-primary border-transparent'
                               : 'border-border text-muted hover:bg-secondary bg-transparent'
@@ -151,13 +147,13 @@ export function AvailabilityManager() {
       </div>
       <div className="text-muted-foreground mt-8 flex items-center justify-center gap-8 text-sm font-semibold">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 border-primary/20 text-primary flex h-5 w-5 items-center justify-center rounded-md border-2">
+          <div className="bg-primary/10 border-primary/20 text-primary flex h-5 w-5 items-center justify-center rounded-xl border-2">
             <Check className="h-3 w-3" strokeWidth={4} />
           </div>
           <span className="text-foreground">Available</span>
         </div>
         <div className="flex items-center gap-3">
-          <div className="bg-border h-5 w-5 rounded-md border-2 border-transparent"></div>
+          <div className="bg-border h-5 w-5 rounded-xl border-2 border-transparent"></div>
           <span>Blocked</span>
         </div>
       </div>

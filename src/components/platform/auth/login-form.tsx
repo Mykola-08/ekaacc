@@ -88,7 +88,7 @@ export function LoginForm({
       className={cn('mx-auto flex w-full max-w-100 flex-col gap-6', className)}
       {...props}
     >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             {/* Header */}
@@ -99,7 +99,7 @@ export function LoginForm({
               className="mb-4 flex flex-col items-center gap-4 text-center"
             >
               <div className="relative mb-2">
-                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
+                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
                   <Image
                     src="/images/eka_logo.png"
                     alt="EKA Balance"
@@ -137,7 +137,7 @@ export function LoginForm({
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-md px-4 text-base transition-all focus:ring-4"
+                    className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-xl px-4 text-base transition-all focus:ring-4"
                   />
                 </div>
               </motion.div>
@@ -167,7 +167,7 @@ export function LoginForm({
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-md px-4 text-base transition-all focus:ring-4"
+                    className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-xl px-4 text-base transition-all focus:ring-4"
                   />
                 </div>
               </motion.div>
@@ -181,7 +181,7 @@ export function LoginForm({
                   animate={{ opacity: 1, height: 'auto', marginTop: 0 }}
                   exit={{ opacity: 0, height: 0, marginTop: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-destructive/10 text-destructive rounded-md px-4 py-3 text-center text-sm font-medium"
+                  className="bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-center text-sm font-medium"
                 >
                   {error}
                 </motion.div>
@@ -192,7 +192,7 @@ export function LoginForm({
             <motion.div variants={withDelay(fadeInUpSmall, 0.4)} initial="hidden" animate="visible">
               <Button
                 type="submit"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold shadow-sm transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
                 disabled={loading}
               >
                 {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Sign In'}

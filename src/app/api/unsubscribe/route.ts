@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const body = (await request.json()) as { uid?: string; signature?: string; timestamp?: string };
   const { uid, signature, timestamp } = body;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceRoleKey = process.env.SUPABASE_SECRET_KEY;
 
   if (!uid) {
     return NextResponse.json({ error: 'Missing user ID' }, { status: 400 });

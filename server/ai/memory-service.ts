@@ -140,10 +140,12 @@ export const memoryService = {
 
       const embeddingVector = `[${embedding.join(',')}]`;
 
-      const { rows } = await db.query<any>(
-        `SELECT * FROM match_memories($1, $2, $3, $4)`,
-        [embeddingVector, threshold, limit, userId]
-      );
+      const { rows } = await db.query<any>(`SELECT * FROM match_memories($1, $2, $3, $4)`, [
+        embeddingVector,
+        threshold,
+        limit,
+        userId,
+      ]);
 
       return rows.map((r: any) => ({
         id: r.id,
@@ -168,7 +170,7 @@ export const memoryService = {
    */
   async extractAndStore(
     userId: string,
-    memories: Array<{ content: string; type: MemoryType; importance: number }>  
+    memories: Array<{ content: string; type: MemoryType; importance: number }>
   ): Promise<void> {
     if (memories.length === 0) return;
 
@@ -177,9 +179,9 @@ export const memoryService = {
       const embeddingModel = await getEmbeddingModel();
       const result = await embedMany({
         model: embeddingModel,
-        values: memories.map(m => m.content),
+        values: memories.map((m) => m.content),
       });
-      embeddings = result.embeddings.map(e => `[${e.join(',')}]`);
+      embeddings = result.embeddings.map((e) => `[${e.join(',')}]`);
     } catch (e) {
       console.error('Failed to generate embeddings for batch memories:', e);
       embeddings = memories.map(() => null as unknown as string); // fallback

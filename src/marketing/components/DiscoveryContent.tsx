@@ -667,7 +667,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
 
             {viewMode === 'basic' ? (
               <div
-                className={`rounded-3xl border-2 bg-white ${getColorClasses(recommendation.color)} mb-8 p-8 sm:p-12`}
+                className={`rounded-2xl border-2 bg-white ${getColorClasses(recommendation.color)} mb-8 p-8 sm:p-12`}
               >
                 <div className="mb-8 text-center">
                   {Icon && (
@@ -752,7 +752,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 </div>
               </div>
             ) : (
-              <div className="mb-8 rounded-3xl border border-gray-200 bg-white p-8 sm:p-12">
+              <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-8 sm:p-12">
                 <h2 className="mb-8 flex items-center justify-center text-2xl font-semibold text-gray-900">
                   <ClipboardList className="mr-3 h-6 w-6 text-blue-600" />
                   {t('discovery.diagnosis.title')}
@@ -884,7 +884,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           </div>
 
           {/* Form */}
-          <div className="rounded-3xl border border-gray-100 bg-white p-8 sm:p-12">
+          <div className="rounded-2xl border border-gray-100 bg-white p-8 sm:p-12">
             {/* Step 0: Location */}
             {currentStep === 0 && (
               <div>

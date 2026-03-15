@@ -75,7 +75,7 @@ export class TransactionalEmailService {
       }
 
       const { error } = await resend.emails.send({
-        from: process.env.EMAIL_SENDER || 'Eka <onboarding@resend.dev>', // Update with production domain in env
+        from: process.env.EMAIL_SENDER || 'Eka Balance <hello@ekabalance.com>', // Update with production domain in env
         to: [user.email],
         subject: subject || `New ${type} from your therapist`,
         html: html,
@@ -133,7 +133,7 @@ export async function sendWelcomeEmail(to: string, name: string, verifyUrl: stri
     const resend = getResend();
 
     const { data, error } = await resend.emails.send({
-      from: 'Eka <onboarding@resend.dev>',
+      from: 'Eka Balance <hello@ekabalance.com>',
       to,
       subject: 'Welcome to Eka Platform',
       html: `<p>Hi ${name}!</p><p>Welcome to Eka.</p><a href="${verifyUrl}">Verify Email</a>`,

@@ -315,7 +315,7 @@ export function DebugStatus() {
   return (
     <div className="fixed right-4 bottom-4 z-[9999] font-sans">
       {isOpen && (
-        <div className="border-border bg-card animate-in fade-in slide-in-from-bottom-2 mb-2 flex max-h-[70vh] w-[420px] flex-col rounded-xl border text-sm shadow-2xl duration-200">
+        <div className="border-border bg-card animate-in fade-in slide-in-from-bottom-2 mb-2 flex max-h-[70vh] w-[420px] flex-col rounded-xl border text-sm duration-200">
           {/* ── Header ─────────────────────────────────── */}
           <div className="border-border flex items-center justify-between border-b px-4 py-2.5">
             <div className="flex items-center gap-2">
@@ -406,10 +406,10 @@ export function DebugStatus() {
       {/* ── Toggle button ────────────────────────────── */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`group relative rounded-full px-3 py-2 text-xs font-medium shadow-lg transition-all duration-200 ${
+        className={`group relative rounded-full px-3 py-2 text-xs font-medium transition-all duration-200 ${
           isOpen
             ? 'bg-foreground text-background ring-foreground/20 ring-2'
-            : 'border-border bg-card text-foreground hover:bg-muted/50 border hover:shadow-xl'
+            : 'border-border bg-card text-foreground hover:bg-muted/50 hover: border'
         }`}
         title="Debug Panel (Ctrl+Shift+D)"
       >

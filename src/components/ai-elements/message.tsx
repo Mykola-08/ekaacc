@@ -260,7 +260,7 @@ export const MessageBranchPage = ({ className, ...props }: MessageBranchPageProp
 
   return (
     <ButtonGroupText
-      className={cn('text-muted-foreground border-none bg-transparent shadow-none', className)}
+      className={cn('text-muted-foreground border-none bg-transparent', className)}
       {...props}
     >
       {currentBranch + 1} of {totalBranches}

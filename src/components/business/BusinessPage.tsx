@@ -84,7 +84,7 @@ export function BusinessPage() {
           ].map((feature, i) => (
             <Card
               key={i}
-              className="border-border p-10 shadow-sm transition-transform duration-500 hover:-translate-y-2"
+              className="border-border p-10 transition-transform duration-500 hover:-translate-y-2"
             >
               <div className="bg-primary/10 text-primary mb-6 flex h-16 w-16 items-center justify-center rounded-lg">
                 <feature.icon className="h-8 w-8" />
@@ -98,7 +98,7 @@ export function BusinessPage() {
 
       {/* Call to Action */}
       <section className="px-4 py-24 text-center">
-        <Card className="border-border relative mx-auto max-w-4xl overflow-hidden p-12 shadow-sm md:p-20">
+        <Card className="border-border relative mx-auto max-w-4xl overflow-hidden p-12 md:p-20">
           <div className="bg-primary/10 absolute top-0 right-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl" />
 
           <h2 className="text-foreground relative z-10 mb-6 font-serif text-4xl md:text-5xl">
@@ -111,7 +111,7 @@ export function BusinessPage() {
           <Link href="/contact">
             <Button
               size="lg"
-              className="relative z-10 h-14 rounded-full px-10 text-lg shadow-sm transition-all hover:-translate-y-1 hover:shadow-sm"
+              className="hover: relative z-10 h-14 rounded-full px-10 text-lg transition-all hover:-translate-y-1"
             >
               Get Started
             </Button>

@@ -1,310 +1,116 @@
 'use client';
 
-import React from 'react';
-import { useLanguage } from '@/marketing/contexts/LanguageContext';
-import PageLayout from '@/marketing/components/PageLayout';
-import SEOUpdater from '@/marketing/components/SEOUpdater';
-import FAQ from '@/marketing/components/FAQ';
-import CTASection from '@/marketing/components/CTASection';
-import { Button } from '@/marketing/components/ui/button';
-import { motion } from 'framer-motion';
-import { ServiceBentoItem } from '@/marketing/components/ui/service-bento';
-import Link from 'next/link';
-import { CheckCircle, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-export default function ForBusinessContent() {
-  const { t } = useLanguage();
+const onboardingSchema = z.object({
+  fullName: z.string().min(2, 'Name must be at least 2 characters'),
+  goals: z.string().min(10, 'Please tell us a bit more about your goals'),
+  preferredContact: z.enum(['email', 'telegram', 'whatsapp']),
+});
 
-  const faqItems = [
-    {
-      id: 'business-q1',
-      question: t('personalized.business.faq.q1'),
-      answer: t('personalized.business.faq.a1'),
+type OnboardingFormValues = z.infer<typeof onboardingSchema>;
+
+export default function PersonalizedOnboarding() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<OnboardingFormValues>({
+    resolver: zodResolver(onboardingSchema),
+    defaultValues: {
+      fullName: '',
+      goals: '',
+      preferredContact: 'email',
     },
-    {
-      id: 'business-q2',
-      question: t('personalized.business.faq.q2'),
-      answer: t('personalized.business.faq.a2'),
-    },
-    {
-      id: 'business-q3',
-      question: t('personalized.business.faq.q3'),
-      answer: t('personalized.business.faq.a3'),
-    },
-  ];
+  });
+
+  const onSubmit = async (data: OnboardingFormValues) => {
+    setIsSubmitting(true);
+    try {
+      // Future integration: Save to Supabase b2b_leads or users table via Server Action
+      console.log('Saved onboarding profile data:', data);
+      await new Promise((resolve) => setTimeout(resolve, 800)); // Mock network delay
+      setSuccess(true);
+    } catch (error) {
+      console.error('Failed to save onboarding', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div
+        className={cn(
+          'animate-in fade-in zoom-in mx-auto max-w-lg rounded-2xl bg-green-50 p-8 text-center duration-500'
+        )}
+      >
+        <h2 className="mb-4 text-2xl font-bold text-green-900">You're All Set!</h2>
+        <p className="text-green-700">
+          Thank you for completing your specific onboarding profile. Our team or your AI companion
+          will use this to guide your journey.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <SEOUpdater
-        titleKey="seo.business.title"
-        descriptionKey="seo.business.description"
-        keywordsKey="seo.business.keywords"
-      />
-      <PageLayout
-        hero={{
-          title: t('personalized.business.hero.title'),
-          subtitle: t('personalized.business.hero.description'),
-          backgroundImage:
-            'https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1600',
-          themeColor: 'blue',
-        }}
-      >
-        <div className="relative z-20 mt-4 mb-20 flex flex-col justify-center gap-4 sm:flex-row">
-          <Button
-            asChild
-            size="lg"
-            className="rounded-full px-8 shadow-md transition-all hover:shadow-lg"
-          >
-            <Link href="/booking">
-              {t('nav.bookNow')}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="rounded-full border-gray-200 bg-white/90 px-8 text-gray-800 backdrop-blur-sm hover:bg-gray-50"
-          >
-            <Link href="/booking">{t('common.askQuestions')}</Link>
-          </Button>
+    <div
+      className={cn(
+        'animate-in fade-in mx-auto max-w-lg rounded-2xl border border-gray-100 bg-white p-6 duration-300'
+      )}
+    >
+      <h2 className="mb-6 text-2xl font-semibold text-gray-900">Personalize Your Experience</h2>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-700">Full Name</label>
+          <input
+            {...register('fullName')}
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-2.5 outline-none focus:ring-1"
+            placeholder="Jane Doe"
+          />
+          {errors.fullName && <p className="text-sm text-red-500">{errors.fullName.message}</p>}
         </div>
 
-        {/* Apple-Style Bento Section */}
-        <section className="relative overflow-hidden bg-[#fbfbfd] py-20">
-          <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-16 text-center"
-            >
-              <h2 className="mb-6 text-4xl font-semibold tracking-tighter text-gray-900 md:text-5xl">
-                {t('personalized.business.bento.title')}
-              </h2>
-              <p className="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-gray-500 md:text-xl">
-                {t('personalized.business.bento.subtitle')}
-              </p>
-            </motion.div>
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-700">What are your main goals?</label>
+          <textarea
+            {...register('goals')}
+            rows={4}
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-2.5 outline-none focus:ring-1"
+            placeholder="I want to improve my stress handling..."
+          />
+          {errors.goals && <p className="text-sm text-red-500">{errors.goals.message}</p>}
+        </div>
 
-            {/* Service Bento Grid */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-              <ServiceBentoItem
-                title={t('personalized.business.bento.box1.title')}
-                description={t('personalized.business.bento.box1.desc')}
-                image="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                className="md:col-span-2"
-                details={
-                  <div className="">
-                    <h4 className="text-xl font-bold text-gray-900">
-                      {t('personalized.business.bento.box1.details.title')}
-                    </h4>
-                    <p className="leading-relaxed text-gray-600">
-                      {t('personalized.business.bento.box1.details.desc')}
-                    </p>
-                  </div>
-                }
-                bookUrl="/booking?subject=teams"
-                bookText={t('common.enquireNow')}
-              />
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-700">Preferred Contact Method</label>
+          <select
+            {...register('preferredContact')}
+            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 bg-white p-2.5 outline-none focus:ring-1"
+          >
+            <option value="email">Email</option>
+            <option value="telegram">Telegram</option>
+            <option value="whatsapp">WhatsApp</option>
+          </select>
+          {errors.preferredContact && (
+            <p className="text-sm text-red-500">{errors.preferredContact.message}</p>
+          )}
+        </div>
 
-              <ServiceBentoItem
-                title={t('personalized.business.bento.box2.title')}
-                description={t('personalized.business.bento.box2.desc')}
-                image="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800"
-                className="col-span-1"
-                delay={0.1}
-                details={
-                  <div className="">
-                    <h4 className="text-xl font-bold text-gray-900">
-                      {t('personalized.business.bento.box2.details.title')}
-                    </h4>
-                    <p className="leading-relaxed text-gray-600">
-                      {t('personalized.business.bento.box2.details.desc')}
-                    </p>
-                  </div>
-                }
-                bookUrl="/booking?subject=office"
-                bookText={t('common.enquireNow')}
-              />
-
-              <ServiceBentoItem
-                title={t('personalized.business.bento.box3.title')}
-                description={t('personalized.business.bento.box3.desc')}
-                image="https://images.pexels.com/photos/4098228/pexels-photo-4098228.jpeg?auto=compress&cs=tinysrgb&w=800"
-                className="col-span-1"
-                delay={0.2}
-                details={
-                  <div className="">
-                    <h4 className="text-xl font-bold text-gray-900">
-                      {t('personalized.business.bento.box3.details.title')}
-                    </h4>
-                    <p className="leading-relaxed text-gray-600">
-                      {t('personalized.business.bento.box3.details.desc')}
-                    </p>
-                  </div>
-                }
-                bookUrl="/booking?subject=teams"
-                bookText={t('common.enquireNow')}
-              />
-
-              <ServiceBentoItem
-                title={t('personalized.business.bento.box4.title')}
-                description={t('personalized.business.bento.box4.desc')}
-                image="https://images.pexels.com/photos/1181681/pexels-photo-1181681.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                className="md:col-span-2"
-                delay={0.3}
-                details={
-                  <div className="">
-                    <h4 className="text-xl font-bold text-gray-900">
-                      {t('personalized.business.bento.box4.details.title')}
-                    </h4>
-                    <p className="leading-relaxed text-gray-600">
-                      {t('personalized.business.bento.box4.details.desc')}
-                    </p>
-                  </div>
-                }
-                bookUrl="/booking?subject=office"
-                bookText={t('common.enquireNow')}
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Tiers / Plans Section - Rounded Style */}
-        <section className="relative overflow-hidden bg-white py-24" id="plans">
-          <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-16 text-center">
-              <h2 className="mb-6 text-4xl font-semibold tracking-tighter text-gray-900 md:text-5xl">
-                {t('personalized.business.plans.title')}
-              </h2>
-              <p className="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-gray-500 md:text-xl">
-                {t('personalized.business.plans.subtitle')}
-              </p>
-            </div>
-
-            <div className="relative grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
-              {/* Background gradient blur */}
-              <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-full w-full max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-100/50 blur-3xl" />
-
-              {/* Plan 1 - Teams */}
-              <div className="relative flex h-full flex-col rounded-[2rem] border border-gray-100 bg-white p-8 shadow-xl shadow-gray-200/20 transition-all duration-300 sm:p-10">
-                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-bl-full bg-blue-400 opacity-10" />
-                <h3 className="relative z-10 mb-3 text-3xl font-semibold tracking-tight text-gray-900">
-                  {t('personalized.business.plans.teams.title')}
-                </h3>
-                <p className="relative z-10 mb-8 flex-grow font-medium text-gray-500">
-                  {t('personalized.business.plans.teams.desc')}
-                </p>
-
-                <div className="relative z-10 mb-8">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-bold tracking-tighter text-gray-900">€100</span>
-                    <span className="text-xl font-medium text-gray-500">/mo</span>
-                  </div>
-                  <div className="mt-1 text-sm font-medium text-gray-400">
-                    {t('personalized.business.plans.teams.price')}
-                  </div>
-                </div>
-
-                <ul className="relative z-10 mb-10 flex-grow">
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
-                    <span className="leading-snug text-gray-700">
-                      {t('personalized.business.plans.teams.feature1')}
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
-                    <span className="leading-snug text-gray-700">
-                      {t('personalized.business.plans.teams.feature2')}
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
-                    <span className="leading-snug text-gray-700">
-                      {t('personalized.business.plans.teams.feature3')}
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-500" />
-                    <span className="leading-snug text-gray-700">
-                      {t('personalized.business.plans.teams.feature4')}
-                    </span>
-                  </li>
-                </ul>
-
-                <Button
-                  asChild
-                  className="relative z-10 w-full rounded-2xl bg-gray-900 py-6 text-lg text-white hover:bg-black"
-                >
-                  <Link href="/booking?subject=teams">{t('common.getStarted')}</Link>
-                </Button>
-              </div>
-
-              {/* Plan 2 - Office */}
-              <div className="relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-gray-900 p-8 shadow-2xl transition-transform duration-300 sm:p-10">
-                <div className="pointer-events-none absolute top-0 right-0 h-48 w-48 rounded-bl-full bg-white opacity-20" />
-                <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-32 rounded-tr-full bg-blue-500 opacity-10" />
-
-                <h3 className="relative z-10 mb-3 text-3xl font-semibold tracking-tight text-white">
-                  {t('personalized.business.plans.enterprise.title')}
-                </h3>
-                <p className="relative z-10 mb-8 flex-grow font-medium text-gray-300">
-                  {t('personalized.business.plans.enterprise.desc')}
-                </p>
-
-                <div className="relative z-10 mb-8">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-bold tracking-tighter text-white">€500</span>
-                    <span className="text-xl font-medium text-gray-400">/mo</span>
-                  </div>
-                  <div className="mt-1 text-sm font-medium text-gray-500">
-                    {t('personalized.business.plans.enterprise.price')}
-                  </div>
-                </div>
-
-                <ul className="relative z-10 mb-10 flex-grow">
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
-                    <span className="leading-snug text-gray-100">
-                      {t('personalized.business.plans.enterprise.feature1')}
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
-                    <span className="leading-snug text-gray-100">
-                      {t('personalized.business.plans.enterprise.feature2')}
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
-                    <span className="leading-snug text-gray-100">
-                      {t('personalized.business.plans.enterprise.feature3')}
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="mr-3 h-6 w-6 shrink-0 text-blue-400" />
-                    <span className="leading-snug text-gray-100">
-                      {t('personalized.business.plans.enterprise.feature4')}
-                    </span>
-                  </li>
-                </ul>
-
-                <Button
-                  asChild
-                  className="relative z-10 w-full rounded-2xl bg-white py-6 text-lg text-black hover:bg-gray-100"
-                >
-                  <Link href="/booking?subject=office">{t('common.getStarted')}</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <FAQ items={faqItems} />
-        <CTASection />
-      </PageLayout>
-    </>
+        <Button type="submit" disabled={isSubmitting} className="w-full rounded-xl py-3">
+          {isSubmitting ? 'Saving Profile...' : 'Complete Onboarding'}
+        </Button>
+      </form>
+    </div>
   );
 }

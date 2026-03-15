@@ -15,7 +15,14 @@ import { memoryService } from './memory-service';
 
 export interface WellnessInsight {
   id: string;
-  type: 'wellness' | 'therapy' | 'behavioral' | 'progress' | 'recommendation' | 'mood' | 'engagement';
+  type:
+    | 'wellness'
+    | 'therapy'
+    | 'behavioral'
+    | 'progress'
+    | 'recommendation'
+    | 'mood'
+    | 'engagement';
   title: string;
   description: string;
   confidence: number;
@@ -65,7 +72,16 @@ export const personalizationService = {
       `INSERT INTO mood_logs (user_id, mood, mood_score, energy_level, stress_level, sleep_quality, notes, factors)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING id`,
-      [userId, mood, score, opts.energy ?? null, opts.stress ?? null, opts.sleepQuality ?? null, opts.notes ?? null, opts.factors ?? []]
+      [
+        userId,
+        mood,
+        score,
+        opts.energy ?? null,
+        opts.stress ?? null,
+        opts.sleepQuality ?? null,
+        opts.notes ?? null,
+        opts.factors ?? [],
+      ]
     );
     return rows[0].id;
   },
@@ -76,7 +92,11 @@ export const personalizationService = {
   async getMoodTrend(
     userId: string,
     days = 14
-  ): Promise<{ moods: MoodRow[]; averageScore: number; trend: 'improving' | 'declining' | 'stable' }> {
+  ): Promise<{
+    moods: MoodRow[];
+    averageScore: number;
+    trend: 'improving' | 'declining' | 'stable';
+  }> {
     const { rows } = await db.query<MoodRow>(
       `SELECT mood, mood_score, energy_level, stress_level, logged_at, notes
        FROM mood_logs WHERE user_id = $1 AND logged_at > NOW() - INTERVAL '${days} days'
@@ -144,7 +164,10 @@ Generate 2-4 personalized wellness insights.`,
       // Parse the result
       let insights: WellnessInsight[] = [];
       try {
-        const cleaned = text.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+        const cleaned = text
+          .replace(/```json?\n?/g, '')
+          .replace(/```/g, '')
+          .trim();
         const parsed = JSON.parse(cleaned);
         insights = (Array.isArray(parsed) ? parsed : []).map((item: any, i: number) => ({
           id: `insight_${Date.now()}_${i}`,
@@ -162,20 +185,26 @@ Generate 2-4 personalized wellness insights.`,
 
       // Store insights in the database
       for (const insight of insights) {
-        await db.query(
-          `INSERT INTO ai_insights (user_id, type, title, description, confidence, action_items, metadata)
+        await db
+          .query(
+            `INSERT INTO ai_insights (user_id, type, title, description, confidence, action_items, metadata)
            VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-          [
-            userId,
-            // Fall back to 'wellness' if type not in the DB enum
-            ['wellness', 'therapy', 'behavioral', 'progress', 'recommendation'].includes(insight.type) ? insight.type : 'wellness',
-            insight.title,
-            insight.description,
-            insight.confidence,
-            JSON.stringify(insight.actionItems),
-            JSON.stringify({ originalType: insight.type }),
-          ]
-        ).catch(() => {}); // Best-effort
+            [
+              userId,
+              // Fall back to 'wellness' if type not in the DB enum
+              ['wellness', 'therapy', 'behavioral', 'progress', 'recommendation'].includes(
+                insight.type
+              )
+                ? insight.type
+                : 'wellness',
+              insight.title,
+              insight.description,
+              insight.confidence,
+              JSON.stringify(insight.actionItems),
+              JSON.stringify({ originalType: insight.type }),
+            ]
+          )
+          .catch(() => {}); // Best-effort
       }
 
       return insights;
@@ -240,9 +269,10 @@ Generate 2-4 personalized wellness insights.`,
     type: string,
     context: Record<string, unknown> = {}
   ): Promise<void> {
-    await db.query(
-      `INSERT INTO ai_interactions (user_id, type, context) VALUES ($1, $2, $3)`,
-      [userId, type, JSON.stringify(context)]
-    );
+    await db.query(`INSERT INTO ai_interactions (user_id, type, context) VALUES ($1, $2, $3)`, [
+      userId,
+      type,
+      JSON.stringify(context),
+    ]);
   },
 };

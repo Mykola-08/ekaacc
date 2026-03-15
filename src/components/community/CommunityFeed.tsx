@@ -76,9 +76,9 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
   };
 
   return (
-    <div className="bg-muted/10 flex h-full flex-1 flex-col">
+    <div className="bg-muted flex h-full flex-1 flex-col">
       {/* Feed Header */}
-      <div className="bg-card sticky top-0 z-10 flex h-16 items-center border-b px-6">
+      <div className="bg-card sticky top-0 z-10 flex h-16 items-center px-6">
         <h2 className="flex items-center gap-2 text-lg font-semibold">
           # {channelId === 'general' ? 'General' : 'Channel'}
           <Badge variant="outline" className="ml-2 text-xs font-normal">
@@ -88,10 +88,10 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
       </div>
 
       {/* Feed Content */}
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
         {/* Create Post */}
         <Card>
-          <CardContent className="pt-4">
+          <CardContent className="pt-6 flex flex-col gap-4">
             <Input
               placeholder="Post title..."
               value={newTitle}
@@ -106,7 +106,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
             />
             <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
           </CardContent>
-          <CardFooter className="bg-muted/20 flex justify-between border-t py-3">
+          <CardFooter className="bg-muted flex justify-between py-3">
             <div className="text-muted-foreground text-xs">Markdown supported</div>
             <Button size="sm" onClick={handleCreatePost} disabled={feedback.status === 'loading'}>
               {feedback.status === 'loading' ? 'Posting...' : 'Post'}
@@ -154,7 +154,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
                 {post.content}
               </p>
             </CardContent>
-            <CardFooter className="bg-muted/10 flex flex-col gap-0 border-t py-2">
+            <CardFooter className="bg-muted flex flex-col gap-0 py-2">
               <div className="flex w-full gap-4">
                 <Button
                   variant="ghost"
@@ -177,7 +177,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
 
               {/* Comments Section */}
               {expandedComments[post.id] && (
-                <div className="mt-3 w-full border-t pt-3">
+                <div className="mt-3 w-full pt-3">
                   {expandedComments[post.id].map((comment: any) => (
                     <div key={comment.id} className="flex gap-3">
                       <Avatar className="h-7 w-7">

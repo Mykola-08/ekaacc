@@ -91,7 +91,8 @@ export async function dispatchNotification(payload: NotificationPayload): Promis
         category,
         payload: { referenceId: payload.referenceId, ...payload.data },
         is_read: false,
-        priority: payload.type.includes('cancel') || payload.type.includes('failed') ? 'high' : 'medium',
+        priority:
+          payload.type.includes('cancel') || payload.type.includes('failed') ? 'high' : 'medium',
       });
       sent.push('in_app');
       await logDispatch(supabase, payload, 'in_app', true);
@@ -168,7 +169,7 @@ export async function sendTelegramNotification(
   title: string,
   body: string,
   buttons?: TelegramInlineKeyboardMarkup,
-  referenceId?: string,
+  referenceId?: string
 ): Promise<boolean> {
   const result = await dispatchNotification({
     userId,
@@ -191,16 +192,26 @@ function formatTelegramMessage(payload: NotificationPayload): string {
 
 function getIcon(type: NotificationType): string {
   switch (type) {
-    case 'booking_confirmed': return '✅';
-    case 'booking_cancelled': return '❌';
-    case 'booking_reminder': return '⏰';
-    case 'booking_created': return '📅';
-    case 'payment_received': return '💳';
-    case 'payment_failed': return '⚠️';
-    case 'session_notes': return '📝';
-    case 'promotion': return '🎉';
-    case 'system': return 'ℹ️';
-    default: return '🔔';
+    case 'booking_confirmed':
+      return '✅';
+    case 'booking_cancelled':
+      return '❌';
+    case 'booking_reminder':
+      return '⏰';
+    case 'booking_created':
+      return '📅';
+    case 'payment_received':
+      return '💳';
+    case 'payment_failed':
+      return '⚠️';
+    case 'session_notes':
+      return '📝';
+    case 'promotion':
+      return '🎉';
+    case 'system':
+      return 'ℹ️';
+    default:
+      return '🔔';
   }
 }
 
@@ -221,7 +232,7 @@ async function logDispatch(
   payload: NotificationPayload,
   channel: NotificationChannel,
   delivered: boolean,
-  errorMessage?: string,
+  errorMessage?: string
 ) {
   try {
     await supabase.from('notification_dispatch_log').insert({

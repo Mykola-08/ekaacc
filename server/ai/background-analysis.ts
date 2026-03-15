@@ -168,8 +168,7 @@ export const backgroundAnalysis = {
 
     // Volatility detection
     const scores = moods.map((m) => m.mood_score);
-    const variance =
-      scores.reduce((s, v) => s + Math.pow(v - avgScore, 2), 0) / scores.length;
+    const variance = scores.reduce((s, v) => s + Math.pow(v - avgScore, 2), 0) / scores.length;
     if (variance > 4) {
       patterns.push('high_mood_volatility');
     }
@@ -284,13 +283,15 @@ export const backgroundAnalysis = {
    * Expire insights older than 30 days.
    */
   async expireOldInsights(userId: string): Promise<void> {
-    await db.query(
-      `UPDATE ai_insights SET is_active = false
+    await db
+      .query(
+        `UPDATE ai_insights SET is_active = false
        WHERE user_id = $1 AND is_active = true
        AND (expires_at IS NOT NULL AND expires_at < NOW()
             OR created_at < NOW() - INTERVAL '30 days')`,
-      [userId]
-    ).catch(() => {});
+        [userId]
+      )
+      .catch(() => {});
   },
 
   /**
@@ -323,7 +324,10 @@ Active insights: ${ctx.activeInsights.map((i) => i.title).join(', ') || 'None'}
 Upcoming sessions: ${ctx.upcomingBookings.length} booked`,
       });
 
-      const cleaned = text.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+      const cleaned = text
+        .replace(/```json?\n?/g, '')
+        .replace(/```/g, '')
+        .trim();
       const parsed = JSON.parse(cleaned);
 
       return {

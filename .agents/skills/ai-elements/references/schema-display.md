@@ -1,8 +1,10 @@
 # Schema Display
 
-Display REST API endpoint documentation with parameters, request/response bodies.
+Display REST API endpoint documentation with parameters, request/response
+bodies.
 
-The `SchemaDisplay` component visualizes REST API endpoints with HTTP methods, paths, parameters, and request/response schemas.
+The `SchemaDisplay` component visualizes REST API endpoints with HTTP methods,
+paths, parameters, and request/response schemas.
 
 See `scripts/schema-display.tsx` for this example.
 
@@ -53,14 +55,14 @@ See `scripts/schema-display-nested.tsx` for this example.
 
 ### `<SchemaDisplay />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `method` | `unknown` | - | HTTP method. |
-| `path` | `string` | - | API endpoint path. |
-| `description` | `string` | - | Endpoint description. |
-| `parameters` | `SchemaParameter[]` | - | URL/query parameters. |
-| `requestBody` | `SchemaProperty[]` | - | Request body properties. |
-| `responseBody` | `SchemaProperty[]` | - | Response body properties. |
+| Prop           | Type                | Default | Description               |
+| -------------- | ------------------- | ------- | ------------------------- |
+| `method`       | `unknown`           | -       | HTTP method.              |
+| `path`         | `string`            | -       | API endpoint path.        |
+| `description`  | `string`            | -       | Endpoint description.     |
+| `parameters`   | `SchemaParameter[]` | -       | URL/query parameters.     |
+| `requestBody`  | `SchemaProperty[]`  | -       | Request body properties.  |
+| `responseBody` | `SchemaProperty[]`  | -       | Response body properties. |
 
 ### `SchemaParameter`
 
@@ -70,7 +72,7 @@ interface SchemaParameter {
   type: string;
   required?: boolean;
   description?: string;
-  location?: "path" | "query" | "header";
+  location?: 'path' | 'query' | 'header';
 }
 ```
 

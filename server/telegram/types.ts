@@ -40,7 +40,16 @@ export interface TelegramMessage {
 }
 
 export interface TelegramMessageEntity {
-  type: 'mention' | 'hashtag' | 'bot_command' | 'url' | 'text_link' | 'bold' | 'italic' | 'code' | 'pre';
+  type:
+    | 'mention'
+    | 'hashtag'
+    | 'bot_command'
+    | 'url'
+    | 'text_link'
+    | 'bold'
+    | 'italic'
+    | 'code'
+    | 'pre';
   offset: number;
   length: number;
   url?: string;
@@ -68,6 +77,14 @@ export interface TelegramChatMember {
   status: 'creator' | 'administrator' | 'member' | 'restricted' | 'left' | 'kicked';
 }
 
+export interface TelegramInlineQuery {
+  id: string;
+  from: TelegramUser;
+  query: string;
+  offset: string;
+  chat_type?: 'sender' | 'private' | 'group' | 'supergroup' | 'channel';
+}
+
 export interface TelegramUpdate {
   update_id: number;
   message?: TelegramMessage;
@@ -77,6 +94,7 @@ export interface TelegramUpdate {
   callback_query?: TelegramCallbackQuery;
   my_chat_member?: TelegramChatMemberUpdated;
   chat_member?: TelegramChatMemberUpdated;
+  inline_query?: TelegramInlineQuery;
 }
 
 export interface TelegramWebAppInfo {
@@ -280,6 +298,9 @@ export const BOT_COMMANDS = {
   RESCHEDULE: '/reschedule',
   INFO: '/info',
   STATS: '/stats',
+  // Group & Constellations
+  GROUP_ADMIN: '/group_admin',
+  CONSTELLATIONS: '/constellations',
 } as const;
 
 export type BotCommand = (typeof BOT_COMMANDS)[keyof typeof BOT_COMMANDS];

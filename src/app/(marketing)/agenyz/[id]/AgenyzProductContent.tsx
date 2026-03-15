@@ -50,7 +50,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfbfd]">
+    <div className="min-h-screen bg-background">
       {/* Sticky Mobile CTA */}
       <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-gray-100 bg-white/80 p-4 backdrop-blur-lg md:hidden">
         <a
@@ -61,7 +61,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
         >
           <Button
             size="lg"
-            className="h-14 w-full rounded-full bg-black text-lg font-semibold text-white shadow-xl hover:bg-gray-900"
+            className="bg-primary hover:bg-primary-600 h-14 w-full rounded-full text-lg font-semibold text-white"
           >
             {t('agenyz.buyNow') || 'Buy Now'}
           </Button>
@@ -72,7 +72,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
       <div className="absolute top-24 left-4 z-20 md:left-8">
         <Link
           href="/agenyz"
-          className="group inline-flex items-center rounded-full border border-gray-100 bg-white/80 px-5 py-2.5 text-gray-500 shadow-sm backdrop-blur-md transition-colors hover:text-black hover:shadow-md"
+          className="group hover: inline-flex items-center rounded-full border border-gray-100 bg-white/80 px-5 py-2.5 text-gray-500 backdrop-blur-md transition-colors hover:text-black"
         >
           <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
           <span className="text-sm font-semibold tracking-tight">{t('common.back') || 'Back'}</span>
@@ -103,7 +103,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="absolute right-0 -bottom-4 z-20 flex items-center gap-4 rounded-[2rem] border border-white/20 bg-white/90 p-5 shadow-2xl backdrop-blur-xl md:-right-4 md:bottom-12"
+                  className="absolute right-0 -bottom-4 z-20 flex items-center gap-4 rounded-[2rem] border border-white/20 bg-white/90 p-5 backdrop-blur-xl md:-right-4 md:bottom-12"
                 >
                   <div className="bg-primary-50 text-primary-600 flex h-12 w-12 items-center justify-center rounded-2xl">
                     <Leaf className="h-6 w-6" />
@@ -196,7 +196,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 >
                   <Button
                     size="xl"
-                    className="w-full rounded-full bg-black px-10 py-7 text-lg font-bold text-white shadow-2xl shadow-black/10 transition-all hover:bg-gray-900 sm:w-auto"
+                    className="bg-primary hover:bg-primary-600 w-full rounded-full px-10 py-7 text-lg font-bold text-white shadow-black/10 transition-all sm:w-auto"
                   >
                     <ShoppingBag className="mr-3 h-6 w-6" />
                     {t('agenyz.buyNow') || 'Order Now'}
@@ -223,7 +223,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
-              <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm md:p-10">
+              <div className="rounded-2xl border border-gray-100 bg-white p-8 md:p-10">
                 <h3 className="mb-6 text-2xl font-light text-gray-900">
                   {t('agenyz.aboutProduct') || 'About the Formula'}
                 </h3>
@@ -233,7 +233,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               </div>
 
               {translatedIngredients.length > 0 && (
-                <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm md:p-10">
+                <div className="rounded-2xl border border-gray-100 bg-white p-8 md:p-10">
                   <h3 className="mb-8 flex items-center text-2xl font-light text-gray-900">
                     <Leaf className="mr-3 h-6 w-6 text-green-500" />
                     {t('agenyz.ingredients') || 'Active Interactions'}
@@ -255,7 +255,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
 
             <div className="">
               {translatedBenefits.length > 0 && (
-                <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#000035] to-[#000060] p-8 text-white shadow-xl">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#000035] to-[#000060] p-8 text-white">
                   <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-blue-500/20 blur-2xl" />
                   <h3 className="relative z-10 mb-6 flex items-center text-xl font-medium">
                     <Zap className="mr-2 h-5 w-5 text-yellow-400" />
@@ -276,7 +276,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               )}
 
               {translatedUsage && (
-                <div className="rounded-3xl border border-purple-100 bg-purple-50 p-8">
+                <div className="rounded-2xl border border-purple-100 bg-purple-50 p-8">
                   <h3 className="mb-4 flex items-center text-lg font-medium text-purple-900">
                     <Clock className="mr-2 h-5 w-5 text-purple-600" />
                     {t('agenyz.usage') || 'How to Use'}
@@ -285,7 +285,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4 rounded-3xl border border-gray-100 bg-white p-6">
+              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-gray-100 bg-white p-6">
                 <div className="p-2 text-center">
                   <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 text-gray-400">
                     <ShieldCheck className="h-5 w-5" />

@@ -1,5 +1,5 @@
-import BookingWizard from '@/components/booking/BookingWizard';
-import { Suspense } from 'react';
+import { BookingWizard } from '@/components/booking/BookingWizard';
+import { SuspenseBoundary } from '@/components/ui/suspense-boundary';
 
 export default async function BookServicePage({
   params,
@@ -8,8 +8,8 @@ export default async function BookServicePage({
 }) {
   const { serviceId } = await params;
   return (
-    <Suspense fallback={<div>Loading booking...</div>}>
+    <SuspenseBoundary>
       <BookingWizard serviceId={serviceId} />
-    </Suspense>
+    </SuspenseBoundary>
   );
 }

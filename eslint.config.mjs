@@ -35,6 +35,7 @@ export default [
       '.prettierrc.js',
       'scripts/**',
       'supabase/**',
+      '*.cjs',
     ],
   },
   ...compat.extends('plugin:@typescript-eslint/recommended'),

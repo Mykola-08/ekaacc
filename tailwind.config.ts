@@ -11,9 +11,9 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: '2rem',
       screens: {
-        "2xl": "1400px",
+        '2xl': '1400px',
       },
     },
     extend: {
@@ -30,16 +30,16 @@ const config: Config = {
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',
-          50: '#f5f5f7',
-          100: '#e5e5e7',
-          200: '#d2d2d7',
-          300: '#a1a1a6',
-          400: '#6e6e73',
-          500: '#0071e3', // apple-blue
-          600: '#0077ED',
-          700: '#006edb',
-          800: '#1d1d1f', // apple-gray-dark
-          900: '#1d1d1f',
+          50: '#f4f4f5',
+          100: '#e4e4e7',
+          200: '#d4d4d8',
+          300: '#a1a1aa',
+          400: '#71717a',
+          500: '#52525b',
+          600: '#3f3f46',
+          700: '#27272a',
+          800: '#18181b',
+          900: '#09090b',
           950: '#000000',
         },
         secondary: {
@@ -114,7 +114,7 @@ const config: Config = {
         xl: 'var(--radius-xl)',
         '2xl': 'var(--radius-2xl)',
         '3xl': 'var(--radius-3xl)',
-        'apple': '32px',
+        apple: '32px',
         'apple-lg': '48px',
         'apple-xl': '64px',
       },
@@ -172,12 +172,12 @@ const config: Config = {
         },
       },
       boxShadow: {
-        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        card: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
         'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         '3xl': '0 35px 60px -12px rgba(0, 0, 0, 0.25)',
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-        'apple': '0 32px 64px -12px rgba(0, 0, 0, 0.25)',
+        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        apple: '0 32px 64px -12px rgba(0, 0, 0, 0.25)',
       },
     },
   },

@@ -3,9 +3,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { motion } from 'motion/react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
+import { CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function BookingSuccessPage() {
@@ -20,8 +20,8 @@ export default function BookingSuccessPage() {
   }, [router]);
 
   return (
-    <main className="bg-background flex min-h-screen items-center justify-center p-4">
-      <div className="text-center">
+    <main className="dashboard-theme flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-lg overflow-hidden rounded-[36px] border-2 p-8 text-center sm:p-12">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -30,16 +30,16 @@ export default function BookingSuccessPage() {
             stiffness: 260,
             damping: 20,
           }}
-          className="bg-success/20 text-success mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full"
+          className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-500/20 text-green-600 dark:bg-green-500/10 dark:text-green-500"
         >
-          <HugeiconsIcon icon={CheckmarkCircle02Icon} className="h-12 w-12" strokeWidth={3} />
+          <CheckCircle2 className="h-12 w-12" strokeWidth={2.5} />
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-foreground mb-4 text-3xl font-semibold"
+          className="text-foreground mb-4 text-3xl font-semibold tracking-tight"
         >
           Booking Confirmed!
         </motion.h1>
@@ -48,7 +48,7 @@ export default function BookingSuccessPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-muted-foreground mb-8 max-w-md text-lg"
+          className="text-muted-foreground mx-auto mb-8 max-w-md text-lg"
         >
           Thank you for trusting EKA Balance. Your session has been successfully scheduled. We have
           sent a confirmation email to you.
@@ -58,7 +58,7 @@ export default function BookingSuccessPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="flex justify-center gap-4"
+          className="flex flex-col justify-center gap-4 sm:flex-row sm:gap-4"
         >
           <Button asChild size="lg" className="rounded-full px-8">
             <Link href="/">Back to Home</Link>
@@ -67,7 +67,7 @@ export default function BookingSuccessPage() {
             <Link href="/dashboard/bookings">View My Bookings</Link>
           </Button>
         </motion.div>
-      </div>
+      </Card>
     </main>
   );
 }

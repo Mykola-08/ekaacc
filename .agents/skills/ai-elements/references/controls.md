@@ -1,10 +1,11 @@
 # Controls
 
-A styled controls component for React Flow-based canvases with zoom and fit view functionality.
+A styled controls component for React Flow-based canvases with zoom and fit view
+functionality.
 
-The `Controls` component provides interactive zoom and fit view controls for React Flow canvases. It includes a modern, themed design with backdrop blur and card styling.
-
-
+The `Controls` component provides interactive zoom and fit view controls for
+React Flow canvases. It includes a modern, themed design with backdrop blur and
+card styling.
 
 ## Installation
 
@@ -26,7 +27,7 @@ npx ai-elements@latest add controls
 
 ### `<Controls />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | - | Additional CSS classes to apply to the controls. |
-| `...props` | `ComponentProps<typeof Controls>` | - | Any other props from @xyflow/react Controls component (showZoom, showFitView, showInteractive, position, etc.). |
+| Prop        | Type                              | Default | Description                                                                                                     |
+| ----------- | --------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------- |
+| `className` | `string`                          | -       | Additional CSS classes to apply to the controls.                                                                |
+| `...props`  | `ComponentProps<typeof Controls>` | -       | Any other props from @xyflow/react Controls component (showZoom, showFitView, showInteractive, position, etc.). |

@@ -30,7 +30,7 @@ const SurfacePanel = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <div className={`bg-card text-card-foreground rounded-xl border shadow-sm ${className || ''}`}>
+  <div className={`bg-card text-card-foreground rounded-xl border ${className || ''}`}>
     {children}
   </div>
 );

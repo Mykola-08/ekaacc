@@ -46,7 +46,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
         </div>
       )}
 
-      <div className="mt-auto flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-sm sm:p-5">
+      <div className="mt-auto flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 sm:p-5">
         <div className="flex flex-col gap-0.5">
           <span className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
             {t('common.duration') || 'Duration'}

@@ -234,7 +234,7 @@ const ComparativeTable = () => {
           </h2>
         </div>
 
-        <div className="overflow-x-auto rounded-3xl border border-gray-100 bg-white">
+        <div className="overflow-x-auto rounded-2xl border border-gray-100 bg-white">
           <table className="w-full min-w-[600px] border-collapse">
             <thead>
               <tr className="bg-gray-50/50">
@@ -326,7 +326,7 @@ export default function VIPContent() {
               return (
                 <div
                   key={idx}
-                  className="group rounded-3xl border border-gray-100 bg-gray-50 p-8 transition-colors hover:border-amber-100"
+                  className="group rounded-2xl border border-gray-100 bg-gray-50 p-8 transition-colors hover:border-amber-100"
                 >
                   <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-gray-100 bg-white transition-colors">
                     <Icon className="h-7 w-7 text-amber-600" />
@@ -452,7 +452,7 @@ export default function VIPContent() {
             {testimonials.map((test, i) => (
               <div
                 key={i}
-                className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-md"
+                className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-md"
               >
                 <div className="mb-6 flex gap-1">
                   {[...Array(test.rating)].map((_, j) => (

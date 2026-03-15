@@ -3,10 +3,7 @@
 
 import { createClient } from '@/lib/supabase/admin';
 import * as botApi from './bot-api';
-import type {
-  TelegramChannelAnalytics,
-  TelegramPostAnalytics,
-} from './types';
+import type { TelegramChannelAnalytics, TelegramPostAnalytics } from './types';
 
 function getSupabase() {
   return createClient();
@@ -76,16 +73,13 @@ export async function getPostAnalyticsHistory(
  * Record a daily analytics snapshot for a channel.
  * Should be called once per day (e.g. via cron/edge function).
  */
-export async function recordChannelSnapshot(
-  channelId: string,
-  chatId: number
-): Promise<void> {
+export async function recordChannelSnapshot(channelId: string, chatId: number): Promise<void> {
   const supabase = getSupabase();
   const today = new Date().toISOString().split('T')[0];
 
   // Get current member count from Telegram
   const countRes = await botApi.getChatMemberCount(chatId);
-  const memberCount = countRes.ok ? countRes.result ?? 0 : 0;
+  const memberCount = countRes.ok ? (countRes.result ?? 0) : 0;
 
   // Get yesterday's snapshot for delta calculations
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
@@ -136,13 +130,12 @@ export async function recordChannelSnapshot(
     }
   }
 
-  const avgReach = memberCount > 0 && (postsCount ?? 0) > 0
-    ? (viewsTotal / (postsCount ?? 1) / memberCount) * 100
-    : 0;
+  const avgReach =
+    memberCount > 0 && (postsCount ?? 0) > 0
+      ? (viewsTotal / (postsCount ?? 1) / memberCount) * 100
+      : 0;
 
-  const engagementRate = memberCount > 0
-    ? (viewsTotal / memberCount) * 100
-    : 0;
+  const engagementRate = memberCount > 0 ? (viewsTotal / memberCount) * 100 : 0;
 
   await supabase.from('telegram_channel_analytics').upsert(
     {

@@ -5,8 +5,13 @@ import { sendClientErrorReport } from '@/lib/observability/client-error-reportin
 
 export function GlobalErrorReporter() {
   useEffect(() => {
-    const isAbortError = (err: unknown): boolean =>
-      err instanceof DOMException && err.name === 'AbortError';
+    const isAbortError = (err: unknown): boolean => {
+      if (err instanceof DOMException && err.name === 'AbortError') return true;
+      // Supabase auth lock contention — benign, another request took over
+      if (err instanceof Error && err.message?.includes('Lock broken by another request'))
+        return true;
+      return false;
+    };
 
     const onWindowError = (event: ErrorEvent) => {
       // Ignore AbortError caused by React strict-mode double-mount or navigation

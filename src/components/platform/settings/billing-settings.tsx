@@ -93,7 +93,7 @@ export function BillingSettings() {
   return (
     <div className="">
       {/* Current Subscription */}
-      <Card className="rounded-lg">
+      <Card className="rounded-[24px]">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ShieldCheck className="text-primary h-5 w-5" />
@@ -166,7 +166,7 @@ export function BillingSettings() {
       </Card>
 
       {/* Payment Methods */}
-      <Card className="rounded-lg">
+      <Card className="rounded-[24px]">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -197,7 +197,7 @@ export function BillingSettings() {
                   className="border-border bg-muted/30 flex items-center justify-between rounded-xl border p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="bg-card text-muted-foreground flex h-10 w-14 items-center justify-center rounded-lg text-xs font-semibold tracking-wider uppercase shadow-sm">
+                    <div className="bg-card text-muted-foreground flex h-10 w-14 items-center justify-center rounded-[24px] text-xs font-semibold tracking-wider uppercase">
                       {pm.brand}
                     </div>
                     <div>
@@ -230,7 +230,7 @@ export function BillingSettings() {
       </Card>
 
       {/* Billing History */}
-      <Card className="rounded-lg">
+      <Card className="rounded-[24px]">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Receipt className="text-primary h-5 w-5" />

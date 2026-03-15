@@ -6,8 +6,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey =
-  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY; // Use service role key for seeding
+const supabaseKey = process.env.SUPABASE_SECRET_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('Missing Supabase credentials in .env.local');
@@ -24,7 +23,8 @@ async function seed() {
   const services = [
     {
       name: 'Advanced Manual Therapy',
-      description: 'Therapeutic approach to musculoskeletal dysfunction. Deep tissue mobilization and neuromuscular techniques to restore range of motion and eliminate chronic pain patterns.',
+      description:
+        'Therapeutic approach to musculoskeletal dysfunction. Deep tissue mobilization and neuromuscular techniques to restore range of motion and eliminate chronic pain patterns.',
       base_price: 60,
       duration_minutes: 60,
       category: 'therapy',
@@ -32,7 +32,8 @@ async function seed() {
     },
     {
       name: 'Holistic Kinesiology',
-      description: 'Precision diagnostic methodology using muscle response testing to identify physiological, structural, and emotional stressors affecting your systemic health.',
+      description:
+        'Precision diagnostic methodology using muscle response testing to identify physiological, structural, and emotional stressors affecting your systemic health.',
       base_price: 70,
       duration_minutes: 60,
       category: 'therapy',
@@ -40,7 +41,8 @@ async function seed() {
     },
     {
       name: 'Metabolic Optimization',
-      description: 'Therapeutic nutritional strategies designed to reduce systemic inflammation, optimize metabolic function, and support neuro-endocrine regulation.',
+      description:
+        'Therapeutic nutritional strategies designed to reduce systemic inflammation, optimize metabolic function, and support neuro-endocrine regulation.',
       base_price: 60,
       duration_minutes: 60,
       category: 'nutrition',
@@ -48,7 +50,8 @@ async function seed() {
     },
     {
       name: '360° Comprehensive Assessment',
-      description: 'An exhaustive evaluation of your biomechanics, posture, and metabolic status. Detailed wellness report and personalized therapeutic roadmap.',
+      description:
+        'An exhaustive evaluation of your biomechanics, posture, and metabolic status. Detailed wellness report and personalized therapeutic roadmap.',
       base_price: 280,
       duration_minutes: 90,
       category: 'review',
@@ -56,7 +59,8 @@ async function seed() {
     },
     {
       name: 'Corporate Wellness',
-      description: 'Customized wellness programs for companies: from in-office massages to posture workshops.',
+      description:
+        'Customized wellness programs for companies: from in-office massages to posture workshops.',
       base_price: 100,
       duration_minutes: 60,
       category: 'corporate',

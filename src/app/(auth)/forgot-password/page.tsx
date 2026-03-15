@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
+        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
             <motion.div
@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
               className="mb-8 flex flex-col items-center gap-4 text-center"
             >
               <div className="relative">
-                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
+                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
                   <AnimatePresence mode="wait">
                     {emailSent ? (
                       <motion.div

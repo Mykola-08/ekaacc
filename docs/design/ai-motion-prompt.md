@@ -97,4 +97,3 @@ precise, and expensive, never playful or noisy.
 - Cartoonish icons
 - Over-animated UI
 - “Startup landing page” clichés
-

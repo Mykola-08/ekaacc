@@ -440,7 +440,7 @@ export default function PrivacyControlsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <Card className="border-border shadow-lg">
+                <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Database className="text-primary mr-2 h-5 w-5" />
@@ -541,7 +541,7 @@ export default function PrivacyControlsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <Card className="border-border shadow-lg">
+                <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Globe className="text-success mr-2 h-5 w-5" />
@@ -643,7 +643,7 @@ export default function PrivacyControlsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <Card className="border-border shadow-lg">
+                <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Lock className="text-destructive mr-2 h-5 w-5" />
@@ -732,7 +732,7 @@ export default function PrivacyControlsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <Card className="border-border shadow-lg">
+                <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Activity className="text-accent mr-2 h-5 w-5" />
@@ -782,7 +782,7 @@ export default function PrivacyControlsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <Card className="border-border shadow-lg">
+                <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Clock className="text-warning mr-2 h-5 w-5" />
@@ -829,7 +829,7 @@ export default function PrivacyControlsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <Card className="border-border shadow-lg">
+                <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <UserCheck className="text-success mr-2 h-5 w-5" />

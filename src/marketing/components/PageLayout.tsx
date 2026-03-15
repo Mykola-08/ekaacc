@@ -41,7 +41,7 @@ export default function PageLayout({
     : undefined;
 
   return (
-    <div className={`min-h-screen bg-[#fbfbfd] ${className}`}>
+    <div className={`min-h-screen bg-background ${className}`}>
       {/* Hero Section */}
       {isCustomHero
         ? hero
@@ -110,7 +110,7 @@ export default function PageLayout({
               </motion.div>
             </section>
           ) : (
-            <section className="relative overflow-hidden bg-[#fbfbfd] pt-32 pb-16 sm:pt-40 sm:pb-24">
+            <section className="relative overflow-hidden bg-background pt-32 pb-16 sm:pt-40 sm:pb-24">
               <div className="section-container relative z-20 mx-auto max-w-4xl px-6 text-center">
                 {heroData.badge && (
                   <motion.div

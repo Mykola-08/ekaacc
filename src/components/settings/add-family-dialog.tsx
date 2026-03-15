@@ -56,12 +56,12 @@ export function AddFamilyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-5 py-6 shadow-sm transition-all">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-5 py-6 transition-all">
           <UserPlus className="mr-2 h-4 w-4" />
           Add Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 shadow-sm sm:max-w-106.25">
+      <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 sm:max-w-106.25">
         <div className="bg-muted/40 border-border/60 border-b p-6 pb-4">
           <DialogHeader className="text-left">
             <DialogTitle className="text-foreground font-serif text-xl">
@@ -114,7 +114,7 @@ export function AddFamilyDialog() {
                 <SelectTrigger className="bg-muted/40 border-border focus:ring-border h-9 rounded-lg">
                   <SelectValue placeholder="Select relationship" />
                 </SelectTrigger>
-                <SelectContent className="border-border/60 rounded-lg shadow-sm">
+                <SelectContent className="border-border/60 rounded-lg">
                   <SelectItem value="child">Child</SelectItem>
                   <SelectItem value="spouse">Spouse</SelectItem>
                   <SelectItem value="parent">Parent</SelectItem>
@@ -134,7 +134,7 @@ export function AddFamilyDialog() {
             <Button
               type="submit"
               disabled={loading}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 w-full rounded-lg text-base font-medium shadow-sm"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 w-full rounded-lg text-base font-medium"
             >
               {loading ? (
                 <>

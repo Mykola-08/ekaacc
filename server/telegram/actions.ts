@@ -18,8 +18,7 @@ async function requireAdmin() {
 
   if (!user) throw new Error('Unauthorized');
 
-  const role =
-    user.app_metadata?.role || user.user_metadata?.role || 'Patient';
+  const role = user.app_metadata?.role || user.user_metadata?.role || 'Patient';
   if (!['admin', 'super_admin', 'Admin', 'SuperAdmin'].includes(role)) {
     throw new Error('Forbidden: Admin role required');
   }
@@ -32,8 +31,9 @@ async function requireAdmin() {
 export async function addChannelAction(chatId: number) {
   const user = await requireAdmin();
   const channel = await telegramService.registerChannel(chatId, user.id);
-  if (!channel) return { success: false, error: 'Failed to register channel. Is the bot an admin?' };
-  revalidatePath('/admin/telegram');
+  if (!channel)
+    return { success: false, error: 'Failed to register channel. Is the bot an admin?' };
+  revalidatePath('/console/telegram');
   return { success: true, data: channel };
 }
 
@@ -47,7 +47,7 @@ export async function refreshChannelAction(channelId: string) {
   await requireAdmin();
   const channel = await telegramService.refreshChannel(channelId);
   if (!channel) return { success: false, error: 'Failed to refresh channel info' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true, data: channel };
 }
 
@@ -55,7 +55,7 @@ export async function deactivateChannelAction(channelId: string) {
   await requireAdmin();
   const success = await telegramService.deactivateChannel(channelId);
   if (!success) return { success: false, error: 'Failed to deactivate channel' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -70,7 +70,7 @@ export async function updateChannelTitleAction(channelId: string, title: string)
   await requireAdmin();
   const success = await telegramService.updateChannelTitle(channelId, title);
   if (!success) return { success: false, error: 'Failed to update title' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -78,7 +78,7 @@ export async function updateChannelDescriptionAction(channelId: string, descript
   await requireAdmin();
   const success = await telegramService.updateChannelDescription(channelId, description);
   if (!success) return { success: false, error: 'Failed to update description' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -95,7 +95,7 @@ export async function createPostAction(input: CreatePostInput) {
   const user = await requireAdmin();
   const post = await telegramService.createPost(input, user.id);
   if (!post) return { success: false, error: 'Failed to create post' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true, data: post };
 }
 
@@ -103,7 +103,7 @@ export async function updatePostAction(input: UpdatePostInput) {
   await requireAdmin();
   const post = await telegramService.updatePost(input);
   if (!post) return { success: false, error: 'Failed to update post' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true, data: post };
 }
 
@@ -111,7 +111,7 @@ export async function publishPostAction(postId: string) {
   await requireAdmin();
   const post = await telegramService.publishPost(postId);
   if (!post) return { success: false, error: 'Failed to publish post' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true, data: post };
 }
 
@@ -119,7 +119,7 @@ export async function deletePostAction(postId: string) {
   await requireAdmin();
   const success = await telegramService.deletePost(postId);
   if (!success) return { success: false, error: 'Failed to delete post' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -155,7 +155,7 @@ export async function banMemberAction(channelId: string, userId: number) {
   await requireAdmin();
   const success = await telegramService.banMember(channelId, userId);
   if (!success) return { success: false, error: 'Failed to ban member' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -163,7 +163,7 @@ export async function unbanMemberAction(channelId: string, userId: number) {
   await requireAdmin();
   const success = await telegramService.unbanMember(channelId, userId);
   if (!success) return { success: false, error: 'Failed to unban member' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -192,7 +192,7 @@ export async function recordSnapshotAction(channelId: string) {
   const channel = await telegramService.getChannel(channelId);
   if (!channel) return { success: false, error: 'Channel not found' };
   await telegramAnalytics.recordChannelSnapshot(channelId, channel.chat_id);
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -200,10 +200,7 @@ export async function recordSnapshotAction(channelId: string) {
 
 export async function getBotInfoAction() {
   await requireAdmin();
-  const [meRes, webhookRes] = await Promise.all([
-    botApi.getMe(),
-    botApi.getWebhookInfo(),
-  ]);
+  const [meRes, webhookRes] = await Promise.all([botApi.getMe(), botApi.getWebhookInfo()]);
 
   return {
     success: true,
@@ -256,7 +253,7 @@ export async function promoteMemberAction(channelId: string, userId: number) {
     canManageChat: true,
   });
   if (!success) return { success: false, error: 'Failed to promote member' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -264,7 +261,7 @@ export async function demoteMemberAction(channelId: string, userId: number) {
   await requireAdmin();
   const success = await telegramService.demoteMember(channelId, userId);
   if (!success) return { success: false, error: 'Failed to demote member' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -277,7 +274,7 @@ export async function restrictMemberAction(
   await requireAdmin();
   const success = await telegramService.restrictMember(channelId, userId, permissions, untilDate);
   if (!success) return { success: false, error: 'Failed to restrict member' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 
@@ -308,7 +305,7 @@ export async function leaveGroupAction(channelId: string) {
   await requireAdmin();
   const success = await telegramService.leaveGroup(channelId);
   if (!success) return { success: false, error: 'Failed to leave group' };
-  revalidatePath('/admin/telegram');
+  revalidatePath('/console/telegram');
   return { success: true };
 }
 

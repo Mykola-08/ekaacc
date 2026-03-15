@@ -65,7 +65,7 @@ const themeConfig: Record<
     border: 'border-orange-100',
     text: 'text-orange-900',
     subtext: 'text-gray-700',
-    accent: 'text-eka-dark',
+    accent: '-primary',
     dots: 'bg-orange-400',
     stepsBg: 'bg-orange-50/30',
     stepsIconBg: 'bg-orange-100',
@@ -80,7 +80,7 @@ const themeConfig: Record<
     border: 'border-purple-100',
     text: 'text-purple-900',
     subtext: 'text-gray-700',
-    accent: 'text-eka-dark',
+    accent: '-primary',
     dots: 'bg-purple-400',
     stepsBg: 'bg-purple-50/30',
     stepsIconBg: 'bg-purple-100',
@@ -95,7 +95,7 @@ const themeConfig: Record<
     border: 'border-blue-100',
     text: 'text-blue-900',
     subtext: 'text-gray-700',
-    accent: 'text-eka-dark',
+    accent: '-primary',
     dots: 'bg-blue-400',
     stepsBg: 'bg-blue-50/30',
     stepsIconBg: 'bg-blue-100',
@@ -110,7 +110,7 @@ const themeConfig: Record<
     border: 'border-emerald-100',
     text: 'text-emerald-900',
     subtext: 'text-gray-700',
-    accent: 'text-eka-dark',
+    accent: '-primary',
     dots: 'bg-emerald-400',
     stepsBg: 'bg-emerald-50/30',
     stepsIconBg: 'bg-emerald-100',
@@ -125,7 +125,7 @@ const themeConfig: Record<
     border: 'border-pink-100',
     text: 'text-pink-900',
     subtext: 'text-gray-700',
-    accent: 'text-eka-dark',
+    accent: '-primary',
     dots: 'bg-pink-400',
     stepsBg: 'bg-pink-50/30',
     stepsIconBg: 'bg-pink-100',
@@ -140,7 +140,7 @@ const themeConfig: Record<
     border: 'border-amber-100',
     text: 'text-amber-900',
     subtext: 'text-gray-700',
-    accent: 'text-eka-dark',
+    accent: '-primary',
     dots: 'bg-amber-400',
     stepsBg: 'bg-amber-50/30',
     stepsIconBg: 'bg-amber-100',
@@ -223,7 +223,7 @@ export default function PersonalizedServiceTemplate({
         </div>
         {childrenTop}
         {/* Understanding Section - Bento Box */}
-        <section className="bg-[#fbfbfd] py-12 sm:py-16 md:py-20 lg:py-24">
+        <section className="bg-background py-12 sm:py-16 md:py-20 lg:py-24">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <div className="mb-12 text-center sm:mb-16">
               <h2 className="mb-4 text-3xl font-semibold tracking-tighter text-black sm:text-4xl md:text-5xl">
@@ -312,7 +312,7 @@ export default function PersonalizedServiceTemplate({
         )}
 
         {/* Recommended Services Section */}
-        <section className="bg-[#fbfbfd] py-12 sm:py-16 md:py-20 lg:py-24">
+        <section className="bg-background py-12 sm:py-16 md:py-20 lg:py-24">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <div className="mb-12 text-center sm:mb-16">
               <h2 className="mb-3 text-3xl font-semibold tracking-tighter text-black sm:mb-4 sm:text-4xl md:text-5xl">

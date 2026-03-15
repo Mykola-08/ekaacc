@@ -131,7 +131,7 @@ export function RoleManagementPanelHeadless() {
         </div>
         <button
           onClick={() => setIsAssignDialogOpen(true)}
-          className="bg-foreground text-background hover:bg-foreground/90 flex items-center gap-2 rounded-xl px-4 py-2.5 shadow-sm transition-colors"
+          className="bg-foreground text-background hover:bg-foreground/90 flex items-center gap-2 rounded-xl px-4 py-2.5 transition-colors"
         >
           <UserPlus className="h-4 w-4" />
           <span>Assign Role</span>
@@ -143,13 +143,13 @@ export function RoleManagementPanelHeadless() {
         <input
           type="text"
           placeholder="Search users..."
-          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 focus:border-primary w-full rounded-lg border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none"
+          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 focus:border-primary w-full rounded-2xl border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="bg-card ring-border overflow-hidden rounded-lg ring-1">
+      <div className="bg-card ring-border overflow-hidden rounded-2xl ring-1">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
             <thead className="bg-muted/30/50">
@@ -188,7 +188,7 @@ export function RoleManagementPanelHeadless() {
                   <td className="px-3 py-4 whitespace-nowrap">
                     <span
                       className={cn(
-                        'bg-primary/5 text-primary ring-primary/10 inline-flex items-center rounded-lg px-2 py-1 text-xs font-medium tracking-wider uppercase ring-1 ring-inset'
+                        'bg-primary/5 text-primary ring-primary/10 inline-flex items-center rounded-2xl px-2 py-1 text-xs font-medium tracking-wider uppercase ring-1 ring-inset'
                       )}
                     >
                       {user.role}
@@ -201,7 +201,7 @@ export function RoleManagementPanelHeadless() {
                     {new Date(user.lastLoginAt).toLocaleDateString()}
                   </td>
                   <td className="relative py-4 pr-6 pl-3 text-right text-sm font-medium whitespace-nowrap">
-                    <button className="text-muted-foreground/80 hover:bg-primary/5 hover:text-primary rounded-lg p-2 transition-colors">
+                    <button className="text-muted-foreground/80 hover:bg-primary/5 hover:text-primary rounded-2xl p-2 transition-colors">
                       <Edit className="h-4 w-4" />
                     </button>
                   </td>
@@ -237,7 +237,7 @@ export function RoleManagementPanelHeadless() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-lg p-8 text-left align-middle shadow-sm transition-all">
+                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-2xl p-8 text-left align-middle transition-all">
                   <DialogTitle as="h3" className="text-foreground text-xl leading-6 font-semibold">
                     Assign Role
                   </DialogTitle>
@@ -254,7 +254,7 @@ export function RoleManagementPanelHeadless() {
                       </label>
                       <input
                         {...register('userId')}
-                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-lg p-3 text-sm"
+                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-2xl p-3 text-sm"
                         placeholder="Select user..."
                       />
                       {errors.userId && (
@@ -268,7 +268,7 @@ export function RoleManagementPanelHeadless() {
                       </label>
                       <select
                         {...register('role')}
-                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-lg p-3 text-sm"
+                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-2xl p-3 text-sm"
                       >
                         <option value="">Select a role</option>
                         <option value="admin">Admin</option>
@@ -287,7 +287,7 @@ export function RoleManagementPanelHeadless() {
                       <textarea
                         {...register('reason')}
                         rows={3}
-                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-lg p-3 text-sm"
+                        className="border-border bg-muted/30 focus:border-primary focus:ring-primary w-full rounded-2xl p-3 text-sm"
                         placeholder="Why is this role being assigned?"
                       />
                       {errors.reason && (
@@ -305,7 +305,7 @@ export function RoleManagementPanelHeadless() {
                       </button>
                       <button
                         type="submit"
-                        className="bg-foreground text-background hover:bg-foreground/90 inline-flex justify-center rounded-xl px-6 py-2.5 text-sm font-medium shadow-lg shadow-sm transition-colors"
+                        className="bg-foreground text-background hover:bg-foreground/90 inline-flex justify-center rounded-xl px-6 py-2.5 text-sm font-medium transition-colors"
                       >
                         Assign Role
                       </button>

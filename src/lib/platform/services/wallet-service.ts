@@ -38,11 +38,22 @@ export const walletService = {
   ): Promise<{ success: boolean; error?: string }> => {
     try {
       // Record the transaction
+      // Look up wallet to get wallet_id for the transaction
+      const { data: wallet } = await supabaseAdmin
+        .from('wallets')
+        .select('id')
+        .eq('user_id', userId)
+        .single();
+
+      if (!wallet) {
+        return { success: false, error: 'Wallet not found' };
+      }
+
       const { error: txError } = await supabaseAdmin.from('wallet_transactions').insert({
-        user_id: userId,
+        wallet_id: wallet.id,
         amount: credits,
         type: 'credit',
-        payment_intent_id: paymentIntentId,
+        stripe_payment_intent_id: paymentIntentId,
         description: 'Stripe top-up',
       });
 
@@ -86,10 +97,19 @@ export const walletService = {
 
   getTransactions: async (userId: string, limit: number = 10): Promise<Transaction[]> => {
     try {
+      // Look up wallet first, then query transactions by wallet_id
+      const { data: wallet } = await supabaseAdmin
+        .from('wallets')
+        .select('id')
+        .eq('user_id', userId)
+        .single();
+
+      if (!wallet) return [];
+
       const { data, error } = await supabaseAdmin
         .from('wallet_transactions')
         .select('id, amount, type, description, created_at')
-        .eq('user_id', userId)
+        .eq('wallet_id', wallet.id)
         .order('created_at', { ascending: false })
         .limit(limit);
 

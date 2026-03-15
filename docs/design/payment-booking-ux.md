@@ -80,4 +80,3 @@ clicks.
 - **Destructive Actions**: Use **Confirmation Bias (#2)** to your advantage—if
   deleting a booking, ask "Keep Booking?" (primary) vs "Cancel" (secondary) to
   prevent accidental loss.
-

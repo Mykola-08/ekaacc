@@ -1,12 +1,8 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey =
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  'env-missing';
-const supabaseServiceRoleKey =
-  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'env-missing';
+const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
 
 // Singleton instances to prevent multiple clients
 let supabaseInstance: SupabaseClient | null = null;
@@ -16,7 +12,7 @@ let supabaseAdminInstance: SupabaseClient | null = null;
 function getSupabaseClient(): SupabaseClient {
   if (supabaseInstance) return supabaseInstance;
 
-  supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
+  supabaseInstance = createClient(supabaseUrl, supabasePublishableKey, {
     auth: {
       persistSession: typeof window !== 'undefined', // Only persist on client
       autoRefreshToken: true,
@@ -43,7 +39,7 @@ export const supabase = getSupabaseClient();
 function getSupabaseAdminClient(): SupabaseClient {
   if (supabaseAdminInstance) return supabaseAdminInstance;
 
-  const adminKey = supabaseServiceRoleKey || supabaseAnonKey;
+  const adminKey = supabaseSecretKey || supabasePublishableKey;
 
   supabaseAdminInstance = createClient(supabaseUrl, adminKey, {
     auth: {
@@ -52,7 +48,7 @@ function getSupabaseAdminClient(): SupabaseClient {
     },
     global: {
       headers: {
-        'x-application-name': supabaseServiceRoleKey ? 'ekaacc-admin' : 'ekaacc-admin-readonly',
+        'x-application-name': supabaseSecretKey ? 'ekaacc-admin' : 'ekaacc-admin-readonly',
       },
     },
   });

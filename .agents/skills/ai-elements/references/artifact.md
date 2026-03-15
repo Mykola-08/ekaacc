@@ -1,8 +1,11 @@
 # Artifact
 
-A container component for displaying generated content like code, documents, or other outputs with built-in actions.
+A container component for displaying generated content like code, documents, or
+other outputs with built-in actions.
 
-The `Artifact` component provides a structured container for displaying generated content like code, documents, or other outputs with built-in header actions.
+The `Artifact` component provides a structured container for displaying
+generated content like code, documents, or other outputs with built-in header
+actions.
 
 See `scripts/artifact.tsx` for this example.
 
@@ -34,51 +37,51 @@ See `scripts/artifact.tsx` for this example.
 
 ### `<Artifact />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Any other props are spread to the underlying div element. |
+| Prop       | Type                                   | Default | Description                                               |
+| ---------- | -------------------------------------- | ------- | --------------------------------------------------------- |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -       | Any other props are spread to the underlying div element. |
 
 ### `<ArtifactHeader />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Any other props are spread to the underlying div element. |
+| Prop       | Type                                   | Default | Description                                               |
+| ---------- | -------------------------------------- | ------- | --------------------------------------------------------- |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -       | Any other props are spread to the underlying div element. |
 
 ### `<ArtifactTitle />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.HTMLAttributes<HTMLParagraphElement>` | - | Any other props are spread to the underlying paragraph element. |
+| Prop       | Type                                         | Default | Description                                                     |
+| ---------- | -------------------------------------------- | ------- | --------------------------------------------------------------- |
+| `...props` | `React.HTMLAttributes<HTMLParagraphElement>` | -       | Any other props are spread to the underlying paragraph element. |
 
 ### `<ArtifactDescription />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.HTMLAttributes<HTMLParagraphElement>` | - | Any other props are spread to the underlying paragraph element. |
+| Prop       | Type                                         | Default | Description                                                     |
+| ---------- | -------------------------------------------- | ------- | --------------------------------------------------------------- |
+| `...props` | `React.HTMLAttributes<HTMLParagraphElement>` | -       | Any other props are spread to the underlying paragraph element. |
 
 ### `<ArtifactActions />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Any other props are spread to the underlying div element. |
+| Prop       | Type                                   | Default | Description                                               |
+| ---------- | -------------------------------------- | ------- | --------------------------------------------------------- |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -       | Any other props are spread to the underlying div element. |
 
 ### `<ArtifactAction />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `tooltip` | `string` | - | Tooltip text to display on hover. |
-| `label` | `string` | - | Screen reader label for the action button. |
-| `icon` | `LucideIcon` | - | Lucide icon component to display in the button. |
-| `...props` | `React.ComponentProps<typeof Button>` | - | Any other props are spread to the underlying shadcn/ui Button component. |
+| Prop       | Type                                  | Default | Description                                                              |
+| ---------- | ------------------------------------- | ------- | ------------------------------------------------------------------------ |
+| `tooltip`  | `string`                              | -       | Tooltip text to display on hover.                                        |
+| `label`    | `string`                              | -       | Screen reader label for the action button.                               |
+| `icon`     | `LucideIcon`                          | -       | Lucide icon component to display in the button.                          |
+| `...props` | `React.ComponentProps<typeof Button>` | -       | Any other props are spread to the underlying shadcn/ui Button component. |
 
 ### `<ArtifactClose />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.ComponentProps<typeof Button>` | - | Any other props are spread to the underlying shadcn/ui Button component. |
+| Prop       | Type                                  | Default | Description                                                              |
+| ---------- | ------------------------------------- | ------- | ------------------------------------------------------------------------ |
+| `...props` | `React.ComponentProps<typeof Button>` | -       | Any other props are spread to the underlying shadcn/ui Button component. |
 
 ### `<ArtifactContent />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Any other props are spread to the underlying div element. |
+| Prop       | Type                                   | Default | Description                                               |
+| ---------- | -------------------------------------- | ------- | --------------------------------------------------------- |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -       | Any other props are spread to the underlying div element. |

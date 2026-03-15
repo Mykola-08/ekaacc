@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { BookOpen, Plus, Calendar, Smile, Frown, Meh } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DashboardHeader } from '../dashboard/layout/DashboardHeader';
 import {
   Dialog,
   DialogContent,
@@ -102,15 +101,15 @@ export function JournalPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 md:px-8">
-      <DashboardHeader title="Reflections" subtitle="Your private wellness journal.">
+      <div className="mb-6 flex items-center justify-end gap-2">
         <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
           <DialogTrigger asChild>
-            <Button className="h-12 rounded-lg px-6 text-sm font-semibold shadow-sm transition-all hover:scale-105 active:scale-95">
+            <Button className="h-12 rounded-lg px-6 text-sm font-semibold transition-all hover:scale-105 active:scale-95">
               <Plus className="mr-2 h-5 w-5" strokeWidth={2.5} />
               New Entry
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-card rounded-lg border-0 p-8 shadow-2xl sm:max-w-150">
+          <DialogContent className="bg-card rounded-lg border-0 p-8 sm:max-w-150">
             <DialogHeader>
               <DialogTitle className="text-foreground text-2xl font-black tracking-tight">
                 New Reflection
@@ -125,7 +124,7 @@ export function JournalPage() {
                     className={cn(
                       'rounded-full p-4 transition-all duration-300',
                       newEntry.mood === m.id
-                        ? `${m.bg} scale-110 shadow-inner ring-2 ring-black/5`
+                        ? `${m.bg} scale-110 ring-2 ring-black/5`
                         : 'hover:bg-card'
                     )}
                   >
@@ -156,14 +155,14 @@ export function JournalPage() {
             <DialogFooter>
               <Button
                 onClick={handleSave}
-                className="h-14 w-full rounded-xl text-lg font-semibold shadow-sm transition-transform active:scale-95"
+                className="h-14 w-full rounded-xl text-lg font-semibold transition-transform active:scale-95"
               >
                 Save Entry
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </DashboardHeader>
+      </div>
 
       {loading ? (
         <div className="">
@@ -172,8 +171,8 @@ export function JournalPage() {
           ))}
         </div>
       ) : entries.length === 0 ? (
-        <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed py-20 text-center">
-          <div className="bg-card mb-4 flex h-16 w-16 items-center justify-center rounded-full shadow-sm">
+        <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed py-20 text-center">
+          <div className="bg-card mb-4 flex h-16 w-16 items-center justify-center rounded-full">
             <BookOpen className="text-muted-foreground/50 h-8 w-8" />
           </div>
           <h3 className="text-foreground text-lg font-semibold">No entries yet</h3>
@@ -191,7 +190,7 @@ export function JournalPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={entry.id}
-                className="group bg-card hover:border-border rounded-lg border border-transparent p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-md"
+                className="group bg-card hover:border-border hover: rounded-lg border border-transparent p-8 transition-all duration-500 hover:-translate-y-1"
               >
                 <div className="mb-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-5">

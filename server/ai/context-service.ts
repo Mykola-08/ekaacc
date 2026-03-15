@@ -97,40 +97,49 @@ export const contextService = {
     // Run all queries in parallel for speed
     const [userResult, profileResult, moodsResult, insightsResult, bookingsResult, memories] =
       await Promise.all([
-        db.query<UserRow>(
-          `SELECT id, raw_user_meta_data, email FROM auth.users WHERE id = $1`,
-          [userId]
-        ).catch(() => ({ rows: [] as UserRow[] })),
+        db
+          .query<UserRow>(`SELECT id, raw_user_meta_data, email FROM auth.users WHERE id = $1`, [
+            userId,
+          ])
+          .catch(() => ({ rows: [] as UserRow[] })),
 
-        db.query<ProfileRow>(
-          `SELECT user_id, 
+        db
+          .query<ProfileRow>(
+            `SELECT user_id, 
                   behavior_patterns,
                   preferences,
                   wellness_insights
            FROM ai_personalization_profiles WHERE user_id = $1`,
-          [userId]
-        ).catch(() => ({ rows: [] as ProfileRow[] })),
+            [userId]
+          )
+          .catch(() => ({ rows: [] as ProfileRow[] })),
 
-        db.query<MoodRow>(
-          `SELECT mood, mood_score, energy_level, stress_level, notes, logged_at
+        db
+          .query<MoodRow>(
+            `SELECT mood, mood_score, energy_level, stress_level, notes, logged_at
            FROM mood_logs WHERE user_id = $1
            ORDER BY logged_at DESC LIMIT 5`,
-          [userId]
-        ).catch(() => ({ rows: [] as MoodRow[] })),
+            [userId]
+          )
+          .catch(() => ({ rows: [] as MoodRow[] })),
 
-        db.query<InsightRow>(
-          `SELECT type, title, description FROM ai_insights
+        db
+          .query<InsightRow>(
+            `SELECT type, title, description FROM ai_insights
            WHERE user_id = $1 AND is_active = true
            ORDER BY created_at DESC LIMIT 5`,
-          [userId]
-        ).catch(() => ({ rows: [] as InsightRow[] })),
+            [userId]
+          )
+          .catch(() => ({ rows: [] as InsightRow[] })),
 
-        db.query<BookingRow>(
-          `SELECT start_time, service_name, status FROM bookings
+        db
+          .query<BookingRow>(
+            `SELECT start_time, service_name, status FROM bookings
            WHERE user_id = $1 AND start_time > NOW()
            ORDER BY start_time ASC LIMIT 3`,
-          [userId]
-        ).catch(() => ({ rows: [] as BookingRow[] })),
+            [userId]
+          )
+          .catch(() => ({ rows: [] as BookingRow[] })),
 
         memoryService.getContextMemories(userId, 10).catch(() => [] as string[]),
       ]);

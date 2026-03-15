@@ -376,4 +376,3 @@ export { Card, CardHeader, CardContent } from './card';
 
 Don't create a component until you've copy-pasted it 2-3 times. Wait until
 patterns emerge.
-

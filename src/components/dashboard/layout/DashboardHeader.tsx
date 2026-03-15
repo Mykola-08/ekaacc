@@ -1,11 +1,5 @@
-'use client';
-
 import React from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Sun03Icon } from '@hugeicons/core-free-icons';
-import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { NotificationDropdown } from './NotificationDropdown';
 
 interface DashboardHeaderProps {
   title: string;
@@ -25,16 +19,15 @@ export function DashboardHeader({
   return (
     <div
       className={cn(
-        'border-border mb-6 flex flex-col items-end justify-between gap-3 border-b pb-4 transition-colors md:flex-row',
+        'mb-8 flex flex-col items-start justify-between space-y-2 sm:flex-row sm:items-center sm:space-y-0',
         className
       )}
     >
-      <div className=".5">
-        <h2 className="text-foreground text-lg font-semibold tracking-tight">{title}</h2>
-        {subtitle && <p className="text-muted-foreground text-sm">{subtitle}</p>}
+      <div>
+        <h2 className="text-foreground text-2xl font-bold tracking-tight sm:text-3xl">{title}</h2>
+        {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
       </div>
-
-      <div className="flex w-full items-center gap-3 md:w-auto">{children}</div>
+      {(children || showDate) && <div className="flex items-center space-x-2">{children}</div>}
     </div>
   );
 }

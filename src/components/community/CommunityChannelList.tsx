@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
 
 export function CommunityChannelList({ channels, activeChannelId, onSelectChannel }: any) {
   return (
-    <Card className="h-full rounded-none border-r shadow-none">
-      <CardHeader className="border-b pb-3">
+    <Card className="h-full rounded-2xl border-none bg-card">
+      <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">Communities</CardTitle>
           <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -17,7 +17,7 @@ export function CommunityChannelList({ channels, activeChannelId, onSelectChanne
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="p-3">
+      <CardContent className="p-3 flex flex-col gap-1">
         {channels.map((channel: any) => (
           <Button
             key={channel.id}

@@ -53,9 +53,14 @@ export async function sendUpcomingReminders(hoursAhead = 24): Promise<{
         body: `Reminder: Your ${booking.service_name} appointment is on ${startFormatted}.`,
         referenceId: booking.id,
         buttons: {
-          inline_keyboard: [[
-            { text: '📅 View Details', url: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/bookings/${booking.id}` },
-          ]],
+          inline_keyboard: [
+            [
+              {
+                text: '📅 View Details',
+                url: `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/bookings/${booking.id}`,
+              },
+            ],
+          ],
         },
         data: {
           serviceName: booking.service_name,
@@ -65,10 +70,10 @@ export async function sendUpcomingReminders(hoursAhead = 24): Promise<{
       });
 
       // Mark as reminded so we don't send again
-      await db.query(
-        'UPDATE bookings SET reminded_at = $1 WHERE id = $2',
-        [now.toISOString(), booking.id]
-      );
+      await db.query('UPDATE bookings SET reminded_at = $1 WHERE id = $2', [
+        now.toISOString(),
+        booking.id,
+      ]);
 
       sentCount++;
     } catch (err) {

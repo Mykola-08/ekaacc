@@ -71,7 +71,7 @@ export default async function PatientDetailsPage({ params }: { params: Promise<{
 
         <TabsContent value="assignments" className="mt-4">
           {/* Assignment List */}
-          <div className="bg-muted/20 flex items-center justify-between rounded-lg p-4">
+          <div className="bg-muted/20 flex items-center justify-between rounded-2xl p-4">
             <span>Quick Assign:</span>
             <div className="flex gap-2">
               <Button size="sm" variant="outline">
@@ -83,7 +83,7 @@ export default async function PatientDetailsPage({ params }: { params: Promise<{
             </div>
           </div>
           {assignments?.map((a: any) => (
-            <div key={a.id} className="flex items-center justify-between rounded-lg border p-4">
+            <div key={a.id} className="flex items-center justify-between rounded-2xl border p-4">
               <div>
                 <div className="font-medium">{a.title}</div>
                 <div className="text-muted-foreground text-xs">
@@ -102,7 +102,7 @@ export default async function PatientDetailsPage({ params }: { params: Promise<{
             </CardHeader>
             <CardContent>
               <div className="">
-                <div className="flex items-center justify-between rounded-lg border p-4">
+                <div className="flex items-center justify-between rounded-2xl border p-4">
                   <div>
                     <h4 className="font-medium">Initial Intake Questionnaire</h4>
                     <p className="text-muted-foreground text-sm">Completed: Oct 12, 2026</p>
@@ -111,7 +111,7 @@ export default async function PatientDetailsPage({ params }: { params: Promise<{
                     View Answers
                   </Button>
                 </div>
-                <div className="ring-primary/20 bg-primary/5 flex items-center justify-between rounded-lg border p-4 ring-1">
+                <div className="ring-primary/20 bg-primary/5 flex items-center justify-between rounded-2xl border p-4 ring-1">
                   <div>
                     <h4 className="font-medium">PHQ-9 Depression Screener</h4>
                     <p className="text-muted-foreground text-sm">Status: Pending</p>

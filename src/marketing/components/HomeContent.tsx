@@ -49,13 +49,13 @@ export default function HomeContent() {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center justify-center rounded-3xl p-6 text-center transition-colors duration-300"
+                className="flex flex-col items-center justify-center rounded-2xl p-6 text-center transition-colors duration-300"
               >
-                <div className="mb-3 text-4xl font-semibold tracking-tight text-gray-900 tabular-nums md:text-5xl lg:text-6xl">
+                <div className="mb-3 text-4xl font-semibold tracking-tighter text-foreground tabular-nums md:text-5xl lg:text-6xl">
                   {stat.value}
                   {stat.suffix}
                 </div>
-                <span className="text-sm font-medium tracking-wide text-gray-500 uppercase">
+                <span className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
                   {stat.label}
                 </span>
               </div>
@@ -68,10 +68,7 @@ export default function HomeContent() {
       <section className="overflow-hidden bg-white py-24">
         <div className="section-container">
           <div className="mx-auto mb-16 max-w-3xl text-center">
-            <h2 className="text-primary mb-3 text-sm font-semibold tracking-wider uppercase">
-              {t('home.bento.badge')}
-            </h2>
-            <h3 className="text-3xl font-semibold tracking-tight text-gray-900 md:text-5xl">
+            <h3 className="apple-headline mx-auto max-w-2xl text-[2rem] leading-[1.1] md:text-[3rem]">
               {t('home.bento.title')}
             </h3>
           </div>
@@ -106,7 +103,7 @@ export default function HomeContent() {
               delay={0.1}
               className="md:col-span-2 md:row-span-1"
             >
-              <div className="absolute inset-0 z-0 bg-[#f5f5f7]"></div>
+              <div className="absolute inset-0 z-0 bg-background"></div>
               <div className="absolute top-0 right-0 bottom-0 z-0 w-[60%] overflow-hidden md:w-1/2">
                 <Image
                   src="https://images.pexels.com/photos/4506105/pexels-photo-4506105.jpeg?auto=compress&cs=tinysrgb&w=800"
@@ -114,17 +111,17 @@ export default function HomeContent() {
                   fill
                   className="absolute inset-0 h-full w-full object-cover opacity-80 mix-blend-multiply"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#f5f5f7] via-[#f5f5f7]/80 to-transparent"></div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#fbfbfd] via-[#fbfbfd]/80 to-transparent"></div>
               </div>
               <div className="absolute inset-0 z-20 flex items-center p-8 md:p-10">
                 <div className="w-full max-w-[60%] md:max-w-[70%] lg:max-w-[60%]">
-                  <h3 className="mb-3 text-2xl font-bold tracking-tight text-gray-900">
+                  <h3 className="mb-3 text-[1.75rem] leading-tight font-bold tracking-tighter text-foreground">
                     {t('home.bento.kinesiology.title')}
                   </h3>
-                  <p className="mb-6 text-sm leading-relaxed font-medium text-gray-700 md:text-base">
+                  <p className="mb-6 text-sm leading-relaxed font-normal text-muted-foreground md:text-base">
                     {t('home.bento.kinesiology.desc')}
                   </p>
-                  <span className="text-primary group-hover:text-primary-600 inline-flex items-center text-sm font-bold transition-colors">
+                  <span className="inline-flex items-center text-sm font-medium text-foreground transition-opacity group-hover:opacity-70">
                     {t('home.bento.explore')}
                   </span>
                 </div>
@@ -156,25 +153,25 @@ export default function HomeContent() {
 
             {/* Bottom right split - 2 */}
             <BentoCard href="/cases" delay={0.3} className="md:col-span-1 md:row-span-1">
-              <div className="absolute inset-0 z-0 bg-[#fff5f5]"></div>
+              <div className="absolute inset-0 z-0 bg-background"></div>
               <div className="absolute inset-0 z-20 flex flex-col p-8">
                 <div className="flex-1">
                   <svg
-                    className="mb-4 h-8 w-8 text-red-400 opacity-50"
+                    className="mb-4 h-8 w-8 text-foreground opacity-20"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                   </svg>
-                  <p className="text-lg leading-snug font-medium text-gray-900">
+                  <p className="text-[1.1rem] leading-snug font-normal text-foreground">
                     {t('home.bento.testimonial.quote')}
                   </p>
                 </div>
-                <div className="mt-auto border-t border-red-100/50 pt-4">
-                  <p className="text-sm font-semibold tracking-wide text-gray-900 uppercase">
+                <div className="mt-auto pt-4">
+                  <p className="text-xs font-semibold tracking-widest text-foreground uppercase">
                     {t('home.bento.testimonial.author')}
                   </p>
-                  <p className="mt-0.5 text-xs font-medium text-gray-500">
+                  <p className="mt-1 text-xs font-normal text-muted-foreground">
                     {t('home.bento.testimonial.role')}
                   </p>
                 </div>
@@ -185,7 +182,7 @@ export default function HomeContent() {
       </section>
 
       {/* Elena Introduction Section - REDESIGNED */}
-      <section className="relative overflow-hidden bg-[#f5f5f7] py-24">
+      <section className="relative overflow-hidden bg-white py-24 sm:py-32">
         <div className="section-container relative z-10">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-24">
             {/* Image Column (5 cols) */}
@@ -215,22 +212,23 @@ export default function HomeContent() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-center lg:col-span-7 lg:text-left"
             >
-              <div className="">
-                <span className="inline-block rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-semibold tracking-wider text-gray-900 uppercase">
-                  {t('elena.role') || 'Lead Therapist'}
-                </span>
-                <h2 className="text-4xl leading-[1.1] font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+              <div className="mb-6 flex flex-col items-center space-y-4 lg:items-start">
+                <h2 className="text-[2.5rem] leading-[1.05] font-semibold tracking-tighter text-foreground sm:text-[3.5rem] lg:text-[4.5rem]">
                   {t('elena.greeting')}
                 </h2>
               </div>
 
-              <div className="mx-auto max-w-2xl text-xl leading-relaxed font-normal text-gray-500 lg:mx-0">
+              <div className="mx-auto max-w-2xl space-y-6 text-[1.2rem] leading-relaxed font-normal text-muted-foreground lg:mx-0">
                 <p>{t('elena.bio')}</p>
                 <p>{t('elena.approach')}</p>
               </div>
 
-              <Link href="/about-elena" className="inline-block pt-4">
-                <Button variant="default" size="lg" className="h-auto px-10 py-6 text-lg shadow-sm">
+              <Link href="/about-elena" className="mt-2 inline-block pt-8">
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="bg-primary hover:bg-primary-600 h-auto rounded-full px-10 py-6 text-lg font-medium text-white transition-all duration-300 hover:scale-[1.02]"
+                >
                   {t('common.readMore')}
                 </Button>
               </Link>
@@ -240,13 +238,13 @@ export default function HomeContent() {
       </section>
 
       {/* Featured Services Section */}
-      <section className="bg-white py-32">
+      <section className="bg-background py-32">
         <div className="section-container">
           <div className="mx-auto mb-20 max-w-3xl text-center">
-            <h2 className="mb-6 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+            <h2 className="mb-6 text-[2.5rem] leading-[1.05] font-semibold tracking-tighter text-foreground sm:text-[3.5rem] lg:text-[4rem]">
               {t('services.featuredTitle')}
             </h2>
-            <p className="mx-auto max-w-2xl text-xl leading-relaxed text-gray-500">
+            <p className="mx-auto max-w-2xl text-[1.2rem] leading-relaxed font-normal text-muted-foreground">
               {t('services.featuredSubtitle')}
             </p>
           </div>
@@ -268,7 +266,11 @@ export default function HomeContent() {
 
           <div className="mt-16 text-center">
             <Link href="/services">
-              <Button variant="default" size="lg" className="h-auto px-10 py-6 text-lg">
+              <Button
+                variant="default"
+                size="lg"
+                className="bg-primary hover:bg-primary-600 h-auto rounded-full px-10 py-6 text-lg font-medium text-white transition-all duration-300 hover:scale-[1.02]"
+              >
                 {t('services.viewAll')}
               </Button>
             </Link>

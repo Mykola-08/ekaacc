@@ -87,7 +87,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
               onClick={() => onSuggestion(action.prompt)}
-              className="bg-muted/50 hover:bg-muted group hover:border-primary/20 flex items-start gap-3 rounded-xl border p-3 text-left transition-all hover:shadow-sm"
+              className="bg-muted/50 hover:bg-muted group hover:border-primary/20 flex items-start gap-3 rounded-xl border p-3 text-left transition-all"
             >
               <div className="bg-primary/10 group-hover:bg-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors">
                 <Icon className="text-primary h-4 w-4" />

@@ -298,4 +298,3 @@ should be sufficient to trigger the action.
 ## Looping Animations
 
 Pause looping animations when off-screen to save resources.
-

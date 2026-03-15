@@ -322,4 +322,3 @@ initial state stays consistent by:
 - Storing state in localStorage/sessionStorage
 - Using proper SSR hydration
 - Setting initial state before render
-

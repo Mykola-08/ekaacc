@@ -18,7 +18,7 @@ export class StripeIntegration extends BaseIntegration {
 
     if (config.apiKey) {
       this.stripeClient = new Stripe(config.apiKey, {
-        apiVersion: '2026-01-28.clover', // Best practice to stick to latest or environment current
+        apiVersion: '2026-02-25.clover', // Best practice to stick to latest or environment current
       });
     }
   }

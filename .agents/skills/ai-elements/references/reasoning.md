@@ -1,8 +1,10 @@
 # Reasoning
 
-A collapsible component that displays AI reasoning content, automatically opening during streaming and closing when finished.
+A collapsible component that displays AI reasoning content, automatically
+opening during streaming and closing when finished.
 
-The `Reasoning` component displays AI reasoning content, automatically opening during streaming and closing when finished.
+The `Reasoning` component displays AI reasoning content, automatically opening
+during streaming and closing when finished.
 
 See `scripts/reasoning.tsx` for this example.
 
@@ -16,38 +18,41 @@ npx ai-elements@latest add reasoning
 
 Build a chatbot with reasoning using Deepseek R1 or other reasoning models.
 
-Some models (like GPT with high reasoning effort) return multiple reasoning parts instead of a single streaming block. The example below consolidates all reasoning parts into a single component to avoid displaying multiple "Thinking..." indicators.
+Some models (like GPT with high reasoning effort) return multiple reasoning
+parts instead of a single streaming block. The example below consolidates all
+reasoning parts into a single component to avoid displaying multiple
+"Thinking..." indicators.
 
 Add the following component to your frontend:
 
 ```tsx title="app/page.tsx"
-"use client";
+'use client';
 
 import {
   Reasoning,
   ReasoningContent,
   ReasoningTrigger,
-} from "@/components/ai-elements/reasoning";
+} from '@/components/ai-elements/reasoning';
 import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from "@/components/ai-elements/conversation";
+} from '@/components/ai-elements/conversation';
 import {
   PromptInput,
   type PromptInputMessage,
   PromptInputTextarea,
   PromptInputSubmit,
-} from "@/components/ai-elements/prompt-input";
-import { Spinner } from "@/components/ui/spinner";
+} from '@/components/ai-elements/prompt-input';
+import { Spinner } from '@/components/ui/spinner';
 import {
   Message,
   MessageContent,
   MessageResponse,
-} from "@/components/ai-elements/message";
-import { useState } from "react";
-import { useChat } from "@ai-sdk/react";
-import type { UIMessage } from "ai";
+} from '@/components/ai-elements/message';
+import { useState } from 'react';
+import { useChat } from '@ai-sdk/react';
+import type { UIMessage } from 'ai';
 
 const MessageParts = ({
   message,
@@ -60,15 +65,15 @@ const MessageParts = ({
 }) => {
   // Consolidate all reasoning parts into one block
   const reasoningParts = message.parts.filter(
-    (part) => part.type === "reasoning"
+    (part) => part.type === 'reasoning'
   );
-  const reasoningText = reasoningParts.map((part) => part.text).join("\n\n");
+  const reasoningText = reasoningParts.map((part) => part.text).join('\n\n');
   const hasReasoning = reasoningParts.length > 0;
 
   // Check if reasoning is still streaming (last part is reasoning on last message)
   const lastPart = message.parts.at(-1);
   const isReasoningStreaming =
-    isLastMessage && isStreaming && lastPart?.type === "reasoning";
+    isLastMessage && isStreaming && lastPart?.type === 'reasoning';
 
   return (
     <>
@@ -79,7 +84,7 @@ const MessageParts = ({
         </Reasoning>
       )}
       {message.parts.map((part, i) => {
-        if (part.type === "text") {
+        if (part.type === 'text') {
           return (
             <MessageResponse key={`${message.id}-${i}`}>
               {part.text}
@@ -93,20 +98,20 @@ const MessageParts = ({
 };
 
 const ReasoningDemo = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
 
   const { messages, sendMessage, status } = useChat();
 
   const handleSubmit = (message: PromptInputMessage) => {
     sendMessage({ text: message.text });
-    setInput("");
+    setInput('');
   };
 
-  const isStreaming = status === "streaming";
+  const isStreaming = status === 'streaming';
 
   return (
-    <div className="max-w-4xl mx-auto p-6 relative size-full rounded-lg border h-[600px]">
-      <div className="flex flex-col h-full">
+    <div className="relative mx-auto size-full h-[600px] max-w-4xl rounded-lg border p-6">
+      <div className="flex h-full flex-col">
         <Conversation>
           <ConversationContent>
             {messages.map((message, index) => (
@@ -120,14 +125,14 @@ const ReasoningDemo = () => {
                 </MessageContent>
               </Message>
             ))}
-            {status === "submitted" && <Spinner />}
+            {status === 'submitted' && <Spinner />}
           </ConversationContent>
           <ConversationScrollButton />
         </Conversation>
 
         <PromptInput
           onSubmit={handleSubmit}
-          className="mt-4 w-full max-w-2xl mx-auto relative"
+          className="relative mx-auto mt-4 w-full max-w-2xl"
         >
           <PromptInputTextarea
             value={input}
@@ -136,7 +141,7 @@ const ReasoningDemo = () => {
             className="pr-12"
           />
           <PromptInputSubmit
-            status={isStreaming ? "streaming" : "ready"}
+            status={isStreaming ? 'streaming' : 'ready'}
             disabled={!input.trim()}
             className="absolute bottom-1 right-1"
           />
@@ -152,7 +157,7 @@ export default ReasoningDemo;
 Add the following route to your backend:
 
 ```ts title="app/api/chat/route.ts"
-import { streamText, UIMessage, convertToModelMessages } from "ai";
+import { streamText, UIMessage, convertToModelMessages } from 'ai';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -162,7 +167,7 @@ export async function POST(req: Request) {
     await req.json();
 
   const result = streamText({
-    model: "deepseek/deepseek-r1",
+    model: 'deepseek/deepseek-r1',
     messages: await convertToModelMessages(messages),
   });
 
@@ -174,9 +179,14 @@ export async function POST(req: Request) {
 
 ## Reasoning vs Chain of Thought
 
-Use the `Reasoning` component when your model outputs thinking content as a single block or continuous stream (Deepseek R1, Claude with extended thinking, etc.).
+Use the `Reasoning` component when your model outputs thinking content as a
+single block or continuous stream (Deepseek R1, Claude with extended thinking,
+etc.).
 
-If your model outputs discrete, labeled steps (search queries, tool calls, distinct thought stages), consider using the [Chain of Thought](/components/chain-of-thought) component instead for a more structured visual representation.
+If your model outputs discrete, labeled steps (search queries, tool calls,
+distinct thought stages), consider using the
+[Chain of Thought](/components/chain-of-thought) component instead for a more
+structured visual representation.
 
 ## Features
 
@@ -195,28 +205,28 @@ If your model outputs discrete, labeled steps (search queries, tool calls, disti
 
 ### `<Reasoning />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isStreaming` | `boolean` | `false` | Whether the reasoning is currently streaming (auto-opens and closes the panel). |
-| `open` | `boolean` | - | Controlled open state. |
-| `defaultOpen` | `boolean` | `true` | Default open state when uncontrolled. |
-| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes. |
-| `duration` | `number` | - | Duration in seconds to display (can be controlled externally). |
-| `...props` | `React.ComponentProps<typeof Collapsible>` | - | Any other props are spread to the underlying Collapsible component. |
+| Prop           | Type                                       | Default | Description                                                                     |
+| -------------- | ------------------------------------------ | ------- | ------------------------------------------------------------------------------- |
+| `isStreaming`  | `boolean`                                  | `false` | Whether the reasoning is currently streaming (auto-opens and closes the panel). |
+| `open`         | `boolean`                                  | -       | Controlled open state.                                                          |
+| `defaultOpen`  | `boolean`                                  | `true`  | Default open state when uncontrolled.                                           |
+| `onOpenChange` | `(open: boolean) => void`                  | -       | Callback when open state changes.                                               |
+| `duration`     | `number`                                   | -       | Duration in seconds to display (can be controlled externally).                  |
+| `...props`     | `React.ComponentProps<typeof Collapsible>` | -       | Any other props are spread to the underlying Collapsible component.             |
 
 ### `<ReasoningTrigger />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `getThinkingMessage` | `(isStreaming: boolean, duration?: number) => ReactNode` | - | Optional function to customize the thinking message. Receives isStreaming and duration parameters. |
-| `...props` | `React.ComponentProps<typeof CollapsibleTrigger>` | - | Any other props are spread to the underlying CollapsibleTrigger component. |
+| Prop                 | Type                                                     | Default | Description                                                                                        |
+| -------------------- | -------------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------- |
+| `getThinkingMessage` | `(isStreaming: boolean, duration?: number) => ReactNode` | -       | Optional function to customize the thinking message. Receives isStreaming and duration parameters. |
+| `...props`           | `React.ComponentProps<typeof CollapsibleTrigger>`        | -       | Any other props are spread to the underlying CollapsibleTrigger component.                         |
 
 ### `<ReasoningContent />`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `string` | Required | The reasoning text to display (rendered via Streamdown). |
-| `...props` | `React.ComponentProps<typeof CollapsibleContent>` | - | Any other props are spread to the underlying CollapsibleContent component. |
+| Prop       | Type                                              | Default  | Description                                                                |
+| ---------- | ------------------------------------------------- | -------- | -------------------------------------------------------------------------- |
+| `children` | `string`                                          | Required | The reasoning text to display (rendered via Streamdown).                   |
+| `...props` | `React.ComponentProps<typeof CollapsibleContent>` | -        | Any other props are spread to the underlying CollapsibleContent component. |
 
 ## Hooks
 
@@ -230,9 +240,9 @@ const { isStreaming, isOpen, setIsOpen, duration } = useReasoning();
 
 Returns:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isStreaming` | `boolean` | - | Whether reasoning is currently streaming. |
-| `isOpen` | `boolean` | - | Whether the reasoning panel is open. |
-| `setIsOpen` | `(open: boolean) => void` | - | Function to set the open state. |
-| `duration` | `number | undefined` | - | Duration in seconds (undefined while streaming). |
+| Prop          | Type                      | Default    | Description                               |
+| ------------- | ------------------------- | ---------- | ----------------------------------------- | ------------------------------------------------ |
+| `isStreaming` | `boolean`                 | -          | Whether reasoning is currently streaming. |
+| `isOpen`      | `boolean`                 | -          | Whether the reasoning panel is open.      |
+| `setIsOpen`   | `(open: boolean) => void` | -          | Function to set the open state.           |
+| `duration`    | `number                   | undefined` | -                                         | Duration in seconds (undefined while streaming). |

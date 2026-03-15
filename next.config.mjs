@@ -63,7 +63,7 @@ const nextConfig = {
   // Bundle optimization
   cacheComponents: true,
   experimental: {
-    optimizePackageImports: ['lucide-react', 'date-fns'],
+    optimizePackageImports: ['lucide-react', 'date-fns', 'recharts', '@headlessui/react', 'motion'],
   },
   // Compression
   compress: true,
@@ -118,4 +118,10 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+export default withBundleAnalyzer(nextConfig);

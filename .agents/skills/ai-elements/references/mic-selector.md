@@ -1,8 +1,12 @@
 # Mic Selector
 
-A composable dropdown component for selecting audio input devices with permission handling and device change detection.
+A composable dropdown component for selecting audio input devices with
+permission handling and device change detection.
 
-The `MicSelector` component provides a flexible and composable interface for selecting microphone input devices. Built on shadcn/ui's Command and Popover components, it features automatic device detection, permission handling, dynamic device list updates, and intelligent device name parsing.
+The `MicSelector` component provides a flexible and composable interface for
+selecting microphone input devices. Built on shadcn/ui's Command and Popover
+components, it features automatic device detection, permission handling, dynamic
+device list updates, and intelligent device name parsing.
 
 See `scripts/mic-selector.tsx` for this example.
 
@@ -30,93 +34,97 @@ npx ai-elements@latest add mic-selector
 
 Root Popover component that provides context for all child components.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `defaultValue` | `string` | - | The default selected device ID (uncontrolled). |
-| `value` | `string` | - | The selected device ID (controlled). |
-| `onValueChange` | `(deviceId: string) => void` | - | Callback fired when the selected device changes. |
-| `defaultOpen` | `boolean` | `false` | The default open state (uncontrolled). |
-| `open` | `boolean` | - | The open state (controlled). |
-| `onOpenChange` | `(open: boolean) => void` | - | Callback fired when the open state changes. Automatically requests microphone permission when opened without permission. |
-| `...props` | `React.ComponentProps<typeof Popover>` | - | Any other props are spread to the Popover component. |
+| Prop            | Type                                   | Default | Description                                                                                                              |
+| --------------- | -------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `defaultValue`  | `string`                               | -       | The default selected device ID (uncontrolled).                                                                           |
+| `value`         | `string`                               | -       | The selected device ID (controlled).                                                                                     |
+| `onValueChange` | `(deviceId: string) => void`           | -       | Callback fired when the selected device changes.                                                                         |
+| `defaultOpen`   | `boolean`                              | `false` | The default open state (uncontrolled).                                                                                   |
+| `open`          | `boolean`                              | -       | The open state (controlled).                                                                                             |
+| `onOpenChange`  | `(open: boolean) => void`              | -       | Callback fired when the open state changes. Automatically requests microphone permission when opened without permission. |
+| `...props`      | `React.ComponentProps<typeof Popover>` | -       | Any other props are spread to the Popover component.                                                                     |
 
 ### `<MicSelectorTrigger />`
 
-Button that opens the microphone selector popover. Automatically tracks its width to match the popover content.
+Button that opens the microphone selector popover. Automatically tracks its
+width to match the popover content.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.ComponentProps<typeof Button>` | - | Any other props are spread to the Button component. |
+| Prop       | Type                                  | Default | Description                                         |
+| ---------- | ------------------------------------- | ------- | --------------------------------------------------- |
+| `...props` | `React.ComponentProps<typeof Button>` | -       | Any other props are spread to the Button component. |
 
 ### `<MicSelectorValue />`
 
 Displays the currently selected microphone name or a placeholder.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.ComponentProps<` | - | Any other props are spread to the span element. |
+| Prop       | Type                    | Default | Description                                     |
+| ---------- | ----------------------- | ------- | ----------------------------------------------- |
+| `...props` | `React.ComponentProps<` | -       | Any other props are spread to the span element. |
 
 ### `<MicSelectorContent />`
 
 Container for the Command component, rendered inside the popover.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `popoverOptions` | `React.ComponentProps<typeof PopoverContent>` | - | Props to pass to the underlying PopoverContent component. |
-| `...props` | `React.ComponentProps<typeof Command>` | - | Any other props are spread to the Command component. |
+| Prop             | Type                                          | Default | Description                                               |
+| ---------------- | --------------------------------------------- | ------- | --------------------------------------------------------- |
+| `popoverOptions` | `React.ComponentProps<typeof PopoverContent>` | -       | Props to pass to the underlying PopoverContent component. |
+| `...props`       | `React.ComponentProps<typeof Command>`        | -       | Any other props are spread to the Command component.      |
 
 ### `<MicSelectorInput />`
 
 Search input for filtering microphones.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `...props` | `React.ComponentProps<typeof CommandInput>` | - | Any other props are spread to the CommandInput component. |
+| Prop       | Type                                        | Default | Description                                               |
+| ---------- | ------------------------------------------- | ------- | --------------------------------------------------------- |
+| `...props` | `React.ComponentProps<typeof CommandInput>` | -       | Any other props are spread to the CommandInput component. |
 
 ### `<MicSelectorList />`
 
-Wrapper for the list of microphone items. Uses render props pattern to provide access to device data.
+Wrapper for the list of microphone items. Uses render props pattern to provide
+access to device data.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `(devices: MediaDeviceInfo[]) => ReactNode` | - | Render function that receives the array of available devices. |
-| `...props` | `Omit<React.ComponentProps<typeof CommandList>, ` | - | Any other props are spread to the CommandList component. |
+| Prop       | Type                                              | Default | Description                                                   |
+| ---------- | ------------------------------------------------- | ------- | ------------------------------------------------------------- |
+| `children` | `(devices: MediaDeviceInfo[]) => ReactNode`       | -       | Render function that receives the array of available devices. |
+| `...props` | `Omit<React.ComponentProps<typeof CommandList>, ` | -       | Any other props are spread to the CommandList component.      |
 
 ### `<MicSelectorEmpty />`
 
 Message shown when no microphones match the search.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | The message to display. |
-| `...props` | `React.ComponentProps<typeof CommandEmpty>` | - | Any other props are spread to the CommandEmpty component. |
+| Prop       | Type                                        | Default | Description                                               |
+| ---------- | ------------------------------------------- | ------- | --------------------------------------------------------- |
+| `children` | `ReactNode`                                 | -       | The message to display.                                   |
+| `...props` | `React.ComponentProps<typeof CommandEmpty>` | -       | Any other props are spread to the CommandEmpty component. |
 
 ### `<MicSelectorItem />`
 
 Selectable item representing a microphone.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | - | The device ID for this item. |
-| `...props` | `React.ComponentProps<typeof CommandItem>` | - | Any other props are spread to the CommandItem component. |
+| Prop       | Type                                       | Default | Description                                              |
+| ---------- | ------------------------------------------ | ------- | -------------------------------------------------------- |
+| `value`    | `string`                                   | -       | The device ID for this item.                             |
+| `...props` | `React.ComponentProps<typeof CommandItem>` | -       | Any other props are spread to the CommandItem component. |
 
 ### `<MicSelectorLabel />`
 
-Displays a formatted microphone label with intelligent device ID parsing. Automatically extracts and styles device IDs in the format (XXXX:XXXX).
+Displays a formatted microphone label with intelligent device ID parsing.
+Automatically extracts and styles device IDs in the format (XXXX:XXXX).
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `device` | `MediaDeviceInfo` | - | The MediaDeviceInfo object for the device. |
-| `...props` | `React.ComponentProps<` | - | Any other props are spread to the span element. |
+| Prop       | Type                    | Default | Description                                     |
+| ---------- | ----------------------- | ------- | ----------------------------------------------- |
+| `device`   | `MediaDeviceInfo`       | -       | The MediaDeviceInfo object for the device.      |
+| `...props` | `React.ComponentProps<` | -       | Any other props are spread to the span element. |
 
 ## Hooks
 
 ### `useAudioDevices()`
 
-A custom hook for managing audio input devices. This hook is used internally by the `MicSelector` component but can also be used independently.
+A custom hook for managing audio input devices. This hook is used internally by
+the `MicSelector` component but can also be used independently.
 
 ```tsx
-import { useAudioDevices } from "@repo/elements/mic-selector";
+import { useAudioDevices } from '@repo/elements/mic-selector';
 
 export default function Example() {
   const { devices, loading, error, hasPermission, loadDevices } =
@@ -139,13 +147,13 @@ export default function Example() {
 
 #### Return Value
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `devices` | `MediaDeviceInfo[]` | - | Array of available audio input devices. |
-| `loading` | `boolean` | - | Whether devices are currently being loaded. |
-| `error` | `string | null` | - | Error message if device loading failed. |
-| `hasPermission` | `boolean` | - | Whether microphone permission has been granted. |
-| `loadDevices` | `() => Promise<void>` | - | Function to request microphone permission and load device names. |
+| Prop            | Type                  | Default | Description                                                      |
+| --------------- | --------------------- | ------- | ---------------------------------------------------------------- | --------------------------------------- |
+| `devices`       | `MediaDeviceInfo[]`   | -       | Array of available audio input devices.                          |
+| `loading`       | `boolean`             | -       | Whether devices are currently being loaded.                      |
+| `error`         | `string               | null`   | -                                                                | Error message if device loading failed. |
+| `hasPermission` | `boolean`             | -       | Whether microphone permission has been granted.                  |
+| `loadDevices`   | `() => Promise<void>` | -       | Function to request microphone permission and load device names. |
 
 ## Behavior
 
@@ -153,12 +161,17 @@ export default function Example() {
 
 The component implements a two-stage permission approach:
 
-1. **Without Permission**: Initially loads devices without requesting permission. Device labels may show as generic names (e.g., "Microphone 1").
-2. **With Permission**: When the popover is opened and permission hasn't been granted, automatically requests microphone access and displays actual device names.
+1. **Without Permission**: Initially loads devices without requesting
+   permission. Device labels may show as generic names (e.g., "Microphone 1").
+2. **With Permission**: When the popover is opened and permission hasn't been
+   granted, automatically requests microphone access and displays actual device
+   names.
 
 ### Device Label Parsing
 
-The `MicSelectorLabel` component intelligently parses device names that include hardware IDs in the format `(XXXX:XXXX)`. It splits the label into the device name and ID, styling the ID with muted text for better readability.
+The `MicSelectorLabel` component intelligently parses device names that include
+hardware IDs in the format `(XXXX:XXXX)`. It splits the label into the device
+name and ID, styling the ID with muted text for better readability.
 
 For example: `"MacBook Pro Microphone (1a2b:3c4d)"` becomes:
 
@@ -167,11 +180,14 @@ For example: `"MacBook Pro Microphone (1a2b:3c4d)"` becomes:
 
 ### Width Synchronization
 
-The `MicSelectorTrigger` uses a ResizeObserver to track its width and automatically synchronizes it with the `MicSelectorContent` popover width for a cohesive appearance.
+The `MicSelectorTrigger` uses a ResizeObserver to track its width and
+automatically synchronizes it with the `MicSelectorContent` popover width for a
+cohesive appearance.
 
 ### Device Change Detection
 
-The component listens for `devicechange` events (e.g., plugging/unplugging microphones) and automatically updates the device list in real-time.
+The component listens for `devicechange` events (e.g., plugging/unplugging
+microphones) and automatically updates the device list in real-time.
 
 ## Accessibility
 
@@ -185,5 +201,7 @@ The component listens for `devicechange` events (e.g., plugging/unplugging micro
 - Requires a secure context (HTTPS or localhost) for microphone access
 - Browser may prompt user for microphone permission on first open
 - Device labels are only fully descriptive after permission is granted
-- Component handles cleanup of temporary media streams during permission requests
-- Uses Radix UI's `useControllableState` for flexible controlled/uncontrolled patterns
+- Component handles cleanup of temporary media streams during permission
+  requests
+- Uses Radix UI's `useControllableState` for flexible controlled/uncontrolled
+  patterns

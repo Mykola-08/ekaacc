@@ -50,12 +50,14 @@ export async function fetchService(serviceId: string) {
     const supabase = createAdminClient();
     const { data: services, error: dbError } = await supabase
       .from('service')
-      .select(`
+      .select(
+        `
         id, name, description, stripe_product_id, metadata, image_url, images, tags, location,
         service_variant (
           id, name, description, duration_min, price_amount, currency, stripe_price_id, features, comparison_label, active
         )
-      `)
+      `
+      )
       .eq('active', true)
       .eq(isUuid ? 'id' : 'slug', serviceId)
       .limit(1);
@@ -68,10 +70,10 @@ export async function fetchService(serviceId: string) {
 
     // Process joined results
     const serviceRow = services[0];
-    
+
     // @ts-ignore - Supabase types might imply single object or array depending on relation type, assuming array for hasMany
     const variantsRaw = Array.isArray(serviceRow.service_variant) ? serviceRow.service_variant : [];
-    
+
     const variants = variantsRaw
       // @ts-ignore
       .filter((v: any) => v.active === true)
@@ -184,8 +186,8 @@ export async function listServices() {
         .sort((a, b) => (a.price_amount || 0) - (b.price_amount || 0));
 
       const minPrice = activeVariants.length > 0 ? (activeVariants[0].price_amount || 0) / 100 : 0;
-      const duration = activeVariants.length > 0 ? (activeVariants[0].duration_min || 0) : 0;
-      const currency = activeVariants.length > 0 ? (activeVariants[0].currency || 'EUR') : 'EUR';
+      const duration = activeVariants.length > 0 ? activeVariants[0].duration_min || 0 : 0;
+      const currency = activeVariants.length > 0 ? activeVariants[0].currency || 'EUR' : 'EUR';
 
       return {
         id: s.id,

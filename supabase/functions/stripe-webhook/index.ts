@@ -60,7 +60,7 @@ serve(async (req) => {
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      Deno.env.get('SUPABASE_SECRET_KEY') ?? ''
     );
 
     // Log the event
@@ -86,22 +86,22 @@ serve(async (req) => {
         // 1. Try to find user by email
         let userId = null;
         const { data: userLookup } = await supabase
-            .from('admin_user_lookup')
-            .select('id')
-            .eq('email', email)
-            .single();
+          .from('admin_user_lookup')
+          .select('id')
+          .eq('email', email)
+          .single();
 
         if (userLookup) {
           userId = userLookup.id;
-          
+
           // Update existing user metadata
           await supabase.auth.admin.updateUserById(userId, {
-              user_metadata: {
-                  full_name: customer.name || undefined,
-                  phone: customer.phone || undefined,
-                  stripe_customer_id: customer.id,
-                  ...systemFlag,
-              }
+            user_metadata: {
+              full_name: customer.name || undefined,
+              phone: customer.phone || undefined,
+              stripe_customer_id: customer.id,
+              ...systemFlag,
+            },
           });
 
           // Link in sync_metadata
@@ -170,7 +170,7 @@ serve(async (req) => {
           await supabase
             .from('services')
             .update({
-              base_price: ((price.unit_amount || 0) / 100), // Convert cents to euros
+              base_price: (price.unit_amount || 0) / 100, // Convert cents to euros
               stripe_price_id: price.id,
             })
             .eq('stripe_product_id', productId);

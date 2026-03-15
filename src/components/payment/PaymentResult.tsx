@@ -15,12 +15,12 @@ export function PaymentResult({ status }: PaymentResultProps) {
 
   return (
     <div className="bg-background flex min-h-screen items-center justify-center p-4">
-      <Card className="border-border animate-fade-in w-full max-w-lg p-12 text-center shadow-sm">
+      <Card className="border-border animate-fade-in w-full max-w-lg p-12 text-center">
         {/* Icon */}
         <div className="mb-8 flex justify-center">
           <div
             className={cn(
-              'flex h-24 w-24 items-center justify-center rounded-full shadow-sm',
+              'flex h-24 w-24 items-center justify-center rounded-full',
               isSuccess ? 'bg-success/20 text-success' : 'bg-destructive/20 text-destructive'
             )}
           >
@@ -47,7 +47,7 @@ export function PaymentResult({ status }: PaymentResultProps) {
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
           {isSuccess && (
             <Link href="/bookings">
-              <Button className="h-12 w-full px-8 text-base shadow-lg sm:w-auto">
+              <Button className="h-12 w-full px-8 text-base sm:w-auto">
                 <Calendar className="mr-2 h-4 w-4" />
                 View My Bookings
               </Button>
@@ -57,7 +57,7 @@ export function PaymentResult({ status }: PaymentResultProps) {
           <Link href="/">
             <Button
               variant={isSuccess ? 'outline' : 'default'}
-              className={cn('h-12 w-full px-8 text-base sm:w-auto', !isSuccess && 'shadow-lg')}
+              className={cn('h-12 w-full px-8 text-base sm:w-auto', !isSuccess && '')}
             >
               <Home className="mr-2 h-4 w-4" />
               Return to Home

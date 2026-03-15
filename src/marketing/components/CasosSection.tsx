@@ -69,18 +69,14 @@ export default function CasosSection() {
   ];
 
   return (
-    <section className="bg-[#f5f5f7] py-24">
+    <section className="bg-white py-24">
       <div className="section-container">
         <div className="mx-auto mb-20 max-w-4xl text-center">
-          <span className="mb-6 inline-block rounded-full border border-gray-200/50 bg-white px-3 py-1 text-xs font-semibold tracking-wider text-gray-600 uppercase">
-            {t('casos.section.badge')}
-          </span>
-
-          <h2 className="mb-6 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+          <h2 className="mb-6 text-[2.5rem] leading-[1.05] font-semibold tracking-tighter text-foreground sm:text-[3.5rem] lg:text-[4rem]">
             {t('casos.section.title')}
           </h2>
 
-          <p className="mx-auto max-w-2xl text-xl leading-relaxed font-normal text-balance text-gray-500">
+          <p className="mx-auto max-w-2xl text-[1.2rem] leading-relaxed font-normal text-balance text-muted-foreground">
             {t('casos.section.subtitle')}
           </p>
         </div>
@@ -94,21 +90,21 @@ export default function CasosSection() {
                   href={problem.href}
                   className="group apple-card block h-full p-8 transition-colors duration-300"
                 >
-                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-gray-50 text-gray-900 transition-colors duration-300 group-hover:bg-blue-50 group-hover:text-blue-600">
+                  <div className="text-primary group-hover:bg-primary mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-background transition-colors duration-300 group-hover:text-white">
                     <ProblemIcon className="h-6 w-6 stroke-[1.5px]" />
                   </div>
 
-                  <h3 className="apple-title mb-3 text-xl font-semibold text-gray-900">
+                  <h3 className="mb-3 text-[1.25rem] font-semibold tracking-tight text-foreground">
                     {t(problem.titleKey)}
                   </h3>
 
-                  <p className="mb-6 line-clamp-3 text-base leading-relaxed font-normal text-gray-500">
+                  <p className="mb-6 line-clamp-3 text-[1.05rem] leading-relaxed font-normal text-muted-foreground">
                     {t(problem.descriptionKey)}
                   </p>
 
-                  <div className="mt-auto flex items-center text-sm font-medium text-blue-600">
+                  <div className="mt-auto flex items-center text-sm font-medium text-foreground transition-opacity group-hover:opacity-70">
                     {t('casos.section.readMore')}
-                    <ArrowRight className="ml-1 h-4 w-4 transition-colors duration-200" />
+                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </div>
                 </Link>
               </AnimateIn>
@@ -118,7 +114,9 @@ export default function CasosSection() {
 
         {/* Other Cases List */}
         <div className="mx-auto mb-20 max-w-4xl text-center">
-          <h3 className="mb-8 text-2xl font-medium text-gray-900">{t('casos.other.title')}</h3>
+          <h3 className="mb-8 text-[1.5rem] font-medium tracking-tight text-foreground">
+            {t('casos.other.title')}
+          </h3>
           <div className="flex flex-wrap justify-center gap-3">
             {[
               'casos.other.money',
@@ -130,7 +128,7 @@ export default function CasosSection() {
             ].map((key) => (
               <span
                 key={key}
-                className="cursor-default rounded-full border border-gray-200/60 bg-white px-5 py-2.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:border-blue-200 hover:text-blue-600"
+                className="cursor-default rounded-full border border-black/5 bg-background px-5 py-2.5 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:border-black/10 hover:text-foreground"
               >
                 {t(key)}
               </span>

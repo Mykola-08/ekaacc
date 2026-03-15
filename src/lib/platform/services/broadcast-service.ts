@@ -62,7 +62,7 @@ export class BroadcastService {
 
         if (emails.length > 0) {
           await resend.emails.send({
-            from: 'Eka <notifications@resend.dev>',
+            from: 'Eka Balance <notifications@ekabalance.com>',
             to: emails,
             subject,
             html: `<div style="font-family: sans-serif;">${content}</div>`,

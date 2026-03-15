@@ -44,8 +44,8 @@ export function ServicesList({ services }: ServicesListProps) {
         title="Services Catalog"
         description="Manage offerings, pricing and visibility."
         actions={
-          <Link href="/admin/services/new">
-            <Button className="rounded-full shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-sm">
+          <Link href="/console/services/new">
+            <Button className="hover: rounded-full transition-all hover:-translate-y-0.5">
               <Plus className="mr-2 h-4 w-4" />
               Create Service
             </Button>
@@ -80,11 +80,11 @@ export function ServicesList({ services }: ServicesListProps) {
 function ServiceRow({ service, index }: { service: AdminService; index: number }) {
   return (
     <Card
-      className="flex flex-col items-start gap-6 p-6 transition-all duration-300 hover:shadow-md md:flex-row md:items-center"
+      className="hover: flex flex-col items-start gap-6 p-6 transition-all duration-300 md:flex-row md:items-center"
       style={{ animationDelay: `${index * 50}ms` }}
     >
       <div className="flex flex-1 items-center gap-4">
-        <div className="bg-muted border-border relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border">
+        <div className="bg-muted border-border relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border">
           {service.imageUrl ? (
             <Image
               src={service.imageUrl}
@@ -119,14 +119,14 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
         )}
 
         {service.active ? (
-          <div className="bg-success/100 mx-2 h-2 w-2 rounded-full" title="Active" />
+          <div className="bg-success mx-2 h-2 w-2 rounded-full" title="Active" />
         ) : (
           <div className="bg-muted-foreground/30 mx-2 h-2 w-2 rounded-full" title="Inactive" />
         )}
       </div>
 
       {service.tags && service.tags.length > 0 && (
-        <div className="hidden max-w-[200px] items-center gap-2 overflow-hidden lg:flex">
+        <div className="hidden max-w-50 items-center gap-2 overflow-hidden lg:flex">
           {service.tags.slice(0, 2).map((tag) => (
             <Badge
               key={tag}

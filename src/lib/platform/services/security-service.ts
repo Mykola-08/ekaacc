@@ -576,7 +576,7 @@ class SecurityMonitoringService {
       import('@/lib/platform/services/email-client').then(({ getResend }) => {
         const resend = getResend();
         const adminEmail = process.env.ADMIN_EMAIL || 'contact@ekabalance.com';
-        const sender = process.env.EMAIL_SENDER || 'Eka Platform <onboarding@resend.dev>';
+        const sender = process.env.EMAIL_SENDER || 'Eka Balance <hello@ekabalance.com>';
 
         const htmlContent = `
           <div style="font-family: sans-serif; color: #333;">

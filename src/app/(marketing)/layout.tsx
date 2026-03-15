@@ -7,7 +7,6 @@ import { DiscountProvider } from '@/marketing/contexts/DiscountContext';
 import { BookingProvider } from '@/marketing/components/BookingProvider';
 import SmoothScrolling from '@/marketing/components/SmoothScrolling';
 import JsonLd from '@/marketing/components/JsonLd';
-import ErrorBoundary from '@/marketing/components/ErrorBoundary';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -92,7 +91,7 @@ export default function RootLayout({
     >
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-medium focus:text-blue-600 focus:shadow-lg"
+        className="focus: sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-medium focus:text-blue-600"
       >
         Skip to main content
       </a>
@@ -100,10 +99,8 @@ export default function RootLayout({
         <LanguageProvider>
           <DiscountProvider>
             <BookingProvider>
-              <ErrorBoundary>
-                <JsonLd />
-                <MainLayout>{children}</MainLayout>
-              </ErrorBoundary>
+              <JsonLd />
+              <MainLayout>{children}</MainLayout>
             </BookingProvider>
           </DiscountProvider>
         </LanguageProvider>

@@ -45,7 +45,7 @@ export function createTools(userId: string) {
   return {
     logMood: tool({
       description:
-        'Log the user\'s current mood. Use when the user shares how they feel. Mood score is 1-10 (1=terrible, 10=excellent).',
+        "Log the user's current mood. Use when the user shares how they feel. Mood score is 1-10 (1=terrible, 10=excellent).",
       inputSchema: z.object({
         mood: z.enum(['excellent', 'good', 'neutral', 'bad', 'terrible']),
         score: z.number().min(1).max(10),
@@ -78,7 +78,7 @@ export function createTools(userId: string) {
 
     getMoodTrend: tool({
       description:
-        'Get the user\'s mood trend over a period. Use when they ask about their mood history or patterns.',
+        "Get the user's mood trend over a period. Use when they ask about their mood history or patterns.",
       inputSchema: z.object({
         days: z.number().min(1).max(90).default(14),
       }),
@@ -102,7 +102,7 @@ export function createTools(userId: string) {
     }),
 
     getUpcomingBookings: tool({
-      description: 'Get the user\'s upcoming therapy/wellness bookings.',
+      description: "Get the user's upcoming therapy/wellness bookings.",
       inputSchema: z.object({}),
       execute: async () => {
         const { rows } = await db.query<BookingRow>(
@@ -136,7 +136,7 @@ export function createTools(userId: string) {
     }),
 
     getWalletBalance: tool({
-      description: 'Get the user\'s wallet balance.',
+      description: "Get the user's wallet balance.",
       inputSchema: z.object({}),
       execute: async () => {
         const { rows } = await db.query<WalletRow>(
@@ -199,9 +199,7 @@ export function createTools(userId: string) {
         'Save an important piece of information about the user for future reference. Use when the user shares preferences, goals, or important facts.',
       inputSchema: z.object({
         content: z.string().describe('The information to remember'),
-        type: z
-          .enum(['preference', 'fact', 'goal', 'mood', 'observation'])
-          .default('observation'),
+        type: z.enum(['preference', 'fact', 'goal', 'mood', 'observation']).default('observation'),
         importance: z.number().min(1).max(5).default(3),
       }),
       execute: async ({ content, type, importance }) => {
@@ -212,7 +210,7 @@ export function createTools(userId: string) {
 
     generateInsights: tool({
       description:
-        'Generate personalized wellness insights based on the user\'s data. Use when they ask for analysis or recommendations.',
+        "Generate personalized wellness insights based on the user's data. Use when they ask for analysis or recommendations.",
       inputSchema: z.object({}),
       execute: async () => {
         const insights = await personalizationService.generateInsights(userId);
@@ -237,10 +235,15 @@ export function createTools(userId: string) {
       },
     }),
     updateUserProfile: tool({
-      description: 'Update the user\'s AI profile with explicit details or preferences learned during the conversation. Use this to remember crucial long-term insights about the user.',
+      description:
+        "Update the user's AI profile with explicit details or preferences learned during the conversation. Use this to remember crucial long-term insights about the user.",
       inputSchema: z.object({
         category: z.enum(['behavior_patterns', 'preferences', 'adaptive_settings']),
-        key: z.string().describe('The name of the trait or preference (e.g. "communication_style", "trigger_topics")'),
+        key: z
+          .string()
+          .describe(
+            'The name of the trait or preference (e.g. "communication_style", "trigger_topics")'
+          ),
         value: z.any().describe('The value to set. Can be string, array, or object.'),
       }),
       execute: async ({ category, key, value }) => {
@@ -250,7 +253,7 @@ export function createTools(userId: string) {
           [userId]
         );
         const current = rows[0]?.[category] || {};
-        
+
         // Update
         current[key] = value;
 
@@ -264,7 +267,7 @@ export function createTools(userId: string) {
         );
 
         return { success: true, message: `Profile updated: ${category}.${key} set successfully.` };
-      }
+      },
     }),
   };
 }

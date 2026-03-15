@@ -1,9 +1,18 @@
+import { z } from 'zod';
+import { tool, generateText } from 'ai';
 import { createClient } from '@/lib/supabase/admin';
 import { getTelegramSecretToken } from '@/lib/config';
 import { NextResponse } from 'next/server';
 import * as telegramService from '@/server/telegram/service';
 import * as telegramAnalytics from '@/server/telegram/analytics';
-import { sendMessage, answerCallbackQuery, editMessageText } from '@/server/telegram/bot-api';
+import {
+  sendMessage,
+  answerCallbackQuery,
+  editMessageText,
+  answerInlineQuery,
+  pinChatMessage,
+  restrictChatMember,
+} from '@/server/telegram/bot-api';
 import type { TelegramUpdate, TelegramInlineKeyboardButton } from '@/server/telegram/types';
 import { db } from '@/lib/db';
 import { listServices, getBookingById } from '@/server/booking/service';
@@ -39,6 +48,11 @@ export async function POST(req: Request) {
   telegramService.logWebhookEvent(update.update_id, eventType, update).catch(() => {});
 
   try {
+    // ── Handle Inline Queries ───────────────────────────────
+    if (update.inline_query) {
+      await handleInlineQuery(update);
+    }
+
     // ── Handle Private / Group Messages ───────────────────────
     if (update.message) {
       await handleMessage(update);
@@ -218,6 +232,18 @@ async function handleMessage(update: TelegramUpdate) {
         await telegramService.logBotCommand(from?.id ?? null, chat.id, '/details', args);
         break;
 
+      case '/pin':
+      case '/mute':
+      case '/unmute':
+        await handleGroupAdminCommand(chat.id, from, command, args, msg);
+        await telegramService.logBotCommand(from?.id ?? null, chat.id, command, args);
+        break;
+
+      case '/constellations':
+        await handleConstellationsCommand(chat.id, from);
+        await telegramService.logBotCommand(from?.id ?? null, chat.id, '/constellations', null);
+        break;
+
       default:
         await telegramService.logBotCommand(from?.id ?? null, chat.id, command, args, 'ignored');
         break;
@@ -229,7 +255,6 @@ async function handleMessage(update: TelegramUpdate) {
 }
 
 // ─── AI Conversation Handler ──────────────────────────────────
-
 async function handleAiConversation(chatId: number, from: any, text: string) {
   try {
     const supabase = createClient();
@@ -248,39 +273,101 @@ async function handleAiConversation(chatId: number, from: any, text: string) {
     const contextModule = await import('@/server/ai/context-service');
     const sessionContext = await contextModule.contextService.buildContext(userId);
 
+    const { buildSystemPrompt } = await import('@/server/ai/system-prompt');
+    const baseSystemPrompt = buildSystemPrompt(JSON.stringify(sessionContext));
+
     const userName = sessionContext.user?.name || from.first_name || 'User';
-    const preferences = sessionContext.profile?.preferences
-      ? JSON.stringify(sessionContext.profile.preferences)
-      : 'None';
 
-    const systemPrompt = `You are EKA, a supportive mental health and wellness companion.
-You are chatting with ${userName} via Telegram. Keep messages concise and formatted nicely for Telegram (use bold, italics, emojis sparingly).
+    // Load conversation history
+    const { conversationService } = await import('@/server/ai/conversation-service');
+    const convs = await conversationService.list(userId, 1);
+    const convId =
+      convs.length > 0
+        ? convs[0].id
+        : (await conversationService.create(userId, 'Telegram Chat')).id;
 
-User's preferences: ${preferences}
+    // Save current message
+    await conversationService.addMessage(convId, 'user', text);
 
-Context about their platform usage:
-${JSON.stringify(sessionContext).substring(0, 1000)}
+    // Fetch History for context
+    const historyMsgs = await conversationService.getMessages(convId);
+    const cleanHistory = historyMsgs
+      .filter((m) => m.role === 'user' || m.role === 'assistant')
+      .slice(-10)
+      .map((m) => ({
+        role: m.role as 'user' | 'assistant',
+        content: m.content || '',
+      }));
 
-Provide an empathetic, helpful, and concise response. Do not act as a doctor or therapist.`;
+    if (cleanHistory.length === 0 || cleanHistory[cleanHistory.length - 1].content !== text) {
+      cleanHistory.push({ role: 'user', content: text });
+    }
+
+    const systemPrompt = `${baseSystemPrompt}
+
+<telegram_context>
+IMPORTANT: You are interacting with ${userName} inside Telegram right now! Keep your messages nicely formatted for Telegram.
+- Use bold (e.g. <b>text</b>) and italics sparingly.
+- Use standard emojis.
+- Do NOT output markdown headers (#) or markdown links with brackets. Use bare links (e.g. https://ekabalance.com) or basic HTML tags for styling (<b>, <i>, <u>, <s>, <a>, <code>). Note that <b><i> bold italics </i></b> is supported but <a> needs href attribute.
+- You can send interactive buttons using the 'sendTelegramInteractiveButtons' tool.
+- Tell them they can easily open the EKA Mini App using the menu button (bottom left) or via https://ekabalance.com/telegram
+</telegram_context>`;
 
     const { getModel } = await import('@/server/ai/provider');
-    const { generateText } = await import('ai');
+    const { createTools } = await import('@/server/ai/tools');
+
+    const userAiTools = createTools(userId);
+    const tools = {
+      ...userAiTools,
+      sendTelegramInteractiveButtons: tool({
+        description:
+          'Send interactive inline buttons to the user in Telegram. Use when you want to offer them quick choice actions directly in chat.',
+        inputSchema: z.object({
+          message: z.string().describe('The message text to send above the buttons'),
+          buttons: z
+            .array(
+              z.object({
+                text: z.string().describe('The text displayed on the button'),
+                url: z.string().optional().describe('URL to open when the button is clicked.'),
+                callbackData: z
+                  .string()
+                  .optional()
+                  .describe('Data to send back to the bot (e.g. /book, /status).'),
+              })
+            )
+            .describe('Array of buttons to display.'),
+        }),
+        execute: async ({ message, buttons }) => {
+          const inline_keyboard = buttons.map((b) => [
+            {
+              text: b.text,
+              ...(b.url ? { url: b.url } : {}),
+              ...(b.callbackData ? { callback_data: b.callbackData } : {}),
+            },
+          ]);
+          await sendMessage(chatId, message, { replyMarkup: { inline_keyboard } });
+          return 'Interactive message sent to user successfully.';
+        },
+      }),
+    };
 
     const modelObj = await getModel('fast');
 
     const response = await generateText({
       model: modelObj,
       system: systemPrompt,
-      prompt: text,
+      messages: cleanHistory,
+      tools: tools,
     });
 
-    await sendMessage(chatId, response.text);
+    if (response.text?.trim()) {
+      await conversationService.addMessage(convId, 'assistant', response.text);
+      await sendMessage(chatId, response.text);
+    }
   } catch (e) {
     console.error('[Telegram] AI Conversation Error:', e);
-    await sendMessage(
-      chatId,
-      '⚠️ Sorry, I am having trouble thinking right now. Please try again later.'
-    );
+    await sendMessage(chatId, '⚠️ Sorry, I am having trouble thinking right now.');
   }
 }
 
@@ -1918,4 +2005,127 @@ async function handleRescheduleCommand(chatId: number, from: any, args: string) 
     console.error('[Telegram] handleRescheduleCommand error:', error);
     await sendMessage(chatId, '⚠️ Unable to process reschedule. Please try again.');
   }
+}
+
+// ─── Custom Feature Handlers ─────────────────────────────────────
+
+async function handleInlineQuery(update) {
+  const query = update.inline_query;
+  const queryText = query.query.toLowerCase();
+
+  // Create a minimal fallback/sample array of services to return
+  const results = [
+    {
+      type: 'article',
+      id: 'fam_constellations',
+      title: 'Family Constellations 🌌',
+      description: 'Book a systemic family constellation session',
+      input_message_content: {
+        message_text: `<b>Family Constellations 🌌</b>\n\nSystemic resolution for inherited family trauma.\n\nBook here: https://ekabalance.com/services/family-constellations`,
+        parse_mode: 'HTML',
+      },
+    },
+    {
+      type: 'article',
+      id: 'kinesiology',
+      title: 'Kinesiology Session 🧘',
+      description: 'Emotional release and muscle testing',
+      input_message_content: {
+        message_text: `<b>Kinesiology Session 🧘</b>\n\nEmotional release and energetic alignment.\n\nBook here: https://ekabalance.com/services/kinesiology`,
+        parse_mode: 'HTML',
+      },
+    },
+  ];
+
+  // If there's a search term, try to filter
+  const filtered = queryText
+    ? results.filter(
+        (r) =>
+          r.title.toLowerCase().includes(queryText) ||
+          r.description.toLowerCase().includes(queryText)
+      )
+    : results;
+
+  await answerInlineQuery(query.id, filtered);
+}
+
+async function handleGroupAdminCommand(chatId, from, command, args, msg) {
+  // Only process in groups/supergroups
+  if (!msg.chat || (msg.chat.type !== 'group' && msg.chat.type !== 'supergroup')) {
+    await sendMessage(chatId, '⚠️ This command only works in groups.');
+    return;
+  }
+
+  const replyTo = msg.reply_to_message;
+
+  if (command === '/pin') {
+    if (replyTo) {
+      await pinChatMessage(chatId, replyTo.message_id);
+      await sendMessage(chatId, '✅ Message pinned.');
+    } else {
+      await sendMessage(chatId, '⚠️ Please reply to the message you want to pin with /pin');
+    }
+  } else if (command === '/mute') {
+    if (replyTo && replyTo.from) {
+      const targetUserId = replyTo.from.id;
+      await restrictChatMember(chatId, targetUserId, {
+        can_send_messages: false,
+        can_send_audios: false,
+        can_send_documents: false,
+        can_send_photos: false,
+        can_send_videos: false,
+        can_send_video_notes: false,
+        can_send_voice_notes: false,
+        can_send_polls: false,
+        can_send_other_messages: false,
+        can_add_web_page_previews: false,
+      });
+      await sendMessage(chatId, `🔇 User ${replyTo.from.first_name} has been muted.`);
+    } else {
+      await sendMessage(chatId, '⚠️ Please reply to the user you want to mute with /mute');
+    }
+  } else if (command === '/unmute') {
+    if (replyTo && replyTo.from) {
+      const targetUserId = replyTo.from.id;
+      await restrictChatMember(chatId, targetUserId, {
+        can_send_messages: true,
+        can_send_audios: true,
+        can_send_documents: true,
+        can_send_photos: true,
+        can_send_videos: true,
+        can_send_video_notes: true,
+        can_send_voice_notes: true,
+        can_send_polls: true,
+        can_send_other_messages: true,
+        can_add_web_page_previews: true,
+      });
+      await sendMessage(chatId, `🔊 User ${replyTo.from.first_name} has been unmuted.`);
+    } else {
+      await sendMessage(chatId, '⚠️ Please reply to the user you want to unmute with /unmute');
+    }
+  }
+}
+
+async function handleConstellationsCommand(chatId, from) {
+  const msg = [
+    '🌌 <b>Family Constellations</b>',
+    '',
+    'Family Constellations is a therapeutic approach designed to help reveal the hidden dynamics in a family or relationship in order to address any stressors impacting them and heal them.',
+    '',
+    'Would you like to learn more or book a session?',
+  ].join('\n');
+
+  await sendMessage(chatId, msg, {
+    replyMarkup: {
+      inline_keyboard: [
+        [
+          { text: '📚 Read More', url: 'https://ekabalance.com/services/family-constellations' },
+          {
+            text: '📅 Book Session',
+            web_app: { url: `https://ekabalance.com/booking/family-constellations` },
+          },
+        ],
+      ],
+    },
+  });
 }

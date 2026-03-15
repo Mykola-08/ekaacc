@@ -27,7 +27,9 @@ export interface UserPermissionOverride {
 
 async function requireAdmin() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error('Unauthorized');
 
   const role = user.app_metadata?.role?.toLowerCase();
@@ -54,9 +56,7 @@ export async function getRolePermissions(): Promise<RolePermissionRow[]> {
 
 export async function getDistinctRoles(): Promise<string[]> {
   const { supabase } = await requireAdmin();
-  const { data, error } = await supabase
-    .from('role_permissions')
-    .select('role');
+  const { data, error } = await supabase.from('role_permissions').select('role');
 
   if (error) throw new Error(error.message);
   const roles = [...new Set((data || []).map((r: any) => r.role))];
@@ -89,15 +89,10 @@ export async function addRolePermission(
   return { error: null };
 }
 
-export async function removeRolePermission(
-  id: string
-): Promise<{ error: string | null }> {
+export async function removeRolePermission(id: string): Promise<{ error: string | null }> {
   const { supabase } = await requireAdmin();
 
-  const { error } = await supabase
-    .from('role_permissions')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from('role_permissions').delete().eq('id', id);
 
   if (error) return { error: error.message };
 
@@ -147,15 +142,10 @@ export async function setUserPermissionOverride(
   return { error: null };
 }
 
-export async function removeUserPermissionOverride(
-  id: string
-): Promise<{ error: string | null }> {
+export async function removeUserPermissionOverride(id: string): Promise<{ error: string | null }> {
   const { supabase } = await requireAdmin();
 
-  const { error } = await supabase
-    .from('user_permissions')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from('user_permissions').delete().eq('id', id);
 
   if (error) return { error: error.message };
 
@@ -179,10 +169,7 @@ export async function updateUserRole(
   if (error) return { error: error.message };
 
   // Also update profiles table if it has a role column
-  await supabase
-    .from('profiles')
-    .update({ role: newRole.toLowerCase() })
-    .eq('auth_id', userId);
+  await supabase.from('profiles').update({ role: newRole.toLowerCase() }).eq('auth_id', userId);
 
   revalidatePath('/console/permissions');
   revalidatePath('/console/users');
@@ -217,10 +204,7 @@ export async function getPermissionMatrix(): Promise<{
       for (const action of actions) {
         const key = `${group}.${action}`;
         matrix[role][key] = (data || []).some(
-          (r: any) =>
-            r.role === role &&
-            r.permission_group === group &&
-            r.action === action
+          (r: any) => r.role === role && r.permission_group === group && r.action === action
         );
       }
     }

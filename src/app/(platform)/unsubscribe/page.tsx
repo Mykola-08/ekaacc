@@ -1,9 +1,10 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { SuspenseBoundary } from '@/components/ui/suspense-boundary';
 
 function UnsubscribeContent() {
   const searchParams = useSearchParams();
@@ -63,9 +64,9 @@ export default function UnsubscribePage() {
           <CardDescription>Manage your email preferences</CardDescription>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<div>Loading...</div>}>
+          <SuspenseBoundary>
             <UnsubscribeContent />
-          </Suspense>
+          </SuspenseBoundary>
         </CardContent>
       </Card>
     </div>

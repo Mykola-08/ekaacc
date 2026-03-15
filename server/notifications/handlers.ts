@@ -24,9 +24,9 @@ export function registerNotificationHandlers() {
       body: `Your appointment for ${booking.serviceName} on ${startFormatted} has been confirmed.`,
       referenceId: payload.bookingId,
       buttons: {
-        inline_keyboard: [[
-          { text: '📅 View Booking', url: `${siteUrl()}/bookings/${payload.bookingId}` },
-        ]],
+        inline_keyboard: [
+          [{ text: '📅 View Booking', url: `${siteUrl()}/bookings/${payload.bookingId}` }],
+        ],
       },
       data: {
         serviceName: booking.serviceName,
@@ -85,9 +85,9 @@ export function registerNotificationHandlers() {
       body: `Payment for your ${booking.serviceName} appointment could not be processed. Please try again.`,
       referenceId: payload.bookingId,
       buttons: {
-        inline_keyboard: [[
-          { text: '💳 Retry Payment', url: `${siteUrl()}/bookings/${payload.bookingId}` },
-        ]],
+        inline_keyboard: [
+          [{ text: '💳 Retry Payment', url: `${siteUrl()}/bookings/${payload.bookingId}` }],
+        ],
       },
     });
   });

@@ -1,18 +1,14 @@
-"use client";
+'use client';
 
-import {
-  FileTree,
-  FileTreeFile,
-  FileTreeFolder,
-} from "@/components/ai-elements/file-tree";
-import { useState } from "react";
+import { FileTree, FileTreeFile, FileTreeFolder } from '@/components/ai-elements/file-tree';
+import { useState } from 'react';
 
 const Example = () => {
   const [selectedPath, setSelectedPath] = useState<string | undefined>();
 
   return (
     <FileTree
-      defaultExpanded={new Set(["src", "src/components"])}
+      defaultExpanded={new Set(['src', 'src/components'])}
       onSelect={setSelectedPath}
       selectedPath={selectedPath}
     >

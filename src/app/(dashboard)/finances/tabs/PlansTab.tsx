@@ -54,7 +54,7 @@ export function PlansTab() {
     return (
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-muted h-80 animate-pulse rounded-lg" />
+          <div key={i} className="bg-muted h-80 animate-pulse rounded-[24px]" />
         ))}
       </div>
     );
@@ -62,7 +62,7 @@ export function PlansTab() {
 
   if (plans.length === 0) {
     return (
-      <div className="border-border bg-muted/30 rounded-lg border-2 border-dashed py-20 text-center">
+      <div className="border-border bg-muted/30 rounded-[24px] border-2 border-dashed py-20 text-center">
         <Crown className="text-muted-foreground/50 mx-auto mb-4 h-10 w-10" />
         <h3 className="text-foreground text-lg font-semibold">No plans available</h3>
         <p className="text-muted-foreground mt-1 text-sm">
@@ -77,7 +77,7 @@ export function PlansTab() {
       {plans.map((plan, idx) => (
         <Card
           key={plan.id}
-          className="border-border bg-card relative rounded-lg shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-sm"
+          className="border-border bg-card relative rounded-[24px] transition-all hover:-translate-y-0.5"
         >
           {idx === Math.floor(plans.length / 2) && (
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -119,7 +119,7 @@ export function PlansTab() {
           </CardContent>
           <div className="flex justify-center p-4">
             <Button
-              className="w-full rounded-lg font-semibold"
+              className="w-full rounded-[24px] font-semibold"
               onClick={() => router.push(`/subscribe?plan=${plan.id}`)}
             >
               Get {plan.name}

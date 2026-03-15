@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Confirmation,
@@ -8,9 +8,9 @@ import {
   ConfirmationRejected,
   ConfirmationRequest,
   ConfirmationTitle,
-} from "@/components/ai-elements/confirmation";
-import { CheckIcon, XIcon } from "lucide-react";
-import { nanoid } from "nanoid";
+} from '@/components/ai-elements/confirmation';
+import { CheckIcon, XIcon } from 'lucide-react';
+import { nanoid } from 'nanoid';
 
 const handleReject = () => {
   // In production, call respondToConfirmationRequest with approved: false
@@ -26,7 +26,7 @@ const Example = () => (
       <ConfirmationTitle>
         <ConfirmationRequest>
           This tool wants to execute a query on the production database:
-          <code className="mt-2 block rounded bg-muted p-2 text-sm">
+          <code className="bg-muted mt-2 block rounded p-2 text-sm">
             SELECT * FROM users WHERE role = &apos;admin&apos;
           </code>
         </ConfirmationRequest>
@@ -35,7 +35,7 @@ const Example = () => (
           <span>You approved this tool execution</span>
         </ConfirmationAccepted>
         <ConfirmationRejected>
-          <XIcon className="size-4 text-destructive" />
+          <XIcon className="text-destructive size-4" />
           <span>You rejected this tool execution</span>
         </ConfirmationRejected>
       </ConfirmationTitle>

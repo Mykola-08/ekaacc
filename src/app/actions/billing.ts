@@ -60,14 +60,22 @@ export async function getInvoices(): Promise<InvoiceRecord[]> {
 
   if (error) {
     console.error('Error fetching invoices:', error);
-    // Fallback: derive from wallet transactions
-    const { data: txData } = await supabase
-      .from('wallet_transactions')
-      .select('id, created_at, amount, type, description')
+    // Fallback: derive from wallet transactions via wallet_id
+    const { data: wallet } = await supabase
+      .from('wallets')
+      .select('id')
       .eq('user_id', user.id)
-      .in('type', ['credit', 'debit', 'purchase', 'deposit'])
-      .order('created_at', { ascending: false })
-      .limit(20);
+      .single();
+
+    const { data: txData } = wallet
+      ? await supabase
+          .from('wallet_transactions')
+          .select('id, created_at, amount, type, description')
+          .eq('wallet_id', wallet.id)
+          .in('type', ['credit', 'debit', 'purchase', 'deposit'])
+          .order('created_at', { ascending: false })
+          .limit(20)
+      : { data: null };
 
     return (txData || []).map((tx: any) => ({
       id: tx.id,

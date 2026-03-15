@@ -77,7 +77,7 @@ export default function CookieBanner() {
           className="fixed right-0 bottom-0 left-0 z-50 p-4 sm:p-6"
         >
           <div className="mx-auto max-w-3xl">
-            <Card className="overflow-hidden rounded-[2rem] border-gray-200 bg-white/95 shadow-2xl backdrop-blur-lg">
+            <Card className="overflow-hidden rounded-[2rem] border-gray-200 bg-white/95 backdrop-blur-lg">
               <div className="relative flex flex-col items-start gap-5 p-5 sm:flex-row">
                 {/* Icon */}
                 <div className="hidden flex-shrink-0 sm:flex">
@@ -115,7 +115,7 @@ export default function CookieBanner() {
                   <div className="flex w-full flex-wrap items-center gap-2 pt-1">
                     <Button
                       onClick={acceptCookies}
-                      className="bg-gold text-eka-dark h-9 flex-1 rounded-xl px-5 text-xs font-medium transition-all hover:bg-[#e8a204] sm:flex-none"
+                      className="bg-gold -primary h-9 flex-1 rounded-xl px-5 text-xs font-medium transition-all hover:bg-[#e8a204] sm:flex-none"
                     >
                       {t('cookies.accept')}
                     </Button>

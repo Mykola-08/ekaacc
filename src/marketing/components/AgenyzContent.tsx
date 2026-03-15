@@ -44,11 +44,7 @@ export default function AgenyzContent() {
         }}
       >
         <div className="relative z-20 mt-4 mb-20 flex flex-col justify-center gap-4 sm:flex-row">
-          <Button
-            asChild
-            size="lg"
-            className="rounded-full px-8 shadow-md transition-all hover:shadow-lg"
-          >
+          <Button asChild size="lg" className="hover: rounded-full px-8 transition-all">
             <Link href="/booking">
               {t('common.bookNow')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -66,7 +62,7 @@ export default function AgenyzContent() {
         </div>
 
         {/* Apple-Style Bento Section */}
-        <section className="relative overflow-hidden bg-[#fbfbfd] py-24">
+        <section className="relative overflow-hidden bg-background py-24">
           <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -143,7 +139,7 @@ export default function AgenyzContent() {
                   onClick={() => setSelectedCategory(category)}
                   className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
                     selectedCategory === category
-                      ? 'scale-105 bg-black text-white shadow-lg'
+                      ? 'bg-primary scale-105 text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
@@ -167,17 +163,17 @@ export default function AgenyzContent() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.4 }}
-                      className="flex h-full flex-col rounded-[2.5rem] border border-gray-100 bg-[#fbfbfd] p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-black/5"
+                      className="hover: flex h-full flex-col rounded-[2.5rem] border border-gray-100 bg-background p-8 transition-all duration-500 hover:shadow-black/5"
                     >
                       <div className="mb-6">
-                        <span className="rounded-full border border-gray-100 bg-white/80 px-4 py-1.5 text-[10px] font-bold tracking-widest text-gray-600 uppercase shadow-sm backdrop-blur-md">
+                        <span className="rounded-full border border-gray-100 bg-white/80 px-4 py-1.5 text-[10px] font-bold tracking-widest text-gray-600 uppercase backdrop-blur-md">
                           {t(`agenyz.category.${product.category}`) || product.category}
                         </span>
                       </div>
 
                       <div className="relative mb-8 flex h-64 w-full items-center justify-center p-6 transition-transform duration-500 group-hover:scale-105">
                         {product.image ? (
-                          <div className="relative h-full w-full drop-shadow-2xl">
+                          <div className="drop- relative h-full w-full">
                             <Image
                               src={product.image}
                               alt={getLocalized(product.name, language)}
@@ -205,7 +201,7 @@ export default function AgenyzContent() {
                         <span className="text-sm font-bold text-gray-400 transition-colors group-hover:text-gray-900">
                           {t('agenyz.viewDetails') || 'View details'}
                         </span>
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-100 bg-white shadow-sm transition-all duration-300 group-hover:bg-black group-hover:text-white">
+                        <div className="group-hover:bg-primary flex h-10 w-10 items-center justify-center rounded-full border border-gray-100 bg-white transition-all duration-300 group-hover:text-white">
                           <ArrowRight className="h-5 w-5" />
                         </div>
                       </div>

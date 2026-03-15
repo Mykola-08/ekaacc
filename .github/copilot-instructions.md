@@ -64,10 +64,10 @@ ekaacc/
 
 ### Path Aliases (tsconfig)
 
-| Alias           | Maps to          |
-| --------------- | ---------------- |
-| `@/*`           | `./src/*`        |
-| `@/server/*`    | `./server/*`     |
+| Alias           | Maps to             |
+| --------------- | ------------------- |
+| `@/*`           | `./src/*`           |
+| `@/server/*`    | `./server/*`        |
 | `@/marketing/*` | `./src/marketing/*` |
 
 ---
@@ -80,26 +80,43 @@ ekaacc/
 Client Component → Server Action → Service Layer → Supabase / Stripe / Resend
 ```
 
-- **Service Layer** (`server/*/service.ts` and `src/lib/platform/services/*.ts`):
-  all business logic lives here, never in API routes or components.
+- **Service Layer** (`server/*/service.ts` and
+  `src/lib/platform/services/*.ts`): all business logic lives here, never in API
+  routes or components.
 - **Server Actions** (`src/app/actions/*.ts` and `server/*/actions.ts`): thin
   wrappers that call service functions.
 
 ### Supabase Clients
 
-| Context    | Import                                  | Pattern           |
-| ---------- | --------------------------------------- | ----------------- |
-| Browser    | `@/lib/supabase/client`                 | Singleton         |
-| Server     | `@/lib/supabase/server`                 | Async (per-request) |
-| Admin      | `@/lib/supabase/admin`                  | Service key       |
+| Context | Import                  | Pattern             | Key used        |
+| ------- | ----------------------- | ------------------- | --------------- |
+| Browser | `@/lib/supabase/client` | Singleton           | Publishable key |
+| Server  | `@/lib/supabase/server` | Async (per-request) | Publishable key |
+| Admin   | `@/lib/supabase/admin`  | Service key         | Secret key      |
+
+**Key naming**: Use `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and
+`SUPABASE_SECRET_KEY`. Never use the legacy names
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` or `SUPABASE_SERVICE_ROLE_KEY`.
+
+### Secrets & Configuration
+
+- **Primary store**: `app_config` table (RLS: service-role only). All API keys
+  and secrets live here.
+- **Config API**: `src/lib/config.ts` — `getConfig(key)` loads from DB with
+  5-min cache, falls back to `process.env[key]`.
+- **Helpers**: `getStripeSecretKey()`, `getResendApiKey()`,
+  `getTelegramBotToken()`, etc. Always use these instead of raw `process.env`.
+- **Local `.env.local`**: Keep only Supabase connection keys + `POSTGRES_URL` +
+  `CONFIG_DB_ENABLED=1`. All other secrets should be in `app_config`.
 
 ### Authentication & Permissions
 
-- **Auth**: Supabase Auth with cookie-based sessions refreshed in `middleware.ts`.
-- **Permissions**: Role-based with per-user overrides via `role_permissions` table.
-  Gated via `PermissionGate` component and `getUserPermissions()`.
-- **Middleware**: Session refresh + subdomain routing (`therapist.*` → `/therapist/*`).
-- **Secrets**: Stored in `app_config` table (RLS-protected), fallback to env vars.
+- **Auth**: Supabase Auth with cookie-based sessions refreshed in
+  `middleware.ts`.
+- **Permissions**: Role-based with per-user overrides via `role_permissions`
+  table. Gated via `PermissionGate` component and `getUserPermissions()`.
+- **Middleware**: Session refresh + subdomain routing (`therapist.*` →
+  `/therapist/*`).
 
 ### Dashboard (Unified)
 
@@ -146,31 +163,31 @@ Single `(dashboard)` route group for all authenticated users. Pages are gated by
 
 ## 4. Commands
 
-| Command                    | Purpose                         |
-| -------------------------- | ------------------------------- |
-| `npm run dev`              | Dev server (port 9002)          |
-| `npm run build`            | Production build                |
-| `npm run lint`             | ESLint                          |
-| `npm run lint:fix`         | ESLint auto-fix                 |
-| `npm run typecheck`        | TypeScript check (`tsc --noEmit`) |
-| `npm run check`            | lint + typecheck                |
-| `npm run format`           | Prettier                        |
-| `npm run db:check`         | Test Supabase connection        |
-| `npm run db:seed`          | Seed services data              |
-| `npm run supabase:setup`   | Full local Supabase setup       |
-| `npm run supabase:reset`   | Reset local DB                  |
+| Command                  | Purpose                           |
+| ------------------------ | --------------------------------- |
+| `npm run dev`            | Dev server (port 9002)            |
+| `npm run build`          | Production build                  |
+| `npm run lint`           | ESLint                            |
+| `npm run lint:fix`       | ESLint auto-fix                   |
+| `npm run typecheck`      | TypeScript check (`tsc --noEmit`) |
+| `npm run check`          | lint + typecheck                  |
+| `npm run format`         | Prettier                          |
+| `npm run db:check`       | Test Supabase connection          |
+| `npm run db:seed`        | Seed services data                |
+| `npm run supabase:setup` | Full local Supabase setup         |
+| `npm run supabase:reset` | Reset local DB                    |
 
 ---
 
 ## 5. Integrations
 
-| Service       | Purpose             | Key files                                    |
-| ------------- | ------------------- | -------------------------------------------- |
-| **Supabase**  | DB, Auth, Storage   | `src/lib/supabase/*`, `supabase/migrations/` |
-| **Stripe**    | Payments & Billing  | `src/lib/platform/integrations/stripe.ts`    |
-| **Resend**    | Transactional Email | `src/lib/platform/integrations/resend.ts`    |
-| **AI (multi)**| Chat & Analysis     | `server/ai/*` (OpenAI, Anthropic, Google)    |
-| **Telegram**  | Bot notifications   | `server/telegram/*`                          |
+| Service        | Purpose             | Key files                                    |
+| -------------- | ------------------- | -------------------------------------------- |
+| **Supabase**   | DB, Auth, Storage   | `src/lib/supabase/*`, `supabase/migrations/` |
+| **Stripe**     | Payments & Billing  | `src/lib/platform/integrations/stripe.ts`    |
+| **Resend**     | Transactional Email | `src/lib/platform/integrations/resend.ts`    |
+| **AI (multi)** | Chat & Analysis     | `server/ai/*` (OpenAI, Anthropic, Google)    |
+| **Telegram**   | Bot notifications   | `server/telegram/*`                          |
 
 ---
 
@@ -181,17 +198,27 @@ Single `(dashboard)` route group for all authenticated users. Pages are gated by
 - **Micro-interactions**: `200ms` duration for hovers.
 - **Max duration**: <1s for all animations.
 - **Springs**: Prefer `motion` spring animations for natural feel.
-- **Performance**: Only animate `transform`/`opacity`. Use `will-change` sparingly.
-- **Full spec**: See `docs/design/design-system.md` and `docs/design/animation-theory.md`.
+- **Performance**: Only animate `transform`/`opacity`. Use `will-change`
+  sparingly.
+- **Full spec**: See `docs/design/design-system.md` and
+  `docs/design/animation-theory.md`.
 
 ---
 
 ## 7. Key Conventions Quick Reference
 
-- **New UI component?** Check `shadcn/ui` registry first (`npx shadcn@latest search`).
-- **New page?** Add to correct route group. Check if a permission gate is needed.
-- **New service?** Create in `src/lib/platform/services/` or `server/<domain>/service.ts`.
-- **New hook?** Place in `src/hooks/` (platform) or `src/marketing/hooks/` (marketing).
+- **New UI component?** Check `shadcn/ui` registry first
+  (`npx shadcn@latest search`).
+- **New page?** Add to correct route group. Check if a permission gate is
+  needed.
+- **New service?** Create in `src/lib/platform/services/` or
+  `server/<domain>/service.ts`.
+- **New hook?** Place in `src/hooks/` (platform) or `src/marketing/hooks/`
+  (marketing).
 - **Database change?** Create migration in `supabase/migrations/`.
-- **Supabase client?** Browser = `createClient()` singleton, Server = `await createClient()`.
+- **Supabase client?** Browser = `createClient()` singleton, Server =
+  `await createClient()`.
+- **New secret?** Add to `app_config` table via migration. Use config helpers
+  from `src/lib/config.ts`. Never use legacy key names (`ANON_KEY`,
+  `SERVICE_ROLE_KEY`).
 - **File too large?** Under 300 lines preferred. Split into smaller modules.

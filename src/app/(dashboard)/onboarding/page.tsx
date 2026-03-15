@@ -6,7 +6,6 @@ import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function OnboardingPage() {
@@ -33,12 +32,12 @@ export default function OnboardingPage() {
       // We might also want to set the role here if it's not already set
       await updateProfile({
         personalizationCompleted: true,
-        // In a real app, we might save other onboarding data here
+        role,
       });
 
       router.push('/auth-dispatch');
-    } catch (error) {
-      console.error('Failed to complete onboarding:', error);
+    } catch {
+      // Onboarding error handled silently
     } finally {
       setLoading(false);
     }

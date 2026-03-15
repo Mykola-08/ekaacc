@@ -1,16 +1,18 @@
 import { createBrowserClient } from '@supabase/ssr';
 
-let client: ReturnType<typeof createBrowserClient> | undefined;
+type BrowserClient = ReturnType<typeof createBrowserClient>;
+
+// Persist across Turbopack / webpack HMR reloads to prevent
+// navigator-lock conflicts between old and new module instances.
+const g = globalThis as unknown as { __supabaseBrowserClient?: BrowserClient };
 
 export function createClient() {
-  if (client) return client;
+  if (g.__supabaseBrowserClient) return g.__supabaseBrowserClient;
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://placeholder.supabase.co';
-  const supabaseAnonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
-    'env-missing';
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? 'env-missing';
 
-  client = createBrowserClient(supabaseUrl, supabaseAnonKey);
+  g.__supabaseBrowserClient = createBrowserClient(supabaseUrl, supabaseKey);
 
-  return client;
+  return g.__supabaseBrowserClient;
 }

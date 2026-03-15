@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -35,10 +35,7 @@ export default async function PatientManagerPage() {
   return (
     <div className="mx-auto max-w-6xl p-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Patient Directory</h1>
-          <p className="text-muted-foreground">Manage your active caseload.</p>
-        </div>
+        <p className="text-muted-foreground">Manage your active caseload.</p>
         <Button>Add New Patient</Button>
       </div>
 

@@ -5,20 +5,23 @@ import { Slot } from 'radix-ui';
 import { cn } from '@/lib/utils';
 
 const badgeVariants = cva(
-  'h-5 gap-1 rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium transition-all has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-3! inline-flex items-center justify-center w-fit whitespace-nowrap shrink-0 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 :ring-destructive/40 aria-invalid:border-destructive overflow-hidden group/badge',
+  'group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!',
   {
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground [a]:hover:bg-primary/80',
         secondary: 'bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80',
         destructive:
-          'bg-destructive/10 [a]:hover:bg-destructive/20 focus-visible:ring-destructive/20 :ring-destructive/40 text-destructive ',
-        success: 'bg-success/10 text-success  [a]:hover:bg-success/20',
-        warning: 'bg-warning/10 text-warning  [a]:hover:bg-warning/20',
-        info: 'bg-info/10 text-info  [a]:hover:bg-info/20',
-        outline: 'border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground',
-        ghost: 'hover:bg-muted hover:text-muted-foreground :bg-muted/50',
+          'bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20',
+        outline:
+          'border-border bg-input/30 text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground',
+        ghost: 'hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        success:
+          'border-transparent bg-emerald-500/15 text-emerald-600 hover:bg-emerald-500/25 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20',
+        warning:
+          'border-transparent bg-amber-500/15 text-amber-600 hover:bg-amber-500/25 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20',
+        info: 'border-transparent bg-blue-500/15 text-blue-600 hover:bg-blue-500/25 dark:bg-blue-500/10 dark:text-blue-400 dark:hover:bg-blue-500/20',
       },
     },
     defaultVariants: {
@@ -27,12 +30,12 @@ const badgeVariants = cva(
   }
 );
 
-function Badge({
-  className,
-  variant = 'default',
-  asChild = false,
-  ...props
-}: React.ComponentProps<'span'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+export interface BadgeProps
+  extends React.ComponentProps<'span'>, VariantProps<typeof badgeVariants> {
+  asChild?: boolean;
+}
+
+function Badge({ className, variant = 'default', asChild = false, ...props }: BadgeProps) {
   const Comp = asChild ? Slot.Root : 'span';
 
   return (
@@ -45,8 +48,4 @@ function Badge({
   );
 }
 
-type BadgeProps = React.ComponentProps<'span'> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean };
-
 export { Badge, badgeVariants };
-export type { BadgeProps };

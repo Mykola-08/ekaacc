@@ -1,41 +1,33 @@
-"use client";
+'use client';
 
-import {
-  Checkpoint,
-  CheckpointIcon,
-  CheckpointTrigger,
-} from "@/components/ai-elements/checkpoint";
-import { Conversation, ConversationContent } from "@/components/ai-elements/conversation";
-import {
-  Message,
-  MessageContent,
-  MessageResponse,
-} from "@/components/ai-elements/message";
-import { nanoid } from "nanoid";
-import { Fragment, memo, useCallback, useState } from "react";
+import { Checkpoint, CheckpointIcon, CheckpointTrigger } from '@/components/ai-elements/checkpoint';
+import { Conversation, ConversationContent } from '@/components/ai-elements/conversation';
+import { Message, MessageContent, MessageResponse } from '@/components/ai-elements/message';
+import { nanoid } from 'nanoid';
+import { Fragment, memo, useCallback, useState } from 'react';
 
 interface MessageType {
   id: string;
-  role: "user" | "assistant";
+  role: 'user' | 'assistant';
   content: string;
 }
 
 const initialMessages: MessageType[] = [
   {
-    content: "What is React?",
+    content: 'What is React?',
     id: nanoid(),
-    role: "user",
+    role: 'user',
   },
   {
     content:
-      "React is a JavaScript library for building user interfaces. It was developed by Facebook and is now maintained by Meta and a community of developers.",
+      'React is a JavaScript library for building user interfaces. It was developed by Facebook and is now maintained by Meta and a community of developers.',
     id: nanoid(),
-    role: "assistant",
+    role: 'assistant',
   },
   {
-    content: "How does component state work?",
+    content: 'How does component state work?',
     id: nanoid(),
-    role: "user",
+    role: 'user',
   },
 ];
 
@@ -44,27 +36,22 @@ interface CheckpointItemProps {
   onRestore: (messageCount: number) => void;
 }
 
-const CheckpointItem = memo(
-  ({ checkpoint, onRestore }: CheckpointItemProps) => {
-    const handleClick = useCallback(
-      () => onRestore(checkpoint.messageCount),
-      [onRestore, checkpoint.messageCount]
-    );
-    return (
-      <Checkpoint>
-        <CheckpointIcon />
-        <CheckpointTrigger
-          onClick={handleClick}
-          tooltip="Restores workspace and chat to this point"
-        >
-          Restore checkpoint
-        </CheckpointTrigger>
-      </Checkpoint>
-    );
-  }
-);
+const CheckpointItem = memo(({ checkpoint, onRestore }: CheckpointItemProps) => {
+  const handleClick = useCallback(
+    () => onRestore(checkpoint.messageCount),
+    [onRestore, checkpoint.messageCount]
+  );
+  return (
+    <Checkpoint>
+      <CheckpointIcon />
+      <CheckpointTrigger onClick={handleClick} tooltip="Restores workspace and chat to this point">
+        Restore checkpoint
+      </CheckpointTrigger>
+    </Checkpoint>
+  );
+});
 
-CheckpointItem.displayName = "CheckpointItem";
+CheckpointItem.displayName = 'CheckpointItem';
 
 const Example = () => {
   const [messages, setMessages] = useState<MessageType[]>(initialMessages);
@@ -81,9 +68,7 @@ const Example = () => {
       <Conversation>
         <ConversationContent>
           {messages.map((message, index) => {
-            const checkpoint = checkpoints.find(
-              (cp) => cp.messageCount === index + 1
-            );
+            const checkpoint = checkpoints.find((cp) => cp.messageCount === index + 1);
 
             return (
               <Fragment key={message.id}>
@@ -92,12 +77,7 @@ const Example = () => {
                     <MessageResponse>{message.content}</MessageResponse>
                   </MessageContent>
                 </Message>
-                {checkpoint && (
-                  <CheckpointItem
-                    checkpoint={checkpoint}
-                    onRestore={handleRestore}
-                  />
-                )}
+                {checkpoint && <CheckpointItem checkpoint={checkpoint} onRestore={handleRestore} />}
               </Fragment>
             );
           })}

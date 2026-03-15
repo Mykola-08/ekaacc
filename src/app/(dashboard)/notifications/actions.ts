@@ -20,6 +20,23 @@ export async function markNotificationsRead() {
   revalidatePath('/notifications');
 }
 
+export async function markNotificationRead(notificationId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return;
+
+  await supabase
+    .from('notifications')
+    .update({ is_read: true, read_at: new Date().toISOString() })
+    .eq('id', notificationId)
+    .eq('user_id', user.id);
+
+  revalidatePath('/notifications');
+}
+
 export async function deleteNotification(notificationId: string) {
   const supabase = await createClient();
   const {

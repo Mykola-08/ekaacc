@@ -262,4 +262,3 @@ Colocate errors—show error messages close to the field that caused them:
   {error && <span className="error">{error}</span>}
 </div>
 ```
-

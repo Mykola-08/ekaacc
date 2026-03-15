@@ -11,12 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { StatusBadge } from '@/components/ui/status-badge';
-import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Loader2, RefreshCw, PlusCircle, Clock, CheckCircle } from 'lucide-react';
+import { RefreshCw, PlusCircle } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';
 import { DollarCircleIcon } from '@hugeicons/core-free-icons';
@@ -65,11 +62,10 @@ export default function TherapistBillingPage() {
   const loadInvoices = useCallback(async () => {
     setLoading(true);
     try {
-      // Using a demo client ID for now. This should be dynamic in a real app.
+      // TODO: Replace with real client ID from route params or selected client
       const inv = await fxService.getInvoicesForClient('demo-client');
       setInvoices(inv || []);
-    } catch (e) {
-      console.error(e);
+    } catch {
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -86,16 +82,16 @@ export default function TherapistBillingPage() {
 
   const createInvoice = async () => {
     try {
+      // TODO: Replace with real client/session IDs
       const res = await fxService.createChargeForSession(
         'demo-client',
         'demo-session',
         25,
-        'Test invoice'
+        'New invoice'
       );
-      toast({ title: 'Charge Created', description: `Charge ID: ${res?.id || 'demo-charge'}` });
+      toast({ title: 'Charge Created', description: `Charge ID: ${res?.id || 'created'}` });
       await loadInvoices();
-    } catch (e) {
-      console.error(e);
+    } catch {
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -119,7 +115,7 @@ export default function TherapistBillingPage() {
               </Button>
               <Button onClick={createInvoice} variant="default">
                 <PlusCircle className="mr-2 h-4 w-4" />
-                Create Test Invoice
+                Create Invoice
               </Button>
             </div>
           }

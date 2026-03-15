@@ -10,6 +10,7 @@ export type FeatureNode = {
 export type FeatureContext = {
   userId?: string;
   role?: string;
+  tenantId?: string;
 };
 
 /**
@@ -89,6 +90,21 @@ export async function resolveFeatures(context: FeatureContext): Promise<Record<s
   // Resolve all
   features.forEach((f: any) => resolveOne(f.id));
 
+  // Merge tenant-level feature flags if tenantId is available
+  if (context.tenantId) {
+    const { data: tenantFeat } = await supabase
+      .from('tenant_features')
+      .select('features')
+      .eq('tenant_id', context.tenantId)
+      .maybeSingle();
+
+    if (tenantFeat && tenantFeat.features) {
+      for (const [k, v] of Object.entries(tenantFeat.features)) {
+        resolved.set(k, Boolean(v));
+      }
+    }
+  }
+
   return Object.fromEntries(resolved);
 }
 
@@ -106,11 +122,12 @@ export async function getFeature(key: string): Promise<boolean> {
   // Fetch role
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role')
+    .select('role, tenant_id')
     .eq('auth_id', user.id)
     .single();
   const role = profile?.role;
+  const tenantId = profile?.tenant_id;
 
-  const features = await resolveFeatures({ userId: user.id, role });
+  const features = await resolveFeatures({ userId: user.id, role, tenantId });
   return features[key] ?? false;
 }

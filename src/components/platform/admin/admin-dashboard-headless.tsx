@@ -60,7 +60,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
   return (
     <div className="">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-card text-card-foreground rounded-xl border shadow-sm">
+        <div className="bg-card text-card-foreground rounded-xl border">
           <div className="flex flex-row items-center justify-between p-6 pb-2">
             <h3 className="text-sm font-medium tracking-tight">Total Revenue</h3>
             <DollarSign className="text-muted-foreground h-4 w-4" />

@@ -101,10 +101,9 @@ export const conversationService = {
     );
 
     // Update conversation timestamp
-    await db.query(
-      `UPDATE ai_conversations SET updated_at = NOW() WHERE id = $1`,
-      [conversationId]
-    ).catch(() => {});
+    await db
+      .query(`UPDATE ai_conversations SET updated_at = NOW() WHERE id = $1`, [conversationId])
+      .catch(() => {});
 
     const row = rows[0];
     return {
@@ -143,16 +142,17 @@ export const conversationService = {
       const model = await getModel('fast');
       const { text } = await generateText({
         model,
-        system: 'Generate a very short (3-6 word) title for this conversation. Return ONLY the title, no quotes.',
+        system:
+          'Generate a very short (3-6 word) title for this conversation. Return ONLY the title, no quotes.',
         prompt: firstMessage.slice(0, 500),
       });
 
       const title = text.trim().slice(0, 100);
       if (title) {
-        await db.query(
-          `UPDATE ai_conversations SET title = $1 WHERE id = $2`,
-          [title, conversationId]
-        );
+        await db.query(`UPDATE ai_conversations SET title = $1 WHERE id = $2`, [
+          title,
+          conversationId,
+        ]);
       }
     } catch {
       // Best-effort
@@ -163,7 +163,11 @@ export const conversationService = {
    * Extract and store memories from a conversation exchange.
    * Runs in the background after each assistant response.
    */
-  async extractMemories(userId: string, userMessage: string, assistantMessage: string): Promise<void> {
+  async extractMemories(
+    userId: string,
+    userMessage: string,
+    assistantMessage: string
+  ): Promise<void> {
     try {
       const model = await getModel('fast');
 
@@ -177,7 +181,10 @@ Return ONLY the JSON array, no markdown.`,
 Assistant replied: "${assistantMessage.slice(0, 1000)}"`,
       });
 
-      const cleaned = text.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+      const cleaned = text
+        .replace(/```json?\n?/g, '')
+        .replace(/```/g, '')
+        .trim();
       const parsed = JSON.parse(cleaned);
 
       if (Array.isArray(parsed) && parsed.length > 0) {
@@ -185,7 +192,9 @@ Assistant replied: "${assistantMessage.slice(0, 1000)}"`,
           .filter((m: any) => m.content && m.type)
           .map((m: any) => ({
             content: String(m.content).slice(0, 500),
-            type: (['preference', 'fact', 'goal', 'mood', 'observation'].includes(m.type) ? m.type : 'observation') as MemoryType,
+            type: (['preference', 'fact', 'goal', 'mood', 'observation'].includes(m.type)
+              ? m.type
+              : 'observation') as MemoryType,
             importance: Math.max(1, Math.min(5, Number(m.importance) || 3)),
           }));
 
@@ -202,9 +211,9 @@ Assistant replied: "${assistantMessage.slice(0, 1000)}"`,
    * Delete a conversation and all its messages.
    */
   async delete(conversationId: string, userId: string): Promise<void> {
-    await db.query(
-      `DELETE FROM ai_conversations WHERE id = $1 AND user_id = $2`,
-      [conversationId, userId]
-    );
+    await db.query(`DELETE FROM ai_conversations WHERE id = $1 AND user_id = $2`, [
+      conversationId,
+      userId,
+    ]);
   },
 };

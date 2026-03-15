@@ -129,4 +129,3 @@ export const GRADIENT_PRESETS = {
 - **Z-Index**: `-10` by default to stay behind content.
 - **Context**: Requires WebGL context. Do not spam 50 of these on a single page.
   Use 1-3 strategic instances per view.
-

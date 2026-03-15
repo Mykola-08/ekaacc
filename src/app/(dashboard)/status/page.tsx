@@ -107,7 +107,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
   const Icon = iconMap[service.icon] || Activity;
 
   return (
-    <div className="border-border/10 bg-foreground/40 hover:border-border/20 rounded-lg border-none p-6 backdrop-blur-sm transition-colors">
+    <div className="border-border/10 bg-foreground/40 hover:border-border/20 rounded-2xl border-none p-6 backdrop-blur-sm transition-colors">
       <div className="mb-4 flex items-start justify-between">
         <div className="bg-card/5 text-primary-foreground rounded-xl p-2">
           <Icon className="h-5 w-5" />
@@ -147,7 +147,7 @@ const MetricCard = ({ metric }: { metric: Metric }) => {
   const Icon = iconMap[metric.icon] || Activity;
 
   return (
-    <div className="border-border/10 bg-foreground/40 rounded-lg border-none p-6 backdrop-blur-sm">
+    <div className="border-border/10 bg-foreground/40 rounded-2xl border-none p-6 backdrop-blur-sm">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-muted-foreground text-sm">{metric.label}</span>
         <Icon className={cn('h-4 w-4', metric.color || 'text-primary-foreground')} />
@@ -220,7 +220,7 @@ export default function StatusPage() {
         {/* Overall Status Banner */}
         <div
           className={cn(
-            'flex items-center gap-4 rounded-lg border-none p-6',
+            'flex items-center gap-4 rounded-2xl border-none p-6',
             overallStatus === 'operational'
               ? 'border-success/20 bg-success/10'
               : 'border-warning/20 bg-warning/10'

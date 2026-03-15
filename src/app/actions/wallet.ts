@@ -59,11 +59,19 @@ export async function getClientTransactions() {
 
   if (!user) throw new Error('Not authenticated');
 
-  // Query wallet_transactions directly instead of missing RPC function
+  // Look up user's wallet first, then query transactions by wallet_id
+  const { data: wallet } = await supabase
+    .from('wallets')
+    .select('id')
+    .eq('user_id', user.id)
+    .single();
+
+  if (!wallet) return [];
+
   const { data: walletTxns, error: walletError } = await supabase
     .from('wallet_transactions')
     .select('id, created_at, type, amount, description')
-    .eq('user_id', user.id)
+    .eq('wallet_id', wallet.id)
     .order('created_at', { ascending: false })
     .limit(50);
 

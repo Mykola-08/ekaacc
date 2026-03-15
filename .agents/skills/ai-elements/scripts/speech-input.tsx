@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { SpeechInput } from "@/components/ai-elements/speech-input";
-import { useCallback, useState } from "react";
+import { SpeechInput } from '@/components/ai-elements/speech-input';
+import { useCallback, useState } from 'react';
 
 /**
  * Fallback handler for browsers that don't support Web Speech API (Firefox, Safari).
@@ -10,22 +10,19 @@ import { useCallback, useState } from "react";
  */
 const handleAudioRecorded = async (audioBlob: Blob): Promise<string> => {
   const formData = new FormData();
-  formData.append("file", audioBlob, "audio.webm");
-  formData.append("model", "whisper-1");
+  formData.append('file', audioBlob, 'audio.webm');
+  formData.append('model', 'whisper-1');
 
-  const response = await fetch(
-    "https://api.openai.com/v1/audio/transcriptions",
-    {
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
-      },
-      method: "POST",
-    }
-  );
+  const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+    },
+    method: 'POST',
+  });
 
   if (!response.ok) {
-    throw new Error("Transcription failed");
+    throw new Error('Transcription failed');
   }
 
   const data = await response.json();
@@ -33,7 +30,7 @@ const handleAudioRecorded = async (audioBlob: Blob): Promise<string> => {
 };
 
 const Example = () => {
-  const [transcript, setTranscript] = useState("");
+  const [transcript, setTranscript] = useState('');
 
   const handleTranscriptionChange = useCallback((text: string) => {
     setTranscript((prev) => {
@@ -43,7 +40,7 @@ const Example = () => {
   }, []);
 
   const handleClear = useCallback(() => {
-    setTranscript("");
+    setTranscript('');
   }, []);
 
   return (
@@ -57,7 +54,7 @@ const Example = () => {
         />
         {transcript && (
           <button
-            className="text-muted-foreground text-sm underline hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground text-sm underline"
             onClick={handleClear}
             type="button"
           >
@@ -66,16 +63,14 @@ const Example = () => {
         )}
       </div>
       {transcript ? (
-        <div className="max-w-md rounded-lg border bg-card p-4 text-sm">
+        <div className="bg-card max-w-md rounded-lg border p-4 text-sm">
           <p className="text-muted-foreground">
             <strong>Transcript:</strong>
           </p>
           <p className="mt-2">{transcript}</p>
         </div>
       ) : (
-        <p className="text-muted-foreground text-sm">
-          Click the microphone to start speaking
-        </p>
+        <p className="text-muted-foreground text-sm">Click the microphone to start speaking</p>
       )}
     </div>
   );

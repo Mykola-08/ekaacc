@@ -12,11 +12,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 
-export function TelegramConnectButton({
-  botUsername = 'EkaWellnessBot',
-}: {
-  botUsername?: string;
-}) {
+export function TelegramConnectButton({ botUsername = 'ekabalancebot' }: { botUsername?: string }) {
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState<string | null>(null);
 
@@ -69,7 +65,7 @@ export function TelegramConnectButton({
             <p className="text-muted-foreground max-w-[250px] text-xs">
               Or send this command directly to <strong>@{botUsername}</strong>:
             </p>
-            <code className="bg-muted rounded-md px-3 py-2 font-mono text-sm tracking-wider break-all select-all">
+            <code className="bg-muted rounded-xl px-3 py-2 font-mono text-sm tracking-wider break-all select-all">
               /link {code}
             </code>
           </div>

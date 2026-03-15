@@ -76,10 +76,7 @@ export async function togglePostLike(postId: string) {
     const { error: rpcError } = await supabase.rpc('decrement_post_likes', { p_post_id: postId });
     if (rpcError) {
       // If RPC doesn't exist, update manually
-      await supabase
-        .from('community_posts')
-        .update({ likes: 0 })
-        .eq('id', postId);
+      await supabase.from('community_posts').update({ likes: 0 }).eq('id', postId);
     }
   } else {
     // Like

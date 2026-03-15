@@ -2,11 +2,7 @@
 	"servers": {
 		"supabase": {
 			"type": "http",
-			"url": "https://mcp.supabase.com/mcp?project_ref=dopkncrqutxnchwqxloa&features=storage,branching,functions,development,debugging,database,account,docs"
-		},
-		"Vercel": {
-			"url": "https://mcp.vercel.com",
-			"type": "http"
+			"url": "https://mcp.supabase.com/mcp"
 		},
 		"com.stripe/mcp": {
 			"type": "http",
@@ -21,6 +17,15 @@
 				"mcp"
 			],
 			"type": "stdio"
+		},
+		"microsoft/markitdown": {
+			"type": "stdio",
+			"command": "uvx",
+			"args": [
+				"markitdown-mcp@0.0.1a4"
+			],
+			"gallery": "https://api.mcp.github.com",
+			"version": "1.0.0"
 		}
 	},
 	"inputs": []

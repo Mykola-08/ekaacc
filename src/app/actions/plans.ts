@@ -59,7 +59,8 @@ export async function getUserPlanUsages(userId?: string) {
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching plan usage:', error);
+    // PGRST205 = table not found — migration not yet applied
+    if (error.code !== 'PGRST205') console.error('Error fetching plan usage:', error);
     return [];
   }
 
@@ -92,7 +93,7 @@ export async function getAllActivePlanUsages() {
     .limit(50); // Pagination needed in real app
 
   if (error) {
-    console.error('Error fetching all plans:', error);
+    if (error.code !== 'PGRST205') console.error('Error fetching all plans:', error);
     return [];
   }
 

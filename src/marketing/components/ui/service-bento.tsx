@@ -65,7 +65,7 @@ export function ServiceBentoItem({
         <button
           onClick={() => setIsOpen(true)}
           onMouseMove={handleMouseMove}
-          className="group border-secondary/50 relative isolate flex h-full min-h-[420px] w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border bg-[#fbfbfd] text-left transition-all duration-500 will-change-transform outline-none active:scale-[0.98]"
+          className="group border-secondary/50 relative isolate flex h-full min-h-[420px] w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border bg-background text-left transition-all duration-500 will-change-transform outline-none active:scale-[0.98]"
         >
           {/* Spotlight overlay */}
           <motion.div
@@ -99,12 +99,12 @@ export function ServiceBentoItem({
           <div className="relative z-10 flex h-full w-full flex-col justify-end p-8 sm:p-10">
             <motion.div className="transform pr-16 transition-transform duration-500 group-hover:-translate-y-2 md:pr-20">
               <h3
-                className={`mb-3 text-2xl font-semibold tracking-tight sm:text-3xl ${image ? 'text-white drop-shadow-md' : 'text-black'}`}
+                className={`mb-3 text-2xl font-semibold tracking-tight sm:text-3xl ${image ? 'drop- text-white' : 'text-black'}`}
               >
                 {title}
               </h3>
               <p
-                className={`mt-2 line-clamp-4 text-base leading-relaxed tracking-tight md:line-clamp-none ${image ? 'text-white/95 drop-shadow-sm' : 'text-gray-600'}`}
+                className={`mt-2 line-clamp-4 text-base leading-relaxed tracking-tight md:line-clamp-none ${image ? 'drop- text-white/95' : 'text-gray-600'}`}
               >
                 {description}
               </p>
@@ -122,7 +122,7 @@ export function ServiceBentoItem({
               )}
             </motion.div>
             <div
-              className={`group-hover:bg-opacity-100 absolute right-8 bottom-8 z-20 flex h-12 w-12 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-500 group-hover:scale-110 group-active:scale-95 ${image ? 'border-white/40 bg-white/20 text-white group-hover:border-white group-hover:bg-white group-hover:text-black' : 'border-black/10 bg-black/5 text-black group-hover:border-black group-hover:bg-black group-hover:text-white'}`}
+              className={`group-hover:bg-opacity-100 absolute right-8 bottom-8 z-20 flex h-12 w-12 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-500 group-hover:scale-110 group-active:scale-95 ${image ? 'group-hover:text-primary border-white/40 bg-white/20 text-white group-hover:border-white group-hover:bg-white' : 'border-primary/10 bg-primary/5 text-primary group-hover:border-primary group-hover:bg-primary group-hover:text-white'}`}
             >
               <svg
                 className="h-6 w-6 transition-transform duration-500 group-hover:rotate-90"
@@ -162,7 +162,7 @@ export function ServiceBentoItem({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: '100%' }}
                     transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
-                    className="relative z-10 flex h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-[2rem] bg-white shadow-2xl sm:h-[80vh] sm:rounded-[2.5rem]"
+                    className="relative z-10 flex h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-[2rem] bg-white sm:h-[80vh] sm:rounded-[2.5rem]"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {/* Mobile draggable indicator */}
@@ -184,7 +184,7 @@ export function ServiceBentoItem({
                             <Image src={image} fill alt={title} className="object-cover" />
                             <div className="absolute inset-0 bg-black/50 sm:bg-gradient-to-t sm:from-black/90 sm:via-black/40 sm:to-transparent" />
                             <div className="relative z-10 flex h-full w-full flex-col justify-center p-4 text-center sm:justify-end sm:p-5 sm:text-left lg:p-6">
-                              <h2 className="mb-1 text-lg leading-tight font-medium tracking-tight text-white drop-shadow-sm sm:mb-2 sm:text-xl md:text-2xl">
+                              <h2 className="drop- mb-1 text-lg leading-tight font-medium tracking-tight text-white sm:mb-2 sm:text-xl md:text-2xl">
                                 {title}
                               </h2>
 
@@ -192,7 +192,7 @@ export function ServiceBentoItem({
                               <div className="mt-2 hidden w-full flex-col gap-2 sm:mt-3 md:flex xl:flex-row">
                                 {bookUrl && (
                                   <Link href={bookUrl} className="flex-1">
-                                    <span className="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-xs font-semibold text-black shadow-lg transition hover:bg-gray-100">
+                                    <span className="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-gray-100">
                                       {bookText}
                                     </span>
                                   </Link>
@@ -219,7 +219,7 @@ export function ServiceBentoItem({
                             <div className="mt-4 flex shrink-0 flex-col gap-2 border-t border-gray-100 pt-4 md:hidden">
                               {bookUrl && (
                                 <Link href={bookUrl} className="w-full">
-                                  <span className="flex w-full items-center justify-center rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-black">
+                                  <span className="bg-primary hover:bg-primary-600 flex w-full items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition">
                                     {bookText}
                                   </span>
                                 </Link>
@@ -249,7 +249,7 @@ export function ServiceBentoItem({
                           <div className="mt-4 flex shrink-0 flex-col gap-2 border-t border-gray-100 pt-4 sm:flex-row">
                             {bookUrl && (
                               <Link href={bookUrl} className="flex-1">
-                                <span className="flex w-full items-center justify-center rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-black">
+                                <span className="bg-primary hover:bg-primary-600 flex w-full items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition">
                                   {bookText}
                                 </span>
                               </Link>

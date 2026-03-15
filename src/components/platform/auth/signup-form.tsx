@@ -105,7 +105,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
       animate="visible"
       className="mx-auto w-full max-w-120"
     >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-3xl border shadow-sm backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           {/* Header */}
           <motion.div
@@ -115,7 +115,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
             className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative mb-2">
-              <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1 shadow-sm">
+              <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
                 <Image
                   src="/images/eka_logo.png"
                   alt="EKA Balance"
@@ -155,7 +155,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                           <Input
                             placeholder="John Doe"
                             autoComplete="name"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-md px-4 text-base transition-all focus:ring-4"
+                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
                             {...field}
                           />
                         </FormControl>
@@ -182,7 +182,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                           <Input
                             placeholder="johndoe"
                             autoComplete="username"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-md px-4 text-base transition-all focus:ring-4"
+                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
                             {...field}
                           />
                         </FormControl>
@@ -207,7 +207,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                           type="email"
                           placeholder="name@example.com"
                           autoComplete="email"
-                          className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-md px-4 text-base transition-all focus:ring-4"
+                          className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
                           {...field}
                         />
                       </FormControl>
@@ -236,7 +236,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                             type="password"
                             placeholder="••••••••"
                             autoComplete="new-password"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-md px-4 text-base transition-all focus:ring-4"
+                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
                             {...field}
                           />
                         </FormControl>
@@ -264,7 +264,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                             type="password"
                             placeholder="••••••••"
                             autoComplete="new-password"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-md px-4 text-base transition-all focus:ring-4"
+                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
                             {...field}
                           />
                         </FormControl>
@@ -289,7 +289,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                       <FormControl>
                         <Input
                           placeholder="ABCD1234"
-                          className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-md px-4 font-mono text-base tracking-wider uppercase transition-all focus:ring-4"
+                          className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 font-mono text-base tracking-wider uppercase transition-all focus:ring-4"
                           {...field}
                           onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                         />
@@ -311,7 +311,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <FormMessage className="bg-destructive/10 text-destructive rounded-md px-4 py-3 text-center text-sm font-medium">
+                    <FormMessage className="bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-center text-sm font-medium">
                       {form.formState.errors.root.message}
                     </FormMessage>
                   </motion.div>
@@ -326,7 +326,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
               >
                 <Button
                   type="submit"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold shadow-sm transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
                   disabled={isLoading}
                 >
                   {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Create Account'}

@@ -249,4 +249,3 @@ submenu closing.
   /* Adjust based on submenu position */
 }
 ```
-

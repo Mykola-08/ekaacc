@@ -90,7 +90,7 @@ export async function getSupabaseServiceRoleKey(): Promise<string> {
   const secretKey = (await getConfig('SUPABASE_SECRET_KEY')) || process.env.SUPABASE_SECRET_KEY;
   if (secretKey) return secretKey;
 
-  return getRequiredConfigOrEnv('SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SERVICE_ROLE_KEY');
+  throw new Error('Missing required configuration: SUPABASE_SECRET_KEY');
 }
 
 export async function getOpenAIApiKey(): Promise<string | undefined> {
@@ -99,6 +99,10 @@ export async function getOpenAIApiKey(): Promise<string | undefined> {
 
 export async function getResendApiKey(): Promise<string | undefined> {
   return (await getConfig('RESEND_API_KEY')) || process.env.RESEND_API_KEY;
+}
+
+export async function getResendWebhookSecret(): Promise<string | undefined> {
+  return (await getConfig('RESEND_WEBHOOK_SECRET')) || process.env.RESEND_WEBHOOK_SECRET;
 }
 
 export async function getZoomClientId(): Promise<string | undefined> {

@@ -6,17 +6,13 @@ import { getUserPermissions } from '@/lib/permissions/actions';
 import { Suspense } from 'react';
 import { ThemeCustomizationProvider } from '@/components/theme/ThemeCustomizationProvider';
 import { getAppearancePreferences } from '@/app/actions/appearance';
+import { Inter } from 'next/font/google';
 
-/**
- * Unified Dashboard Layout
- *
- * Single layout for ALL authenticated pages — clients, therapists, and admins.
- * The sidebar dynamically shows/hides navigation items based on the user's
- * resolved permissions (role defaults + per-user custom overrides).
- *
- * Roles are just convenience bundles of permissions. Actual page access is
- * controlled by the permission system.
- */
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  weight: ['400', '500'],
+});
 
 async function DashboardShellLoader({ children }: { children: React.ReactNode }) {
   await connection();
@@ -41,14 +37,18 @@ async function DashboardShellLoader({ children }: { children: React.ReactNode })
     ...user.user_metadata,
   };
 
-  const permissions = await getUserPermissions();
-  const appearance = await getAppearancePreferences();
+  const [permissions, appearance] = await Promise.all([
+    getUserPermissions(),
+    getAppearancePreferences(),
+  ]);
 
   return (
     <ThemeCustomizationProvider initialTheme={appearance}>
-      <UnifiedDashboardShell profile={profile} permissions={permissions}>
-        {children}
-      </UnifiedDashboardShell>
+      <div className={`dashboard-theme abVKEfg ${inter.variable} flex min-h-screen flex-col`}>
+        <UnifiedDashboardShell profile={profile} permissions={permissions}>
+          {children}
+        </UnifiedDashboardShell>
+      </div>
     </ThemeCustomizationProvider>
   );
 }
@@ -57,13 +57,13 @@ export default function UnifiedDashboardLayout({ children }: { children: React.R
   return (
     <Suspense
       fallback={
-        <div className="bg-background flex min-h-screen">
+        <div className={`dashboard-theme abVKEfg ${inter.variable} bg-background flex min-h-screen`}>
           <div className="border-border bg-card hidden w-64 animate-pulse border-r md:block" />
-          <div className="flex-1 p-6">
-            <div className="bg-muted mb-6 h-8 w-48 animate-pulse rounded" />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-muted h-32 animate-pulse rounded-lg" />
+          <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
+            <div className="bg-muted h-8 w-48 animate-pulse rounded" />
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="bg-muted h-32 animate-pulse rounded-xl border" />
               ))}
             </div>
           </div>

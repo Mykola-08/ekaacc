@@ -1,10 +1,12 @@
-import BookingWizard from '@/components/booking/BookingWizard';
-import { Suspense } from 'react';
+import { BookingWizard } from '@/components/booking/BookingWizard';
+import { SuspenseBoundary } from '@/components/ui/suspense-boundary';
 
 export default function BookPage() {
   return (
-    <Suspense fallback={<div>Loading booking...</div>}>
-      <BookingWizard />
-    </Suspense>
+    <div className="dashboard-theme bg-background text-foreground min-h-screen font-sans">
+      <SuspenseBoundary>
+        <BookingWizard />
+      </SuspenseBoundary>
+    </div>
   );
 }

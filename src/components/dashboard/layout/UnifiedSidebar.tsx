@@ -59,6 +59,12 @@ import {
   Notification03Icon,
   Logout03Icon,
   CheckListIcon,
+  ToggleOnIcon,
+  Database01Icon,
+  Refresh01Icon,
+  AlertCircleIcon,
+  Briefcase01Icon,
+  FileAddIcon,
 } from '@hugeicons/core-free-icons';
 
 // ─── Icon mapping ──────────────────────────────────────────────────
@@ -84,6 +90,12 @@ const ICON_MAP: Record<string, any> = {
   wrench: Wrench01Icon,
   sparkle: SparklesIcon,
   clipboard: CheckListIcon,
+  'toggle-right': ToggleOnIcon,
+  database: Database01Icon,
+  refresh: Refresh01Icon,
+  alert: AlertCircleIcon,
+  briefcase: Briefcase01Icon,
+  'file-add': FileAddIcon,
 };
 
 function NavIcon({ name, className }: { name?: string; className?: string }) {
@@ -135,7 +147,7 @@ function NavMain({
             {section.items.map((item) => (
               <SidebarMenuItem key={item.path}>
                 <SidebarMenuButton asChild isActive={isActive(item.path)} tooltip={item.label}>
-                  <Link href={item.path}>
+                  <Link href={item.path} aria-current={isActive(item.path) ? 'page' : undefined}>
                     <NavIcon name={item.icon} />
                     <span>{item.label}</span>
                   </Link>
@@ -182,9 +194,9 @@ function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-2xl">
                 <AvatarImage src={avatarUrl} alt={displayName} />
-                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                <AvatarFallback className="rounded-2xl">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{displayName}</span>
@@ -194,16 +206,16 @@ function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-2xl"
             side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="h-8 w-8 rounded-2xl">
                   <AvatarImage src={avatarUrl} alt={displayName} />
-                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                  <AvatarFallback className="rounded-2xl">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{displayName}</span>
@@ -220,7 +232,7 @@ function NavUser({
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href="/finances">
+                <Link href="/settings?section=finances">
                   <HugeiconsIcon icon={CreditCardIcon} />
                   Billing
                 </Link>
@@ -295,13 +307,17 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
   })();
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar
+      variant="floating"
+      collapsible="icon"
+      className="dashboard-sidebar m-4 overflow-hidden rounded-[24px] border border-border/50 shadow-sm"
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild tooltip="EKA">
               <Link href="/dashboard">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-2xl">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">

@@ -56,11 +56,11 @@ ekaacc/
 
 ### Path Aliases
 
-| Alias            | Maps to             |
-| ---------------- | ------------------- |
-| `@/*`            | `./src/*`           |
-| `@/server/*`     | `./server/*`        |
-| `@/marketing/*`  | `./src/marketing/*` |
+| Alias           | Maps to             |
+| --------------- | ------------------- |
+| `@/*`           | `./src/*`           |
+| `@/server/*`    | `./server/*`        |
+| `@/marketing/*` | `./src/marketing/*` |
 
 ---
 
@@ -79,11 +79,11 @@ Client Component → Server Action → Service Layer → Supabase / Stripe / Res
 
 ### Supabase Clients
 
-| Context | Import                      | Pattern             |
-| ------- | --------------------------- | ------------------- |
-| Browser | `@/lib/supabase/client`     | Singleton           |
-| Server  | `@/lib/supabase/server`     | Async (per-request) |
-| Admin   | `@/lib/supabase/admin`      | Service key         |
+| Context | Import                  | Pattern             |
+| ------- | ----------------------- | ------------------- |
+| Browser | `@/lib/supabase/client` | Singleton           |
+| Server  | `@/lib/supabase/server` | Async (per-request) |
+| Admin   | `@/lib/supabase/admin`  | Service key         |
 
 ---
 
@@ -107,13 +107,13 @@ Client Component → Server Action → Service Layer → Supabase / Stripe / Res
 
 ## Integrations
 
-| Service        | Purpose            | Key files                                     |
-| -------------- | ------------------ | --------------------------------------------- |
-| **Supabase**   | DB, Auth, Storage  | `src/lib/supabase/*`, `supabase/migrations/`  |
-| **Stripe**     | Payments & Billing | `src/lib/platform/integrations/stripe.ts`     |
-| **Resend**     | Email              | `src/lib/platform/integrations/resend.ts`     |
-| **AI (multi)** | Chat & Analysis    | `server/ai/*` (OpenAI, Anthropic, Google)     |
-| **Telegram**   | Bot notifications  | `server/telegram/*`                           |
+| Service        | Purpose            | Key files                                    |
+| -------------- | ------------------ | -------------------------------------------- |
+| **Supabase**   | DB, Auth, Storage  | `src/lib/supabase/*`, `supabase/migrations/` |
+| **Stripe**     | Payments & Billing | `src/lib/platform/integrations/stripe.ts`    |
+| **Resend**     | Email              | `src/lib/platform/integrations/resend.ts`    |
+| **AI (multi)** | Chat & Analysis    | `server/ai/*` (OpenAI, Anthropic, Google)    |
+| **Telegram**   | Bot notifications  | `server/telegram/*`                          |
 
 ---
 
@@ -125,10 +125,9 @@ vercel login
 vercel --prod
 ```
 
-Required env vars for production: `SUPABASE_URL`,
-`NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`,
-`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`,
-`NEXT_PUBLIC_APP_URL`.
+Required env vars for production: `NEXT_PUBLIC_SUPABASE_URL`,
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `POSTGRES_URL`.
+All other secrets (Stripe, Resend, etc.) are loaded from the `app_config` table.
 
 ---
 

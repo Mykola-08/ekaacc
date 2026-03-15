@@ -75,7 +75,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
             Manage your account preferences and settings.
           </p>
         </div>
-        <button className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 rounded-lg px-6 py-3 font-semibold shadow-sm transition-colors">
+        <button className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 rounded-2xl px-6 py-3 font-semibold transition-colors">
           <Save className="h-5 w-5" />
           <span>Save Changes</span>
         </button>
@@ -91,9 +91,9 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                   key={name}
                   className={({ selected }) =>
                     cn(
-                      'flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 outline-none',
+                      'flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-200 outline-none',
                       selected
-                        ? 'bg-primary/5 text-primary ring-primary/10 shadow-sm ring-1'
+                        ? 'bg-primary/5 text-primary ring-primary/10 ring-1'
                         : 'text-muted-foreground hover:bg-card hover:text-foreground'
                     )
                   }
@@ -109,7 +109,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           <div className="col-span-12 md:col-span-9">
             <TabPanels>
               {/* Profile Panel */}
-              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+              <TabPanel className="bg-card ring-border rounded-2xl p-8 ring-1 outline-none">
                 <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Personal Information</h2>
@@ -144,7 +144,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-2xl p-3 sm:text-sm"
                       />
                     </div>
                     <div className="">
@@ -160,7 +160,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-2xl p-3 sm:text-sm"
                       />
                     </div>
                     <div className="col-span-full">
@@ -173,7 +173,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         rows={4}
                         value={formData.bio}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-2xl p-3 sm:text-sm"
                         placeholder="Write a few sentences about yourself."
                       />
                     </div>
@@ -182,7 +182,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Notifications Panel */}
-              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+              <TabPanel className="bg-card ring-border rounded-2xl p-8 ring-1 outline-none">
                 <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Notifications</h2>
@@ -213,7 +213,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                           aria-hidden="true"
                           className={cn(
                             formData.marketingEmails ? 'translate-x-5' : 'translate-x-0',
-                            'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full shadow ring-0 transition duration-200 ease-in-out'
+                            'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full ring-0 transition duration-200 ease-in-out'
                           )}
                         />
                       </Switch>
@@ -240,7 +240,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                           aria-hidden="true"
                           className={cn(
                             formData.securityEmails ? 'translate-x-5' : 'translate-x-0',
-                            'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full shadow ring-0 transition duration-200 ease-in-out'
+                            'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full ring-0 transition duration-200 ease-in-out'
                           )}
                         />
                       </Switch>
@@ -267,7 +267,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                           aria-hidden="true"
                           className={cn(
                             formData.activityEmails ? 'translate-x-5' : 'translate-x-0',
-                            'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full shadow ring-0 transition duration-200 ease-in-out'
+                            'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full ring-0 transition duration-200 ease-in-out'
                           )}
                         />
                       </Switch>
@@ -277,7 +277,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Security Panel */}
-              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+              <TabPanel className="bg-card ring-border rounded-2xl p-8 ring-1 outline-none">
                 <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Security</h2>
@@ -322,7 +322,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Preferences Panel */}
-              <TabPanel className="bg-card ring-border rounded-lg p-8 shadow-sm ring-1 outline-none">
+              <TabPanel className="bg-card ring-border rounded-2xl p-8 ring-1 outline-none">
                 <div className="">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">Preferences</h2>
@@ -342,7 +342,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="language"
                         value={formData.language}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-2xl p-3 sm:text-sm"
                       >
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
@@ -361,7 +361,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="timezone"
                         value={formData.timezone}
                         onChange={handleInputChange}
-                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-lg p-3 sm:text-sm"
+                        className="border-border bg-muted/30 text-foreground focus:border-primary focus:ring-primary block w-full rounded-2xl p-3 sm:text-sm"
                       >
                         <option value="UTC">UTC</option>
                         <option value="EST">Eastern Time</option>
@@ -388,7 +388,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                             aria-hidden="true"
                             className={cn(
                               formData.darkMode ? 'translate-x-5' : 'translate-x-0',
-                              'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full shadow ring-0 transition duration-200 ease-in-out'
+                              'bg-card pointer-events-none inline-block h-5 w-5 transform rounded-full ring-0 transition duration-200 ease-in-out'
                             )}
                           />
                         </Switch>

@@ -22,6 +22,11 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@hooks": "https://shadcn-hooks.com/r/{name}.json"
+    "@hooks": "https://shadcn-hooks.com/r/{name}.json",
+    "@magicui": "https://magicui.design/r/{name}",
+    "@diceui": "https://diceui.com/r/{name}.json",
+    "@animate-ui": "https://animate-ui.com/r/{name}.json",
+    "@uselayouts": "https://uselayouts.com/r/{name}.json",
+    "@billingsdk": "https://billingsdk.com/r/{name}.json"
   }
 }

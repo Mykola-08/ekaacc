@@ -36,7 +36,7 @@ export function FeatureOverrideList({ userId, enrollments, allFeatures }: any) {
               <div className="text-muted-foreground flex gap-2 text-xs">
                 {feature.description}
                 {isOverride && (
-                  <span className="self-center rounded bg-muted px-1 text-[10px] text-muted-foreground">
+                  <span className="self-center rounded bg-muted px-1 text-xs text-muted-foreground">
                     Override
                   </span>
                 )}

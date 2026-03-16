@@ -289,7 +289,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
 
                           <div className="grid grid-cols-1 gap-6 pt-4 md:grid-cols-3">
                             <div className="bg-muted/20 space-y-3 rounded-2xl border p-4">
-                              <h4 className="font-medium text-blue-600 dark:text-blue-400">
+                              <h4 className="font-medium text-primary">
                                 Structural Corrections
                               </h4>
                               <Textarea
@@ -301,7 +301,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                             </div>
 
                             <div className="bg-muted/20 space-y-3 rounded-2xl border p-4">
-                              <h4 className="font-medium text-green-600 dark:text-green-400">
+                              <h4 className="font-medium text-success">
                                 Chemical / Nutritional
                               </h4>
                               <Textarea
@@ -313,7 +313,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                             </div>
 
                             <div className="bg-muted/20 space-y-3 rounded-2xl border p-4">
-                              <h4 className="font-medium text-purple-600 dark:text-purple-400">
+                              <h4 className="font-medium text-muted-foreground">
                                 Emotional
                               </h4>
                               <Textarea

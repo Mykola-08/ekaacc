@@ -68,7 +68,7 @@ export default function BookingsPage() {
                         </h3>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground mt-3">
                           <Avatar className="size-6">
-                            <AvatarFallback className="text-[10px]">SJ</AvatarFallback>
+                            <AvatarFallback className="text-xs">SJ</AvatarFallback>
                           </Avatar>
                           <span>Dr. Sarah Jenkins</span>
                           <span className="text-muted-foreground/50">•</span>
@@ -120,7 +120,7 @@ export default function BookingsPage() {
                         </h3>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground mt-3">
                           <Avatar className="size-6">
-                            <AvatarFallback className="text-[10px]">SJ</AvatarFallback>
+                            <AvatarFallback className="text-xs">SJ</AvatarFallback>
                           </Avatar>
                           <span>Dr. Sarah Jenkins</span>
                           <span className="text-muted-foreground/50">•</span>

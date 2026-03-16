@@ -100,7 +100,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                     <HugeiconsIcon icon={Leaf01Icon} className="size-6"  />
                   </div>
                   <div>
-                    <p className="mb-0.5 text-[10px] font-bold tracking-[0.2em] text-gray-400 uppercase">
+                    <p className="mb-0.5 text-xs font-bold tracking-[0.2em] text-gray-400 uppercase">
                       {t('agenyz.label.type') || 'Type'}
                     </p>
                     <p className="text-sm font-bold tracking-tight text-gray-900">
@@ -116,7 +116,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-8 inline-flex items-center rounded-full border border-gray-100 bg-gray-100 px-4 py-1.5 text-[10px] font-bold tracking-[0.2em] text-gray-600 uppercase"
+                className="mb-8 inline-flex items-center rounded-full border border-gray-100 bg-gray-100 px-4 py-1.5 text-xs font-bold tracking-[0.2em] text-gray-600 uppercase"
               >
                 <HugeiconsIcon icon={ZapIcon} className="text-primary-500 mr-2 size-3"  />
                 {t(`agenyz.category.${product.category}`) || product.category}{' '}

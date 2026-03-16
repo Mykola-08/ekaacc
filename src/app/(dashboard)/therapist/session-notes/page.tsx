@@ -256,7 +256,7 @@ export default function SessionNotesPage() {
                           {new Date(note.session_date).toLocaleDateString()} &middot;{' '}
                           {note.duration_minutes}min
                           {note.is_draft && (
-                            <Badge variant="outline" className="ml-2 text-[10px]">
+                            <Badge variant="outline" className="ml-2 text-xs">
                               Draft
                             </Badge>
                           )}

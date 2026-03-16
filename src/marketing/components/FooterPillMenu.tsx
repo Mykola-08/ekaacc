@@ -42,7 +42,7 @@ export default function FooterPillMenu() {
                 <HugeiconsIcon icon={item.icon} className={cn('h-4 w-4 sm:h-5 sm:w-5', isActive && 'fill-current')} />
               </div>
 
-              <span className="mt-0.5 max-w-[4rem] overflow-hidden text-center text-[9px] leading-tight text-ellipsis whitespace-nowrap sm:max-w-none sm:text-[10px]">
+              <span className="mt-0.5 max-w-[4rem] overflow-hidden text-center text-[9px] leading-tight text-ellipsis whitespace-nowrap sm:max-w-none sm:text-xs">
                 {item.label}
               </span>
 

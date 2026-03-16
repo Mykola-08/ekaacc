@@ -165,7 +165,7 @@ export default function AgenyzContent() {
                       className="hover: flex h-full flex-col rounded-[2.5rem] border border-gray-100 bg-background p-8 transition-all duration-500 hover:shadow-black/5"
                     >
                       <div className="mb-6">
-                        <span className="rounded-full border border-gray-100 bg-white/80 px-4 py-1.5 text-[10px] font-bold tracking-widest text-gray-600 uppercase backdrop-blur-md">
+                        <span className="rounded-full border border-gray-100 bg-white/80 px-4 py-1.5 text-xs font-bold tracking-widest text-gray-600 uppercase backdrop-blur-md">
                           {t(`agenyz.category.${product.category}`) || product.category}
                         </span>
                       </div>

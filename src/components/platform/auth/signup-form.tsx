@@ -89,265 +89,218 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
 
     if (error) {
       onError?.(error.message);
-      form.setError('root', {
-        message: error.message,
-      });
+      form.setError('root', { message: error.message });
     } else {
       onSuccess?.();
     }
   }
 
   return (
-    <div
-      className="mx-auto w-full max-w-120"
-    >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-lg border backdrop-blur-2xl">
-        <CardContent className="relative p-8 md:p-10">
+    <div className="mx-auto w-full max-w-sm">
+      <Card className="overflow-hidden rounded-2xl border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
+        <CardContent className="p-7 sm:p-8">
           {/* Header */}
-          <div
-            className="mb-8 flex flex-col items-center gap-4 text-center"
-          >
-            <div className="relative mb-2">
-              <div className="border-border/10 bg-card relative overflow-hidden rounded-lg border p-1">
-                <Image
-                  src="/images/eka_logo.png"
-                  alt="EKA Balance"
-                  width={56}
-                  height={56}
-                  className="h-14 w-14 object-contain"
-                  priority
-                />
-              </div>
+          <div className="mb-6 flex flex-col items-center gap-3 text-center">
+            <div className="rounded-xl border border-border/20 bg-card p-1.5 shadow-sm">
+              <Image
+                src="/images/eka_logo.png"
+                alt="EKA Balance"
+                width={52}
+                height={52}
+                className="h-13 w-13 object-contain"
+                priority
+              />
             </div>
-            <div className="">
-              <h1 className="text-foreground text-2xl font-semibold tracking-tight">
-                Create Account
+            <div>
+              <h1 className="text-xl font-bold tracking-tight text-foreground">
+                Create your account
               </h1>
-              <p className="text-muted-foreground text-sm">Join EKA Balance today</p>
+              <p className="mt-0.5 text-sm text-muted-foreground">
+                Join EKA Balance today
+              </p>
             </div>
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               {/* Full Name & Username */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div
-                >
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem className=".5">
-                        <FormLabel className="text-foreground text-sm font-medium">
-                          Full Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="John Doe"
-                            autoComplete="name"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div
-                >
-                  <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem className=".5">
-                        <FormLabel className="text-foreground text-sm font-medium">
-                          Username
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="johndoe"
-                            autoComplete="username"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-
-              <div>
+              <div className="grid grid-cols-2 gap-3">
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="fullName"
                   render={({ field }) => (
-                    <FormItem className=".5">
-                      <FormLabel className="text-foreground text-sm font-medium">
-                        Email Address
-                      </FormLabel>
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-sm font-medium">Full Name</FormLabel>
                       <FormControl>
                         <Input
-                          type="email"
-                          placeholder="name@example.com"
-                          autoComplete="email"
-                          className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
+                          placeholder="Jane Smith"
+                          autoComplete="name"
+                          className="h-10 rounded-xl"
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-sm font-medium">Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="janesmith"
+                          autoComplete="username"
+                          className="h-10 rounded-xl"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div
-                >
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem className=".5">
-                        <FormLabel className="text-foreground text-sm font-medium">
-                          Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="••••••••"
-                            autoComplete="new-password"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div
-                >
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem className=".5">
-                        <FormLabel className="text-foreground text-sm font-medium">
-                          Confirm
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="••••••••"
-                            autoComplete="new-password"
-                            className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 text-base transition-all focus:ring-4"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-
-              {/* Referral Code */}
-              <div>
-                <FormField
-                  control={form.control}
-                  name="referralCode"
-                  render={({ field }) => (
-                    <FormItem className=".5">
-                      <FormLabel className="text-foreground text-sm font-medium">
-                        Referral Code{' '}
-                        <span className="text-muted-foreground font-normal">(optional)</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="ABCD1234"
-                          className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-11 rounded-xl px-4 font-mono text-base tracking-wider uppercase transition-all focus:ring-4"
-                          {...field}
-                          onChange={(e) => field.onChange(e.target.value.toUpperCase())}
-                        />
-                      </FormControl>
-                      <FormDescription className="text-xs">
-                        Have a friend&apos;s referral code? Enter it to earn rewards.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              
-                {form.formState.errors.root && (
-                  <div
-                  >
-                    <FormMessage className="bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-center text-sm font-medium">
-                      {form.formState.errors.root.message}
-                    </FormMessage>
-                  </div>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-sm font-medium">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="name@example.com"
+                        autoComplete="email"
+                        className="h-10 rounded-xl"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
                 )}
-              
+              />
 
-              <div
-                className="pt-2"
-              >
+              <div className="grid grid-cols-2 gap-3">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-sm font-medium">Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="••••••••"
+                          autoComplete="new-password"
+                          className="h-10 rounded-xl"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-sm font-medium">Confirm</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="••••••••"
+                          autoComplete="new-password"
+                          className="h-10 rounded-xl"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="referralCode"
+                render={({ field }) => (
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-sm font-medium">
+                      Referral Code{' '}
+                      <span className="font-normal text-muted-foreground">(optional)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="ABCD1234"
+                        className="h-10 rounded-xl font-mono tracking-wider uppercase"
+                        {...field}
+                        onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                      />
+                    </FormControl>
+                    <FormDescription className="text-xs text-muted-foreground">
+                      Have a referral code? Enter it to earn rewards.
+                    </FormDescription>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+
+              {form.formState.errors.root && (
+                <div className="rounded-xl bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
+                  {form.formState.errors.root.message}
+                </div>
+              )}
+
+              <div className="pt-1">
                 <Button
                   type="submit"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
+                  className="h-11 w-full rounded-full text-sm font-semibold"
                   disabled={isLoading}
                 >
-                  {isLoading ? <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  /> : 'Create Account'}
+                  {isLoading ? (
+                    <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />
+                  ) : (
+                    'Create Account'
+                  )}
                 </Button>
               </div>
             </form>
           </Form>
 
-          <div
-            className="mt-6 text-center"
-          >
-            <p className="text-muted-foreground text-sm">
-              Already have an account?{' '}
-              <Link
-                href={nextUrl ? `/login?next=${encodeURIComponent(nextUrl)}` : '/login'}
-                className="text-primary font-medium hover:underline"
-              >
-                Sign in
-              </Link>
-            </p>
-          </div>
+          <p className="mt-5 text-center text-sm text-muted-foreground">
+            Already have an account?{' '}
+            <Link
+              href={nextUrl ? `/login?next=${encodeURIComponent(nextUrl)}` : '/login'}
+              className="font-semibold text-primary hover:underline"
+            >
+              Sign in
+            </Link>
+          </p>
         </CardContent>
       </Card>
 
-      {/* Footer / Terms */}
-      <div
-        className="mt-6 text-center"
-      >
-        <p className="text-muted-foreground px-4 text-xs">
-          By creating an account, you agree to our{' '}
-          <Link href="/legal/terms" className="hover:text-foreground :text-foreground underline">
-            Terms of Service
-          </Link>
-          ,{' '}
-          <Link href="/legal/privacy" className="hover:text-foreground :text-foreground underline">
-            Privacy Policy
-          </Link>{' '}
-          and{' '}
-          <Link
-            href="/legal/cookie-policy"
-            className="hover:text-foreground :text-foreground underline"
-          >
-            Cookie Policy
-          </Link>
-          .
-        </p>
-      </div>
+      <p className="mt-4 px-4 text-center text-xs text-muted-foreground/70">
+        By creating an account, you agree to our{' '}
+        <Link href="/legal/terms" className="underline hover:text-foreground transition-colors">
+          Terms
+        </Link>
+        ,{' '}
+        <Link href="/legal/privacy" className="underline hover:text-foreground transition-colors">
+          Privacy Policy
+        </Link>{' '}
+        and{' '}
+        <Link
+          href="/legal/cookie-policy"
+          className="underline hover:text-foreground transition-colors"
+        >
+          Cookie Policy
+        </Link>
+        .
+      </p>
     </div>
   );
 }

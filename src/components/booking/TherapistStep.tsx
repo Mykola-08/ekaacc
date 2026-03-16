@@ -13,51 +13,66 @@ interface TherapistStepProps {
 export function TherapistStep({ therapists, selectedTherapistId, onSelect }: TherapistStepProps) {
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-foreground text-2xl font-bold tracking-tight">Choose Therapist</h2>
-        <p className="text-muted-foreground">Select a practitioner for your session.</p>
+      <div className="space-y-1">
+        <h2 className="text-foreground text-2xl font-bold tracking-tight">Choose a Therapist</h2>
+        <p className="text-muted-foreground text-sm">
+          Select the practitioner you'd like to work with.
+        </p>
       </div>
 
-      <div className="grid gap-4 pt-2 sm:grid-cols-2">
-        {therapists.map((therapist) => (
-          <div key={therapist.id}>
+      <div className="grid gap-3 pt-1 sm:grid-cols-2">
+        {therapists.map((therapist) => {
+          const selected = selectedTherapistId === therapist.id;
+          return (
             <button
+              key={therapist.id}
               onClick={() => onSelect(therapist.id)}
               className={cn(
-                'hover:bg-muted/30 relative flex h-full w-full flex-col items-center space-y-4 rounded-lg border-2 p-6 text-center transition-all focus:outline-none',
-                selectedTherapistId === therapist.id
-                  ? 'border-primary bg-primary/5 shadow-sm'
-                  : 'bg-muted/40 border-transparent'
+                'group relative flex h-full w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                selected
+                  ? 'border-primary bg-primary/5 shadow-md'
+                  : 'border-border bg-card hover:border-primary/40 hover:bg-muted/20 hover:shadow-sm'
               )}
             >
-              <div className="relative">
+              {/* Avatar */}
+              <div className="relative shrink-0">
                 <img
                   src={therapist.avatar_url || '/assets/avatar-placeholder.png'}
                   alt={therapist.full_name}
-                  className="border-background h-24 w-24 rounded-full border-2 object-cover shadow-sm"
+                  className={cn(
+                    'h-16 w-16 rounded-full object-cover transition-all duration-200',
+                    selected ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-border'
+                  )}
                 />
-                {selectedTherapistId === therapist.id && (
-                  <div className="bg-primary text-primary-foreground absolute -right-2 -bottom-2 rounded-full p-1 shadow-sm">
-                    <HugeiconsIcon icon={Tick02Icon} className="size-4" />
+                {selected && (
+                  <div className="bg-primary text-primary-foreground absolute -right-1 -bottom-1 flex h-5 w-5 items-center justify-center rounded-full shadow-sm">
+                    <HugeiconsIcon icon={Tick02Icon} className="size-3" />
                   </div>
                 )}
               </div>
-              <div>
-                <h3 className="text-lg font-bold">{therapist.full_name}</h3>
-                <div className="mt-1 flex items-center justify-center text-sm text-amber-500">
-                  <HugeiconsIcon icon={StarIcon} className="size-4 fill-current" />
-                  <HugeiconsIcon icon={StarIcon} className="size-4 fill-current" />
-                  <HugeiconsIcon icon={StarIcon} className="size-4 fill-current" />
-                  <HugeiconsIcon icon={StarIcon} className="size-4 fill-current" />
-                  <HugeiconsIcon icon={StarIcon} className="size-4 fill-current" />
-                  <span className="text-muted-foreground ml-2 text-xs font-medium">
-                    5.0 (120+ reviews)
+
+              {/* Info */}
+              <div className="min-w-0 flex-1">
+                <h3 className="text-foreground truncate text-sm font-bold">
+                  {therapist.full_name}
+                </h3>
+                {therapist.specialties && (
+                  <p className="text-muted-foreground mt-0.5 truncate text-xs">
+                    {therapist.specialties}
+                  </p>
+                )}
+                <div className="mt-1.5 flex items-center gap-1 text-amber-500">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <HugeiconsIcon key={i} icon={StarIcon} className="size-3 fill-current" />
+                  ))}
+                  <span className="text-muted-foreground ml-1 text-xs font-medium">
+                    {therapist.rating || '5.0'}
                   </span>
                 </div>
               </div>
             </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

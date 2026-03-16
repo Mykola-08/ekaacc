@@ -13,6 +13,7 @@ import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Loading03Icon } from '@hugeicons/core-free-icons';
+import { Eye, EyeOff } from 'lucide-react';
 
 type LoginFormProps = React.ComponentProps<'div'> & {
   enabledProviders?: {
@@ -35,6 +36,7 @@ export function LoginForm({
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -56,7 +58,6 @@ export function LoginForm({
       if (error) {
         setError(error.message);
       } else {
-        // Check if MFA is required
         const supabase = createClient();
         const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
         if (aal && aal.currentLevel === 'aal1' && aal.nextLevel === 'aal2') {
@@ -72,76 +73,72 @@ export function LoginForm({
           }
         }
       }
-    } catch (err) {
-      setError('An unexpected error occurred');
+    } catch {
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
-      className={cn('mx-auto flex w-full max-w-100 flex-col gap-6', className)}
-      {...props}
-    >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-lg border backdrop-blur-2xl">
-        <CardContent className="relative p-8 md:p-10">
+    <div className={cn('mx-auto flex w-full max-w-sm flex-col gap-5', className)} {...props}>
+      <Card className="overflow-hidden rounded-2xl border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
+        <CardContent className="p-7 sm:p-8">
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
-            {/* Header */}
-            <div
-              className="mb-4 flex flex-col items-center gap-4 text-center"
-            >
-              <div className="relative mb-2">
-                <div className="border-border/10 bg-card relative overflow-hidden rounded-lg border p-1">
-                  <Image
-                    src="/images/eka_logo.png"
-                    alt="EKA Balance"
-                    width={56}
-                    height={56}
-                    className="h-14 w-14 object-contain"
-                    priority
-                  />
-                </div>
+            {/* Logo + header */}
+            <div className="mb-2 flex flex-col items-center gap-3 text-center">
+              <div className="rounded-xl border border-border/20 bg-card p-1.5 shadow-sm">
+                <Image
+                  src="/images/eka_logo.png"
+                  alt="EKA Balance"
+                  width={52}
+                  height={52}
+                  className="h-13 w-13 object-contain"
+                  priority
+                />
               </div>
-              <div className="">
-                <h1 className="text-foreground text-2xl font-semibold tracking-tight">
-                  Welcome Back
+              <div>
+                <h1 className="text-xl font-bold tracking-tight text-foreground">
+                  Welcome back
                 </h1>
-                <p className="text-muted-foreground text-sm">Sign in to your account</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">
+                  Sign in to your EKA account
+                </p>
               </div>
             </div>
 
-            {/* Form Fields */}
-            <div className="">
-              <div
-                className=".5"
-              >
-                <Label htmlFor="email" className="text-foreground text-sm font-medium">
-                  Email Address
+            {/* Error */}
+            {error && (
+              <div className="rounded-xl bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
+                {error}
+              </div>
+            )}
+
+            {/* Fields */}
+            <div className="space-y-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="email" className="text-sm font-medium">
+                  Email
                 </Label>
-                <div className="relative">
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-xl px-4 text-base transition-all focus:ring-4"
-                  />
-                </div>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-11 rounded-xl"
+                />
               </div>
 
-              <div
-                className=".5"
-              >
+              <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-foreground text-sm font-medium">
+                  <Label htmlFor="password" className="text-sm font-medium">
                     Password
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+                    className="text-xs font-medium text-primary hover:text-primary/80 transition-colors"
                   >
                     Forgot password?
                   </Link>
@@ -149,79 +146,75 @@ export function LoginForm({
                 <div className="relative">
                   <Input
                     id="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="Enter your password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-12 rounded-xl px-4 text-base transition-all focus:ring-4"
+                    className="h-11 rounded-xl pr-10"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="size-4" />
+                    ) : (
+                      <Eye className="size-4" />
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Error Message */}
-            
-              {error && (
-                <div
-                  className="bg-destructive/10 text-destructive rounded-xl px-4 py-3 text-center text-sm font-medium"
-                >
-                  {error}
-                </div>
+            {/* Submit */}
+            <Button
+              type="submit"
+              className="h-11 w-full rounded-full text-sm font-semibold"
+              disabled={loading}
+            >
+              {loading ? (
+                <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />
+              ) : (
+                'Sign In'
               )}
-            
-
-            {/* Submit Button */}
-            <div>
-              <Button
-                type="submit"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
-                disabled={loading}
-              >
-                {loading ? <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  /> : 'Sign In'}
-              </Button>
-            </div>
+            </Button>
           </form>
         </CardContent>
       </Card>
 
-      {/* Sign Up Link */}
-      <div
-        className="text-center"
-      >
-        <p className="text-muted-foreground text-sm">
-          Don&apos;t have an account?{' '}
-          <Link
-            href={nextUrl ? `/signup?next=${encodeURIComponent(nextUrl)}` : '/signup'}
-            className="text-primary font-medium hover:underline"
-          >
-            Sign up now
-          </Link>
-        </p>
-      </div>
+      {/* Sign-up link */}
+      <p className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{' '}
+        <Link
+          href={nextUrl ? `/signup?next=${encodeURIComponent(nextUrl)}` : '/signup'}
+          className="font-semibold text-primary hover:underline"
+        >
+          Sign up
+        </Link>
+      </p>
 
-      <div
-        className="mt-6 text-center"
-      >
-        <p className="text-muted-foreground px-4 text-xs">
-          By logging in, you agree to our{' '}
-          <Link href="/legal/terms" className="hover:text-foreground :text-foreground underline">
-            Terms of Service
-          </Link>
-          ,{' '}
-          <Link href="/legal/privacy" className="hover:text-foreground :text-foreground underline">
-            Privacy Policy
-          </Link>{' '}
-          and{' '}
-          <Link
-            href="/legal/cookie-policy"
-            className="hover:text-foreground :text-foreground underline"
-          >
-            Cookie Policy
-          </Link>
-          .
-        </p>
-      </div>
+      {/* Legal */}
+      <p className="px-4 text-center text-xs text-muted-foreground/70">
+        By signing in, you agree to our{' '}
+        <Link href="/legal/terms" className="underline hover:text-foreground transition-colors">
+          Terms
+        </Link>
+        ,{' '}
+        <Link href="/legal/privacy" className="underline hover:text-foreground transition-colors">
+          Privacy Policy
+        </Link>{' '}
+        and{' '}
+        <Link
+          href="/legal/cookie-policy"
+          className="underline hover:text-foreground transition-colors"
+        >
+          Cookie Policy
+        </Link>
+        .
+      </p>
     </div>
   );
 }

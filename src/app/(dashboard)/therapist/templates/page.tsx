@@ -2,8 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -21,487 +20,405 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Skeleton } from '@/components/ui';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Skeleton } from '@/components/ui/skeleton';
 import React, { useEffect, useState, useMemo } from 'react';
-
-import { useAuth } from '@/lib/platform/supabase/auth';
-import { useAppStore } from '@/store/platform/app-store';
 import { useToast } from '@/hooks/platform/ui/use-toast';
-import { format } from 'date-fns';
-import {
-  TherapistTemplate,
-  AutofillData,
-  DEFAULT_TEMPLATES,
-} from '@/lib/platform/types/template-types';
-import type { User as UserType, Session } from '@/lib/platform/types/types';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { File01Icon, Search01Icon, FilterIcon, Download01Icon, Copy01Icon, Add01Icon, AnalyticsUpIcon, UserIcon, SparklesIcon } from '@hugeicons/core-free-icons';
+import {
+  File01Icon,
+  Search01Icon,
+  FilterIcon,
+  Download01Icon,
+  Copy01Icon,
+  Add01Icon,
+  PencilEdit01Icon,
+  Delete01Icon,
+  MoreVerticalIcon,
+  Loading03Icon,
+} from '@hugeicons/core-free-icons';
+import {
+  getSessionTemplates,
+  createSessionTemplate,
+  updateSessionTemplate,
+  deleteSessionTemplate,
+} from '@/app/actions/templates-actions';
+
+type Template = {
+  id: string;
+  name: string;
+  content: Record<string, any>;
+  type: string | null;
+  created_at: string;
+};
+
+const TEMPLATE_TYPES = [
+  { value: 'note', label: 'Session Note' },
+  { value: 'progress', label: 'Progress Note' },
+  { value: 'assessment', label: 'Assessment' },
+  { value: 'treatment-plan', label: 'Treatment Plan' },
+  { value: 'discharge', label: 'Discharge Summary' },
+];
+
+const TYPE_BADGE: Record<string, string> = {
+  note: 'bg-primary/10 text-primary',
+  progress: 'bg-success/10 text-success',
+  assessment: 'bg-warning/10 text-warning-foreground',
+  'treatment-plan': 'bg-secondary text-secondary-foreground',
+  discharge: 'bg-destructive/10 text-destructive',
+};
+
+function getTemplateBody(content: Record<string, any>): string {
+  if (typeof content === 'string') return content;
+  if (content.body) return String(content.body);
+  if (content.text) return String(content.text);
+  return JSON.stringify(content, null, 2);
+}
 
 export default function TherapistTemplatesPage() {
-  const { user: currentUser } = useAuth();
-  const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
-
-  const [templates, setTemplates] = useState<TherapistTemplate[]>([]);
-  const [allUsers, setAllUsers] = useState<UserType[]>([]);
-  const [sessions, setSessions] = useState<Session[]>([]);
+  const [templates, setTemplates] = useState<Template[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const [selectedTemplate, setSelectedTemplate] = useState<TherapistTemplate | null>(null);
-  const [selectedClient, setSelectedClient] = useState<string>('');
-  const [showPreview, setShowPreview] = useState(false);
-  const [previewContent, setPreviewContent] = useState('');
-  const [formData, setFormData] = useState<Record<string, string>>({});
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const [typeFilter, setTypeFilter] = useState<string>('all');
+
+  // Create / Edit dialog
+  const [editTarget, setEditTarget] = useState<Template | null>(null);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [formName, setFormName] = useState('');
+  const [formType, setFormType] = useState('note');
+  const [formBody, setFormBody] = useState('');
+  const [formSaving, setFormSaving] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  // Preview dialog
+  const [previewTemplate, setPreviewTemplate] = useState<Template | null>(null);
 
   useEffect(() => {
-    const loadInitialData = async () => {
-      if (!dataService) return;
+    (async () => {
       setIsLoading(true);
-      try {
-        const [users, allSessions] = await Promise.all([
-          dataService.getAllUsers(),
-          dataService.getSessions(),
-        ]);
-        setAllUsers(users);
-        setSessions(allSessions);
+      const res = await getSessionTemplates();
+      setTemplates((res.data as Template[]) ?? []);
+      setIsLoading(false);
+    })();
+  }, []);
 
-        const initialTemplates: TherapistTemplate[] = DEFAULT_TEMPLATES.map((t, i) => ({
-          ...t,
-          id: `template-${i + 1}`,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          useCount: 0,
-        }));
-        setTemplates(initialTemplates);
-      } catch {
-        toast({
-          title: 'Error',
-          description: 'Could not load necessary data.',
-          variant: 'destructive',
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadInitialData();
-  }, [dataService, toast]);
-
-  const clients = useMemo<UserType[]>(() => {
-    return allUsers.filter((user) => user.role !== 'Therapist' && user.role !== 'Admin');
-  }, [allUsers]);
-
-  const filteredTemplates = useMemo(() => {
-    return templates.filter((t) => {
-      const matchesSearch =
-        t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = categoryFilter === 'all' || t.category === categoryFilter;
-      return matchesSearch && matchesCategory;
-    });
-  }, [templates, searchQuery, categoryFilter]);
-
-  const getAutofillData = (clientId: string): AutofillData => {
-    const client = clients.find((c) => c.id === clientId);
-    const clientSessions = sessions.filter((s) => s.userId === clientId);
-    const lastSession =
-      clientSessions.length > 0
-        ? clientSessions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
-        : null;
-
-    return {
-      clientName: client?.name || 'Client Name',
-      therapistName: currentUser?.name || 'Therapist Name',
-      sessionDate: format(new Date(), 'MMMM dd, yyyy'),
-      sessionType: lastSession?.type || 'Individual Therapy',
-      sessionNumber: clientSessions.length + 1,
-      totalSessions: clientSessions.length + 10,
-      clientAge: client
-        ? Math.floor(
-            (new Date().getTime() - new Date(client.createdAt || Date.now()).getTime()) /
-              (365.25 * 24 * 60 * 60 * 1000)
-          ) + 25
-        : 30,
-      clientGender: 'Not specified',
-      nextSessionDate: format(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 'MMMM dd, yyyy'),
-      diagnosisCodes: ['F41.1 - Generalized Anxiety Disorder'],
-      treatmentGoals: [
-        'Reduce anxiety symptoms',
-        'Improve coping strategies',
-        'Enhance daily functioning',
-      ],
-    };
+  const openCreate = () => {
+    setEditTarget(null);
+    setFormName('');
+    setFormType('note');
+    setFormBody('');
+    setFormError(null);
+    setShowCreateDialog(true);
   };
 
-  const autofillTemplate = (
-    template: TherapistTemplate,
-    clientId: string,
-    customData: Record<string, string> = {}
-  ) => {
-    const autoData = getAutofillData(clientId);
-    let content = template.content;
-
-    Object.entries(autoData).forEach(([key, value]) => {
-      const regex = new RegExp(`{{${key}}}`, 'g');
-      const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
-      content = content.replace(regex, displayValue);
-    });
-
-    Object.entries(customData).forEach(([key, value]) => {
-      const regex = new RegExp(`{{${key}}}`, 'g');
-      content = content.replace(regex, value || '');
-    });
-
-    content = content.replace(/{{[^}]+}}/g, '');
-
-    return content;
+  const openEdit = (t: Template) => {
+    setEditTarget(t);
+    setFormName(t.name);
+    setFormType(t.type ?? 'note');
+    setFormBody(getTemplateBody(t.content));
+    setFormError(null);
+    setShowCreateDialog(true);
   };
 
-  const handleUseTemplate = (template: TherapistTemplate) => {
-    setSelectedTemplate(template);
-    setFormData({});
-    setSelectedClient('');
+  const handleSave = async () => {
+    if (!formName.trim()) { setFormError('Template name is required.'); return; }
+    if (!formBody.trim()) { setFormError('Template content is required.'); return; }
+    setFormSaving(true);
+    setFormError(null);
+    const content = { body: formBody.trim() };
+    if (editTarget) {
+      const res = await updateSessionTemplate(editTarget.id, { name: formName.trim(), content, type: formType });
+      setFormSaving(false);
+      if (!res.success) { setFormError(res.error ?? 'Failed to update'); return; }
+      setTemplates((prev) =>
+        prev.map((t) => t.id === editTarget.id ? { ...t, name: formName.trim(), content, type: formType } : t)
+      );
+      toast({ title: 'Template updated' });
+    } else {
+      const res = await createSessionTemplate({ name: formName.trim(), content, type: formType });
+      setFormSaving(false);
+      if (!res.success) { setFormError(res.error ?? 'Failed to create'); return; }
+      setTemplates((prev) => [res.data as Template, ...prev]);
+      toast({ title: 'Template created' });
+    }
+    setShowCreateDialog(false);
   };
 
-  const handleGenerateReport = () => {
-    if (!selectedTemplate || !selectedClient) {
-      toast({
-        title: 'Missing Information',
-        description: 'Please select both a template and a client',
-        variant: 'destructive',
-      });
+  const handleDelete = async (id: string) => {
+    const res = await deleteSessionTemplate(id);
+    if (!res.success) {
+      toast({ title: 'Error', description: res.error, variant: 'destructive' });
       return;
     }
-
-    const filledContent = autofillTemplate(selectedTemplate, selectedClient, formData);
-    setPreviewContent(filledContent);
-    setShowPreview(true);
+    setTemplates((prev) => prev.filter((t) => t.id !== id));
+    toast({ title: 'Template deleted' });
   };
 
-  const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(previewContent);
-    toast({
-      title: 'Copied to Clipboard',
-      description: 'Report content has been copied',
-    });
+  const handleCopy = (t: Template) => {
+    navigator.clipboard.writeText(getTemplateBody(t.content));
+    toast({ title: 'Copied to clipboard' });
   };
 
-  const handleDownload = () => {
-    const blob = new Blob([previewContent], { type: 'text/plain' });
+  const handleDownload = (t: Template) => {
+    const blob = new Blob([getTemplateBody(t.content)], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${selectedTemplate?.name.replace(/\s+/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.txt`;
+    a.download = `${t.name.replace(/\s+/g, '_')}.txt`;
     a.click();
     URL.revokeObjectURL(url);
+  };
 
-    toast({
-      title: 'Report Downloaded',
-      description: 'The report has been saved to your device',
+  const filtered = useMemo(() => {
+    return templates.filter((t) => {
+      const matchSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchType = typeFilter === 'all' || t.type === typeFilter;
+      return matchSearch && matchType;
     });
-  };
-
-  const categoryColors: { [key: string]: string } = {
-    progress: 'bg-primary/10 text-primary',
-    assessment: 'bg-muted text-primary',
-    'treatment-plan': 'bg-success/10 text-success-foreground ',
-    'session-notes': 'bg-warning/10 text-warning-foreground ',
-    discharge: 'bg-destructive/10 text-destructive ',
-  };
+  }, [templates, searchQuery, typeFilter]);
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-        <div className="px-4 lg:px-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <Skeleton className="h-8 w-64" />
-              <Skeleton className="mt-2 h-4 w-80" />
-            </div>
-            <Skeleton className="h-10 w-48" />
+      <div className="flex flex-col gap-4 py-4 md:py-6">
+        <div className="flex items-center justify-between px-4 lg:px-6">
+          <div className="space-y-2">
+            <Skeleton className="h-7 w-56" />
+            <Skeleton className="h-4 w-72" />
           </div>
+          <Skeleton className="h-10 w-44" />
         </div>
-          <Card className="mx-4 lg:mx-6">
-            <CardContent className="pt-6">
-              <div className="flex gap-4">
-                <Skeleton className="h-10 flex-1" />
-                <Skeleton className="h-10 w-48" />
-              </div>
-            </CardContent>
-          </Card>
-          <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i}>
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <Skeleton className="h-8 w-8" />
-                    <Skeleton className="h-6 w-24" />
-                  </div>
-                  <Skeleton className="mt-2 h-6 w-3/4" />
-                  <Skeleton className="mt-1 h-4 w-full" />
-                  <Skeleton className="mt-1 h-4 w-2/3" />
-                </CardHeader>
-                <CardContent>
-                  <div className="mb-4">
-                    <Skeleton className="h-4 w-1/2" />
-                    <Skeleton className="h-4 w-1/2" />
-                  </div>
-                  <Skeleton className="h-10 w-full" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="rounded-2xl">
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <Skeleton className="h-8 w-8 rounded-xl" />
+                  <Skeleton className="h-6 w-24 rounded-full" />
+                </div>
+                <Skeleton className="mt-3 h-5 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-9 w-full rounded-xl" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 lg:px-6">
-            <div>
-              <h3 className="text-2xl font-semibold tracking-tight">Report Templates</h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                Professional templates with smart autofill from client data
-              </p>
-            </div>
-            <Button variant="default" size="sm" className="gap-2">
-              <HugeiconsIcon icon={Add01Icon} className="size-4"  />
-              Create Custom Template
-            </Button>
+    <div className="flex flex-col gap-4 py-4 md:py-6">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 lg:px-6">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight">Session Templates</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Reusable note templates to speed up documentation.
+          </p>
         </div>
+        <Button onClick={openCreate} className="gap-2 rounded-full">
+          <HugeiconsIcon icon={Add01Icon} className="size-4" />
+          New Template
+        </Button>
+      </div>
 
-        {/* Search and Filter */}
-        <Card className="mx-4 lg:mx-6">
-          <CardContent className="pt-6">
-            <div className="flex gap-4">
-              <div className="relative flex-1">
-                <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 transform"  />
-                <Input
-                  placeholder="Search templates..."
-                  className="pl-9"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-48">
-                  <HugeiconsIcon icon={FilterIcon} className="mr-2 size-4"  />
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="assessment">Assessment</SelectItem>
-                  <SelectItem value="progress">Progress Notes</SelectItem>
-                  <SelectItem value="treatment-plan">Treatment Plans</SelectItem>
-                  <SelectItem value="session-notes">Session Notes</SelectItem>
-                  <SelectItem value="discharge">Discharge</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Search and Filter */}
+      <div className="flex gap-3 px-4 lg:px-6">
+        <div className="relative flex-1">
+          <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Search templates…"
+            className="pl-9 rounded-xl h-10"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <Select value={typeFilter} onValueChange={setTypeFilter}>
+          <SelectTrigger className="w-44 h-10 rounded-xl">
+            <HugeiconsIcon icon={FilterIcon} className="mr-1.5 size-4 text-muted-foreground" />
+            <SelectValue placeholder="All Types" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Types</SelectItem>
+            {TEMPLATE_TYPES.map((t) => (
+              <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-        {/* Templates Grid */}
-        <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
-          {filteredTemplates.map((template) => (
-            <div key={template.id}>
-              <Card className="flex h-full cursor-pointer flex-col">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <HugeiconsIcon icon={File01Icon} className="mb-2 size-8 text-muted-foreground"  />
-                    <Badge variant="secondary">
-                      {template.category.replace('-', ' ')}
-                    </Badge>
-                  </div>
-                  <h5 className="text-lg font-semibold">{template.name}</h5>
-                  <p className="text-muted-foreground text-sm">{template.description}</p>
-                </CardHeader>
-                <CardContent className="flex flex-1 flex-col justify-between">
-                  <div className="text-muted-foreground mb-4 text-xs">
-                    <div className="flex items-center gap-2">
-                      <HugeiconsIcon icon={AnalyticsUpIcon} className="size-3"  />
-                      <span>Used {template.useCount} times</span>
+      {/* Templates Grid */}
+      {filtered.length === 0 ? (
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-2xl bg-muted p-4">
+            <HugeiconsIcon icon={File01Icon} className="size-8 text-muted-foreground/50" />
+          </div>
+          <div>
+            <p className="font-semibold">No templates yet</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {searchQuery || typeFilter !== 'all' ? 'No templates match your filters.' : 'Create your first template to get started.'}
+            </p>
+          </div>
+          {!searchQuery && typeFilter === 'all' && (
+            <Button onClick={openCreate} className="rounded-full gap-2">
+              <HugeiconsIcon icon={Add01Icon} className="size-4" />
+              Create Template
+            </Button>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
+          {filtered.map((t) => (
+            <Card key={t.id} className="group rounded-2xl transition-all hover:-translate-y-px">
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-start gap-3 min-w-0">
+                    <div className="mt-0.5 shrink-0 rounded-xl bg-muted p-2">
+                      <HugeiconsIcon icon={File01Icon} className="size-4 text-muted-foreground" />
                     </div>
-                    <div className="flex items-center gap-2">
-                      <HugeiconsIcon icon={SparklesIcon} className="size-3"  />
-                      <span>{template.fields.length} auto-fill fields</span>
+                    <div className="min-w-0">
+                      <h4 className="truncate text-sm font-semibold">{t.name}</h4>
+                      {t.type && (
+                        <span className={cn('mt-1 inline-block rounded-full px-2 py-0.5 text-xs font-medium', TYPE_BADGE[t.type] ?? 'bg-muted text-muted-foreground')}>
+                          {TEMPLATE_TYPES.find((x) => x.value === t.type)?.label ?? t.type}
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <Button
-                    variant="default"
-                    className="w-full"
-                    onClick={() => handleUseTemplate(template)}
-                  >
-                    Use Template
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => openEdit(t)}>
+                        <HugeiconsIcon icon={PencilEdit01Icon} className="mr-2 size-4" /> Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleCopy(t)}>
+                        <HugeiconsIcon icon={Copy01Icon} className="mr-2 size-4" /> Copy
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDownload(t)}>
+                        <HugeiconsIcon icon={Download01Icon} className="mr-2 size-4" /> Download
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleDelete(t.id)}
+                        className="text-destructive focus:text-destructive"
+                      >
+                        <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" /> Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <p className="line-clamp-3 text-xs text-muted-foreground leading-relaxed">
+                  {getTemplateBody(t.content)}
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-3 w-full rounded-xl gap-2"
+                  onClick={() => setPreviewTemplate(t)}
+                >
+                  <HugeiconsIcon icon={File01Icon} className="size-3.5" />
+                  Preview & Use
+                </Button>
+              </CardContent>
+            </Card>
           ))}
         </div>
+      )}
 
-      {/* Template Modal */}
-      <Dialog open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
-        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
+      {/* Create / Edit Dialog */}
+      <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+        <DialogContent className="rounded-2xl max-w-lg">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <HugeiconsIcon icon={File01Icon} className="size-5"  />
-              {selectedTemplate?.name}
-            </DialogTitle>
+            <DialogTitle>{editTarget ? 'Edit Template' : 'New Template'}</DialogTitle>
             <DialogDescription>
-              Fill in the required fields. Client information will be auto-filled.
+              {editTarget ? 'Update your template content.' : 'Create a reusable session note template.'}
             </DialogDescription>
           </DialogHeader>
-
-          <div className="p-1">
-            <div className="">
-              <Label className="flex items-center gap-2">
-                <HugeiconsIcon icon={UserIcon} className="size-4"  />
-                Select Client *
-              </Label>
-              <Select value={selectedClient} onValueChange={setSelectedClient}>
-                <SelectValue placeholder="Choose a client..." />
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <Label>Template Name <span className="text-destructive">*</span></Label>
+              <Input
+                value={formName}
+                onChange={(e) => setFormName(e.target.value)}
+                placeholder="e.g. CBT Session Note"
+                className="h-10 rounded-xl"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Type</Label>
+              <Select value={formType} onValueChange={setFormType}>
+                <SelectTrigger className="h-10 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
-                  {clients.map((client) => (
-                    <SelectItem key={client.id} value={client.id}>
-                      {client.name}
-                    </SelectItem>
+                  {TEMPLATE_TYPES.map((t) => (
+                    <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-
-            <Separator />
-
-            {selectedClient && (
-              <Card className="bg-muted/30">
-                <CardHeader className="p-4">
-                  <CardTitle className="flex items-center gap-2 text-sm">
-                    <HugeiconsIcon icon={SparklesIcon} className="size-4"  />
-                    Auto-filled Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4 pt-0 text-xs">
-                  {(() => {
-                    const data = getAutofillData(selectedClient);
-                    return (
-                      <>
-                        <div>
-                          <p className="text-sm">
-                            <span className="font-medium">Client:</span> {data.clientName}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm">
-                            <span className="font-medium">Date:</span> {data.sessionDate}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm">
-                            <span className="font-medium">Session:</span> #{data.sessionNumber} of{' '}
-                            {data.totalSessions}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm">
-                            <span className="font-medium">Therapist:</span> {data.therapistName}
-                          </p>
-                        </div>
-                      </>
-                    );
-                  })()}
-                </CardContent>
-              </Card>
-            )}
-
-            <div className="">
-              <h6 className="text-base font-semibold">Additional Information</h6>
-              {selectedTemplate?.fields.map((field) => (
-                <div key={field.key} className="">
-                  <Label htmlFor={field.key}>
-                    {field.label} {field.required && <span className="text-destructive">*</span>}
-                  </Label>
-
-                  {field.type === 'textarea' ? (
-                    <Textarea
-                      id={field.key}
-                      placeholder={field.placeholder}
-                      value={formData[field.key] || ''}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, [field.key]: e.target.value }))
-                      }
-                      rows={4}
-                    />
-                  ) : field.type === 'select' ? (
-                    <Select
-                      value={formData[field.key] || ''}
-                      onValueChange={(value) =>
-                        setFormData((prev) => ({ ...prev, [field.key]: value }))
-                      }
-                    >
-                      <SelectValue placeholder={`Select ${field.label.toLowerCase()}...`} />
-                      <SelectContent>
-                        {field.options?.map((option) => (
-                          <SelectItem key={option} value={option}>
-                            {option}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    <Input
-                      id={field.key}
-                      type={field.type}
-                      placeholder={field.placeholder}
-                      value={formData[field.key] || ''}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, [field.key]: e.target.value }))
-                      }
-                    />
-                  )}
-                </div>
-              ))}
+            <div className="space-y-1.5">
+              <Label>Content <span className="text-destructive">*</span></Label>
+              <Textarea
+                value={formBody}
+                onChange={(e) => setFormBody(e.target.value)}
+                placeholder="Write your template content here. Use {{field_name}} for dynamic fields."
+                className="min-h-40 resize-none rounded-xl font-mono text-xs"
+              />
             </div>
+            {formError && (
+              <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{formError}</p>
+            )}
           </div>
-
           <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedTemplate(null)}>
-              Cancel
-            </Button>
-            <Button onClick={handleGenerateReport} variant="default" className="gap-2">
-              <HugeiconsIcon icon={File01Icon} className="size-4"  />
-              Generate Report
+            <Button variant="ghost" className="rounded-full" onClick={() => setShowCreateDialog(false)}>Cancel</Button>
+            <Button onClick={handleSave} disabled={formSaving} className="gap-2 rounded-full">
+              {formSaving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
+              {formSaving ? 'Saving…' : editTarget ? 'Save Changes' : 'Create Template'}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Preview Modal */}
-      <Dialog open={showPreview} onOpenChange={setShowPreview}>
-        <DialogContent className="max-w-2xl">
+      {/* Preview Dialog */}
+      <Dialog open={!!previewTemplate} onOpenChange={(open) => { if (!open) setPreviewTemplate(null); }}>
+        <DialogContent className="rounded-2xl max-w-xl">
           <DialogHeader>
-            <DialogTitle>Generated Report Preview</DialogTitle>
+            <DialogTitle>{previewTemplate?.name}</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="bg-muted/30 h-96 rounded-lg border p-4">
-            <p className="text-sm whitespace-pre-wrap">{previewContent}</p>
+          <ScrollArea className="h-80 rounded-xl border bg-muted/30 p-4">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed">{previewTemplate ? getTemplateBody(previewTemplate.content) : ''}</p>
           </ScrollArea>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowPreview(false)}>
-              Close
+            <Button variant="outline" className="rounded-full" onClick={() => setPreviewTemplate(null)}>Close</Button>
+            <Button
+              variant="outline"
+              className="gap-2 rounded-full"
+              onClick={() => previewTemplate && handleCopy(previewTemplate)}
+            >
+              <HugeiconsIcon icon={Copy01Icon} className="size-4" /> Copy
             </Button>
-            <Button onClick={handleCopyToClipboard} variant="outline" className="gap-2">
-              <HugeiconsIcon icon={Copy01Icon} className="size-4"  />
-              Copy
-            </Button>
-            <Button onClick={handleDownload} variant="default" className="gap-2">
-              <HugeiconsIcon icon={Download01Icon} className="size-4"  />
-              Download
+            <Button
+              className="gap-2 rounded-full"
+              onClick={() => previewTemplate && handleDownload(previewTemplate)}
+            >
+              <HugeiconsIcon icon={Download01Icon} className="size-4" /> Download
             </Button>
           </DialogFooter>
         </DialogContent>

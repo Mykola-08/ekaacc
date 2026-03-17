@@ -287,14 +287,14 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild tooltip="EKA">
+            <SidebarMenuButton size="lg" asChild tooltip="EKA Balance">
               <Link href="/dashboard">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">EKA</span>
-                  <span className="text-muted-foreground truncate text-xs">Wellness</span>
+                  <span className="truncate font-bold tracking-tight">EKA Balance</span>
+                  <span className="text-muted-foreground truncate text-xs">Wellness Platform</span>
                 </div>
               </Link>
             </SidebarMenuButton>

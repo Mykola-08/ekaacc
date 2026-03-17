@@ -37,7 +37,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
       {service.resultKey && (
         <div className="bg-primary/5 border-primary/10 mb-4 rounded-xl border p-4 sm:mb-6 sm:p-5">
           <div className="flex flex-col gap-1.5">
-            <span className="text-primary/70 text-[10px] font-semibold tracking-widest uppercase sm:text-xs">
+            <span className="text-primary/70 text-xs font-semibold tracking-widest uppercase sm:text-xs">
               {t('common.expectedResult') || 'Expected Result'}
             </span>
             <p className="text-sm leading-snug font-semibold text-gray-900 sm:text-base">
@@ -49,7 +49,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
 
       <div className="mt-auto flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 sm:p-5">
         <div className="flex flex-col gap-0.5">
-          <span className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
+          <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
             {t('common.duration') || 'Duration'}
           </span>
           <div className="flex items-center gap-1.5">
@@ -63,7 +63,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
         </div>
         <div className="mx-2 h-8 w-px bg-gray-100"></div>
         <div className="flex flex-col items-end gap-0.5">
-          <span className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
+          <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
             {t('common.price') || 'Price'}
           </span>
           <span className="text-sm font-semibold text-gray-900 sm:text-base">

@@ -82,14 +82,14 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
   return (
     <div>
       {upcoming.length > 0 && (
-        <div className="">
-          <h2 className="text-foreground flex items-center gap-3 text-xl font-semibold">
-            Upcoming
-            <span className="bg-foreground text-background rounded-lg px-2.5 py-1 font-mono text-xs font-semibold">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-foreground text-base font-bold tracking-tight">Upcoming</h2>
+            <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-semibold">
               {upcoming.length}
             </span>
-          </h2>
-          <div className="grid gap-6">
+          </div>
+          <div className="grid gap-4">
             {upcoming.map((booking) => (
               <BookingCard key={booking.id} booking={booking} isUpcoming userId={userId} />
             ))}
@@ -98,9 +98,9 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
       )}
 
       {past.length > 0 && (
-        <div className="">
-          <h2 className="text-muted-foreground text-xl font-semibold">Past History</h2>
-          <div className="grid gap-6 opacity-60 transition-opacity duration-500 hover:opacity-100">
+        <div className={cn('space-y-4', upcoming.length > 0 && 'mt-8')}>
+          <h2 className="text-muted-foreground text-base font-bold tracking-tight">Past Sessions</h2>
+          <div className="grid gap-4 opacity-70 transition-opacity duration-300 hover:opacity-100">
             {past.map((booking) => (
               <BookingCard key={booking.id} booking={booking} userId={userId} />
             ))}
@@ -159,7 +159,7 @@ function BookingCard({
             </span>
           </div>
 
-          <div className="md: flex-1">
+          <div className="flex-1">
             <div className="flex items-center justify-between md:justify-start md:gap-4">
               <StatusBadge status={booking.status} />
               {isUpcoming && booking.serviceName && (

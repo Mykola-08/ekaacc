@@ -16,8 +16,20 @@ import { Progress } from '@/components/ui/progress';
 import { getUserPermissions } from '@/lib/permissions/actions';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { ChartUpIcon, Calendar03Icon, Wallet01Icon, Target01Icon, UserGroupIcon } from '@hugeicons/core-free-icons';
-
+import {
+  ChartUpIcon,
+  Calendar03Icon,
+  Wallet01Icon,
+  Target01Icon,
+  UserGroupIcon,
+  BookOpen01Icon,
+  CheckListIcon,
+  SparklesIcon,
+  ArrowRight01Icon,
+  Message01Icon,
+  HeartCheckIcon,
+  Clock01Icon,
+} from '@hugeicons/core-free-icons';
 
 // ─── Permission helper ─────────────────────────────────────────────
 
@@ -36,6 +48,13 @@ function getGreeting(): string {
   return 'Good evening';
 }
 
+function getMoodEmoji(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return '☀️';
+  if (hour < 17) return '🌤️';
+  return '🌙';
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient();
   const {
@@ -52,8 +71,6 @@ export default async function DashboardPage() {
   const role = profile?.role || 'client';
   const firstName = profile?.full_name?.split(' ')[0] || 'there';
 
-  // ── Parallel data fetching based on permissions ──────────────────
-
   const today = new Date().toISOString().split('T')[0];
   const now = new Date().toISOString();
 
@@ -63,10 +80,8 @@ export default async function DashboardPage() {
   const canManageUsers = can(permissions, 'user_management', 'manage');
   const canUseTherapistTools = can(permissions, 'therapist_tools', 'create');
 
-  // Build parallel queries based on what the user can see
   const queries: Record<string, PromiseLike<any>> = {};
 
-  // Everyone: own upcoming bookings
   queries.nextBooking = supabase
     .from('bookings')
     .select('*, therapist:therapist_id(full_name), client:client_id(full_name)')
@@ -77,7 +92,6 @@ export default async function DashboardPage() {
     .limit(5)
     .then((r) => r.data || []);
 
-  // Everyone: wallet
   queries.wallet = supabase
     .from('wallets')
     .select('*')
@@ -85,7 +99,6 @@ export default async function DashboardPage() {
     .single()
     .then((r) => r.data);
 
-  // Clients: wellness goals
   queries.goals = supabase
     .from('wellness_goals')
     .select('*')
@@ -94,7 +107,6 @@ export default async function DashboardPage() {
     .limit(6)
     .then((r) => r.data || []);
 
-  // Clients: active plan
   queries.plan = supabase
     .from('user_subscriptions')
     .select('*, subscription_plans(*)')
@@ -103,7 +115,6 @@ export default async function DashboardPage() {
     .single()
     .then((r) => r.data?.subscription_plans);
 
-  // Clients: recent journal entries
   queries.journalEntries = supabase
     .from('journal_entries')
     .select('id, title, created_at, mood')
@@ -112,7 +123,6 @@ export default async function DashboardPage() {
     .limit(3)
     .then((r) => r.data || []);
 
-  // Clients: active assignments / homework
   queries.assignments = supabase
     .from('assignments')
     .select('id, title, due_date, status')
@@ -122,7 +132,6 @@ export default async function DashboardPage() {
     .limit(5)
     .then((r) => r.data || []);
 
-  // Admin/Manager: platform stats
   if (canManageUsers) {
     queries.totalUsers = supabase
       .from('profiles')
@@ -147,7 +156,6 @@ export default async function DashboardPage() {
       .then((r) => r.count || 0);
   }
 
-  // Therapist: today's client count
   if (canUseTherapistTools) {
     queries.todayClients = supabase
       .from('bookings')
@@ -158,81 +166,127 @@ export default async function DashboardPage() {
       .then((r) => r.count || 0);
   }
 
-  // Resolve all queries
   const keys = Object.keys(queries);
   const values = await Promise.all(Object.values(queries));
   const data: Record<string, any> = {};
   keys.forEach((k, i) => (data[k] = values[i]));
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      {/* ── Welcome ──────────────────────────────────────────────── */}
+    <div className="flex flex-col gap-6 py-4 md:py-6">
+      {/* ── Welcome Banner ────────────────────────────────────────── */}
       <div className="px-4 lg:px-6">
-        <p className="text-muted-foreground text-sm">
-          {getGreeting()}, {firstName}. Here&apos;s what&apos;s happening today.
-        </p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              {getGreeting()}, {firstName} {getMoodEmoji()}
+            </h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </p>
+          </div>
+          <Link href="/book">
+            <Button size="sm" className="shrink-0 rounded-full gap-1.5 hidden sm:flex">
+              <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
+              Book Session
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* ── Platform Stats (admin/manager only) ─────────────────── */}
       {canManageUsers && (
-        <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-          <StatsCard label="Total Users" value={data.totalUsers} icon={UserGroupIcon} />
-          <StatsCard label="All Bookings" value={data.totalBookings} icon={Calendar03Icon} />
-          <StatsCard label="Today" value={data.todayBookings} icon={ChartUpIcon} accent />
-          <StatsCard label="Active Plans" value={data.activeSubs} icon={Target01Icon} />
+        <div className="grid grid-cols-2 gap-3 px-4 lg:px-6 @xl/main:grid-cols-4">
+          <DashStatsCard
+            label="Total Users"
+            value={data.totalUsers}
+            icon={UserGroupIcon}
+          />
+          <DashStatsCard
+            label="All Bookings"
+            value={data.totalBookings}
+            icon={Calendar03Icon}
+          />
+          <DashStatsCard
+            label="Today's Sessions"
+            value={data.todayBookings}
+            icon={ChartUpIcon}
+            accent
+          />
+          <DashStatsCard
+            label="Active Plans"
+            value={data.activeSubs}
+            icon={Target01Icon}
+          />
         </div>
       )}
 
       {/* ── Therapist quick stats ────────────────────────────────── */}
       {canUseTherapistTools && !canManageUsers && (
-        <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-          <StatsCard label="Today's Sessions" value={data.todayClients} icon={Calendar03Icon} accent />
-          <StatsCard label="Upcoming" value={data.nextBooking?.length || 0} icon={ChartUpIcon} />
+        <div className="grid grid-cols-2 gap-3 px-4 lg:px-6">
+          <DashStatsCard
+            label="Today's Sessions"
+            value={data.todayClients}
+            icon={Calendar03Icon}
+            accent
+          />
+          <DashStatsCard
+            label="Upcoming"
+            value={data.nextBooking?.length || 0}
+            icon={Clock01Icon}
+          />
         </div>
       )}
 
+      {/* ── Main content row ─────────────────────────────────────── */}
       <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6">
-        {/* ── Upcoming Appointments ──────────────────────────────── */}
+        {/* Upcoming Appointments */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardDescription>Upcoming</CardDescription>
+            <CardTitle className="text-sm font-semibold">Upcoming Appointments</CardTitle>
             <CardAction>
               <Link href="/bookings">
-                <Button variant="ghost" size="sm" className="h-7 text-xs">
+                <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs">
                   View all
+                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
                 </Button>
               </Link>
             </CardAction>
           </CardHeader>
           <CardContent>
             {data.nextBooking?.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {data.nextBooking.map((b: any) => {
                   const otherPerson = canUseTherapistTools
                     ? b.client?.full_name
                     : b.therapist?.full_name;
+                  const startDate = new Date(b.starts_at);
                   return (
                     <div
                       key={b.id}
-                      className="flex items-center justify-between rounded-lg border p-3"
+                      className="group flex items-center gap-3 rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/40"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="bg-primary h-8 w-1 rounded-full" />
-                        <div>
-                          <p className="text-sm font-medium">{otherPerson || 'Appointment'}</p>
-                          <p className="text-muted-foreground text-xs">
-                            {new Date(b.starts_at).toLocaleDateString(undefined, {
-                              weekday: 'short',
-                              month: 'short',
-                              day: 'numeric',
-                            })}{' '}
-                            at{' '}
-                            {new Date(b.starts_at).toLocaleTimeString(undefined, {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                          </p>
-                        </div>
+                      {/* Color accent bar */}
+                      <div className="h-9 w-1 shrink-0 rounded-full bg-primary" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold text-foreground">
+                          {otherPerson || 'Appointment'}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {startDate.toLocaleDateString(undefined, {
+                            weekday: 'short',
+                            month: 'short',
+                            day: 'numeric',
+                          })}{' '}
+                          ·{' '}
+                          {startDate.toLocaleTimeString(undefined, {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </p>
                       </div>
                       <Badge
                         variant={
@@ -242,6 +296,7 @@ export default async function DashboardPage() {
                               ? 'secondary'
                               : 'outline'
                         }
+                        className="shrink-0 capitalize text-xs"
                       >
                         {b.status}
                       </Badge>
@@ -250,70 +305,46 @@ export default async function DashboardPage() {
                 })}
               </div>
             ) : (
-              <div className="py-8 text-center">
-                <p className="text-muted-foreground text-sm">No upcoming appointments</p>
-                <Link href="/bookings" className="mt-4 flex justify-center">
-                  <Button variant="default">Book a session</Button>
+              <div className="flex flex-col items-center gap-3 py-10 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+                  <HugeiconsIcon icon={Calendar03Icon} className="size-6 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground">No upcoming appointments</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Book a session to get started</p>
+                </div>
+                <Link href="/book">
+                  <Button size="sm" className="mt-1 rounded-full">
+                    Book a Session
+                  </Button>
                 </Link>
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* ── Right Column ──────────────────────────────────────── */}
+        {/* Right column */}
         <div className="flex flex-col gap-4">
           {/* Quick Actions */}
           <Card>
             <CardHeader>
-              <CardDescription>Quick Actions</CardDescription>
+              <CardTitle className="text-sm font-semibold">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-1.5">
-              <Link href="/bookings">
-                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                  Book Session
-                </Button>
-              </Link>
-              <Link href="/journal">
-                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                  Write Journal
-                </Button>
-              </Link>
-              <Link href="/chat">
-                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                  Send Message
-                </Button>
-              </Link>
-              <Link href="/wellness">
-                <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                  Resources
-                </Button>
-              </Link>
+              <QuickAction href="/book" icon={Calendar03Icon} label="Book Session" />
+              <QuickAction href="/journal" icon={BookOpen01Icon} label="Write Journal" />
+              <QuickAction href="/chat" icon={Message01Icon} label="Send Message" />
+              <QuickAction href="/wellness" icon={HeartCheckIcon} label="Wellness" />
               {canUseTherapistTools && (
                 <>
-                  <Link href="/therapist/clients">
-                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                      Client Directory
-                    </Button>
-                  </Link>
-                  <Link href="/availability">
-                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                      Manage Availability
-                    </Button>
-                  </Link>
+                  <QuickAction href="/therapist/clients" icon={UserGroupIcon} label="Client Directory" />
+                  <QuickAction href="/availability" icon={Clock01Icon} label="Availability" />
                 </>
               )}
               {canManageUsers && (
                 <>
-                  <Link href="/console/users">
-                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                      Manage Users
-                    </Button>
-                  </Link>
-                  <Link href="/console/permissions">
-                    <Button variant="outline" size="sm" className="h-8 w-full justify-start text-xs">
-                      Permissions
-                    </Button>
-                  </Link>
+                  <QuickAction href="/console/users" icon={UserGroupIcon} label="Manage Users" />
+                  <QuickAction href="/console/analytics" icon={ChartUpIcon} label="Analytics" />
                 </>
               )}
             </CardContent>
@@ -321,10 +352,10 @@ export default async function DashboardPage() {
 
           {/* Plan Info (clients) */}
           {!canUseTherapistTools && (
-            <Card className="@container/card">
+            <Card>
               <CardHeader>
-                <CardDescription>Plan</CardDescription>
-                <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                <CardDescription>Your Plan</CardDescription>
+                <CardTitle className="text-xl font-bold tabular-nums">
                   {data.plan?.name || 'Free'}
                 </CardTitle>
                 <CardAction>
@@ -336,7 +367,7 @@ export default async function DashboardPage() {
               {!data.plan && (
                 <CardFooter>
                   <Link href="/settings?section=billing" className="w-full">
-                    <Button variant="outline" size="sm" className="w-full text-xs">
+                    <Button variant="outline" size="sm" className="w-full rounded-full text-xs">
                       Upgrade Plan
                     </Button>
                   </Link>
@@ -347,12 +378,12 @@ export default async function DashboardPage() {
 
           {/* Wallet Balance */}
           {data.wallet && (
-            <Card className="@container/card">
+            <Card>
               <CardHeader>
                 <CardDescription>Balance</CardDescription>
-                <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                <CardTitle className="text-xl font-bold tabular-nums">
                   {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
-                  <span className="text-muted-foreground text-sm font-normal">
+                  <span className="text-sm font-normal text-muted-foreground">
                     {data.wallet.currency}
                   </span>
                 </CardTitle>
@@ -363,21 +394,29 @@ export default async function DashboardPage() {
                   </Badge>
                 </CardAction>
               </CardHeader>
+              <CardFooter>
+                <Link href="/wallet" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full rounded-full text-xs">
+                    View Wallet
+                  </Button>
+                </Link>
+              </CardFooter>
             </Card>
           )}
         </div>
       </div>
 
-      {/* ── Wellness Goals (clients) ─────────────────────────────── */}
+      {/* ── Wellness Goals ───────────────────────────────────────── */}
       {data.goals?.length > 0 && (
         <div className="px-4 lg:px-6">
           <Card>
             <CardHeader>
-              <CardDescription>Active Goals</CardDescription>
+              <CardTitle className="text-sm font-semibold">Active Goals</CardTitle>
               <CardAction>
                 <Link href="/wellness">
-                  <Button variant="ghost" size="sm" className="h-7 text-xs">
+                  <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs">
                     Manage
+                    <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
                   </Button>
                 </Link>
               </CardAction>
@@ -385,12 +424,16 @@ export default async function DashboardPage() {
             <CardContent>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {data.goals.map((goal: any) => (
-                  <div key={goal.id} className="rounded-lg border p-3">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="truncate font-medium">{goal.title}</span>
-                      <span className="text-muted-foreground text-xs">{goal.progress}%</span>
+                  <div key={goal.id} className="rounded-xl border border-border/60 p-3.5">
+                    <div className="mb-2.5 flex items-center justify-between">
+                      <span className="truncate text-sm font-semibold text-foreground">
+                        {goal.title}
+                      </span>
+                      <span className="ml-2 shrink-0 text-xs font-semibold text-primary">
+                        {goal.progress}%
+                      </span>
                     </div>
-                    <Progress value={goal.progress} className="mt-2 h-1.5" />
+                    <Progress value={goal.progress} className="h-1.5" />
                   </div>
                 ))}
               </div>
@@ -402,31 +445,34 @@ export default async function DashboardPage() {
       {/* ── Journal & Assignments ────────────────────────────────── */}
       {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
         <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-2 lg:px-6">
-          {/* Recent Journal */}
           {data.journalEntries?.length > 0 && (
             <Card>
               <CardHeader>
-                <CardDescription>Recent Journal</CardDescription>
+                <div className="flex items-center gap-2">
+                  <HugeiconsIcon icon={BookOpen01Icon} className="size-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-semibold">Recent Journal</CardTitle>
+                </div>
                 <CardAction>
                   <Link href="/journal">
-                    <Button variant="ghost" size="sm" className="h-7 text-xs">
+                    <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs">
                       View all
+                      <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
                     </Button>
                   </Link>
                 </CardAction>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {data.journalEntries.map((entry: any) => (
                     <div
                       key={entry.id}
-                      className="flex items-center justify-between rounded-lg border p-3"
+                      className="flex items-center justify-between rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/30"
                     >
-                      <div>
-                        <p className="truncate text-sm font-medium">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-foreground">
                           {entry.title || 'Untitled'}
                         </p>
-                        <p className="text-muted-foreground text-xs">
+                        <p className="text-xs text-muted-foreground">
                           {new Date(entry.created_at).toLocaleDateString(undefined, {
                             month: 'short',
                             day: 'numeric',
@@ -434,7 +480,7 @@ export default async function DashboardPage() {
                         </p>
                       </div>
                       {entry.mood && (
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="ml-2 shrink-0 text-xs capitalize">
                           {entry.mood}
                         </Badge>
                       )}
@@ -445,30 +491,33 @@ export default async function DashboardPage() {
             </Card>
           )}
 
-          {/* Assignments / Homework */}
           {data.assignments?.length > 0 && (
             <Card>
               <CardHeader>
-                <CardDescription>Assignments</CardDescription>
+                <div className="flex items-center gap-2">
+                  <HugeiconsIcon icon={CheckListIcon} className="size-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-semibold">Assignments</CardTitle>
+                </div>
                 <CardAction>
                   <Link href="/assignments">
-                    <Button variant="ghost" size="sm" className="h-7 text-xs">
+                    <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs">
                       View all
+                      <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
                     </Button>
                   </Link>
                 </CardAction>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {data.assignments.map((a: any) => (
                     <div
                       key={a.id}
-                      className="flex items-center justify-between rounded-lg border p-3"
+                      className="flex items-center justify-between rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/30"
                     >
-                      <div>
-                        <p className="truncate text-sm font-medium">{a.title}</p>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-foreground">{a.title}</p>
                         {a.due_date && (
-                          <p className="text-muted-foreground text-xs">
+                          <p className="text-xs text-muted-foreground">
                             Due{' '}
                             {new Date(a.due_date).toLocaleDateString(undefined, {
                               month: 'short',
@@ -479,7 +528,7 @@ export default async function DashboardPage() {
                       </div>
                       <Badge
                         variant={a.status === 'in_progress' ? 'default' : 'secondary'}
-                        className="text-xs"
+                        className="ml-2 shrink-0 text-xs"
                       >
                         {a.status === 'in_progress' ? 'In Progress' : 'Pending'}
                       </Badge>
@@ -494,21 +543,24 @@ export default async function DashboardPage() {
 
       {/* ── Admin Quick Links ────────────────────────────────────── */}
       {canManageSystem && (
-        <div className="grid grid-cols-1 gap-4 px-4 sm:grid-cols-3 lg:px-6">
-          <QuickLink
+        <div className="grid grid-cols-1 gap-3 px-4 sm:grid-cols-3 lg:px-6">
+          <AdminQuickLink
             href="/console/features"
             title="Feature Flags"
             description="Control feature rollouts and overrides"
+            icon={SparklesIcon}
           />
-          <QuickLink
+          <AdminQuickLink
             href="/console/audit"
             title="Audit Log"
             description="Monitor system events and actions"
+            icon={CheckListIcon}
           />
-          <QuickLink
+          <AdminQuickLink
             href="/console/analytics"
             title="Analytics"
             description="Platform performance and insights"
+            icon={ChartUpIcon}
           />
         </div>
       )}
@@ -516,7 +568,9 @@ export default async function DashboardPage() {
   );
 }
 
-function StatsCard({
+// ─── Sub-components ────────────────────────────────────────────────
+
+function DashStatsCard({
   label,
   value,
   icon,
@@ -528,37 +582,77 @@ function StatsCard({
   accent?: boolean;
 }) {
   return (
-    <Card className="@container/card">
-      <CardHeader>
-        <CardDescription>{label}</CardDescription>
-        <CardTitle className={cn('text-2xl font-semibold tabular-nums @[250px]/card:text-3xl', accent && 'text-primary')}>
-          {value}
+    <Card className={cn('transition-all hover:-translate-y-px', accent && 'border-primary/20')}>
+      <CardHeader className="pb-2">
+        <CardDescription className="text-xs uppercase tracking-wider">{label}</CardDescription>
+        <CardTitle
+          className={cn(
+            'text-2xl font-bold tabular-nums',
+            accent && 'text-primary'
+          )}
+        >
+          {value ?? '—'}
         </CardTitle>
         <CardAction>
-          <Badge variant="outline">
-            <HugeiconsIcon icon={icon} strokeWidth={2} />
-          </Badge>
+          <div
+            className={cn(
+              'flex h-8 w-8 items-center justify-center rounded-xl',
+              accent
+                ? 'bg-primary/10 text-primary'
+                : 'bg-muted text-muted-foreground'
+            )}
+          >
+            <HugeiconsIcon icon={icon} className="size-4" />
+          </div>
         </CardAction>
       </CardHeader>
     </Card>
   );
 }
 
-function QuickLink({
+function QuickAction({
+  href,
+  icon,
+  label,
+}: {
+  href: string;
+  icon: any;
+  label: string;
+}) {
+  return (
+    <Link href={href}>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-9 w-full justify-start gap-2.5 rounded-lg px-3 text-xs font-medium hover:bg-muted/60"
+      >
+        <HugeiconsIcon icon={icon} className="size-4 text-muted-foreground" />
+        {label}
+      </Button>
+    </Link>
+  );
+}
+
+function AdminQuickLink({
   href,
   title,
   description,
+  icon,
 }: {
   href: string;
   title: string;
   description: string;
+  icon: any;
 }) {
   return (
     <Link href={href}>
-      <Card className="hover:bg-muted/50 h-full transition-colors">
+      <Card className="group h-full cursor-pointer transition-all hover:-translate-y-px hover:shadow-md">
         <CardHeader>
-          <CardDescription>{title}</CardDescription>
-          <CardTitle className="text-sm">{description}</CardTitle>
+          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+            <HugeiconsIcon icon={icon} className="size-4" />
+          </div>
+          <CardTitle className="text-sm font-semibold">{title}</CardTitle>
+          <CardDescription className="text-xs">{description}</CardDescription>
         </CardHeader>
       </Card>
     </Link>

@@ -142,7 +142,7 @@ export function CommunityFeed({ channelId, posts }: { channelId: string; posts: 
                     </p>
                   </div>
                   {post.is_pinned && (
-                    <Badge variant="secondary" className="text-[10px]">
+                    <Badge variant="secondary" className="text-xs">
                       Pinned
                     </Badge>
                   )}

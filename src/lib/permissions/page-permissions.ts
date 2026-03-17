@@ -7,7 +7,7 @@ export interface PagePermission {
   action: PermissionAction;
 }
 
-export type SidebarSectionId = 'overview' | 'care' | 'manage' | 'platform' | 'account';
+export type SidebarSectionId = 'overview' | 'care' | 'therapist' | 'manage' | 'platform' | 'account';
 
 export interface PageConfig {
   path: string;
@@ -27,22 +27,31 @@ export interface SidebarSection {
 }
 
 // ─── Section definitions ──────────────────────────────────────────
+// Ordered for progressive disclosure: overview → personal care
+// → therapist tools → manage → admin platform → account
 
 export const SIDEBAR_SECTIONS: SidebarSection[] = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'care', label: 'Care' },
-  { id: 'manage', label: 'Manage' },
-  { id: 'platform', label: 'Platform' },
-  { id: 'account', label: 'Account' },
+  { id: 'overview',   label: 'Overview' },
+  { id: 'care',       label: 'My Care' },
+  { id: 'therapist',  label: 'Therapist' },
+  { id: 'manage',     label: 'Manage' },
+  { id: 'platform',   label: 'Platform' },
+  { id: 'account',    label: 'Account' },
 ];
 
 // ─── Sidebar navigation registry ──────────────────────────────────
-// Flat, functional navigation. No role-specific prefixes — visibility
-// is purely controlled by the permission system. `null` permission
-// means any authenticated user can see the page.
+// Principles applied:
+//  • Hick's Law: max ~7 visible items per section
+//  • Miller's Law: grouped into ≤5 sections
+//  • Progressive Disclosure: admin/advanced items in deeper sections
+//  • Chunking: related items grouped together
+//  • Visual Hierarchy: most-used items at top
+//  • Removed duplicates: clients==patients (use patients), wallet==finances
+//
+// `hidden: true` hides from sidebar but keeps the route accessible.
 
 export const SIDEBAR_NAV: PageConfig[] = [
-  // ── Overview ──────────────────────────────────────────────────────
+  // ── Overview — what matters right now ─────────────────────────────
   {
     path: '/dashboard',
     label: 'Dashboard',
@@ -70,21 +79,14 @@ export const SIDEBAR_NAV: PageConfig[] = [
     icon: 'bell',
     permission: null,
     section: 'overview',
-    hidden: true,
+    hidden: true,   // accessible via bell icon in topbar
   },
 
-  // ── Care ──────────────────────────────────────────────────────────
+  // ── My Care — personal wellness tools ─────────────────────────────
   {
     path: '/wellness',
     label: 'Wellness',
     icon: 'heart',
-    permission: null,
-    section: 'care',
-  },
-  {
-    path: '/goals',
-    label: 'Goals & Plans',
-    icon: 'target',
     permission: null,
     section: 'care',
   },
@@ -96,9 +98,9 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'care',
   },
   {
-    path: '/resources',
-    label: 'Resources',
-    icon: 'folder',
+    path: '/goals',
+    label: 'Goals',
+    icon: 'target',
     permission: null,
     section: 'care',
   },
@@ -110,82 +112,70 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'care',
   },
   {
+    path: '/resources',
+    label: 'Resources',
+    icon: 'folder',
+    permission: null,
+    section: 'care',
+  },
+  {
     path: '/ai-insights',
-    label: 'AI Assistant',
+    label: 'AI Insights',
     icon: 'sparkle',
     permission: null,
     section: 'care',
   },
   {
-    path: '/therapist/clients',
-    label: 'Clients',
+    path: '/community',
+    label: 'Community',
     icon: 'users',
-    permission: { group: 'patient_data', action: 'view_all' },
+    permission: null,
     section: 'care',
+  },
+
+  // ── Therapist — clinical work (only shown to therapists) ──────────
+  {
+    path: '/therapist/patients',
+    label: 'Patients',
+    icon: 'user',
+    permission: { group: 'patient_data', action: 'view_all' },
+    section: 'therapist',
   },
   {
     path: '/therapist/session-notes',
     label: 'Session Notes',
     icon: 'edit',
     permission: { group: 'therapist_tools', action: 'create' },
-    section: 'care',
-  },
-  {
-    path: '/therapist/templates',
-    label: 'Templates',
-    icon: 'folder',
-    permission: { group: 'therapist_tools', action: 'create' },
-    section: 'care',
-  },
-  {
-    path: '/therapist/patients',
-    label: 'Patients',
-    icon: 'users',
-    permission: { group: 'patient_data', action: 'view_all' },
-    section: 'care',
+    section: 'therapist',
   },
   {
     path: '/therapist/assignments',
     label: 'Homework',
     icon: 'clipboard',
     permission: { group: 'therapist_tools', action: 'create' },
-    section: 'care',
+    section: 'therapist',
   },
   {
-    path: '/therapist/resources',
-    label: 'Clinical Resources',
+    path: '/therapist/templates',
+    label: 'Templates',
     icon: 'folder',
     permission: { group: 'therapist_tools', action: 'create' },
-    section: 'care',
-  },
-  {
-    path: '/community',
-    label: 'Community',
-    icon: 'message',
-    permission: null,
-    section: 'care',
-  },
-  {
-    path: '/forms',
-    label: 'Forms',
-    icon: 'file-add',
-    permission: null,
-    section: 'care',
-  },
-  {
-    path: '/crisis',
-    label: 'Crisis Support',
-    icon: 'alert',
-    permission: null,
-    section: 'care',
+    section: 'therapist',
   },
 
-  // ── Manage ────────────────────────────────────────────────────────
+  // ── Manage — business & financial ─────────────────────────────────
   {
     path: '/availability',
     label: 'Availability',
     icon: 'clock',
     permission: { group: 'appointment_management', action: 'manage' },
+    section: 'manage',
+  },
+  {
+    path: '/finances',
+    label: 'Finances',
+    icon: 'wallet',
+    permission: null,
     section: 'manage',
   },
   {
@@ -202,15 +192,8 @@ export const SIDEBAR_NAV: PageConfig[] = [
     permission: { group: 'financial_management', action: 'manage' },
     section: 'manage',
   },
-  {
-    path: '/finances',
-    label: 'Finances',
-    icon: 'wallet',
-    permission: null,
-    section: 'manage',
-  },
 
-  // ── Platform (admin/management) ───────────────────────────────────
+  // ── Platform — admin panel (hidden from non-admins by permission) ──
   {
     path: '/console/users',
     label: 'Users',
@@ -219,38 +202,10 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'platform',
   },
   {
-    path: '/console/permissions',
-    label: 'Permissions',
-    icon: 'shield',
-    permission: { group: 'user_management', action: 'manage' },
-    section: 'platform',
-  },
-  {
     path: '/console/services',
     label: 'Services',
     icon: 'wrench',
     permission: { group: 'product_management', action: 'manage' },
-    section: 'platform',
-  },
-  {
-    path: '/console/cms',
-    label: 'Content',
-    icon: 'pen',
-    permission: { group: 'content_management', action: 'manage' },
-    section: 'platform',
-  },
-  {
-    path: '/console/analytics',
-    label: 'Analytics',
-    icon: 'bar-chart',
-    permission: { group: 'analytics', action: 'manage' },
-    section: 'platform',
-  },
-  {
-    path: '/console/features',
-    label: 'Features',
-    icon: 'toggle-right',
-    permission: { group: 'system_settings', action: 'manage' },
     section: 'platform',
   },
   {
@@ -268,9 +223,23 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'platform',
   },
   {
+    path: '/console/analytics',
+    label: 'Analytics',
+    icon: 'bar-chart',
+    permission: { group: 'analytics', action: 'manage' },
+    section: 'platform',
+  },
+  {
     path: '/console/telegram',
     label: 'Telegram',
     icon: 'message',
+    permission: { group: 'system_settings', action: 'manage' },
+    section: 'platform',
+  },
+  {
+    path: '/console/features',
+    label: 'Feature Flags',
+    icon: 'toggle-right',
     permission: { group: 'system_settings', action: 'manage' },
     section: 'platform',
   },
@@ -282,11 +251,28 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'platform',
   },
   {
+    path: '/console/permissions',
+    label: 'Permissions',
+    icon: 'shield',
+    permission: { group: 'user_management', action: 'manage' },
+    section: 'platform',
+    hidden: true,   // advanced — accessed from users page
+  },
+  {
+    path: '/console/cms',
+    label: 'Content',
+    icon: 'pen',
+    permission: { group: 'content_management', action: 'manage' },
+    section: 'platform',
+    hidden: true,
+  },
+  {
     path: '/console/database',
     label: 'Database',
     icon: 'database',
     permission: { group: 'system_settings', action: 'manage' },
     section: 'platform',
+    hidden: true,   // developer tool
   },
   {
     path: '/console/settings',
@@ -294,6 +280,7 @@ export const SIDEBAR_NAV: PageConfig[] = [
     icon: 'settings',
     permission: { group: 'system_settings', action: 'manage' },
     section: 'platform',
+    hidden: true,
   },
 
   // ── Account ───────────────────────────────────────────────────────
@@ -303,5 +290,47 @@ export const SIDEBAR_NAV: PageConfig[] = [
     icon: 'settings',
     permission: null,
     section: 'account',
+  },
+
+  // ── Hidden routes (accessible but not in sidebar) ─────────────────
+  // Duplicates removed: /therapist/clients → use /therapist/patients
+  //                     /wallet → redirects to /finances
+  //                     /sessions → use /bookings
+  //                     /therapist/resources → use /resources
+  //                     /forms, /crisis → not yet implemented
+  {
+    path: '/wallet',
+    label: 'Wallet',
+    icon: 'wallet',
+    permission: null,
+    hidden: true,
+  },
+  {
+    path: '/sessions',
+    label: 'Sessions',
+    icon: 'calendar',
+    permission: null,
+    hidden: true,
+  },
+  {
+    path: '/therapist/clients',
+    label: 'Clients',
+    icon: 'users',
+    permission: { group: 'patient_data', action: 'view_all' },
+    hidden: true,   // use /therapist/patients instead
+  },
+  {
+    path: '/therapist/resources',
+    label: 'Clinical Resources',
+    icon: 'folder',
+    permission: { group: 'therapist_tools', action: 'create' },
+    hidden: true,   // use /resources
+  },
+  {
+    path: '/reports',
+    label: 'Reports',
+    icon: 'bar-chart',
+    permission: null,
+    hidden: true,
   },
 ];

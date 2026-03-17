@@ -78,13 +78,13 @@ export default function CaseDetailContent({ id }: { id: string }) {
 
   const Icon = config.icon;
   const colors = {
-    blue: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-    purple: { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
-    green: { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
-    orange: { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
-    indigo: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
-    pink: { bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-200' },
-    red: { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
+    blue: { bg: 'bg-primary/10', text: 'text-primary', border: 'border-primary/20' },
+    purple: { bg: 'bg-secondary', text: 'text-secondary-foreground', border: 'border-border' },
+    green: { bg: 'bg-success/10', text: 'text-success', border: 'border-success/20' },
+    orange: { bg: 'bg-warning/10', text: 'text-warning-foreground', border: 'border-warning/20' },
+    indigo: { bg: 'bg-primary/10', text: 'text-primary', border: 'border-primary/20' },
+    pink: { bg: 'bg-secondary', text: 'text-secondary-foreground', border: 'border-border' },
+    red: { bg: 'bg-destructive/10', text: 'text-destructive', border: 'border-destructive/20' },
   };
   const colorClass = colors[config.color as keyof typeof colors] || colors.blue;
 

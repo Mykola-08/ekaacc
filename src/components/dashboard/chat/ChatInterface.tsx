@@ -328,7 +328,7 @@ export function ChatInterface() {
                         <p>{msg.content}</p>
                         <span
                           className={cn(
-                            'mt-1 block text-[10px] opacity-70',
+                            'mt-1 block text-xs opacity-70',
                             isMe ? 'text-primary-foreground' : 'text-muted-foreground'
                           )}
                         >

@@ -111,3 +111,33 @@ export async function joinChannel(channelId: string) {
   revalidatePath('/chat');
   return { success: true };
 }
+
+export async function editChannelMessage(messageId: string, content: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { success: false, error: 'Unauthenticated' };
+
+  const { error } = await supabase
+    .from('channel_messages')
+    .update({ content: content.trim(), updated_at: new Date().toISOString() })
+    .eq('id', messageId)
+    .eq('sender_id', user.id); // only own messages
+
+  if (error) return { success: false, error: error.message };
+  return { success: true };
+}
+
+export async function deleteChannelMessage(messageId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { success: false, error: 'Unauthenticated' };
+
+  const { error } = await supabase
+    .from('channel_messages')
+    .delete()
+    .eq('id', messageId)
+    .eq('sender_id', user.id); // only own messages
+
+  if (error) return { success: false, error: error.message };
+  return { success: true };
+}

@@ -28,11 +28,15 @@ import {
 } from 'recharts';
 import { format } from 'date-fns';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Activity01Icon, Alert01Icon, AnalyticsUpIcon, BarChartIcon, Clock01Icon, Refresh01Icon, UserIcon } from '@hugeicons/core-free-icons'; Cell,
-} from 'recharts';
-import { format } from 'date-fns';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Activity01Icon, Alert01Icon, AnalyticsUpIcon, BarChartIcon, Clock01Icon, Refresh01Icon, UserIcon } from '@hugeicons/core-free-icons';
+import {
+  Activity01Icon,
+  Alert01Icon,
+  AnalyticsUpIcon,
+  BarChartIcon,
+  Clock01Icon,
+  Refresh01Icon,
+  UserIcon,
+} from '@hugeicons/core-free-icons';
 
 interface AnalyticsData {
   overview: {
@@ -102,7 +106,14 @@ export function AnalyticsDashboardHeadless() {
       const avgSessionDuration = d.sessions?.averageDuration || 0;
 
       // Build a simple time-series for the growth chart
-      const days = selectedTimeframe === '24h' ? 1 : selectedTimeframe === '30d' ? 30 : selectedTimeframe === '90d' ? 90 : 7;
+      const days =
+        selectedTimeframe === '24h'
+          ? 1
+          : selectedTimeframe === '30d'
+            ? 30
+            : selectedTimeframe === '90d'
+              ? 90
+              : 7;
       const userGrowth = Array.from({ length: days }, (_, i) => ({
         date: new Date(Date.now() - (days - 1 - i) * 86400000).toISOString(),
         users: Math.max(0, totalUsers - (days - 1 - i) * Math.ceil(newUsers / Math.max(days, 1))),
@@ -118,25 +129,56 @@ export function AnalyticsDashboardHeadless() {
 
       // User segments from byStatus
       const byStatus = d.users?.byStatus || {};
-      const statusTotal = (byStatus.active || 0) + (byStatus.suspended || 0) + (byStatus.pending || 0) || 1;
+      const statusTotal =
+        (byStatus.active || 0) + (byStatus.suspended || 0) + (byStatus.pending || 0) || 1;
       const userSegments = [
-        { segment: 'Active', count: byStatus.active || 0, percentage: ((byStatus.active || 0) / statusTotal) * 100 },
-        { segment: 'Suspended', count: byStatus.suspended || 0, percentage: ((byStatus.suspended || 0) / statusTotal) * 100 },
-        { segment: 'Pending', count: byStatus.pending || 0, percentage: ((byStatus.pending || 0) / statusTotal) * 100 },
+        {
+          segment: 'Active',
+          count: byStatus.active || 0,
+          percentage: ((byStatus.active || 0) / statusTotal) * 100,
+        },
+        {
+          segment: 'Suspended',
+          count: byStatus.suspended || 0,
+          percentage: ((byStatus.suspended || 0) / statusTotal) * 100,
+        },
+        {
+          segment: 'Pending',
+          count: byStatus.pending || 0,
+          percentage: ((byStatus.pending || 0) / statusTotal) * 100,
+        },
       ].filter((s) => s.count > 0);
 
       const errorRate = d.system?.errorRate || 0;
 
       setAnalytics({
-        overview: { totalUsers, activeUsers, newUsers, totalRevenue, conversionRate, avgSessionDuration },
+        overview: {
+          totalUsers,
+          activeUsers,
+          newUsers,
+          totalRevenue,
+          conversionRate,
+          avgSessionDuration,
+        },
         userGrowth,
         activityByHour,
         topPages: [
           { path: '/dashboard', views: sessionsTotal, uniqueVisitors: activeUsers },
-          { path: '/bookings', views: d.sessions?.completed || 0, uniqueVisitors: Math.round(activeUsers * 0.4) },
-          { path: '/settings', views: Math.round(activeUsers * 0.3), uniqueVisitors: Math.round(activeUsers * 0.2) },
+          {
+            path: '/bookings',
+            views: d.sessions?.completed || 0,
+            uniqueVisitors: Math.round(activeUsers * 0.4),
+          },
+          {
+            path: '/settings',
+            views: Math.round(activeUsers * 0.3),
+            uniqueVisitors: Math.round(activeUsers * 0.2),
+          },
         ],
-        userSegments: userSegments.length > 0 ? userSegments : [{ segment: 'All Users', count: totalUsers, percentage: 100 }],
+        userSegments:
+          userSegments.length > 0
+            ? userSegments
+            : [{ segment: 'All Users', count: totalUsers, percentage: 100 }],
         systemHealth: {
           status: errorRate > 5 ? 'critical' : errorRate > 1 ? 'warning' : 'healthy',
           uptime: 100 - errorRate,
@@ -180,7 +222,7 @@ export function AnalyticsDashboardHeadless() {
     return (
       <div className="flex flex-col items-center justify-center py-20">
         <div className="bg-destructive/10 mb-4 rounded-full p-4">
-          <HugeiconsIcon icon={Alert01Icon} className="text-destructive size-8"  />
+          <HugeiconsIcon icon={Alert01Icon} className="text-destructive size-8" />
         </div>
         <h3 className="text-foreground text-lg font-semibold">Failed to load analytics</h3>
         <p className="text-muted-foreground mt-1 mb-6">We couldn't retrieve the latest data.</p>
@@ -224,7 +266,10 @@ export function AnalyticsDashboardHeadless() {
             className="text-muted-foreground hover:text-foreground p-2 transition-colors disabled:opacity-50"
             title="Refresh"
           >
-            <HugeiconsIcon icon={Refresh01Icon} className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`}  />
+            <HugeiconsIcon
+              icon={Refresh01Icon}
+              className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`}
+            />
           </button>
 
           <div className="bg-border h-6 w-px" />
@@ -242,15 +287,18 @@ export function AnalyticsDashboardHeadless() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <div className="bg-card ring-border rounded-lg p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
-            <span className="text-muted-foreground text-sm font-medium">Total UserMultipleIcon</span>
-            <HugeiconsIcon icon={UserIcon} className="text-primary size-5"  />
+            <span className="text-muted-foreground text-sm font-medium">
+              Total UserMultipleIcon
+            </span>
+            <HugeiconsIcon icon={UserIcon} className="text-primary size-5" />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {analytics.overview.totalUsers.toLocaleString()}
           </div>
           <div className="flex items-center text-sm">
             <span className="bg-success text-success flex items-center rounded-full px-2 py-0.5 font-medium">
-              <HugeiconsIcon icon={AnalyticsUpIcon} className="mr-1 size-3"  />+{analytics.overview.newUsers}
+              <HugeiconsIcon icon={AnalyticsUpIcon} className="mr-1 size-3" />+
+              {analytics.overview.newUsers}
             </span>
             <span className="text-muted-foreground/80 ml-2">this period</span>
           </div>
@@ -280,7 +328,7 @@ export function AnalyticsDashboardHeadless() {
           </div>
           <div className="flex items-center text-sm">
             <span className="bg-success text-success flex items-center rounded-full px-2 py-0.5 font-medium">
-              <HugeiconsIcon icon={AnalyticsUpIcon} className="mr-1 size-3"  />
+              <HugeiconsIcon icon={AnalyticsUpIcon} className="mr-1 size-3" />
               +2.1%
             </span>
             <span className="text-muted-foreground/80 ml-2">vs last period</span>
@@ -290,7 +338,7 @@ export function AnalyticsDashboardHeadless() {
         <div className="bg-card ring-border rounded-lg p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Avg Session</span>
-            <HugeiconsIcon icon={Clock01Icon} className="text-chart-4 size-5"  />
+            <HugeiconsIcon icon={Clock01Icon} className="text-chart-4 size-5" />
           </div>
           <div className="text-foreground mb-2 text-3xl font-semibold">
             {Math.floor(analytics.overview.avgSessionDuration / 60)}m{' '}
@@ -335,30 +383,44 @@ export function AnalyticsDashboardHeadless() {
       </div>
 
       {/* Main Content Tabs */}
-      <Tab.Group>
+      <Tabs defaultValue="overview">
         <div className="mb-2 flex items-center justify-between">
-          <Tab.List className="bg-muted flex rounded-full p-1">
-            {['Overview', 'User Growth', 'Activity', 'Top Pages', 'Segments'].map((category) => (
-              <Tab
-                key={category}
-                className={({ selected }) =>
-                  classNames(
-                    'w-full min-w-25 rounded-full px-4 py-2.5 text-sm leading-5 font-medium',
-                    'ring-border ring-offset-2 focus:ring-2 focus:outline-none',
-                    selected
-                      ? 'bg-card text-foreground shadow'
-                      : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/12'
-                  )
-                }
-              >
-                {category}
-              </Tab>
-            ))}
-          </Tab.List>
+          <TabsList className="bg-muted flex h-auto rounded-full p-1">
+            <TabsTrigger
+              value="overview"
+              className="min-w-25 rounded-full px-4 py-2.5 text-sm font-medium"
+            >
+              Overview
+            </TabsTrigger>
+            <TabsTrigger
+              value="growth"
+              className="min-w-25 rounded-full px-4 py-2.5 text-sm font-medium"
+            >
+              User Growth
+            </TabsTrigger>
+            <TabsTrigger
+              value="activity"
+              className="min-w-25 rounded-full px-4 py-2.5 text-sm font-medium"
+            >
+              Activity
+            </TabsTrigger>
+            <TabsTrigger
+              value="pages"
+              className="min-w-25 rounded-full px-4 py-2.5 text-sm font-medium"
+            >
+              Top Pages
+            </TabsTrigger>
+            <TabsTrigger
+              value="segments"
+              className="min-w-25 rounded-full px-4 py-2.5 text-sm font-medium"
+            >
+              Segments
+            </TabsTrigger>
+          </TabsList>
         </div>
 
-        <Tab.Panels className="mt-6">
-          <Tab.Panel className="focus:outline-none">
+        <div className="mt-6">
+          <TabsContent value="overview" className="focus:outline-none">
             {/* Overview Panel Content */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div className="bg-card ring-border rounded-lg p-8 ring-1">
@@ -454,9 +516,9 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
             </div>
-          </Tab.Panel>
+          </TabsContent>
 
-          <Tab.Panel className="focus:outline-none">
+          <TabsContent value="growth" className="focus:outline-none">
             {/* Users Panel - just duplication for tabs demo */}
             <div className="bg-card ring-border rounded-lg p-8 ring-1">
               <div className="mb-6">
@@ -495,13 +557,15 @@ export function AnalyticsDashboardHeadless() {
                 </ResponsiveContainer>
               </div>
             </div>
-          </Tab.Panel>
+          </TabsContent>
 
-          <Tab.Panel className="focus:outline-none">
+          <TabsContent value="activity" className="focus:outline-none">
             {/* Activity Panel */}
             <div className="bg-card ring-border rounded-lg p-8 ring-1">
               <div className="mb-6">
-                <h3 className="text-foreground text-lg font-semibold">Hourly Activity01Icon Pattern</h3>
+                <h3 className="text-foreground text-lg font-semibold">
+                  Hourly Activity01Icon Pattern
+                </h3>
                 <p className="text-muted-foreground text-sm">User activity throughout the day</p>
               </div>
               <div className="h-100 w-full">
@@ -516,9 +580,9 @@ export function AnalyticsDashboardHeadless() {
                 </ResponsiveContainer>
               </div>
             </div>
-          </Tab.Panel>
+          </TabsContent>
 
-          <Tab.Panel className="focus:outline-none">
+          <TabsContent value="pages" className="focus:outline-none">
             {/* Top Pages */}
             <div className="bg-card ring-border rounded-lg p-8 ring-1">
               <div className="mb-6">
@@ -554,9 +618,9 @@ export function AnalyticsDashboardHeadless() {
                 ))}
               </div>
             </div>
-          </Tab.Panel>
+          </TabsContent>
 
-          <Tab.Panel className="focus:outline-none">
+          <TabsContent value="segments" className="focus:outline-none">
             {/* Segments */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div className="bg-card ring-border rounded-lg p-8 ring-1">
@@ -632,9 +696,9 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
             </div>
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
+          </TabsContent>
+        </div>
+      </Tabs>
     </div>
   );
 }

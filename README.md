@@ -103,6 +103,18 @@ Client Component → Server Action → Service Layer → Supabase / Stripe / Res
 | `npm run supabase:setup` | Full local Supabase setup         |
 | `npm run supabase:reset` | Reset local DB                    |
 
+### Re-import repository state
+
+If you need to continue work from a clean/latest local state:
+
+```bash
+git fetch --all --prune
+git reset --hard origin/main   # or origin/<your-branch>
+npm install
+```
+
+Use `git stash` first if you need to preserve uncommitted local changes.
+
 ---
 
 ## Integrations

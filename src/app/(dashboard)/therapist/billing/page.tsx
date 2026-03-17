@@ -17,11 +17,24 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';
 import { DollarCircleIcon, Refresh01Icon, PlusSignCircleIcon } from '@hugeicons/core-free-icons';
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 import fxService from '@/lib/platform/services/platform-service';
+import { createClient } from '@/lib/supabase/client';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { HugeiconsIcon } from '@hugeicons/react';
+
+type BillingClient = {
+  id: string;
+  full_name: string | null;
+};
+
 function BillingSkeleton() {
   return (
     <Card className="p-4">
@@ -48,7 +61,7 @@ function NoInvoicesEmptyState({ onCreate }: { onCreate: () => void }) {
       description="There are no invoices for this client yet."
       action={
         <Button onClick={onCreate} variant="default">
-          <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4"  />
+          <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4" />
           Create First Invoice
         </Button>
       }
@@ -58,14 +71,80 @@ function NoInvoicesEmptyState({ onCreate }: { onCreate: () => void }) {
 
 export default function TherapistBillingPage() {
   const [invoices, setInvoices] = useState<any[]>([]);
+  const [clients, setClients] = useState<BillingClient[]>([]);
+  const [selectedClientId, setSelectedClientId] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [clientsLoading, setClientsLoading] = useState(true);
   const { toast } = useToast();
 
+  const loadClients = useCallback(async () => {
+    setClientsLoading(true);
+    try {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        setClients([]);
+        return;
+      }
+
+      const { data: therapistProfile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('auth_id', user.id)
+        .single();
+
+      if (!therapistProfile?.id) {
+        setClients([]);
+        return;
+      }
+
+      const { data: bookingClients } = await supabase
+        .from('bookings')
+        .select('client_id, client:profiles!bookings_client_id_fkey(id, full_name)')
+        .eq('therapist_id', therapistProfile.id)
+        .limit(300);
+
+      const uniqueClients = new Map<string, BillingClient>();
+      for (const booking of bookingClients ?? []) {
+        const client = Array.isArray(booking.client) ? booking.client[0] : booking.client;
+        if (client?.id && !uniqueClients.has(client.id)) {
+          uniqueClients.set(client.id, {
+            id: client.id,
+            full_name: client.full_name,
+          });
+        }
+      }
+
+      const resolvedClients = Array.from(uniqueClients.values());
+      setClients(resolvedClients);
+
+      if (!selectedClientId && resolvedClients.length > 0) {
+        setSelectedClientId(resolvedClients[0].id);
+      }
+    } catch {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Could not load your clients.',
+      });
+    } finally {
+      setClientsLoading(false);
+    }
+  }, [selectedClientId, toast]);
+
   const loadInvoices = useCallback(async () => {
+    if (!selectedClientId) {
+      setInvoices([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
-      // TODO: Replace with real client ID from route params or selected client
-      const inv = await fxService.getInvoicesForClient('demo-client');
+      const inv = await fxService.getInvoicesForClient(selectedClientId);
       setInvoices(inv || []);
     } catch {
       toast({
@@ -76,20 +155,32 @@ export default function TherapistBillingPage() {
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [selectedClientId, toast]);
+
+  useEffect(() => {
+    loadClients();
+  }, [loadClients]);
 
   useEffect(() => {
     loadInvoices();
   }, [loadInvoices]);
 
   const createInvoice = async () => {
+    if (!selectedClientId) {
+      toast({
+        variant: 'destructive',
+        title: 'Select client',
+        description: 'Choose a client before creating an invoice.',
+      });
+      return;
+    }
+
     try {
-      // TODO: Replace with real client/session IDs
       const res = await fxService.createChargeForSession(
-        'demo-client',
-        'demo-session',
+        selectedClientId,
+        `manual-${Date.now()}`,
         25,
-        'New invoice'
+        'Therapy invoice'
       );
       toast({ title: 'Charge Created', description: `Charge ID: ${res?.id || 'created'}` });
       await loadInvoices();
@@ -97,7 +188,7 @@ export default function TherapistBillingPage() {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Could not create a test charge.',
+        description: 'Could not create a charge.',
       });
     }
   };
@@ -111,17 +202,58 @@ export default function TherapistBillingPage() {
           level="h2"
           actions={
             <div className="flex gap-2">
-              <Button onClick={loadInvoices} variant="outline" size="sm" disabled={loading}>
-                <HugeiconsIcon icon={Refresh01Icon} className="mr-2 size-4"  />
+              <Button
+                onClick={loadInvoices}
+                variant="outline"
+                size="sm"
+                disabled={loading || !selectedClientId}
+              >
+                <HugeiconsIcon icon={Refresh01Icon} className="mr-2 size-4" />
                 Refresh
               </Button>
-              <Button onClick={createInvoice} variant="default" size="sm">
-                <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4"  />
+              <Button
+                onClick={createInvoice}
+                variant="default"
+                size="sm"
+                disabled={!selectedClientId}
+              >
+                <HugeiconsIcon icon={PlusSignCircleIcon} className="mr-2 size-4" />
                 Create Invoice
               </Button>
             </div>
           }
         />
+
+        <Card className="mx-4 mb-4 lg:mx-6">
+          <CardContent className="pt-6">
+            <div className="grid gap-2 sm:max-w-sm">
+              <p className="text-foreground text-sm font-medium">Client</p>
+              <Select
+                value={selectedClientId}
+                onValueChange={setSelectedClientId}
+                disabled={clientsLoading}
+              >
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={clientsLoading ? 'Loading clients...' : 'Select a client'}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {clients.map((client) => (
+                    <SelectItem key={client.id} value={client.id}>
+                      {client.full_name || 'Unnamed client'}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {!clientsLoading && clients.length === 0 && (
+                <p className="text-muted-foreground text-xs">
+                  No clients found for this therapist yet.
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Billing Table */}
         <Card className="mx-4 lg:mx-6">

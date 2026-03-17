@@ -27,12 +27,19 @@ export async function createCommunityPost(input: {
   is_anonymous?: boolean;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { data, error } = await supabase
     .from('community_posts')
-    .insert({ ...input, user_id: user.id, is_published: true, published_at: new Date().toISOString() })
+    .insert({
+      ...input,
+      user_id: user.id,
+      is_published: true,
+      published_at: new Date().toISOString(),
+    })
     .select()
     .single();
 
@@ -43,18 +50,31 @@ export async function createCommunityPost(input: {
 
 export async function likePost(postId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
-  // Increment likes_count atomically via RPC
   const { error } = await supabase.rpc('increment_post_likes', { post_id: postId });
+
   if (error) {
-    // Fallback: direct update
-    await supabase
+    const { data: post, error: readError } = await supabase
       .from('community_posts')
-      .update({ likes_count: supabase.rpc('likes_count + 1' as any) })
+      .select('likes_count')
+      .eq('id', postId)
+      .single();
+
+    if (readError) return { success: false, error: readError.message };
+
+    const currentLikes = post?.likes_count ?? 0;
+    const { error: updateError } = await supabase
+      .from('community_posts')
+      .update({ likes_count: currentLikes + 1 })
       .eq('id', postId);
+
+    if (updateError) return { success: false, error: updateError.message };
   }
+
   revalidatePath('/community');
   return { success: true };
 }

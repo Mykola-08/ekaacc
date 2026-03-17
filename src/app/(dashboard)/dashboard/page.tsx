@@ -30,6 +30,7 @@ import {
   HeartCheckIcon,
   Clock01Icon,
 } from '@hugeicons/core-free-icons';
+import { MoodQuickLog } from '@/components/dashboard/widgets/MoodQuickLog';
 
 // ─── Permission helper ─────────────────────────────────────────────
 
@@ -132,6 +133,20 @@ export default async function DashboardPage() {
     .limit(5)
     .then((r) => r.data || []);
 
+  // Today's mood from mood_entries (new table) or fall back to journal_entries.mood
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  queries.todayMood = supabase
+    .from('mood_entries')
+    .select('score')
+    .eq('user_id', user.id)
+    .gte('logged_at', todayStart.toISOString())
+    .order('logged_at', { ascending: false })
+    .limit(1)
+    .single()
+    .then((r) => r.data?.score ?? null)
+    .catch(() => null);
+
   if (canManageUsers) {
     queries.totalUsers = supabase
       .from('profiles')
@@ -196,6 +211,13 @@ export default async function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* ── Mood Quick-Log (non-admin, non-therapist only) ───────── */}
+      {!canManageUsers && !canUseTherapistTools && (
+        <div className="px-4 lg:px-6">
+          <MoodQuickLog todayScore={data.todayMood ?? null} />
+        </div>
+      )}
 
       {/* ── Platform Stats (admin/manager only) ─────────────────── */}
       {canManageUsers && (

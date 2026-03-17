@@ -3,45 +3,66 @@
 > Keep this file updated on every AI pass. Mark items done and add migration
 > IDs/PRs.
 
+---
+
 ## 1) UI consistency & style unification backlog
 
+- [x] **DONE** — Bookings page: consistent stat blocks using shared token classes
+      (`STATS_CARD_CLASS`, `STATS_LABEL_CLASS`, `STATS_VALUE_CLASS`)
+- [x] **DONE** — Empty state pattern unified across: bookings, assignments,
+      goals, resources (icon + title + description + CTA)
+- [x] **DONE** — Button hierarchy standardized: primary (core CTA), outline
+      (secondary), ghost (navigation) — applied across dashboard, bookings,
+      goals, assignments pages
+- [x] **DONE** — Mood badge on wellness page uses semantic tokens
+      (`bg-success`, `bg-primary`, `bg-warning`, `bg-destructive`)
 - [ ] Replace remaining one-off utility clusters with shared style
-      tokens/components (cards, stat blocks, section headers).
-- [ ] Audit hardcoded visual values (`text-[..]`, raw color classes like
-      `ring-green-500`) and migrate to semantic design tokens (`text-success`,
-      `ring-success`, etc.).
-- [ ] Normalize button hierarchy across dashboard + booking flows:
-  - Primary: core action
-  - Outline: secondary
-  - Ghost: tertiary navigation
-- [ ] Apply one consistent empty-state pattern (icon + title + supporting text +
-      CTA).
-- [ ] Verify spacing rhythm against `abVKEfg` preset (headers, cards, tab
-      sections, form gaps).
+      tokens/components (cards, stat blocks, section headers) — ongoing.
+- [ ] Audit remaining hardcoded visual values (`text-[..]`, raw color classes
+      like `ring-green-500`) and migrate to semantic design tokens. Run:
+      `grep -r "ring-green\|text-\[#\|bg-\[#" src/` to find violations.
+- [ ] Add `loading.tsx` skeleton files for data-heavy pages:
+      `/dashboard`, `/bookings`, `/goals`, `/wellness`, `/ai-insights`, `/assignments`
+- [ ] Create shared `<EmptyState>` component in `src/components/ui/empty-state.tsx`
+      and replace per-page ad-hoc empty states.
 
 ## 2) Backend connectivity checklist
 
+- [x] **DONE** — `assignments` page: DB-backed with status filtering, submit dialog,
+      server actions (`assignments-actions.ts`)
+- [x] **DONE** — `goals` page: DB-backed create/check-in/delete with `goals-actions.ts`
+- [x] **DONE** — `resources` page: DB-backed with type filter chips and search
+- [x] **DONE** — `ai-insights` page: DB-backed mood analytics + goal progress + journal streak
+- [x] **DONE** — `bookings` page: DB-backed with upcoming/history tabs, stats row
+- [x] **DONE** — `wellness` page: DB-backed with tabbed journal/progress/resources
 - [ ] Replace demo/fallback data paths in therapist flows with fully DB-backed
-      queries.
+      queries (session-mode, billing, resources still partially mocked).
 - [ ] Add loading/error states for all async therapist tools (session mode,
       billing, resources).
-- [ ] Add event logging/audit for session-mode start/end.
+- [ ] Add event logging/audit for session-mode start/end (use
+      `log_user_activity` RPC — see `TODO_FOR_AI_WITH_DB.md` §4.1).
 - [ ] Add integration tests for therapist session-mode launch path:
   - with upcoming booking
   - without upcoming booking
+- [ ] Wire `notifications` table to the NotificationDropdown component
+      (show real DB notifications, not mock data).
+- [ ] Add unread count badge to header bell (use `get_unread_notification_count` RPC).
 
-## 3) Supabase migrations checklist (must be filled when schema changes)
+## 3) Supabase migrations log
 
-- [ ] Add migration for session-mode persisted entities (if storing
-      constellation snapshots).
-- [ ] Add migration for translation key storage (if moving strings to DB-based
-      i18n).
-- [ ] Add migration for telegram session check-in templates (if
-      persisted/customizable).
+| Migration | Purpose | Affected Tables | Status |
+|-----------|---------|-----------------|--------|
+| `20260315000000_assignments_channels_forms.sql` | Assignments, channels, form templates | `assignments`, `channels`, `channel_messages`, `form_templates` | ✅ Applied |
+| `20260315100000_modernize_key_names.sql` | Key naming conventions | Multiple | ✅ Applied |
+| `20260317000000_resources_url_and_published.sql` | Add url + is_published to resources | `resources` | ✅ Applied |
+| `20260318000000_ai_insights_and_mood_entries.sql` | AI insights + mood entries tables | `ai_insights`, `mood_entries`, `mood_daily_avg` view | 🔄 Pending apply |
+| `20260318000001_user_streaks_and_activity.sql` | Streak tracking + activity log | `user_streaks`, `user_activity_log` + RPCs | 🔄 Pending apply |
+| `20260318000002_notification_preferences.sql` | Notification inbox + preferences | `notifications`, `notification_preferences` | 🔄 Pending apply |
 
-> Migration log template:
-
-- `YYYYMMDDHHMMSS_<name>.sql` — reason, affected tables, rollback note.
+**Pending migrations** (add when implementing):
+- [ ] Session-mode persisted entities (constellation snapshots)
+- [ ] Translation key storage (if moving strings to DB-based i18n)
+- [ ] Telegram session check-in templates
 
 ## 4) Untranslated strings inventory (app-facing)
 
@@ -79,5 +100,19 @@
 - [ ] Add locale dictionaries for `en`, `es`, `ca` parity in dashboard and
       therapist routes.
 - [ ] Add lint/check script to detect raw hardcoded strings in dashboard routes.
-- [ ] Define “allowed hardcoded strings” exceptions (brand names, legal text,
+- [ ] Define "allowed hardcoded strings" exceptions (brand names, legal text,
       product names).
+
+## 6) New features backlog (added 2026-03-17)
+
+- [ ] Weekly AI insights generation (edge function + cron — see `TODO_FOR_AI_WITH_DB.md` §2.1)
+- [ ] Notification preferences UI in settings (see §2.2)
+- [ ] Streak badges on sidebar (see §2.3)
+- [ ] Admin real-time metrics chart with recharts (see §4.2)
+- [ ] Migrate legacy `journal_entries.mood` → `mood_entries` (see §1.5 in DB TODO)
+- [ ] Back-fill user_streaks from existing journal/mood data (see §1.3 in DB TODO)
+
+---
+
+> See `TODO_FOR_AI_WITH_DB.md` for the full task list with SQL snippets and
+> file references for an AI agent with database access.

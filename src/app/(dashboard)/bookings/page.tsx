@@ -1,174 +1,390 @@
-import React from "react";
-import { Card, CardContent, CardAction } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { createClient } from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Calendar03Icon,
   Clock01Icon,
   Video01Icon,
   Location01Icon,
-  MoreHorizontalIcon,
-  CheckmarkCircle02Icon,
-} from "@hugeicons/core-free-icons";
+  ArrowRight01Icon,
+  CheckmarkCircle01Icon,
+  Cancel01Icon,
+  PlusSignIcon,
+  UserIcon,
+} from '@hugeicons/core-free-icons';
+import { cn } from '@/lib/utils';
 
-export default function BookingsPage() {
+function getInitials(name: string | null) {
+  if (!name) return '?';
+  return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
+}
+
+function formatDate(d: string) {
+  return new Date(d).toLocaleDateString(undefined, {
+    weekday: 'short', month: 'short', day: 'numeric',
+  });
+}
+
+function formatTime(d: string) {
+  return new Date(d).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+}
+
+function formatDateFull(d: string) {
+  return new Date(d).toLocaleDateString(undefined, {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  });
+}
+
+function getDuration(start: string, end: string | null) {
+  if (!end) return null;
+  const mins = Math.round((new Date(end).getTime() - new Date(start).getTime()) / 60000);
+  if (mins < 60) return `${mins}m`;
+  return `${Math.floor(mins / 60)}h${mins % 60 ? ` ${mins % 60}m` : ''}`;
+}
+
+function statusConfig(status: string) {
+  const map: Record<string, { label: string; className: string }> = {
+    scheduled: { label: 'Confirmed', className: 'bg-primary/10 text-primary border-primary/20' },
+    pending:    { label: 'Pending',   className: 'bg-warning/10 text-warning border-warning/20' },
+    completed:  { label: 'Completed', className: 'bg-success/10 text-success border-success/20' },
+    cancelled:  { label: 'Cancelled', className: 'bg-muted text-muted-foreground' },
+    no_show:    { label: 'No Show',   className: 'bg-destructive/10 text-destructive border-destructive/20' },
+  };
+  return map[status] ?? { label: status, className: 'bg-muted text-muted-foreground' };
+}
+
+export default async function BookingsPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id, role')
+    .eq('auth_id', user.id)
+    .single();
+
+  const isTherapist = profile?.role === 'therapist' || profile?.role === 'admin';
+  const now = new Date().toISOString();
+
+  // Fetch bookings (upcoming)
+  const upcomingQ = supabase
+    .from('bookings')
+    .select('id, starts_at, ends_at, status, notes, service_name, location_type, meeting_url, therapist:therapist_id(full_name, email), client:client_id(full_name, email)')
+    .gte('starts_at', now)
+    .order('starts_at', { ascending: true })
+    .limit(20);
+
+  if (isTherapist) {
+    upcomingQ.eq('therapist_id', profile!.id);
+  } else {
+    upcomingQ.eq('client_id', profile!.id);
+  }
+
+  const pastQ = supabase
+    .from('bookings')
+    .select('id, starts_at, ends_at, status, notes, service_name, location_type, meeting_url, therapist:therapist_id(full_name, email), client:client_id(full_name, email)')
+    .lt('starts_at', now)
+    .order('starts_at', { ascending: false })
+    .limit(30);
+
+  if (isTherapist) {
+    pastQ.eq('therapist_id', profile!.id);
+  } else {
+    pastQ.eq('client_id', profile!.id);
+  }
+
+  const [{ data: upcoming }, { data: past }] = await Promise.all([upcomingQ, pastQ]);
+
+  const upcomingBookings = upcoming ?? [];
+  const pastBookings = past ?? [];
+
+  // Group upcoming by date
+  const grouped = new Map<string, typeof upcomingBookings>();
+  for (const b of upcomingBookings) {
+    const day = new Date(b.starts_at).toDateString();
+    if (!grouped.has(day)) grouped.set(day, []);
+    grouped.get(day)!.push(b);
+  }
+
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex flex-col gap-6 py-4 md:py-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 lg:px-6">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-tight">Bookings</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage your upcoming sessions and review appointment history.
-          </p>
+      <div className="px-4 lg:px-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-foreground">Bookings</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {upcomingBookings.length
+                ? `${upcomingBookings.length} upcoming session${upcomingBookings.length !== 1 ? 's' : ''}`
+                : 'No upcoming sessions'}
+            </p>
+          </div>
+          <Link href="/book">
+            <Button size="sm" className="gap-1.5 rounded-full shrink-0">
+              <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
+              Book Session
+            </Button>
+          </Link>
         </div>
-        <Button className="shrink-0 gap-2">
-          <HugeiconsIcon icon={Calendar03Icon} className="size-4" />
-          <span>New Session</span>
-        </Button>
       </div>
 
+      {/* Stats row */}
+      {(upcomingBookings.length > 0 || pastBookings.length > 0) && (
+        <div className="grid grid-cols-3 gap-3 px-4 lg:px-6">
+          <Card className="rounded-2xl border-primary/20 bg-primary/5">
+            <CardContent className="p-4">
+              <p className="text-xs text-primary uppercase tracking-wide">Upcoming</p>
+              <p className="mt-1 text-2xl font-bold tabular-nums text-primary">{upcomingBookings.length}</p>
+            </CardContent>
+          </Card>
+          <Card className="rounded-2xl border-border/60">
+            <CardContent className="p-4">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">Completed</p>
+              <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
+                {pastBookings.filter((b) => b.status === 'completed').length}
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="rounded-2xl border-border/60">
+            <CardContent className="p-4">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">Total</p>
+              <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
+                {upcomingBookings.length + pastBookings.length}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       <div className="px-4 lg:px-6">
-        <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList className="mb-4">
-            <TabsTrigger value="upcoming">Upcoming Sessions</TabsTrigger>
-            <TabsTrigger value="past">Past History</TabsTrigger>
+        <Tabs defaultValue="upcoming">
+          <TabsList className="rounded-xl h-10">
+            <TabsTrigger value="upcoming" className="rounded-lg gap-1.5 text-xs">
+              Upcoming
+              {upcomingBookings.length > 0 && (
+                <span className="rounded-full bg-primary/10 text-primary px-1.5 py-0.5 text-xs tabular-nums">
+                  {upcomingBookings.length}
+                </span>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="past" className="rounded-lg gap-1.5 text-xs">
+              History
+              {pastBookings.length > 0 && (
+                <span className="rounded-full bg-muted px-1.5 py-0.5 text-xs tabular-nums text-muted-foreground">
+                  {pastBookings.length}
+                </span>
+              )}
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="upcoming" className="space-y-4">
-            {/* Booking Card 1 */}
-            <Card className="@container/card">
-              <CardContent className="p-0">
-                <div className="flex flex-col md:flex-row gap-6 p-6">
-                  {/* Date & Time */}
-                  <div className="flex md:flex-col gap-3 md:gap-1 md:w-40 shrink-0 border-b md:border-b-0 md:border-r pb-4 md:pb-0 md:pr-4">
-                    <div className="flex items-center gap-2 text-primary font-medium tracking-tight">
-                      <HugeiconsIcon icon={Calendar03Icon} className="size-4" />
-                      <span>Oct 24, 2025</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground tabular-nums">
-                      <HugeiconsIcon icon={Clock01Icon} className="size-3.5" />
-                      <span>10:00 AM - 11:00 AM</span>
-                    </div>
-                  </div>
-
-                  {/* Session Details */}
-                  <div className="flex-1 flex flex-col justify-center">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <Badge variant="secondary">Confirmed</Badge>
-                          <Badge variant="outline">Intake Session</Badge>
-                        </div>
-                        <h3 className="text-lg font-semibold tracking-tight mt-2">
-                          Therapy Session
-                        </h3>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-3">
-                          <Avatar className="size-6">
-                            <AvatarFallback className="text-xs">SJ</AvatarFallback>
-                          </Avatar>
-                          <span>Dr. Sarah Jenkins</span>
-                          <span className="text-muted-foreground/50">•</span>
-                          <div className="flex items-center gap-1.5">
-                            <HugeiconsIcon icon={Video01Icon} className="size-3.5" />
-                            <span>Google Meet</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="hidden sm:flex items-center gap-2">
-                        <Button variant="outline" size="sm">
-                          Reschedule
-                        </Button>
-                        <Button size="icon" variant="ghost" className="size-8">
-                          <HugeiconsIcon icon={MoreHorizontalIcon} className="size-4" />
-                        </Button>
-                      </div>
+          {/* Upcoming */}
+          <TabsContent value="upcoming" className="mt-4">
+            {upcomingBookings.length === 0 ? (
+              <EmptyBookings onBook="/book" />
+            ) : (
+              <div className="space-y-6">
+                {Array.from(grouped.entries()).map(([day, bookings]) => (
+                  <div key={day}>
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      {formatDateFull(bookings[0].starts_at)}
+                    </p>
+                    <div className="space-y-3">
+                      {bookings.map((b) => (
+                        <BookingCard key={b.id} booking={b} isTherapist={isTherapist} />
+                      ))}
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Booking Card 2 */}
-            <Card className="@container/card">
-              <CardContent className="p-0">
-                <div className="flex flex-col md:flex-row gap-6 p-6">
-                  <div className="flex md:flex-col gap-3 md:gap-1 md:w-40 shrink-0 border-b md:border-b-0 md:border-r pb-4 md:pb-0 md:pr-4">
-                    <div className="flex items-center gap-2 font-medium tracking-tight">
-                      <HugeiconsIcon icon={Calendar03Icon} className="size-4 text-muted-foreground" />
-                      <span>Nov 2, 2025</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground tabular-nums">
-                      <HugeiconsIcon icon={Clock01Icon} className="size-3.5" />
-                      <span>2:30 PM - 3:15 PM</span>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 flex flex-col justify-center">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline">Pending</Badge>
-                          <Badge variant="outline">Follow-up</Badge>
-                        </div>
-                        <h3 className="text-lg font-semibold tracking-tight mt-2">
-                          Cognitive Behavioral Therapy
-                        </h3>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-3">
-                          <Avatar className="size-6">
-                            <AvatarFallback className="text-xs">SJ</AvatarFallback>
-                          </Avatar>
-                          <span>Dr. Sarah Jenkins</span>
-                          <span className="text-muted-foreground/50">•</span>
-                          <div className="flex items-center gap-1.5">
-                            <HugeiconsIcon icon={Location01Icon} className="size-3.5" />
-                            <span>In-Person</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="hidden sm:flex items-center gap-2">
-                        <Button variant="outline" size="sm">
-                          Details
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
-          <TabsContent value="past" className="space-y-4">
-            <Card>
-              <CardContent className="p-0">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5">
-                  <div className="flex items-center justify-center p-3 rounded-lg bg-muted text-muted-foreground shrink-0">
-                    <HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-5" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-medium tracking-tight">Therapy Session</h4>
-                      <Badge variant="secondary">Completed</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">Oct 10, 2025 • Dr. Sarah Jenkins</p>
-                  </div>
-                  <div className="shrink-0 text-sm font-medium tabular-nums text-muted-foreground">
-                    $120.00
-                  </div>
-                  <Button variant="ghost" size="sm" className="hidden sm:flex">
-                    View Notes
-                  </Button>
+          {/* Past */}
+          <TabsContent value="past" className="mt-4">
+            {pastBookings.length === 0 ? (
+              <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-14 text-center">
+                <div className="rounded-2xl bg-muted p-4">
+                  <HugeiconsIcon icon={Calendar03Icon} className="size-8 text-muted-foreground/40" />
                 </div>
-              </CardContent>
-            </Card>
+                <p className="text-sm font-semibold">No session history</p>
+                <p className="text-xs text-muted-foreground">Your past sessions will appear here.</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {pastBookings.map((b) => (
+                  <PastBookingRow key={b.id} booking={b} isTherapist={isTherapist} />
+                ))}
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
+    </div>
+  );
+}
+
+function BookingCard({ booking: b, isTherapist }: { booking: any; isTherapist: boolean }) {
+  const other = isTherapist ? (b.client as any) : (b.therapist as any);
+  const status = statusConfig(b.status);
+  const duration = getDuration(b.starts_at, b.ends_at);
+
+  return (
+    <Card className="rounded-2xl border border-border/60 overflow-hidden transition-all hover:shadow-md">
+      <CardContent className="p-0">
+        <div className="flex flex-col sm:flex-row">
+          {/* Date/time column */}
+          <div className="flex sm:flex-col gap-3 sm:gap-1 sm:w-36 shrink-0 bg-muted/30 border-b sm:border-b-0 sm:border-r border-border/40 px-4 py-4 sm:py-5 justify-center sm:justify-start">
+            <div className="flex items-center gap-2 text-primary font-semibold text-sm sm:flex-col sm:items-start sm:gap-0.5">
+              <HugeiconsIcon icon={Calendar03Icon} className="size-4 sm:hidden" />
+              <span>{formatDate(b.starts_at)}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground tabular-nums">
+              <HugeiconsIcon icon={Clock01Icon} className="size-3.5" />
+              {formatTime(b.starts_at)}
+              {duration && <span className="text-muted-foreground/60">· {duration}</span>}
+            </div>
+          </div>
+
+          {/* Details */}
+          <div className="flex flex-1 items-start justify-between gap-4 p-4 sm:p-5">
+            <div className="space-y-2 min-w-0">
+              {/* Other person */}
+              <div className="flex items-center gap-2.5">
+                <Avatar className="size-8 shrink-0">
+                  <AvatarFallback className="text-xs bg-primary/10 text-primary">
+                    {getInitials(other?.full_name)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground truncate">
+                    {other?.full_name ?? (isTherapist ? 'Client' : 'Therapist')}
+                  </p>
+                  {other?.email && (
+                    <p className="text-xs text-muted-foreground truncate">{other.email}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Type + location */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={cn(
+                  'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium',
+                  status.className
+                )}>
+                  {status.label}
+                </span>
+                {b.service_name && (
+                  <span className="text-xs text-muted-foreground">{b.service_name}</span>
+                )}
+                {b.location_type && (
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <HugeiconsIcon
+                      icon={b.location_type === 'online' ? Video01Icon : Location01Icon}
+                      className="size-3"
+                    />
+                    <span className="capitalize">{b.location_type}</span>
+                  </div>
+                )}
+              </div>
+
+              {b.notes && (
+                <p className="text-xs text-muted-foreground line-clamp-1">{b.notes}</p>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="flex shrink-0 flex-col gap-2 items-end">
+              {b.meeting_url && b.status === 'scheduled' && (
+                <a href={b.meeting_url} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm" className="gap-1.5 rounded-full text-xs">
+                    <HugeiconsIcon icon={Video01Icon} className="size-3.5" />
+                    Join
+                  </Button>
+                </a>
+              )}
+              {b.status === 'scheduled' && (
+                <Button variant="outline" size="sm" className="rounded-full text-xs gap-1.5">
+                  <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" />
+                  Cancel
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PastBookingRow({ booking: b, isTherapist }: { booking: any; isTherapist: boolean }) {
+  const other = isTherapist ? (b.client as any) : (b.therapist as any);
+  const status = statusConfig(b.status);
+  const duration = getDuration(b.starts_at, b.ends_at);
+
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-border/60 p-4 transition-colors hover:bg-muted/30">
+      <div className={cn(
+        'flex size-9 shrink-0 items-center justify-center rounded-xl',
+        b.status === 'completed' ? 'bg-success/10' : 'bg-muted'
+      )}>
+        <HugeiconsIcon
+          icon={b.status === 'completed' ? CheckmarkCircle01Icon : Calendar03Icon}
+          className={cn('size-4', b.status === 'completed' ? 'text-success' : 'text-muted-foreground')}
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <p className="text-sm font-semibold text-foreground">
+            {other?.full_name ?? (isTherapist ? 'Client' : 'Therapist')}
+          </p>
+          <span className={cn(
+            'inline-flex items-center rounded-full border px-2 py-0 text-xs font-medium',
+            status.className
+          )}>
+            {status.label}
+          </span>
+        </div>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          {formatDate(b.starts_at)} · {formatTime(b.starts_at)}
+          {duration && ` · ${duration}`}
+          {b.service_name && ` · ${b.service_name}`}
+        </p>
+      </div>
+      {b.status === 'completed' && (
+        <Button variant="ghost" size="sm" className="shrink-0 rounded-full text-xs gap-1 text-muted-foreground">
+          Notes
+          <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
+        </Button>
+      )}
+    </div>
+  );
+}
+
+function EmptyBookings({ onBook }: { onBook: string }) {
+  return (
+    <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed py-16 text-center">
+      <div className="rounded-2xl bg-muted p-5">
+        <HugeiconsIcon icon={Calendar03Icon} className="size-10 text-muted-foreground/40" />
+      </div>
+      <div>
+        <p className="font-semibold text-foreground">No upcoming sessions</p>
+        <p className="mt-1 text-sm text-muted-foreground max-w-xs">
+          Book a session with your therapist to get started on your wellness journey.
+        </p>
+      </div>
+      <Link href={onBook}>
+        <Button className="gap-2 rounded-full">
+          <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
+          Book a Session
+        </Button>
+      </Link>
     </div>
   );
 }

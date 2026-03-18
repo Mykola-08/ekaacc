@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   UserCircleIcon,
@@ -148,7 +149,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
               </div>
 
               {error && (
-                <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
+                <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>
               )}
 
               <div className="flex justify-end">

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default function BookingLoading() {
   return (
-    <div className="dashboard-theme mx-auto w-full max-w-3xl pt-8 pb-20">
+    <div className="mx-auto w-full max-w-3xl">
       <div className="mb-8 px-4">
         {/* Progress Bar Skeleton */}
         <div className="mb-4 flex w-full items-center justify-between">

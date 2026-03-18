@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/platform/auth-context';
+import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase/client';
 import {
   SIDEBAR_NAV,
@@ -101,9 +102,11 @@ function organizeBySections(
 function NavMain({
   sections,
   pathname,
+  t,
 }: {
   sections: { id: string; label: string; items: PageConfig[] }[];
   pathname: string;
+  t: (key: string) => string;
 }) {
   const isActive = (path: string) => {
     if (path === '/dashboard') return pathname === path;
@@ -114,18 +117,21 @@ function NavMain({
     <>
       {sections.map((section) => (
         <SidebarGroup key={section.id}>
-          <SidebarGroupLabel>{section.label}</SidebarGroupLabel>
+          <SidebarGroupLabel>{t(section.label)}</SidebarGroupLabel>
           <SidebarMenu>
-            {section.items.map((item) => (
-              <SidebarMenuItem key={item.path}>
-                <SidebarMenuButton asChild isActive={isActive(item.path)} tooltip={item.label}>
-                  <Link href={item.path} aria-current={isActive(item.path) ? 'page' : undefined}>
-                    <NavIcon name={item.icon} />
-                    <span>{item.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            {section.items.map((item) => {
+              const label = t(item.label);
+              return (
+                <SidebarMenuItem key={item.path}>
+                  <SidebarMenuButton asChild isActive={isActive(item.path)} tooltip={label}>
+                    <Link href={item.path} aria-current={isActive(item.path) ? 'page' : undefined}>
+                      <NavIcon name={item.icon} />
+                      <span>{label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
       ))}
@@ -141,12 +147,14 @@ function NavUser({
   avatarUrl,
   roleLabel,
   onSignOut,
+  t,
 }: {
   displayName: string;
   email: string;
   avatarUrl?: string;
   roleLabel: string;
   onSignOut: () => void;
+  t: (key: string) => string;
 }) {
   const { isMobile } = useSidebar();
 
@@ -200,26 +208,26 @@ function NavUser({
               <DropdownMenuItem asChild className="cursor-pointer">
                 <Link href="/settings">
                   <HugeiconsIcon icon={UserCheck01Icon} />
-                  Account
+                  {t('nav.user.account')}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer">
                 <Link href="/settings?section=finances">
                   <HugeiconsIcon icon={CreditCardIcon} />
-                  Billing
+                  {t('nav.user.billing')}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer">
                 <Link href="/notifications">
                   <HugeiconsIcon icon={Notification03Icon} />
-                  Notifications
+                  {t('nav.notifications')}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={onSignOut} className="cursor-pointer">
               <HugeiconsIcon icon={Logout03Icon} />
-              Log out
+              {t('nav.user.logOut')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -234,6 +242,7 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const supabase = createClient();
 
   const canAccess = useMemo(() => {
@@ -272,10 +281,10 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
 
   const roleLabel = (() => {
     const r = (role as string).toLowerCase();
-    if (r === 'admin' || r === 'super_admin') return 'Admin';
-    if (r === 'therapist') return 'Therapist';
+    if (r === 'admin' || r === 'super_admin') return t('nav.section.platform') || 'Admin';
+    if (r === 'therapist') return t('nav.section.therapist') || 'Therapist';
     if (r === 'reception') return 'Staff';
-    return 'Member';
+    return t('nav.section.care') || 'Member';
   })();
 
   return (
@@ -294,7 +303,7 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-bold tracking-tight">EKA Balance</span>
-                  <span className="text-muted-foreground truncate text-xs">Wellness Platform</span>
+                  <span className="text-muted-foreground truncate text-xs">{t('nav.platformSubtitle')}</span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -303,7 +312,7 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
       </SidebarHeader>
 
       <SidebarContent>
-        <NavMain sections={sections} pathname={pathname} />
+        <NavMain sections={sections} pathname={pathname} t={t} />
       </SidebarContent>
 
       <SidebarFooter>
@@ -313,6 +322,7 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
           avatarUrl={avatarUrl}
           roleLabel={roleLabel}
           onSignOut={handleSignOut}
+          t={t}
         />
       </SidebarFooter>
 

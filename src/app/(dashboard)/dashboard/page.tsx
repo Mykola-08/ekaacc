@@ -30,6 +30,10 @@ import {
   HeartCheckIcon,
   Clock01Icon,
 } from '@hugeicons/core-free-icons';
+import { MoodQuickLog } from '@/components/dashboard/widgets/MoodQuickLog';
+import { AIDailySummary } from '@/components/dashboard/widgets/AIDailySummary';
+import { AIInsightCards } from '@/components/dashboard/widgets/AIInsightCards';
+import { AIQuickActions } from '@/components/dashboard/widgets/AIQuickActions';
 
 // ─── Permission helper ─────────────────────────────────────────────
 
@@ -100,8 +104,8 @@ export default async function DashboardPage() {
     .then((r) => r.data);
 
   queries.goals = supabase
-    .from('wellness_goals')
-    .select('*')
+    .from('goals')
+    .select('id, title, progress_percentage, status')
     .eq('user_id', user.id)
     .eq('status', 'active')
     .limit(6)
@@ -131,6 +135,20 @@ export default async function DashboardPage() {
     .order('due_date')
     .limit(5)
     .then((r) => r.data || []);
+
+  // Today's mood from mood_entries (new table) or fall back to journal_entries.mood
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  queries.todayMood = supabase
+    .from('mood_entries')
+    .select('score')
+    .eq('user_id', user.id)
+    .gte('logged_at', todayStart.toISOString())
+    .order('logged_at', { ascending: false })
+    .limit(1)
+    .single()
+    .then((r) => r.data?.score ?? null)
+    .catch(() => null);
 
   if (canManageUsers) {
     queries.totalUsers = supabase
@@ -196,6 +214,32 @@ export default async function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* ── Mood Quick-Log (non-admin, non-therapist only) ───────── */}
+      {!canManageUsers && !canUseTherapistTools && (
+        <div className="px-4 lg:px-6">
+          <MoodQuickLog todayScore={data.todayMood ?? null} />
+        </div>
+      )}
+
+      {/* ── AI Widgets (patient/client only) ────────────────────── */}
+      {!canManageUsers && !canUseTherapistTools && (
+        <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6">
+          <div className="lg:col-span-2">
+            <AIDailySummary />
+          </div>
+          <div className="flex flex-col gap-4">
+            <AIQuickActions />
+          </div>
+        </div>
+      )}
+
+      {/* ── AI Insights (patient/client only) ────────────────────── */}
+      {!canManageUsers && !canUseTherapistTools && (
+        <div className="px-4 lg:px-6">
+          <AIInsightCards />
+        </div>
+      )}
 
       {/* ── Platform Stats (admin/manager only) ─────────────────── */}
       {canManageUsers && (
@@ -430,10 +474,10 @@ export default async function DashboardPage() {
                         {goal.title}
                       </span>
                       <span className="ml-2 shrink-0 text-xs font-semibold text-primary">
-                        {goal.progress}%
+                        {goal.progress_percentage ?? 0}%
                       </span>
                     </div>
-                    <Progress value={goal.progress} className="h-1.5" />
+                    <Progress value={goal.progress_percentage ?? 0} className="h-1.5" />
                   </div>
                 ))}
               </div>

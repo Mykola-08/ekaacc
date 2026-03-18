@@ -146,8 +146,8 @@ export default async function AIInsightsPage() {
         .order('created_at', { ascending: false })
         .limit(30),
       supabase
-        .from('wellness_goals')
-        .select('id, title, progress, status')
+        .from('goals')
+        .select('id, title, progress_percentage, status')
         .eq('user_id', user.id)
         .eq('status', 'active')
         .limit(5),

@@ -1,30 +1,17 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState, useMemo, useEffect } from 'react';
 
 import { createClient } from '@/lib/supabase/client';
 
-interface WellnessEntry {
+interface MoodEntry {
   id: string;
-  mood: number;
-  energy: string;
-  stress: string;
-  sleep_quality: number | null;
+  score: number;
+  energy: number | null;
   sleep_hours: number | null;
-  created_at: string;
+  logged_at: string;
 }
-
-const ENERGY_MAP: Record<string, number> = {
-  very_low: 1,
-  low: 3,
-  moderate: 5,
-  high: 7,
-  very_high: 9,
-};
-const STRESS_MAP: Record<string, number> = { minimal: 9, mild: 7, moderate: 5, high: 3, severe: 1 };
 
 import { HugeiconsIcon } from '@hugeicons/react';
 import { AnalyticsUpIcon, ArrowTurnDownIcon, Pulse01Icon, Target01Icon, SmilePlusIcon } from '@hugeicons/core-free-icons';
@@ -39,14 +26,14 @@ import {
 } from 'recharts';
 
 export function ProgressTab() {
-  const [wellnessEntries, setWellnessEntries] = useState<WellnessEntry[]>([]);
+  const [moodEntries, setMoodEntries] = useState<MoodEntry[]>([]);
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
   const [totalGoals, setTotalGoals] = useState(0);
   const [completedGoals, setCompletedGoals] = useState(0);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
   useEffect(() => {
+    const supabase = createClient();
     const fetchData = async () => {
       const {
         data: { user },
@@ -61,20 +48,20 @@ export function ProgressTab() {
 
       const [entriesRes, bookingsRes, goalsRes] = await Promise.all([
         supabase
-          .from('wellness_entries')
-          .select('*')
+          .from('mood_entries')
+          .select('id, score, energy, sleep_hours, logged_at')
           .eq('user_id', user.id)
-          .gte('created_at', thirtyDaysAgo.toISOString())
-          .order('created_at', { ascending: true }),
+          .gte('logged_at', thirtyDaysAgo.toISOString())
+          .order('logged_at', { ascending: true }),
         supabase
           .from('bookings')
           .select('id', { count: 'exact' })
           .eq('client_id', user.id)
           .eq('status', 'completed'),
-        supabase.from('wellness_goals').select('id, status').eq('user_id', user.id),
+        supabase.from('goals').select('id, status').eq('user_id', user.id),
       ]);
 
-      if (entriesRes.data) setWellnessEntries(entriesRes.data);
+      if (entriesRes.data) setMoodEntries(entriesRes.data);
       if (bookingsRes.count) setSessionsCompleted(bookingsRes.count);
       if (goalsRes.data) {
         setTotalGoals(goalsRes.data.length);
@@ -86,23 +73,23 @@ export function ProgressTab() {
   }, []);
 
   const stats = useMemo(() => {
-    if (wellnessEntries.length === 0) return null;
-    const moods = wellnessEntries.map((e) => e.mood);
-    const avgMood = moods.reduce((a, b) => a + b, 0) / moods.length;
-    const latestMood = moods[moods.length - 1] || 0;
-    const firstMood = moods[0] || 0;
+    if (moodEntries.length === 0) return null;
+    const scores = moodEntries.map((e) => e.score);
+    const avgMood = scores.reduce((a, b) => a + b, 0) / scores.length;
+    const latestMood = scores[scores.length - 1] || 0;
+    const firstMood = scores[0] || 0;
     const moodTrend = latestMood - firstMood;
 
-    const energyScores = wellnessEntries.map((e) => ENERGY_MAP[e.energy] || 5);
-    const avgEnergy = energyScores.reduce((a, b) => a + b, 0) / energyScores.length;
+    const energyEntries = moodEntries.filter((e) => e.energy != null);
+    const avgEnergy =
+      energyEntries.length > 0
+        ? energyEntries.reduce((a, b) => a + (b.energy ?? 5), 0) / energyEntries.length
+        : 0;
 
-    const stressScores = wellnessEntries.map((e) => STRESS_MAP[e.stress] || 5);
-    const avgStress = stressScores.reduce((a, b) => a + b, 0) / stressScores.length;
-
-    const sleepEntries = wellnessEntries.filter((e) => e.sleep_quality !== null);
+    const sleepEntries = moodEntries.filter((e) => e.sleep_hours != null);
     const avgSleep =
       sleepEntries.length > 0
-        ? sleepEntries.reduce((a, b) => a + (b.sleep_quality || 0), 0) / sleepEntries.length
+        ? sleepEntries.reduce((a, b) => a + (b.sleep_hours ?? 0), 0) / sleepEntries.length
         : 0;
 
     return {
@@ -110,11 +97,10 @@ export function ProgressTab() {
       latestMood,
       moodTrend,
       avgEnergy,
-      avgStress,
       avgSleep,
-      totalEntries: wellnessEntries.length,
+      totalEntries: moodEntries.length,
     };
-  }, [wellnessEntries]);
+  }, [moodEntries]);
 
   if (loading) {
     return (
@@ -171,14 +157,20 @@ export function ProgressTab() {
             <HugeiconsIcon icon={AnalyticsUpIcon} className="text-primary size-4"  />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-semibold">{stats.avgEnergy.toFixed(1)}/10</div>
-            <p className="text-muted-foreground text-xs">Based on {stats.totalEntries} entries</p>
-            <div className="bg-muted mt-2 h-2 w-full overflow-hidden rounded-full">
-              <div
-                className="bg-primary h-full transition-all duration-300"
-                style={{ width: `${stats.avgEnergy * 10}%` }}
-              />
-            </div>
+            {stats.avgEnergy > 0 ? (
+              <>
+                <div className="text-2xl font-semibold">{stats.avgEnergy.toFixed(1)}/10</div>
+                <p className="text-muted-foreground text-xs">Based on {stats.totalEntries} entries</p>
+                <div className="bg-muted mt-2 h-2 w-full overflow-hidden rounded-full">
+                  <div
+                    className="bg-primary h-full transition-all duration-300"
+                    style={{ width: `${stats.avgEnergy * 10}%` }}
+                  />
+                </div>
+              </>
+            ) : (
+              <p className="text-muted-foreground text-sm">Not tracked yet</p>
+            )}
           </CardContent>
         </Card>
         <Card className="border-border rounded-2xl">
@@ -216,7 +208,7 @@ export function ProgressTab() {
           <CardDescription>Your mood scores over the past 30 days</CardDescription>
         </CardHeader>
         <CardContent>
-          {wellnessEntries.length === 0 ? (
+          {moodEntries.length === 0 ? (
             <p className="text-muted-foreground py-8 text-center text-sm italic">
               No entries recorded yet.
             </p>
@@ -224,13 +216,13 @@ export function ProgressTab() {
             <div className="h-75 w-full pt-4">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
-                  data={wellnessEntries.map((e) => ({
-                    date: new Date(e.created_at).toLocaleDateString('en-US', {
+                  data={moodEntries.map((e) => ({
+                    date: new Date(e.logged_at).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',
                     }),
-                    mood: e.mood,
-                    rawDate: new Date(e.created_at).getTime(),
+                    mood: e.score,
+                    rawDate: new Date(e.logged_at).getTime(),
                   }))}
                   margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
                 >
@@ -295,9 +287,12 @@ export function ProgressTab() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { label: 'Mood', value: stats.avgMood, max: 10, color: 'bg-primary' },
-              { label: 'Energy', value: stats.avgEnergy, max: 10, color: 'bg-primary' },
-              { label: 'Stress Mgmt', value: stats.avgStress, max: 10, color: 'bg-success' },
-              { label: 'Sleep', value: stats.avgSleep, max: 5, color: 'bg-primary' },
+              ...(stats.avgEnergy > 0
+                ? [{ label: 'Energy', value: stats.avgEnergy, max: 10, color: 'bg-primary' }]
+                : []),
+              ...(stats.avgSleep > 0
+                ? [{ label: 'Sleep (hrs)', value: stats.avgSleep, max: 10, color: 'bg-success' }]
+                : []),
             ].map((metric) => (
               <div key={metric.label} className="">
                 <div className="flex justify-between text-sm font-medium">

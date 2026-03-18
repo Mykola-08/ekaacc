@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
 import { AssignmentManager } from './assignment-manager';
 
 export default async function AssignmentManagerPage() {
@@ -6,25 +7,35 @@ export default async function AssignmentManagerPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
 
-  // Fetch assignments created by this therapist
+  // Get therapist's profile id
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('auth_id', user.id)
+    .single();
+
+  // Fetch assignments created by this therapist, join patient profile for name
   const { data: assignments } = await supabase
     .from('assignments')
-    .select('*, profiles:user_id(full_name)')
-    .eq('assigned_by', user?.id)
+    .select(
+      'id, title, description, type, status, priority, due_date, created_at, patient_id, therapist_id, patient:patient_id(full_name)'
+    )
+    .eq('therapist_id', user.id)
     .order('created_at', { ascending: false });
 
-  // Fetch patients for the Create Assignment dropdown
+  // Fetch patients (profiles with role = 'client' or 'patient') for the dropdown
   const { data: patients } = await supabase
     .from('profiles')
-    .select('id, full_name')
-    .eq('role', 'patient')
+    .select('id, full_name, auth_id')
+    .in('role', ['client', 'patient'])
     .order('full_name');
 
   return (
     <AssignmentManager
-      assignments={assignments || []}
-      patients={patients || []}
+      assignments={assignments ?? []}
+      patients={patients ?? []}
     />
   );
 }

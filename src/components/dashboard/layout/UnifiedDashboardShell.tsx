@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { SparklesIcon } from '@hugeicons/core-free-icons';
+import { TherapistSessionModeLauncher } from '@/components/dashboard/layout/TherapistSessionModeLauncher';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -43,6 +44,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/therapist/assignments': 'Homework',
   '/therapist/billing': 'Billing',
   '/therapist/resources': 'Resources',
+  '/therapist/session-mode': 'Session Mode',
   '/console': 'Console',
   '/console/users': 'Users',
   '/console/permissions': 'Permissions',
@@ -71,6 +73,13 @@ const PAGE_TITLES: Record<string, string> = {
   '/tools': 'Tools',
   '/chat': 'Chat',
 };
+
+function can(permissions: any[] = [], group: string, action: string): boolean {
+  return permissions.some(
+    (permission) =>
+      permission.group === group && (permission.action === action || permission.action === 'manage')
+  );
+}
 
 function getPageTitle(pathname: string): string {
   if (PAGE_TITLES[pathname]) return PAGE_TITLES[pathname];
@@ -123,6 +132,12 @@ export function UnifiedDashboardShell({
   const pathname = usePathname();
   const pageTitle = useMemo(() => getPageTitle(pathname), [pathname]);
   const breadcrumbs = useMemo(() => getBreadcrumbs(pathname), [pathname]);
+  const isTherapistTools = useMemo(
+    () =>
+      can(permissions, 'therapist_tools', 'create') ||
+      (profile?.role || '').toLowerCase() === 'therapist',
+    [permissions, profile?.role]
+  );
 
   return (
     <ProgressProvider>
@@ -173,11 +188,10 @@ export function UnifiedDashboardShell({
                         ))}
                       </BreadcrumbList>
                     </Breadcrumb>
-                    <h1 className="text-base font-medium sm:hidden">
-                      {pageTitle}
-                    </h1>
+                    <h1 className="text-base font-medium sm:hidden">{pageTitle}</h1>
 
                     <div className="ml-auto flex items-center gap-1">
+                      <TherapistSessionModeLauncher isTherapist={isTherapistTools} />
                       <NotificationDropdown />
                       <AIToggle />
                     </div>

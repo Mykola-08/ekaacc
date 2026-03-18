@@ -1,30 +1,82 @@
 'use client';
+
 import { useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { getActiveServicesAction, getTherapistsAction } from '@/server/actions/booking-actions';
+
+type BookingService = {
+  id: string;
+  name: string;
+  description?: string | null;
+  duration_minutes: number;
+  price_cents: number;
+  currency?: string;
+};
+
+type BookingTherapist = {
+  id: string;
+  full_name: string;
+  avatar_url?: string | null;
+  specialties?: string | null;
+};
 
 export function useBookingData() {
-  const [services, setServices] = useState<{ id: string; name: string; price: number }[]>([]);
-  const [therapists, setTherapists] = useState<{ id: string; name: string }[]>([]);
+  const [services, setServices] = useState<BookingService[]>([]);
+  const [therapists, setTherapists] = useState<BookingTherapist[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Example data fetch placeholder
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      // Mock or fetch data here
-      // const supabase = createClient();
-      setServices([
-        { id: '1', name: 'Initial Consultation', price: 150 },
-        { id: '2', name: 'Follow-up Session', price: 100 },
-      ]);
-      setTherapists([
-        { id: 't1', name: 'Dr. Smith' },
-        { id: 't2', name: 'Dr. Doe' },
-      ]);
-      setLoading(false);
+      setError(null);
+
+      try {
+        const [servicesRes, therapistsRes] = await Promise.all([
+          getActiveServicesAction(),
+          getTherapistsAction(),
+        ]);
+
+        if (!servicesRes.success) {
+          throw new Error(servicesRes.error || 'Failed to load services');
+        }
+
+        if (!therapistsRes.success) {
+          throw new Error(therapistsRes.error || 'Failed to load therapists');
+        }
+
+        const normalizedServices: BookingService[] = (servicesRes.data || []).map(
+          (service: any) => ({
+            id: service.id,
+            name: service.name,
+            description: service.description,
+            duration_minutes: Number(service.duration || 60),
+            price_cents: Math.round(Number(service.price || 0) * 100),
+            currency: service.currency || 'EUR',
+          })
+        );
+
+        const normalizedTherapists: BookingTherapist[] = (therapistsRes.data || []).map(
+          (therapist: any) => ({
+            id: therapist.id,
+            full_name: therapist.full_name || 'Therapist',
+            avatar_url: therapist.avatar_url,
+            specialties: therapist.specialties || null,
+          })
+        );
+
+        setServices(normalizedServices);
+        setTherapists(normalizedTherapists);
+      } catch (fetchError: any) {
+        setError(fetchError?.message || 'Failed to load booking data');
+        setServices([]);
+        setTherapists([]);
+      } finally {
+        setLoading(false);
+      }
     }
+
     fetchData();
   }, []);
 
-  return { services, therapists, loading };
+  return { services, therapists, loading, error };
 }

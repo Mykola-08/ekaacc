@@ -2,34 +2,53 @@
 
 import { useState, useEffect } from 'react';
 import { ResourcesPage } from '@/components/resources/ResourcesPage';
+import { Button } from '@/components/ui/button';
 
 export function ResourcesTab() {
   const [resources, setResources] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const fetchResources = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const res = await fetch('/api/resources');
+      if (res.ok) {
+        const data = await res.json();
+        setResources(data.resources || data || []);
+      } else {
+        setError(true);
+      }
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function fetchResources() {
-      try {
-        const res = await fetch('/api/resources');
-        if (res.ok) {
-          const data = await res.json();
-          setResources(data.resources || data || []);
-        }
-      } catch (e) {
-        console.error('Failed to load resources:', e);
-      } finally {
-        setLoading(false);
-      }
-    }
     fetchResources();
   }, []);
 
   if (loading) {
     return (
-      <div className="">
+      <div className="flex flex-col gap-3">
         {[1, 2, 3].map((i) => (
           <div key={i} className="bg-muted h-24 animate-pulse rounded-2xl" />
         ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center">
+        <p className="text-sm font-medium text-foreground">Failed to load resources</p>
+        <p className="text-xs text-muted-foreground">Check your connection and try again.</p>
+        <Button variant="outline" size="sm" onClick={fetchResources}>
+          Try Again
+        </Button>
       </div>
     );
   }

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Dialog,
   DialogContent,
@@ -339,7 +340,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
               </div>
             </div>
             {createError && (
-              <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{createError}</p>
+              <Alert variant="destructive"><AlertDescription>{createError}</AlertDescription></Alert>
             )}
           </div>
           <DialogFooter>

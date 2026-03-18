@@ -27,7 +27,7 @@ interface BookingWizardProps {
 }
 
 export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProps = {}) {
-  const { services, therapists, loading } = useBookingData();
+  const { services, therapists, loading, error } = useBookingData();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
     initialServiceId || null
@@ -67,26 +67,50 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted">
+      <div className="bg-muted flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <HugeiconsIcon
-            icon={Loading03Icon}
-            className="size-8 text-primary animate-spin"
-          />
+          <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin" />
           <p className="text-muted-foreground text-sm">Loading services…</p>
         </div>
       </div>
     );
   }
 
+  if (error) {
+    return (
+      <div className="bg-muted flex min-h-screen items-center justify-center px-4">
+        <Card className="border-border/60 w-full max-w-md rounded-2xl p-6 text-center">
+          <p className="text-destructive text-sm font-semibold">Could not load booking data</p>
+          <p className="text-muted-foreground mt-1 text-sm">{error}</p>
+          <Button className="mt-4 rounded-full" onClick={() => window.location.reload()}>
+            Retry
+          </Button>
+        </Card>
+      </div>
+    );
+  }
+
+  if (services.length === 0) {
+    return (
+      <div className="bg-muted flex min-h-screen items-center justify-center px-4">
+        <Card className="border-border/60 w-full max-w-md rounded-2xl p-6 text-center">
+          <p className="text-foreground text-sm font-semibold">No services available right now</p>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Please check back soon or contact support.
+          </p>
+        </Card>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-muted">
+    <div className="bg-muted min-h-screen">
       {/* Top bar */}
-      <div className="border-b border-border/60 bg-card/80 px-4 py-4 backdrop-blur-sm md:px-8">
+      <div className="border-border/60 bg-card/80 border-b px-4 py-4 backdrop-blur-sm md:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-5 flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              <h1 className="text-foreground text-xl font-bold tracking-tight sm:text-2xl">
                 Book an Appointment
               </h1>
               <p className="text-muted-foreground mt-0.5 text-sm">
@@ -103,11 +127,8 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
           {/* Main card */}
           <div className="min-w-0 flex-1">
-            <Card className="border-border/60 overflow-hidden rounded-2xl border-none bg-card shadow-sm">
-              <div
-                key={currentStep}
-                className="animate-fade-in min-h-80 p-6 sm:p-8"
-              >
+            <Card className="border-border/60 bg-card overflow-hidden rounded-2xl border-none shadow-sm">
+              <div key={currentStep} className="animate-fade-in min-h-80 p-6 sm:p-8">
                 {currentStep === 1 && (
                   <ServiceStep
                     services={services}
@@ -152,7 +173,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
 
               {/* Navigation footer */}
               {currentStep < 4 && (
-                <div className="flex items-center justify-between border-t border-border/60 bg-muted/30 px-6 py-4 sm:px-8">
+                <div className="border-border/60 bg-muted/30 flex items-center justify-between border-t px-6 py-4 sm:px-8">
                   <Button
                     variant="ghost"
                     onClick={prevStep}
@@ -179,27 +200,27 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
 
           {/* Summary sidebar */}
           <div className="w-full shrink-0 lg:w-72 xl:w-80">
-            <Card className="sticky top-6 rounded-2xl border-none bg-card shadow-sm">
+            <Card className="bg-card sticky top-6 rounded-2xl border-none shadow-sm">
               <div className="p-6">
-                <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                <h3 className="text-muted-foreground mb-4 text-sm font-semibold tracking-wider uppercase">
                   Session Summary
                 </h3>
 
                 <div className="space-y-4">
                   {/* Service */}
                   <div>
-                    <p className="mb-1 text-xs font-medium text-muted-foreground">Service</p>
+                    <p className="text-muted-foreground mb-1 text-xs font-medium">Service</p>
                     {selectedService ? (
                       <div>
-                        <p className="text-sm font-semibold text-foreground">
+                        <p className="text-foreground text-sm font-semibold">
                           {selectedService.name}
                         </p>
-                        <p className="mt-0.5 text-xs text-muted-foreground">
+                        <p className="text-muted-foreground mt-0.5 text-xs">
                           {(selectedService as any).duration_minutes} min
                         </p>
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground/60">Not selected</p>
+                      <p className="text-muted-foreground/60 text-sm">Not selected</p>
                     )}
                   </div>
 
@@ -207,7 +228,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
 
                   {/* Therapist */}
                   <div>
-                    <p className="mb-1 text-xs font-medium text-muted-foreground">Therapist</p>
+                    <p className="text-muted-foreground mb-1 text-xs font-medium">Therapist</p>
                     {selectedTherapist ? (
                       <div className="flex items-center gap-2">
                         <img
@@ -218,12 +239,12 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                           alt={(selectedTherapist as any).full_name}
                           className="h-7 w-7 rounded-full object-cover"
                         />
-                        <p className="text-sm font-semibold text-foreground">
+                        <p className="text-foreground text-sm font-semibold">
                           {(selectedTherapist as any).full_name}
                         </p>
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground/60">Not selected</p>
+                      <p className="text-muted-foreground/60 text-sm">Not selected</p>
                     )}
                   </div>
 
@@ -231,13 +252,13 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
 
                   {/* Date & Time */}
                   <div>
-                    <p className="mb-1 text-xs font-medium text-muted-foreground">Date & Time</p>
+                    <p className="text-muted-foreground mb-1 text-xs font-medium">Date & Time</p>
                     {selectedDate && selectedTime ? (
                       <div className="space-y-1">
-                        <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                        <div className="text-foreground flex items-center gap-1.5 text-sm font-semibold">
                           <HugeiconsIcon
                             icon={Calendar03Icon}
-                            className="size-3.5 text-muted-foreground"
+                            className="text-muted-foreground size-3.5"
                           />
                           {selectedDate.toLocaleDateString('en-US', {
                             weekday: 'short',
@@ -245,13 +266,13 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                             day: 'numeric',
                           })}
                         </div>
-                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
                           <HugeiconsIcon icon={Clock01Icon} className="size-3.5" />
                           {selectedTime}
                         </div>
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground/60">Not selected</p>
+                      <p className="text-muted-foreground/60 text-sm">Not selected</p>
                     )}
                   </div>
                 </div>
@@ -262,11 +283,8 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                     <Separator className="my-4 opacity-50" />
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold">Total</span>
-                      <span className="text-lg font-bold text-foreground">
-                        $
-                        {(
-                          (selectedService as any).price_cents / 100
-                        ).toFixed(2)}
+                      <span className="text-foreground text-lg font-bold">
+                        ${((selectedService as any).price_cents / 100).toFixed(2)}
                       </span>
                     </div>
                   </>

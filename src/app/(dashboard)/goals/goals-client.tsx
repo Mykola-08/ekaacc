@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Dialog,
   DialogContent,
@@ -15,6 +16,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -103,22 +115,43 @@ function GoalCard({
               )}
             </div>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-full">
-                <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => startTransition(() => onDelete(goal.id))}
-                className="text-destructive focus:text-destructive"
-                disabled={isPending}
-              >
-                <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" /> Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <AlertDialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-full">
+                  <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem
+                    className="text-destructive focus:text-destructive"
+                    disabled={isPending}
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" /> Delete
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete goal?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  &ldquo;{goal.title}&rdquo; will be permanently deleted. This cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  variant="destructive"
+                  onClick={() => startTransition(() => onDelete(goal.id))}
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
         <div className="mt-2 flex flex-wrap items-center gap-1.5">
           {goal.category && (
@@ -343,7 +376,9 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
               </div>
             </div>
             {createError && (
-              <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{createError}</p>
+              <Alert variant="destructive">
+                <AlertDescription>{createError}</AlertDescription>
+              </Alert>
             )}
           </div>
           <DialogFooter>

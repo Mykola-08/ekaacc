@@ -12,17 +12,22 @@ export async function createAssignment(formData: FormData) {
 
   const title = (formData.get('title') as string)?.trim();
   const description = (formData.get('description') as string)?.trim() || null;
-  const userId = formData.get('user_id') as string;
+  // `user_id` is the select name in the form (patient select)
+  const patientAuthId = formData.get('user_id') as string;
   const dueDate = formData.get('due_date') as string;
+  const type = (formData.get('type') as string) || 'exercise';
 
-  if (!title || !userId || !dueDate) return { error: 'Title, patient, and due date are required' };
+  if (!title || !patientAuthId || !dueDate) {
+    return { error: 'Title, patient, and due date are required' };
+  }
 
   const { error } = await supabase.from('assignments').insert({
     title,
     description,
-    user_id: userId,
-    assigned_by: user.id,
+    patient_id: patientAuthId, // auth.users(id) reference
+    therapist_id: user.id,     // auth.users(id) reference
     due_date: dueDate,
+    type,
     status: 'pending',
   });
 
@@ -33,6 +38,11 @@ export async function createAssignment(formData: FormData) {
 
 export async function updateAssignment(formData: FormData) {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated' };
+
   const id = formData.get('id') as string;
   const title = (formData.get('title') as string)?.trim();
   const description = (formData.get('description') as string)?.trim() || null;
@@ -45,7 +55,29 @@ export async function updateAssignment(formData: FormData) {
   if (dueDate) updates.due_date = dueDate;
   if (status) updates.status = status;
 
-  const { error } = await supabase.from('assignments').update(updates).eq('id', id);
+  const { error } = await supabase
+    .from('assignments')
+    .update(updates)
+    .eq('id', id)
+    .eq('therapist_id', user.id); // only therapist who created can update
+
+  if (error) return { error: error.message };
+  revalidatePath('/therapist/assignments');
+  return { success: true };
+}
+
+export async function deleteAssignment(id: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated' };
+
+  const { error } = await supabase
+    .from('assignments')
+    .delete()
+    .eq('id', id)
+    .eq('therapist_id', user.id);
 
   if (error) return { error: error.message };
   revalidatePath('/therapist/assignments');

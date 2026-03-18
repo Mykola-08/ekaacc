@@ -1,10 +1,11 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { getAvailableSlotsAction } from '@/server/actions/booking-actions';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Loading03Icon, Clock01Icon } from '@hugeicons/core-free-icons';
+import { Alert01Icon, Loading03Icon, Clock01Icon } from '@hugeicons/core-free-icons';
 
 interface DateTimeStepProps {
   selectedDate?: Date;
@@ -23,37 +24,42 @@ export function DateTimeStep({
 }: DateTimeStepProps) {
   const [slots, setSlots] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!selectedDate) {
       setSlots([]);
+      setError(null);
       return;
     }
 
     async function fetchSlots() {
       setLoading(true);
-      const isoDate = selectedDate!.toISOString();
+      setError(null);
+
+      const isoDate = selectedDate.toISOString();
       const res = await getAvailableSlotsAction(serviceId, isoDate);
-      if (
-        res.success &&
-        res.data &&
-        Array.isArray(res.data) &&
-        res.data.length > 0
-      ) {
-        setSlots(
-          (res.data as any[]).map((slot: any) =>
+
+      if (res.success && Array.isArray(res.data)) {
+        const mapped = (res.data as any[])
+          .map((slot) =>
             new Date(slot.startTime).toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit',
               hour12: false,
             })
           )
-        );
+          .filter(Boolean);
+
+        setSlots(mapped);
       } else {
-        setSlots(['09:00', '10:00', '11:00', '13:00', '14:30', '16:00']);
+        setSlots([]);
+        setError(res.error || 'Could not load time slots for this date.');
       }
+
       setLoading(false);
     }
+
     fetchSlots();
   }, [selectedDate, serviceId]);
 
@@ -68,16 +74,13 @@ export function DateTimeStep({
   return (
     <div className="space-y-6">
       <div className="space-y-1">
-        <h2 className="text-foreground text-2xl font-bold tracking-tight">
-          Pick a Date & Time
-        </h2>
+        <h2 className="text-foreground text-2xl font-bold tracking-tight">Pick a Date & Time</h2>
         <p className="text-muted-foreground text-sm">
           Choose when you'd like your session to take place.
         </p>
       </div>
 
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-        {/* Calendar */}
         <div className="bg-card rounded-xl border p-3 shadow-sm">
           <Calendar
             mode="single"
@@ -91,7 +94,6 @@ export function DateTimeStep({
           />
         </div>
 
-        {/* Time slots */}
         <div className="flex-1">
           {formattedDate ? (
             <>
@@ -107,6 +109,11 @@ export function DateTimeStep({
                     className="text-muted-foreground size-6 animate-spin"
                   />
                 </div>
+              ) : error ? (
+                <div className="text-destructive bg-destructive/10 flex items-start gap-2 rounded-xl p-3 text-sm">
+                  <HugeiconsIcon icon={Alert01Icon} className="mt-0.5 size-4 shrink-0" />
+                  <span>{error}</span>
+                </div>
               ) : slots.length > 0 ? (
                 <div className="grid grid-cols-3 gap-2">
                   {slots.map((time) => (
@@ -114,7 +121,7 @@ export function DateTimeStep({
                       key={time}
                       onClick={() => onSelectTime(time)}
                       className={cn(
-                        'rounded-lg border py-2.5 text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                        'focus-visible:ring-primary rounded-lg border py-2.5 text-sm font-semibold transition-all duration-150 focus-visible:ring-2 focus-visible:outline-none',
                         selectedTime === time
                           ? 'border-primary bg-primary text-primary-foreground shadow-md'
                           : 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-muted/50'
@@ -125,9 +132,7 @@ export function DateTimeStep({
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">
-                  No slots available for this date.
-                </p>
+                <p className="text-muted-foreground text-sm">No slots available for this date.</p>
               )}
             </>
           ) : (

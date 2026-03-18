@@ -47,6 +47,14 @@ function serializeSlate(nodes: Descendant[] | undefined): string {
     .join('\n');
 }
 
+function deserializeSlate(text: string | null | undefined): Descendant[] | undefined {
+  if (!text?.trim()) return undefined;
+  return text.split('\n').map((line) => ({
+    type: 'paragraph',
+    children: [{ text: line }],
+  })) as Descendant[];
+}
+
 export default function SessionNotesPage() {
   const { feedback, setLoading, setSuccess, setError, reset } = useMorphingFeedback();
 
@@ -169,6 +177,10 @@ export default function SessionNotesPage() {
     setSessionDuration(String(note.duration_minutes || 60));
     setMoodRating(note.initial_mood ? String(note.initial_mood) : '');
     setSessionType(note.session_type || '');
+    setNotes(deserializeSlate(note.subjective));
+    setObservations(deserializeSlate(note.objective));
+    setGoals(deserializeSlate(note.assessment));
+    setHomework(deserializeSlate(note.plan));
     setShowHistory(false);
   };
 

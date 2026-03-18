@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Dialog,
   DialogContent,
@@ -242,7 +243,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
               className="min-h-36 resize-none rounded-xl"
             />
             {submitError && (
-              <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{submitError}</p>
+              <Alert variant="destructive"><AlertDescription>{submitError}</AlertDescription></Alert>
             )}
           </div>
           <DialogFooter>

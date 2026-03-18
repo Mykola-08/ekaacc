@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { StatusBadge } from '@/components/ui/status-badge';
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import { EmptyState } from '@/components/ui/empty-state';
 import { PageSection } from '@/components/ui/page-section';

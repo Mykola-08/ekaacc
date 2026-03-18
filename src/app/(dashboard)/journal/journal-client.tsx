@@ -7,6 +7,18 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import {
   Select,
   SelectContent,
@@ -163,7 +175,9 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
               </div>
 
               {error && (
-                <p className="rounded-lg bg-destructive/10 px-4 py-2 text-sm text-destructive">{error}</p>
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
 
               <div className="flex justify-between items-center border-t border-border/60 pt-4">
@@ -238,21 +252,42 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
                     <h4 className="truncate text-sm font-semibold text-foreground">
                       {entry.title || 'Untitled'}
                     </h4>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                        <button className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <HugeiconsIcon icon={MoreVerticalIcon} className="size-4 text-muted-foreground" />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}
-                          className="text-destructive focus:text-destructive"
-                        >
-                          <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" /> Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <AlertDialog>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                          <button className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <HugeiconsIcon icon={MoreVerticalIcon} className="size-4 text-muted-foreground" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <AlertDialogTrigger asChild>
+                            <DropdownMenuItem
+                              className="text-destructive focus:text-destructive"
+                              onSelect={(e) => e.preventDefault()}
+                            >
+                              <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" /> Delete
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete entry?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This journal entry will be permanently deleted and cannot be recovered.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            variant="destructive"
+                            onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                   <div className="mt-1 flex items-center gap-2">
                     <span className="text-xs text-muted-foreground tabular-nums">

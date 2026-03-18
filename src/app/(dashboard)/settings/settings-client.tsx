@@ -18,6 +18,7 @@ import { Switch } from '@/components/ui/switch';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Settings01Icon,
@@ -195,7 +196,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
             <p className="text-right text-xs text-muted-foreground">{bio.length}/300</p>
           </div>
           {error && (
-            <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
+            <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>
           )}
         </CardContent>
         <CardFooter className="justify-between border-t px-6 py-4">
@@ -478,7 +479,7 @@ function SecurityTab({ email }: { email: string }) {
             />
           </div>
           {pwError && (
-            <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{pwError}</p>
+            <Alert variant="destructive"><AlertDescription>{pwError}</AlertDescription></Alert>
           )}
           {pwSaved && (
             <p className="flex items-center gap-1.5 rounded-lg bg-success/10 px-3 py-2 text-sm text-success">

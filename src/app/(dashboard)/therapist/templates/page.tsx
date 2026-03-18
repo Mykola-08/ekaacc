@@ -29,6 +29,18 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import React, { useEffect, useState, useMemo } from 'react';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { cn } from '@/lib/utils';
@@ -296,30 +308,48 @@ export default function TherapistTemplatesPage() {
                       )}
                     </div>
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                        <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => openEdit(t)}>
-                        <HugeiconsIcon icon={PencilEdit01Icon} className="mr-2 size-4" /> Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleCopy(t)}>
-                        <HugeiconsIcon icon={Copy01Icon} className="mr-2 size-4" /> Copy
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDownload(t)}>
-                        <HugeiconsIcon icon={Download01Icon} className="mr-2 size-4" /> Download
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleDelete(t.id)}
-                        className="text-destructive focus:text-destructive"
-                      >
-                        <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" /> Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <AlertDialog>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                          <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => openEdit(t)}>
+                          <HugeiconsIcon icon={PencilEdit01Icon} className="mr-2 size-4" /> Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleCopy(t)}>
+                          <HugeiconsIcon icon={Copy01Icon} className="mr-2 size-4" /> Copy
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDownload(t)}>
+                          <HugeiconsIcon icon={Download01Icon} className="mr-2 size-4" /> Download
+                        </DropdownMenuItem>
+                        <AlertDialogTrigger asChild>
+                          <DropdownMenuItem
+                            className="text-destructive focus:text-destructive"
+                            onSelect={(e) => e.preventDefault()}
+                          >
+                            <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" /> Delete
+                          </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete template?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          &ldquo;{t.name}&rdquo; will be permanently deleted.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction variant="destructive" onClick={() => handleDelete(t.id)}>
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
@@ -383,7 +413,7 @@ export default function TherapistTemplatesPage() {
               />
             </div>
             {formError && (
-              <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{formError}</p>
+              <Alert variant="destructive"><AlertDescription>{formError}</AlertDescription></Alert>
             )}
           </div>
           <DialogFooter>

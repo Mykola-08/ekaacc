@@ -22,6 +22,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   PlusSignIcon,
@@ -142,19 +153,39 @@ function AssignmentCard({
             >
               <HugeiconsIcon icon={PencilEdit01Icon} className="size-3.5" />
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-8 rounded-full text-muted-foreground hover:text-destructive"
-              disabled={deleting}
-              onClick={() => startDelete(() => onDelete(a.id))}
-            >
-              {deleting ? (
-                <HugeiconsIcon icon={Loading03Icon} className="size-3.5 animate-spin" />
-              ) : (
-                <HugeiconsIcon icon={Delete01Icon} className="size-3.5" />
-              )}
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-8 rounded-full text-muted-foreground hover:text-destructive"
+                  disabled={deleting}
+                >
+                  {deleting ? (
+                    <HugeiconsIcon icon={Loading03Icon} className="size-3.5 animate-spin" />
+                  ) : (
+                    <HugeiconsIcon icon={Delete01Icon} className="size-3.5" />
+                  )}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete assignment?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently remove the assignment for this patient.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    variant="destructive"
+                    onClick={() => startDelete(() => onDelete(a.id))}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </CardContent>

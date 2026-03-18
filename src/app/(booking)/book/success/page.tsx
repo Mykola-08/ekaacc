@@ -20,7 +20,7 @@ export default function BookingSuccessPage() {
   }, [router]);
 
   return (
-    <main className="dashboard-theme flex min-h-screen items-center justify-center p-4">
+    <main className="flex min-h-[60vh] items-center justify-center p-4">
       <Card className="w-full max-w-lg overflow-hidden rounded-lg border-2 p-8 text-center sm:p-12">
         <div className="mx-auto mb-6 flex size-24 items-center justify-center rounded-full bg-primary/20 text-primary">
           <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-12" />
@@ -40,7 +40,7 @@ export default function BookingSuccessPage() {
             <Link href="/">Back to Home</Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="rounded-full px-8">
-            <Link href="/dashboard/bookings">View My Bookings</Link>
+            <Link href="/bookings">View My Bookings</Link>
           </Button>
         </div>
       </Card>

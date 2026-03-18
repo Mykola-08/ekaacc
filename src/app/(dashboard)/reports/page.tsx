@@ -72,7 +72,7 @@ export default function ReportsPage() {
           .select('id', { count: 'exact' })
           .eq('client_id', user.id)
           .eq('status', 'completed'),
-        supabase.from('wellness_goals').select('id, status').eq('user_id', user.id),
+        supabase.from('goals').select('id, status').eq('user_id', user.id),
         supabase
           .from('journal_entries')
           .select('id', { count: 'exact' })

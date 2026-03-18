@@ -33,9 +33,12 @@ import {
   Logout03Icon,
   Mail01Icon,
   DeviceMobileIcon,
+  GlobalIcon,
 } from '@hugeicons/core-free-icons';
 import { updateProfile } from '@/app/actions/profile-actions';
 import { updateNotificationPreferences } from '@/app/actions/notification-preferences-actions';
+import { useLanguage } from '@/context/LanguageContext';
+import type { Language } from '@/context/LanguageTypes';
 import { cn } from '@/lib/utils';
 
 type Profile = {
@@ -482,10 +485,10 @@ function SecurityTab({ email }: { email: string }) {
             <Alert variant="destructive"><AlertDescription>{pwError}</AlertDescription></Alert>
           )}
           {pwSaved && (
-            <p className="flex items-center gap-1.5 rounded-lg bg-success/10 px-3 py-2 text-sm text-success">
+            <span className="flex items-center gap-1.5 text-sm text-success">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
               Password updated successfully.
-            </p>
+            </span>
           )}
         </CardContent>
         <CardFooter className="border-t px-6 py-4 justify-end">
@@ -566,6 +569,76 @@ function SecurityTab({ email }: { email: string }) {
   );
 }
 
+// ── Language Tab ───────────────────────────────────────────────────
+
+const LANGUAGE_OPTIONS = [
+  { code: 'en', label: 'English', nativeLabel: 'English' },
+  { code: 'ca', label: 'Catalan', nativeLabel: 'Català' },
+  { code: 'es', label: 'Spanish', nativeLabel: 'Español' },
+  { code: 'ru', label: 'Russian', nativeLabel: 'Русский' },
+] as const;
+
+function LanguageTab() {
+  const { language, setLanguage } = useLanguage();
+  const [selected, setSelected] = useState<Language>(language);
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = () => {
+    setLanguage(selected);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  return (
+    <div className="space-y-4">
+      <Card className="rounded-2xl">
+        <CardHeader>
+          <CardTitle className="text-base">Display Language</CardTitle>
+          <CardDescription>
+            Choose the language used throughout the platform.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          {LANGUAGE_OPTIONS.map(({ code, nativeLabel, label }) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => setSelected(code)}
+              className={cn(
+                'flex w-full items-center justify-between rounded-xl border px-4 py-3 text-sm transition-colors',
+                selected === code
+                  ? 'border-primary bg-primary/5 font-medium text-primary'
+                  : 'border-border/60 hover:border-border hover:bg-muted/50'
+              )}
+            >
+              <span>{nativeLabel}</span>
+              <span className="text-xs text-muted-foreground">{label}</span>
+            </button>
+          ))}
+        </CardContent>
+        <CardFooter className="justify-between border-t px-6 py-4">
+          {saved ? (
+            <span className="flex items-center gap-1 text-sm text-success">
+              <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
+              Language updated
+            </span>
+          ) : (
+            <span />
+          )}
+          <Button
+            onClick={handleSave}
+            disabled={selected === language}
+            size="sm"
+            className="gap-2 rounded-full"
+          >
+            Apply Language
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
+
 // ── Root ───────────────────────────────────────────────────────────
 
 export function SettingsClient({
@@ -605,6 +678,10 @@ export function SettingsClient({
               <HugeiconsIcon icon={SecurityCheckIcon} className="size-3.5" />
               Security
             </TabsTrigger>
+            <TabsTrigger value="language" className="gap-1.5 rounded-lg text-xs">
+              <HugeiconsIcon icon={GlobalIcon} className="size-3.5" />
+              Language
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile" className="mt-0">
@@ -617,6 +694,10 @@ export function SettingsClient({
 
           <TabsContent value="security" className="mt-0">
             <SecurityTab email={email} />
+          </TabsContent>
+
+          <TabsContent value="language" className="mt-0">
+            <LanguageTab />
           </TabsContent>
         </Tabs>
       </div>

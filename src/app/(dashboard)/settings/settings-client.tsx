@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useMemo, useState, useTransition } from 'react';
 import {
   Card,
   CardContent,
@@ -28,11 +28,9 @@ import {
   Upload01Icon,
   CheckmarkCircle01Icon,
   Loading03Icon,
-  ShieldCheckIcon,
   Key01Icon,
   Logout03Icon,
   Mail01Icon,
-  DeviceMobileIcon,
   GlobalIcon,
 } from '@hugeicons/core-free-icons';
 import { updateProfile } from '@/app/actions/profile-actions';
@@ -508,7 +506,7 @@ function SecurityTab({ email }: { email: string }) {
       <Card className="rounded-2xl">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <HugeiconsIcon icon={ShieldCheckIcon} className="size-4 text-muted-foreground" />
+            <HugeiconsIcon icon={SecurityCheckIcon} className="size-4 text-muted-foreground" />
             <CardTitle className="text-base">Two-Factor Authentication</CardTitle>
           </div>
           <CardDescription>
@@ -517,7 +515,7 @@ function SecurityTab({ email }: { email: string }) {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-start gap-3 rounded-xl border border-border/60 p-4">
-            <HugeiconsIcon icon={DeviceMobileIcon} className="mt-0.5 size-5 text-muted-foreground shrink-0" />
+            <HugeiconsIcon icon={Mail01Icon} className="mt-0.5 size-5 text-muted-foreground shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium">Authenticator App</p>
               <p className="text-xs text-muted-foreground mt-0.5">
@@ -650,6 +648,30 @@ export function SettingsClient({
   email: string;
   notifPrefs: NotifPrefs;
 }) {
+  const [query, setQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('profile');
+
+  const tabItems = useMemo(
+    () => [
+      { value: 'profile', label: 'Profile', icon: UserIcon },
+      { value: 'notifications', label: 'Notifications', icon: Notification01Icon },
+      { value: 'security', label: 'Security', icon: SecurityCheckIcon },
+      { value: 'language', label: 'Language', icon: GlobalIcon },
+    ],
+    []
+  );
+
+  const filteredTabs = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return tabItems;
+    return tabItems.filter((tab) => tab.label.toLowerCase().includes(normalized));
+  }, [query, tabItems]);
+
+  const visibleTabValues = new Set(filteredTabs.map((tab) => tab.value));
+  const resolvedTab = visibleTabValues.has(activeTab)
+    ? activeTab
+    : (filteredTabs[0]?.value ?? 'profile');
+
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
       {/* Header */}
@@ -664,39 +686,46 @@ export function SettingsClient({
       </div>
 
       <div className="px-4 lg:px-6">
-        <Tabs defaultValue="profile">
-          <TabsList className="mb-6 h-10 rounded-xl">
-            <TabsTrigger value="profile" className="gap-1.5 rounded-lg text-xs">
-              <HugeiconsIcon icon={UserIcon} className="size-3.5" />
-              Profile
-            </TabsTrigger>
-            <TabsTrigger value="notifications" className="gap-1.5 rounded-lg text-xs">
-              <HugeiconsIcon icon={Notification01Icon} className="size-3.5" />
-              Notifications
-            </TabsTrigger>
-            <TabsTrigger value="security" className="gap-1.5 rounded-lg text-xs">
-              <HugeiconsIcon icon={SecurityCheckIcon} className="size-3.5" />
-              Security
-            </TabsTrigger>
-            <TabsTrigger value="language" className="gap-1.5 rounded-lg text-xs">
-              <HugeiconsIcon icon={GlobalIcon} className="size-3.5" />
-              Language
-            </TabsTrigger>
+        <div className="mb-3">
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search settings sections…"
+            className="h-10 rounded-xl"
+            aria-label="Search settings sections"
+          />
+        </div>
+
+        <Tabs value={resolvedTab} onValueChange={setActiveTab}>
+          <TabsList className="mb-6 h-auto min-h-10 flex-wrap rounded-xl">
+            {filteredTabs.map((tab) => (
+              <TabsTrigger key={tab.value} value={tab.value} className="gap-1.5 rounded-lg text-xs">
+                <HugeiconsIcon icon={tab.icon} className="size-3.5" />
+                {tab.label}
+              </TabsTrigger>
+            ))}
           </TabsList>
 
-          <TabsContent value="profile" className="mt-0">
+          {filteredTabs.length === 0 && (
+            <div className="mb-6 rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+              No matching settings sections. Try terms like <span className="font-medium">profile</span>,{' '}
+              <span className="font-medium">notifications</span>, or <span className="font-medium">security</span>.
+            </div>
+          )}
+
+          <TabsContent value="profile" className={cn('mt-0', !visibleTabValues.has('profile') && 'hidden')}>
             <ProfileTab profile={profile} email={email} />
           </TabsContent>
 
-          <TabsContent value="notifications" className="mt-0">
+          <TabsContent value="notifications" className={cn('mt-0', !visibleTabValues.has('notifications') && 'hidden')}>
             <NotificationsTab prefs={notifPrefs} />
           </TabsContent>
 
-          <TabsContent value="security" className="mt-0">
+          <TabsContent value="security" className={cn('mt-0', !visibleTabValues.has('security') && 'hidden')}>
             <SecurityTab email={email} />
           </TabsContent>
 
-          <TabsContent value="language" className="mt-0">
+          <TabsContent value="language" className={cn('mt-0', !visibleTabValues.has('language') && 'hidden')}>
             <LanguageTab />
           </TabsContent>
         </Tabs>

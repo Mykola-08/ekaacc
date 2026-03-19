@@ -76,6 +76,15 @@ type Template = {
   type: string | null;
 };
 
+function normalizeMessages(data: unknown): Message[] {
+  if (!Array.isArray(data)) return [];
+
+  return data.map((item: any) => ({
+    ...item,
+    sender: Array.isArray(item.sender) ? (item.sender[0] ?? null) : (item.sender ?? null),
+  }));
+}
+
 function formatTime(dateStr: string) {
   return new Date(dateStr).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
 }
@@ -179,7 +188,7 @@ export function ChatPageClient({
     if (!selectedChannel) return;
     setLoadingMessages(true);
     getChannelMessages(selectedChannel.id).then(({ data }) => {
-      setMessages((data as Message[]) ?? []);
+      setMessages(normalizeMessages(data));
       setLoadingMessages(false);
     });
   }, [selectedChannel?.id]);
@@ -193,7 +202,7 @@ export function ChatPageClient({
     if (!selectedChannel) return;
     const interval = setInterval(() => {
       getChannelMessages(selectedChannel.id).then(({ data }) => {
-        setMessages((data as Message[]) ?? []);
+        setMessages(normalizeMessages(data));
       });
     }, 8000);
     return () => clearInterval(interval);

@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Slider } from '@/components/ui/slider';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Dialog,
@@ -49,9 +50,14 @@ import {
   CheckmarkCircle01Icon,
   Loading03Icon,
   TaskDone02Icon,
-  Mood01Icon,
+  Moon01Icon,
 } from '@hugeicons/core-free-icons';
-import { createGoal, updateGoalProgress, deleteGoal } from '@/app/actions/goals-actions';
+import {
+  createGoal,
+  updateGoalProgress,
+  deleteGoal,
+  getGoalProgressHistory,
+} from '@/app/actions/goals-actions';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -65,6 +71,12 @@ type Goal = {
   is_achieved: boolean | null;
   target_date: string | null;
   created_at: string;
+};
+
+type GoalProgressHistory = {
+  id: string;
+  progress_percentage: number;
+  recorded_at: string;
 };
 
 const CATEGORY_OPTIONS = [
@@ -213,8 +225,9 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
 
   // Check-in dialog
   const [checkInGoal, setCheckInGoal] = useState<Goal | null>(null);
-  const [checkInValue, setCheckInValue] = useState('');
+  const [checkInValue, setCheckInValue] = useState<number>(0);
   const [checkingIn, setCheckingIn] = useState(false);
+  const [checkInHistory, setCheckInHistory] = useState<GoalProgressHistory[]>([]);
 
   const handleCreate = async () => {
     if (!title.trim()) { setCreateError('Please enter a goal title.'); return; }
@@ -236,7 +249,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
 
   const handleCheckIn = async () => {
     if (!checkInGoal) return;
-    const val = Math.min(100, Math.max(0, parseInt(checkInValue) || 0));
+    const val = Math.min(100, Math.max(0, checkInValue));
     setCheckingIn(true);
     const res = await updateGoalProgress(checkInGoal.id, val);
     setCheckingIn(false);
@@ -249,8 +262,19 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
       )
     );
     setCheckInGoal(null);
-    setCheckInValue('');
+    setCheckInValue(0);
+    setCheckInHistory([]);
     router.refresh();
+  };
+
+  const openCheckIn = (goal: Goal) => {
+    setCheckInGoal(goal);
+    setCheckInValue(goal.progress_percentage);
+    getGoalProgressHistory(goal.id).then((res) => {
+      if (!res.error) {
+        setCheckInHistory(res.data as GoalProgressHistory[]);
+      }
+    });
   };
 
   const handleDelete = (id: string) => {
@@ -286,7 +310,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
       {goals.length === 0 ? (
         <div className="mx-4 flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center lg:mx-6">
           <div className="rounded-2xl bg-muted p-4">
-            <HugeiconsIcon icon={Mood01Icon} className="size-8 text-muted-foreground/50" />
+            <HugeiconsIcon icon={Moon01Icon} className="size-8 text-muted-foreground/50" />
           </div>
           <div>
             <p className="font-semibold">No goals yet</p>
@@ -306,7 +330,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
               </h2>
               <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
                 {active.map((g) => (
-                  <GoalCard key={g.id} goal={g} onCheckIn={(goal) => { setCheckInGoal(goal); setCheckInValue(String(goal.progress_percentage)); }} onDelete={handleDelete} />
+                  <GoalCard key={g.id} goal={g} onCheckIn={openCheckIn} onDelete={handleDelete} />
                 ))}
               </div>
             </div>
@@ -318,7 +342,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
               </h2>
               <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
                 {achieved.map((g) => (
-                  <GoalCard key={g.id} goal={g} onCheckIn={(goal) => { setCheckInGoal(goal); setCheckInValue(String(goal.progress_percentage)); }} onDelete={handleDelete} />
+                  <GoalCard key={g.id} goal={g} onCheckIn={openCheckIn} onDelete={handleDelete} />
                 ))}
               </div>
             </div>
@@ -392,7 +416,15 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
       </Dialog>
 
       {/* Check-in Dialog */}
-      <Dialog open={!!checkInGoal} onOpenChange={(open) => { if (!open) setCheckInGoal(null); }}>
+      <Dialog
+        open={!!checkInGoal}
+        onOpenChange={(open) => {
+          if (!open) {
+            setCheckInGoal(null);
+            setCheckInHistory([]);
+          }
+        }}
+      >
         <DialogContent className="rounded-2xl max-w-sm">
           <DialogHeader>
             <DialogTitle>Update Progress</DialogTitle>
@@ -401,18 +433,31 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
             <p className="text-sm text-muted-foreground">{checkInGoal?.title}</p>
             <div className="space-y-1.5">
               <Label>Progress (%)</Label>
-              <Input
-                type="number"
-                min="0"
-                max="100"
-                value={checkInValue}
-                onChange={(e) => setCheckInValue(e.target.value)}
-                className="h-10 rounded-xl text-center text-lg font-semibold"
+              <Slider
+                value={[checkInValue]}
+                min={0}
+                max={100}
+                step={5}
+                onValueChange={(next) => setCheckInValue(next[0] ?? 0)}
               />
-              <p className="text-xs text-muted-foreground text-center">Enter a value between 0 and 100</p>
+              <p className="text-center text-2xl font-semibold tabular-nums">{checkInValue}%</p>
+              <p className="text-xs text-muted-foreground text-center">Drag to update from 0 to 100</p>
             </div>
-            {checkInValue && (
-              <Progress value={Math.min(100, Math.max(0, parseInt(checkInValue) || 0))} className="h-2.5 rounded-full" />
+            <Progress value={checkInValue} className="h-2.5 rounded-full" />
+            {checkInHistory.length > 0 && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground">Recent updates</p>
+                <div className="space-y-1.5">
+                  {checkInHistory.slice(0, 4).map((entry) => (
+                    <div key={entry.id} className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{new Date(entry.recorded_at).toLocaleDateString()}</span>
+                      <span className="font-semibold tabular-nums text-foreground">
+                        {entry.progress_percentage}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
           <DialogFooter>

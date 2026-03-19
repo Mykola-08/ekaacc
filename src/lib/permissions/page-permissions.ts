@@ -67,7 +67,14 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'overview',
   },
   {
-    path: '/chat',
+    path: '/plan',
+    label: 'nav.subscriptions',
+    icon: 'wallet',
+    permission: null,
+    section: 'overview',
+  },
+  {
+    path: '/inbox',
     label: 'nav.chat',
     icon: 'message',
     permission: null,
@@ -142,6 +149,13 @@ export const SIDEBAR_NAV: PageConfig[] = [
     section: 'therapist',
   },
   {
+    path: '/therapist/today',
+    label: 'dashboard.therapist.todaysSchedule',
+    icon: 'clock',
+    permission: { group: 'therapist_tools', action: 'create' },
+    section: 'therapist',
+  },
+  {
     path: '/therapist/session-notes',
     label: 'nav.sessionNotes',
     icon: 'edit',
@@ -194,6 +208,13 @@ export const SIDEBAR_NAV: PageConfig[] = [
   },
 
   // ── Platform — admin panel (hidden from non-admins by permission) ──
+  {
+    path: '/operations',
+    label: 'nav.adminDashboard',
+    icon: 'briefcase',
+    permission: { group: 'system_settings', action: 'read' },
+    section: 'platform',
+  },
   {
     path: '/console/users',
     label: 'nav.users',

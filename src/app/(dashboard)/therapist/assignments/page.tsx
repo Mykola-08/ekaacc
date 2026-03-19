@@ -25,6 +25,11 @@ export default async function AssignmentManagerPage() {
     .eq('therapist_id', user.id)
     .order('created_at', { ascending: false });
 
+  const normalizedAssignments = (assignments ?? []).map((assignment: any) => ({
+    ...assignment,
+    patient: Array.isArray(assignment.patient) ? (assignment.patient[0] ?? null) : assignment.patient,
+  }));
+
   // Fetch patients (profiles with role = 'client' or 'patient') for the dropdown
   const { data: patients } = await supabase
     .from('profiles')
@@ -34,7 +39,7 @@ export default async function AssignmentManagerPage() {
 
   return (
     <AssignmentManager
-      assignments={assignments ?? []}
+      assignments={normalizedAssignments}
       patients={patients ?? []}
     />
   );

@@ -37,11 +37,11 @@ export function useBookingData() {
         ]);
 
         if (!servicesRes.success) {
-          throw new Error(servicesRes.error || 'Failed to load services');
+          throw new Error(String(servicesRes.error ?? 'Failed to load services'));
         }
 
         if (!therapistsRes.success) {
-          throw new Error(therapistsRes.error || 'Failed to load therapists');
+          throw new Error(String(therapistsRes.error ?? 'Failed to load therapists'));
         }
 
         const normalizedServices: BookingService[] = (servicesRes.data || []).map(

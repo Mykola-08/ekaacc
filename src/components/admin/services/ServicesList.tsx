@@ -107,7 +107,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
 
       <div className="flex flex-wrap items-center gap-2">
         {service.isPublic ? (
-          <Badge variant="success" className="gap-1.5">
+          <Badge variant="default" className="gap-1.5 bg-success/10 text-success">
             <HugeiconsIcon icon={EyeIcon} className="size-3"  />
             Public
           </Badge>

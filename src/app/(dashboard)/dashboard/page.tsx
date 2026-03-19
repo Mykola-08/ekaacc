@@ -34,6 +34,14 @@ import { MoodQuickLog } from '@/components/dashboard/widgets/MoodQuickLog';
 import { AIDailySummary } from '@/components/dashboard/widgets/AIDailySummary';
 import { AIInsightCards } from '@/components/dashboard/widgets/AIInsightCards';
 import { AIQuickActions } from '@/components/dashboard/widgets/AIQuickActions';
+import { MoodTrendWidget } from '@/components/dashboard/widgets/MoodTrendWidget';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuTrigger,
+} from '@/components/ui/context-menu';
 
 // ─── Permission helper ─────────────────────────────────────────────
 
@@ -57,6 +65,29 @@ function getMoodEmoji(): string {
   if (hour < 12) return '☀️';
   if (hour < 17) return '🌤️';
   return '🌙';
+}
+
+function getConsecutiveDays(dates: string[]): number {
+  if (dates.length === 0) return 0;
+
+  const uniqueDays = new Set(
+    dates.map((d) => {
+      const date = new Date(d);
+      date.setHours(0, 0, 0, 0);
+      return date.getTime();
+    })
+  );
+
+  let streak = 0;
+  const cursor = new Date();
+  cursor.setHours(0, 0, 0, 0);
+
+  while (uniqueDays.has(cursor.getTime())) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+
+  return streak;
 }
 
 export default async function DashboardPage() {
@@ -127,6 +158,15 @@ export default async function DashboardPage() {
     .limit(3)
     .then((r) => r.data || []);
 
+  queries.activityForStreak = supabase
+    .from('journal_entries')
+    .select('created_at')
+    .eq('user_id', user.id)
+    .gte('created_at', new Date(Date.now() - 1000 * 60 * 60 * 24 * 45).toISOString())
+    .order('created_at', { ascending: false })
+    .limit(45)
+    .then((r) => r.data || []);
+
   queries.assignments = supabase
     .from('assignments')
     .select('id, title, due_date, status')
@@ -147,8 +187,7 @@ export default async function DashboardPage() {
     .order('logged_at', { ascending: false })
     .limit(1)
     .single()
-    .then((r) => r.data?.score ?? null)
-    .catch(() => null);
+    .then((r) => r.data?.score ?? null, () => null);
 
   if (canManageUsers) {
     queries.totalUsers = supabase
@@ -188,6 +227,7 @@ export default async function DashboardPage() {
   const values = await Promise.all(Object.values(queries));
   const data: Record<string, any> = {};
   keys.forEach((k, i) => (data[k] = values[i]));
+  const streakDays = getConsecutiveDays((data.activityForStreak ?? []).map((entry: any) => entry.created_at));
 
   return (
     <div className="flex flex-col gap-6 py-4 md:py-6">
@@ -205,6 +245,11 @@ export default async function DashboardPage() {
                 day: 'numeric',
               })}
             </p>
+            {!canManageUsers && !canUseTherapistTools && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                {streakDays > 0 ? `${streakDays}-day journal streak` : 'Start your first wellness streak today'}
+              </p>
+            )}
           </div>
           <Link href="/book">
             <Button size="sm" className="shrink-0 rounded-full gap-1.5 hidden sm:flex">
@@ -238,6 +283,12 @@ export default async function DashboardPage() {
       {!canManageUsers && !canUseTherapistTools && (
         <div className="px-4 lg:px-6">
           <AIInsightCards />
+        </div>
+      )}
+
+      {!canManageUsers && !canUseTherapistTools && (
+        <div className="px-4 lg:px-6">
+          <MoodTrendWidget />
         </div>
       )}
 
@@ -370,29 +421,46 @@ export default async function DashboardPage() {
         {/* Right column */}
         <div className="flex flex-col gap-4">
           {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm font-semibold">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-1.5">
-              <QuickAction href="/book" icon={Calendar03Icon} label="Book Session" />
-              <QuickAction href="/journal" icon={BookOpen01Icon} label="Write Journal" />
-              <QuickAction href="/chat" icon={Message01Icon} label="Send Message" />
-              <QuickAction href="/wellness" icon={HeartCheckIcon} label="Wellness" />
-              {canUseTherapistTools && (
-                <>
-                  <QuickAction href="/therapist/clients" icon={UserGroupIcon} label="Client Directory" />
-                  <QuickAction href="/availability" icon={Clock01Icon} label="Availability" />
-                </>
-              )}
-              {canManageUsers && (
-                <>
-                  <QuickAction href="/console/users" icon={UserGroupIcon} label="Manage Users" />
-                  <QuickAction href="/console/analytics" icon={ChartUpIcon} label="Analytics" />
-                </>
-              )}
-            </CardContent>
-          </Card>
+          <ContextMenu>
+            <ContextMenuTrigger asChild>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-sm font-semibold">Quick Actions</CardTitle>
+                  <CardDescription className="text-xs">Right-click for AI assist options</CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-1.5">
+                  <QuickAction href="/book" icon={Calendar03Icon} label="Book Session" />
+                  <QuickAction href="/journal" icon={BookOpen01Icon} label="Write Journal" />
+                  <QuickAction href="/chat" icon={Message01Icon} label="Send Message" />
+                  <QuickAction href="/wellness" icon={HeartCheckIcon} label="Wellness" />
+                  {canUseTherapistTools && (
+                    <>
+                      <QuickAction href="/therapist/clients" icon={UserGroupIcon} label="Client Directory" />
+                      <QuickAction href="/availability" icon={Clock01Icon} label="Availability" />
+                    </>
+                  )}
+                  {canManageUsers && (
+                    <>
+                      <QuickAction href="/console/users" icon={UserGroupIcon} label="Manage Users" />
+                      <QuickAction href="/console/analytics" icon={ChartUpIcon} label="Analytics" />
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </ContextMenuTrigger>
+            <ContextMenuContent className="w-56">
+              <ContextMenuLabel>AI Context Menu</ContextMenuLabel>
+              <ContextMenuItem asChild inset>
+                <Link href="/chat?prompt=Summarize%20my%20wellness%20signals%20for%20today">Summarize my day</Link>
+              </ContextMenuItem>
+              <ContextMenuItem asChild inset>
+                <Link href="/chat?prompt=Give%20me%203%20personalized%20actions%20for%20today">Suggest 3 personalized actions</Link>
+              </ContextMenuItem>
+              <ContextMenuItem asChild inset>
+                <Link href="/chat?prompt=Analyze%20my%20recent%20mood%20and%20journal%20trends">Analyze mood & journal trends</Link>
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
 
           {/* Plan Info (clients) */}
           {!canUseTherapistTools && (

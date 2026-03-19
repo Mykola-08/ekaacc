@@ -1,18 +1,23 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { ResourcesPageClient } from './resources-client';
+import { getSavedResourceIds, getSavedResourceState } from '@/app/actions/resources-actions';
 
 export default async function ResourcesPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const { data: resources } = await supabase
-    .from('resources')
-    .select('id, title, description, category, url, video_url, is_published, created_at, tags')
-    .or('is_published.eq.true,published_at.not.is.null')
-    .order('created_at', { ascending: false })
-    .limit(50);
+  const [{ data: resources }, savedResourceIds, savedState] = await Promise.all([
+    supabase
+      .from('resources')
+      .select('id, title, description, category, url, video_url, is_published, created_at, tags')
+      .or('is_published.eq.true,published_at.not.is.null')
+      .order('created_at', { ascending: false })
+      .limit(50),
+    getSavedResourceIds(),
+    getSavedResourceState(),
+  ]);
 
   // Normalize to frontend shape
   const normalised = (resources ?? []).map((r: any) => ({
@@ -21,5 +26,11 @@ export default async function ResourcesPage() {
     url: r.url ?? r.video_url ?? null,
   }));
 
-  return <ResourcesPageClient resources={normalised} />;
+  return (
+    <ResourcesPageClient
+      resources={normalised}
+      savedResourceIds={savedResourceIds}
+      savedState={savedState}
+    />
+  );
 }

@@ -35,6 +35,40 @@ export async function POST() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const [{ count: journalCount }, { data: latestInsight }] = await Promise.all([
+    supabase
+      .from('journal_entries')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id),
+    supabase
+      .from('ai_insights')
+      .select('created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+  ]);
+
+  if ((journalCount ?? 0) < 4) {
+    return NextResponse.json({
+      insights: [],
+      skipped: true,
+      reason: 'Not enough journal entries yet (need at least 4).',
+    });
+  }
+
+  if (latestInsight?.created_at) {
+    const latestAt = new Date(latestInsight.created_at).getTime();
+    const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+    if (Date.now() - latestAt < sevenDaysMs) {
+      return NextResponse.json({
+        insights: [],
+        skipped: true,
+        reason: 'Insights were generated recently.',
+      });
+    }
+  }
+
   const insights = await personalizationService.generateInsights(user.id);
-  return NextResponse.json({ insights });
+  return NextResponse.json({ insights, skipped: false });
 }

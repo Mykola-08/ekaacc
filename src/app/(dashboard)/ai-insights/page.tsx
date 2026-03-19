@@ -10,8 +10,6 @@ import {
   ChartBarLineIcon,
   Brain02Icon,
   ArrowRight01Icon,
-  TrendUpIcon,
-  TrendDownIcon,
   HeartCheckIcon,
   BookOpen01Icon,
   CheckListIcon,
@@ -208,7 +206,10 @@ export default async function AIInsightsPage() {
   const completedAssignments = (assignments ?? []).filter((a) => a.status === 'completed').length;
   const totalAssignments = (assignments ?? []).length;
   const avgGoalProgress = (goals ?? []).length
-    ? Math.round((goals ?? []).reduce((s, g) => s + (g.progress ?? 0), 0) / (goals ?? []).length)
+    ? Math.round(
+        (goals ?? []).reduce((s, g) => s + (g.progress_percentage ?? 0), 0) /
+          (goals ?? []).length
+      )
     : null;
 
   const moodInfo = avgMood != null ? moodLabel(avgMood) : null;
@@ -389,11 +390,7 @@ export default async function AIInsightsPage() {
                 >
                   <HugeiconsIcon
                     icon={
-                      moodTrend === 'up'
-                        ? TrendUpIcon
-                        : moodTrend === 'down'
-                          ? TrendDownIcon
-                          : HeartCheckIcon
+                      moodTrend === 'up' || moodTrend === 'down' ? ChartBarLineIcon : HeartCheckIcon
                     }
                     className="size-3"
                   />
@@ -564,10 +561,10 @@ export default async function AIInsightsPage() {
                     <div className="flex items-center justify-between">
                       <p className="text-foreground text-sm font-medium">{g.title}</p>
                       <span className="text-primary text-xs font-semibold tabular-nums">
-                        {g.progress ?? 0}%
+                        {g.progress_percentage ?? 0}%
                       </span>
                     </div>
-                    <MoodBar value={g.progress ?? 0} max={100} />
+                    <MoodBar value={g.progress_percentage ?? 0} max={100} />
                   </div>
                 ))}
               </div>

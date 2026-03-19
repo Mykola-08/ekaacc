@@ -46,11 +46,12 @@ export async function updateGoalProgress(id: string, progress: number) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
-  const isAchieved = progress >= 100;
+  const normalizedProgress = Math.min(100, Math.max(0, progress));
+  const isAchieved = normalizedProgress >= 100;
   const { error } = await supabase
     .from('goals')
     .update({
-      progress_percentage: Math.min(100, Math.max(0, progress)),
+      progress_percentage: normalizedProgress,
       status: isAchieved ? 'completed' : 'active',
       is_achieved: isAchieved,
       achieved_at: isAchieved ? new Date().toISOString() : null,
@@ -59,8 +60,38 @@ export async function updateGoalProgress(id: string, progress: number) {
     .eq('user_id', user.id);
 
   if (error) return { success: false, error: error.message };
+
+  const { error: historyError } = await supabase.from('goal_progress_history').insert({
+    goal_id: id,
+    progress_percentage: normalizedProgress,
+    user_id: user.id,
+  });
+
+  if (historyError) {
+    // Do not fail the main goal update if the optional history table is not yet migrated.
+    console.warn('Goal progress history insert failed:', historyError.message);
+  }
+
   revalidatePath('/goals');
   return { success: true };
+}
+
+export async function getGoalProgressHistory(goalId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { data: [], error: 'Unauthenticated' };
+
+  const { data, error } = await supabase
+    .from('goal_progress_history')
+    .select('id, progress_percentage, recorded_at')
+    .eq('goal_id', goalId)
+    .eq('user_id', user.id)
+    .order('recorded_at', { ascending: false })
+    .limit(12);
+
+  return { data: data ?? [], error: error?.message ?? null };
 }
 
 export async function deleteGoal(id: string) {

@@ -1,19 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
+import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Progress } from '@/components/ui/progress';
+import { cn } from '@/lib/utils';
 import { useLanguage } from '@/context/LanguageContext';
+
+const PATIENT_GOALS = [
+  'Stress reduction',
+  'Better sleep',
+  'Pain management',
+  'Emotional balance',
+  'Fitness',
+  'Other',
+];
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user, updateProfile, isAuthenticated, isLoading } = useSimpleAuth();
+  const { user, isAuthenticated, isLoading } = useSimpleAuth();
   const { t } = useLanguage();
-  const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState<'patient' | 'therapist'>('patient');
+
+  const [step, setStep] = useState(1);
+  const [saving, setSaving] = useState(false);
+
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [preferredLanguage, setPreferredLanguage] = useState('en');
+  const [timezone, setTimezone] = useState('UTC');
+  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+
+  const totalSteps = 4;
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -21,67 +43,205 @@ export default function OnboardingPage() {
     }
   }, [isLoading, isAuthenticated, router]);
 
+  useEffect(() => {
+    if (user?.name) {
+      setFullName((current) => current || user.name || '');
+    }
+  }, [user?.name]);
+
+  const stepTitle = useMemo(() => {
+    const map: Record<number, string> = {
+      1: t('onboarding.welcome'),
+      2: 'Complete your profile',
+      3: 'Choose your wellness goals',
+      4: 'Book your first session',
+    };
+    return map[step] ?? t('onboarding.welcome');
+  }, [step, t]);
+
   if (isLoading || !isAuthenticated) {
-    return null; // Or a loading spinner
+    return null;
   }
 
-  const handleCompleteOnboarding = async () => {
-    setLoading(true);
-    try {
-      // Update user profile to mark onboarding as complete
-      // We might also want to set the role here if it's not already set
-      await updateProfile({
-        personalizationCompleted: true,
-        role,
-      });
+  const canGoNext = () => {
+    if (step === 2) {
+      return fullName.trim().length > 1;
+    }
+    if (step === 3) {
+      return selectedGoals.length >= 1 && selectedGoals.length <= 3;
+    }
+    return true;
+  };
 
-      router.push('/auth-dispatch');
-    } catch {
-      // Onboarding error handled silently
+  const toggleGoal = (goal: string) => {
+    setSelectedGoals((current) => {
+      if (current.includes(goal)) return current.filter((item) => item !== goal);
+      if (current.length >= 3) return current;
+      return [...current, goal];
+    });
+  };
+
+  const saveOnboarding = async (skipBooking = false) => {
+    setSaving(true);
+    const supabase = createClient();
+
+    try {
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          full_name: fullName,
+          phone,
+          preferred_language: preferredLanguage,
+          timezone,
+          onboarding_completed: true,
+        })
+        .eq('auth_id', user?.id);
+
+      if (updateError) {
+        await supabase
+          .from('profiles')
+          .update({
+            full_name: fullName,
+            phone,
+            onboarding_completed: true,
+          })
+          .eq('auth_id', user?.id);
+      }
+
+      if (selectedGoals.length > 0) {
+        const goalsPayload = selectedGoals.map((goal) => ({
+          user_id: user?.id,
+          title: goal,
+          status: 'active',
+          progress_percentage: 0,
+        }));
+
+        await supabase.from('goals').insert(goalsPayload);
+      }
+
+      if (!skipBooking) {
+        router.push('/book');
+        return;
+      }
+
+      router.push('/dashboard');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
   return (
     <div className="bg-muted flex min-h-screen items-center justify-center p-6 md:p-10">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">{t('onboarding.welcome')}</CardTitle>
-          <CardDescription>{t('onboarding.subtitle')}</CardDescription>
+      <Card className="w-full max-w-2xl">
+        <CardHeader>
+          <div className="mb-3 space-y-2">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>Step {step} of {totalSteps}</span>
+              <span>{Math.round((step / totalSteps) * 100)}%</span>
+            </div>
+            <Progress value={(step / totalSteps) * 100} className="h-2" />
+          </div>
+          <CardTitle className="text-2xl">{stepTitle}</CardTitle>
+          <CardDescription>
+            {step === 1
+              ? t('onboarding.subtitle')
+              : 'Tell us a few details so we can personalize your experience.'}
+          </CardDescription>
         </CardHeader>
-        <CardContent className="">
-          <div className="">
-            <div className="">
-              <Label>{t('onboarding.role.label')}</Label>
-              <div className="grid grid-cols-2 gap-4">
-                <Button
-                  variant={role === 'patient' ? 'default' : 'outline'}
-                  onClick={() => setRole('patient')}
-                  className="h-24 flex-col gap-2"
-                >
-                  <span className="text-lg">{t('onboarding.role.patient')}</span>
-                  <span className="text-xs font-normal opacity-70">
-                    {t('onboarding.role.patient.desc')}
-                  </span>
-                </Button>
-                <Button
-                  variant={role === 'therapist' ? 'default' : 'outline'}
-                  onClick={() => setRole('therapist')}
-                  className="h-24 flex-col gap-2"
-                >
-                  <span className="text-lg">{t('onboarding.role.therapist')}</span>
-                  <span className="text-xs font-normal opacity-70">
-                    {t('onboarding.role.therapist.desc')}
-                  </span>
-                </Button>
+
+        <CardContent className="space-y-5">
+          {step === 1 && (
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Welcome to EKA Balance. You will get personalized recommendations and AI-powered support in just a few steps.
+              </p>
+              <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground">
+                Therapist and admin accounts are created via invite links by platform administrators. Standard sign-up creates a client account automatically.
               </div>
             </div>
-          </div>
+          )}
 
-          <Button className="w-full" onClick={handleCompleteOnboarding} disabled={loading}>
-            {loading ? t('onboarding.loading') : t('onboarding.getStarted')}
-          </Button>
+          {step === 2 && (
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-1.5 md:col-span-2">
+                <Label>Full name</Label>
+                <Input value={fullName} onChange={(e) => setFullName(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Phone</Label>
+                <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Preferred language</Label>
+                <Input value={preferredLanguage} onChange={(e) => setPreferredLanguage(e.target.value)} />
+              </div>
+              <div className="space-y-1.5 md:col-span-2">
+                <Label>Timezone</Label>
+                <Input value={timezone} onChange={(e) => setTimezone(e.target.value)} />
+              </div>
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground">Pick 1 to 3 goals</p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {PATIENT_GOALS.map((goal) => (
+                  <button
+                    type="button"
+                    key={goal}
+                    onClick={() => toggleGoal(goal)}
+                    className={cn(
+                      'rounded-xl border px-3 py-2 text-left text-sm transition-colors',
+                      selectedGoals.includes(goal)
+                        ? 'border-primary bg-primary/5 text-primary'
+                        : 'border-border hover:bg-muted'
+                    )}
+                  >
+                    {goal}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {step === 4 && (
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
+                You are all set. Book your first session now, or skip and start exploring your dashboard.
+              </p>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between border-t border-border/60 pt-4">
+            <Button
+              variant="ghost"
+              onClick={() => setStep((current) => Math.max(1, current - 1))}
+              disabled={step === 1 || saving}
+            >
+              Back
+            </Button>
+
+            <div className="flex items-center gap-2">
+              {step === 4 && (
+                <Button variant="outline" disabled={saving} onClick={() => saveOnboarding(true)}>
+                  Skip for now
+                </Button>
+              )}
+
+              {step < totalSteps && (
+                <Button onClick={() => setStep((current) => Math.min(totalSteps, current + 1))} disabled={!canGoNext() || saving}>
+                  Next
+                </Button>
+              )}
+
+              {step === totalSteps && (
+                <Button onClick={() => saveOnboarding(false)} disabled={saving || !canGoNext()}>
+                  {saving ? t('onboarding.loading') : 'Book first session'}
+                </Button>
+              )}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

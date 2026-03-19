@@ -10,6 +10,10 @@ Pages are gated by **permissions**, not roles. Roles are simply convenience
 bundles that pre-populate a user's permission set via the `role_permissions`
 table.
 
+To keep the product coherent, route-level implementation should map to stable
+product modules (Home, Bookings, Sessions, Resources, Community, Inbox,
+Settings, Operations) rather than becoming disconnected page islands.
+
 ## Architecture
 
 ```
@@ -107,3 +111,56 @@ The `(platform)` route group still exists for non-dashboard routes:
 Dashboard-relevant pages that were in `(platform)` have been **copied** to
 `(dashboard)` with permission-based guards. The originals in `(platform)` remain
 for backward compatibility but can be deprecated over time.
+
+## Module-first navigation guidance
+
+### Why
+
+As features expand, users should experience one connected product across roles,
+not several loosely coupled mini-products.
+
+### Recommended module nav by role
+
+Client:
+
+- Home
+- Bookings
+- Plan
+- Resources
+- Community
+- Shop
+- Inbox
+- Settings
+
+Therapist:
+
+- Home
+- Calendar
+- Clients
+- Sessions
+- Assignments
+- Resources
+- Community
+- Earnings
+- Inbox
+- Settings
+
+Admin:
+
+- Home
+- Operations
+- Users
+- Bookings
+- Catalog
+- Resources
+- Community
+- Billing
+- Analytics
+- AI
+- Settings
+
+### Section creation guardrail
+
+Before creating a new dashboard section, first map it to an existing module. If
+it does not fit, define a module contract (data model, permissions, navigation
+position, and role behavior) before adding routes/pages.

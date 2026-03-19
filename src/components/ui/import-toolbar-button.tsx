@@ -47,7 +47,9 @@ export function ImportToolbarButton(props: DropdownMenuProps) {
   const { openFilePicker: openMdFilePicker } = useFilePicker({
     accept: ['.md', '.mdx'],
     multiple: false,
-    onFilesSelected: async ({ plainFiles }) => {
+    onFilesSelected: async (data) => {
+      if (!('plainFiles' in data) || !data.plainFiles?.length) return;
+      const plainFiles = data.plainFiles;
       const text = await plainFiles[0].text();
 
       const nodes = getFileNodes(text, 'markdown');
@@ -59,7 +61,9 @@ export function ImportToolbarButton(props: DropdownMenuProps) {
   const { openFilePicker: openHtmlFilePicker } = useFilePicker({
     accept: ['text/html'],
     multiple: false,
-    onFilesSelected: async ({ plainFiles }) => {
+    onFilesSelected: async (data) => {
+      if (!('plainFiles' in data) || !data.plainFiles?.length) return;
+      const plainFiles = data.plainFiles;
       const text = await plainFiles[0].text();
 
       const nodes = getFileNodes(text, 'html');
@@ -71,7 +75,9 @@ export function ImportToolbarButton(props: DropdownMenuProps) {
   const { openFilePicker: openDocxFilePicker } = useFilePicker({
     accept: ['.docx'],
     multiple: false,
-    onFilesSelected: async ({ plainFiles }) => {
+    onFilesSelected: async (data) => {
+      if (!('plainFiles' in data) || !data.plainFiles?.length) return;
+      const plainFiles = data.plainFiles;
       const arrayBuffer = await plainFiles[0].arrayBuffer();
       const result = await importDocx(editor, arrayBuffer);
 

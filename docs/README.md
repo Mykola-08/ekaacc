@@ -10,6 +10,8 @@
   breakdown
 - [Product Sharpening Playbook](architecture/product-sharpening-playbook.md) —
   Module-first product direction, role UX priorities, and execution roadmap
+- [Feature Implementation Tracker](architecture/feature-implementation-tracker.md)
+  — Phase-by-phase implementation status for blueprint features
 
 ## Design System
 

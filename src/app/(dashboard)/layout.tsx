@@ -8,6 +8,7 @@ import { ThemeCustomizationProvider } from '@/components/theme/ThemeCustomizatio
 import { getAppearancePreferences } from '@/app/actions/appearance';
 import { Inter } from 'next/font/google';
 import { AutoInsightsTrigger } from '@/components/dashboard/AutoInsightsTrigger';
+import { GlobalCommandPalette } from '@/components/dashboard/GlobalCommandPalette';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -48,6 +49,7 @@ async function DashboardShellLoader({ children }: { children: React.ReactNode })
       <div className={`dashboard-theme abVKEfg ${inter.variable} flex min-h-screen flex-col`}>
         <UnifiedDashboardShell profile={profile} permissions={permissions}>
           <AutoInsightsTrigger />
+          <GlobalCommandPalette />
           {children}
         </UnifiedDashboardShell>
       </div>
@@ -59,7 +61,9 @@ export default function UnifiedDashboardLayout({ children }: { children: React.R
   return (
     <Suspense
       fallback={
-        <div className={`dashboard-theme abVKEfg ${inter.variable} bg-background flex min-h-screen`}>
+        <div
+          className={`dashboard-theme abVKEfg ${inter.variable} bg-background flex min-h-screen`}
+        >
           <div className="border-border bg-card hidden w-64 animate-pulse border-r md:block" />
           <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
             <div className="bg-muted h-8 w-48 animate-pulse rounded" />

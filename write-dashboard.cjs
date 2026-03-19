@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const content = import { createClient } from '@/lib/supabase/server';
+const content = require { createClient } from '@/lib/supabase/server';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';

@@ -2,13 +2,14 @@
  * DELETE /api/ai/insights/[id]
  * Mark an AI insight as dismissed (soft-delete).
  */
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 export async function DELETE(
-  _req: Request,
-  { params }: { params: { id: string } }
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const supabase = await createClient();
   const { data: { user }, error } = await supabase.auth.getUser();
 
@@ -19,7 +20,7 @@ export async function DELETE(
   const { error: updateError } = await supabase
     .from('ai_insights')
     .update({ is_dismissed: true })
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('user_id', user.id);
 
   if (updateError) {

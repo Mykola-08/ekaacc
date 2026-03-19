@@ -66,12 +66,14 @@ export const PlaceholderElement = withHOC(
 
     const imageRef = React.useRef<HTMLImageElement>(null);
 
-    const { openFilePicker } = useFilePicker({
-      accept: currentContent.accept,
-      multiple: true,
-      onFilesSelected: ({ plainFiles: updatedFiles }) => {
-        const firstFile = updatedFiles[0];
-        const restFiles = updatedFiles.slice(1);
+  const { openFilePicker } = useFilePicker({
+    accept: currentContent.accept,
+    multiple: true,
+    onFilesSelected: (data) => {
+      if (!('plainFiles' in data) || !data.plainFiles?.length) return;
+      const updatedFiles = data.plainFiles;
+      const firstFile = updatedFiles[0];
+      const restFiles = updatedFiles.slice(1);
 
         replaceCurrentPlaceholder(firstFile);
 

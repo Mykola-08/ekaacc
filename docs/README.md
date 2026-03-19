@@ -8,6 +8,8 @@
   user role
 - [Platform Features](architecture/platform-features.md) — Detailed feature
   breakdown
+- [Product Sharpening Playbook](architecture/product-sharpening-playbook.md) —
+  Module-first product direction, role UX priorities, and execution roadmap
 
 ## Design System
 

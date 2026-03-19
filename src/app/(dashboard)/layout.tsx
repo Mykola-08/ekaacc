@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import { ThemeCustomizationProvider } from '@/components/theme/ThemeCustomizationProvider';
 import { getAppearancePreferences } from '@/app/actions/appearance';
 import { Inter } from 'next/font/google';
+import { AutoInsightsTrigger } from '@/components/dashboard/AutoInsightsTrigger';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -46,6 +47,7 @@ async function DashboardShellLoader({ children }: { children: React.ReactNode })
     <ThemeCustomizationProvider initialTheme={appearance}>
       <div className={`dashboard-theme abVKEfg ${inter.variable} flex min-h-screen flex-col`}>
         <UnifiedDashboardShell profile={profile} permissions={permissions}>
+          <AutoInsightsTrigger />
           {children}
         </UnifiedDashboardShell>
       </div>

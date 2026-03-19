@@ -87,6 +87,30 @@ Client Component → Server Action → Service Layer → Supabase / Stripe / Res
 
 ---
 
+## Recent Feature Highlights
+
+- **Community engagement & moderation**
+  - Threaded replies (`parent_id`) and post reactions (`reactions`) are now
+    supported in dashboard community flows.
+  - End users can report posts with reason/details.
+  - Admins can review reports in `/admin/community` and move them through
+    `open → reviewing → resolved/dismissed` states.
+  - Report status updates are protected by both app-level admin checks and
+    Supabase RLS admin update policies.
+- **Saved resources**
+  - Users can save/unsave resources and filter resources by saved state.
+  - Server actions: `getSavedResourceIds`, `toggleSavedResource`.
+- **Goals & onboarding**
+  - Goal progress history snapshots are written on updates and surfaced in the
+    goals UI.
+  - Onboarding is a multi-step flow that captures profile context and seeds
+    initial goals.
+- **Dashboard AI & mood context**
+  - Added a mood trend widget and background AI prefetch trigger to improve
+    perceived responsiveness for insights workflows.
+
+---
+
 ## Commands
 
 | Command                  | Purpose                           |
@@ -102,6 +126,17 @@ Client Component → Server Action → Service Layer → Supabase / Stripe / Res
 | `npm run db:seed`        | Seed services data                |
 | `npm run supabase:setup` | Full local Supabase setup         |
 | `npm run supabase:reset` | Reset local DB                    |
+
+### Migrations for recent features
+
+If you are syncing a local database for community/resource/onboarding changes,
+ensure these migrations are applied:
+
+- `supabase/migrations/20260318000003_onboarding_and_goal_history.sql`
+- `supabase/migrations/20260318000004_saved_resources.sql`
+- `supabase/migrations/20260319000005_community_reactions_and_threading.sql`
+- `supabase/migrations/20260319000006_community_reports.sql`
+- `supabase/migrations/20260319000007_community_reports_admin_update_policy.sql`
 
 ### Re-import repository state
 

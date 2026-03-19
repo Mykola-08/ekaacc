@@ -30,9 +30,15 @@ import {
   Search01Icon,
   Loading03Icon,
   UserCircleIcon,
-  Users01Icon,
+  UserGroupIcon,
 } from '@hugeicons/core-free-icons';
-import { createCommunityPost, likePost } from '@/app/actions/community-actions';
+import {
+  createCommunityPost,
+  likePost,
+  reactToPost,
+  createReply,
+  reportCommunityPost,
+} from '@/app/actions/community-actions';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -43,10 +49,19 @@ type Post = {
   category: string | null;
   tags: string[] | null;
   likes_count: number | null;
+  reactions?: { like?: number; heart?: number; pray?: number } | null;
+  parent_id?: string | null;
   is_anonymous: boolean | null;
   created_at: string;
   author: { full_name: string | null; avatar_url: string | null } | null;
 };
+
+function normalizePost(post: any): Post {
+  return {
+    ...post,
+    author: Array.isArray(post.author) ? (post.author[0] ?? null) : (post.author ?? null),
+  } as Post;
+}
 
 const CATEGORIES = [
   { value: 'anxiety', label: 'Anxiety' },
@@ -77,7 +92,24 @@ function formatRelative(dateStr: string) {
   return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-function PostCard({ post, onLike }: { post: Post; onLike: (id: string) => void }) {
+function PostCard({
+  post,
+  replies,
+  onLike,
+  onReact,
+  onReply,
+  onReport,
+}: {
+  post: Post;
+  replies: Post[];
+  onLike: (id: string) => void;
+  onReact: (id: string, reaction: 'like' | 'heart' | 'pray') => void;
+  onReply: (id: string, content: string) => Promise<void>;
+  onReport: (id: string, reason: 'spam' | 'harassment' | 'misinformation' | 'unsafe' | 'other') => void;
+}) {
+  const [replyText, setReplyText] = useState('');
+  const [showReply, setShowReply] = useState(false);
+
   return (
     <Card className="rounded-2xl transition-all hover:-translate-y-px">
       <CardHeader className="pb-2">
@@ -120,16 +152,78 @@ function PostCard({ post, onLike }: { post: Post; onLike: (id: string) => void }
         </Button>
         <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground rounded-full ml-1">
           <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
-          <span className="text-xs">Discuss</span>
+          <span className="text-xs">Discuss {replies.length > 0 ? `(${replies.length})` : ''}</span>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-1.5 text-muted-foreground rounded-full"
+          onClick={() => onReact(post.id, 'heart')}
+        >
+          <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
+          <span className="text-xs tabular-nums">{post.reactions?.heart ?? 0}</span>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-1.5 text-muted-foreground rounded-full"
+          onClick={() => onReact(post.id, 'pray')}
+        >
+          <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
+          <span className="text-xs tabular-nums">{post.reactions?.pray ?? 0}</span>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-1.5 text-muted-foreground rounded-full"
+          onClick={() => onReport(post.id, 'other')}
+        >
+          <span className="text-xs">Report</span>
         </Button>
       </CardFooter>
+      <CardContent className="pt-0 space-y-2">
+        <Button variant="ghost" size="sm" className="text-xs rounded-full" onClick={() => setShowReply((v) => !v)}>
+          {showReply ? 'Hide replies' : 'Reply'}
+        </Button>
+        {showReply && (
+          <div className="space-y-2">
+            {replies.map((reply) => (
+              <div key={reply.id} className="rounded-xl border border-border/60 p-2 text-xs text-muted-foreground">
+                <span className="font-medium text-foreground mr-1">
+                  {reply.is_anonymous ? 'Anonymous' : reply.author?.full_name ?? 'Member'}:
+                </span>
+                {reply.content}
+              </div>
+            ))}
+            <div className="flex items-center gap-2">
+              <Input
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                placeholder="Write a reply…"
+                className="h-8 rounded-lg text-xs"
+              />
+              <Button
+                size="sm"
+                className="rounded-lg text-xs"
+                onClick={async () => {
+                  if (!replyText.trim()) return;
+                  await onReply(post.id, replyText.trim());
+                  setReplyText('');
+                }}
+              >
+                Send
+              </Button>
+            </div>
+          </div>
+        )}
+      </CardContent>
     </Card>
   );
 }
 
 export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
   const router = useRouter();
-  const [posts, setPosts] = useState<Post[]>(initial);
+  const [posts, setPosts] = useState<Post[]>(initial.map(normalizePost));
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showNewDialog, setShowNewDialog] = useState(false);
@@ -144,6 +238,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
   const [createError, setCreateError] = useState<string | null>(null);
 
   const filtered = posts.filter((p) => {
+    if (p.parent_id) return false;
     const matchSearch =
       p.title.toLowerCase().includes(search.toLowerCase()) ||
       p.content.toLowerCase().includes(search.toLowerCase());
@@ -179,6 +274,31 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
     });
   };
 
+  const handleReact = (id: string, reaction: 'like' | 'heart' | 'pray') => {
+    startTransition(async () => {
+      const result = await reactToPost(id, reaction);
+      if (!result.success) return;
+      setPosts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, reactions: result.reactions as any } : p))
+      );
+    });
+  };
+
+  const handleReply = async (parentId: string, content: string) => {
+    const result = await createReply({ parent_id: parentId, content });
+    if (!result.success) return;
+    setPosts((prev) => [...prev, normalizePost(result.data)]);
+  };
+
+  const handleReport = (
+    id: string,
+    reason: 'spam' | 'harassment' | 'misinformation' | 'unsafe' | 'other'
+  ) => {
+    startTransition(async () => {
+      await reportCommunityPost({ post_id: id, reason });
+    });
+  };
+
   const categoryCounts = CATEGORIES.map((c) => ({
     ...c,
     count: posts.filter((p) => p.category === c.value).length,
@@ -190,7 +310,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
       <div className="flex flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between lg:px-6">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
-            <HugeiconsIcon icon={Users01Icon} className="size-5 text-muted-foreground" />
+            <HugeiconsIcon icon={UserGroupIcon} className="size-5 text-muted-foreground" />
             Community Forums
           </h1>
           <p className="mt-0.5 text-sm text-muted-foreground">
@@ -219,7 +339,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
 
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center">
-              <HugeiconsIcon icon={Users01Icon} className="size-10 text-muted-foreground/30" />
+              <HugeiconsIcon icon={UserGroupIcon} className="size-10 text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
                 {search || categoryFilter !== 'all' ? 'No posts match your search.' : 'No posts yet. Be the first to start a discussion!'}
               </p>
@@ -233,7 +353,15 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
           ) : (
             <div className="space-y-3">
               {filtered.map((p) => (
-                <PostCard key={p.id} post={p} onLike={handleLike} />
+                <PostCard
+                  key={p.id}
+                  post={p}
+                  replies={posts.filter((item) => item.parent_id === p.id)}
+                  onLike={handleLike}
+                  onReact={handleReact}
+                  onReply={handleReply}
+                  onReport={handleReport}
+                />
               ))}
             </div>
           )}

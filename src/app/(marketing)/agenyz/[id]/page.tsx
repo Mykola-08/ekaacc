@@ -1,11 +1,10 @@
+export const dynamic = 'force-dynamic';
+
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { products, getLocalized } from '@/app/(marketing)/agenyz/products';
 import AgenyzProductContent from './AgenyzProductContent';
-
-export async function generateStaticParams() {
-  return products.map((p) => ({ id: p.id }));
-}
 
 export async function generateMetadata({
   params,
@@ -36,5 +35,9 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const product = products.find((p) => p.id === id || p.id.toLowerCase() === id.toLowerCase());
   if (!product) return notFound();
 
-  return <AgenyzProductContent id={id} />;
+  return (
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <AgenyzProductContent id={id} />
+    </Suspense>
+  );
 }

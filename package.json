@@ -27,7 +27,8 @@
     "format": "prettier --write .",
     "security:audit": "npm audit --audit-level=high || echo 'Audit completed with findings'",
     "security:secrets": "npx gitleaks detect --no-banner --redact || echo 'Gitleaks scan finished'",
-    "prepare": "husky || echo 'Husky not installed'"
+    "prepare": "husky || echo 'Husky not installed'",
+    "postinstall": "node scripts/patch-nextjs.cjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.41",

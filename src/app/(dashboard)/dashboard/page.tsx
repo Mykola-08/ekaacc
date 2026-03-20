@@ -694,7 +694,7 @@ function DashStatsCard({
   accent?: boolean;
 }) {
   return (
-    <Card className={cn('transition-all hover:-translate-y-px', accent && 'border-primary/20')}>
+    <Card className={cn(accent && 'border-primary/20')}>
       <CardHeader className="pb-2">
         <CardDescription className="text-xs uppercase tracking-wider">{label}</CardDescription>
         <CardTitle
@@ -758,7 +758,7 @@ function AdminQuickLink({
 }) {
   return (
     <Link href={href}>
-      <Card className="group h-full cursor-pointer transition-all hover:-translate-y-px hover:shadow-md">
+      <Card className="group h-full cursor-pointer hover:bg-muted/30">
         <CardHeader>
           <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
             <HugeiconsIcon icon={icon} className="size-4" />

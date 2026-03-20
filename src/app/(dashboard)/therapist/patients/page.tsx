@@ -76,7 +76,7 @@ export default async function PatientManagerPage() {
               {totalActive} active client{totalActive !== 1 ? 's' : ''} in your caseload
             </p>
           </div>
-          <Button size="sm" className="gap-1.5 rounded-full shrink-0">
+          <Button size="sm" className="gap-1.5 rounded-lg shrink-0">
             <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
             Add Patient
           </Button>
@@ -85,19 +85,19 @@ export default async function PatientManagerPage() {
 
       {/* ── Quick stats ─── */}
       <div className="grid grid-cols-3 gap-3 px-4 lg:px-6">
-        <Card className="rounded-2xl border-border/60">
+        <Card className="rounded-xl border-border/60">
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground uppercase tracking-wide">Total Clients</p>
             <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">{totalActive}</p>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl border-primary/20 bg-primary/5">
+        <Card className="rounded-xl border-primary/20 bg-primary/5">
           <CardContent className="p-4">
             <p className="text-xs text-primary uppercase tracking-wide">Upcoming</p>
             <p className="mt-1 text-2xl font-bold tabular-nums text-primary">{scheduledCount}</p>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl border-border/60">
+        <Card className="rounded-xl border-border/60">
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground uppercase tracking-wide">Avg Sessions</p>
             <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
@@ -109,8 +109,8 @@ export default async function PatientManagerPage() {
 
       {/* ── Patient list ─── */}
       {patients.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-4 rounded-2xl border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-2xl bg-muted p-5">
+        <div className="mx-4 flex flex-col items-center gap-4 rounded-xl border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-xl bg-muted p-5">
             <HugeiconsIcon icon={UserGroupIcon} className="size-10 text-muted-foreground/40" />
           </div>
           <div>
@@ -129,7 +129,7 @@ export default async function PatientManagerPage() {
 
             return (
               <Link key={profile.id} href={`/therapist/patients/${profile.id}`} className="group block">
-                <Card className="h-full rounded-2xl border border-border/60 transition-all hover:-translate-y-px hover:shadow-md">
+                <Card className="h-full rounded-xl border border-border/60 transition-all hover:-translate-y-px hover:shadow-md">
                   <CardHeader className="pb-3">
                     <div className="flex items-start gap-3">
                       <Avatar className="size-12 shrink-0">

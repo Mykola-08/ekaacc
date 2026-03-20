@@ -94,10 +94,10 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
         </p>
       </div>
 
-      <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-3">
+      <div className="grid gap-4 px-4 lg:px-6 lg:grid-cols-[1fr_320px]">
         {/* Main form */}
         <div className="space-y-4 @xl/main:col-span-2">
-          <Card className="rounded-2xl">
+          <Card className="rounded-xl">
             <CardHeader>
               <CardTitle className="text-base">Personal Information</CardTitle>
               <CardDescription>Update your name, bio, and contact details.</CardDescription>
@@ -156,7 +156,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                 <Button
                   onClick={handleSave}
                   disabled={saving}
-                  className={cn('gap-2 rounded-full', saved && 'bg-success text-success-foreground')}
+                  className={cn('gap-2 rounded-lg', saved && 'bg-success text-success-foreground')}
                 >
                   {saving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
                   {saved && <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />}
@@ -166,7 +166,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl">
+          <Card className="rounded-xl">
             <CardHeader>
               <CardTitle className="text-base">Specialties & Interests</CardTitle>
               <CardDescription>Add topics you're working on or interested in.</CardDescription>
@@ -174,11 +174,11 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
             <CardContent className="space-y-4">
               <div className="flex flex-wrap gap-2">
                 {specialties.map((s) => (
-                  <Badge key={s} variant="secondary" className="gap-1.5 rounded-full pr-1">
+                  <Badge key={s} variant="secondary" className="gap-1.5 rounded-lg pr-1">
                     {s}
                     <button
                       onClick={() => removeSpecialty(s)}
-                      className="rounded-full p-0.5 hover:bg-destructive/10 hover:text-destructive transition-colors"
+                      className="rounded-lg p-0.5 hover:bg-destructive/10 hover:text-destructive transition-colors"
                     >
                       <HugeiconsIcon icon={Cancel01Icon} className="size-3" />
                     </button>
@@ -208,11 +208,11 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
 
         {/* Sidebar */}
         <div className="space-y-4">
-          <Card className="rounded-2xl">
+          <Card className="rounded-xl">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center gap-4 text-center">
                 <div className={cn(
-                  'size-24 rounded-2xl bg-muted flex items-center justify-center overflow-hidden',
+                  'size-24 rounded-xl bg-muted flex items-center justify-center overflow-hidden',
                   profile?.avatar_url && 'p-0'
                 )}>
                   {profile?.avatar_url ? (
@@ -234,7 +234,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl bg-muted/40">
+          <Card className="rounded-xl bg-muted/40">
             <CardContent className="p-4 space-y-2 text-sm">
               <p className="font-medium">Account</p>
               <div className="flex justify-between text-xs text-muted-foreground">

@@ -9,10 +9,10 @@ export default function WalletLoading() {
         <div className="h-9 w-28 animate-pulse rounded-full bg-muted" />
       </div>
       <div className="px-4 lg:px-6">
-        <div className="h-36 animate-pulse rounded-2xl bg-muted" />
+        <div className="h-36 animate-pulse rounded-xl bg-muted" />
       </div>
       <div className="px-4 lg:px-6">
-        <div className="h-64 animate-pulse rounded-2xl bg-muted" />
+        <div className="h-64 animate-pulse rounded-xl bg-muted" />
       </div>
     </div>
   );

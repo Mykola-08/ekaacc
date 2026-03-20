@@ -133,14 +133,14 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
     return (
       <div className="flex flex-col gap-4 py-4 md:py-6">
         <div className="flex items-center gap-3 px-4 lg:px-6">
-          <Button variant="ghost" size="sm" onClick={() => setView('list')} className="gap-1.5 rounded-full">
+          <Button variant="ghost" size="sm" onClick={() => setView('list')} className="gap-1.5 rounded-lg">
             <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" /> Back
           </Button>
           <h1 className="text-lg font-bold tracking-tight">New Entry</h1>
         </div>
 
         <div className="px-4 lg:px-6">
-          <Card className="rounded-2xl">
+          <Card className="rounded-xl">
             <CardContent className="p-6 space-y-4">
               <div className="space-y-1.5">
                 <Input
@@ -181,10 +181,10 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
               )}
 
               <div className="flex justify-between items-center border-t border-border/60 pt-4">
-                <Button variant="ghost" onClick={() => setView('list')} className="rounded-full">
+                <Button variant="ghost" onClick={() => setView('list')} className="rounded-lg">
                   Discard
                 </Button>
-                <Button onClick={handleSave} disabled={saving} className="gap-2 rounded-full px-6">
+                <Button onClick={handleSave} disabled={saving} className="gap-2 rounded-lg px-6">
                   {saving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
                   {saving ? 'Saving…' : 'Save Entry'}
                 </Button>
@@ -209,27 +209,27 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
             A private space for self-reflection.
           </p>
         </div>
-        <Button onClick={() => setView('write')} className="shrink-0 gap-2 rounded-full">
+        <Button onClick={() => setView('write')} className="shrink-0 gap-2 rounded-lg">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           New Entry
         </Button>
       </div>
 
-      <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-12">
+      <div className="grid gap-4 lg:grid-cols-[288px_1fr]">
         {/* Entry list */}
-        <div className="space-y-3 @xl/main:col-span-4">
+        <div className="space-y-3">
           <div className="relative">
             <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search entries…"
-              className="pl-9 rounded-xl"
+              className="pl-9 rounded-lg"
             />
           </div>
 
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-12 text-center">
+            <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed py-12 text-center">
               <HugeiconsIcon icon={BookOpen02Icon} className="size-10 text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
                 {search ? 'No entries match your search.' : 'No entries yet. Write your first one!'}
@@ -311,9 +311,9 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
         </div>
 
         {/* Entry detail / empty state */}
-        <div className="@xl/main:col-span-8">
+        <div>
           {selected ? (
-            <Card className="rounded-2xl">
+            <Card className="rounded-xl">
               <CardHeader className="flex flex-row items-start justify-between gap-4 pb-3">
                 <div className="space-y-1 min-w-0">
                   <CardTitle className="text-lg font-bold">{selected.title || 'Untitled'}</CardTitle>
@@ -329,7 +329,7 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
                     )}
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="shrink-0 rounded-full" onClick={() => setSelected(null)}>
+                <Button variant="ghost" size="icon" className="shrink-0 rounded-lg" onClick={() => setSelected(null)}>
                   <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />
                 </Button>
               </CardHeader>
@@ -347,10 +347,10 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
               </CardContent>
             </Card>
           ) : (
-            <div className="flex h-full min-h-64 flex-col items-center justify-center gap-3 rounded-2xl border border-dashed text-center">
+            <div className="flex h-full min-h-64 flex-col items-center justify-center gap-3 rounded-xl border border-dashed text-center">
               <HugeiconsIcon icon={PencilEdit01Icon} className="size-10 text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">Select an entry to read it, or write a new one.</p>
-              <Button variant="outline" onClick={() => setView('write')} className="rounded-full gap-1.5">
+              <Button variant="outline" onClick={() => setView('write')} className="rounded-lg gap-1.5">
                 <HugeiconsIcon icon={PlusSignIcon} className="size-4" /> Write Entry
               </Button>
             </div>

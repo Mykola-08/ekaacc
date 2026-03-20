@@ -31,7 +31,7 @@ export default function ReferralSettingsPage() {
 
   return (
     <div className="space-y-4 p-4 lg:p-6">
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <CardTitle>Referral Program</CardTitle>
           <CardDescription>

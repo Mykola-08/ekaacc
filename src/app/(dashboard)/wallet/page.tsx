@@ -52,7 +52,7 @@ export default async function WalletPage() {
           </p>
         </div>
         <Link href="/finances">
-          <Button size="sm" className="gap-2 rounded-full">
+          <Button size="sm" className="gap-2 rounded-lg">
             <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
             Add Funds
           </Button>
@@ -61,17 +61,17 @@ export default async function WalletPage() {
 
       {/* Balance card */}
       <div className="px-4 lg:px-6">
-        <Card className="rounded-2xl border-primary/20 bg-gradient-to-br from-primary/5 to-card">
+        <Card className="rounded-xl border-primary/20">
           <CardHeader>
             <CardDescription>Available Balance</CardDescription>
-            <CardTitle className="text-3xl font-bold tabular-nums">
+            <CardTitle className="text-3xl font-semibold tabular-nums">
               {balance.toFixed(2)}{' '}
               <span className="text-base font-normal text-muted-foreground">{currency}</span>
             </CardTitle>
           </CardHeader>
           <CardFooter className="gap-2">
             <Link href="/finances">
-              <Button variant="outline" size="sm" className="gap-1.5 rounded-full text-xs">
+              <Button variant="outline" size="sm" className="gap-1.5 rounded-lg text-xs">
                 <HugeiconsIcon icon={CreditCardIcon} className="size-3.5" />
                 Manage Finances
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
@@ -83,7 +83,7 @@ export default async function WalletPage() {
 
       {/* Recent transactions */}
       <div className="px-4 lg:px-6">
-        <Card className="rounded-2xl">
+        <Card className="rounded-xl">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-semibold">Recent Transactions</CardTitle>
@@ -98,7 +98,7 @@ export default async function WalletPage() {
           <CardContent className="pt-0">
             {(transactions ?? []).length === 0 ? (
               <div className="flex flex-col items-center gap-3 py-10 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
                   <HugeiconsIcon icon={Invoice01Icon} className="size-6 text-muted-foreground/50" />
                 </div>
                 <div>

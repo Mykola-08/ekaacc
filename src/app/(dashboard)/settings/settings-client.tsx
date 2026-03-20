@@ -116,7 +116,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
   return (
     <div className="space-y-4">
       {/* Avatar */}
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <CardTitle className="text-base">Profile Picture</CardTitle>
           <CardDescription>
@@ -132,12 +132,12 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
           </Avatar>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="gap-2 rounded-full" disabled>
+              <Button variant="outline" size="sm" className="gap-2 rounded-lg" disabled>
                 <HugeiconsIcon icon={Upload01Icon} className="size-3.5" />
                 Upload Photo
               </Button>
               {profile?.avatar_url && (
-                <Button variant="ghost" size="sm" className="rounded-full text-destructive hover:text-destructive">
+                <Button variant="ghost" size="sm" className="rounded-lg text-destructive hover:text-destructive">
                   Remove
                 </Button>
               )}
@@ -148,7 +148,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
       </Card>
 
       {/* Personal Info */}
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <CardTitle className="text-base">Personal Information</CardTitle>
           <CardDescription>Update your name and contact details.</CardDescription>
@@ -205,7 +205,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
           <Button
             onClick={handleSave}
             disabled={isPending}
-            className="gap-2 rounded-full"
+            className="gap-2 rounded-lg"
             size="sm"
           >
             {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
@@ -216,7 +216,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
 
       {/* Role */}
       {profile?.role && (
-        <Card className="rounded-2xl">
+        <Card className="rounded-xl">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -296,7 +296,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
   return (
     <div className="space-y-4">
       {/* Channels */}
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <CardTitle className="text-base">Delivery Channels</CardTitle>
           <CardDescription>Choose how you receive notifications.</CardDescription>
@@ -330,7 +330,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
       </Card>
 
       {/* Categories */}
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <CardTitle className="text-base">Notification Types</CardTitle>
           <CardDescription>Control which events trigger a notification.</CardDescription>
@@ -397,7 +397,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
             onClick={handleSave}
             disabled={isPending}
             size="sm"
-            className="gap-2 rounded-full"
+            className="gap-2 rounded-lg"
           >
             {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
             {isPending ? 'Saving…' : 'Save Preferences'}
@@ -448,7 +448,7 @@ function SecurityTab({ email }: { email: string }) {
   return (
     <div className="space-y-4">
       {/* Password */}
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <div className="flex items-center gap-2">
             <HugeiconsIcon icon={Key01Icon} className="size-4 text-muted-foreground" />
@@ -494,7 +494,7 @@ function SecurityTab({ email }: { email: string }) {
             onClick={handlePasswordChange}
             disabled={isPending || !newPw || !confirmPw}
             size="sm"
-            className="gap-2 rounded-full"
+            className="gap-2 rounded-lg"
           >
             {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
             {isPending ? 'Updating…' : 'Update Password'}
@@ -503,7 +503,7 @@ function SecurityTab({ email }: { email: string }) {
       </Card>
 
       {/* MFA */}
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <div className="flex items-center gap-2">
             <HugeiconsIcon icon={SecurityCheckIcon} className="size-4 text-muted-foreground" />
@@ -542,7 +542,7 @@ function SecurityTab({ email }: { email: string }) {
       </Card>
 
       {/* Sessions */}
-      <Card className="rounded-2xl border-destructive/20">
+      <Card className="rounded-xl border-destructive/20">
         <CardHeader>
           <div className="flex items-center gap-2">
             <HugeiconsIcon icon={Logout03Icon} className="size-4 text-destructive" />
@@ -557,7 +557,7 @@ function SecurityTab({ email }: { email: string }) {
                 Log out from all devices and browsers.
               </p>
             </div>
-            <Button variant="outline" size="sm" className="shrink-0 rounded-full border-destructive/30 text-destructive hover:bg-destructive/10">
+            <Button variant="outline" size="sm" className="shrink-0 rounded-lg border-destructive/30 text-destructive hover:bg-destructive/10">
               Sign Out All
             </Button>
           </div>
@@ -589,7 +589,7 @@ function LanguageTab() {
 
   return (
     <div className="space-y-4">
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <CardTitle className="text-base">Display Language</CardTitle>
           <CardDescription>
@@ -627,7 +627,7 @@ function LanguageTab() {
             onClick={handleSave}
             disabled={selected === language}
             size="sm"
-            className="gap-2 rounded-full"
+            className="gap-2 rounded-lg"
           >
             Apply Language
           </Button>

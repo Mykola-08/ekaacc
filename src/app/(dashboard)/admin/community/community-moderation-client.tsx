@@ -36,7 +36,7 @@ export function CommunityModerationClient({ initialReports }: { initialReports: 
   };
 
   return (
-    <Card className="rounded-2xl">
+    <Card className="rounded-xl">
       <CardHeader>
         <CardTitle>Community Moderation Queue</CardTitle>
         <CardDescription>
@@ -80,13 +80,13 @@ export function CommunityModerationClient({ initialReports }: { initialReports: 
                 </p>
               )}
               <div className="mt-3 flex flex-wrap gap-2">
-                <Button size="sm" variant="outline" className="rounded-full" disabled={isPending} onClick={() => updateStatus(report.id, 'reviewing')}>
+                <Button size="sm" variant="outline" className="rounded-lg" disabled={isPending} onClick={() => updateStatus(report.id, 'reviewing')}>
                   Mark Reviewing
                 </Button>
-                <Button size="sm" className="rounded-full" disabled={isPending} onClick={() => updateStatus(report.id, 'resolved')}>
+                <Button size="sm" className="rounded-lg" disabled={isPending} onClick={() => updateStatus(report.id, 'resolved')}>
                   Resolve
                 </Button>
-                <Button size="sm" variant="secondary" className="rounded-full" disabled={isPending} onClick={() => updateStatus(report.id, 'dismissed')}>
+                <Button size="sm" variant="secondary" className="rounded-lg" disabled={isPending} onClick={() => updateStatus(report.id, 'dismissed')}>
                   Dismiss
                 </Button>
               </div>

@@ -29,11 +29,11 @@ export default function FormsPage() {
                   <HugeiconsIcon icon={File01Icon} className="size-5" />
                 </div>
                 {form.status === 'completed' ? (
-                  <span className="flex items-center gap-1 text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                  <span className="flex items-center gap-1 text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-lg">
                     <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-3" /> Completed
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1 text-xs font-medium text-destructive bg-destructive/10 px-2.5 py-1 rounded-full">
+                  <span className="flex items-center gap-1 text-xs font-medium text-destructive bg-destructive/10 px-2.5 py-1 rounded-lg">
                      <HugeiconsIcon icon={Time01Icon} className="size-3" /> Pending
                   </span>
                 )}
@@ -44,7 +44,7 @@ export default function FormsPage() {
             <CardContent>
               <Button 
                 variant={form.status === 'completed' ? "outline" : "default"} 
-                className="w-full rounded-full"
+                className="w-full rounded-lg"
               >
                 {form.status === 'completed' ? "View Document" : "Fill Out Form"}
               </Button>

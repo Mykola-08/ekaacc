@@ -210,7 +210,7 @@ export default function TherapistTemplatesPage() {
         </div>
         <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <Card key={i} className="rounded-2xl">
+            <Card key={i} className="rounded-xl">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <Skeleton className="h-8 w-8 rounded-xl" />
@@ -239,7 +239,7 @@ export default function TherapistTemplatesPage() {
             Reusable note templates to speed up documentation.
           </p>
         </div>
-        <Button onClick={openCreate} className="gap-2 rounded-full">
+        <Button onClick={openCreate} className="gap-2 rounded-lg">
           <HugeiconsIcon icon={Add01Icon} className="size-4" />
           New Template
         </Button>
@@ -272,8 +272,8 @@ export default function TherapistTemplatesPage() {
 
       {/* Templates Grid */}
       {filtered.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-2xl bg-muted p-4">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-xl bg-muted p-4">
             <HugeiconsIcon icon={File01Icon} className="size-8 text-muted-foreground/50" />
           </div>
           <div>
@@ -283,7 +283,7 @@ export default function TherapistTemplatesPage() {
             </p>
           </div>
           {!searchQuery && typeFilter === 'all' && (
-            <Button onClick={openCreate} className="rounded-full gap-2">
+            <Button onClick={openCreate} className="rounded-lg gap-2">
               <HugeiconsIcon icon={Add01Icon} className="size-4" />
               Create Template
             </Button>
@@ -292,7 +292,7 @@ export default function TherapistTemplatesPage() {
       ) : (
         <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
           {filtered.map((t) => (
-            <Card key={t.id} className="group rounded-2xl transition-all hover:-translate-y-px">
+            <Card key={t.id} className="group rounded-xl transition-all hover:-translate-y-px">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-start gap-3 min-w-0">
@@ -311,7 +311,7 @@ export default function TherapistTemplatesPage() {
                   <AlertDialog>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                           <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -373,7 +373,7 @@ export default function TherapistTemplatesPage() {
 
       {/* Create / Edit Dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-        <DialogContent className="rounded-2xl max-w-lg">
+        <DialogContent className="rounded-xl max-w-lg">
           <DialogHeader>
             <DialogTitle>{editTarget ? 'Edit Template' : 'New Template'}</DialogTitle>
             <DialogDescription>
@@ -417,8 +417,8 @@ export default function TherapistTemplatesPage() {
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-full" onClick={() => setShowCreateDialog(false)}>Cancel</Button>
-            <Button onClick={handleSave} disabled={formSaving} className="gap-2 rounded-full">
+            <Button variant="ghost" className="rounded-lg" onClick={() => setShowCreateDialog(false)}>Cancel</Button>
+            <Button onClick={handleSave} disabled={formSaving} className="gap-2 rounded-lg">
               {formSaving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {formSaving ? 'Saving…' : editTarget ? 'Save Changes' : 'Create Template'}
             </Button>
@@ -428,7 +428,7 @@ export default function TherapistTemplatesPage() {
 
       {/* Preview Dialog */}
       <Dialog open={!!previewTemplate} onOpenChange={(open) => { if (!open) setPreviewTemplate(null); }}>
-        <DialogContent className="rounded-2xl max-w-xl">
+        <DialogContent className="rounded-xl max-w-xl">
           <DialogHeader>
             <DialogTitle>{previewTemplate?.name}</DialogTitle>
           </DialogHeader>
@@ -436,16 +436,16 @@ export default function TherapistTemplatesPage() {
             <p className="whitespace-pre-wrap text-sm leading-relaxed">{previewTemplate ? getTemplateBody(previewTemplate.content) : ''}</p>
           </ScrollArea>
           <DialogFooter>
-            <Button variant="outline" className="rounded-full" onClick={() => setPreviewTemplate(null)}>Close</Button>
+            <Button variant="outline" className="rounded-lg" onClick={() => setPreviewTemplate(null)}>Close</Button>
             <Button
               variant="outline"
-              className="gap-2 rounded-full"
+              className="gap-2 rounded-lg"
               onClick={() => previewTemplate && handleCopy(previewTemplate)}
             >
               <HugeiconsIcon icon={Copy01Icon} className="size-4" /> Copy
             </Button>
             <Button
-              className="gap-2 rounded-full"
+              className="gap-2 rounded-lg"
               onClick={() => previewTemplate && handleDownload(previewTemplate)}
             >
               <HugeiconsIcon icon={Download01Icon} className="size-4" /> Download

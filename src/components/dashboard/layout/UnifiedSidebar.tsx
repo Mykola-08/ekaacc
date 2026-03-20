@@ -117,7 +117,7 @@ function NavMain({
     <>
       {sections.map((section) => (
         <SidebarGroup key={section.id}>
-          <SidebarGroupLabel>{t(section.label)}</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t(section.label)}</SidebarGroupLabel>
           <SidebarMenu>
             {section.items.map((item) => {
               const label = t(item.label);
@@ -291,14 +291,14 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
     <Sidebar
       variant="inset"
       collapsible="icon"
-      className="dashboard-sidebar border-r"
+      className="dashboard-sidebar border-r border-border"
     >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild tooltip="EKA Balance">
               <Link href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">

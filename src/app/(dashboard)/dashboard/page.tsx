@@ -14,6 +14,7 @@ import { redirect } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { getUserPermissions } from '@/lib/permissions/actions';
+import { can } from '@/lib/permissions';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -35,6 +36,7 @@ import { AIDailySummary } from '@/components/dashboard/widgets/AIDailySummary';
 import { AIInsightCards } from '@/components/dashboard/widgets/AIInsightCards';
 import { AIQuickActions } from '@/components/dashboard/widgets/AIQuickActions';
 import { MoodTrendWidget } from '@/components/dashboard/widgets/MoodTrendWidget';
+import { Suspense } from 'react';
 import {
   ContextMenu,
   ContextMenuContent,
@@ -42,14 +44,6 @@ import {
   ContextMenuLabel,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-
-// ─── Permission helper ─────────────────────────────────────────────
-
-function can(permissions: any[], group: string, action: string): boolean {
-  return permissions.some(
-    (p) => p.group === group && (p.action === action || p.action === 'manage')
-  );
-}
 
 // ─── Greeting ──────────────────────────────────────────────────────
 
@@ -232,7 +226,7 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col gap-6 py-4 md:py-6">
       {/* ── Welcome Banner ────────────────────────────────────────── */}
-      <div className="px-4 lg:px-6">
+      <div>
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
@@ -252,7 +246,7 @@ export default async function DashboardPage() {
             )}
           </div>
           <Link href="/book">
-            <Button size="sm" className="shrink-0 rounded-full gap-1.5 hidden sm:flex">
+            <Button size="sm" className="shrink-0 rounded-lg gap-1.5 hidden sm:flex">
               <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
               Book Session
             </Button>
@@ -262,14 +256,14 @@ export default async function DashboardPage() {
 
       {/* ── Mood Quick-Log (non-admin, non-therapist only) ───────── */}
       {!canManageUsers && !canUseTherapistTools && (
-        <div className="px-4 lg:px-6">
+        <div>
           <MoodQuickLog todayScore={data.todayMood ?? null} />
         </div>
       )}
 
       {/* ── AI Widgets (patient/client only) ────────────────────── */}
       {!canManageUsers && !canUseTherapistTools && (
-        <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <AIDailySummary />
           </div>
@@ -281,20 +275,22 @@ export default async function DashboardPage() {
 
       {/* ── AI Insights (patient/client only) ────────────────────── */}
       {!canManageUsers && !canUseTherapistTools && (
-        <div className="px-4 lg:px-6">
+        <div>
           <AIInsightCards />
         </div>
       )}
 
       {!canManageUsers && !canUseTherapistTools && (
-        <div className="px-4 lg:px-6">
-          <MoodTrendWidget />
+        <div>
+          <Suspense fallback={<MoodTrendSkeleton />}>
+            <MoodTrendWidget />
+          </Suspense>
         </div>
       )}
 
       {/* ── Platform Stats (admin/manager only) ─────────────────── */}
       {canManageUsers && (
-        <div className="grid grid-cols-2 gap-3 px-4 lg:px-6 @xl/main:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 @xl/main:grid-cols-4">
           <DashStatsCard
             label="Total Users"
             value={data.totalUsers}
@@ -321,7 +317,7 @@ export default async function DashboardPage() {
 
       {/* ── Therapist quick stats ────────────────────────────────── */}
       {canUseTherapistTools && !canManageUsers && (
-        <div className="grid grid-cols-2 gap-3 px-4 lg:px-6">
+        <div className="grid grid-cols-2 gap-3">
           <DashStatsCard
             label="Today's Sessions"
             value={data.todayClients}
@@ -337,7 +333,7 @@ export default async function DashboardPage() {
       )}
 
       {/* ── Main content row ─────────────────────────────────────── */}
-      <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-3 lg:px-6">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {/* Upcoming Appointments */}
         <Card className="lg:col-span-2">
           <CardHeader>
@@ -409,7 +405,7 @@ export default async function DashboardPage() {
                   <p className="text-xs text-muted-foreground mt-0.5">Book a session to get started</p>
                 </div>
                 <Link href="/book">
-                  <Button size="sm" className="mt-1 rounded-full">
+                  <Button size="sm" className="mt-1 rounded-lg">
                     Book a Session
                   </Button>
                 </Link>
@@ -479,7 +475,7 @@ export default async function DashboardPage() {
               {!data.plan && (
                 <CardFooter>
                   <Link href="/settings?section=billing" className="w-full">
-                    <Button variant="outline" size="sm" className="w-full rounded-full text-xs">
+                    <Button variant="outline" size="sm" className="w-full rounded-lg text-xs">
                       Upgrade Plan
                     </Button>
                   </Link>
@@ -508,7 +504,7 @@ export default async function DashboardPage() {
               </CardHeader>
               <CardFooter>
                 <Link href="/wallet" className="w-full">
-                  <Button variant="outline" size="sm" className="w-full rounded-full text-xs">
+                  <Button variant="outline" size="sm" className="w-full rounded-lg text-xs">
                     View Wallet
                   </Button>
                 </Link>
@@ -520,7 +516,7 @@ export default async function DashboardPage() {
 
       {/* ── Wellness Goals ───────────────────────────────────────── */}
       {data.goals?.length > 0 && (
-        <div className="px-4 lg:px-6">
+        <div>
           <Card>
             <CardHeader>
               <CardTitle className="text-sm font-semibold">Active Goals</CardTitle>
@@ -556,7 +552,7 @@ export default async function DashboardPage() {
 
       {/* ── Journal & Assignments ────────────────────────────────── */}
       {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
-        <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-2 lg:px-6">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {data.journalEntries?.length > 0 && (
             <Card>
               <CardHeader>
@@ -655,7 +651,7 @@ export default async function DashboardPage() {
 
       {/* ── Admin Quick Links ────────────────────────────────────── */}
       {canManageSystem && (
-        <div className="grid grid-cols-1 gap-3 px-4 sm:grid-cols-3 lg:px-6">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <AdminQuickLink
             href="/console/features"
             title="Feature Flags"
@@ -682,6 +678,15 @@ export default async function DashboardPage() {
 
 // ─── Sub-components ────────────────────────────────────────────────
 
+function MoodTrendSkeleton() {
+  return (
+    <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
+      <div className="mb-3 h-4 w-24 animate-pulse rounded bg-muted" />
+      <div className="h-16 animate-pulse rounded-lg bg-muted" />
+    </div>
+  );
+}
+
 function DashStatsCard({
   label,
   value,
@@ -689,7 +694,7 @@ function DashStatsCard({
   accent,
 }: {
   label: string;
-  value: number;
+  value: number | null | undefined;
   icon: any;
   accent?: boolean;
 }) {
@@ -703,7 +708,11 @@ function DashStatsCard({
             accent && 'text-primary'
           )}
         >
-          {value ?? '—'}
+          {value == null ? (
+            <div className="mt-1 h-8 w-16 animate-pulse rounded-lg bg-muted" />
+          ) : (
+            value
+          )}
         </CardTitle>
         <CardAction>
           <div

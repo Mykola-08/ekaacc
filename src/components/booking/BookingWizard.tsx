@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useBookingData } from './useBookingData';
 import { BookingStepIndicator } from './BookingStepIndicator';
 import { ServiceStep } from './ServiceStep';
@@ -7,9 +7,9 @@ import { TherapistStep } from './TherapistStep';
 import { DateTimeStep } from './DateTimeStep';
 import { ConfirmStep } from './ConfirmStep';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  Loading03Icon,
   ArrowLeft01Icon,
   ArrowRight01Icon,
   Calendar03Icon,
@@ -35,10 +35,16 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
   const [selectedTherapistId, setSelectedTherapistId] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const selectedService = services.find((s) => s.id === selectedServiceId);
   const selectedTherapist = therapists.find((t) => t.id === selectedTherapistId);
+
+  useEffect(() => {
+    if (selectedService && currentStep === 1) setCurrentStep(2);
+  }, [selectedService]);
+
+  useEffect(() => {
+    if (selectedTherapist && currentStep === 2) setCurrentStep(3);
+  }, [selectedTherapist]);
 
   const canProceed = () => {
     switch (currentStep) {
@@ -67,10 +73,40 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
 
   if (loading) {
     return (
-      <div className="bg-muted flex min-h-screen items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin" />
-          <p className="text-muted-foreground text-sm">Loading services…</p>
+      <div className="bg-muted min-h-screen">
+        <div className="border-border bg-background border-b px-4 py-4 md:px-8">
+          <div className="mx-auto max-w-6xl">
+            <Skeleton className="mb-1 h-7 w-48" />
+            <Skeleton className="h-4 w-64" />
+          </div>
+        </div>
+        <div className="mx-auto max-w-6xl px-4 py-8 md:px-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+            <div className="min-w-0 flex-1">
+              <Card className="overflow-hidden rounded-xl border-none shadow-sm">
+                <div className="space-y-4 p-6 sm:p-8">
+                  <Skeleton className="h-6 w-40" />
+                  <Skeleton className="h-4 w-56" />
+                  <div className="grid gap-3 pt-1 sm:grid-cols-2">
+                    <Skeleton className="h-28 rounded-xl" />
+                    <Skeleton className="h-28 rounded-xl" />
+                    <Skeleton className="h-28 rounded-xl" />
+                    <Skeleton className="h-28 rounded-xl" />
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div className="w-full shrink-0 lg:w-72 xl:w-80">
+              <Card className="rounded-xl border-none shadow-sm">
+                <div className="space-y-4 p-6">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -79,10 +115,10 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
   if (error) {
     return (
       <div className="bg-muted flex min-h-screen items-center justify-center px-4">
-        <Card className="border-border/60 w-full max-w-md rounded-2xl p-6 text-center">
+        <Card className="w-full max-w-md rounded-xl border-none p-6 text-center">
           <p className="text-destructive text-sm font-semibold">Could not load booking data</p>
           <p className="text-muted-foreground mt-1 text-sm">{error}</p>
-          <Button className="mt-4 rounded-full" onClick={() => window.location.reload()}>
+          <Button className="mt-4 rounded-lg" onClick={() => window.location.reload()}>
             Retry
           </Button>
         </Card>
@@ -93,7 +129,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
   if (services.length === 0) {
     return (
       <div className="bg-muted flex min-h-screen items-center justify-center px-4">
-        <Card className="border-border/60 w-full max-w-md rounded-2xl p-6 text-center">
+        <Card className="w-full max-w-md rounded-xl border-none p-6 text-center">
           <p className="text-foreground text-sm font-semibold">No services available right now</p>
           <p className="text-muted-foreground mt-1 text-sm">
             Please check back soon or contact support.
@@ -106,7 +142,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
   return (
     <div className="bg-muted min-h-screen">
       {/* Top bar */}
-      <div className="border-border/60 bg-card/80 border-b px-4 py-4 backdrop-blur-sm md:px-8">
+      <div className="border-border bg-background border-b px-4 py-4 md:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-5 flex items-center justify-between">
             <div>
@@ -127,7 +163,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
           {/* Main card */}
           <div className="min-w-0 flex-1">
-            <Card className="border-border/60 bg-card overflow-hidden rounded-2xl border-none shadow-sm">
+            <Card className="border-border/60 bg-card overflow-hidden rounded-xl border-none shadow-sm">
               <div key={currentStep} className="animate-fade-in min-h-80 p-6 sm:p-8">
                 {currentStep === 1 && (
                   <ServiceStep
@@ -135,7 +171,6 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                     selectedServiceId={selectedServiceId}
                     onSelect={(id) => {
                       setSelectedServiceId(id);
-                      setTimeout(nextStep, 300);
                     }}
                   />
                 )}
@@ -145,7 +180,6 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                     selectedTherapistId={selectedTherapistId}
                     onSelect={(id) => {
                       setSelectedTherapistId(id);
-                      setTimeout(nextStep, 300);
                     }}
                   />
                 )}
@@ -164,22 +198,20 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                     selectedTherapist={selectedTherapist!}
                     selectedDate={selectedDate!}
                     selectedTime={selectedTime!}
-                    onConfirm={async () => {}}
-                    onSuccess={() => setIsSubmitting(false)}
-                    onLoad={(val) => setIsSubmitting(val)}
+                    onSuccess={() => { }}
                   />
                 )}
               </div>
 
               {/* Navigation footer */}
               {currentStep < 4 && (
-                <div className="border-border/60 bg-muted/30 flex items-center justify-between border-t px-6 py-4 sm:px-8">
+                <div className="border-border bg-muted/30 flex items-center justify-between border-t px-6 py-4 sm:px-8">
                   <Button
                     variant="ghost"
                     onClick={prevStep}
                     disabled={currentStep === 1}
                     size="sm"
-                    className="gap-1.5 rounded-full px-5 font-medium disabled:opacity-30"
+                    className="gap-1.5 rounded-lg px-5 font-medium disabled:opacity-30"
                   >
                     <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />
                     Back
@@ -188,7 +220,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
                     onClick={nextStep}
                     disabled={!canProceed()}
                     size="sm"
-                    className="gap-1.5 rounded-full px-6 font-semibold shadow-sm"
+                    className="gap-1.5 rounded-lg px-6 font-semibold shadow-sm"
                   >
                     Continue
                     <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
@@ -200,7 +232,7 @@ export function BookingWizard({ serviceId: initialServiceId }: BookingWizardProp
 
           {/* Summary sidebar */}
           <div className="w-full shrink-0 lg:w-72 xl:w-80">
-            <Card className="bg-card sticky top-6 rounded-2xl border-none shadow-sm">
+            <Card className="bg-card sticky top-6 rounded-xl border-none shadow-sm">
               <div className="p-6">
                 <h3 className="text-muted-foreground mb-4 text-sm font-semibold tracking-wider uppercase">
                   Session Summary

@@ -14,9 +14,11 @@ function getSupabaseClient(): SupabaseClient {
 
   supabaseInstance = createClient(supabaseUrl, supabasePublishableKey, {
     auth: {
-      persistSession: typeof window !== 'undefined', // Only persist on client
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
+      // Never persist here — use src/lib/supabase/client.ts (SSR client) for browser auth.
+      // Having two clients with persistSession=true on the same storage key causes lock conflicts.
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
       flowType: 'pkce',
     },
     global: {

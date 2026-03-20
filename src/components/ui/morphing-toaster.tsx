@@ -250,7 +250,7 @@ export function MorphingToaster() {
 
   return (
     <div
-      className="pointer-events-none fixed right-0 bottom-0 z-[100] flex flex-col items-end gap-2 p-4 sm:p-6"
+      className="pointer-events-none fixed right-0 bottom-0 z-100 flex flex-col items-end gap-2 p-4 sm:p-6"
       aria-live="polite"
       aria-label="Notifications"
     >

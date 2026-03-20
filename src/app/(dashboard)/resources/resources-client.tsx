@@ -167,13 +167,13 @@ export function ResourcesPageClient({
 
       {/* Resource grid */}
       {filtered.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-2xl border border-dashed py-14 text-center lg:mx-6">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-14 text-center lg:mx-6">
           <HugeiconsIcon icon={File01Icon} className="size-8 text-muted-foreground/30" />
           <div>
             <p className="font-semibold">No resources found</p>
             <p className="mt-1 text-sm text-muted-foreground">Try a different search or filter.</p>
           </div>
-          <Button variant="ghost" size="sm" className="rounded-full" onClick={() => { setSearch(''); setActiveType('all'); setSavedOnly(false); setHideCompleted(true); }}>
+          <Button variant="ghost" size="sm" className="rounded-lg" onClick={() => { setSearch(''); setActiveType('all'); setSavedOnly(false); setHideCompleted(true); }}>
             Clear filters
           </Button>
         </div>
@@ -185,7 +185,7 @@ export function ResourcesPageClient({
             const isCompleted = resourceState[r.id]?.completed ?? false;
             const lastOpenedAt = resourceState[r.id]?.lastOpenedAt;
             return (
-              <Card key={r.id} className="group flex flex-col rounded-2xl border border-border/60 transition-all hover:-translate-y-px hover:shadow-md">
+              <Card key={r.id} className="group flex flex-col rounded-xl border border-border/60 transition-shadow hover:shadow-md">
                 <CardHeader className="pb-3">
                   <div className="flex items-start gap-3">
                     <div className={cn('rounded-xl p-2.5 shrink-0', cfg.color)}>
@@ -218,7 +218,7 @@ export function ResourcesPageClient({
                   <CardContent className="pt-0 pb-3">
                     <div className="flex flex-wrap gap-1">
                       {(r.tags ?? []).slice(0, 4).map((tag) => (
-                        <span key={tag} className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground capitalize">
+                        <span key={tag} className="rounded-lg bg-muted px-2 py-0.5 text-xs text-muted-foreground capitalize">
                           {tag}
                         </span>
                       ))}

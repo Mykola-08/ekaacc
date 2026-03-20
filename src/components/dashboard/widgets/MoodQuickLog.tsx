@@ -76,7 +76,7 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
   }
 
   return (
-    <Card className="border-border/60 rounded-2xl">
+    <Card className="border-border/60 rounded-xl">
       <CardContent className="p-4">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">

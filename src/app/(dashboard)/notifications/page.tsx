@@ -48,7 +48,7 @@ export default async function NotificationsPage() {
 
         {unreadCount > 0 && (
           <form action={markNotificationsRead}>
-            <Button variant="outline" size="sm" className="gap-2 rounded-full">
+            <Button variant="outline" size="sm" className="gap-2 rounded-lg">
               <HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-3.5" />
               Mark all read
             </Button>
@@ -59,8 +59,8 @@ export default async function NotificationsPage() {
       {/* Content */}
       <div className="px-4 lg:px-6">
         {allNotifications.length === 0 ? (
-          <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed py-20 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
+          <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed py-20 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted">
               <HugeiconsIcon icon={InboxIcon} className="size-7 text-muted-foreground/50" />
             </div>
             <div>
@@ -71,7 +71,7 @@ export default async function NotificationsPage() {
               </p>
             </div>
             <Link href="/bookings">
-              <Button variant="outline" size="sm" className="gap-2 rounded-full">
+              <Button variant="outline" size="sm" className="gap-2 rounded-lg">
                 View Bookings
               </Button>
             </Link>

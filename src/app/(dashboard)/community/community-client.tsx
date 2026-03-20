@@ -111,7 +111,7 @@ function PostCard({
   const [showReply, setShowReply] = useState(false);
 
   return (
-    <Card className="rounded-2xl transition-all hover:-translate-y-px">
+    <Card className="rounded-xl">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-sm font-semibold leading-snug text-foreground">{post.title}</h3>
@@ -144,20 +144,20 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground hover:text-primary rounded-full"
+          className="gap-1.5 text-muted-foreground hover:text-primary rounded-lg transition-colors"
           onClick={() => onLike(post.id)}
         >
           <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
           <span className="text-xs tabular-nums">{post.likes_count ?? 0}</span>
         </Button>
-        <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground rounded-full ml-1">
+        <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground rounded-lg ml-1">
           <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
           <span className="text-xs">Discuss {replies.length > 0 ? `(${replies.length})` : ''}</span>
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-full"
+          className="gap-1.5 text-muted-foreground rounded-lg"
           onClick={() => onReact(post.id, 'heart')}
         >
           <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
@@ -166,7 +166,7 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-full"
+          className="gap-1.5 text-muted-foreground rounded-lg"
           onClick={() => onReact(post.id, 'pray')}
         >
           <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
@@ -175,14 +175,14 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-full"
+          className="gap-1.5 text-muted-foreground rounded-lg"
           onClick={() => onReport(post.id, 'other')}
         >
           <span className="text-xs">Report</span>
         </Button>
       </CardFooter>
       <CardContent className="pt-0 space-y-2">
-        <Button variant="ghost" size="sm" className="text-xs rounded-full" onClick={() => setShowReply((v) => !v)}>
+        <Button variant="ghost" size="sm" className="text-xs rounded-lg" onClick={() => setShowReply((v) => !v)}>
           {showReply ? 'Hide replies' : 'Reply'}
         </Button>
         {showReply && (
@@ -317,7 +317,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
             Connect with others, share experiences, and get support.
           </p>
         </div>
-        <Button onClick={() => setShowNewDialog(true)} className="shrink-0 gap-2 rounded-full">
+        <Button onClick={() => setShowNewDialog(true)} className="shrink-0 gap-2 rounded-lg">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           New Topic
         </Button>
@@ -338,13 +338,13 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
           </div>
 
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center">
+            <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center">
               <HugeiconsIcon icon={UserGroupIcon} className="size-10 text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
                 {search || categoryFilter !== 'all' ? 'No posts match your search.' : 'No posts yet. Be the first to start a discussion!'}
               </p>
               {!search && categoryFilter === 'all' && (
-                <Button onClick={() => setShowNewDialog(true)} variant="outline" className="rounded-full gap-2">
+                <Button onClick={() => setShowNewDialog(true)} variant="outline" className="rounded-lg gap-2">
                   <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
                   Start a Discussion
                 </Button>
@@ -369,7 +369,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
 
         {/* Sidebar */}
         <div className="space-y-4 @xl/main:col-span-4">
-          <Card className="rounded-2xl">
+          <Card className="rounded-xl">
             <CardHeader className="pb-3">
               <h3 className="text-sm font-semibold">Filter by Topic</h3>
             </CardHeader>
@@ -404,7 +404,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl border-primary/20 bg-primary/5">
+          <Card className="rounded-xl border-primary/20 bg-primary/5">
             <CardContent className="p-4 text-sm text-muted-foreground">
               <p className="font-medium text-foreground mb-1">Community Guidelines</p>
               <p className="text-xs leading-relaxed">
@@ -417,7 +417,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
 
       {/* New Post Dialog */}
       <Dialog open={showNewDialog} onOpenChange={setShowNewDialog}>
-        <DialogContent className="rounded-2xl">
+        <DialogContent className="rounded-xl">
           <DialogHeader>
             <DialogTitle>Start a Discussion</DialogTitle>
           </DialogHeader>
@@ -472,8 +472,8 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-full" onClick={() => setShowNewDialog(false)}>Cancel</Button>
-            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-full">
+            <Button variant="ghost" className="rounded-lg" onClick={() => setShowNewDialog(false)}>Cancel</Button>
+            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-lg">
               {creating && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {creating ? 'Posting…' : 'Post'}
             </Button>

@@ -20,7 +20,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 
-const STATS_CARD_CLASS = 'rounded-2xl border-border/60 bg-card';
+const STATS_CARD_CLASS = 'rounded-xl border-border/60 bg-card';
 const STATS_LABEL_CLASS = 'text-muted-foreground text-xs uppercase tracking-wide';
 const STATS_VALUE_CLASS = 'text-foreground mt-1 text-2xl font-bold tabular-nums';
 
@@ -139,7 +139,7 @@ export default async function BookingsPage() {
   return (
     <div className="flex flex-col gap-6 py-4 md:py-6">
       {/* Header */}
-      <div className="px-4 lg:px-6">
+      <div>
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-foreground text-xl font-bold tracking-tight">Bookings</h1>
@@ -150,7 +150,7 @@ export default async function BookingsPage() {
             </p>
           </div>
           <Link href="/book">
-            <Button size="sm" className="shrink-0 gap-1.5 rounded-full">
+            <Button size="sm" className="shrink-0 gap-1.5 rounded-lg">
               <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
               Book Session
             </Button>
@@ -160,8 +160,8 @@ export default async function BookingsPage() {
 
       {/* Stats row */}
       {(upcomingBookings.length > 0 || pastBookings.length > 0) && (
-        <div className="grid grid-cols-3 gap-3 px-4 lg:px-6">
-          <Card className={cn(STATS_CARD_CLASS, 'border-primary/20 bg-primary/5')}>
+        <div className="grid grid-cols-3 gap-3">
+          <Card className={cn(STATS_CARD_CLASS, 'border-primary/20')}>
             <CardContent className="p-4">
               <p className={cn(STATS_LABEL_CLASS, 'text-primary')}>Upcoming</p>
               <p className={cn(STATS_VALUE_CLASS, 'text-primary')}>{upcomingBookings.length}</p>
@@ -184,13 +184,13 @@ export default async function BookingsPage() {
         </div>
       )}
 
-      <div className="px-4 lg:px-6">
+      <div>
         <Tabs defaultValue="upcoming">
-          <TabsList className="h-10 rounded-xl">
+          <TabsList className="h-10 rounded-xl" variant="line">
             <TabsTrigger value="upcoming" className="gap-1.5 rounded-lg text-xs">
               Upcoming
               {upcomingBookings.length > 0 && (
-                <span className="bg-primary/10 text-primary rounded-full px-1.5 py-0.5 text-xs tabular-nums">
+                <span className="bg-primary/10 text-primary rounded-lg px-1.5 py-0.5 text-xs tabular-nums">
                   {upcomingBookings.length}
                 </span>
               )}
@@ -198,7 +198,7 @@ export default async function BookingsPage() {
             <TabsTrigger value="past" className="gap-1.5 rounded-lg text-xs">
               History
               {pastBookings.length > 0 && (
-                <span className="bg-muted text-muted-foreground rounded-full px-1.5 py-0.5 text-xs tabular-nums">
+                <span className="bg-muted text-muted-foreground rounded-lg px-1.5 py-0.5 text-xs tabular-nums">
                   {pastBookings.length}
                 </span>
               )}
@@ -230,8 +230,8 @@ export default async function BookingsPage() {
           {/* Past */}
           <TabsContent value="past" className="mt-4">
             {pastBookings.length === 0 ? (
-              <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-14 text-center">
-                <div className="bg-muted rounded-2xl p-4">
+              <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed py-14 text-center">
+                <div className="bg-muted rounded-xl p-4">
                   <HugeiconsIcon
                     icon={Calendar03Icon}
                     className="text-muted-foreground/40 size-8"
@@ -262,11 +262,11 @@ function BookingCard({ booking: b, isTherapist }: { booking: any; isTherapist: b
   const duration = getDuration(b.starts_at, b.ends_at);
 
   return (
-    <Card className="border-border/60 overflow-hidden rounded-2xl border transition-all hover:shadow-md">
+    <Card className="border-border/60 overflow-hidden rounded-xl border transition-all hover:shadow-md">
       <CardContent className="p-0">
         <div className="flex flex-col sm:flex-row">
           {/* Date/time column */}
-          <div className="bg-muted/30 border-border/40 flex shrink-0 justify-center gap-3 border-b px-4 py-4 sm:w-36 sm:flex-col sm:justify-start sm:gap-1 sm:border-r sm:border-b-0 sm:py-5">
+          <div className="border-border/40 flex shrink-0 justify-center gap-3 border-b px-4 py-4 sm:w-36 sm:flex-col sm:justify-start sm:gap-1 sm:border-r sm:border-b-0 sm:border-l-2 sm:border-l-primary sm:pl-4 sm:py-5">
             <div className="text-primary flex items-center gap-2 text-sm font-semibold sm:flex-col sm:items-start sm:gap-0.5">
               <HugeiconsIcon icon={Calendar03Icon} className="size-4 sm:hidden" />
               <span>{formatDate(b.starts_at)}</span>
@@ -329,14 +329,14 @@ function BookingCard({ booking: b, isTherapist }: { booking: any; isTherapist: b
             <div className="flex shrink-0 flex-col items-end gap-2">
               {b.meeting_url && b.status === 'scheduled' && (
                 <a href={b.meeting_url} target="_blank" rel="noopener noreferrer">
-                  <Button size="sm" className="gap-1.5 rounded-full text-xs">
+                  <Button size="sm" className="gap-1.5 rounded-lg text-xs">
                     <HugeiconsIcon icon={Video01Icon} className="size-3.5" />
                     Join
                   </Button>
                 </a>
               )}
               {b.status === 'scheduled' && (
-                <Button variant="outline" size="sm" className="gap-1.5 rounded-full text-xs">
+                <Button variant="outline" size="sm" className="gap-1.5 rounded-lg text-xs">
                   <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" />
                   Cancel
                 </Button>
@@ -355,7 +355,7 @@ function PastBookingRow({ booking: b, isTherapist }: { booking: any; isTherapist
   const duration = getDuration(b.starts_at, b.ends_at);
 
   return (
-    <div className="border-border/60 hover:bg-muted/30 flex items-center gap-3 rounded-2xl border p-4 transition-colors">
+    <div className="border-border/60 hover:bg-muted/30 flex items-center gap-3 rounded-xl border p-4 transition-colors">
       <div
         className={cn(
           'flex size-9 shrink-0 items-center justify-center rounded-xl',
@@ -394,7 +394,7 @@ function PastBookingRow({ booking: b, isTherapist }: { booking: any; isTherapist
         <Button
           variant="ghost"
           size="sm"
-          className="text-muted-foreground shrink-0 gap-1 rounded-full text-xs"
+          className="text-muted-foreground shrink-0 gap-1 rounded-lg text-xs"
         >
           Notes
           <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
@@ -406,8 +406,8 @@ function PastBookingRow({ booking: b, isTherapist }: { booking: any; isTherapist
 
 function EmptyBookings({ onBook }: { onBook: string }) {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed py-16 text-center">
-      <div className="bg-muted rounded-2xl p-5">
+    <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed py-16 text-center">
+      <div className="bg-muted rounded-xl p-5">
         <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground/40 size-10" />
       </div>
       <div>
@@ -417,7 +417,7 @@ function EmptyBookings({ onBook }: { onBook: string }) {
         </p>
       </div>
       <Link href={onBook}>
-        <Button className="gap-2 rounded-full">
+        <Button className="gap-2 rounded-lg">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           Book a Session
         </Button>

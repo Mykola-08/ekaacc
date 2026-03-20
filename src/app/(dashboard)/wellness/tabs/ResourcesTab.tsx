@@ -35,7 +35,7 @@ export function ResourcesTab() {
     return (
       <div className="flex flex-col gap-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-muted h-24 animate-pulse rounded-2xl" />
+          <div key={i} className="bg-muted h-24 animate-pulse rounded-xl" />
         ))}
       </div>
     );
@@ -43,7 +43,7 @@ export function ResourcesTab() {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center">
         <p className="text-sm font-medium text-foreground">Failed to load resources</p>
         <p className="text-xs text-muted-foreground">Check your connection and try again.</p>
         <Button variant="outline" size="sm" onClick={fetchResources}>

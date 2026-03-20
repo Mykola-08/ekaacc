@@ -40,7 +40,7 @@ export function NotificationDropdown() {
         <Button
           variant="outline"
           size="icon"
-          className="bg-card hover:bg-secondary relative h-10 w-10 rounded-full border-none transition-colors"
+          className="bg-card hover:bg-secondary relative h-10 w-10 rounded-lg border-none transition-colors"
         >
           <HugeiconsIcon
             icon={Notification01Icon}

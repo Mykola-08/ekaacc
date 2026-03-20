@@ -7,15 +7,15 @@ export default function AIInsightsLoading() {
       </div>
       <div className="grid grid-cols-2 gap-3 px-4 lg:px-6 lg:grid-cols-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-28 animate-pulse rounded-2xl bg-muted" />
+          <div key={i} className="h-28 animate-pulse rounded-xl bg-muted" />
         ))}
       </div>
       <div className="px-4 lg:px-6">
-        <div className="h-48 animate-pulse rounded-2xl bg-muted" />
+        <div className="h-48 animate-pulse rounded-xl bg-muted" />
       </div>
       <div className="grid grid-cols-1 gap-4 px-4 lg:grid-cols-2 lg:px-6">
-        <div className="h-64 animate-pulse rounded-2xl bg-muted" />
-        <div className="h-64 animate-pulse rounded-2xl bg-muted" />
+        <div className="h-64 animate-pulse rounded-xl bg-muted" />
+        <div className="h-64 animate-pulse rounded-xl bg-muted" />
       </div>
     </div>
   );

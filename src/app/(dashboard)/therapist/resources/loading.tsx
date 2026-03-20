@@ -7,7 +7,7 @@ export default function TherapistResourcesLoading() {
       </div>
       <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
         {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="h-52 animate-pulse rounded-2xl bg-muted" />
+          <div key={i} className="h-52 animate-pulse rounded-xl bg-muted" />
         ))}
       </div>
     </div>

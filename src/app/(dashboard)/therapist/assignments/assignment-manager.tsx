@@ -106,7 +106,7 @@ function AssignmentCard({
   const [deleting, startDelete] = useTransition();
 
   return (
-    <Card className="rounded-2xl border-border/60 transition-all hover:-translate-y-px hover:shadow-md">
+    <Card className="rounded-xl border-border/60 transition-all hover:-translate-y-px hover:shadow-md">
       <CardContent className="p-4">
         <div className="flex items-start gap-3">
           <div className="mt-0.5 shrink-0 rounded-xl bg-primary/10 p-2">
@@ -148,7 +148,7 @@ function AssignmentCard({
             <Button
               variant="ghost"
               size="icon"
-              className="size-8 rounded-full"
+              className="size-8 rounded-lg"
               onClick={() => onEdit(a)}
             >
               <HugeiconsIcon icon={PencilEdit01Icon} className="size-3.5" />
@@ -158,7 +158,7 @@ function AssignmentCard({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-full text-muted-foreground hover:text-destructive"
+                  className="size-8 rounded-lg text-muted-foreground hover:text-destructive"
                   disabled={deleting}
                 >
                   {deleting ? (
@@ -245,12 +245,12 @@ export function AssignmentManager({
         </div>
         <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setEditing(null); }}>
           <DialogTrigger asChild>
-            <Button className="gap-2 rounded-full" onClick={openCreate}>
+            <Button className="gap-2 rounded-lg" onClick={openCreate}>
               <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
               New Assignment
             </Button>
           </DialogTrigger>
-          <DialogContent className="rounded-2xl">
+          <DialogContent className="rounded-xl">
             <DialogHeader>
               <DialogTitle>{editing ? 'Edit Assignment' : 'Create Assignment'}</DialogTitle>
             </DialogHeader>
@@ -347,10 +347,10 @@ export function AssignmentManager({
                 </div>
               )}
               <div className="flex justify-end gap-2 pt-2">
-                <Button type="button" variant="ghost" className="rounded-full" onClick={() => { setDialogOpen(false); setEditing(null); }}>
+                <Button type="button" variant="ghost" className="rounded-lg" onClick={() => { setDialogOpen(false); setEditing(null); }}>
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isPending} className="gap-2 rounded-full">
+                <Button type="submit" disabled={isPending} className="gap-2 rounded-lg">
                   {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
                   {isPending ? 'Saving…' : editing ? 'Update' : 'Create'}
                 </Button>
@@ -368,7 +368,7 @@ export function AssignmentManager({
             { label: 'Submitted', value: assignments.filter((a) => a.status === 'submitted').length, color: 'text-success' },
             { label: 'Total', value: assignments.length, color: 'text-foreground' },
           ].map(({ label, value, color }) => (
-            <Card key={label} className="rounded-2xl border-border/60">
+            <Card key={label} className="rounded-xl border-border/60">
               <CardContent className="p-4">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
                 <p className={cn('mt-1 text-2xl font-bold tabular-nums', color)}>{value}</p>
@@ -381,8 +381,8 @@ export function AssignmentManager({
       {/* Content */}
       <div className="px-4 lg:px-6">
         {assignments.length === 0 ? (
-          <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed py-16 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
+          <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed py-16 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-muted">
               <HugeiconsIcon icon={NoteIcon} className="size-7 text-muted-foreground/50" />
             </div>
             <div>
@@ -391,7 +391,7 @@ export function AssignmentManager({
                 Create your first assignment to give patients structured tasks to work on.
               </p>
             </div>
-            <Button className="gap-2 rounded-full" onClick={openCreate}>
+            <Button className="gap-2 rounded-lg" onClick={openCreate}>
               <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
               Create Assignment
             </Button>
@@ -402,7 +402,7 @@ export function AssignmentManager({
               <TabsTrigger value="active" className="gap-1.5 rounded-lg text-xs">
                 Active
                 {active.length > 0 && (
-                  <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary tabular-nums">
+                  <span className="rounded-lg bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary tabular-nums">
                     {active.length}
                   </span>
                 )}
@@ -410,7 +410,7 @@ export function AssignmentManager({
               <TabsTrigger value="completed" className="gap-1.5 rounded-lg text-xs">
                 Submitted
                 {completed.length > 0 && (
-                  <span className="rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground tabular-nums">
+                  <span className="rounded-lg bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground tabular-nums">
                     {completed.length}
                   </span>
                 )}
@@ -419,7 +419,7 @@ export function AssignmentManager({
 
             <TabsContent value="active">
               {active.length === 0 ? (
-                <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed py-12 text-center">
+                <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-12 text-center">
                   <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-8 text-success/50" />
                   <p className="text-sm text-muted-foreground">All assignments have been submitted.</p>
                 </div>
@@ -434,7 +434,7 @@ export function AssignmentManager({
 
             <TabsContent value="completed">
               {completed.length === 0 ? (
-                <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed py-12 text-center">
+                <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-12 text-center">
                   <p className="text-sm text-muted-foreground">No submitted assignments yet.</p>
                 </div>
               ) : (

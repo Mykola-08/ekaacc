@@ -65,7 +65,7 @@ function AssignmentCard({
   const isCompleted = assignment.status === 'completed';
 
   return (
-    <Card className={cn('rounded-2xl transition-all', isCompleted && 'opacity-70')}>
+    <Card className={cn('rounded-xl transition-shadow hover:shadow-sm', isCompleted && 'opacity-70')}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 min-w-0">
@@ -162,8 +162,8 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
       </div>
 
       {assignments.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-2xl bg-muted p-4">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-xl bg-muted p-4">
             <HugeiconsIcon icon={NoteIcon} className="size-8 text-muted-foreground/50" />
           </div>
           <div>
@@ -174,11 +174,11 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
       ) : (
         <div className="px-4 lg:px-6">
           <Tabs defaultValue="pending">
-            <TabsList className="mb-4 rounded-xl">
+            <TabsList className="mb-4 rounded-xl" variant="line">
               <TabsTrigger value="pending" className="rounded-lg gap-1.5">
                 Pending
                 {pending.length > 0 && (
-                  <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary tabular-nums">
+                  <span className="rounded-lg bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary tabular-nums">
                     {pending.length}
                   </span>
                 )}
@@ -186,7 +186,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
               <TabsTrigger value="completed" className="rounded-lg gap-1.5">
                 Completed
                 {completed.length > 0 && (
-                  <span className="rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground tabular-nums">
+                  <span className="rounded-lg bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground tabular-nums">
                     {completed.length}
                   </span>
                 )}
@@ -195,7 +195,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
 
             <TabsContent value="pending">
               {pending.length === 0 ? (
-                <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed py-12 text-center">
+                <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-12 text-center">
                   <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-8 text-success/50" />
                   <p className="text-sm text-muted-foreground">All caught up! No pending assignments.</p>
                 </div>
@@ -210,7 +210,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
 
             <TabsContent value="completed">
               {completed.length === 0 ? (
-                <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed py-12 text-center">
+                <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-12 text-center">
                   <p className="text-sm text-muted-foreground">No completed assignments yet.</p>
                 </div>
               ) : (
@@ -227,7 +227,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
 
       {/* Submit Dialog */}
       <Dialog open={!!submitTarget} onOpenChange={(open) => { if (!open) { setSubmitTarget(null); setResponseText(''); setSubmitError(null); } }}>
-        <DialogContent className="rounded-2xl">
+        <DialogContent className="rounded-xl">
           <DialogHeader>
             <DialogTitle>{submitTarget?.title}</DialogTitle>
             {submitTarget?.description && (
@@ -247,8 +247,8 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-full" onClick={() => setSubmitTarget(null)}>Cancel</Button>
-            <Button onClick={handleSubmit} disabled={submitting} className="gap-2 rounded-full">
+            <Button variant="ghost" className="rounded-lg" onClick={() => setSubmitTarget(null)}>Cancel</Button>
+            <Button onClick={handleSubmit} disabled={submitting} className="gap-2 rounded-lg">
               {submitting && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {submitting ? 'Submitting…' : 'Submit Response'}
             </Button>

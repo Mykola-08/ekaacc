@@ -42,7 +42,7 @@ export default function NotificationsSettingsPage() {
 
   return (
     <div className="space-y-4 p-4 lg:p-6">
-      <Card className="rounded-2xl">
+      <Card className="rounded-xl">
         <CardHeader>
           <CardTitle>Notification Settings</CardTitle>
           <CardDescription>Choose what updates you receive and how frequently.</CardDescription>
@@ -64,7 +64,7 @@ export default function NotificationsSettingsPage() {
         </CardContent>
         <CardFooter className="justify-end gap-2">
           {saved && <span className="text-sm text-success">Saved</span>}
-          <Button onClick={onSave} disabled={isPending} className="rounded-full">
+          <Button onClick={onSave} disabled={isPending} className="rounded-lg">
             {isPending ? 'Saving…' : 'Save preferences'}
           </Button>
         </CardFooter>

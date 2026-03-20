@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,9 +21,7 @@ interface ConfirmStepProps {
   selectedTherapist: any;
   selectedDate: Date;
   selectedTime: string;
-  onConfirm: (data: any) => Promise<void>;
   onSuccess: () => void;
-  onLoad: (val: boolean) => void;
 }
 
 export function ConfirmStep({
@@ -30,10 +29,9 @@ export function ConfirmStep({
   selectedTherapist,
   selectedDate,
   selectedTime,
-  onConfirm,
   onSuccess,
-  onLoad,
 }: ConfirmStepProps) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +39,6 @@ export function ConfirmStep({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    onLoad(true);
     setError(null);
 
     const formData = new FormData(e.currentTarget);
@@ -78,7 +75,6 @@ export function ConfirmStep({
       setError(err.message);
     } finally {
       setLoading(false);
-      onLoad(false);
     }
   };
 
@@ -95,9 +91,9 @@ export function ConfirmStep({
           </p>
         </div>
         <Button
-          onClick={() => (window.location.href = '/bookings')}
+          onClick={() => router.push('/bookings')}
           size="lg"
-          className="mt-2 rounded-full px-8"
+          className="mt-2 rounded-lg px-8"
         >
           View My Bookings
         </Button>
@@ -115,7 +111,7 @@ export function ConfirmStep({
       </div>
 
       {/* Booking mini-summary */}
-      <div className="bg-muted/40 rounded-xl border border-border/60 p-4">
+      <div className="bg-muted/40 rounded-xl border border-border p-4">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="flex items-center gap-2.5">
             <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
@@ -222,7 +218,7 @@ export function ConfirmStep({
             size="lg"
             disabled={loading}
             className={cn(
-              'h-12 w-full rounded-full text-base font-semibold transition-all',
+              'h-12 w-full rounded-lg text-base font-semibold transition-all',
               loading && 'opacity-70'
             )}
           >

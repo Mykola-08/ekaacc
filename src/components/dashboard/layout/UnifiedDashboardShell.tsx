@@ -26,6 +26,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import type { UserProfile } from '@/lib/platform/types/auth-types';
+import { can } from '@/lib/permissions';
 
 /* ─── Page title mapping ─────────────────────────── */
 const PAGE_TITLES: Record<string, string> = {
@@ -73,13 +74,6 @@ const PAGE_TITLES: Record<string, string> = {
   '/tools': 'Tools',
   '/chat': 'Chat',
 };
-
-function can(permissions: any[] = [], group: string, action: string): boolean {
-  return permissions.some(
-    (permission) =>
-      permission.group === group && (permission.action === action || permission.action === 'manage')
-  );
-}
 
 function getPageTitle(pathname: string): string {
   if (PAGE_TITLES[pathname]) return PAGE_TITLES[pathname];
@@ -156,7 +150,8 @@ export function UnifiedDashboardShell({
               <UnifiedSidebar profile={profile} permissions={permissions} />
 
               <SidebarInset>
-                <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+                <a href="#main-content" className="ux-skip-link">Skip to main content</a>
+                <header className="flex h-12 shrink-0 items-center gap-2 border-b border-border bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                   <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
                     <SidebarTrigger className="-ml-1" />
                     <Separator
@@ -201,7 +196,9 @@ export function UnifiedDashboardShell({
                 <div className="flex flex-1 flex-col">
                   <div className="@container/main flex flex-1 flex-col gap-2">
                     <main id="main-content" tabIndex={-1}>
-                      {children}
+                      <div className="p-4 md:p-6">
+                        {children}
+                      </div>
                     </main>
                   </div>
                 </div>

@@ -106,7 +106,7 @@ export function ProgressTab() {
     return (
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-muted h-32 animate-pulse rounded-2xl" />
+          <div key={i} className="bg-muted h-32 animate-pulse rounded-xl" />
         ))}
       </div>
     );
@@ -114,7 +114,7 @@ export function ProgressTab() {
 
   if (!stats) {
     return (
-      <div className="border-border bg-muted/30 rounded-2xl border-2 border-dashed py-20 text-center">
+      <div className="border-border bg-muted/30 rounded-xl border-2 border-dashed py-20 text-center">
         <HugeiconsIcon icon={SmilePlusIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
         <h3 className="text-foreground text-lg font-semibold">No wellness data yet</h3>
         <p className="text-muted-foreground mt-1 text-sm">
@@ -128,7 +128,7 @@ export function ProgressTab() {
     <div className="">
       {/* Key Metrics */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-border rounded-2xl">
+        <Card className="border-border rounded-xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Avg. Mood</CardTitle>
             {stats.moodTrend >= 0 ? (
@@ -151,7 +151,7 @@ export function ProgressTab() {
             </div>
           </CardContent>
         </Card>
-        <Card className="border-border rounded-2xl">
+        <Card className="border-border rounded-xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Avg. Energy</CardTitle>
             <HugeiconsIcon icon={AnalyticsUpIcon} className="text-primary size-4"  />
@@ -173,7 +173,7 @@ export function ProgressTab() {
             )}
           </CardContent>
         </Card>
-        <Card className="border-border rounded-2xl">
+        <Card className="border-border rounded-xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Sessions</CardTitle>
             <HugeiconsIcon icon={Pulse01Icon} className="text-destructive size-4"  />
@@ -183,7 +183,7 @@ export function ProgressTab() {
             <p className="text-muted-foreground text-xs">Completed sessions</p>
           </CardContent>
         </Card>
-        <Card className="border-border rounded-2xl">
+        <Card className="border-border rounded-xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Goals</CardTitle>
             <HugeiconsIcon icon={Target01Icon} className="text-warning size-4"  />
@@ -202,7 +202,7 @@ export function ProgressTab() {
       </div>
 
       {/* Mood History */}
-      <Card className="border-border rounded-2xl">
+      <Card className="border-border rounded-xl">
         <CardHeader>
           <CardTitle>Mood History</CardTitle>
           <CardDescription>Your mood scores over the past 30 days</CardDescription>
@@ -251,7 +251,7 @@ export function ProgressTab() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="border-border bg-background rounded-2xl border p-2">
+                          <div className="border-border bg-background rounded-xl border p-2">
                             <p className="text-muted-foreground mb-1 text-xs">{label}</p>
                             <p className="text-primary text-sm font-bold">
                               Mood: {payload[0].value}/10
@@ -278,7 +278,7 @@ export function ProgressTab() {
       </Card>
 
       {/* Wellness Snapshot */}
-      <Card className="border-border rounded-2xl">
+      <Card className="border-border rounded-xl">
         <CardHeader>
           <CardTitle>Current Wellness Snapshot</CardTitle>
           <CardDescription>Your average scores across key metrics</CardDescription>

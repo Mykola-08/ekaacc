@@ -103,7 +103,7 @@ export default async function FinancesPage() {
 
         <div className="px-4 lg:px-6">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="mb-6 w-full max-w-md grid grid-cols-3">
+            <TabsList className="mb-6 w-full max-w-md grid grid-cols-3" variant="line">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="transactions">Transactions</TabsTrigger>
               <TabsTrigger value="billing">Billing</TabsTrigger>
@@ -111,7 +111,7 @@ export default async function FinancesPage() {
 
             {/* ── Overview ─────────────────────────────────── */}
             <TabsContent value="overview" className="space-y-6">
-              <div className="grid gap-4 @xl/main:grid-cols-3 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs">
+              <div className="grid gap-4 @xl/main:grid-cols-3">
                 <Card className="@container/card">
                   <CardHeader>
                     <CardDescription>Current Balance</CardDescription>

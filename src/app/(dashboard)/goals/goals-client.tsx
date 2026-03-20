@@ -109,7 +109,7 @@ function GoalCard({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Card className={cn('rounded-2xl transition-all hover:-translate-y-px', goal.is_achieved && 'opacity-80')}>
+    <Card className={cn('rounded-xl transition-shadow hover:shadow-sm', goal.is_achieved && 'opacity-80')}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-start gap-3 min-w-0">
@@ -130,7 +130,7 @@ function GoalCard({
           <AlertDialog>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-full">
+                <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-lg">
                   <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -184,7 +184,7 @@ function GoalCard({
               {goal.progress_percentage}%
             </span>
           </div>
-          <Progress value={goal.progress_percentage} className="h-2 rounded-full" />
+          <Progress value={goal.progress_percentage} className="h-1.5 rounded-lg" />
         </div>
       </CardContent>
       <CardFooter className="pt-0">
@@ -300,7 +300,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
             Track progress, build habits, and reach your milestones.
           </p>
         </div>
-        <Button onClick={() => setShowNewDialog(true)} className="shrink-0 gap-2 rounded-full">
+        <Button onClick={() => setShowNewDialog(true)} className="shrink-0 gap-2 rounded-lg">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           New Goal
         </Button>
@@ -308,15 +308,15 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
 
       {/* Active goals */}
       {goals.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-2xl border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-2xl bg-muted p-4">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-xl bg-muted p-4">
             <HugeiconsIcon icon={Moon01Icon} className="size-8 text-muted-foreground/50" />
           </div>
           <div>
             <p className="font-semibold">No goals yet</p>
             <p className="mt-1 text-sm text-muted-foreground">Set your first goal to start tracking progress.</p>
           </div>
-          <Button onClick={() => setShowNewDialog(true)} className="rounded-full gap-2 mt-2">
+          <Button onClick={() => setShowNewDialog(true)} className="rounded-lg gap-2 mt-2">
             <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
             Create Your First Goal
           </Button>
@@ -352,7 +352,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
 
       {/* New Goal Dialog */}
       <Dialog open={showNewDialog} onOpenChange={setShowNewDialog}>
-        <DialogContent className="rounded-2xl">
+        <DialogContent className="rounded-xl">
           <DialogHeader>
             <DialogTitle>New Goal</DialogTitle>
           </DialogHeader>
@@ -406,8 +406,8 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-full" onClick={() => setShowNewDialog(false)}>Cancel</Button>
-            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-full">
+            <Button variant="ghost" className="rounded-lg" onClick={() => setShowNewDialog(false)}>Cancel</Button>
+            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-lg">
               {creating && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {creating ? 'Creating…' : 'Create Goal'}
             </Button>
@@ -425,7 +425,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
           }
         }}
       >
-        <DialogContent className="rounded-2xl max-w-sm">
+        <DialogContent className="rounded-xl max-w-sm">
           <DialogHeader>
             <DialogTitle>Update Progress</DialogTitle>
           </DialogHeader>
@@ -443,7 +443,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
               <p className="text-center text-2xl font-semibold tabular-nums">{checkInValue}%</p>
               <p className="text-xs text-muted-foreground text-center">Drag to update from 0 to 100</p>
             </div>
-            <Progress value={checkInValue} className="h-2.5 rounded-full" />
+            <Progress value={checkInValue} className="h-2.5 rounded-lg" />
             {checkInHistory.length > 0 && (
               <div className="space-y-1">
                 <p className="text-xs font-medium text-muted-foreground">Recent updates</p>
@@ -461,8 +461,8 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-full" onClick={() => setCheckInGoal(null)}>Cancel</Button>
-            <Button onClick={handleCheckIn} disabled={checkingIn} className="gap-2 rounded-full">
+            <Button variant="ghost" className="rounded-lg" onClick={() => setCheckInGoal(null)}>Cancel</Button>
+            <Button onClick={handleCheckIn} disabled={checkingIn} className="gap-2 rounded-lg">
               {checkingIn && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {checkingIn ? 'Saving…' : 'Save Progress'}
             </Button>

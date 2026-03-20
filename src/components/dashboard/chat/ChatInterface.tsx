@@ -363,7 +363,7 @@ export function ChatInterface() {
                   type="submit"
                   size="icon"
                   disabled={!inputText.trim()}
-                  className="shrink-0 rounded-full"
+                  className="shrink-0 rounded-lg"
                 >
                   <HugeiconsIcon icon={SentIcon} className="size-4"  />
                 </Button>

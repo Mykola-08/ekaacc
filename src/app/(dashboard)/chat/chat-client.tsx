@@ -297,10 +297,10 @@ export function ChatPageClient({
   return (
     <div className="flex h-[calc(100vh-var(--header-height,4rem))] overflow-hidden">
       {/* ── Sidebar ────────────────────────────────────────────────── */}
-      <div className="flex w-64 shrink-0 flex-col border-r border-border bg-card">
+      <div className="flex w-60 shrink-0 flex-col border-r border-border bg-card">
         <div className="flex items-center justify-between gap-2 px-4 py-3 border-b border-border">
           <h2 className="text-sm font-semibold">Channels</h2>
-          <Button variant="ghost" size="icon" className="size-7 rounded-full" onClick={() => setShowCreate(true)}>
+          <Button variant="ghost" size="icon" className="size-7 rounded-lg" onClick={() => setShowCreate(true)}>
             <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           </Button>
         </div>
@@ -323,7 +323,7 @@ export function ChatPageClient({
               <HugeiconsIcon icon={MessageMultiple01Icon} className="size-8 text-muted-foreground/30" />
               <p className="text-xs text-muted-foreground">{search ? 'No channels found' : 'No channels yet'}</p>
               {!search && (
-                <Button variant="ghost" size="sm" className="text-xs rounded-full" onClick={() => setShowCreate(true)}>
+                <Button variant="ghost" size="sm" className="text-xs rounded-lg" onClick={() => setShowCreate(true)}>
                   Create one
                 </Button>
               )}
@@ -336,7 +336,7 @@ export function ChatPageClient({
                 className={cn(
                   'w-full flex items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm transition-colors',
                   selectedChannel?.id === ch.id
-                    ? 'bg-primary/10 text-primary'
+                    ? 'bg-muted text-foreground font-medium'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 )}
               >
@@ -376,7 +376,7 @@ export function ChatPageClient({
               </div>
             ) : messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-                <div className="rounded-2xl bg-muted p-4">
+                <div className="rounded-xl bg-muted p-4">
                   <HugeiconsIcon icon={Comment01Icon} className="size-8 text-muted-foreground/50" />
                 </div>
                 <div>
@@ -466,7 +466,7 @@ export function ChatPageClient({
                           <div className="relative flex items-end gap-1">
                             <div
                               className={cn(
-                                'rounded-2xl px-3 py-2 text-sm leading-relaxed',
+                                'rounded-xl px-3 py-2 text-sm leading-relaxed',
                                 isDeleting && 'opacity-40',
                                 isMe
                                   ? 'bg-primary text-primary-foreground rounded-tr-sm'
@@ -487,7 +487,7 @@ export function ChatPageClient({
                                     <Button
                                       variant="ghost"
                                       size="icon"
-                                      className="size-6 rounded-full text-muted-foreground hover:bg-muted"
+                                      className="size-6 rounded-lg text-muted-foreground hover:bg-muted"
                                     >
                                       <HugeiconsIcon icon={MoreVerticalIcon} className="size-3.5" />
                                     </Button>
@@ -526,11 +526,11 @@ export function ChatPageClient({
           {/* Message Input */}
           <div className="border-t border-border bg-card px-4 py-3">
             <div className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-1.5 focus-within:border-primary/50 transition-colors">
-              {/* Attach template button */}
+              {/* Attach template Button */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-7 shrink-0 rounded-full text-muted-foreground hover:text-foreground"
+                className="size-7 shrink-0 rounded-lg text-muted-foreground hover:text-foreground"
                 onClick={openTemplates}
                 title="Attach template"
               >
@@ -548,7 +548,7 @@ export function ChatPageClient({
 
               <Button
                 size="icon"
-                className="size-7 shrink-0 rounded-full"
+                className="size-7 shrink-0 rounded-lg"
                 onClick={handleSend}
                 disabled={sending || !messageText.trim()}
               >
@@ -568,7 +568,7 @@ export function ChatPageClient({
         </div>
       ) : (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-          <div className="rounded-2xl bg-muted p-6">
+          <div className="rounded-xl bg-muted p-6">
             <HugeiconsIcon icon={UserGroupIcon} className="size-12 text-muted-foreground/50" />
           </div>
           <div className="space-y-1">
@@ -577,7 +577,7 @@ export function ChatPageClient({
               Join or create a channel to start collaborating with your care team.
             </p>
           </div>
-          <Button onClick={() => setShowCreate(true)} className="gap-2 rounded-full">
+          <Button onClick={() => setShowCreate(true)} className="gap-2 rounded-lg">
             <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
             Create a Channel
           </Button>
@@ -586,7 +586,7 @@ export function ChatPageClient({
 
       {/* ── Create Channel Dialog ───────────────────────────────── */}
       <Dialog open={showCreate} onOpenChange={setShowCreate}>
-        <DialogContent className="rounded-2xl max-w-sm">
+        <DialogContent className="rounded-xl max-w-sm">
           <DialogHeader>
             <DialogTitle>New Channel</DialogTitle>
           </DialogHeader>
@@ -617,8 +617,8 @@ export function ChatPageClient({
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-full" onClick={() => setShowCreate(false)}>Cancel</Button>
-            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-full">
+            <Button variant="ghost" className="rounded-lg" onClick={() => setShowCreate(false)}>Cancel</Button>
+            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-lg">
               {creating && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {creating ? 'Creating…' : 'Create Channel'}
             </Button>
@@ -628,7 +628,7 @@ export function ChatPageClient({
 
       {/* ── Template Picker Dialog ──────────────────────────────── */}
       <Dialog open={showTemplates} onOpenChange={setShowTemplates}>
-        <DialogContent className="rounded-2xl max-w-lg">
+        <DialogContent className="rounded-xl max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <HugeiconsIcon icon={File01Icon} className="size-5 text-muted-foreground" />
@@ -685,7 +685,7 @@ export function ChatPageClient({
           </div>
 
           <DialogFooter>
-            <Button variant="ghost" className="rounded-full" onClick={() => setShowTemplates(false)}>
+            <Button variant="ghost" className="rounded-lg" onClick={() => setShowTemplates(false)}>
               Cancel
             </Button>
           </DialogFooter>

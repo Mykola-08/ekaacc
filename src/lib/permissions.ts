@@ -97,3 +97,25 @@ export async function getAllUserPermissions(userId: string) {
     }) || []
   );
 }
+
+// ─── Permission Record & can() helper ────────────────────────────────────────
+
+export interface PermissionRecord {
+  group: string;
+  action: string;
+}
+
+/**
+ * Returns true if the given permissions array grants access to the specified
+ * group/action pair. An entry with action "manage" grants access to any action
+ * within the same group.
+ */
+export function can(
+  permissions: PermissionRecord[],
+  group: string,
+  action: string
+): boolean {
+  return permissions.some(
+    (p) => p.group === group && (p.action === action || p.action === 'manage')
+  );
+}

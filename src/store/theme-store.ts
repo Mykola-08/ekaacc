@@ -173,10 +173,10 @@ export const UI_RADIUS_VALUES: Record<
   { label: string; value: string; premium: boolean }
 > = {
   none: { label: 'Sharp', value: '0px', premium: false },
-  sm: { label: 'Subtle', value: '0.375rem', premium: false },
-  md: { label: 'Medium', value: '0.5rem', premium: false },
-  lg: { label: 'Rounded', value: '0.625rem', premium: false },
-  full: { label: 'Pill', value: '1rem', premium: true },
+  sm: { label: 'Subtle', value: '0.5rem', premium: false },
+  md: { label: 'Medium', value: '0.625rem', premium: false },
+  lg: { label: 'Rounded', value: '0.875rem', premium: false },
+  full: { label: 'Pill', value: '1.25rem', premium: true },
 };
 
 // ─── Zustand store ──────────────────────────────────────────────────────

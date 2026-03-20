@@ -305,11 +305,11 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
   })).filter((c) => c.count > 0);
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:py-6">
+    <div className="flex flex-col gap-4">
       {/* Header */}
-      <div className="flex flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between lg:px-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+          <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
             <HugeiconsIcon icon={UserGroupIcon} className="size-5 text-muted-foreground" />
             Community Forums
           </h1>
@@ -323,7 +323,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
         </Button>
       </div>
 
-      <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-12">
+      <div className="grid gap-4 @xl/main:grid-cols-12">
         {/* Main feed */}
         <div className="space-y-4 @xl/main:col-span-8">
           {/* Search */}

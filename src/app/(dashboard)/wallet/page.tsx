@@ -39,11 +39,11 @@ export default async function WalletPage() {
   const currency = wallet?.currency ?? 'EUR';
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="flex items-start justify-between px-4 lg:px-6">
+      <div className="flex items-start justify-between">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+          <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
             <HugeiconsIcon icon={Wallet01Icon} className="size-5 text-muted-foreground" />
             Wallet
           </h1>
@@ -60,7 +60,7 @@ export default async function WalletPage() {
       </div>
 
       {/* Balance card */}
-      <div className="px-4 lg:px-6">
+      <div>
         <Card className="rounded-[var(--radius)] border-primary/20">
           <CardHeader>
             <CardDescription>Available Balance</CardDescription>
@@ -82,7 +82,7 @@ export default async function WalletPage() {
       </div>
 
       {/* Recent transactions */}
-      <div className="px-4 lg:px-6">
+      <div>
         <Card className="rounded-[var(--radius)]">
           <CardHeader>
             <div className="flex items-center justify-between">

@@ -288,11 +288,11 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
   const achieved = goals.filter((g) => g.is_achieved);
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:py-6">
+    <div className="flex flex-col gap-4">
       {/* Header */}
-      <div className="flex flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between lg:px-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+          <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
             <HugeiconsIcon icon={Target01Icon} className="size-5 text-muted-foreground" />
             Goals & Milestones
           </h1>
@@ -308,7 +308,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
 
       {/* Active goals */}
       {goals.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center lg:mx-6">
+        <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center">
           <div className="rounded-[var(--radius)] bg-muted p-4">
             <HugeiconsIcon icon={Moon01Icon} className="size-8 text-muted-foreground/50" />
           </div>
@@ -322,7 +322,7 @@ export function GoalsPageClient({ goals: initial }: { goals: Goal[] }) {
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col gap-6 px-4 lg:px-6">
+        <div className="flex flex-col gap-6">
           {active.length > 0 && (
             <div className="space-y-3">
               <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">

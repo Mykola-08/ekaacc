@@ -31,11 +31,11 @@ export default async function NotificationsPage() {
   const unreadCount = allNotifications.filter((n) => !n.is_read).length;
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex flex-col gap-4 md:gap-6">
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-4 px-4 lg:px-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+          <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
             <HugeiconsIcon icon={Notification01Icon} className="size-5 text-muted-foreground" />
             Notifications
           </h1>
@@ -57,7 +57,7 @@ export default async function NotificationsPage() {
       </div>
 
       {/* Content */}
-      <div className="px-4 lg:px-6">
+      <div>
         {allNotifications.length === 0 ? (
           <div className="flex flex-col items-center gap-4 rounded-[var(--radius)] border border-dashed py-20 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-[var(--radius)] bg-muted">

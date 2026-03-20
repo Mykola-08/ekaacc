@@ -55,9 +55,9 @@ export const ACCENT_COLORS: Record<
 > = {
   blue: {
     label: 'Blue',
-    light: { bg: 'oklch(0.93 0.04 250)', fg: 'oklch(0.25 0.06 250)' },
-    dark: { bg: 'oklch(0.35 0.08 250)', fg: 'oklch(0.92 0.04 250)' },
-    swatch: '#3B82F6',
+    light: { bg: 'oklch(0.96 0.015 259.5)', fg: 'oklch(0.30 0.10 259.5)' },
+    dark: { bg: 'oklch(0.28 0.06 259.5)', fg: 'oklch(0.85 0.08 259.5)' },
+    swatch: '#0071e3',
     premium: false,
   },
   purple: {

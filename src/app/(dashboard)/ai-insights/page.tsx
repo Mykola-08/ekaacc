@@ -223,12 +223,12 @@ export default async function AIInsightsPage() {
   });
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="px-4 lg:px-6">
+      <div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+            <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
               <HugeiconsIcon icon={SparklesIcon} className="text-primary size-5" />
               AI Insights
             </h1>
@@ -244,7 +244,7 @@ export default async function AIInsightsPage() {
       </div>
 
       {/* Key metrics row */}
-      <div className="grid grid-cols-2 gap-3 px-4 lg:px-6 @xl/main:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 @xl/main:grid-cols-4">
         {/* Mood */}
         <Card
           className={cn(
@@ -326,7 +326,7 @@ export default async function AIInsightsPage() {
         </Card>
       </div>
 
-      <div className="px-4 lg:px-6">
+      <div>
         <Card className="border-border/60 rounded-[var(--radius)]">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm font-semibold">
@@ -368,7 +368,7 @@ export default async function AIInsightsPage() {
       </div>
 
       {/* Main content */}
-      <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 @xl/main:grid-cols-2">
         {/* Mood trend card */}
         <Card className="border-border/60 rounded-[var(--radius)]">
           <CardHeader className="pb-3">
@@ -538,7 +538,7 @@ export default async function AIInsightsPage() {
 
       {/* Active Goals preview */}
       {(goals ?? []).length > 0 && (
-        <div className="px-4 lg:px-6">
+        <div>
           <Card className="border-border/60 rounded-[var(--radius)]">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">

@@ -82,10 +82,10 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
   });
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:py-6">
+    <div className="flex flex-col gap-4">
       {/* Header */}
-      <div className="px-4 lg:px-6">
-        <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+      <div>
+        <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
           <HugeiconsIcon icon={UserCircleIcon} className="size-5 text-muted-foreground" />
           My Profile
         </h1>
@@ -94,7 +94,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
         </p>
       </div>
 
-      <div className="grid gap-4 px-4 lg:px-6 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
         {/* Main form */}
         <div className="space-y-4 @xl/main:col-span-2">
           <Card className="rounded-[var(--radius)]">

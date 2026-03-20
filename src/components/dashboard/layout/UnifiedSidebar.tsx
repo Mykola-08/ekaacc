@@ -117,7 +117,7 @@ function NavMain({
     <>
       {sections.map((section) => (
         <SidebarGroup key={section.id}>
-          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t(section.label)}</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-semibold text-muted-foreground/70 uppercase tracking-widest">{t(section.label)}</SidebarGroupLabel>
           <SidebarMenu>
             {section.items.map((item) => {
               const label = t(item.label);
@@ -291,7 +291,7 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
     <Sidebar
       variant="inset"
       collapsible="icon"
-      className="dashboard-sidebar border-r border-border"
+      className="dashboard-sidebar border-r border-border/60"
     >
       <SidebarHeader>
         <SidebarMenu>

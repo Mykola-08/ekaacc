@@ -136,7 +136,7 @@ export function UnifiedDashboardShell({
   return (
     <ProgressProvider>
       <RightPanelProvider>
-        <div className="dashboard-theme contents">
+        <div className="maia-theme dashboard-theme contents">
           <ImpersonationWrapper>
             <SidebarProvider
               className="dashboard-sidebar text-foreground font-sans"
@@ -151,7 +151,7 @@ export function UnifiedDashboardShell({
 
               <SidebarInset>
                 <a href="#main-content" className="ux-skip-link">Skip to main content</a>
-                <header className="flex h-12 shrink-0 items-center gap-2 border-b border-border bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+                <header className="flex h-12 shrink-0 items-center gap-2 border-b border-border/70 bg-background/95 backdrop-blur-sm transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                   <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
                     <SidebarTrigger className="-ml-1" />
                     <Separator

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { connection } from 'next/server';
@@ -6,15 +7,11 @@ import { getUserPermissions } from '@/lib/permissions/actions';
 import { Suspense } from 'react';
 import { ThemeCustomizationProvider } from '@/components/theme/ThemeCustomizationProvider';
 import { getAppearancePreferences } from '@/app/actions/appearance';
-import { Inter } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 import { AutoInsightsTrigger } from '@/components/dashboard/AutoInsightsTrigger';
 import { GlobalCommandPalette } from '@/components/dashboard/GlobalCommandPalette';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  weight: ['400', '500'],
-});
+const inter = GeistSans;
 
 async function DashboardShellLoader({ children }: { children: React.ReactNode }) {
   await connection();

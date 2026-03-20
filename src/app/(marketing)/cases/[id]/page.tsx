@@ -1,4 +1,7 @@
+export const dynamic = 'force-dynamic';
+
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import CaseDetailContent from './CaseDetailContent';
 
@@ -38,10 +41,6 @@ const caseSlugs: Record<string, { title: string; description: string }> = {
   },
 };
 
-export async function generateStaticParams() {
-  return Object.keys(caseSlugs).map((id) => ({ id }));
-}
-
 export async function generateMetadata({
   params,
 }: {
@@ -66,5 +65,9 @@ export default async function CasoDetailPage({ params }: { params: Promise<{ id:
   const { id } = await params;
   if (!caseSlugs[id]) return notFound();
 
-  return <CaseDetailContent id={id} />;
+  return (
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <CaseDetailContent id={id} />
+    </Suspense>
+  );
 }

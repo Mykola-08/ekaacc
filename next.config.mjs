@@ -21,6 +21,27 @@ const gitSha = getGitCommitSha();
 const appBuildId = `${packageVersion}-${gitSha}`;
 const appBuildTimestamp = new Date().toISOString();
 
+// Sanitize env vars — strip accidental surrounding quotes from shell/CI environments
+const envKeysToClean = [
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'SUPABASE_SECRET_KEY',
+  'SUPABASE_SERVICE_ROLE_KEY',
+  'STRIPE_API_KEY',
+  'NEXT_PUBLIC_APP_URL',
+];
+for (const key of envKeysToClean) {
+  if (process.env[key]) process.env[key] = process.env[key].replace(/^["']|["']$/g, '');
+}
+// Support both anon key naming conventions
+if (!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+}
+if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -60,8 +81,6 @@ const nextConfig = {
     minimumCacheTTL: 60,
     formats: ['image/avif', 'image/webp'],
   },
-  // Bundle optimization
-  cacheComponents: true,
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns', 'recharts', '@headlessui/react', 'motion'],
   },

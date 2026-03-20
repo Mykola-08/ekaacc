@@ -1,4 +1,5 @@
-import { Inter } from 'next/font/google';
+export const dynamic = 'force-dynamic';
+import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
 import './marketing-globals.css';
 import MainLayout from '@/marketing/components/MainLayout';
@@ -8,11 +9,7 @@ import { BookingProvider } from '@/marketing/components/BookingProvider';
 import SmoothScrolling from '@/marketing/components/SmoothScrolling';
 import JsonLd from '@/marketing/components/JsonLd';
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
+const inter = GeistSans;
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ekabalance.com'),

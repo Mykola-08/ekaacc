@@ -125,6 +125,17 @@
   }
 }
 
+/* ── Squircle radius utility — applied to all [data-slot=card] automatically ── */
+.maia-theme [data-slot="card"] {
+  border-radius: var(--radius);
+}
+.maia-theme [data-slot="card-header"] {
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.maia-theme [data-slot="card-footer"] {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
 /* ── Maia typography — tight tracking, 500 weight headings ── */
 .maia-theme h1,
 .maia-theme h2,

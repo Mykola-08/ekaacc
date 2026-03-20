@@ -36,7 +36,7 @@ export function CommunityModerationClient({ initialReports }: { initialReports: 
   };
 
   return (
-    <Card className="rounded-xl">
+    <Card className="rounded-[var(--radius)]">
       <CardHeader>
         <CardTitle>Community Moderation Queue</CardTitle>
         <CardDescription>
@@ -61,7 +61,7 @@ export function CommunityModerationClient({ initialReports }: { initialReports: 
           <p className="text-sm text-muted-foreground">No reports for this filter.</p>
         ) : (
           filtered.map((report) => (
-            <div key={report.id} className="rounded-xl border border-border/60 p-3">
+            <div key={report.id} className="rounded-[var(--radius)] border border-border/60 p-3">
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm font-semibold capitalize">{report.reason}</p>
                 <Badge variant="outline" className="capitalize">
@@ -75,18 +75,18 @@ export function CommunityModerationClient({ initialReports }: { initialReports: 
                 {report.post?.content ?? ''}
               </p>
               {report.details && (
-                <p className="mt-2 rounded-lg bg-muted p-2 text-xs text-foreground">
+                <p className="mt-2 rounded-[calc(var(--radius)*0.8)] bg-muted p-2 text-xs text-foreground">
                   Reporter note: {report.details}
                 </p>
               )}
               <div className="mt-3 flex flex-wrap gap-2">
-                <Button size="sm" variant="outline" className="rounded-lg" disabled={isPending} onClick={() => updateStatus(report.id, 'reviewing')}>
+                <Button size="sm" variant="outline" className="rounded-[calc(var(--radius)*0.8)]" disabled={isPending} onClick={() => updateStatus(report.id, 'reviewing')}>
                   Mark Reviewing
                 </Button>
-                <Button size="sm" className="rounded-lg" disabled={isPending} onClick={() => updateStatus(report.id, 'resolved')}>
+                <Button size="sm" className="rounded-[calc(var(--radius)*0.8)]" disabled={isPending} onClick={() => updateStatus(report.id, 'resolved')}>
                   Resolve
                 </Button>
-                <Button size="sm" variant="secondary" className="rounded-lg" disabled={isPending} onClick={() => updateStatus(report.id, 'dismissed')}>
+                <Button size="sm" variant="secondary" className="rounded-[calc(var(--radius)*0.8)]" disabled={isPending} onClick={() => updateStatus(report.id, 'dismissed')}>
                   Dismiss
                 </Button>
               </div>

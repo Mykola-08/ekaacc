@@ -13,13 +13,13 @@ export default function DashboardLoading() {
           <Skeleton className="h-8 w-48" />
           <Skeleton className="h-4 w-72" />
         </div>
-        <Skeleton className="h-10 w-32 rounded-xl" />
+        <Skeleton className="h-10 w-32 rounded-[var(--radius)]" />
       </div>
 
       {/* Content area skeleton */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="border-border/40 bg-card/60 rounded-xl border p-6">
+          <div key={i} className="border-border/40 bg-card/60 rounded-[var(--radius)] border p-6">
             <Skeleton className="h-4 w-24" />
             <Skeleton className="h-8 w-16" />
             <Skeleton className="h-3 w-full" />
@@ -29,11 +29,11 @@ export default function DashboardLoading() {
       </div>
 
       {/* Table / list skeleton */}
-      <div className="border-border/40 bg-card/60 rounded-xl border p-6">
+      <div className="border-border/40 bg-card/60 rounded-[var(--radius)] border p-6">
         <Skeleton className="h-5 w-36" />
         <div className="pt-2">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-12 w-full rounded-xl" />
+            <Skeleton key={i} className="h-12 w-full rounded-[var(--radius)]" />
           ))}
         </div>
       </div>

@@ -31,7 +31,7 @@ export default function ReferralSettingsPage() {
 
   return (
     <div className="space-y-4 p-4 lg:p-6">
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle>Referral Program</CardTitle>
           <CardDescription>
@@ -39,7 +39,7 @@ export default function ReferralSettingsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="rounded-xl border border-border/60 p-4">
+          <div className="rounded-[var(--radius)] border border-border/60 p-4">
             <p className="text-sm text-muted-foreground">Your referral code</p>
             <p className="mt-1 text-2xl font-semibold tracking-wide">{overview.code ?? '—'}</p>
           </div>
@@ -52,7 +52,7 @@ export default function ReferralSettingsPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-border/60 p-4">
+          <div className="rounded-[var(--radius)] border border-border/60 p-4">
             <p className="text-sm text-muted-foreground">Successful referrals</p>
             <p className="mt-1 text-2xl font-semibold">{overview.count}</p>
           </div>

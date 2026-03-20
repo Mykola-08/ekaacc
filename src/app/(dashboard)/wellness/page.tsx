@@ -33,7 +33,7 @@ function TabSkeleton() {
   return (
     <div className="space-y-4 py-6">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-muted h-24 animate-pulse rounded-lg" />
+        <div key={i} className="bg-muted h-24 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
       ))}
     </div>
   );

@@ -12,20 +12,20 @@ export function CrisisPageContent() {
     <div
       className="mx-auto max-w-4xl px-4 py-8 md:px-8"
     >
-      <Card className="border-destructive/30 bg-destructive/5 rounded-xl border">
+      <Card className="border-destructive/30 bg-destructive/5 rounded-[var(--radius)] border">
         <CardContent className="p-8">
           <p className="text-foreground text-base">
             {t('page.crisis.description') ||
               'This space is for urgent support guidance. If this is an emergency, use emergency services in your area first.'}
           </p>
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="border-border bg-card rounded-lg border p-5">
+            <div className="border-border bg-card rounded-[calc(var(--radius)*0.8)] border p-5">
               <h3 className="text-lg font-semibold">{t('page.crisis.emergency') || 'Emergency'}</h3>
               <p className="text-muted-foreground mt-2 text-sm">
                 {t('page.crisis.emergencyDesc') || 'Call your local emergency number immediately.'}
               </p>
             </div>
-            <div className="border-border bg-card rounded-lg border p-5">
+            <div className="border-border bg-card rounded-[calc(var(--radius)*0.8)] border p-5">
               <h3 className="text-lg font-semibold">
                 {t('page.crisis.followUp') || 'Need Follow-up Care'}
               </h3>

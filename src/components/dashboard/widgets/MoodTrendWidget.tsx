@@ -100,7 +100,7 @@ export async function MoodTrendWidget() {
           </Badge>
         </div>
 
-        <div className="rounded-lg border border-border/70 p-2">
+        <div className="rounded-[calc(var(--radius)*0.8)] border border-border/70 p-2">
           <svg viewBox="0 0 260 64" role="img" aria-label="Mood trend sparkline" className="h-16 w-full">
             <path d={path} fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" />
           </svg>

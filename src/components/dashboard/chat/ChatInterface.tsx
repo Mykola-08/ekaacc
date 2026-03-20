@@ -213,7 +213,7 @@ export function ChatInterface() {
                   key={channel.id}
                   onClick={() => setActiveChannelId(channel.id)}
                   className={cn(
-                    'flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors',
+                    'flex w-full items-center gap-3 rounded-[calc(var(--radius)*0.8)] p-3 text-left transition-colors',
                     isActive ? 'bg-accent text-accent-foreground' : 'hover:bg-muted'
                   )}
                 >
@@ -319,7 +319,7 @@ export function ChatInterface() {
                       )}
                       <div
                         className={cn(
-                          'max-w-[75%] rounded-xl px-4 py-2.5 text-sm',
+                          'max-w-[75%] rounded-[var(--radius)] px-4 py-2.5 text-sm',
                           isMe
                             ? 'bg-primary text-primary-foreground rounded-tr-none'
                             : 'bg-card text-card-foreground border-border rounded-tl-none border'
@@ -363,7 +363,7 @@ export function ChatInterface() {
                   type="submit"
                   size="icon"
                   disabled={!inputText.trim()}
-                  className="shrink-0 rounded-lg"
+                  className="shrink-0 rounded-[calc(var(--radius)*0.8)]"
                 >
                   <HugeiconsIcon icon={SentIcon} className="size-4"  />
                 </Button>

@@ -97,7 +97,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
       <div className="grid gap-4 px-4 lg:px-6 lg:grid-cols-[1fr_320px]">
         {/* Main form */}
         <div className="space-y-4 @xl/main:col-span-2">
-          <Card className="rounded-xl">
+          <Card className="rounded-[var(--radius)]">
             <CardHeader>
               <CardTitle className="text-base">Personal Information</CardTitle>
               <CardDescription>Update your name, bio, and contact details.</CardDescription>
@@ -110,7 +110,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="Your full name"
-                  className="h-10 rounded-xl"
+                  className="h-10 rounded-[var(--radius)]"
                 />
               </div>
 
@@ -120,7 +120,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   id="email"
                   value={user.email}
                   disabled
-                  className="h-10 rounded-xl bg-muted/40 text-muted-foreground"
+                  className="h-10 rounded-[var(--radius)] bg-muted/40 text-muted-foreground"
                 />
                 <p className="text-xs text-muted-foreground">Email cannot be changed here.</p>
               </div>
@@ -133,7 +133,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+1 (555) 000-0000"
-                  className="h-10 rounded-xl"
+                  className="h-10 rounded-[var(--radius)]"
                 />
               </div>
 
@@ -144,7 +144,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Write a brief introduction about yourself…"
-                  className="min-h-24 resize-none rounded-xl"
+                  className="min-h-24 resize-none rounded-[var(--radius)]"
                 />
               </div>
 
@@ -156,7 +156,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                 <Button
                   onClick={handleSave}
                   disabled={saving}
-                  className={cn('gap-2 rounded-lg', saved && 'bg-success text-success-foreground')}
+                  className={cn('gap-2 rounded-[calc(var(--radius)*0.8)]', saved && 'bg-success text-success-foreground')}
                 >
                   {saving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
                   {saved && <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />}
@@ -166,7 +166,7 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
             </CardContent>
           </Card>
 
-          <Card className="rounded-xl">
+          <Card className="rounded-[var(--radius)]">
             <CardHeader>
               <CardTitle className="text-base">Specialties & Interests</CardTitle>
               <CardDescription>Add topics you're working on or interested in.</CardDescription>
@@ -174,11 +174,11 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
             <CardContent className="space-y-4">
               <div className="flex flex-wrap gap-2">
                 {specialties.map((s) => (
-                  <Badge key={s} variant="secondary" className="gap-1.5 rounded-lg pr-1">
+                  <Badge key={s} variant="secondary" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] pr-1">
                     {s}
                     <button
                       onClick={() => removeSpecialty(s)}
-                      className="rounded-lg p-0.5 hover:bg-destructive/10 hover:text-destructive transition-colors"
+                      className="rounded-[calc(var(--radius)*0.8)] p-0.5 hover:bg-destructive/10 hover:text-destructive transition-colors"
                     >
                       <HugeiconsIcon icon={Cancel01Icon} className="size-3" />
                     </button>
@@ -195,9 +195,9 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   onChange={(e) => setNewSpecialty(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSpecialty())}
                   placeholder="Add a specialty (e.g. Anxiety)"
-                  className="h-10 flex-1 rounded-xl"
+                  className="h-10 flex-1 rounded-[var(--radius)]"
                 />
-                <Button variant="outline" onClick={addSpecialty} className="h-10 gap-1.5 rounded-xl">
+                <Button variant="outline" onClick={addSpecialty} className="h-10 gap-1.5 rounded-[var(--radius)]">
                   <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
                   Add
                 </Button>
@@ -208,11 +208,11 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
 
         {/* Sidebar */}
         <div className="space-y-4">
-          <Card className="rounded-xl">
+          <Card className="rounded-[var(--radius)]">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center gap-4 text-center">
                 <div className={cn(
-                  'size-24 rounded-xl bg-muted flex items-center justify-center overflow-hidden',
+                  'size-24 rounded-[var(--radius)] bg-muted flex items-center justify-center overflow-hidden',
                   profile?.avatar_url && 'p-0'
                 )}>
                   {profile?.avatar_url ? (
@@ -227,14 +227,14 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   <p className="text-sm text-muted-foreground">{user.email}</p>
                   <p className="mt-1 text-xs text-muted-foreground">Member since {memberSince}</p>
                 </div>
-                <Button variant="outline" size="sm" className="w-full rounded-xl" disabled>
+                <Button variant="outline" size="sm" className="w-full rounded-[var(--radius)]" disabled>
                   Change Avatar
                 </Button>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-xl bg-muted/40">
+          <Card className="rounded-[var(--radius)] bg-muted/40">
             <CardContent className="p-4 space-y-2 text-sm">
               <p className="font-medium">Account</p>
               <div className="flex justify-between text-xs text-muted-foreground">

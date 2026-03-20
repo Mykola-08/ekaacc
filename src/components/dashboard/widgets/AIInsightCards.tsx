@@ -91,9 +91,9 @@ export function AIInsightCards() {
           {/* Loading state */}
           {loading && (
             <>
-              <div className="h-16 animate-pulse rounded-xl bg-muted" />
-              <div className="h-16 animate-pulse rounded-xl bg-muted" />
-              <div className="h-16 animate-pulse rounded-xl bg-muted" />
+              <div className="h-16 animate-pulse rounded-[var(--radius)] bg-muted" />
+              <div className="h-16 animate-pulse rounded-[var(--radius)] bg-muted" />
+              <div className="h-16 animate-pulse rounded-[var(--radius)] bg-muted" />
             </>
           )}
 
@@ -109,7 +109,7 @@ export function AIInsightCards() {
             insights.slice(0, 3).map((insight) => (
               <div
                 key={insight.id}
-                className="rounded-xl border border-border/60 p-3 flex flex-col gap-2"
+                className="rounded-[var(--radius)] border border-border p-3 flex flex-col gap-2"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-start gap-2 flex-1 min-w-0">

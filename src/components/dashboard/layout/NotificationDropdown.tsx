@@ -38,14 +38,14 @@ export function NotificationDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
-          className="bg-card hover:bg-secondary relative h-10 w-10 rounded-lg border-none transition-colors"
+          className="relative size-8"
         >
           <HugeiconsIcon
             icon={Notification01Icon}
-            className="text-foreground h-4 w-4"
-            strokeWidth={2.5}
+            className="size-4"
+            strokeWidth={2}
           />
           {unreadCount > 0 && (
             <span className="bg-destructive ring-background absolute top-2.5 right-2.5 h-2 w-2 rounded-full ring-2"></span>
@@ -54,13 +54,13 @@ export function NotificationDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="bg-card border-border mt-4 w-90 rounded-xl border p-4"
+        className="mt-2 w-80 p-3"
       >
-        <DropdownMenuLabel className="text-foreground flex items-center justify-between px-2 py-3 text-base font-semibold tracking-tight">
+        <DropdownMenuLabel className="flex items-center justify-between px-1 py-2 text-sm font-semibold tracking-tight">
           Notifications
           {unreadCount > 0 && (
-            <span className="bg-foreground text-background rounded-full px-2 py-0.5 text-xs">
-              {unreadCount} New
+            <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-medium">
+              {unreadCount}
             </span>
           )}
         </DropdownMenuLabel>
@@ -80,7 +80,7 @@ export function NotificationDropdown() {
               <DropdownMenuItem
                 key={n.id}
                 className={cn(
-                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-lg border border-transparent p-4 transition-all outline-none',
+                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-[calc(var(--radius)*0.8)] border border-transparent p-4 transition-all outline-none',
                   !n.read ? 'bg-secondary' : 'bg-transparent'
                 )}
               >
@@ -95,7 +95,7 @@ export function NotificationDropdown() {
                       {n.title}
                     </span>
                     {!n.read && (
-                      <span className="bg-primary mt-1.5 h-2 w-2 shrink-0 rounded-full"></span>
+                      <span className="bg-primary mt-1.5 size-2 shrink-0 rounded-full"></span>
                     )}
                   </div>
                   <span className="text-muted-foreground line-clamp-2 text-xs leading-relaxed font-normal">

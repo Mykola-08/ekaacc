@@ -42,7 +42,7 @@ export default function FamilySettingsPage() {
 
   return (
     <div className="space-y-4 p-4 lg:p-6">
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle>Family Accounts</CardTitle>
           <CardDescription>
@@ -66,7 +66,7 @@ export default function FamilySettingsPage() {
               <p className="text-sm text-muted-foreground">No linked accounts yet.</p>
             ) : (
               links.map((link) => (
-                <div key={link.id} className="flex items-center justify-between rounded-xl border border-border/60 p-3">
+                <div key={link.id} className="flex items-center justify-between rounded-[var(--radius)] border border-border/60 p-3">
                   <div>
                     <p className="text-sm font-medium">{link.linked_email}</p>
                     <p className="text-xs text-muted-foreground capitalize">{link.relationship}</p>
@@ -78,7 +78,7 @@ export default function FamilySettingsPage() {
           </div>
         </CardContent>
         <CardFooter className="justify-end">
-          <Button onClick={onAdd} disabled={isPending} className="rounded-lg">
+          <Button onClick={onAdd} disabled={isPending} className="rounded-[calc(var(--radius)*0.8)]">
             {isPending ? 'Adding…' : 'Add family link'}
           </Button>
         </CardFooter>

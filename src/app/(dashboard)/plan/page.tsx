@@ -21,8 +21,8 @@ function formatCurrency(cents: number) {
 
 function BenefitRow({ icon, label, value, sub }: { icon: any; label: string; value: string; sub?: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-border/60 p-3">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
+    <div className="flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] border border-border/60 p-3">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-muted">
         <HugeiconsIcon icon={icon} className="size-4 text-muted-foreground" />
       </div>
       <div className="min-w-0 flex-1">

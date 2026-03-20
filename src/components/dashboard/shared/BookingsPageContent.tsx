@@ -13,7 +13,7 @@ export function BookingsPageContent({ bookings, userId }: { bookings: any[]; use
   return (
     <div className="flex-1 space-y-4">
       <div className="mb-6 flex items-center justify-end gap-2">
-        <Button variant="default" className="rounded-lg gap-1.5" asChild>
+        <Button variant="default" className="rounded-[calc(var(--radius)*0.8)] gap-1.5" asChild>
           <Link href="/book">
             <HugeiconsIcon icon={Add01Icon} className="size-4" strokeWidth={2.5} />
             {t('page.dashboard.actions.newBooking') || 'New Booking'}

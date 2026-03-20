@@ -52,7 +52,7 @@ export default async function WalletPage() {
           </p>
         </div>
         <Link href="/finances">
-          <Button size="sm" className="gap-2 rounded-lg">
+          <Button size="sm" className="gap-2 rounded-[calc(var(--radius)*0.8)]">
             <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
             Add Funds
           </Button>
@@ -61,7 +61,7 @@ export default async function WalletPage() {
 
       {/* Balance card */}
       <div className="px-4 lg:px-6">
-        <Card className="rounded-xl border-primary/20">
+        <Card className="rounded-[var(--radius)] border-primary/20">
           <CardHeader>
             <CardDescription>Available Balance</CardDescription>
             <CardTitle className="text-3xl font-semibold tabular-nums">
@@ -71,7 +71,7 @@ export default async function WalletPage() {
           </CardHeader>
           <CardFooter className="gap-2">
             <Link href="/finances">
-              <Button variant="outline" size="sm" className="gap-1.5 rounded-lg text-xs">
+              <Button variant="outline" size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
                 <HugeiconsIcon icon={CreditCardIcon} className="size-3.5" />
                 Manage Finances
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
@@ -83,7 +83,7 @@ export default async function WalletPage() {
 
       {/* Recent transactions */}
       <div className="px-4 lg:px-6">
-        <Card className="rounded-xl">
+        <Card className="rounded-[var(--radius)]">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm font-semibold">Recent Transactions</CardTitle>
@@ -98,7 +98,7 @@ export default async function WalletPage() {
           <CardContent className="pt-0">
             {(transactions ?? []).length === 0 ? (
               <div className="flex flex-col items-center gap-3 py-10 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted">
+                <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius)] bg-muted">
                   <HugeiconsIcon icon={Invoice01Icon} className="size-6 text-muted-foreground/50" />
                 </div>
                 <div>
@@ -114,7 +114,7 @@ export default async function WalletPage() {
                   const amount = t.amount_cents / 100;
                   const isCredit = t.type === 'credit' || t.type === 'deposit' || t.type === 'refund';
                   return (
-                    <div key={t.id} className="flex items-center justify-between rounded-xl border border-border/60 p-3">
+                    <div key={t.id} className="flex items-center justify-between rounded-[var(--radius)] border border-border/60 p-3">
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium">{t.description ?? 'Transaction'}</p>
                         <p className="text-xs text-muted-foreground">

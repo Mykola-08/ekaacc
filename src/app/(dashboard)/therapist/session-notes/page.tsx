@@ -6,7 +6,7 @@ const RichTextEditor = dynamic(
   () => import('@/components/platform/editor/rich-text-editor').then((m) => m.RichTextEditor),
   {
     ssr: false,
-    loading: () => <div className="bg-muted h-75 w-full animate-pulse rounded-lg" />,
+    loading: () => <div className="bg-muted h-75 w-full animate-pulse rounded-[calc(var(--radius)*0.8)]" />,
   }
 );
 import { cn } from '@/lib/utils';
@@ -249,7 +249,7 @@ export default function SessionNotesPage() {
                   <div
                     key={note.id}
                     className={cn(
-                      'hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors',
+                      'hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-[calc(var(--radius)*0.8)] border p-3 transition-colors',
                       editingNoteId === note.id && 'border-primary bg-muted'
                     )}
                     onClick={() => handleLoadNote(note)}

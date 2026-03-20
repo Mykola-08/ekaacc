@@ -108,7 +108,7 @@ export function ResourcesPageClient({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search resources…"
-              className="h-9 pl-9 rounded-xl"
+              className="h-9 pl-9 rounded-[var(--radius)]"
             />
           </div>
         </div>
@@ -167,13 +167,13 @@ export function ResourcesPageClient({
 
       {/* Resource grid */}
       {filtered.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-14 text-center lg:mx-6">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-14 text-center lg:mx-6">
           <HugeiconsIcon icon={File01Icon} className="size-8 text-muted-foreground/30" />
           <div>
             <p className="font-semibold">No resources found</p>
             <p className="mt-1 text-sm text-muted-foreground">Try a different search or filter.</p>
           </div>
-          <Button variant="ghost" size="sm" className="rounded-lg" onClick={() => { setSearch(''); setActiveType('all'); setSavedOnly(false); setHideCompleted(true); }}>
+          <Button variant="ghost" size="sm" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => { setSearch(''); setActiveType('all'); setSavedOnly(false); setHideCompleted(true); }}>
             Clear filters
           </Button>
         </div>
@@ -185,10 +185,10 @@ export function ResourcesPageClient({
             const isCompleted = resourceState[r.id]?.completed ?? false;
             const lastOpenedAt = resourceState[r.id]?.lastOpenedAt;
             return (
-              <Card key={r.id} className="group flex flex-col rounded-xl border border-border/60 transition-shadow hover:shadow-md">
+              <Card key={r.id} className="group flex flex-col rounded-[var(--radius)] border border-border/60 transition-shadow hover:shadow-md">
                 <CardHeader className="pb-3">
                   <div className="flex items-start gap-3">
-                    <div className={cn('rounded-xl p-2.5 shrink-0', cfg.color)}>
+                    <div className={cn('rounded-[var(--radius)] p-2.5 shrink-0', cfg.color)}>
                       <HugeiconsIcon icon={cfg.icon} className="size-5" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -218,7 +218,7 @@ export function ResourcesPageClient({
                   <CardContent className="pt-0 pb-3">
                     <div className="flex flex-wrap gap-1">
                       {(r.tags ?? []).slice(0, 4).map((tag) => (
-                        <span key={tag} className="rounded-lg bg-muted px-2 py-0.5 text-xs text-muted-foreground capitalize">
+                        <span key={tag} className="rounded-[calc(var(--radius)*0.8)] bg-muted px-2 py-0.5 text-xs text-muted-foreground capitalize">
                           {tag}
                         </span>
                       ))}
@@ -235,7 +235,7 @@ export function ResourcesPageClient({
                   <Button
                     variant={isSaved ? 'default' : 'outline'}
                     size="sm"
-                    className="mr-2 rounded-xl text-xs"
+                    className="mr-2 rounded-[var(--radius)] text-xs"
                     onClick={async () => {
                       const result = await toggleSavedResource(r.id);
                       if (!result.success) return;
@@ -255,7 +255,7 @@ export function ResourcesPageClient({
                   <Button
                     variant={isCompleted ? 'default' : 'outline'}
                     size="sm"
-                    className="mr-2 rounded-xl text-xs"
+                    className="mr-2 rounded-[var(--radius)] text-xs"
                     onClick={async () => {
                       const result = await toggleResourceCompleted(r.id);
                       if (!result.success) return;
@@ -280,7 +280,7 @@ export function ResourcesPageClient({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full rounded-xl gap-1.5 text-xs"
+                        className="w-full rounded-[var(--radius)] gap-1.5 text-xs"
                         onClick={() => {
                           void markResourceOpened(r.id);
                           setResourceState((current) => ({
@@ -302,7 +302,7 @@ export function ResourcesPageClient({
                       </Button>
                     </a>
                   ) : (
-                    <Button variant="outline" size="sm" className="w-full rounded-xl gap-1.5 text-xs" disabled>
+                    <Button variant="outline" size="sm" className="w-full rounded-[var(--radius)] gap-1.5 text-xs" disabled>
                       <HugeiconsIcon icon={cfg.icon} className="size-3.5" />
                       Coming Soon
                     </Button>

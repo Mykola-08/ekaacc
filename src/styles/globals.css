@@ -10,11 +10,11 @@
 
 :root {
   /* ─── abVKEfg Preset Tokens & Unified Brand ─── */
-  --background: oklch(0.985 0 0); /* Canvas */
-  --foreground: oklch(0.145 0 0); /* Soft Black */
-  --card: #FFFFFF; /* Pure White Surface */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
-  --popover: #FFFFFF;
+  --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
@@ -33,10 +33,7 @@
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --radius: 0.875rem; /* b3XoIU6SH2 preset */
-  --border-strong: rgba(0, 0, 0, 0.14);
-  --surface-elevated: #FFFFFF;
-  --surface-container: oklch(0.96 0 0);
-  
+
   /* ─── Standardized Shadows ─── */
   --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.04);
   --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
@@ -131,12 +128,9 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  --border-strong: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.09);
   --surface-elevated: oklch(0.22 0 0);
   --surface-container: oklch(0.20 0 0);
-  --border-strong: rgba(255, 255, 255, 0.12);
-  --surface-elevated: oklch(0.22 0 0);
-  --surface-container: oklch(0.2 0 0);
 
   /* ─── Brand Tokens ─── */
   --whatsapp: oklch(0.648 0.17 155);
@@ -288,7 +282,8 @@
 
 @layer utilities {
   .app-shell {
-    @apply bg-background min-h-screen p-2 md:p-4;
+    @apply min-h-screen p-2 md:p-4;
+    background-color: oklch(1 0 0);
   }
 
   .app-shell-inset {
@@ -385,7 +380,7 @@
   /* Dashboard main area */
   .dashboard-inset {
     @apply flex min-h-screen flex-col;
-    background-color: var(--background);
+    background-color: oklch(1 0 0);
   }
 
   .dashboard-header {

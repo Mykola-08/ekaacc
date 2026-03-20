@@ -116,7 +116,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
   return (
     <div className="space-y-4">
       {/* Avatar */}
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle className="text-base">Profile Picture</CardTitle>
           <CardDescription>
@@ -132,12 +132,12 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
           </Avatar>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="gap-2 rounded-lg" disabled>
+              <Button variant="outline" size="sm" className="gap-2 rounded-[calc(var(--radius)*0.8)]" disabled>
                 <HugeiconsIcon icon={Upload01Icon} className="size-3.5" />
                 Upload Photo
               </Button>
               {profile?.avatar_url && (
-                <Button variant="ghost" size="sm" className="rounded-lg text-destructive hover:text-destructive">
+                <Button variant="ghost" size="sm" className="rounded-[calc(var(--radius)*0.8)] text-destructive hover:text-destructive">
                   Remove
                 </Button>
               )}
@@ -148,7 +148,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
       </Card>
 
       {/* Personal Info */}
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle className="text-base">Personal Information</CardTitle>
           <CardDescription>Update your name and contact details.</CardDescription>
@@ -160,7 +160,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Your full name"
-              className="h-10 rounded-xl"
+              className="h-10 rounded-[var(--radius)]"
             />
           </div>
           <div className="space-y-1.5">
@@ -169,7 +169,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
               type="email"
               value={email}
               disabled
-              className="h-10 rounded-xl bg-muted"
+              className="h-10 rounded-[var(--radius)] bg-muted"
             />
             <p className="text-xs text-muted-foreground">
               Email cannot be changed here. Contact support to update.
@@ -181,7 +181,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+1 (555) 000-0000"
-              className="h-10 rounded-xl"
+              className="h-10 rounded-[var(--radius)]"
               type="tel"
             />
           </div>
@@ -191,7 +191,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               placeholder="A short description about yourself…"
-              className="min-h-24 resize-none rounded-xl"
+              className="min-h-24 resize-none rounded-[var(--radius)]"
               maxLength={300}
             />
             <p className="text-right text-xs text-muted-foreground">{bio.length}/300</p>
@@ -205,7 +205,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
           <Button
             onClick={handleSave}
             disabled={isPending}
-            className="gap-2 rounded-lg"
+            className="gap-2 rounded-[calc(var(--radius)*0.8)]"
             size="sm"
           >
             {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
@@ -216,7 +216,7 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
 
       {/* Role */}
       {profile?.role && (
-        <Card className="rounded-xl">
+        <Card className="rounded-[var(--radius)]">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -296,7 +296,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
   return (
     <div className="space-y-4">
       {/* Channels */}
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle className="text-base">Delivery Channels</CardTitle>
           <CardDescription>Choose how you receive notifications.</CardDescription>
@@ -330,7 +330,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
       </Card>
 
       {/* Categories */}
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle className="text-base">Notification Types</CardTitle>
           <CardDescription>Control which events trigger a notification.</CardDescription>
@@ -397,7 +397,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
             onClick={handleSave}
             disabled={isPending}
             size="sm"
-            className="gap-2 rounded-lg"
+            className="gap-2 rounded-[calc(var(--radius)*0.8)]"
           >
             {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
             {isPending ? 'Saving…' : 'Save Preferences'}
@@ -448,7 +448,7 @@ function SecurityTab({ email }: { email: string }) {
   return (
     <div className="space-y-4">
       {/* Password */}
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <div className="flex items-center gap-2">
             <HugeiconsIcon icon={Key01Icon} className="size-4 text-muted-foreground" />
@@ -466,7 +466,7 @@ function SecurityTab({ email }: { email: string }) {
               value={newPw}
               onChange={(e) => setNewPw(e.target.value)}
               placeholder="At least 8 characters"
-              className="h-10 rounded-xl"
+              className="h-10 rounded-[var(--radius)]"
             />
           </div>
           <div className="space-y-1.5">
@@ -476,7 +476,7 @@ function SecurityTab({ email }: { email: string }) {
               value={confirmPw}
               onChange={(e) => setConfirmPw(e.target.value)}
               placeholder="Repeat the new password"
-              className="h-10 rounded-xl"
+              className="h-10 rounded-[var(--radius)]"
             />
           </div>
           {pwError && (
@@ -494,7 +494,7 @@ function SecurityTab({ email }: { email: string }) {
             onClick={handlePasswordChange}
             disabled={isPending || !newPw || !confirmPw}
             size="sm"
-            className="gap-2 rounded-lg"
+            className="gap-2 rounded-[calc(var(--radius)*0.8)]"
           >
             {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
             {isPending ? 'Updating…' : 'Update Password'}
@@ -503,7 +503,7 @@ function SecurityTab({ email }: { email: string }) {
       </Card>
 
       {/* MFA */}
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <div className="flex items-center gap-2">
             <HugeiconsIcon icon={SecurityCheckIcon} className="size-4 text-muted-foreground" />
@@ -514,7 +514,7 @@ function SecurityTab({ email }: { email: string }) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-start gap-3 rounded-xl border border-border/60 p-4">
+          <div className="flex items-start gap-3 rounded-[var(--radius)] border border-border/60 p-4">
             <HugeiconsIcon icon={Mail01Icon} className="mt-0.5 size-5 text-muted-foreground shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium">Authenticator App</p>
@@ -526,7 +526,7 @@ function SecurityTab({ email }: { email: string }) {
               Coming soon
             </Badge>
           </div>
-          <div className="flex items-start gap-3 rounded-xl border border-border/60 p-4">
+          <div className="flex items-start gap-3 rounded-[var(--radius)] border border-border/60 p-4">
             <HugeiconsIcon icon={Mail01Icon} className="mt-0.5 size-5 text-muted-foreground shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium">Email Verification</p>
@@ -542,7 +542,7 @@ function SecurityTab({ email }: { email: string }) {
       </Card>
 
       {/* Sessions */}
-      <Card className="rounded-xl border-destructive/20">
+      <Card className="rounded-[var(--radius)] border-destructive/20">
         <CardHeader>
           <div className="flex items-center gap-2">
             <HugeiconsIcon icon={Logout03Icon} className="size-4 text-destructive" />
@@ -550,14 +550,14 @@ function SecurityTab({ email }: { email: string }) {
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center justify-between rounded-xl border border-destructive/20 bg-destructive/5 p-4">
+          <div className="flex items-center justify-between rounded-[var(--radius)] border border-destructive/20 bg-destructive/5 p-4">
             <div>
               <p className="text-sm font-medium">Sign out all sessions</p>
               <p className="text-xs text-muted-foreground mt-0.5">
                 Log out from all devices and browsers.
               </p>
             </div>
-            <Button variant="outline" size="sm" className="shrink-0 rounded-lg border-destructive/30 text-destructive hover:bg-destructive/10">
+            <Button variant="outline" size="sm" className="shrink-0 rounded-[calc(var(--radius)*0.8)] border-destructive/30 text-destructive hover:bg-destructive/10">
               Sign Out All
             </Button>
           </div>
@@ -589,7 +589,7 @@ function LanguageTab() {
 
   return (
     <div className="space-y-4">
-      <Card className="rounded-xl">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle className="text-base">Display Language</CardTitle>
           <CardDescription>
@@ -603,7 +603,7 @@ function LanguageTab() {
               type="button"
               onClick={() => setSelected(code)}
               className={cn(
-                'flex w-full items-center justify-between rounded-xl border px-4 py-3 text-sm transition-colors',
+                'flex w-full items-center justify-between rounded-[var(--radius)] border px-4 py-3 text-sm transition-colors',
                 selected === code
                   ? 'border-primary bg-primary/5 font-medium text-primary'
                   : 'border-border/60 hover:border-border hover:bg-muted/50'
@@ -627,7 +627,7 @@ function LanguageTab() {
             onClick={handleSave}
             disabled={selected === language}
             size="sm"
-            className="gap-2 rounded-lg"
+            className="gap-2 rounded-[calc(var(--radius)*0.8)]"
           >
             Apply Language
           </Button>
@@ -691,15 +691,15 @@ export function SettingsClient({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search settings sections…"
-            className="h-10 rounded-xl"
+            className="h-10 rounded-[var(--radius)]"
             aria-label="Search settings sections"
           />
         </div>
 
         <Tabs value={resolvedTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-6 h-auto min-h-10 flex-wrap rounded-xl">
+          <TabsList className="mb-6 h-auto min-h-10 flex-wrap rounded-[var(--radius)]">
             {filteredTabs.map((tab) => (
-              <TabsTrigger key={tab.value} value={tab.value} className="gap-1.5 rounded-lg text-xs">
+              <TabsTrigger key={tab.value} value={tab.value} className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
                 <HugeiconsIcon icon={tab.icon} className="size-3.5" />
                 {tab.label}
               </TabsTrigger>
@@ -707,7 +707,7 @@ export function SettingsClient({
           </TabsList>
 
           {filteredTabs.length === 0 && (
-            <div className="mb-6 rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+            <div className="mb-6 rounded-[var(--radius)] border border-dashed p-4 text-sm text-muted-foreground">
               No matching settings sections. Try terms like <span className="font-medium">profile</span>,{' '}
               <span className="font-medium">notifications</span>, or <span className="font-medium">security</span>.
             </div>

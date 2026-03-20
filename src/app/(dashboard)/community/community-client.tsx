@@ -111,7 +111,7 @@ function PostCard({
   const [showReply, setShowReply] = useState(false);
 
   return (
-    <Card className="rounded-xl">
+    <Card className="rounded-[var(--radius)]">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-sm font-semibold leading-snug text-foreground">{post.title}</h3>
@@ -144,20 +144,20 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground hover:text-primary rounded-lg transition-colors"
+          className="gap-1.5 text-muted-foreground hover:text-primary rounded-[calc(var(--radius)*0.8)] transition-colors"
           onClick={() => onLike(post.id)}
         >
           <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
           <span className="text-xs tabular-nums">{post.likes_count ?? 0}</span>
         </Button>
-        <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground rounded-lg ml-1">
+        <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)] ml-1">
           <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
           <span className="text-xs">Discuss {replies.length > 0 ? `(${replies.length})` : ''}</span>
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-lg"
+          className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)]"
           onClick={() => onReact(post.id, 'heart')}
         >
           <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
@@ -166,7 +166,7 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-lg"
+          className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)]"
           onClick={() => onReact(post.id, 'pray')}
         >
           <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
@@ -175,20 +175,20 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-lg"
+          className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)]"
           onClick={() => onReport(post.id, 'other')}
         >
           <span className="text-xs">Report</span>
         </Button>
       </CardFooter>
       <CardContent className="pt-0 space-y-2">
-        <Button variant="ghost" size="sm" className="text-xs rounded-lg" onClick={() => setShowReply((v) => !v)}>
+        <Button variant="ghost" size="sm" className="text-xs rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowReply((v) => !v)}>
           {showReply ? 'Hide replies' : 'Reply'}
         </Button>
         {showReply && (
           <div className="space-y-2">
             {replies.map((reply) => (
-              <div key={reply.id} className="rounded-xl border border-border/60 p-2 text-xs text-muted-foreground">
+              <div key={reply.id} className="rounded-[var(--radius)] border border-border/60 p-2 text-xs text-muted-foreground">
                 <span className="font-medium text-foreground mr-1">
                   {reply.is_anonymous ? 'Anonymous' : reply.author?.full_name ?? 'Member'}:
                 </span>
@@ -200,11 +200,11 @@ function PostCard({
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Write a reply…"
-                className="h-8 rounded-lg text-xs"
+                className="h-8 rounded-[calc(var(--radius)*0.8)] text-xs"
               />
               <Button
                 size="sm"
-                className="rounded-lg text-xs"
+                className="rounded-[calc(var(--radius)*0.8)] text-xs"
                 onClick={async () => {
                   if (!replyText.trim()) return;
                   await onReply(post.id, replyText.trim());
@@ -317,7 +317,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
             Connect with others, share experiences, and get support.
           </p>
         </div>
-        <Button onClick={() => setShowNewDialog(true)} className="shrink-0 gap-2 rounded-lg">
+        <Button onClick={() => setShowNewDialog(true)} className="shrink-0 gap-2 rounded-[calc(var(--radius)*0.8)]">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           New Topic
         </Button>
@@ -333,18 +333,18 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search posts…"
-              className="pl-9 rounded-xl"
+              className="pl-9 rounded-[var(--radius)]"
             />
           </div>
 
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center">
+            <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center">
               <HugeiconsIcon icon={UserGroupIcon} className="size-10 text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
                 {search || categoryFilter !== 'all' ? 'No posts match your search.' : 'No posts yet. Be the first to start a discussion!'}
               </p>
               {!search && categoryFilter === 'all' && (
-                <Button onClick={() => setShowNewDialog(true)} variant="outline" className="rounded-lg gap-2">
+                <Button onClick={() => setShowNewDialog(true)} variant="outline" className="rounded-[calc(var(--radius)*0.8)] gap-2">
                   <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
                   Start a Discussion
                 </Button>
@@ -369,7 +369,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
 
         {/* Sidebar */}
         <div className="space-y-4 @xl/main:col-span-4">
-          <Card className="rounded-xl">
+          <Card className="rounded-[var(--radius)]">
             <CardHeader className="pb-3">
               <h3 className="text-sm font-semibold">Filter by Topic</h3>
             </CardHeader>
@@ -377,7 +377,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
               <button
                 onClick={() => setCategoryFilter('all')}
                 className={cn(
-                  'w-full rounded-xl px-3 py-2 text-left text-sm transition-colors',
+                  'w-full rounded-[var(--radius)] px-3 py-2 text-left text-sm transition-colors',
                   categoryFilter === 'all'
                     ? 'bg-primary/10 font-medium text-primary'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -391,7 +391,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
                   key={c.value}
                   onClick={() => setCategoryFilter(c.value)}
                   className={cn(
-                    'w-full rounded-xl px-3 py-2 text-left text-sm capitalize transition-colors',
+                    'w-full rounded-[var(--radius)] px-3 py-2 text-left text-sm capitalize transition-colors',
                     categoryFilter === c.value
                       ? 'bg-primary/10 font-medium text-primary'
                       : 'text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -404,7 +404,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
             </CardContent>
           </Card>
 
-          <Card className="rounded-xl border-primary/20 bg-primary/5">
+          <Card className="rounded-[var(--radius)] border-primary/20 bg-primary/5">
             <CardContent className="p-4 text-sm text-muted-foreground">
               <p className="font-medium text-foreground mb-1">Community Guidelines</p>
               <p className="text-xs leading-relaxed">
@@ -417,7 +417,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
 
       {/* New Post Dialog */}
       <Dialog open={showNewDialog} onOpenChange={setShowNewDialog}>
-        <DialogContent className="rounded-xl">
+        <DialogContent className="rounded-[var(--radius)]">
           <DialogHeader>
             <DialogTitle>Start a Discussion</DialogTitle>
           </DialogHeader>
@@ -428,7 +428,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="What's on your mind?"
-                className="h-10 rounded-xl"
+                className="h-10 rounded-[var(--radius)]"
               />
             </div>
             <div className="space-y-1.5">
@@ -437,14 +437,14 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
                 value={newContent}
                 onChange={(e) => setNewContent(e.target.value)}
                 placeholder="Share your thoughts, experiences, or questions…"
-                className="min-h-28 resize-none rounded-xl"
+                className="min-h-28 resize-none rounded-[var(--radius)]"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label>Category</Label>
                 <Select value={newCategory} onValueChange={setNewCategory}>
-                  <SelectTrigger className="h-10 rounded-xl">
+                  <SelectTrigger className="h-10 rounded-[var(--radius)]">
                     <SelectValue placeholder="Select…" />
                   </SelectTrigger>
                   <SelectContent>
@@ -457,7 +457,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
               <div className="space-y-1.5">
                 <Label>Visibility</Label>
                 <Select value={isAnonymous ? 'anonymous' : 'public'} onValueChange={(v) => setIsAnonymous(v === 'anonymous')}>
-                  <SelectTrigger className="h-10 rounded-xl">
+                  <SelectTrigger className="h-10 rounded-[var(--radius)]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -472,8 +472,8 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-lg" onClick={() => setShowNewDialog(false)}>Cancel</Button>
-            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-lg">
+            <Button variant="ghost" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowNewDialog(false)}>Cancel</Button>
+            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
               {creating && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {creating ? 'Posting…' : 'Post'}
             </Button>

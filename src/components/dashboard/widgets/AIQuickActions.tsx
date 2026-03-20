@@ -156,7 +156,7 @@ export function AIQuickActions() {
                 <Button
                   key={key}
                   variant="outline"
-                  className="rounded-xl h-auto py-3 flex-col gap-1.5 text-xs text-center"
+                  className="h-auto py-3 flex-col gap-1.5 text-xs text-center"
                   disabled={isDisabled}
                   onClick={() => handleAction(key)}
                   aria-label={label}

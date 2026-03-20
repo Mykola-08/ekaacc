@@ -155,7 +155,7 @@ export default function OnboardingPage() {
               <p className="text-sm text-muted-foreground">
                 Welcome to EKA Balance. You will get personalized recommendations and AI-powered support in just a few steps.
               </p>
-              <div className="rounded-xl border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground">
+              <div className="rounded-[var(--radius)] border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground">
                 Therapist and admin accounts are created via invite links by platform administrators. Standard sign-up creates a client account automatically.
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function OnboardingPage() {
                     key={goal}
                     onClick={() => toggleGoal(goal)}
                     className={cn(
-                      'rounded-xl border px-3 py-2 text-left text-sm transition-colors',
+                      'rounded-[var(--radius)] border px-3 py-2 text-left text-sm transition-colors',
                       selectedGoals.includes(goal)
                         ? 'border-primary bg-primary/5 text-primary'
                         : 'border-border hover:bg-muted'

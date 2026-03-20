@@ -58,9 +58,9 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
   if (logged !== null) {
     const s = MOOD_STEPS[logged - 1];
     return (
-      <Card className={cn('border rounded-2xl transition-all', scoreBg(logged))}>
+      <Card className={cn('border transition-all', scoreBg(logged))}>
         <CardContent className="flex items-center gap-3 p-4">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl text-2xl">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] text-2xl">
             {s.emoji}
           </div>
           <div className="min-w-0 flex-1">
@@ -76,7 +76,7 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
   }
 
   return (
-    <Card className="border-border/60 rounded-xl">
+    <Card>
       <CardContent className="p-4">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
               onMouseLeave={() => setHovered(null)}
               title={`Log mood ${score}/10`}
               className={cn(
-                'flex flex-1 items-center justify-center rounded-lg py-2 text-base transition-all',
+                'flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.8)] py-2 text-base transition-all',
                 'hover:bg-muted/60 hover:scale-110 active:scale-95',
                 isPending && 'opacity-50 cursor-wait',
                 hovered !== null && score <= hovered

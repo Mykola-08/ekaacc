@@ -56,18 +56,18 @@ export function ProtocolRunner({ protocols }: ProtocolProps) {
  </div>
 
  {!selectedProtocol ? (
- <div className="text-muted-foreground flex flex-1 items-center justify-center rounded-lg border border-dashed">
+ <div className="text-muted-foreground flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.8)] border border-dashed">
  Select a protocol from the list to begin tracking steps.
  </div>
  ) : (
  <div className="flex flex-1 flex-col gap-4 overflow-hidden">
- <ScrollArea className="bg-card flex-1 overflow-y-auto rounded-lg border">
+ <ScrollArea className="bg-card flex-1 overflow-y-auto rounded-[calc(var(--radius)*0.8)] border">
  {steps.length > 0 ? (
  <div className="space-y-4 p-4">
  {steps.map((step: any, idx: number) => (
  <div
  key={idx}
- className={`flex items-start gap-3 rounded-lg border p-3 transition-colors ${checkedSteps.has(idx) ?'bg-muted/50 border-primary/50' :'bg-background hover:bg-muted/20'}`}
+ className={`flex items-start gap-3 rounded-[calc(var(--radius)*0.8)] border p-3 transition-colors ${checkedSteps.has(idx) ?'bg-muted/50 border-primary/50' :'bg-background hover:bg-muted/20'}`}
  >
  <Checkbox
  id={`step-${idx}`}

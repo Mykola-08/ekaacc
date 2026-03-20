@@ -174,9 +174,9 @@ function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-[calc(var(--radius)*0.8)]">
                 <AvatarImage src={avatarUrl} alt={displayName} />
-                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                <AvatarFallback className="rounded-[calc(var(--radius)*0.8)]">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{displayName}</span>
@@ -186,16 +186,16 @@ function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-[calc(var(--radius)*0.8)]"
             side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="h-8 w-8 rounded-[calc(var(--radius)*0.8)]">
                   <AvatarImage src={avatarUrl} alt={displayName} />
-                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                  <AvatarFallback className="rounded-[calc(var(--radius)*0.8)]">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{displayName}</span>
@@ -298,7 +298,7 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild tooltip="EKA Balance">
               <Link href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-primary text-primary-foreground shadow-sm">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">

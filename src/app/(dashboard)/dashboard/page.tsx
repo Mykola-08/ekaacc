@@ -246,7 +246,7 @@ export default async function DashboardPage() {
             )}
           </div>
           <Link href="/book">
-            <Button size="sm" className="shrink-0 rounded-lg gap-1.5 hidden sm:flex">
+            <Button size="sm" className="shrink-0 rounded-[calc(var(--radius)*0.8)] gap-1.5 hidden sm:flex">
               <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
               Book Session
             </Button>
@@ -358,7 +358,7 @@ export default async function DashboardPage() {
                   return (
                     <div
                       key={b.id}
-                      className="group flex items-center gap-3 rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/40"
+                      className="group flex items-center gap-3 rounded-[var(--radius)] border border-border/60 p-3 transition-colors hover:bg-muted/40"
                     >
                       {/* Color accent bar */}
                       <div className="h-9 w-1 shrink-0 rounded-full bg-primary" />
@@ -405,7 +405,7 @@ export default async function DashboardPage() {
                   <p className="text-xs text-muted-foreground mt-0.5">Book a session to get started</p>
                 </div>
                 <Link href="/book">
-                  <Button size="sm" className="mt-1 rounded-lg">
+                  <Button size="sm" className="mt-1 rounded-[calc(var(--radius)*0.8)]">
                     Book a Session
                   </Button>
                 </Link>
@@ -475,7 +475,7 @@ export default async function DashboardPage() {
               {!data.plan && (
                 <CardFooter>
                   <Link href="/settings?section=billing" className="w-full">
-                    <Button variant="outline" size="sm" className="w-full rounded-lg text-xs">
+                    <Button variant="outline" size="sm" className="w-full rounded-[calc(var(--radius)*0.8)] text-xs">
                       Upgrade Plan
                     </Button>
                   </Link>
@@ -504,7 +504,7 @@ export default async function DashboardPage() {
               </CardHeader>
               <CardFooter>
                 <Link href="/wallet" className="w-full">
-                  <Button variant="outline" size="sm" className="w-full rounded-lg text-xs">
+                  <Button variant="outline" size="sm" className="w-full rounded-[calc(var(--radius)*0.8)] text-xs">
                     View Wallet
                   </Button>
                 </Link>
@@ -532,7 +532,7 @@ export default async function DashboardPage() {
             <CardContent>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {data.goals.map((goal: any) => (
-                  <div key={goal.id} className="rounded-xl border border-border/60 p-3.5">
+                  <div key={goal.id} className="rounded-[var(--radius)] border border-border/60 p-3.5">
                     <div className="mb-2.5 flex items-center justify-between">
                       <span className="truncate text-sm font-semibold text-foreground">
                         {goal.title}
@@ -574,7 +574,7 @@ export default async function DashboardPage() {
                   {data.journalEntries.map((entry: any) => (
                     <div
                       key={entry.id}
-                      className="flex items-center justify-between rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/30"
+                      className="flex items-center justify-between rounded-[var(--radius)] border border-border/60 p-3 transition-colors hover:bg-muted/30"
                     >
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-foreground">
@@ -620,7 +620,7 @@ export default async function DashboardPage() {
                   {data.assignments.map((a: any) => (
                     <div
                       key={a.id}
-                      className="flex items-center justify-between rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/30"
+                      className="flex items-center justify-between rounded-[var(--radius)] border border-border/60 p-3 transition-colors hover:bg-muted/30"
                     >
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-foreground">{a.title}</p>
@@ -680,9 +680,9 @@ export default async function DashboardPage() {
 
 function MoodTrendSkeleton() {
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
+    <div className="rounded-[var(--radius)] border border-border bg-card p-5 shadow-xs">
       <div className="mb-3 h-4 w-24 animate-pulse rounded bg-muted" />
-      <div className="h-16 animate-pulse rounded-lg bg-muted" />
+      <div className="h-16 animate-pulse rounded-[calc(var(--radius)*0.8)] bg-muted" />
     </div>
   );
 }
@@ -709,7 +709,7 @@ function DashStatsCard({
           )}
         >
           {value == null ? (
-            <div className="mt-1 h-8 w-16 animate-pulse rounded-lg bg-muted" />
+            <div className="mt-1 h-8 w-16 animate-pulse rounded-[calc(var(--radius)*0.8)] bg-muted" />
           ) : (
             value
           )}
@@ -717,7 +717,7 @@ function DashStatsCard({
         <CardAction>
           <div
             className={cn(
-              'flex h-8 w-8 items-center justify-center rounded-xl',
+              'flex h-8 w-8 items-center justify-center rounded-[var(--radius)]',
               accent
                 ? 'bg-primary/10 text-primary'
                 : 'bg-muted text-muted-foreground'
@@ -745,7 +745,7 @@ function QuickAction({
       <Button
         variant="ghost"
         size="sm"
-        className="h-9 w-full justify-start gap-2.5 rounded-lg px-3 text-xs font-medium hover:bg-muted/60"
+        className="h-9 w-full justify-start gap-2.5 rounded-[calc(var(--radius)*0.8)] px-3 text-xs font-medium hover:bg-muted/60"
       >
         <HugeiconsIcon icon={icon} className="size-4 text-muted-foreground" />
         {label}
@@ -769,7 +769,7 @@ function AdminQuickLink({
     <Link href={href}>
       <Card className="group h-full cursor-pointer hover:bg-muted/30">
         <CardHeader>
-          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-[var(--radius)] bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
             <HugeiconsIcon icon={icon} className="size-4" />
           </div>
           <CardTitle className="text-sm font-semibold">{title}</CardTitle>

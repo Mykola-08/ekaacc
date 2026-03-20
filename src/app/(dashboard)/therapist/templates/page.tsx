@@ -210,17 +210,17 @@ export default function TherapistTemplatesPage() {
         </div>
         <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <Card key={i} className="rounded-xl">
+            <Card key={i} className="rounded-[var(--radius)]">
               <CardHeader>
                 <div className="flex items-start justify-between">
-                  <Skeleton className="h-8 w-8 rounded-xl" />
+                  <Skeleton className="h-8 w-8 rounded-[var(--radius)]" />
                   <Skeleton className="h-6 w-24 rounded-full" />
                 </div>
                 <Skeleton className="mt-3 h-5 w-3/4" />
                 <Skeleton className="h-4 w-full" />
               </CardHeader>
               <CardContent>
-                <Skeleton className="h-9 w-full rounded-xl" />
+                <Skeleton className="h-9 w-full rounded-[var(--radius)]" />
               </CardContent>
             </Card>
           ))}
@@ -239,7 +239,7 @@ export default function TherapistTemplatesPage() {
             Reusable note templates to speed up documentation.
           </p>
         </div>
-        <Button onClick={openCreate} className="gap-2 rounded-lg">
+        <Button onClick={openCreate} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
           <HugeiconsIcon icon={Add01Icon} className="size-4" />
           New Template
         </Button>
@@ -251,13 +251,13 @@ export default function TherapistTemplatesPage() {
           <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search templates…"
-            className="pl-9 rounded-xl h-10"
+            className="pl-9 rounded-[var(--radius)] h-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-44 h-10 rounded-xl">
+          <SelectTrigger className="w-44 h-10 rounded-[var(--radius)]">
             <HugeiconsIcon icon={FilterIcon} className="mr-1.5 size-4 text-muted-foreground" />
             <SelectValue placeholder="All Types" />
           </SelectTrigger>
@@ -272,8 +272,8 @@ export default function TherapistTemplatesPage() {
 
       {/* Templates Grid */}
       {filtered.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-xl bg-muted p-4">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-[var(--radius)] bg-muted p-4">
             <HugeiconsIcon icon={File01Icon} className="size-8 text-muted-foreground/50" />
           </div>
           <div>
@@ -283,7 +283,7 @@ export default function TherapistTemplatesPage() {
             </p>
           </div>
           {!searchQuery && typeFilter === 'all' && (
-            <Button onClick={openCreate} className="rounded-lg gap-2">
+            <Button onClick={openCreate} className="rounded-[calc(var(--radius)*0.8)] gap-2">
               <HugeiconsIcon icon={Add01Icon} className="size-4" />
               Create Template
             </Button>
@@ -292,11 +292,11 @@ export default function TherapistTemplatesPage() {
       ) : (
         <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
           {filtered.map((t) => (
-            <Card key={t.id} className="group rounded-xl transition-all hover:-translate-y-px">
+            <Card key={t.id} className="group rounded-[var(--radius)] transition-all hover:-translate-y-px">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-start gap-3 min-w-0">
-                    <div className="mt-0.5 shrink-0 rounded-xl bg-muted p-2">
+                    <div className="mt-0.5 shrink-0 rounded-[var(--radius)] bg-muted p-2">
                       <HugeiconsIcon icon={File01Icon} className="size-4 text-muted-foreground" />
                     </div>
                     <div className="min-w-0">
@@ -311,7 +311,7 @@ export default function TherapistTemplatesPage() {
                   <AlertDialog>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button variant="ghost" size="icon" className="size-7 shrink-0 rounded-[calc(var(--radius)*0.8)] opacity-0 group-hover:opacity-100 transition-opacity">
                           <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -359,7 +359,7 @@ export default function TherapistTemplatesPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="mt-3 w-full rounded-xl gap-2"
+                  className="mt-3 w-full rounded-[var(--radius)] gap-2"
                   onClick={() => setPreviewTemplate(t)}
                 >
                   <HugeiconsIcon icon={File01Icon} className="size-3.5" />
@@ -373,7 +373,7 @@ export default function TherapistTemplatesPage() {
 
       {/* Create / Edit Dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-        <DialogContent className="rounded-xl max-w-lg">
+        <DialogContent className="rounded-[var(--radius)] max-w-lg">
           <DialogHeader>
             <DialogTitle>{editTarget ? 'Edit Template' : 'New Template'}</DialogTitle>
             <DialogDescription>
@@ -387,13 +387,13 @@ export default function TherapistTemplatesPage() {
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
                 placeholder="e.g. CBT Session Note"
-                className="h-10 rounded-xl"
+                className="h-10 rounded-[var(--radius)]"
               />
             </div>
             <div className="space-y-1.5">
               <Label>Type</Label>
               <Select value={formType} onValueChange={setFormType}>
-                <SelectTrigger className="h-10 rounded-xl">
+                <SelectTrigger className="h-10 rounded-[var(--radius)]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -409,7 +409,7 @@ export default function TherapistTemplatesPage() {
                 value={formBody}
                 onChange={(e) => setFormBody(e.target.value)}
                 placeholder="Write your template content here. Use {{field_name}} for dynamic fields."
-                className="min-h-40 resize-none rounded-xl font-mono text-xs"
+                className="min-h-40 resize-none rounded-[var(--radius)] font-mono text-xs"
               />
             </div>
             {formError && (
@@ -417,8 +417,8 @@ export default function TherapistTemplatesPage() {
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-lg" onClick={() => setShowCreateDialog(false)}>Cancel</Button>
-            <Button onClick={handleSave} disabled={formSaving} className="gap-2 rounded-lg">
+            <Button variant="ghost" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowCreateDialog(false)}>Cancel</Button>
+            <Button onClick={handleSave} disabled={formSaving} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
               {formSaving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {formSaving ? 'Saving…' : editTarget ? 'Save Changes' : 'Create Template'}
             </Button>
@@ -428,24 +428,24 @@ export default function TherapistTemplatesPage() {
 
       {/* Preview Dialog */}
       <Dialog open={!!previewTemplate} onOpenChange={(open) => { if (!open) setPreviewTemplate(null); }}>
-        <DialogContent className="rounded-xl max-w-xl">
+        <DialogContent className="rounded-[var(--radius)] max-w-xl">
           <DialogHeader>
             <DialogTitle>{previewTemplate?.name}</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="h-80 rounded-xl border bg-muted/30 p-4">
+          <ScrollArea className="h-80 rounded-[var(--radius)] border bg-muted/30 p-4">
             <p className="whitespace-pre-wrap text-sm leading-relaxed">{previewTemplate ? getTemplateBody(previewTemplate.content) : ''}</p>
           </ScrollArea>
           <DialogFooter>
-            <Button variant="outline" className="rounded-lg" onClick={() => setPreviewTemplate(null)}>Close</Button>
+            <Button variant="outline" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => setPreviewTemplate(null)}>Close</Button>
             <Button
               variant="outline"
-              className="gap-2 rounded-lg"
+              className="gap-2 rounded-[calc(var(--radius)*0.8)]"
               onClick={() => previewTemplate && handleCopy(previewTemplate)}
             >
               <HugeiconsIcon icon={Copy01Icon} className="size-4" /> Copy
             </Button>
             <Button
-              className="gap-2 rounded-lg"
+              className="gap-2 rounded-[calc(var(--radius)*0.8)]"
               onClick={() => previewTemplate && handleDownload(previewTemplate)}
             >
               <HugeiconsIcon icon={Download01Icon} className="size-4" /> Download

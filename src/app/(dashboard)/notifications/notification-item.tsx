@@ -64,7 +64,7 @@ export function NotificationItem({ notification }: { notification: Notification 
     <div
       onClick={handleClick}
       className={cn(
-        'group border-border bg-card relative overflow-hidden rounded-xl border p-5 sm:p-6 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5',
+        'group border-border bg-card relative overflow-hidden rounded-[var(--radius)] border p-5 sm:p-6 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5',
         !notification.is_read ? 'border-primary/20 bg-primary/[0.02]' : 'shadow-sm',
         notification.link && 'cursor-pointer',
         isPending && 'opacity-60 pointer-events-none'
@@ -102,7 +102,7 @@ export function NotificationItem({ notification }: { notification: Notification 
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-lg"
+              className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-[calc(var(--radius)*0.8)]"
               onClick={handleMarkRead}
               disabled={isPending}
               title="Mark as read"
@@ -113,7 +113,7 @@ export function NotificationItem({ notification }: { notification: Notification 
           <Button
             variant="ghost"
             size="icon"
-            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8 rounded-lg"
+            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 w-8 rounded-[calc(var(--radius)*0.8)]"
             onClick={handleDelete}
             disabled={isPending}
             title="Delete notification"

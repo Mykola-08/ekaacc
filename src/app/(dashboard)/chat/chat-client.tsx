@@ -300,7 +300,7 @@ export function ChatPageClient({
       <div className="flex w-60 shrink-0 flex-col border-r border-border bg-card">
         <div className="flex items-center justify-between gap-2 px-4 py-3 border-b border-border">
           <h2 className="text-sm font-semibold">Channels</h2>
-          <Button variant="ghost" size="icon" className="size-7 rounded-lg" onClick={() => setShowCreate(true)}>
+          <Button variant="ghost" size="icon" className="size-7 rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowCreate(true)}>
             <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           </Button>
         </div>
@@ -312,7 +312,7 @@ export function ChatPageClient({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search channels…"
-              className="h-8 pl-8 text-xs rounded-lg"
+              className="h-8 pl-8 text-xs rounded-[calc(var(--radius)*0.8)]"
             />
           </div>
         </div>
@@ -323,7 +323,7 @@ export function ChatPageClient({
               <HugeiconsIcon icon={MessageMultiple01Icon} className="size-8 text-muted-foreground/30" />
               <p className="text-xs text-muted-foreground">{search ? 'No channels found' : 'No channels yet'}</p>
               {!search && (
-                <Button variant="ghost" size="sm" className="text-xs rounded-lg" onClick={() => setShowCreate(true)}>
+                <Button variant="ghost" size="sm" className="text-xs rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowCreate(true)}>
                   Create one
                 </Button>
               )}
@@ -334,7 +334,7 @@ export function ChatPageClient({
                 key={ch.id}
                 onClick={() => setSelectedChannel(ch)}
                 className={cn(
-                  'w-full flex items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm transition-colors',
+                  'w-full flex items-center gap-2.5 rounded-[var(--radius)] px-3 py-2 text-left text-sm transition-colors',
                   selectedChannel?.id === ch.id
                     ? 'bg-muted text-foreground font-medium'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -376,7 +376,7 @@ export function ChatPageClient({
               </div>
             ) : messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-                <div className="rounded-xl bg-muted p-4">
+                <div className="rounded-[var(--radius)] bg-muted p-4">
                   <HugeiconsIcon icon={Comment01Icon} className="size-8 text-muted-foreground/50" />
                 </div>
                 <div>
@@ -432,7 +432,7 @@ export function ChatPageClient({
                             <Textarea
                               value={editText}
                               onChange={(e) => setEditText(e.target.value)}
-                              className="min-h-16 resize-none rounded-xl text-sm"
+                              className="min-h-16 resize-none rounded-[var(--radius)] text-sm"
                               autoFocus
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveEdit(); }
@@ -443,14 +443,14 @@ export function ChatPageClient({
                               <Button
                                 size="sm"
                                 variant="ghost"
-                                className="h-7 px-2 text-xs rounded-lg"
+                                className="h-7 px-2 text-xs rounded-[calc(var(--radius)*0.8)]"
                                 onClick={() => setEditingId(null)}
                               >
                                 Cancel
                               </Button>
                               <Button
                                 size="sm"
-                                className="h-7 px-2 text-xs rounded-lg gap-1"
+                                className="h-7 px-2 text-xs rounded-[calc(var(--radius)*0.8)] gap-1"
                                 onClick={saveEdit}
                                 disabled={editSaving}
                               >
@@ -466,7 +466,7 @@ export function ChatPageClient({
                           <div className="relative flex items-end gap-1">
                             <div
                               className={cn(
-                                'rounded-xl px-3 py-2 text-sm leading-relaxed',
+                                'rounded-[var(--radius)] px-3 py-2 text-sm leading-relaxed',
                                 isDeleting && 'opacity-40',
                                 isMe
                                   ? 'bg-primary text-primary-foreground rounded-tr-sm'
@@ -487,14 +487,14 @@ export function ChatPageClient({
                                     <Button
                                       variant="ghost"
                                       size="icon"
-                                      className="size-6 rounded-lg text-muted-foreground hover:bg-muted"
+                                      className="size-6 rounded-[calc(var(--radius)*0.8)] text-muted-foreground hover:bg-muted"
                                     >
                                       <HugeiconsIcon icon={MoreVerticalIcon} className="size-3.5" />
                                     </Button>
                                   </DropdownMenuTrigger>
-                                  <DropdownMenuContent align={isMe ? 'end' : 'start'} className="rounded-xl">
+                                  <DropdownMenuContent align={isMe ? 'end' : 'start'} className="rounded-[var(--radius)]">
                                     <DropdownMenuItem
-                                      className="gap-2 text-xs rounded-lg"
+                                      className="gap-2 text-xs rounded-[calc(var(--radius)*0.8)]"
                                       onClick={() => startEdit(msg)}
                                     >
                                       <HugeiconsIcon icon={PencilEdit01Icon} className="size-3.5" />
@@ -502,7 +502,7 @@ export function ChatPageClient({
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
-                                      className="gap-2 text-xs text-destructive focus:text-destructive rounded-lg"
+                                      className="gap-2 text-xs text-destructive focus:text-destructive rounded-[calc(var(--radius)*0.8)]"
                                       onClick={() => confirmDelete(msg.id)}
                                     >
                                       <HugeiconsIcon icon={Delete01Icon} className="size-3.5" />
@@ -525,12 +525,12 @@ export function ChatPageClient({
 
           {/* Message Input */}
           <div className="border-t border-border bg-card px-4 py-3">
-            <div className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-1.5 focus-within:border-primary/50 transition-colors">
+            <div className="flex items-center gap-2 rounded-[var(--radius)] border border-border bg-background px-3 py-1.5 focus-within:border-primary/50 transition-colors">
               {/* Attach template Button */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-7 shrink-0 rounded-lg text-muted-foreground hover:text-foreground"
+                className="size-7 shrink-0 rounded-[calc(var(--radius)*0.8)] text-muted-foreground hover:text-foreground"
                 onClick={openTemplates}
                 title="Attach template"
               >
@@ -548,7 +548,7 @@ export function ChatPageClient({
 
               <Button
                 size="icon"
-                className="size-7 shrink-0 rounded-lg"
+                className="size-7 shrink-0 rounded-[calc(var(--radius)*0.8)]"
                 onClick={handleSend}
                 disabled={sending || !messageText.trim()}
               >
@@ -568,7 +568,7 @@ export function ChatPageClient({
         </div>
       ) : (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-          <div className="rounded-xl bg-muted p-6">
+          <div className="rounded-[var(--radius)] bg-muted p-6">
             <HugeiconsIcon icon={UserGroupIcon} className="size-12 text-muted-foreground/50" />
           </div>
           <div className="space-y-1">
@@ -577,7 +577,7 @@ export function ChatPageClient({
               Join or create a channel to start collaborating with your care team.
             </p>
           </div>
-          <Button onClick={() => setShowCreate(true)} className="gap-2 rounded-lg">
+          <Button onClick={() => setShowCreate(true)} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
             <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
             Create a Channel
           </Button>
@@ -586,7 +586,7 @@ export function ChatPageClient({
 
       {/* ── Create Channel Dialog ───────────────────────────────── */}
       <Dialog open={showCreate} onOpenChange={setShowCreate}>
-        <DialogContent className="rounded-xl max-w-sm">
+        <DialogContent className="rounded-[var(--radius)] max-w-sm">
           <DialogHeader>
             <DialogTitle>New Channel</DialogTitle>
           </DialogHeader>
@@ -599,7 +599,7 @@ export function ChatPageClient({
                   value={newName}
                   onChange={(e) => setNewName(e.target.value.toLowerCase().replace(/\s+/g, '-'))}
                   placeholder="general"
-                  className="h-10 pl-7 rounded-xl"
+                  className="h-10 pl-7 rounded-[var(--radius)]"
                 />
               </div>
             </div>
@@ -609,7 +609,7 @@ export function ChatPageClient({
                 value={newDesc}
                 onChange={(e) => setNewDesc(e.target.value)}
                 placeholder="What is this channel about?"
-                className="min-h-16 resize-none rounded-xl"
+                className="min-h-16 resize-none rounded-[var(--radius)]"
               />
             </div>
             {createError && (
@@ -617,8 +617,8 @@ export function ChatPageClient({
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-lg" onClick={() => setShowCreate(false)}>Cancel</Button>
-            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-lg">
+            <Button variant="ghost" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowCreate(false)}>Cancel</Button>
+            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
               {creating && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {creating ? 'Creating…' : 'Create Channel'}
             </Button>
@@ -628,7 +628,7 @@ export function ChatPageClient({
 
       {/* ── Template Picker Dialog ──────────────────────────────── */}
       <Dialog open={showTemplates} onOpenChange={setShowTemplates}>
-        <DialogContent className="rounded-xl max-w-lg">
+        <DialogContent className="rounded-[var(--radius)] max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <HugeiconsIcon icon={File01Icon} className="size-5 text-muted-foreground" />
@@ -643,12 +643,12 @@ export function ChatPageClient({
                 value={templateSearch}
                 onChange={(e) => setTemplateSearch(e.target.value)}
                 placeholder="Search templates…"
-                className="h-9 pl-9 rounded-xl"
+                className="h-9 pl-9 rounded-[var(--radius)]"
                 autoFocus
               />
             </div>
 
-            <ScrollArea className="h-72 rounded-xl border border-border">
+            <ScrollArea className="h-72 rounded-[var(--radius)] border border-border">
               {loadingTemplates ? (
                 <div className="flex items-center justify-center py-12">
                   <HugeiconsIcon icon={Loading03Icon} className="size-6 animate-spin text-muted-foreground" />
@@ -666,9 +666,9 @@ export function ChatPageClient({
                     <button
                       key={t.id}
                       onClick={() => insertTemplate(t)}
-                      className="w-full flex items-start gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-muted transition-colors"
+                      className="w-full flex items-start gap-3 rounded-[var(--radius)] px-3 py-2.5 text-left hover:bg-muted transition-colors"
                     >
-                      <div className="mt-0.5 rounded-lg bg-primary/10 p-1.5 shrink-0">
+                      <div className="mt-0.5 rounded-[calc(var(--radius)*0.8)] bg-primary/10 p-1.5 shrink-0">
                         <HugeiconsIcon icon={File01Icon} className="size-3.5 text-primary" />
                       </div>
                       <div className="min-w-0">
@@ -685,7 +685,7 @@ export function ChatPageClient({
           </div>
 
           <DialogFooter>
-            <Button variant="ghost" className="rounded-lg" onClick={() => setShowTemplates(false)}>
+            <Button variant="ghost" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowTemplates(false)}>
               Cancel
             </Button>
           </DialogFooter>

@@ -295,7 +295,7 @@ export default function PersonalizedServiceTemplate({
                     className={`rounded-[2rem] border border-gray-100 p-6 sm:rounded-[2.5rem] sm:p-8 md:p-10 ${theme.stepsBg} group transition-all duration-500`}
                   >
                     <div
-                      className={`h-12 w-12 rounded-2xl sm:h-14 sm:w-14 ${theme.stepsIconBg} flex items-center justify-center ${theme.stepsIconText} mb-6 text-xl font-semibold transition-transform duration-500 group-hover:scale-110 sm:mb-8 sm:text-2xl`}
+                      className={`h-12 w-12 rounded-[var(--radius)] sm:h-14 sm:w-14 ${theme.stepsIconBg} flex items-center justify-center ${theme.stepsIconText} mb-6 text-xl font-semibold transition-transform duration-500 group-hover:scale-110 sm:mb-8 sm:text-2xl`}
                     >
                       {index + 1}
                     </div>
@@ -329,7 +329,7 @@ export default function PersonalizedServiceTemplate({
             >
               {recommendedServices.map((service, index) => {
                 const details = (
-                  <div className="mt-8 flex items-center gap-6 rounded-2xl bg-gray-50 p-6">
+                  <div className="mt-8 flex items-center gap-6 rounded-[var(--radius)] bg-gray-50 p-6">
                     <div className="flex flex-col">
                       <span className="text-sm font-medium tracking-wider text-gray-500 uppercase">
                         {t('common.duration') || 'Duration'}

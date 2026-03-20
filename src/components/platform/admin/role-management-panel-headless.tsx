@@ -133,7 +133,7 @@ export function RoleManagementPanelHeadless() {
         />
       </div>
 
-      <div className="bg-card ring-border overflow-hidden rounded-lg ring-1">
+      <div className="bg-card ring-border overflow-hidden rounded-[calc(var(--radius)*0.8)] ring-1">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
             <thead className="bg-muted/50">
@@ -170,7 +170,7 @@ export function RoleManagementPanelHeadless() {
                     </div>
                   </td>
                   <td className="px-3 py-4 whitespace-nowrap">
-                    <span className="bg-primary/5 text-primary ring-primary/10 inline-flex items-center rounded-lg px-2 py-1 text-xs font-medium tracking-wider uppercase ring-1 ring-inset">
+                    <span className="bg-primary/5 text-primary ring-primary/10 inline-flex items-center rounded-[calc(var(--radius)*0.8)] px-2 py-1 text-xs font-medium tracking-wider uppercase ring-1 ring-inset">
                       {user.role}
                     </span>
                   </td>

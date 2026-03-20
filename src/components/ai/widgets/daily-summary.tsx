@@ -57,7 +57,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
       className={cn(
-        'relative overflow-hidden rounded-lg border p-5',
+        'relative overflow-hidden rounded-[calc(var(--radius)*0.8)] border p-5',
         'from-primary/5 via-card to-card bg-linear-to-br',
         className
       )}
@@ -68,7 +68,7 @@ export function DailySummaryWidget({ className }: { className?: string }) {
       <div className="relative">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
+            <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
               <HugeiconsIcon icon={TimeIcon} className="text-primary h-4 w-4" />
             </div>
             <div>

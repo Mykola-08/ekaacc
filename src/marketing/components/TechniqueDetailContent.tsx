@@ -62,7 +62,7 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
             <p>{t(`${baseKey}.desc`)}</p>
           </div>
 
-          <div className="mt-12 rounded-2xl border border-orange-100 bg-white p-8">
+          <div className="mt-12 rounded-[var(--radius)] border border-orange-100 bg-white p-8">
             <h3 className="mb-4 text-xl font-semibold text-gray-900">{t('technique.why')}</h3>
             <p className="text-gray-600">{t(`${baseKey}.why`)}</p>
           </div>

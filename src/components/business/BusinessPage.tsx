@@ -87,7 +87,7 @@ export function BusinessPage() {
               key={i}
               className="border-border p-10 transition-transform duration-500 hover:-translate-y-2"
             >
-              <div className="bg-primary/10 text-primary mb-6 flex h-16 w-16 items-center justify-center rounded-lg">
+              <div className="bg-primary/10 text-primary mb-6 flex h-16 w-16 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
               <HugeiconsIcon icon={feature.icon} className="h-8 w-8" />
               </div>
               <h3 className="text-foreground mb-4 font-serif text-2xl">{feature.title}</h3>

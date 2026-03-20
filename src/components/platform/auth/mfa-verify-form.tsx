@@ -116,14 +116,14 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
     <div
       className="mx-auto flex w-full max-w-md flex-col gap-6"
     >
-      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-lg border backdrop-blur-2xl">
+      <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-[calc(var(--radius)*0.8)] border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           {/* Header */}
           <div
             className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative mb-2">
-              <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-lg border">
+              <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[calc(var(--radius)*0.8)] border">
                 <HugeiconsIcon icon={ShieldIcon} className="text-primary size-7"  />
               </div>
             </div>
@@ -154,7 +154,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                   value={digit}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-14 w-12 rounded-xl text-center text-xl font-semibold transition-all focus:ring-4"
+                  className="border-input bg-muted/50 focus:border-primary focus:bg-background focus:ring-primary/10 h-14 w-12 rounded-[var(--radius)] text-center text-xl font-semibold transition-all focus:ring-4"
                   disabled={loading}
                 />
               ))}
@@ -165,7 +165,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
           
             {error && (
               <div
-                className="bg-destructive/10 text-destructive mb-4 rounded-xl px-4 py-3 text-center text-sm font-medium"
+                className="bg-destructive/10 text-destructive mb-4 rounded-[var(--radius)] px-4 py-3 text-center text-sm font-medium"
               >
                 {error}
               </div>

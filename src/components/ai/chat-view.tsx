@@ -157,7 +157,7 @@ export function AIChatView() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex h-[calc(100dvh-6rem)] max-h-225 overflow-hidden rounded-lg border">
+    <div className="flex h-[calc(100dvh-6rem)] max-h-225 overflow-hidden rounded-[calc(var(--radius)*0.8)] border">
       {/* Desktop sidebar */}
       <div className="bg-muted/30 hidden w-64 shrink-0 border-r lg:block">
         <ConversationList

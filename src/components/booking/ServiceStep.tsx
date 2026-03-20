@@ -28,7 +28,7 @@ export function ServiceStep({ services, selectedServiceId, onSelect }: ServiceSt
               key={service.id}
               onClick={() => onSelect(service.id)}
               className={cn(
-                'group relative flex h-full w-full flex-col rounded-xl border-2 p-5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                'group relative flex h-full w-full flex-col rounded-[var(--radius)] border-2 p-5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                 selected
                   ? 'border-primary bg-primary/5 shadow-md'
                   : 'border-border bg-card hover:border-primary/40 hover:bg-muted/20 hover:shadow-sm'

@@ -19,7 +19,7 @@ export type AgentProps = ComponentProps<"div">;
 
 export const Agent = memo(({ className, ...props }: AgentProps) => (
   <div
-    className={cn("not-prose w-full rounded-md border", className)}
+    className={cn("not-prose w-full rounded-[calc(var(--radius)*0.6)] border", className)}
     {...props}
   />
 ));
@@ -69,7 +69,7 @@ export const AgentInstructions = memo(
       <span className="font-medium text-muted-foreground text-sm">
         Instructions
       </span>
-      <div className="rounded-md bg-muted/50 p-3 text-muted-foreground text-sm">
+      <div className="rounded-[calc(var(--radius)*0.6)] bg-muted/50 p-3 text-muted-foreground text-sm">
         <p>{children}</p>
       </div>
     </div>
@@ -81,7 +81,7 @@ export type AgentToolsProps = ComponentProps<typeof Accordion>;
 export const AgentTools = memo(({ className, ...props }: AgentToolsProps) => (
   <div className={cn("space-y-2", className)}>
     <span className="font-medium text-muted-foreground text-sm">Tools</span>
-    <Accordion className="rounded-md border" {...props} />
+    <Accordion className="rounded-[calc(var(--radius)*0.6)] border" {...props} />
   </div>
 ));
 
@@ -106,7 +106,7 @@ export const AgentTool = memo(
           {tool.description ?? "No description"}
         </AccordionTrigger>
         <AccordionContent className="px-3 pb-3">
-          <div className="rounded-md bg-muted/50">
+          <div className="rounded-[calc(var(--radius)*0.6)] bg-muted/50">
             <CodeBlock code={JSON.stringify(schema, null, 2)} language="json" />
           </div>
         </AccordionContent>
@@ -125,7 +125,7 @@ export const AgentOutput = memo(
       <span className="font-medium text-muted-foreground text-sm">
         Output Schema
       </span>
-      <div className="rounded-md bg-muted/50">
+      <div className="rounded-[calc(var(--radius)*0.6)] bg-muted/50">
         <CodeBlock code={schema} language="typescript" />
       </div>
     </div>

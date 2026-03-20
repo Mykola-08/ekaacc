@@ -84,7 +84,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
       style={{ animationDelay: `${index * 50}ms` }}
     >
       <div className="flex flex-1 items-center gap-4">
-        <div className="bg-muted border-border relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border">
+        <div className="bg-muted border-border relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-[calc(var(--radius)*0.8)] border">
           {service.imageUrl ? (
             <Image
               src={service.imageUrl}

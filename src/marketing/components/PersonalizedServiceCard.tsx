@@ -35,7 +35,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
       )}
 
       {service.resultKey && (
-        <div className="bg-primary/5 border-primary/10 mb-4 rounded-xl border p-4 sm:mb-6 sm:p-5">
+        <div className="bg-primary/5 border-primary/10 mb-4 rounded-[var(--radius)] border p-4 sm:mb-6 sm:p-5">
           <div className="flex flex-col gap-1.5">
             <span className="text-primary/70 text-xs font-semibold tracking-widest uppercase sm:text-xs">
               {t('common.expectedResult') || 'Expected Result'}
@@ -47,7 +47,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
         </div>
       )}
 
-      <div className="mt-auto flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 sm:p-5">
+      <div className="mt-auto flex items-center justify-between rounded-[var(--radius)] border border-gray-100 bg-white p-4 sm:p-5">
         <div className="flex flex-col gap-0.5">
           <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase sm:text-xs">
             {t('common.duration') || 'Duration'}

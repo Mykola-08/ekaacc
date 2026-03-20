@@ -157,7 +157,7 @@ export default function AboutElenaContent() {
                     hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0 },
                   }}
-                  className="bg-secondary cursor-default rounded-2xl border border-transparent px-8 py-4 font-medium text-gray-700 transition-colors hover:border-gray-200"
+                  className="bg-secondary cursor-default rounded-[var(--radius)] border border-transparent px-8 py-4 font-medium text-gray-700 transition-colors hover:border-gray-200"
                 >
                   {tech.name}
                 </motion.div>

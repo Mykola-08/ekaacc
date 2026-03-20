@@ -178,7 +178,7 @@ export default function CoreServiceTemplate({
                   >
                     <div className="flex items-start gap-4">
                       <div
-                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${iconStyle} transition-transform duration-500 group-hover:scale-110`}
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius)] ${iconStyle} transition-transform duration-500 group-hover:scale-110`}
                       >
                         <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6"  />
                       </div>
@@ -272,7 +272,7 @@ export default function CoreServiceTemplate({
                 {testimonials.items.map((testimonial, i) => (
                   <div
                     key={i}
-                    className="flex h-full flex-col rounded-2xl border border-gray-100 bg-gray-50 p-8 transition duration-300 hover:bg-white"
+                    className="flex h-full flex-col rounded-[var(--radius)] border border-gray-100 bg-gray-50 p-8 transition duration-300 hover:bg-white"
                   >
                     <div className="mb-4 flex gap-1 text-yellow-400">
                       {[...Array(testimonial.rating)].map((_, i) => (

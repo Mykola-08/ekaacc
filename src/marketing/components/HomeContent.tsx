@@ -49,7 +49,7 @@ export default function HomeContent() {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center justify-center rounded-2xl p-6 text-center transition-colors duration-300"
+                className="flex flex-col items-center justify-center rounded-[var(--radius)] p-6 text-center transition-colors duration-300"
               >
                 <div className="mb-3 text-4xl font-semibold tracking-tighter text-foreground tabular-nums md:text-5xl lg:text-6xl">
                   {stat.value}

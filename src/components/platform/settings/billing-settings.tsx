@@ -85,7 +85,7 @@ export function BillingSettings() {
   return (
     <div className="">
       {/* Current Subscription */}
-      <Card className="rounded-lg">
+      <Card className="rounded-[calc(var(--radius)*0.8)]">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <HugeiconsIcon icon={ShieldIcon} className="text-primary h-5 w-5" />
@@ -136,7 +136,7 @@ export function BillingSettings() {
               <p className="text-muted-foreground mt-1 mb-4 text-sm">
                 Upgrade to unlock premium features and priority support.
               </p>
-              <Button onClick={() => router.push('/finances?tab=plans')} className="rounded-xl">
+              <Button onClick={() => router.push('/finances?tab=plans')} className="rounded-[var(--radius)]">
                 View Plans
               </Button>
             </div>
@@ -148,7 +148,7 @@ export function BillingSettings() {
               variant="outline"
               onClick={handleManageSubscription}
               disabled={portalLoading}
-              className="rounded-xl"
+              className="rounded-[var(--radius)]"
             >
               {portalLoading && <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin"  />}
               Manage Subscription
@@ -158,7 +158,7 @@ export function BillingSettings() {
       </Card>
 
       {/* Payment Methods */}
-      <Card className="rounded-lg">
+      <Card className="rounded-[calc(var(--radius)*0.8)]">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -173,7 +173,7 @@ export function BillingSettings() {
                 variant="outline"
                 size="sm"
                 onClick={handleManageSubscription}
-                className="rounded-xl"
+                className="rounded-[var(--radius)]"
               >
                 Manage
               </Button>
@@ -186,10 +186,10 @@ export function BillingSettings() {
               {paymentMethods.map((pm) => (
                 <div
                   key={pm.id}
-                  className="border-border bg-muted/30 flex items-center justify-between rounded-xl border p-4"
+                  className="border-border bg-muted/30 flex items-center justify-between rounded-[var(--radius)] border p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="bg-card text-muted-foreground flex h-10 w-14 items-center justify-center rounded-lg text-xs font-semibold tracking-wider uppercase">
+                    <div className="bg-card text-muted-foreground flex h-10 w-14 items-center justify-center rounded-[calc(var(--radius)*0.8)] text-xs font-semibold tracking-wider uppercase">
                       {pm.brand}
                     </div>
                     <div>
@@ -222,7 +222,7 @@ export function BillingSettings() {
       </Card>
 
       {/* Billing History */}
-      <Card className="rounded-lg">
+      <Card className="rounded-[calc(var(--radius)*0.8)]">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <HugeiconsIcon icon={ReceiptTextIcon} className="text-primary h-5 w-5" />
@@ -236,7 +236,7 @@ export function BillingSettings() {
               {invoices.map((invoice) => (
                 <div
                   key={invoice.id}
-                  className="border-border hover:bg-muted/30 flex items-center justify-between rounded-xl border p-4 transition-colors"
+                  className="border-border hover:bg-muted/30 flex items-center justify-between rounded-[var(--radius)] border p-4 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div

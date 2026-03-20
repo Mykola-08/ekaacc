@@ -37,7 +37,7 @@ export function UpcomingBookingsCard({ bookings }: UpcomingBookingsProps) {
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-card w-full max-w-sm rounded-lg border p-4"
+        className="bg-card w-full max-w-sm rounded-[calc(var(--radius)*0.8)] border p-4"
       >
         <div className="mb-2 flex items-center gap-2">
           <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-4"  />
@@ -55,7 +55,7 @@ export function UpcomingBookingsCard({ bookings }: UpcomingBookingsProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card w-full max-w-sm rounded-lg border p-4"
+      className="bg-card w-full max-w-sm rounded-[calc(var(--radius)*0.8)] border p-4"
     >
       <div className="mb-3 flex items-center gap-2">
         <HugeiconsIcon icon={Calendar03Icon} className="text-primary size-4"  />
@@ -71,9 +71,9 @@ export function UpcomingBookingsCard({ bookings }: UpcomingBookingsProps) {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: i * 0.08 }}
-              className="bg-muted/50 flex items-center gap-3 rounded-xl p-3"
+              className="bg-muted/50 flex items-center gap-3 rounded-[var(--radius)] p-3"
             >
-              <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg">
+              <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)]">
                 <span className="text-sm leading-none font-semibold">{day}</span>
                 <span className="text-[9px] leading-none uppercase">{month}</span>
               </div>

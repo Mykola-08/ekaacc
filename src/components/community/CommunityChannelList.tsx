@@ -9,7 +9,7 @@ import { HashtagIcon, LockIcon, Add01Icon } from '@hugeicons/core-free-icons';
 
 export function CommunityChannelList({ channels, activeChannelId, onSelectChannel }: any) {
   return (
-    <Card className="h-full rounded-2xl border-none bg-card">
+    <Card className="h-full rounded-[var(--radius)] border-none bg-card">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">Communities</CardTitle>

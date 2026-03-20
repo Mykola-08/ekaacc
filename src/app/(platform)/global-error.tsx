@@ -31,7 +31,7 @@ const SurfacePanel = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <div className={`bg-card text-card-foreground rounded-xl border ${className || ''}`}>
+  <div className={`bg-card text-card-foreground rounded-[var(--radius)] border ${className || ''}`}>
     {children}
   </div>
 );
@@ -81,7 +81,7 @@ export default function GlobalError({
 
               <CardContent className="">
                 {process.env.NODE_ENV === 'development' && (
-                  <div className="bg-muted rounded-xl p-4 text-sm">
+                  <div className="bg-muted rounded-[var(--radius)] p-4 text-sm">
                     <p className="text-destructive mb-2 font-semibold">Error Details:</p>
                     <pre className="max-h-40 overflow-auto text-xs whitespace-pre-wrap">
                       {error.toString()}

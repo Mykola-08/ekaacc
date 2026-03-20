@@ -70,7 +70,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
   return (
     <form onSubmit={handleSubmit} className="">
       <InlineFeedback status={feedback.status} message={feedback.message} onDismiss={reset} />
-      <div className="bg-muted/30 border-border rounded-xl border p-4">
+      <div className="bg-muted/30 border-border rounded-[var(--radius)] border p-4">
         <PaymentElement
           options={{
             layout: 'tabs',
@@ -80,7 +80,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="bg-foreground text-background hover:bg-foreground/90 focus:ring-foreground inline-flex w-full items-center justify-center rounded-xl border border-transparent px-6 py-3 text-base font-semibold transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="bg-foreground text-background hover:bg-foreground/90 focus:ring-foreground inline-flex w-full items-center justify-center rounded-[var(--radius)] border border-transparent px-6 py-3 text-base font-semibold transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {loading ? (
           <>
@@ -191,7 +191,7 @@ export function WalletContentHeadless({
         {/* Left Column: Balance & TopUp */}
         <div className="lg:col-span-2">
           {/* Balance Card */}
-          <div className="animate-slide-up bg-foreground text-background relative overflow-hidden rounded-lg p-8">
+          <div className="animate-slide-up bg-foreground text-background relative overflow-hidden rounded-[calc(var(--radius)*0.8)] p-8">
             <div className="from-foreground/80 to-foreground pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br blur-3xl" />
 
             <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
@@ -206,13 +206,13 @@ export function WalletContentHeadless({
                 <label className="text-muted-foreground/80 text-sm font-medium">
                   Quick Top-up Amount
                 </label>
-                <div className="bg-muted flex rounded-xl p-1">
+                <div className="bg-muted flex rounded-[var(--radius)] p-1">
                   {amounts.map((amt) => (
                     <button
                       key={amt}
                       onClick={() => setTopUpAmount(amt)}
                       className={cn(
-                        'flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition-all',
+                        'flex-1 rounded-[calc(var(--radius)*0.8)] px-4 py-2 text-sm font-semibold transition-all',
                         topUpAmount === amt
                           ? 'bg-card text-foreground'
                           : 'text-muted-foreground/80 hover:bg-muted/80 hover:text-foreground'
@@ -224,7 +224,7 @@ export function WalletContentHeadless({
                 </div>
                 <button
                   onClick={handleTopUpClick}
-                  className="bg-card hover:bg-muted text-foreground mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold transition-colors"
+                  className="bg-card hover:bg-muted text-foreground mt-2 flex w-full items-center justify-center gap-2 rounded-[var(--radius)] py-3 font-semibold transition-colors"
                 >
                   <HugeiconsIcon icon={Add01Icon} className="size-5"  />
                   Add Funds
@@ -235,11 +235,11 @@ export function WalletContentHeadless({
 
           {/* Transactions & Plans Tabs */}
           <TabGroup as="div" className="animate-slide-up" style={{ animationDelay: '100ms' }}>
-            <TabList className="bg-muted/80 flex w-fit rounded-lg p-1.5">
+            <TabList className="bg-muted/80 flex w-fit rounded-[calc(var(--radius)*0.8)] p-1.5">
               <Tab
                 className={({ selected }) =>
                   cn(
-                    'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
+                    'rounded-[var(--radius)] px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
                     'focus:ring-ring/5 focus:ring-2',
                     selected
                       ? 'bg-card text-foreground'
@@ -252,7 +252,7 @@ export function WalletContentHeadless({
               <Tab
                 className={({ selected }) =>
                   cn(
-                    'rounded-xl px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
+                    'rounded-[var(--radius)] px-6 py-2.5 text-sm leading-5 font-semibold transition-all outline-none',
                     'focus:ring-ring/5 focus:ring-2',
                     selected
                       ? 'bg-card text-foreground'
@@ -265,7 +265,7 @@ export function WalletContentHeadless({
             </TabList>
 
             <TabPanels>
-              <TabPanel className="bg-card border-border min-h-100 rounded-lg border p-8 focus:outline-none">
+              <TabPanel className="bg-card border-border min-h-100 rounded-[calc(var(--radius)*0.8)] border p-8 focus:outline-none">
                 {initialTransactions.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
@@ -281,7 +281,7 @@ export function WalletContentHeadless({
                     {initialTransactions.slice(0, 10).map((tx) => (
                       <div
                         key={tx.id}
-                        className="hover:bg-muted/30 group hover:border-border flex items-center justify-between rounded-lg border border-transparent p-4 transition-colors"
+                        className="hover:bg-muted/30 group hover:border-border flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border border-transparent p-4 transition-colors"
                       >
                         <div className="flex items-center gap-4">
                           <div
@@ -322,7 +322,7 @@ export function WalletContentHeadless({
                 )}
               </TabPanel>
 
-              <TabPanel className="bg-card border-border min-h-100 rounded-lg border p-8 focus:outline-none">
+              <TabPanel className="bg-card border-border min-h-100 rounded-[calc(var(--radius)*0.8)] border p-8 focus:outline-none">
                 {initialPlans.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
@@ -336,7 +336,7 @@ export function WalletContentHeadless({
                     {initialPlans.map((plan) => (
                       <div
                         key={plan.id}
-                        className="bg-muted/30 border-border relative overflow-hidden rounded-lg border p-6"
+                        className="bg-muted/30 border-border relative overflow-hidden rounded-[calc(var(--radius)*0.8)] border p-6"
                       >
                         <div className="relative z-10">
                           <h3 className="text-foreground mb-1 text-lg font-semibold">
@@ -365,12 +365,12 @@ export function WalletContentHeadless({
 
         {/* Right Column: Info / Help */}
         <div className="animate-slide-up lg:col-span-1" style={{ animationDelay: '200ms' }}>
-          <div className="bg-card border-border rounded-lg border p-8">
+          <div className="bg-card border-border rounded-[calc(var(--radius)*0.8)] border p-8">
             <h3 className="text-foreground mb-4 text-xl font-semibold">Payment Methods</h3>
             {pmLoading ? (
               <div className="">
                 {[1, 2].map((i) => (
-                  <div key={i} className="bg-muted h-16 animate-pulse rounded-lg" />
+                  <div key={i} className="bg-muted h-16 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
                 ))}
               </div>
             ) : paymentMethods.length > 0 ? (
@@ -378,7 +378,7 @@ export function WalletContentHeadless({
                 {paymentMethods.map((pm) => (
                   <div
                     key={pm.id}
-                    className="bg-muted/30 border-border flex items-center gap-3 rounded-lg border p-4"
+                    className="bg-muted/30 border-border flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] border p-4"
                   >
                     <div className="text-muted-foreground bg-muted flex h-6 w-10 items-center justify-center rounded text-xs font-semibold uppercase">
                       {pm.brand}
@@ -398,7 +398,7 @@ export function WalletContentHeadless({
                 ))}
               </div>
             ) : (
-              <div className="bg-muted/30 border-border mb-4 flex flex-col items-center justify-center rounded-lg border py-8 text-center">
+              <div className="bg-muted/30 border-border mb-4 flex flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] border py-8 text-center">
                 <HugeiconsIcon icon={CreditCardIcon} className="text-muted-foreground/40 mb-2 size-8"  />
                 <p className="text-muted-foreground text-sm">No payment methods saved</p>
                 <p className="text-muted-foreground/70 text-xs">
@@ -408,13 +408,13 @@ export function WalletContentHeadless({
             )}
             <button
               onClick={() => router.push('/finances?tab=billing')}
-              className="border-border text-foreground/90 hover:bg-muted/30 w-full rounded-xl border py-3 font-semibold transition-colors"
+              className="border-border text-foreground/90 hover:bg-muted/30 w-full rounded-[var(--radius)] border py-3 font-semibold transition-colors"
             >
               Manage Methods
             </button>
           </div>
 
-          <div className="border-primary/10 bg-primary/5 rounded-lg border p-8">
+          <div className="border-primary/10 bg-primary/5 rounded-[calc(var(--radius)*0.8)] border p-8">
             <div className="flex items-start gap-4">
               <div className="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
                 <HugeiconsIcon icon={Alert01Icon} className="text-primary size-5"  />
@@ -463,7 +463,7 @@ export function WalletContentHeadless({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-lg p-8 text-left align-middle transition-all">
+                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-[calc(var(--radius)*0.8)] p-8 text-left align-middle transition-all">
                   <DialogTitle
                     as="h3"
                     className="text-foreground mb-6 flex items-center justify-between text-2xl leading-6 font-semibold"

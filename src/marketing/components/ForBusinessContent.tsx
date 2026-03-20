@@ -233,7 +233,7 @@ export default function ForBusinessContent() {
 
                 <Button
                   asChild
-                  className="bg-primary hover:bg-primary-600 relative z-10 w-full rounded-2xl py-6 text-lg text-white"
+                  className="bg-primary hover:bg-primary-600 relative z-10 w-full rounded-[var(--radius)] py-6 text-lg text-white"
                 >
                   <Link href="/booking?subject=teams">{t('common.getStarted')}</Link>
                 </Button>
@@ -290,7 +290,7 @@ export default function ForBusinessContent() {
 
                 <Button
                   asChild
-                  className="relative z-10 w-full rounded-2xl bg-white py-6 text-lg text-black hover:bg-gray-100"
+                  className="relative z-10 w-full rounded-[var(--radius)] bg-white py-6 text-lg text-black hover:bg-gray-100"
                 >
                   <Link href="/booking?subject=office">{t('common.getStarted')}</Link>
                 </Button>

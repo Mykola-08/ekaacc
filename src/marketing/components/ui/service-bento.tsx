@@ -220,14 +220,14 @@ export function ServiceBentoItem({
                             <div className="mt-4 flex shrink-0 flex-col gap-2 border-t border-gray-100 pt-4 md:hidden">
                               {bookUrl && (
                                 <Link href={bookUrl} className="w-full">
-                                  <span className="bg-primary hover:bg-primary-600 flex w-full items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition">
+                                  <span className="bg-primary hover:bg-primary-600 flex w-full items-center justify-center rounded-[var(--radius)] px-5 py-2.5 text-sm font-semibold text-white transition">
                                     {bookText}
                                   </span>
                                 </Link>
                               )}
                               {readMoreUrl && (
                                 <Link href={readMoreUrl} className="w-full">
-                                  <span className="flex w-full items-center justify-center rounded-xl bg-gray-100 px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-black transition hover:bg-gray-200">
+                                  <span className="flex w-full items-center justify-center rounded-[var(--radius)] bg-gray-100 px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-black transition hover:bg-gray-200">
                                     {readMoreText} <HugeiconsIcon icon={ArrowRight01Icon} className="ml-1.5 size-3"  />
                                   </span>
                                 </Link>
@@ -250,7 +250,7 @@ export function ServiceBentoItem({
                           <div className="mt-4 flex shrink-0 flex-col gap-2 border-t border-gray-100 pt-4 sm:flex-row">
                             {bookUrl && (
                               <Link href={bookUrl} className="flex-1">
-                                <span className="bg-primary hover:bg-primary-600 flex w-full items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition">
+                                <span className="bg-primary hover:bg-primary-600 flex w-full items-center justify-center rounded-[var(--radius)] px-5 py-2.5 text-sm font-semibold text-white transition">
                                   {bookText}
                                 </span>
                               </Link>

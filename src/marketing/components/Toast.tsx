@@ -100,7 +100,7 @@ function ToastComponent({ toast, onClose }: ToastProps) {
   return (
     <div
       className={cn(
-        'pointer-events-auto relative flex w-full max-w-md transform items-start gap-3 overflow-hidden rounded-lg border p-4 backdrop-blur-sm transition duration-300 ease-out',
+        'pointer-events-auto relative flex w-full max-w-md transform items-start gap-3 overflow-hidden rounded-[calc(var(--radius)*0.8)] border p-4 backdrop-blur-sm transition duration-300 ease-out',
         getVariantStyles(),
         isVisible && !isExiting
           ? 'translate-x-0 scale-100 opacity-100'

@@ -22,10 +22,10 @@ export default function BookingLoading() {
         </CardHeader>
         <CardContent className="p-6 pt-0 md:p-8 md:pt-0">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Skeleton className="h-32 w-full rounded-2xl" />
-            <Skeleton className="h-32 w-full rounded-2xl" />
-            <Skeleton className="h-32 w-full rounded-2xl" />
-            <Skeleton className="h-32 w-full rounded-2xl" />
+            <Skeleton className="h-32 w-full rounded-[var(--radius)]" />
+            <Skeleton className="h-32 w-full rounded-[var(--radius)]" />
+            <Skeleton className="h-32 w-full rounded-[var(--radius)]" />
+            <Skeleton className="h-32 w-full rounded-[var(--radius)]" />
           </div>
           <div className="mt-8 flex items-center justify-between">
             <Skeleton className="h-10 w-24 rounded-full" />

@@ -175,7 +175,7 @@ export default function ContactFormOptimized() {
         animate={{ opacity: 1, scale: 1 }}
         className="mx-auto max-w-2xl"
       >
-        <div className="rounded-2xl border border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-12 text-center">
+        <div className="rounded-[var(--radius)] border border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-12 text-center">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -247,10 +247,10 @@ export default function ContactFormOptimized() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start rounded-2xl border border-gray-100 bg-white p-6 transition-shadow duration-300"
+                className="flex items-start rounded-[var(--radius)] border border-gray-100 bg-white p-6 transition-shadow duration-300"
               >
                 <div
-                  className={`h-12 w-12 bg-${item.color}-50 flex flex-shrink-0 items-center justify-center rounded-xl`}
+                  className={`h-12 w-12 bg-${item.color}-50 flex flex-shrink-0 items-center justify-center rounded-[var(--radius)]`}
                 >
                   <HugeiconsIcon icon={item.icon} className={`h-6 w-6 text-${item.color}-600`} />
                 </div>
@@ -278,7 +278,7 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6"
+            className="rounded-[var(--radius)] border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6"
           >
             <div className="flex items-start">
               <HugeiconsIcon icon={Clock01Icon} className="mt-1 size-6 flex-shrink-0 text-blue-600"  />
@@ -289,19 +289,19 @@ export default function ContactFormOptimized() {
                 <div className="text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">{t('contact.hours.weekdays')}:</span>
-                    <span className="rounded-md bg-white px-2 py-1 font-medium text-gray-900">
+                    <span className="rounded-[calc(var(--radius)*0.6)] bg-white px-2 py-1 font-medium text-gray-900">
                       9:00 - 20:00
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">{t('contact.hours.saturday')}:</span>
-                    <span className="rounded-md bg-white px-2 py-1 font-medium text-gray-900">
+                    <span className="rounded-[calc(var(--radius)*0.6)] bg-white px-2 py-1 font-medium text-gray-900">
                       9:00 - 18:00
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">{t('contact.hours.sunday')}:</span>
-                    <span className="rounded-md bg-white px-2 py-1 font-medium text-gray-900">
+                    <span className="rounded-[calc(var(--radius)*0.6)] bg-white px-2 py-1 font-medium text-gray-900">
                       10:00 - 16:00
                     </span>
                   </div>
@@ -317,7 +317,7 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
+            className="overflow-hidden rounded-[var(--radius)] border border-gray-200 bg-white"
           >
             <div className="p-8 md:p-10">
               <form onSubmit={handleSubmit} className="">
@@ -332,7 +332,7 @@ export default function ContactFormOptimized() {
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="flex items-center rounded-xl border border-red-200 bg-red-50 p-4"
+                    className="flex items-center rounded-[var(--radius)] border border-red-200 bg-red-50 p-4"
                   >
                     <HugeiconsIcon icon={ShieldIcon} className="mr-3 size-5 text-red-500"  />
                     <p className="text-sm text-red-600">{serverError}</p>
@@ -352,7 +352,7 @@ export default function ContactFormOptimized() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className={`w-full rounded-xl border py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.name ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
+                        className={`w-full rounded-[var(--radius)] border py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.name ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                         placeholder={t('contact.form.namePlaceholder')}
                       />
                     </div>
@@ -371,7 +371,7 @@ export default function ContactFormOptimized() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className={`w-full rounded-xl border py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
+                        className={`w-full rounded-[var(--radius)] border py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                         placeholder={t('contact.form.emailPlaceholder')}
                       />
                     </div>
@@ -392,7 +392,7 @@ export default function ContactFormOptimized() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`w-full rounded-xl border py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
+                        className={`w-full rounded-[var(--radius)] border py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                         placeholder="+34 123 456 789"
                       />
                     </div>
@@ -409,7 +409,7 @@ export default function ContactFormOptimized() {
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
-                        className={`w-full appearance-none rounded-xl border px-4 py-3 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.service ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
+                        className={`w-full appearance-none rounded-[var(--radius)] border px-4 py-3 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.service ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                       >
                         <option value="">{t('contact.form.service.placeholder')}</option>
                         {services.map((service) => (
@@ -450,7 +450,7 @@ export default function ContactFormOptimized() {
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    className={`w-full resize-none rounded-xl border px-4 py-3 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.message ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
+                    className={`w-full resize-none rounded-[var(--radius)] border px-4 py-3 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 ${errors.message ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                     placeholder={t('contact.form.message.placeholder')}
                   />
                   {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message}</p>}
@@ -469,7 +469,7 @@ export default function ContactFormOptimized() {
                       ].map((option) => (
                         <label
                           key={option.value}
-                          className={`flex cursor-pointer flex-col items-center justify-center rounded-xl border p-3 transition duration-200 ${
+                          className={`flex cursor-pointer flex-col items-center justify-center rounded-[var(--radius)] border p-3 transition duration-200 ${
                             formData.preferred_contact === option.value
                               ? 'border-blue-500 bg-blue-50 text-blue-700'
                               : 'border-gray-200 hover:border-blue-200 hover:bg-gray-50'
@@ -506,7 +506,7 @@ export default function ContactFormOptimized() {
                         name="preferred_time"
                         value={formData.preferred_time}
                         onChange={handleChange}
-                        className="w-full appearance-none rounded-xl border border-gray-200 py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                        className="w-full appearance-none rounded-[var(--radius)] border border-gray-200 py-3 pr-4 pl-12 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="">{t('contact.form.selectTime')}</option>
                         {timeSlots.map((slot) => (
@@ -544,7 +544,7 @@ export default function ContactFormOptimized() {
                       name="source"
                       value={formData.source}
                       onChange={handleChange}
-                      className="w-full appearance-none rounded-xl border border-gray-200 px-4 py-3 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                      className="w-full appearance-none rounded-[var(--radius)] border border-gray-200 px-4 py-3 transition duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">{t('contact.form.source.placeholder')}</option>
                       {sources.map((source) => (
@@ -618,14 +618,14 @@ export default function ContactFormOptimized() {
                     href="https://wa.me/34658867133"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-green-700"
+                    className="inline-flex items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-green-700"
                   >
                     <HugeiconsIcon icon={Message01Icon} className="mr-2 size-4"  />
                     WhatsApp
                   </a>
                   <a
                     href="tel:+34658867133"
-                    className="inline-flex items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-200"
+                    className="inline-flex items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-200"
                   >
                     <HugeiconsIcon icon={TelephoneIcon} className="mr-2 size-4"  />
                     {t('contact.quick.call')}

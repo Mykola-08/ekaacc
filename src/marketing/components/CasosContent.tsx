@@ -157,7 +157,7 @@ export default function CasosContent() {
                     href={`/cases/${problem.id}`}
                     className="group relative flex h-full flex-col rounded-[32px] border border-gray-100/50 bg-white p-8 transition duration-300 active:scale-[0.97]"
                   >
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-50 text-gray-900">
+                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-[var(--radius)] bg-gray-50 text-gray-900">
                       <HugeiconsIcon icon={Icon} className="h-7 w-7" />
                     </div>
 
@@ -192,7 +192,7 @@ export default function CasosContent() {
               {additionalProblemsKeys.map((key) => (
                 <div
                   key={key}
-                  className="bg-secondary flex cursor-default items-center rounded-2xl p-4 transition-colors duration-200 hover:bg-gray-100"
+                  className="bg-secondary flex cursor-default items-center rounded-[var(--radius)] p-4 transition-colors duration-200 hover:bg-gray-100"
                 >
                   <div className="mr-4 h-2 w-2 rounded-full bg-blue-500" />
                   <span className="font-medium text-gray-700">{t(key)}</span>

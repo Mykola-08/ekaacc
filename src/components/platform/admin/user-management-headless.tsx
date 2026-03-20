@@ -98,7 +98,7 @@ export function UserManagementHeadless() {
         />
       </div>
 
-      <div className="bg-card ring-border overflow-hidden rounded-lg ring-1">
+      <div className="bg-card ring-border overflow-hidden rounded-[calc(var(--radius)*0.8)] ring-1">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
             <thead className="bg-muted/50">

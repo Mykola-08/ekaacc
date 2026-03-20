@@ -60,7 +60,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg"
+          className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-[calc(var(--radius)*0.8)]"
         >
           <HugeiconsIcon icon={SparklesIcon} className="text-primary size-8"  />
         </motion.div>
@@ -89,9 +89,9 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
               onClick={() => onSuggestion(action.prompt)}
-              className="bg-muted/50 hover:bg-muted group hover:border-primary/20 flex items-start gap-3 rounded-xl border p-3 text-left transition-all"
+              className="bg-muted/50 hover:bg-muted group hover:border-primary/20 flex items-start gap-3 rounded-[var(--radius)] border p-3 text-left transition-all"
             >
-              <div className="bg-primary/10 group-hover:bg-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors">
+              <div className="bg-primary/10 group-hover:bg-primary/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] transition-colors">
                 <HugeiconsIcon icon={Icon} className="text-primary h-4 w-4" />
               </div>
               <div className="min-w-0">

@@ -92,7 +92,7 @@ function PromptInput({
         <div
           onClick={handleClick}
           className={cn(
-            "border-input bg-background cursor-text rounded-3xl border p-2 shadow-xs",
+            "border-input bg-background cursor-text rounded-[calc(var(--radius)*2.2)] border p-2 shadow-xs",
             disabled && "cursor-not-allowed opacity-60",
             className
           )}

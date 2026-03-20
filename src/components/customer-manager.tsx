@@ -85,7 +85,7 @@ export const CustomerManager = () => {
   };
 
   return (
-    <div className="bg-background flex flex-col gap-4 rounded-lg p-4">
+    <div className="bg-background flex flex-col gap-4 rounded-[calc(var(--radius)*0.8)] p-4">
       <h2 className="text-foreground text-2xl font-bold">Customer Manager</h2>
 
       {/* Customer Section */}
@@ -123,7 +123,7 @@ export const CustomerManager = () => {
           placeholder="Enter Payment ID"
           value={paymentId}
           onChange={e => setPaymentId((e.target as HTMLInputElement).value as string)}
-          className="bg-background border-input rounded-md border p-2"
+          className="bg-background border-input rounded-[calc(var(--radius)*0.6)] border p-2"
         />
 
         <button

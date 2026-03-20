@@ -203,7 +203,7 @@ export function BookingLinkGenerator() {
         <div className="space-y-2">
           <Label>Generated Link</Label>
           <div className="flex items-center gap-2">
-            <div className="bg-background text-muted-foreground flex-1 truncate rounded-xl border p-3 font-mono text-sm select-all">
+            <div className="bg-background text-muted-foreground flex-1 truncate rounded-[var(--radius)] border p-3 font-mono text-sm select-all">
               {generatedLink || 'Select a service to generate a link'}
             </div>
             <Button

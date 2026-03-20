@@ -50,7 +50,7 @@ export default function PersonalizedOnboarding() {
     return (
       <div
         className={cn(
-          'animate-in fade-in zoom-in mx-auto max-w-lg rounded-2xl bg-green-50 p-8 text-center duration-500'
+          'animate-in fade-in zoom-in mx-auto max-w-lg rounded-[var(--radius)] bg-green-50 p-8 text-center duration-500'
         )}
       >
         <h2 className="mb-4 text-2xl font-bold text-green-900">You're All Set!</h2>
@@ -65,7 +65,7 @@ export default function PersonalizedOnboarding() {
   return (
     <div
       className={cn(
-        'animate-in fade-in mx-auto max-w-lg rounded-2xl border border-gray-100 bg-white p-6 duration-300'
+        'animate-in fade-in mx-auto max-w-lg rounded-[var(--radius)] border border-gray-100 bg-white p-6 duration-300'
       )}
     >
       <h2 className="mb-6 text-2xl font-semibold text-gray-900">Personalize Your Experience</h2>
@@ -75,7 +75,7 @@ export default function PersonalizedOnboarding() {
           <label className="text-sm font-medium text-gray-700">Full Name</label>
           <input
             {...register('fullName')}
-            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-2.5 outline-none focus:ring-1"
+            className="focus:border-primary focus:ring-primary w-full rounded-[calc(var(--radius)*0.8)] border border-gray-300 p-2.5 outline-none focus:ring-1"
             placeholder="Jane Doe"
           />
           {errors.fullName && <p className="text-sm text-red-500">{errors.fullName.message}</p>}
@@ -86,7 +86,7 @@ export default function PersonalizedOnboarding() {
           <textarea
             {...register('goals')}
             rows={4}
-            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 p-2.5 outline-none focus:ring-1"
+            className="focus:border-primary focus:ring-primary w-full rounded-[calc(var(--radius)*0.8)] border border-gray-300 p-2.5 outline-none focus:ring-1"
             placeholder="I want to improve my stress handling..."
           />
           {errors.goals && <p className="text-sm text-red-500">{errors.goals.message}</p>}
@@ -96,7 +96,7 @@ export default function PersonalizedOnboarding() {
           <label className="text-sm font-medium text-gray-700">Preferred Contact Method</label>
           <select
             {...register('preferredContact')}
-            className="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 bg-white p-2.5 outline-none focus:ring-1"
+            className="focus:border-primary focus:ring-primary w-full rounded-[calc(var(--radius)*0.8)] border border-gray-300 bg-white p-2.5 outline-none focus:ring-1"
           >
             <option value="email">Email</option>
             <option value="telegram">Telegram</option>
@@ -107,7 +107,7 @@ export default function PersonalizedOnboarding() {
           )}
         </div>
 
-        <Button type="submit" disabled={isSubmitting} className="w-full rounded-xl py-3">
+        <Button type="submit" disabled={isSubmitting} className="w-full rounded-[var(--radius)] py-3">
           {isSubmitting ? 'Saving Profile...' : 'Complete Onboarding'}
         </Button>
       </form>

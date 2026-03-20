@@ -28,7 +28,7 @@ export function TherapistStep({ therapists, selectedTherapistId, onSelect }: The
               key={therapist.id}
               onClick={() => onSelect(therapist.id)}
               className={cn(
-                'group relative flex h-full w-full items-center gap-4 rounded-xl border-2 p-4 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                'group relative flex h-full w-full items-center gap-4 rounded-[var(--radius)] border-2 p-4 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                 selected
                   ? 'border-primary bg-primary/5 shadow-md'
                   : 'border-border bg-card hover:border-primary/40 hover:bg-muted/20 hover:shadow-sm'

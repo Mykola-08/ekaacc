@@ -521,11 +521,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                       <Link
                                         href={dropdownItem.href}
                                         onClick={() => setActiveDropdown(null)}
-                                        className="group/item mx-0.5 flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] tracking-tight text-gray-600 transition-all duration-150 hover:bg-black/[0.04] hover:text-gray-900 active:bg-black/[0.07]"
+                                        className="group/item mx-0.5 flex items-center gap-3 rounded-[var(--radius)] px-3 py-2.5 text-[13px] tracking-tight text-gray-600 transition-all duration-150 hover:bg-black/[0.04] hover:text-gray-900 active:bg-black/[0.07]"
                                         role="menuitem"
                                         suppressHydrationWarning
                                       >
-                                        <span className="group-hover/item:bg-primary/10 group-hover/item:text-primary flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100/80 text-gray-500 transition-colors duration-150">
+                                        <span className="group-hover/item:bg-primary/10 group-hover/item:text-primary flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-gray-100/80 text-gray-500 transition-colors duration-150">
                                           {serviceIcons[dropdownItem.href] || (
                                             <HugeiconsIcon icon={HandPointingDown01Icon} className="size-4" />
                                           )}
@@ -599,7 +599,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                       <DropdownMenuContent align="end" className="w-48 p-2">
                         <DropdownMenuItem
                           asChild
-                          className="cursor-pointer gap-2 rounded-md p-2 text-sm"
+                          className="cursor-pointer gap-2 rounded-[calc(var(--radius)*0.6)] p-2 text-sm"
                         >
                           <Link href="/dashboard">
                             <HugeiconsIcon icon={DashboardSquare01Icon} className="size-4"  />
@@ -608,7 +608,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => signOut()}
-                          className="cursor-pointer gap-2 rounded-md p-2 text-sm text-red-600 focus:bg-red-50 focus:text-red-700"
+                          className="cursor-pointer gap-2 rounded-[calc(var(--radius)*0.6)] p-2 text-sm text-red-600 focus:bg-red-50 focus:text-red-700"
                         >
                           <HugeiconsIcon icon={Logout01Icon} className="size-4"  />
                           {t('auth.signOut')}
@@ -724,7 +724,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                         asChild
                         variant="default"
                         size="lg"
-                        className="w-full rounded-xl text-base font-semibold"
+                        className="w-full rounded-[var(--radius)] text-base font-semibold"
                       >
                         <Link href="/booking" onClick={() => setIsMenuOpen(false)}>
                           {t('nav.bookNow')}

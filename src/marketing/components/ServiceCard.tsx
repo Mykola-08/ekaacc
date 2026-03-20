@@ -28,7 +28,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           </ul>
         </div>
       )}
-      <div className="mt-8 flex items-center gap-6 rounded-2xl bg-gray-50 p-6">
+      <div className="mt-8 flex items-center gap-6 rounded-[var(--radius)] bg-gray-50 p-6">
         <div className="flex flex-col">
           <span className="text-sm font-medium tracking-wider text-gray-500 uppercase">
             {t('common.duration')}

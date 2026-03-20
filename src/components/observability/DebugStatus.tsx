@@ -315,7 +315,7 @@ export function DebugStatus() {
   return (
     <div className="fixed right-4 bottom-4 z-[9999] font-sans">
       {isOpen && (
-        <div className="border-border bg-card animate-in fade-in slide-in-from-bottom-2 mb-2 flex max-h-[70vh] w-[420px] flex-col rounded-xl border text-sm duration-200">
+        <div className="border-border bg-card animate-in fade-in slide-in-from-bottom-2 mb-2 flex max-h-[70vh] w-[420px] flex-col rounded-[var(--radius)] border text-sm duration-200">
           {/* ── Header ─────────────────────────────────── */}
           <div className="border-border flex items-center justify-between border-b px-4 py-2.5">
             <div className="flex items-center gap-2">

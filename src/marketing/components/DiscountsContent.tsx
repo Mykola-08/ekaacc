@@ -54,7 +54,7 @@ export default function DiscountsContent() {
             initial={{ opacity: 0, y: -20, x: 20 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-24 right-4 z-50 flex items-center rounded-2xl bg-green-500 px-6 py-4 text-white"
+            className="fixed top-24 right-4 z-50 flex items-center rounded-[var(--radius)] bg-green-500 px-6 py-4 text-white"
           >
             <HugeiconsIcon icon={Tick02Icon} className="size-5"  />
             <span className="font-medium">
@@ -104,14 +104,14 @@ export default function DiscountsContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 transition duration-300"
+                className="group relative overflow-hidden rounded-[var(--radius)] border border-gray-100 bg-white p-8 transition duration-300"
               >
                 {/* Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {/* Header */}
                 <div className="relative mb-6 flex items-start justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 transition-colors duration-300">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-[var(--radius)] bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 transition-colors duration-300">
                     <HugeiconsIcon icon={PercentSquareIcon} className="size-7"  />
                   </div>
                   {discount.isActive && (
@@ -135,7 +135,7 @@ export default function DiscountsContent() {
                 {/* Code & Action */}
                 {discount.code && (
                   <div className="relative">
-                    <div className="flex items-center justify-between rounded-xl border border-dashed border-gray-200 bg-gray-50 p-3 transition-colors group-hover:border-blue-200">
+                    <div className="flex items-center justify-between rounded-[var(--radius)] border border-dashed border-gray-200 bg-gray-50 p-3 transition-colors group-hover:border-blue-200">
                       <div className="flex items-center overflow-hidden">
                         <HugeiconsIcon icon={GiftIcon} className="size-4 flex-shrink-0 text-blue-500"  />
                         <code className="truncate rounded bg-blue-50 px-2 py-0.5 text-sm font-bold text-blue-700">
@@ -151,7 +151,7 @@ export default function DiscountsContent() {
                     </div>
 
                     {selectedDiscount?.code === discount.code ? (
-                      <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-green-100 bg-green-50 py-3 text-center text-sm font-medium text-green-700">
+                      <div className="flex w-full items-center justify-center gap-2 rounded-[var(--radius)] border border-green-100 bg-green-50 py-3 text-center text-sm font-medium text-green-700">
                         <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
                         {t('discounts.activeBadge')}
                       </div>
@@ -159,7 +159,7 @@ export default function DiscountsContent() {
                       <Button
                         onClick={() => handleApplyDiscount(discount.code || '')}
                         variant="default"
-                        className="w-full rounded-xl py-3"
+                        className="w-full rounded-[var(--radius)] py-3"
                       >
                         {t('discounts.apply')}
                       </Button>
@@ -206,7 +206,7 @@ export default function DiscountsContent() {
               },
             ].map((step, idx) => (
               <div key={idx} className="p-6 text-center">
-                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-[var(--radius)] bg-blue-50 text-blue-600">
                   {React.cloneElement(step.icon as React.ReactElement<{ className?: string }>, {
                     className: 'w-6 h-6',
                   })}

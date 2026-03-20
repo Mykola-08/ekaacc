@@ -81,7 +81,7 @@ export function DateTimeStep({
       </div>
 
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-        <div className="bg-card rounded-xl border p-3 shadow-sm">
+        <div className="bg-card rounded-[var(--radius)] border p-3 shadow-sm">
           <Calendar
             mode="single"
             selected={selectedDate}
@@ -89,7 +89,7 @@ export function DateTimeStep({
               onSelectDate(d);
               onSelectTime('');
             }}
-            className="rounded-lg"
+            className="rounded-[calc(var(--radius)*0.8)]"
             disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
           />
         </div>
@@ -110,7 +110,7 @@ export function DateTimeStep({
                   />
                 </div>
               ) : error ? (
-                <div className="text-destructive bg-destructive/10 flex items-start gap-2 rounded-xl p-3 text-sm">
+                <div className="text-destructive bg-destructive/10 flex items-start gap-2 rounded-[var(--radius)] p-3 text-sm">
                   <HugeiconsIcon icon={Alert01Icon} className="mt-0.5 size-4 shrink-0" />
                   <span>{error}</span>
                 </div>
@@ -121,7 +121,7 @@ export function DateTimeStep({
                       key={time}
                       onClick={() => onSelectTime(time)}
                       className={cn(
-                        'focus-visible:ring-primary rounded-lg border py-2.5 text-sm font-semibold transition-all duration-150 focus-visible:ring-2 focus-visible:outline-none',
+                        'focus-visible:ring-primary rounded-[calc(var(--radius)*0.8)] border py-2.5 text-sm font-semibold transition-all duration-150 focus-visible:ring-2 focus-visible:outline-none',
                         selectedTime === time
                           ? 'border-primary bg-primary text-primary-foreground shadow-md'
                           : 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-muted/50'

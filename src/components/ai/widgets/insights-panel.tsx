@@ -76,11 +76,11 @@ export function InsightsPanel({ className }: { className?: string }) {
 
   return (
     <div
-      className={cn('bg-card rounded-lg border p-5', className)}
+      className={cn('bg-card rounded-[calc(var(--radius)*0.8)] border p-5', className)}
     >
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
+          <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
             <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4"  />
           </div>
           <div>
@@ -103,7 +103,7 @@ export function InsightsPanel({ className }: { className?: string }) {
       {loading ? (
         <div className="">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-muted/50 h-20 animate-pulse rounded-xl" />
+            <div key={i} className="bg-muted/50 h-20 animate-pulse rounded-[var(--radius)]" />
           ))}
         </div>
       ) : insights.length === 0 ? (
@@ -129,11 +129,11 @@ export function InsightsPanel({ className }: { className?: string }) {
               return (
                 <div
                   key={insight.id}
-                  className="bg-muted/40 rounded-xl p-3"
+                  className="bg-muted/40 rounded-[var(--radius)] p-3"
                 >
                   <div className="mb-1 flex items-center gap-2">
                     <div
-                      className={cn('flex h-6 w-6 items-center justify-center rounded-md', cfg.bg)}
+                      className={cn('flex h-6 w-6 items-center justify-center rounded-[calc(var(--radius)*0.6)]', cfg.bg)}
                     >
                       <HugeiconsIcon icon={Icon} className={cn('h-3.5 w-3.5', cfg.color)} />
                     </div>

@@ -31,7 +31,7 @@ export function PurchaseLog({ userId, purchases }: any) {
     <div className="">
       <form
         action={handleSubmit}
-        className="bg-muted/20 flex flex-col items-end gap-4 rounded-lg border p-4 md:flex-row"
+        className="bg-muted/20 flex flex-col items-end gap-4 rounded-[calc(var(--radius)*0.8)] border p-4 md:flex-row"
       >
         <input type="hidden" name="userId" value={userId} />
         <div className="grid w-full gap-2">
@@ -55,7 +55,7 @@ export function PurchaseLog({ userId, purchases }: any) {
         />
       </form>
 
-      <div className="overflow-hidden rounded-xl border">
+      <div className="overflow-hidden rounded-[var(--radius)] border">
         <table className="w-full text-left text-sm">
           <thead className="bg-muted/50 border-b">
             <tr>

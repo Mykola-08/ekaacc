@@ -54,7 +54,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center">
+          <div className="w-full max-w-md rounded-[var(--radius)] bg-white p-8 text-center">
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
               <HugeiconsIcon icon={Alert01Icon} className="size-10 text-red-500"  />
             </div>
@@ -73,7 +73,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                 <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700">
                   Detalls de l&apos;error
                 </summary>
-                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-100 p-4">
+                <div className="mt-4 rounded-[calc(var(--radius)*0.8)] border border-gray-200 bg-gray-100 p-4">
                   <p className="mb-2 font-mono text-sm font-bold text-red-700">
                     {this.state.error.name}: {this.state.error.message}
                   </p>
@@ -111,7 +111,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 // Simple error fallback component
 export function ErrorFallback({ error, resetError }: { error: Error; resetError: () => void }) {
   return (
-    <div className="rounded-2xl border border-red-200 bg-red-50 p-8">
+    <div className="rounded-[var(--radius)] border border-red-200 bg-red-50 p-8">
       <div className="mb-4 flex items-center">
         <HugeiconsIcon icon={Alert01Icon} className="mr-3 size-6 text-red-500"  />
         <h2 className="text-lg font-medium text-red-900">Error en aquesta secció</h2>
@@ -121,7 +121,7 @@ export function ErrorFallback({ error, resetError }: { error: Error; resetError:
 
       <button
         onClick={resetError}
-        className="rounded-lg bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600"
+        className="rounded-[calc(var(--radius)*0.8)] bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600"
       >
         Tornar a intentar
       </button>

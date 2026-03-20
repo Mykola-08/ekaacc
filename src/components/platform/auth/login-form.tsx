@@ -82,12 +82,12 @@ export function LoginForm({
 
   return (
     <div className={cn('mx-auto flex w-full max-w-sm flex-col gap-5', className)} {...props}>
-      <Card className="overflow-hidden rounded-2xl border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
+      <Card className="overflow-hidden rounded-[var(--radius)] border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
         <CardContent className="p-7 sm:p-8">
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             {/* Logo + header */}
             <div className="mb-2 flex flex-col items-center gap-3 text-center">
-              <div className="rounded-xl border border-border/20 bg-card p-1.5 shadow-sm">
+              <div className="rounded-[var(--radius)] border border-border/20 bg-card p-1.5 shadow-sm">
                 <Image
                   src="/images/eka_logo.png"
                   alt="EKA Balance"
@@ -109,7 +109,7 @@ export function LoginForm({
 
             {/* Error */}
             {error && (
-              <div className="rounded-xl bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
+              <div className="rounded-[var(--radius)] bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
                 {error}
               </div>
             )}
@@ -127,7 +127,7 @@ export function LoginForm({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-11 rounded-xl"
+                  className="h-11 rounded-[var(--radius)]"
                 />
               </div>
 
@@ -151,7 +151,7 @@ export function LoginForm({
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 rounded-xl pr-10"
+                    className="h-11 rounded-[var(--radius)] pr-10"
                   />
                   <button
                     type="button"

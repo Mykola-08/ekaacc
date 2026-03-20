@@ -62,7 +62,7 @@ export function MoodLoggedCard({ mood, score, energy, stress }: MoodLoggedProps)
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        'w-full max-w-sm rounded-lg border bg-linear-to-br p-4',
+        'w-full max-w-sm rounded-[calc(var(--radius)*0.8)] border bg-linear-to-br p-4',
         moodColors[mood] || moodColors.neutral
       )}
     >

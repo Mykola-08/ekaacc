@@ -89,7 +89,7 @@ export function InlineFeedback({
         exit={{ opacity: 0, height: 0, y: -4 }}
         transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
         className={cn(
-          'flex items-center gap-2 overflow-hidden rounded-lg border px-3 py-2 text-sm',
+          'flex items-center gap-2 overflow-hidden rounded-[calc(var(--radius)*0.8)] border px-3 py-2 text-sm',
           config.bgColor,
           config.borderColor,
           className

@@ -19,7 +19,7 @@ export function CalloutElementStatic({
       }}
       {...props}
     >
-      <div className="flex w-full gap-2 rounded-md">
+      <div className="flex w-full gap-2 rounded-[calc(var(--radius)*0.6)]">
         <div
           className="size-6 select-none text-[18px]"
           style={{

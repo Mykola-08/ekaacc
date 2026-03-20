@@ -11,7 +11,7 @@ function Menubar({ className, ...props }: React.ComponentProps<typeof MenubarPri
  return (
  <MenubarPrimitive.Root
  data-slot="menubar"
- className={cn('flex h-9 items-center rounded-4xl border p-1', className)}
+ className={cn('flex h-9 items-center rounded-full border p-1', className)}
  {...props}
  />
  );
@@ -41,7 +41,7 @@ function MenubarTrigger({
  <MenubarPrimitive.Trigger
  data-slot="menubar-trigger"
  className={cn(
-'hover:bg-muted aria-expanded:bg-muted flex items-center rounded-xl px-2 py-0.75 text-sm font-medium outline-hidden select-none',
+'hover:bg-muted aria-expanded:bg-muted flex items-center rounded-[var(--radius)] px-2 py-0.75 text-sm font-medium outline-hidden select-none',
  className
  )}
  {...props}
@@ -64,7 +64,7 @@ function MenubarContent({
  alignOffset={alignOffset}
  sideOffset={sideOffset}
  className={cn(
-'bg-popover text-popover-foreground ring-foreground/5 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 z-50 min-w-48 origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-2xl p-1 ring-1 duration-100',
+'bg-popover text-popover-foreground ring-foreground/5 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 z-50 min-w-48 origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-[var(--radius)] p-1 ring-1 duration-100',
  className
  )}
  {...props}
@@ -88,7 +88,7 @@ function MenubarItem({
  data-inset={inset}
  data-variant={variant}
  className={cn(
-"group/menubar-item focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:text-destructive! relative flex cursor-default items-center gap-2.5 rounded-xl px-3 py-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-9.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+"group/menubar-item focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:text-destructive! relative flex cursor-default items-center gap-2.5 rounded-[var(--radius)] px-3 py-2 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-9.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
  className
  )}
  {...props}
@@ -110,7 +110,7 @@ function MenubarCheckboxItem({
  data-slot="menubar-checkbox-item"
  data-inset={inset}
  className={cn(
-'focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground relative flex cursor-default items-center gap-2.5 rounded-xl py-2 pr-3 pl-9.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-inset:pl-9.5 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+'focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground relative flex cursor-default items-center gap-2.5 rounded-[var(--radius)] py-2 pr-3 pl-9.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-inset:pl-9.5 [&_svg]:pointer-events-none [&_svg]:shrink-0',
  className
  )}
  checked={checked}
@@ -139,7 +139,7 @@ function MenubarRadioItem({
  data-slot="menubar-radio-item"
  data-inset={inset}
  className={cn(
-"focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground relative flex cursor-default items-center gap-2.5 rounded-xl py-2 pr-3 pl-9.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-9.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+"focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground relative flex cursor-default items-center gap-2.5 rounded-[var(--radius)] py-2 pr-3 pl-9.5 text-sm outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-9.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
  className
  )}
  {...props}
@@ -214,7 +214,7 @@ function MenubarSubTrigger({
  data-slot="menubar-sub-trigger"
  data-inset={inset}
  className={cn(
-"focus:bg-accent focus:text-accent-foreground data-open:bg-accent data-open:text-accent-foreground flex cursor-default items-center gap-2 rounded-xl px-3 py-2 text-sm outline-none select-none data-inset:pl-9.5 [&_svg:not([class*='size-'])]:size-4",
+"focus:bg-accent focus:text-accent-foreground data-open:bg-accent data-open:text-accent-foreground flex cursor-default items-center gap-2 rounded-[var(--radius)] px-3 py-2 text-sm outline-none select-none data-inset:pl-9.5 [&_svg:not([class*='size-'])]:size-4",
  className
  )}
  {...props}
@@ -233,7 +233,7 @@ function MenubarSubContent({
  <MenubarPrimitive.SubContent
  data-slot="menubar-sub-content"
  className={cn(
-'bg-popover text-popover-foreground ring-foreground/5 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 min-w-32 origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-2xl p-1 ring-1 duration-100',
+'bg-popover text-popover-foreground ring-foreground/5 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 min-w-32 origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-[var(--radius)] p-1 ring-1 duration-100',
  className
  )}
  {...props}

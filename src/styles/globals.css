@@ -247,6 +247,28 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    background-color: oklch(1 0 0);
+  }
+
+  /* ── Squircle enforcement: every popup/overlay surface ── */
+  [data-slot="popover-content"],
+  [data-slot="dropdown-menu-content"],
+  [data-slot="dropdown-menu-sub-content"],
+  [data-slot="select-content"],
+  [data-slot="command"],
+  [data-slot="dialog-content"],
+  [data-slot="alert-dialog-content"],
+  [data-slot="tooltip-content"],
+  [data-slot="card"],
+  [data-radix-popper-content-wrapper] > * {
+    border-radius: var(--radius) !important;
+  }
+
+  /* ── Input / textarea base shape ── */
+  [data-slot="input"],
+  [data-slot="textarea"],
+  [data-slot="select-trigger"] {
+    border-radius: calc(var(--radius) * 0.8);
   }
 
   /* UX baseline: clear focus signifiers and touch-friendly target sizes */

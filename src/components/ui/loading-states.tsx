@@ -67,7 +67,7 @@ export function ErrorState({
 
       {error && process.env.NODE_ENV === 'development' && (
         <CardContent>
-          <div className="bg-muted rounded-lg p-4 text-sm">
+          <div className="bg-muted rounded-[calc(var(--radius)*0.8)] p-4 text-sm">
             <p className="text-destructive mb-2 font-semibold">Error Details:</p>
             <pre className="max-h-40 overflow-auto text-xs whitespace-pre-wrap">
               {error.message}

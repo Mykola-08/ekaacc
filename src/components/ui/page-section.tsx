@@ -52,7 +52,7 @@ export function PageSection({
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="flex items-center gap-3">
           {Icon && (
-            <div className="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+            <div className="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius)]">
               <HugeiconsIcon icon={Icon} className="text-foreground h-5 w-5" />
             </div>
           )}

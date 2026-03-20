@@ -494,7 +494,7 @@ function CodeDrawingTextarea({
         </div>
       )}
 
-      <div className="relative flex-1 rounded-md">
+      <div className="relative flex-1 rounded-[calc(var(--radius)*0.6)]">
         <pre
           className={
             'm-0 overflow-x-auto p-8 pr-4 font-mono text-sm leading-[normal] [tab-size:2] print:break-inside-avoid'
@@ -561,7 +561,7 @@ function CodeDrawingPreviewArea({
       {showImage ? (
         <div
           className={
-            'flex flex-1 items-center justify-center rounded-md bg-muted/30 p-4'
+            'flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.6)] bg-muted/30 p-4'
           }
         >
           {loading && <div className="text-muted-foreground">Loading...</div>}
@@ -579,7 +579,7 @@ function CodeDrawingPreviewArea({
           )}
         </div>
       ) : (
-        <div className="pointer-events-none flex flex-1 items-center justify-center rounded-md border bg-muted/30 p-4 opacity-0">
+        <div className="pointer-events-none flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.6)] border bg-muted/30 p-4 opacity-0">
           {/* Placeholder to maintain height */}
         </div>
       )}

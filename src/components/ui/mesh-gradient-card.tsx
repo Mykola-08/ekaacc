@@ -132,7 +132,7 @@ function MeshGradientCardRoot({
   return (
     <div
       data-slot='mesh-gradient-card'
-      className={cn('relative overflow-hidden rounded-4xl', className)}
+      className={cn('relative overflow-hidden rounded-full', className)}
       {...props}
     />
   );

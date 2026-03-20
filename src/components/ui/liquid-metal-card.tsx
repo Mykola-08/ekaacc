@@ -44,7 +44,7 @@ function LiquidMetalCard({
       {...props}
     >
       <LiquidMetal
-        className='absolute inset-0 rounded-2xl'
+        className='absolute inset-0 rounded-[var(--radius)]'
         shape='none'
         speed={speed}
         repetition={repetition}

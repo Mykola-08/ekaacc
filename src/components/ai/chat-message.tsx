@@ -70,9 +70,7 @@ export function ChatMessage({
             (isUser ? (
               <p>{textContent}</p>
             ) : (
-              <MessageResponse isAnimating={isStreaming && isLast}>
-                {textContent}
-              </MessageResponse>
+              <MessageResponse isAnimating={isStreaming && isLast}>{textContent}</MessageResponse>
             ))}
 
           {/* Visual blocks from tool calls */}
@@ -91,21 +89,18 @@ export function ChatMessage({
         {/* Message actions for assistant messages */}
         {!isUser && textContent && (
           <MessageActions className="opacity-0 transition-opacity group-hover:opacity-100">
-            <MessageAction
-              tooltip="Copy"
-              onClick={() => onCopy?.(textContent)}
-            >
-              <HugeiconsIcon icon={Copy01Icon} className="size-3.5"  />
+            <MessageAction tooltip="Copy" onClick={() => onCopy?.(textContent)}>
+              <HugeiconsIcon icon={Copy01Icon} className="size-3.5" />
             </MessageAction>
             <MessageAction tooltip="Good response">
-              <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5"  />
+              <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
             </MessageAction>
             <MessageAction tooltip="Bad response">
-              <HugeiconsIcon icon={ThumbsDownIcon} className="size-3.5"  />
+              <HugeiconsIcon icon={ThumbsDownIcon} className="size-3.5" />
             </MessageAction>
             {isLast && (
               <MessageAction tooltip="Regenerate" onClick={onRegenerate}>
-                <HugeiconsIcon icon={RotateIcon} className="size-3.5"  />
+                <HugeiconsIcon icon={RotateIcon} className="size-3.5" />
               </MessageAction>
             )}
           </MessageActions>

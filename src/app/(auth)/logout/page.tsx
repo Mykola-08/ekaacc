@@ -29,7 +29,7 @@ export default function LogoutPage() {
             />
           </div>
           <div className="bg-success/20 rounded-full p-2">
-            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success size-8"  />
+            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success size-8" />
           </div>
           <div className="">
             <CardTitle className="text-2xl font-semibold tracking-tight">Signed Out</CardTitle>

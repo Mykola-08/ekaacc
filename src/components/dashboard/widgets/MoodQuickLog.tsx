@@ -80,13 +80,19 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
                 <p className={cn('text-sm font-semibold', scoreColor(logged))}>
                   Feeling {s.label.toLowerCase()} · {logged}/10
                 </p>
-                <HugeiconsIcon icon={CheckmarkCircle01Icon} className={cn('size-4 shrink-0', scoreColor(logged))} />
+                <HugeiconsIcon
+                  icon={CheckmarkCircle01Icon}
+                  className={cn('size-4 shrink-0', scoreColor(logged))}
+                />
               </div>
-              <p className="mt-0.5 text-xs text-muted-foreground">Today's mood logged</p>
+              <p className="text-muted-foreground mt-0.5 text-xs">Today's mood logged</p>
               {/* Mood bar */}
-              <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted/60">
+              <div className="bg-muted/60 mt-2 h-1 w-full overflow-hidden rounded-full">
                 <div
-                  className={cn('h-full rounded-full transition-all duration-500', scoreBarColor(logged))}
+                  className={cn(
+                    'h-full rounded-full transition-all duration-500',
+                    scoreBarColor(logged)
+                  )}
                   style={{ width: fillWidth }}
                 />
               </div>
@@ -96,7 +102,7 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
           <Button
             variant="ghost"
             size="sm"
-            className="mt-2 h-7 w-full gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground mt-2 h-7 w-full gap-1.5 text-xs"
             onClick={() => setUpdating(true)}
           >
             <HugeiconsIcon icon={Edit02Icon} className="size-3" />
@@ -111,10 +117,15 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
     <Card>
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-          <HugeiconsIcon icon={HeartCheckIcon} className="size-4 text-muted-foreground" />
+          <HugeiconsIcon icon={HeartCheckIcon} className="text-muted-foreground size-4" />
           How are you feeling today?
           {step && (
-            <span className={cn('ml-auto text-xs font-medium tabular-nums', scoreColor(hovered ?? logged ?? 0))}>
+            <span
+              className={cn(
+                'ml-auto text-xs font-medium tabular-nums',
+                scoreColor(hovered ?? logged ?? 0)
+              )}
+            >
               {step.emoji} {step.label}
             </span>
           )}
@@ -124,7 +135,8 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
         {/* Emoji row */}
         <div className="flex items-center gap-0.5">
           {MOOD_STEPS.map(({ score, emoji }) => {
-            const isActive = hovered !== null ? score <= hovered : logged !== null ? score <= logged : false;
+            const isActive =
+              hovered !== null ? score <= hovered : logged !== null ? score <= logged : false;
             return (
               <button
                 key={score}
@@ -158,7 +170,7 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
                 </span>
                 <span
                   className={cn(
-                    'text-[9px] font-medium tabular-nums leading-none transition-opacity duration-100',
+                    'text-[9px] leading-none font-medium tabular-nums transition-opacity duration-100',
                     isActive ? 'opacity-70' : 'opacity-0'
                   )}
                 >
@@ -170,8 +182,8 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
         </div>
 
         <div className="mt-1.5 flex justify-between px-1">
-          <span className="text-[10px] text-muted-foreground">😔 Struggling</span>
-          <span className="text-[10px] text-muted-foreground">Thriving 🌟</span>
+          <span className="text-muted-foreground text-[10px]">😔 Struggling</span>
+          <span className="text-muted-foreground text-[10px]">Thriving 🌟</span>
         </div>
       </CardContent>
     </Card>

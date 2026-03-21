@@ -135,8 +135,10 @@ export default function OnboardingPage() {
       <Card className="w-full max-w-2xl">
         <CardHeader>
           <div className="mb-3 space-y-2">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Step {step} of {totalSteps}</span>
+            <div className="text-muted-foreground flex items-center justify-between text-xs">
+              <span>
+                Step {step} of {totalSteps}
+              </span>
               <span>{Math.round((step / totalSteps) * 100)}%</span>
             </div>
             <Progress value={(step / totalSteps) * 100} className="h-2" />
@@ -152,11 +154,13 @@ export default function OnboardingPage() {
         <CardContent className="space-y-5">
           {step === 1 && (
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                Welcome to EKA Balance. You will get personalized recommendations and AI-powered support in just a few steps.
+              <p className="text-muted-foreground text-sm">
+                Welcome to EKA Balance. You will get personalized recommendations and AI-powered
+                support in just a few steps.
               </p>
-              <div className="rounded-[var(--radius)] border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground">
-                Therapist and admin accounts are created via invite links by platform administrators. Standard sign-up creates a client account automatically.
+              <div className="border-primary/20 bg-primary/5 text-muted-foreground rounded-[var(--radius)] border p-3 text-xs">
+                Therapist and admin accounts are created via invite links by platform
+                administrators. Standard sign-up creates a client account automatically.
               </div>
             </div>
           )}
@@ -173,7 +177,10 @@ export default function OnboardingPage() {
               </div>
               <div className="space-y-1.5">
                 <Label>Preferred language</Label>
-                <Input value={preferredLanguage} onChange={(e) => setPreferredLanguage(e.target.value)} />
+                <Input
+                  value={preferredLanguage}
+                  onChange={(e) => setPreferredLanguage(e.target.value)}
+                />
               </div>
               <div className="space-y-1.5 md:col-span-2">
                 <Label>Timezone</Label>
@@ -184,7 +191,7 @@ export default function OnboardingPage() {
 
           {step === 3 && (
             <div className="space-y-2">
-              <p className="text-xs text-muted-foreground">Pick 1 to 3 goals</p>
+              <p className="text-muted-foreground text-xs">Pick 1 to 3 goals</p>
               <div className="grid gap-2 sm:grid-cols-2">
                 {PATIENT_GOALS.map((goal) => (
                   <button
@@ -207,13 +214,14 @@ export default function OnboardingPage() {
 
           {step === 4 && (
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
-                You are all set. Book your first session now, or skip and start exploring your dashboard.
+              <p className="text-muted-foreground text-sm">
+                You are all set. Book your first session now, or skip and start exploring your
+                dashboard.
               </p>
             </div>
           )}
 
-          <div className="flex items-center justify-between border-t border-border/60 pt-4">
+          <div className="border-border/60 flex items-center justify-between border-t pt-4">
             <Button
               variant="ghost"
               onClick={() => setStep((current) => Math.max(1, current - 1))}
@@ -230,7 +238,10 @@ export default function OnboardingPage() {
               )}
 
               {step < totalSteps && (
-                <Button onClick={() => setStep((current) => Math.min(totalSteps, current + 1))} disabled={!canGoNext() || saving}>
+                <Button
+                  onClick={() => setStep((current) => Math.min(totalSteps, current + 1))}
+                  disabled={!canGoNext() || saving}
+                >
                   Next
                 </Button>
               )}

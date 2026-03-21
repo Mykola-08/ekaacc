@@ -6,7 +6,13 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { cn } from '@/marketing/shared/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Home01Icon, SparklesIcon, Calendar03Icon, Briefcase01Icon, Message01Icon } from '@hugeicons/core-free-icons';
+import {
+  Home01Icon,
+  SparklesIcon,
+  Calendar03Icon,
+  Briefcase01Icon,
+  Message01Icon,
+} from '@hugeicons/core-free-icons';
 
 export default function FooterPillMenu() {
   const pathname = usePathname();
@@ -39,7 +45,10 @@ export default function FooterPillMenu() {
                   isActive ? 'bg-gold/20' : 'bg-transparent group-hover:bg-gray-100'
                 )}
               >
-                <HugeiconsIcon icon={item.icon} className={cn('h-4 w-4 sm:h-5 sm:w-5', isActive && 'fill-current')} />
+                <HugeiconsIcon
+                  icon={item.icon}
+                  className={cn('h-4 w-4 sm:h-5 sm:w-5', isActive && 'fill-current')}
+                />
               </div>
 
               <span className="mt-0.5 max-w-[4rem] overflow-hidden text-center text-[9px] leading-tight text-ellipsis whitespace-nowrap sm:max-w-none sm:text-xs">

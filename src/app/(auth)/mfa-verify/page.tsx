@@ -57,7 +57,7 @@ export default function MFAVerifyPage() {
       <div className="auth-page">
         <div className="auth-page-gradient" />
         <div className="relative z-10 flex items-center justify-center">
-          <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin"  />
+          <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin" />
         </div>
       </div>
     );

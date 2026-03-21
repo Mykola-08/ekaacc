@@ -27,7 +27,7 @@ export default function PersonalizedServicesContent() {
           title: t('personalizedServices.title'),
           subtitle: t('personalizedServices.subtitle'),
           badge: t('services.therapiesFor'),
-          icon: <HugeiconsIcon icon={StarIcon} className="size-4"  />,
+          icon: <HugeiconsIcon icon={StarIcon} className="size-4" />,
         }}
         className="bg-white"
       >
@@ -37,7 +37,7 @@ export default function PersonalizedServicesContent() {
             <Link href="/booking">
               <Button size="lg" variant="default" className="px-8 py-4">
                 {t('personalizedServices.cta')}
-                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
               </Button>
             </Link>
           </div>

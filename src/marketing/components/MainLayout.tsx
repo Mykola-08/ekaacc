@@ -17,7 +17,20 @@ import { Button } from '@/marketing/components/ui/button';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, Cancel01Icon, GlobeIcon, Brain01Icon, RotateIcon, ArrowDown01Icon, UserIcon, Logout01Icon, DashboardSquare01Icon, HandPointingDown01Icon, Apple01Icon, PillIcon } from '@hugeicons/core-free-icons';
+import {
+  Menu01Icon,
+  Cancel01Icon,
+  GlobeIcon,
+  Brain01Icon,
+  RotateIcon,
+  ArrowDown01Icon,
+  UserIcon,
+  Logout01Icon,
+  DashboardSquare01Icon,
+  HandPointingDown01Icon,
+  Apple01Icon,
+  PillIcon,
+} from '@hugeicons/core-free-icons';
 
 import {
   DropdownMenu,
@@ -235,7 +248,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   // Icon map for dropdown items
   const serviceIcons: Record<string, React.ReactNode> = {
     '/services/massage': <HugeiconsIcon icon={HandPointingDown01Icon} className="size-4" />,
-    '/services/kinesiology': <HugeiconsIcon icon={Brain01Icon} className="size-4"  />,
+    '/services/kinesiology': <HugeiconsIcon icon={Brain01Icon} className="size-4" />,
     '/services/nutrition': <HugeiconsIcon icon={Apple01Icon} className="size-4" />,
     '/services/supplements': <HugeiconsIcon icon={PillIcon} className="size-4" />,
   };
@@ -397,7 +410,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {/* Language Selector */}
                 <div className="mb-8">
                   <div className="mb-4 flex items-center justify-center">
-                    <HugeiconsIcon icon={GlobeIcon} className="size-3 text-gray-400"  />
+                    <HugeiconsIcon icon={GlobeIcon} className="size-3 text-gray-400" />
                     <span className="text-xs text-gray-400">{t('footer.selectLanguage')}</span>
                   </div>
                   <div className="flex justify-center">
@@ -478,34 +491,38 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           suppressHydrationWarning
                         >
                           {item.name}
-                          <HugeiconsIcon icon={ArrowDown01Icon}
+                          <HugeiconsIcon
+                            icon={ArrowDown01Icon}
                             className={`size-3 text-gray-400 transition-transform duration-300 ${activeDropdown === item.name ? 'rotate-180 text-gray-700' : 'group-hover/trigger:translate-y-[1px]'}`}
-                           />
+                          />
                         </Link>
 
                         {/* Hover bridge & Dropdown Container via CSS */}
-                          <AnimatePresence>
-                            {activeDropdown === item.name && (
-                              <motion.div
-                                initial={{ opacity: 0, scaleY: 0.95, y: -4 }}
-                                animate={{ opacity: 1, scaleY: 1, y: 0 }}
-                                exit={{ opacity: 0, scaleY: 0.95, y: -4 }}
-                                transition={{ duration: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
-                                className="absolute top-full left-1/2 z-40 w-[280px] -translate-x-1/2 pt-4"
-                                style={{ transformOrigin: 'top center' }}
-                                onMouseEnter={() => keepMenuOpen(item.name)}
-                                onMouseLeave={scheduleHide}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Escape') {
-                                    setActiveDropdown(null);
-                                  }
-                                }}
-                                role="menu"
-                                aria-label={`${item.name} submenu`}
-                              >
-                                {/* Invisible padding zone for hover target bridge */}
-                                <div className="absolute inset-x-[-40px] top-0 h-8" aria-hidden="true" />
-                                {/* Inner content wrapper with the actual visual styling */}
+                        <AnimatePresence>
+                          {activeDropdown === item.name && (
+                            <motion.div
+                              initial={{ opacity: 0, scaleY: 0.95, y: -4 }}
+                              animate={{ opacity: 1, scaleY: 1, y: 0 }}
+                              exit={{ opacity: 0, scaleY: 0.95, y: -4 }}
+                              transition={{ duration: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+                              className="absolute top-full left-1/2 z-40 w-[280px] -translate-x-1/2 pt-4"
+                              style={{ transformOrigin: 'top center' }}
+                              onMouseEnter={() => keepMenuOpen(item.name)}
+                              onMouseLeave={scheduleHide}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Escape') {
+                                  setActiveDropdown(null);
+                                }
+                              }}
+                              role="menu"
+                              aria-label={`${item.name} submenu`}
+                            >
+                              {/* Invisible padding zone for hover target bridge */}
+                              <div
+                                className="absolute inset-x-[-40px] top-0 h-8"
+                                aria-hidden="true"
+                              />
+                              {/* Inner content wrapper with the actual visual styling */}
                               <div className="relative mx-auto w-[280px] overflow-hidden rounded-b-2xl border border-t-0 border-white/60 bg-white/95 ring-1 ring-black/[0.04] drop-shadow-[0_12px_40px_rgba(0,0,0,0.08)] backdrop-blur-2xl">
                                 {/* Subtle blend line at the top connection point */}
                                 <div className="absolute inset-x-0 top-0 h-[1px] bg-white/40" />
@@ -527,7 +544,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                       >
                                         <span className="group-hover/item:bg-primary/10 group-hover/item:text-primary flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-gray-100/80 text-gray-500 transition-colors duration-150">
                                           {serviceIcons[dropdownItem.href] || (
-                                            <HugeiconsIcon icon={HandPointingDown01Icon} className="size-4" />
+                                            <HugeiconsIcon
+                                              icon={HandPointingDown01Icon}
+                                              className="size-4"
+                                            />
                                           )}
                                         </span>
                                         <span className="font-medium">{dropdownItem.name}</span>
@@ -592,7 +612,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <HugeiconsIcon icon={UserIcon} className="size-4"  />
+                            <HugeiconsIcon icon={UserIcon} className="size-4" />
                           )}
                         </button>
                       </DropdownMenuTrigger>
@@ -602,7 +622,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           className="cursor-pointer gap-2 rounded-[calc(var(--radius)*0.6)] p-2 text-sm"
                         >
                           <Link href="/dashboard">
-                            <HugeiconsIcon icon={DashboardSquare01Icon} className="size-4"  />
+                            <HugeiconsIcon icon={DashboardSquare01Icon} className="size-4" />
                             {t('nav.dashboard')}
                           </Link>
                         </DropdownMenuItem>
@@ -610,7 +630,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                           onClick={() => signOut()}
                           className="cursor-pointer gap-2 rounded-[calc(var(--radius)*0.6)] p-2 text-sm text-red-600 focus:bg-red-50 focus:text-red-700"
                         >
-                          <HugeiconsIcon icon={Logout01Icon} className="size-4"  />
+                          <HugeiconsIcon icon={Logout01Icon} className="size-4" />
                           {t('auth.signOut')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -647,7 +667,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   className="ml-1 p-1 text-gray-800 transition-colors hover:text-black md:hidden"
                   aria-label="Toggle menu"
                 >
-                  {isMenuOpen ? <HugeiconsIcon icon={Cancel01Icon} className="size-5"  /> : <HugeiconsIcon icon={Menu01Icon} className="size-5"  />}
+                  {isMenuOpen ? (
+                    <HugeiconsIcon icon={Cancel01Icon} className="size-5" />
+                  ) : (
+                    <HugeiconsIcon icon={Menu01Icon} className="size-5" />
+                  )}
                 </button>
               </div>
             </div>
@@ -668,7 +692,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     className="absolute top-4 right-6 p-2 text-gray-800 transition-colors hover:text-black"
                     aria-label="Close menu"
                   >
-                    <HugeiconsIcon icon={Cancel01Icon} className="size-6"  />
+                    <HugeiconsIcon icon={Cancel01Icon} className="size-6" />
                   </button>
                   <div className="p-6 pb-24">
                     {/* Home */}

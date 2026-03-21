@@ -15,7 +15,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { PlayIcon, LegalDocumentIcon, ActivityIcon, LockIcon, Search01Icon, Image01Icon } from '@hugeicons/core-free-icons';
+import {
+  PlayIcon,
+  LegalDocumentIcon,
+  ActivityIcon,
+  LockIcon,
+  Search01Icon,
+  Image01Icon,
+} from '@hugeicons/core-free-icons';
 
 interface ResourcesPageProps {
   initialResources: ResourceItem[];
@@ -78,9 +85,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
       {/* Grid */}
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filtered.map((resource) => (
-          <div
-            key={resource.id}
-          >
+          <div key={resource.id}>
             <Card className="bg-card text-foreground group border-border/50 hover: relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius)*0.8)] border border-none transition-all duration-700 hover:-translate-y-3">
               <div className="bg-muted relative h-64 overflow-hidden">
                 {resource.imageUrl ? (

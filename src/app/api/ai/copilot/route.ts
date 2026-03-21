@@ -4,20 +4,12 @@ import { generateText } from 'ai';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  const {
-    apiKey: key,
-    model = 'gpt-4o-mini',
-    prompt,
-    system,
-  } = await req.json();
+  const { apiKey: key, model = 'gpt-4o-mini', prompt, system } = await req.json();
 
   const apiKey = key || process.env.AI_GATEWAY_API_KEY;
 
   if (!apiKey) {
-    return NextResponse.json(
-      { error: 'Missing ai gateway API key.' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: 'Missing ai gateway API key.' }, { status: 401 });
   }
 
   try {
@@ -36,9 +28,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(null, { status: 408 });
     }
 
-    return NextResponse.json(
-      { error: 'Failed to process AI request' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process AI request' }, { status: 500 });
   }
 }

@@ -15,11 +15,17 @@ type Report = {
   post: { id: string; title: string | null; content: string | null } | null;
 };
 
-const FILTERS: Array<Report['status'] | 'all'> = ['all', 'open', 'reviewing', 'resolved', 'dismissed'];
+const FILTERS: Array<Report['status'] | 'all'> = [
+  'all',
+  'open',
+  'reviewing',
+  'resolved',
+  'dismissed',
+];
 
 export function CommunityModerationClient({ initialReports }: { initialReports: Report[] }) {
   const [reports, setReports] = useState<Report[]>(initialReports);
-  const [activeFilter, setActiveFilter] = useState<typeof FILTERS[number]>('all');
+  const [activeFilter, setActiveFilter] = useState<(typeof FILTERS)[number]>('all');
   const [isPending, startTransition] = useTransition();
 
   const filtered = useMemo(() => {
@@ -39,9 +45,7 @@ export function CommunityModerationClient({ initialReports }: { initialReports: 
     <Card className="rounded-[var(--radius)]">
       <CardHeader>
         <CardTitle>Community Moderation Queue</CardTitle>
-        <CardDescription>
-          Review reported content and apply moderation actions.
-        </CardDescription>
+        <CardDescription>Review reported content and apply moderation actions.</CardDescription>
         <div className="flex flex-wrap gap-2 pt-2">
           {FILTERS.map((filter) => (
             <Button
@@ -58,35 +62,52 @@ export function CommunityModerationClient({ initialReports }: { initialReports: 
       </CardHeader>
       <CardContent className="space-y-3">
         {filtered.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No reports for this filter.</p>
+          <p className="text-muted-foreground text-sm">No reports for this filter.</p>
         ) : (
           filtered.map((report) => (
-            <div key={report.id} className="rounded-[var(--radius)] border border-border/60 p-3">
+            <div key={report.id} className="border-border/60 rounded-[var(--radius)] border p-3">
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm font-semibold capitalize">{report.reason}</p>
                 <Badge variant="outline" className="capitalize">
                   {report.status}
                 </Badge>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">
+              <p className="text-muted-foreground mt-1 text-xs">
                 {report.post?.title ?? 'Reported Post'}
               </p>
-              <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+              <p className="text-muted-foreground mt-1 line-clamp-2 text-xs">
                 {report.post?.content ?? ''}
               </p>
               {report.details && (
-                <p className="mt-2 rounded-[calc(var(--radius)*0.8)] bg-muted p-2 text-xs text-foreground">
+                <p className="bg-muted text-foreground mt-2 rounded-[calc(var(--radius)*0.8)] p-2 text-xs">
                   Reporter note: {report.details}
                 </p>
               )}
               <div className="mt-3 flex flex-wrap gap-2">
-                <Button size="sm" variant="outline" className="rounded-[calc(var(--radius)*0.8)]" disabled={isPending} onClick={() => updateStatus(report.id, 'reviewing')}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="rounded-[calc(var(--radius)*0.8)]"
+                  disabled={isPending}
+                  onClick={() => updateStatus(report.id, 'reviewing')}
+                >
                   Mark Reviewing
                 </Button>
-                <Button size="sm" className="rounded-[calc(var(--radius)*0.8)]" disabled={isPending} onClick={() => updateStatus(report.id, 'resolved')}>
+                <Button
+                  size="sm"
+                  className="rounded-[calc(var(--radius)*0.8)]"
+                  disabled={isPending}
+                  onClick={() => updateStatus(report.id, 'resolved')}
+                >
                   Resolve
                 </Button>
-                <Button size="sm" variant="secondary" className="rounded-[calc(var(--radius)*0.8)]" disabled={isPending} onClick={() => updateStatus(report.id, 'dismissed')}>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="rounded-[calc(var(--radius)*0.8)]"
+                  disabled={isPending}
+                  onClick={() => updateStatus(report.id, 'dismissed')}
+                >
                   Dismiss
                 </Button>
               </div>

@@ -49,12 +49,12 @@ export default function LanguagePopup() {
             className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
             aria-label="Close"
           >
-            <HugeiconsIcon icon={Cancel01Icon} className="size-4" aria-hidden="true"  />
+            <HugeiconsIcon icon={Cancel01Icon} className="size-4" aria-hidden="true" />
           </button>
 
           <div className="mb-4 text-center">
             <div className="bg-primary/5 mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full">
-              <HugeiconsIcon icon={GlobeIcon} className="text-primary size-5"  />
+              <HugeiconsIcon icon={GlobeIcon} className="text-primary size-5" />
             </div>
             <h2 className="mb-0.5 text-lg leading-tight font-medium tracking-tight text-gray-900">
               {t('language.popup.title')}

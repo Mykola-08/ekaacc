@@ -111,18 +111,22 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        xl: 'var(--radius-xl)',
-        '2xl': 'var(--radius-2xl)',
-        '3xl': 'var(--radius-3xl)',
+        xl: 'calc(var(--radius) + 4px)', // 18px
+        '2xl': '25.2px',                 // Document specifically mentions card radius is 25.2px
+        '3xl': '36.4px',                 // Fully rounded / pill for most buttons
         apple: '32px',
         'apple-lg': '48px',
         'apple-xl': '64px',
+        full: '9999px',
       },
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
       },
       transitionTimingFunction: {
+        'out-spring': 'cubic-bezier(0.16, 1, 0.3, 1)',
+        'in-out-smooth': 'cubic-bezier(0.45, 0, 0.55, 1)',
+        'out-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
         'out-quad': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         'out-cubic': 'cubic-bezier(0.215, 0.61, 0.355, 1)',
         'out-quart': 'cubic-bezier(0.165, 0.84, 0.44, 1)',

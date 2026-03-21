@@ -3,7 +3,14 @@
 import * as React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { CheckmarkCircle02Icon, AlertCircleIcon, InformationCircleIcon, Alert02Icon, Loading03Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
+import {
+  CheckmarkCircle02Icon,
+  AlertCircleIcon,
+  InformationCircleIcon,
+  Alert02Icon,
+  Loading03Icon,
+  Cancel01Icon,
+} from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 
 /**

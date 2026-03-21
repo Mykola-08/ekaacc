@@ -28,7 +28,7 @@ export function ServiceStep({ services, selectedServiceId, onSelect }: ServiceSt
               key={service.id}
               onClick={() => onSelect(service.id)}
               className={cn(
-                'group relative flex h-full w-full flex-col rounded-[var(--radius)] border-2 p-5 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                'group focus-visible:ring-primary relative flex h-full w-full flex-col rounded-[var(--radius)] border-2 p-5 text-left transition-all duration-200 focus-visible:ring-2 focus-visible:outline-none',
                 selected
                   ? 'border-primary bg-primary/5 shadow-md'
                   : 'border-border bg-card hover:border-primary/40 hover:bg-muted/20 hover:shadow-sm'
@@ -40,14 +40,14 @@ export function ServiceStep({ services, selectedServiceId, onSelect }: ServiceSt
                   'absolute top-3.5 right-3.5 flex h-6 w-6 items-center justify-center rounded-full transition-all duration-200',
                   selected
                     ? 'bg-primary text-primary-foreground scale-100 opacity-100'
-                    : 'border-2 border-border scale-90 opacity-0 group-hover:opacity-30'
+                    : 'border-border scale-90 border-2 opacity-0 group-hover:opacity-30'
                 )}
               >
                 <HugeiconsIcon icon={Tick02Icon} className="size-3.5" />
               </div>
 
               <div className="min-w-0 flex-1 space-y-2 pr-8">
-                <span className="text-foreground text-base font-bold leading-tight">
+                <span className="text-foreground text-base leading-tight font-bold">
                   {service.name}
                 </span>
                 <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
@@ -55,7 +55,7 @@ export function ServiceStep({ services, selectedServiceId, onSelect }: ServiceSt
                 </p>
               </div>
 
-              <div className="mt-4 flex w-full items-center justify-between border-t border-border/50 pt-3.5">
+              <div className="border-border/50 mt-4 flex w-full items-center justify-between border-t pt-3.5">
                 <div className="text-muted-foreground flex items-center gap-1.5 text-sm font-medium">
                   <HugeiconsIcon icon={Clock01Icon} className="size-4" />
                   {service.duration_minutes} min

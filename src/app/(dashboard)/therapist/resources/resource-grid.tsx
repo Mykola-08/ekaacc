@@ -54,10 +54,13 @@ function ResourceCard({ resource }: { resource: any }) {
             <Button
               variant="ghost"
               size="icon"
-              className="size-8 text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground size-8"
               title="Bookmark"
               onClick={() =>
-                toast({ title: 'Bookmarked', description: `"${resource.title}" saved to your bookmarks.` })
+                toast({
+                  title: 'Bookmarked',
+                  description: `"${resource.title}" saved to your bookmarks.`,
+                })
               }
             >
               <HugeiconsIcon icon={Bookmark01Icon} className="size-4" />
@@ -65,10 +68,13 @@ function ResourceCard({ resource }: { resource: any }) {
             <Button
               variant="ghost"
               size="icon"
-              className="size-8 text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground size-8"
               title="Share with client"
               onClick={() =>
-                toast({ title: 'Share link copied', description: 'Resource link copied to clipboard.' })
+                toast({
+                  title: 'Share link copied',
+                  description: 'Resource link copied to clipboard.',
+                })
               }
             >
               <HugeiconsIcon icon={Share01Icon} className="size-4" />
@@ -76,7 +82,9 @@ function ResourceCard({ resource }: { resource: any }) {
           </div>
         </div>
         <CardTitle className="line-clamp-2 text-base leading-snug">{resource.title}</CardTitle>
-        <CardDescription className="mt-1 line-clamp-2 text-sm">{resource.description}</CardDescription>
+        <CardDescription className="mt-1 line-clamp-2 text-sm">
+          {resource.description}
+        </CardDescription>
       </CardHeader>
       <CardContent className="mt-auto flex flex-1 flex-col justify-end pt-0">
         <Link

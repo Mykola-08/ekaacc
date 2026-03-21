@@ -11,19 +11,19 @@ export async function POST(request: NextRequest) {
 
   const webhook = paykit.webhooks
     .setup({ webhookSecret })
-    .on('customer.created', async event => {
+    .on('customer.created', async (event) => {
       console.log('Customer created:', event.data);
     })
-    .on('subscription.created', async event => {
+    .on('subscription.created', async (event) => {
       console.log('Subscription created:', event.data);
     })
-    .on('payment.created', async event => {
+    .on('payment.created', async (event) => {
       console.log('Payment created:', event.data);
     })
-    .on('refund.created', async event => {
+    .on('refund.created', async (event) => {
       console.log('Refund created:', event.data);
     })
-    .on('invoice.generated', async event => {
+    .on('invoice.generated', async (event) => {
       console.log('Invoice generated:', event.data);
     });
 

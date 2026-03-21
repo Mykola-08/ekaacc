@@ -106,12 +106,13 @@ export function AccordionTrigger({ children, className, value: itemValue }: Acco
       aria-expanded={isOpen}
     >
       {children}
-      <HugeiconsIcon icon={ArrowDown01Icon}
+      <HugeiconsIcon
+        icon={ArrowDown01Icon}
         className={cn(
           'size-5 flex-shrink-0 text-gray-400 transition-transform duration-300',
           isOpen && 'rotate-180 text-blue-600'
         )}
-       />
+      />
     </button>
   );
 }

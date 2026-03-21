@@ -38,7 +38,37 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Layout01Icon, Calendar03Icon, Wallet01Icon, UserCircleIcon, Settings01Icon, Clock01Icon, BookOpen01Icon, Shield01Icon, CreditCardIcon, UserGroupIcon, FolderOpenIcon, ChartBarLineIcon, Message01Icon, Edit02Icon, Wrench01Icon, SparklesIcon, HeartCheckIcon, UnfoldMoreIcon, UserCheck01Icon, Notification03Icon, Logout03Icon, CheckListIcon, ToggleOnIcon, Database01Icon, Refresh01Icon, AlertCircleIcon, Briefcase01Icon, FileAddIcon, Target01Icon } from '@hugeicons/core-free-icons';
+import {
+  Layout01Icon,
+  Calendar03Icon,
+  Wallet01Icon,
+  UserCircleIcon,
+  Settings01Icon,
+  Clock01Icon,
+  BookOpen01Icon,
+  Shield01Icon,
+  CreditCardIcon,
+  UserGroupIcon,
+  FolderOpenIcon,
+  ChartBarLineIcon,
+  Message01Icon,
+  Edit02Icon,
+  Wrench01Icon,
+  SparklesIcon,
+  HeartCheckIcon,
+  UnfoldMoreIcon,
+  UserCheck01Icon,
+  Notification03Icon,
+  Logout03Icon,
+  CheckListIcon,
+  ToggleOnIcon,
+  Database01Icon,
+  Refresh01Icon,
+  AlertCircleIcon,
+  Briefcase01Icon,
+  FileAddIcon,
+  Target01Icon,
+} from '@hugeicons/core-free-icons';
 
 // ─── Icon mapping ──────────────────────────────────────────────────
 
@@ -118,7 +148,9 @@ function NavMain({
     <>
       {sections.map((section) => (
         <SidebarGroup key={section.id}>
-          <SidebarGroupLabel className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-[0.12em] px-2 mb-0.5">{t(section.label)}</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-muted-foreground/60 mb-0.5 px-2 text-[10px] font-semibold tracking-[0.12em] uppercase">
+            {t(section.label)}
+          </SidebarGroupLabel>
           <SidebarMenu>
             {section.items.map((item) => {
               const label = t(item.label);
@@ -129,7 +161,7 @@ function NavMain({
                     asChild
                     isActive={active}
                     tooltip={label}
-                    className="transition-colors duration-150 group/navitem"
+                    className="group/navitem transition-colors duration-150"
                   >
                     <Link href={item.path} aria-current={active ? 'page' : undefined}>
                       <NavIcon
@@ -191,7 +223,9 @@ function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-[calc(var(--radius)*0.8)]">
                 <AvatarImage src={avatarUrl} alt={displayName} />
-                <AvatarFallback className="rounded-[calc(var(--radius)*0.8)]">{initials}</AvatarFallback>
+                <AvatarFallback className="rounded-[calc(var(--radius)*0.8)]">
+                  {initials}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{displayName}</span>
@@ -210,7 +244,9 @@ function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-[calc(var(--radius)*0.8)]">
                   <AvatarImage src={avatarUrl} alt={displayName} />
-                  <AvatarFallback className="rounded-[calc(var(--radius)*0.8)]">{initials}</AvatarFallback>
+                  <AvatarFallback className="rounded-[calc(var(--radius)*0.8)]">
+                    {initials}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{displayName}</span>
@@ -306,19 +342,26 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
     <Sidebar
       variant="inset"
       collapsible="icon"
-      className="dashboard-sidebar border-r border-border/60"
+      className="dashboard-sidebar border-border/60 border-r"
     >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild tooltip="EKA Balance" className="transition-colors duration-150">
+            <SidebarMenuButton
+              size="lg"
+              asChild
+              tooltip="EKA Balance"
+              className="transition-colors duration-150"
+            >
               <Link href="/dashboard">
-                <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-primary text-primary-foreground shadow-sm transition-transform duration-150 group-hover/[data-slot=menu-button]:scale-105">
+                <div className="bg-primary text-primary-foreground flex aspect-square size-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] shadow-sm transition-transform duration-150 group-hover/[data-slot=menu-button]:scale-105">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold tracking-tight">EKA Balance</span>
-                  <span className="text-muted-foreground/70 truncate text-xs">{t('nav.platformSubtitle')}</span>
+                  <span className="text-muted-foreground/70 truncate text-xs">
+                    {t('nav.platformSubtitle')}
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>

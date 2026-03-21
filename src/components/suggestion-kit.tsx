@@ -2,17 +2,11 @@
 
 import type { ExtendConfig, Path } from 'platejs';
 
-import {
-  type BaseSuggestionConfig,
-  BaseSuggestionPlugin,
-} from '@platejs/suggestion';
+import { type BaseSuggestionConfig, BaseSuggestionPlugin } from '@platejs/suggestion';
 import { isSlateEditor, isSlateString } from 'platejs';
 import { toTPlatePlugin } from 'platejs/react';
 
-import {
-  SuggestionLeaf,
-  SuggestionLineBreak,
-} from '@/components/ui/suggestion-node';
+import { SuggestionLeaf, SuggestionLineBreak } from '@/components/ui/suggestion-node';
 
 import { discussionPlugin } from './discussion-kit';
 

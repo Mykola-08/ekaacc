@@ -69,17 +69,20 @@ interface Patient {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
-  pending:     { label: 'Pending',     className: 'bg-warning/10 text-warning border-warning/20' },
+  pending: { label: 'Pending', className: 'bg-warning/10 text-warning border-warning/20' },
   in_progress: { label: 'In Progress', className: 'bg-primary/10 text-primary border-primary/20' },
-  submitted:   { label: 'Submitted',   className: 'bg-success/10 text-success border-success/20' },
-  reviewed:    { label: 'Reviewed',    className: 'bg-muted text-muted-foreground' },
-  cancelled:   { label: 'Cancelled',   className: 'bg-destructive/10 text-destructive border-destructive/20' },
+  submitted: { label: 'Submitted', className: 'bg-success/10 text-success border-success/20' },
+  reviewed: { label: 'Reviewed', className: 'bg-muted text-muted-foreground' },
+  cancelled: {
+    label: 'Cancelled',
+    className: 'bg-destructive/10 text-destructive border-destructive/20',
+  },
 };
 
 const PRIORITY_CONFIG: Record<string, string> = {
-  low:    'bg-muted text-muted-foreground',
+  low: 'bg-muted text-muted-foreground',
   normal: 'bg-primary/10 text-primary',
-  high:   'bg-destructive/10 text-destructive',
+  high: 'bg-destructive/10 text-destructive',
 };
 
 function formatDue(d: string | null) {
@@ -106,30 +109,40 @@ function AssignmentCard({
   const [deleting, startDelete] = useTransition();
 
   return (
-    <Card className="rounded-[var(--radius)] border-border/60 transition-all hover:-translate-y-px hover:shadow-md">
+    <Card className="border-border/60 rounded-[var(--radius)] transition-all hover:-translate-y-px hover:shadow-md">
       <CardContent className="p-4">
         <div className="flex items-start gap-3">
-          <div className="mt-0.5 shrink-0 rounded-[var(--radius)] bg-primary/10 p-2">
-            <HugeiconsIcon icon={NoteIcon} className="size-4 text-primary" />
+          <div className="bg-primary/10 mt-0.5 shrink-0 rounded-[var(--radius)] p-2">
+            <HugeiconsIcon icon={NoteIcon} className="text-primary size-4" />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-start justify-between gap-2">
-              <p className="text-sm font-semibold text-foreground">{a.title}</p>
+              <p className="text-foreground text-sm font-semibold">{a.title}</p>
               <div className="flex items-center gap-1.5">
                 {a.priority && a.priority !== 'normal' && (
-                  <span className={cn('rounded-full px-2 py-0.5 text-xs font-medium capitalize', PRIORITY_CONFIG[a.priority])}>
+                  <span
+                    className={cn(
+                      'rounded-full px-2 py-0.5 text-xs font-medium capitalize',
+                      PRIORITY_CONFIG[a.priority]
+                    )}
+                  >
                     {a.priority}
                   </span>
                 )}
-                <span className={cn('rounded-full border px-2 py-0.5 text-xs font-medium capitalize', status.className)}>
+                <span
+                  className={cn(
+                    'rounded-full border px-2 py-0.5 text-xs font-medium capitalize',
+                    status.className
+                  )}
+                >
                   {status.label}
                 </span>
               </div>
             </div>
             {a.description && (
-              <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">{a.description}</p>
+              <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs">{a.description}</p>
             )}
-            <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+            <div className="text-muted-foreground mt-2 flex flex-wrap items-center gap-3 text-xs">
               {a.patient?.full_name && (
                 <span className="flex items-center gap-1">
                   <HugeiconsIcon icon={UserIcon} className="size-3" />
@@ -137,7 +150,12 @@ function AssignmentCard({
                 </span>
               )}
               {due && (
-                <span className={cn('flex items-center gap-1', due.overdue && 'text-destructive font-medium')}>
+                <span
+                  className={cn(
+                    'flex items-center gap-1',
+                    due.overdue && 'text-destructive font-medium'
+                  )}
+                >
                   <HugeiconsIcon icon={Clock01Icon} className="size-3" />
                   {due.label}
                 </span>
@@ -158,7 +176,7 @@ function AssignmentCard({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 rounded-[calc(var(--radius)*0.8)] text-muted-foreground hover:text-destructive"
+                  className="text-muted-foreground hover:text-destructive size-8 rounded-[calc(var(--radius)*0.8)]"
                   disabled={deleting}
                 >
                   {deleting ? (
@@ -206,8 +224,14 @@ export function AssignmentManager({
   const [editing, setEditing] = useState<Assignment | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const openCreate = () => { setEditing(null); setDialogOpen(true); };
-  const openEdit = (a: Assignment) => { setEditing(a); setDialogOpen(true); };
+  const openCreate = () => {
+    setEditing(null);
+    setDialogOpen(true);
+  };
+  const openEdit = (a: Assignment) => {
+    setEditing(a);
+    setDialogOpen(true);
+  };
 
   const handleSubmit = async (formData: FormData) => {
     startTransition(async () => {
@@ -227,7 +251,9 @@ export function AssignmentManager({
     setAssignments((prev) => prev.filter((a) => a.id !== id));
   };
 
-  const active = assignments.filter((a) => !['submitted', 'reviewed', 'cancelled'].includes(a.status));
+  const active = assignments.filter(
+    (a) => !['submitted', 'reviewed', 'cancelled'].includes(a.status)
+  );
   const completed = assignments.filter((a) => ['submitted', 'reviewed'].includes(a.status));
 
   return (
@@ -236,14 +262,20 @@ export function AssignmentManager({
       <div className="flex flex-wrap items-start justify-between gap-4 px-4 lg:px-6">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
-            <HugeiconsIcon icon={NoteIcon} className="size-5 text-muted-foreground" />
+            <HugeiconsIcon icon={NoteIcon} className="text-muted-foreground size-5" />
             Assignments & Homework
           </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-0.5 text-sm">
             Create and manage tasks assigned to your patients.
           </p>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setEditing(null); }}>
+        <Dialog
+          open={dialogOpen}
+          onOpenChange={(open) => {
+            setDialogOpen(open);
+            if (!open) setEditing(null);
+          }}
+        >
           <DialogTrigger asChild>
             <Button className="gap-2 rounded-[calc(var(--radius)*0.8)]" onClick={openCreate}>
               <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
@@ -257,7 +289,9 @@ export function AssignmentManager({
             <form action={handleSubmit} className="space-y-4">
               {editing && <input type="hidden" name="id" value={editing.id} />}
               <div className="space-y-1.5">
-                <Label>Title <span className="text-destructive">*</span></Label>
+                <Label>
+                  Title <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   name="title"
                   placeholder="e.g. Daily breathing exercise"
@@ -278,14 +312,18 @@ export function AssignmentManager({
               </div>
               {!editing && (
                 <div className="space-y-1.5">
-                  <Label>Patient <span className="text-destructive">*</span></Label>
+                  <Label>
+                    Patient <span className="text-destructive">*</span>
+                  </Label>
                   <Select name="user_id" required>
                     <SelectTrigger className="h-10 rounded-[var(--radius)]">
                       <SelectValue placeholder="Select a patient…" />
                     </SelectTrigger>
                     <SelectContent>
                       {patients.length === 0 ? (
-                        <SelectItem value="" disabled>No patients available</SelectItem>
+                        <SelectItem value="" disabled>
+                          No patients available
+                        </SelectItem>
                       ) : (
                         patients.map((p) => (
                           <SelectItem key={p.auth_id} value={p.auth_id}>
@@ -315,7 +353,9 @@ export function AssignmentManager({
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Due Date <span className="text-destructive">*</span></Label>
+                  <Label>
+                    Due Date <span className="text-destructive">*</span>
+                  </Label>
                   <Input
                     name="due_date"
                     type="date"
@@ -347,11 +387,25 @@ export function AssignmentManager({
                 </div>
               )}
               <div className="flex justify-end gap-2 pt-2">
-                <Button type="button" variant="ghost" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => { setDialogOpen(false); setEditing(null); }}>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="rounded-[calc(var(--radius)*0.8)]"
+                  onClick={() => {
+                    setDialogOpen(false);
+                    setEditing(null);
+                  }}
+                >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isPending} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
-                  {isPending && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="gap-2 rounded-[calc(var(--radius)*0.8)]"
+                >
+                  {isPending && (
+                    <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />
+                  )}
                   {isPending ? 'Saving…' : editing ? 'Update' : 'Create'}
                 </Button>
               </div>
@@ -365,12 +419,16 @@ export function AssignmentManager({
         <div className="grid grid-cols-3 gap-3 px-4 lg:px-6">
           {[
             { label: 'Active', value: active.length, color: 'text-primary' },
-            { label: 'Submitted', value: assignments.filter((a) => a.status === 'submitted').length, color: 'text-success' },
+            {
+              label: 'Submitted',
+              value: assignments.filter((a) => a.status === 'submitted').length,
+              color: 'text-success',
+            },
             { label: 'Total', value: assignments.length, color: 'text-foreground' },
           ].map(({ label, value, color }) => (
-            <Card key={label} className="rounded-[var(--radius)] border-border/60">
+            <Card key={label} className="border-border/60 rounded-[var(--radius)]">
               <CardContent className="p-4">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
+                <p className="text-muted-foreground text-xs tracking-wider uppercase">{label}</p>
                 <p className={cn('mt-1 text-2xl font-bold tabular-nums', color)}>{value}</p>
               </CardContent>
             </Card>
@@ -382,12 +440,12 @@ export function AssignmentManager({
       <div className="px-4 lg:px-6">
         {assignments.length === 0 ? (
           <div className="flex flex-col items-center gap-4 rounded-[var(--radius)] border border-dashed py-16 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-[var(--radius)] bg-muted">
-              <HugeiconsIcon icon={NoteIcon} className="size-7 text-muted-foreground/50" />
+            <div className="bg-muted flex h-14 w-14 items-center justify-center rounded-[var(--radius)]">
+              <HugeiconsIcon icon={NoteIcon} className="text-muted-foreground/50 size-7" />
             </div>
             <div>
               <p className="font-semibold">No assignments yet</p>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Create your first assignment to give patients structured tasks to work on.
               </p>
             </div>
@@ -399,18 +457,24 @@ export function AssignmentManager({
         ) : (
           <Tabs defaultValue="active">
             <TabsList className="mb-4 rounded-[var(--radius)]">
-              <TabsTrigger value="active" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
+              <TabsTrigger
+                value="active"
+                className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs"
+              >
                 Active
                 {active.length > 0 && (
-                  <span className="rounded-[calc(var(--radius)*0.8)] bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary tabular-nums">
+                  <span className="bg-primary/10 text-primary rounded-[calc(var(--radius)*0.8)] px-1.5 py-0.5 text-xs font-medium tabular-nums">
                     {active.length}
                   </span>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="completed" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
+              <TabsTrigger
+                value="completed"
+                className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs"
+              >
                 Submitted
                 {completed.length > 0 && (
-                  <span className="rounded-[calc(var(--radius)*0.8)] bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground tabular-nums">
+                  <span className="bg-muted text-muted-foreground rounded-[calc(var(--radius)*0.8)] px-1.5 py-0.5 text-xs font-medium tabular-nums">
                     {completed.length}
                   </span>
                 )}
@@ -420,8 +484,10 @@ export function AssignmentManager({
             <TabsContent value="active">
               {active.length === 0 ? (
                 <div className="flex flex-col items-center gap-2 rounded-[var(--radius)] border border-dashed py-12 text-center">
-                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-8 text-success/50" />
-                  <p className="text-sm text-muted-foreground">All assignments have been submitted.</p>
+                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success/50 size-8" />
+                  <p className="text-muted-foreground text-sm">
+                    All assignments have been submitted.
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -435,7 +501,7 @@ export function AssignmentManager({
             <TabsContent value="completed">
               {completed.length === 0 ? (
                 <div className="flex flex-col items-center gap-2 rounded-[var(--radius)] border border-dashed py-12 text-center">
-                  <p className="text-sm text-muted-foreground">No submitted assignments yet.</p>
+                  <p className="text-muted-foreground text-sm">No submitted assignments yet.</p>
                 </div>
               ) : (
                 <div className="space-y-3">

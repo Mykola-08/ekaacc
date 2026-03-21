@@ -4,7 +4,7 @@ import { NextResponse, NextRequest } from 'next/server';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ endpoint: string[] }> },
+  { params }: { params: Promise<{ endpoint: string[] }> }
 ) {
   const { endpoint: endpointArray } = await params;
 

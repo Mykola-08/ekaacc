@@ -5,7 +5,12 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { CheckmarkCircle01Icon, Alert01Icon, Home01Icon, Calendar03Icon } from '@hugeicons/core-free-icons';
+import {
+  CheckmarkCircle01Icon,
+  Alert01Icon,
+  Home01Icon,
+  Calendar03Icon,
+} from '@hugeicons/core-free-icons';
 
 interface PaymentResultProps {
   status: 'success' | 'cancel';
@@ -26,9 +31,9 @@ export function PaymentResult({ status }: PaymentResultProps) {
             )}
           >
             {isSuccess ? (
-              <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-12"  />
+              <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-12" />
             ) : (
-              <HugeiconsIcon icon={Alert01Icon} className="size-12"  />
+              <HugeiconsIcon icon={Alert01Icon} className="size-12" />
             )}
           </div>
         </div>
@@ -49,7 +54,7 @@ export function PaymentResult({ status }: PaymentResultProps) {
           {isSuccess && (
             <Link href="/bookings">
               <Button className="h-12 w-full px-8 text-base sm:w-auto">
-                <HugeiconsIcon icon={Calendar03Icon} className="mr-2 size-4"  />
+                <HugeiconsIcon icon={Calendar03Icon} className="mr-2 size-4" />
                 View My Bookings
               </Button>
             </Link>
@@ -60,7 +65,7 @@ export function PaymentResult({ status }: PaymentResultProps) {
               variant={isSuccess ? 'outline' : 'default'}
               className={cn('h-12 w-full px-8 text-base sm:w-auto', !isSuccess && '')}
             >
-              <HugeiconsIcon icon={Home01Icon} className="mr-2 size-4"  />
+              <HugeiconsIcon icon={Home01Icon} className="mr-2 size-4" />
               Return to Home
             </Button>
           </Link>

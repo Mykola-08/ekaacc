@@ -35,8 +35,7 @@ export function BookingStepIndicator({
                     isCompleted && 'bg-primary ring-primary text-primary-foreground',
                     isCurrent &&
                       'bg-primary ring-primary/30 text-primary-foreground shadow-md ring-4',
-                    isUpcoming &&
-                      'bg-muted ring-border text-muted-foreground'
+                    isUpcoming && 'bg-muted ring-border text-muted-foreground'
                   )}
                 >
                   {isCompleted ? (
@@ -59,11 +58,10 @@ export function BookingStepIndicator({
 
               {/* Connector line between steps */}
               {step < totalSteps && (
-                <div className="mx-2 h-px flex-1 transition-all duration-300"
+                <div
+                  className="mx-2 h-px flex-1 transition-all duration-300"
                   style={{
-                    background: isCompleted
-                      ? 'var(--primary)'
-                      : 'var(--border)',
+                    background: isCompleted ? 'var(--primary)' : 'var(--border)',
                   }}
                 />
               )}

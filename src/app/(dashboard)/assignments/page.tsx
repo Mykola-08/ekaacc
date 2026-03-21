@@ -4,7 +4,9 @@ import { AssignmentsPageClient } from './assignments-client';
 
 export default async function AssignmentsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: assignments } = await supabase

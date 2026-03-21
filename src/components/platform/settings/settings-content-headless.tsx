@@ -16,7 +16,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { FloppyDiskIcon, GlobeIcon, LockIcon, Notification01Icon, UserIcon } from '@hugeicons/core-free-icons';
+import {
+  FloppyDiskIcon,
+  GlobeIcon,
+  LockIcon,
+  Notification01Icon,
+  UserIcon,
+} from '@hugeicons/core-free-icons';
 
 interface User {
   id: string;
@@ -46,9 +52,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
     darkMode: false,
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -99,7 +103,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
         {/* Content / Tab Panels */}
         <div className="col-span-12 md:col-span-9">
           {/* Profile Panel */}
-          <TabsContent value="profile" className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
+          <TabsContent
+            value="profile"
+            className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1"
+          >
             <div className="space-y-6">
               <div>
                 <h2 className="text-foreground text-xl font-semibold">Personal Information</h2>
@@ -156,7 +163,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           </TabsContent>
 
           {/* Notifications Panel */}
-          <TabsContent value="notifications" className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
+          <TabsContent
+            value="notifications"
+            className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1"
+          >
             <div className="space-y-6">
               <div>
                 <h2 className="text-foreground text-xl font-semibold">Notifications</h2>
@@ -209,7 +219,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           </TabsContent>
 
           {/* Security Panel */}
-          <TabsContent value="security" className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
+          <TabsContent
+            value="security"
+            className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1"
+          >
             <div className="space-y-6">
               <div>
                 <h2 className="text-foreground text-xl font-semibold">Security</h2>
@@ -237,7 +250,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           </TabsContent>
 
           {/* Preferences Panel */}
-          <TabsContent value="preferences" className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
+          <TabsContent
+            value="preferences"
+            className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1"
+          >
             <div className="space-y-6">
               <div>
                 <h2 className="text-foreground text-xl font-semibold">Preferences</h2>
@@ -247,7 +263,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Language</Label>
-                  <Select value={formData.language} onValueChange={(value) => setFormData((prev) => ({ ...prev, language: value }))}>
+                  <Select
+                    value={formData.language}
+                    onValueChange={(value) => setFormData((prev) => ({ ...prev, language: value }))}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -260,7 +279,10 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                 </div>
                 <div className="space-y-2">
                   <Label>Timezone</Label>
-                  <Select value={formData.timezone} onValueChange={(value) => setFormData((prev) => ({ ...prev, timezone: value }))}>
+                  <Select
+                    value={formData.timezone}
+                    onValueChange={(value) => setFormData((prev) => ({ ...prev, timezone: value }))}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>

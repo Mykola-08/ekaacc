@@ -10,7 +10,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/marketing/components/ui/button';
 import CTASection from '@/marketing/components/CTASection';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Tag01Icon, UserMultipleIcon, PercentSquareIcon, GiftIcon, Tick02Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
+import {
+  Tag01Icon,
+  UserMultipleIcon,
+  PercentSquareIcon,
+  GiftIcon,
+  Tick02Icon,
+  Cancel01Icon,
+} from '@hugeicons/core-free-icons';
 
 export default function DiscountsContent() {
   const { t } = useLanguage();
@@ -41,10 +48,9 @@ export default function DiscountsContent() {
     <PageLayout
       hero={{
         title: t('discounts.title'),
-        subtitle:
-          t('discounts.subtitle'),
+        subtitle: t('discounts.subtitle'),
         badge: t('discounts.badge'),
-        icon: <HugeiconsIcon icon={Tag01Icon} className="size-4"  />,
+        icon: <HugeiconsIcon icon={Tag01Icon} className="size-4" />,
       }}
     >
       {/* Success Notification */}
@@ -56,10 +62,8 @@ export default function DiscountsContent() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed top-24 right-4 z-50 flex items-center rounded-[var(--radius)] bg-green-500 px-6 py-4 text-white"
           >
-            <HugeiconsIcon icon={Tick02Icon} className="size-5"  />
-            <span className="font-medium">
-              {t('discounts.success')}
-            </span>
+            <HugeiconsIcon icon={Tick02Icon} className="size-5" />
+            <span className="font-medium">{t('discounts.success')}</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -75,7 +79,7 @@ export default function DiscountsContent() {
           >
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
               <div className="flex items-center">
-                <HugeiconsIcon icon={Tick02Icon} className="size-5"  />
+                <HugeiconsIcon icon={Tick02Icon} className="size-5" />
                 <span className="font-medium">
                   {selectedDiscount.name}{' '}
                   {t('discounts.active', { percentage: selectedDiscount.percentage })}
@@ -85,7 +89,7 @@ export default function DiscountsContent() {
                 onClick={removeDiscount}
                 className="flex items-center rounded-full bg-white/20 px-3 py-1.5 text-sm transition-colors hover:bg-white/30"
               >
-                <HugeiconsIcon icon={Cancel01Icon} className="size-4"  />
+                <HugeiconsIcon icon={Cancel01Icon} className="size-4" />
                 <span>{t('discounts.remove')}</span>
               </button>
             </div>
@@ -112,7 +116,7 @@ export default function DiscountsContent() {
                 {/* Header */}
                 <div className="relative mb-6 flex items-start justify-between">
                   <div className="flex h-14 w-14 items-center justify-center rounded-[var(--radius)] bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 transition-colors duration-300">
-                    <HugeiconsIcon icon={PercentSquareIcon} className="size-7"  />
+                    <HugeiconsIcon icon={PercentSquareIcon} className="size-7" />
                   </div>
                   {discount.isActive && (
                     <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold tracking-wide text-green-700 uppercase">
@@ -125,9 +129,7 @@ export default function DiscountsContent() {
                   <h3 className="mb-2 text-xl font-bold text-gray-900">{discount.name}</h3>
                   <div className="mb-4 flex items-baseline">
                     <span className="text-4xl font-bold text-blue-600">{discount.percentage}%</span>
-                    <span className="ml-2 font-medium text-gray-500">
-                      {t('discounts.off')}
-                    </span>
+                    <span className="ml-2 font-medium text-gray-500">{t('discounts.off')}</span>
                   </div>
                   <p className="text-sm leading-relaxed text-gray-600">{discount.description}</p>
                 </div>
@@ -137,7 +139,10 @@ export default function DiscountsContent() {
                   <div className="relative">
                     <div className="flex items-center justify-between rounded-[var(--radius)] border border-dashed border-gray-200 bg-gray-50 p-3 transition-colors group-hover:border-blue-200">
                       <div className="flex items-center overflow-hidden">
-                        <HugeiconsIcon icon={GiftIcon} className="size-4 flex-shrink-0 text-blue-500"  />
+                        <HugeiconsIcon
+                          icon={GiftIcon}
+                          className="size-4 flex-shrink-0 text-blue-500"
+                        />
                         <code className="truncate rounded bg-blue-50 px-2 py-0.5 text-sm font-bold text-blue-700">
                           {discount.code}
                         </code>
@@ -152,7 +157,7 @@ export default function DiscountsContent() {
 
                     {selectedDiscount?.code === discount.code ? (
                       <div className="flex w-full items-center justify-center gap-2 rounded-[var(--radius)] border border-green-100 bg-green-50 py-3 text-center text-sm font-medium text-green-700">
-                        <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
+                        <HugeiconsIcon icon={Tick02Icon} className="size-4" />
                         {t('discounts.activeBadge')}
                       </div>
                     ) : (
@@ -179,30 +184,25 @@ export default function DiscountsContent() {
             <h2 className="mb-4 text-3xl font-bold text-gray-900">
               {t('discounts.howToUse.title')}
             </h2>
-            <p className="text-gray-600">
-              {t('discounts.howToUse.subtitle')}
-            </p>
+            <p className="text-gray-600">{t('discounts.howToUse.subtitle')}</p>
           </div>
 
           <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-3">
             {[
               {
-                icon: <HugeiconsIcon icon={UserMultipleIcon}  />,
+                icon: <HugeiconsIcon icon={UserMultipleIcon} />,
                 title: t('discounts.step1.title'),
-                desc:
-                  t('discounts.step1.description'),
+                desc: t('discounts.step1.description'),
               },
               {
-                icon: <HugeiconsIcon icon={Tag01Icon}  />,
+                icon: <HugeiconsIcon icon={Tag01Icon} />,
                 title: t('discounts.step2.title'),
-                desc:
-                  t('discounts.step2.description'),
+                desc: t('discounts.step2.description'),
               },
               {
-                icon: <HugeiconsIcon icon={PercentSquareIcon}  />,
+                icon: <HugeiconsIcon icon={PercentSquareIcon} />,
                 title: t('discounts.step3.title'),
-                desc:
-                  t('discounts.step3.description'),
+                desc: t('discounts.step3.description'),
               },
             ].map((step, idx) => (
               <div key={idx} className="p-6 text-center">

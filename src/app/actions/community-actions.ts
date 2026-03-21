@@ -116,7 +116,10 @@ export async function reactToPost(postId: string, reaction: 'like' | 'heart' | '
 
   if (readError) return { success: false, error: readError.message };
 
-  const existing = ((post as any)?.reactions ?? { like: 0, heart: 0, pray: 0 }) as Record<string, number>;
+  const existing = ((post as any)?.reactions ?? { like: 0, heart: 0, pray: 0 }) as Record<
+    string,
+    number
+  >;
   const next = {
     like: Number(existing.like ?? 0),
     heart: Number(existing.heart ?? 0),
@@ -153,7 +156,9 @@ export async function createReply(input: { parent_id: string; content: string })
       is_published: true,
       published_at: new Date().toISOString(),
     })
-    .select('id, title, content, category, tags, likes_count, reactions, parent_id, is_anonymous, created_at, author:user_id(full_name, avatar_url)')
+    .select(
+      'id, title, content, category, tags, likes_count, reactions, parent_id, is_anonymous, created_at, author:user_id(full_name, avatar_url)'
+    )
     .single();
 
   if (error) return { success: false, error: error.message };

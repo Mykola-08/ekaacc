@@ -22,7 +22,7 @@ export default function LoadingButton({
     >
       {loading ? (
         <>
-          <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-5 animate-spin"  />
+          <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-5 animate-spin" />
           {children}
         </>
       ) : (

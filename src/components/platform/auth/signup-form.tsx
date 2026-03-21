@@ -97,11 +97,11 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
 
   return (
     <div className="mx-auto w-full max-w-sm">
-      <Card className="overflow-hidden rounded-[var(--radius)] border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
+      <Card className="border-border/30 bg-card/80 overflow-hidden rounded-[var(--radius)] border shadow-lg backdrop-blur-2xl">
         <CardContent className="p-7 sm:p-8">
           {/* Header */}
           <div className="mb-6 flex flex-col items-center gap-3 text-center">
-            <div className="rounded-[var(--radius)] border border-border/20 bg-card p-1.5 shadow-sm">
+            <div className="border-border/20 bg-card rounded-[var(--radius)] border p-1.5 shadow-sm">
               <Image
                 src="/images/eka_logo.png"
                 alt="EKA Balance"
@@ -112,12 +112,10 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
               />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-foreground">
+              <h1 className="text-foreground text-xl font-bold tracking-tight">
                 Create your account
               </h1>
-              <p className="mt-0.5 text-sm text-muted-foreground">
-                Join EKA Balance today
-              </p>
+              <p className="text-muted-foreground mt-0.5 text-sm">Join EKA Balance today</p>
             </div>
           </div>
 
@@ -231,7 +229,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                   <FormItem className="space-y-1.5">
                     <FormLabel className="text-sm font-medium">
                       Referral Code{' '}
-                      <span className="font-normal text-muted-foreground">(optional)</span>
+                      <span className="text-muted-foreground font-normal">(optional)</span>
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -241,7 +239,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                         onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                       />
                     </FormControl>
-                    <FormDescription className="text-xs text-muted-foreground">
+                    <FormDescription className="text-muted-foreground text-xs">
                       Have a referral code? Enter it to earn rewards.
                     </FormDescription>
                     <FormMessage className="text-xs" />
@@ -250,7 +248,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
               />
 
               {form.formState.errors.root && (
-                <div className="rounded-[var(--radius)] bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
+                <div className="bg-destructive/10 text-destructive rounded-[var(--radius)] px-4 py-3 text-center text-sm font-medium">
                   {form.formState.errors.root.message}
                 </div>
               )}
@@ -271,11 +269,11 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
             </form>
           </Form>
 
-          <p className="mt-5 text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-5 text-center text-sm">
             Already have an account?{' '}
             <Link
               href={nextUrl ? `/login?next=${encodeURIComponent(nextUrl)}` : '/login'}
-              className="font-semibold text-primary hover:underline"
+              className="text-primary font-semibold hover:underline"
             >
               Sign in
             </Link>
@@ -283,19 +281,19 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
         </CardContent>
       </Card>
 
-      <p className="mt-4 px-4 text-center text-xs text-muted-foreground/70">
+      <p className="text-muted-foreground/70 mt-4 px-4 text-center text-xs">
         By creating an account, you agree to our{' '}
-        <Link href="/legal/terms" className="underline hover:text-foreground transition-colors">
+        <Link href="/legal/terms" className="hover:text-foreground underline transition-colors">
           Terms
         </Link>
         ,{' '}
-        <Link href="/legal/privacy" className="underline hover:text-foreground transition-colors">
+        <Link href="/legal/privacy" className="hover:text-foreground underline transition-colors">
           Privacy Policy
         </Link>{' '}
         and{' '}
         <Link
           href="/legal/cookie-policy"
-          className="underline hover:text-foreground transition-colors"
+          className="hover:text-foreground underline transition-colors"
         >
           Cookie Policy
         </Link>

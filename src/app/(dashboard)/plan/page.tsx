@@ -1,5 +1,13 @@
 import { getEntitlementSummary } from '@/app/actions/entitlements-actions';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter, CardAction } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+  CardAction,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -19,16 +27,26 @@ function formatCurrency(cents: number) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cents / 100);
 }
 
-function BenefitRow({ icon, label, value, sub }: { icon: any; label: string; value: string; sub?: string }) {
+function BenefitRow({
+  icon,
+  label,
+  value,
+  sub,
+}: {
+  icon: any;
+  label: string;
+  value: string;
+  sub?: string;
+}) {
   return (
-    <div className="flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] border border-border/60 p-3">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-muted">
-        <HugeiconsIcon icon={icon} className="size-4 text-muted-foreground" />
+    <div className="border-border/60 flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] border p-3">
+      <div className="bg-muted flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
+        <HugeiconsIcon icon={icon} className="text-muted-foreground size-4" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className="text-muted-foreground text-xs">{label}</p>
         <p className="text-sm font-semibold">{value}</p>
-        {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
+        {sub && <p className="text-muted-foreground text-xs">{sub}</p>}
       </div>
     </div>
   );
@@ -38,9 +56,7 @@ export default async function PlanPage() {
   const { data } = await getEntitlementSummary();
 
   const sessionPct =
-    data.sessionsIncluded > 0
-      ? Math.round((data.sessionsUsed / data.sessionsIncluded) * 100)
-      : 0;
+    data.sessionsIncluded > 0 ? Math.round((data.sessionsUsed / data.sessionsIncluded) * 100) : 0;
   const hasPlan = data.planStatus === 'active';
 
   return (
@@ -49,7 +65,7 @@ export default async function PlanPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight">Plan &amp; Benefits</h1>
-          <p className="text-sm text-muted-foreground">Everything unlocked for your account</p>
+          <p className="text-muted-foreground text-sm">Everything unlocked for your account</p>
         </div>
         {hasPlan && (
           <Badge variant="default" className="capitalize">
@@ -65,8 +81,12 @@ export default async function PlanPage() {
           <CardTitle className="text-2xl font-bold">{data.planName}</CardTitle>
           {data.renewalDate && (
             <CardAction>
-              <span className="text-xs text-muted-foreground">
-                Renews {new Date(data.renewalDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+              <span className="text-muted-foreground text-xs">
+                Renews{' '}
+                {new Date(data.renewalDate).toLocaleDateString(undefined, {
+                  month: 'short',
+                  day: 'numeric',
+                })}
               </span>
             </CardAction>
           )}
@@ -88,7 +108,7 @@ export default async function PlanPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <HugeiconsIcon icon={Calendar03Icon} className="size-4 text-muted-foreground" />
+              <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-4" />
               <CardTitle className="text-sm font-semibold">Session Credits</CardTitle>
             </div>
             <CardAction>
@@ -103,12 +123,12 @@ export default async function PlanPage() {
           <CardContent className="space-y-3">
             <div className="flex items-end justify-between">
               <p className="text-3xl font-bold tabular-nums">{data.sessionsRemaining}</p>
-              <p className="text-sm text-muted-foreground pb-1">
+              <p className="text-muted-foreground pb-1 text-sm">
                 {data.sessionsUsed} of {data.sessionsIncluded} used
               </p>
             </div>
             <Progress value={sessionPct} className="h-2" />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               {data.sessionsRemaining === 0
                 ? 'All sessions used — upgrade to add more'
                 : `${data.sessionsRemaining} session${data.sessionsRemaining !== 1 ? 's' : ''} remaining this period`}
@@ -123,7 +143,11 @@ export default async function PlanPage() {
           icon={Wallet01Icon}
           label="Shop discount"
           value={data.discountPercent > 0 ? `${data.discountPercent}% off` : 'No discount'}
-          sub={data.discountPercent > 0 ? 'Applied at checkout automatically' : 'Upgrade to unlock discounts'}
+          sub={
+            data.discountPercent > 0
+              ? 'Applied at checkout automatically'
+              : 'Upgrade to unlock discounts'
+          }
         />
         <BenefitRow
           icon={Wallet01Icon}
@@ -135,13 +159,19 @@ export default async function PlanPage() {
           icon={UserGroupIcon}
           label="Community access"
           value={data.communityTier === 'premium' ? 'Premium' : 'Standard'}
-          sub={data.communityTier === 'premium' ? 'Full community access unlocked' : 'Basic community access'}
+          sub={
+            data.communityTier === 'premium'
+              ? 'Full community access unlocked'
+              : 'Basic community access'
+          }
         />
         <BenefitRow
           icon={FolderOpenIcon}
           label="Resources access"
           value={data.resourcesTier === 'premium' ? 'Full library' : 'Basic library'}
-          sub={data.resourcesTier === 'premium' ? 'All resources unlocked' : 'Limited resource access'}
+          sub={
+            data.resourcesTier === 'premium' ? 'All resources unlocked' : 'Limited resource access'
+          }
         />
       </div>
 
@@ -150,7 +180,7 @@ export default async function PlanPage() {
         <Card className="border-primary/20 bg-primary/5">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <HugeiconsIcon icon={SparklesIcon} className="size-4 text-primary" />
+              <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4" />
               <CardTitle className="text-sm font-semibold">Unlock More with a Plan</CardTitle>
             </div>
             <CardDescription className="text-xs">
@@ -166,7 +196,10 @@ export default async function PlanPage() {
                 'Priority booking slots',
               ].map((benefit) => (
                 <div key={benefit} className="flex items-center gap-2 text-sm">
-                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4 shrink-0 text-primary" />
+                  <HugeiconsIcon
+                    icon={CheckmarkCircle01Icon}
+                    className="text-primary size-4 shrink-0"
+                  />
                   {benefit}
                 </div>
               ))}

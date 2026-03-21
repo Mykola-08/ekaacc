@@ -5,7 +5,9 @@ import { revalidatePath } from 'next/cache';
 
 export async function getMyProfile() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: null, error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -25,7 +27,9 @@ export async function updateProfile(input: {
   specialties?: string[];
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase

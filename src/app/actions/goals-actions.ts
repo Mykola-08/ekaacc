@@ -5,7 +5,9 @@ import { revalidatePath } from 'next/cache';
 
 export async function getGoals(status = 'active') {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: [], error: 'Unauthenticated' };
 
   const query = supabase
@@ -27,7 +29,9 @@ export async function createGoal(input: {
   target_date?: string;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -43,7 +47,9 @@ export async function createGoal(input: {
 
 export async function updateGoalProgress(id: string, progress: number) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const normalizedProgress = Math.min(100, Math.max(0, progress));
@@ -96,14 +102,12 @@ export async function getGoalProgressHistory(goalId: string) {
 
 export async function deleteGoal(id: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
-  const { error } = await supabase
-    .from('goals')
-    .delete()
-    .eq('id', id)
-    .eq('user_id', user.id);
+  const { error } = await supabase.from('goals').delete().eq('id', id).eq('user_id', user.id);
 
   if (error) return { success: false, error: error.message };
   revalidatePath('/goals');

@@ -3,10 +3,7 @@
 import * as React from 'react';
 
 import { SuggestionPlugin } from '@platejs/suggestion/react';
-import {
-  type DropdownMenuProps,
-  DropdownMenuItemIndicator,
-} from '@radix-ui/react-dropdown-menu';
+import { type DropdownMenuProps, DropdownMenuItemIndicator } from '@radix-ui/react-dropdown-menu';
 import { CheckIcon, EyeIcon, PencilLineIcon, PenIcon } from 'lucide-react';
 import { useEditorRef, usePlateState, usePluginOption } from 'platejs/react';
 
@@ -83,7 +80,7 @@ export function ModeToolbarButton(props: DropdownMenuProps) {
           }}
         >
           <DropdownMenuRadioItem
-            className="pl-2 *:first:[span]:hidden *:[svg]:text-muted-foreground"
+            className="*:[svg]:text-muted-foreground pl-2 *:first:[span]:hidden"
             value="editing"
           >
             <Indicator />
@@ -92,7 +89,7 @@ export function ModeToolbarButton(props: DropdownMenuProps) {
           </DropdownMenuRadioItem>
 
           <DropdownMenuRadioItem
-            className="pl-2 *:first:[span]:hidden *:[svg]:text-muted-foreground"
+            className="*:[svg]:text-muted-foreground pl-2 *:first:[span]:hidden"
             value="viewing"
           >
             <Indicator />
@@ -101,7 +98,7 @@ export function ModeToolbarButton(props: DropdownMenuProps) {
           </DropdownMenuRadioItem>
 
           <DropdownMenuRadioItem
-            className="pl-2 *:first:[span]:hidden *:[svg]:text-muted-foreground"
+            className="*:[svg]:text-muted-foreground pl-2 *:first:[span]:hidden"
             value="suggestion"
           >
             <Indicator />

@@ -7,7 +7,12 @@ import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { TelegramClientUI } from './telegram-client-ui';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Clock01Icon, CheckmarkCircle01Icon, WorkHistoryIcon, Calendar03Icon } from '@hugeicons/core-free-icons';
+import {
+  Clock01Icon,
+  CheckmarkCircle01Icon,
+  WorkHistoryIcon,
+  Calendar03Icon,
+} from '@hugeicons/core-free-icons';
 
 export default async function TelegramDashboardPage() {
   const supabase = await createClient();
@@ -78,9 +83,14 @@ export default async function TelegramDashboardPage() {
               Nova Reserva
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="bg-card h-14 w-full rounded-[var(--radius)]">
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="bg-card h-14 w-full rounded-[var(--radius)]"
+          >
             <Link href="/dashboard/wallet">
-              <HugeiconsIcon icon={WorkHistoryIcon} className="mr-2 size-5"  />
+              <HugeiconsIcon icon={WorkHistoryIcon} className="mr-2 size-5" />
               El meu Moneder
             </Link>
           </Button>
@@ -89,7 +99,7 @@ export default async function TelegramDashboardPage() {
         {/* Upcoming */}
         <section>
           <h2 className="mb-3 flex items-center text-lg font-semibold">
-            <HugeiconsIcon icon={Clock01Icon} className="text-primary mr-2 size-5"  />
+            <HugeiconsIcon icon={Clock01Icon} className="text-primary mr-2 size-5" />
             Properes Cites
           </h2>
 
@@ -133,7 +143,10 @@ export default async function TelegramDashboardPage() {
         {/* Past Bookings */}
         <section>
           <h2 className="mt-8 mb-3 flex items-center text-lg font-semibold">
-            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-muted-foreground mr-2 size-5"  />
+            <HugeiconsIcon
+              icon={CheckmarkCircle01Icon}
+              className="text-muted-foreground mr-2 size-5"
+            />
             Historial Recent
           </h2>
 

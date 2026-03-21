@@ -26,7 +26,15 @@ import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { useRouter } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Wallet01Icon, CreditCardIcon, WorkHistoryIcon, Add01Icon, Cancel01Icon, Tick02Icon, Alert01Icon } from '@hugeicons/core-free-icons';
+import {
+  Wallet01Icon,
+  CreditCardIcon,
+  WorkHistoryIcon,
+  Add01Icon,
+  Cancel01Icon,
+  Tick02Icon,
+  Alert01Icon,
+} from '@hugeicons/core-free-icons';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -226,7 +234,7 @@ export function WalletContentHeadless({
                   onClick={handleTopUpClick}
                   className="bg-card hover:bg-muted text-foreground mt-2 flex w-full items-center justify-center gap-2 rounded-[var(--radius)] py-3 font-semibold transition-colors"
                 >
-                  <HugeiconsIcon icon={Add01Icon} className="size-5"  />
+                  <HugeiconsIcon icon={Add01Icon} className="size-5" />
                   Add Funds
                 </button>
               </div>
@@ -269,7 +277,10 @@ export function WalletContentHeadless({
                 {initialTransactions.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                      <HugeiconsIcon icon={WorkHistoryIcon} className="text-muted-foreground/60 size-8"  />
+                      <HugeiconsIcon
+                        icon={WorkHistoryIcon}
+                        className="text-muted-foreground/60 size-8"
+                      />
                     </div>
                     <p className="font-medium">No transactions yet</p>
                     <p className="text-sm">
@@ -293,9 +304,9 @@ export function WalletContentHeadless({
                             )}
                           >
                             {tx.amount > 0 ? (
-                              <HugeiconsIcon icon={Add01Icon} className="size-5"  />
+                              <HugeiconsIcon icon={Add01Icon} className="size-5" />
                             ) : (
-                              <HugeiconsIcon icon={CreditCardIcon} className="size-5"  />
+                              <HugeiconsIcon icon={CreditCardIcon} className="size-5" />
                             )}
                           </div>
                           <div>
@@ -326,7 +337,10 @@ export function WalletContentHeadless({
                 {initialPlans.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                      <HugeiconsIcon icon={Wallet01Icon} className="text-muted-foreground/60 size-8"  />
+                      <HugeiconsIcon
+                        icon={Wallet01Icon}
+                        className="text-muted-foreground/60 size-8"
+                      />
                     </div>
                     <p className="font-medium">No active plans</p>
                     <p className="text-sm">Purchase a bundle or subscription to see it here.</p>
@@ -370,7 +384,10 @@ export function WalletContentHeadless({
             {pmLoading ? (
               <div className="">
                 {[1, 2].map((i) => (
-                  <div key={i} className="bg-muted h-16 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
+                  <div
+                    key={i}
+                    className="bg-muted h-16 animate-pulse rounded-[calc(var(--radius)*0.8)]"
+                  />
                 ))}
               </div>
             ) : paymentMethods.length > 0 ? (
@@ -399,7 +416,10 @@ export function WalletContentHeadless({
               </div>
             ) : (
               <div className="bg-muted/30 border-border mb-4 flex flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] border py-8 text-center">
-                <HugeiconsIcon icon={CreditCardIcon} className="text-muted-foreground/40 mb-2 size-8"  />
+                <HugeiconsIcon
+                  icon={CreditCardIcon}
+                  className="text-muted-foreground/40 mb-2 size-8"
+                />
                 <p className="text-muted-foreground text-sm">No payment methods saved</p>
                 <p className="text-muted-foreground/70 text-xs">
                   Add a card by topping up your wallet
@@ -417,7 +437,7 @@ export function WalletContentHeadless({
           <div className="border-primary/10 bg-primary/5 rounded-[calc(var(--radius)*0.8)] border p-8">
             <div className="flex items-start gap-4">
               <div className="bg-primary/10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
-                <HugeiconsIcon icon={Alert01Icon} className="text-primary size-5"  />
+                <HugeiconsIcon icon={Alert01Icon} className="text-primary size-5" />
               </div>
               <div>
                 <h3 className="text-foreground mb-2 text-lg font-semibold">Need Help?</h3>
@@ -473,7 +493,7 @@ export function WalletContentHeadless({
                       onClick={closeModal}
                       className="hover:bg-muted rounded-full p-2 transition-colors"
                     >
-                      <HugeiconsIcon icon={Cancel01Icon} className="text-muted-foreground size-5"  />
+                      <HugeiconsIcon icon={Cancel01Icon} className="text-muted-foreground size-5" />
                     </button>
                   </DialogTitle>
 

@@ -21,7 +21,7 @@ export function SuspenseBoundary({ children, fallback, className }: SuspenseBoun
             )}
           >
             <div className="flex flex-col items-center gap-4">
-              <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin"  />
+              <HugeiconsIcon icon={Loading03Icon} className="text-primary size-8 animate-spin" />
               <span className="text-sm font-medium">Carregant...</span>
             </div>
           </div>

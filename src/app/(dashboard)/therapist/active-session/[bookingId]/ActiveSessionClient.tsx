@@ -20,8 +20,17 @@ import { ProtocolRunner } from '@/components/dashboard/therapist/active-session/
 import { ConstellationManager } from '@/components/dashboard/therapist/active-session/ConstellationManager';
 import dynamic from 'next/dynamic';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Clock01Icon, CheckmarkCircle01Icon, File01Icon, Alert01Icon, Activity01Icon, UserMultipleIcon, Book02Icon, Video01Icon, Brain02Icon } from '@hugeicons/core-free-icons';
-
+import {
+  Clock01Icon,
+  CheckmarkCircle01Icon,
+  File01Icon,
+  Alert01Icon,
+  Activity01Icon,
+  UserMultipleIcon,
+  Book02Icon,
+  Video01Icon,
+  Brain02Icon,
+} from '@hugeicons/core-free-icons';
 
 const VideoCallPanel = dynamic(
   () =>
@@ -30,7 +39,9 @@ const VideoCallPanel = dynamic(
     ),
   {
     ssr: false,
-    loading: () => <div className="bg-muted h-full min-h-100 w-full animate-pulse rounded-[var(--radius)]" />,
+    loading: () => (
+      <div className="bg-muted h-full min-h-100 w-full animate-pulse rounded-[var(--radius)]" />
+    ),
   }
 );
 
@@ -103,9 +114,10 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
         </div>
 
         <div className="bg-muted/30 flex items-center gap-4 rounded-[var(--radius)] border px-4 py-2">
-          <HugeiconsIcon icon={Clock01Icon}
+          <HugeiconsIcon
+            icon={Clock01Icon}
             className={`size-5 ${isRunning ? 'text-primary animate-pulse' : 'text-muted-foreground'}`}
-           />
+          />
           <span className="font-mono text-2xl font-semibold tracking-wider tabular-nums">
             {formatTime(sessionTime)}
           </span>
@@ -117,7 +129,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
             {isRunning ? 'Pause' : 'Start'}
           </Button>
           <Button variant="default" size="sm" className="bg-primary" onClick={endSession}>
-            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-2 size-4"  />
+            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-2 size-4" />
             End Session
           </Button>
         </div>
@@ -130,7 +142,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
             <div className="flex h-full flex-col">
               <div className="bg-card border-b p-4">
                 <h2 className="flex items-center gap-2 font-semibold tracking-tight">
-                  <HugeiconsIcon icon={Activity01Icon} className="text-primary size-4"  />
+                  <HugeiconsIcon icon={Activity01Icon} className="text-primary size-4" />
                   Client Context Snapshot
                 </h2>
               </div>
@@ -198,11 +210,11 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
               <Tabs defaultValue="notes" className="flex h-full flex-col">
                 <TabsList className="mb-4 grid w-fit auto-cols-max grid-flow-col">
                   <TabsTrigger value="notes" className="flex gap-2">
-                    <HugeiconsIcon icon={File01Icon} className="size-4"  />
+                    <HugeiconsIcon icon={File01Icon} className="size-4" />
                     Clinical Scratchpad
                   </TabsTrigger>
                   <TabsTrigger value="protocols" className="flex gap-2">
-                    <HugeiconsIcon icon={Book02Icon} className="size-4"  />
+                    <HugeiconsIcon icon={Book02Icon} className="size-4" />
                     Protocols
                   </TabsTrigger>
                   {hasKinesiology && (
@@ -212,11 +224,11 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                     </TabsTrigger>
                   )}
                   <TabsTrigger value="constellations" className="flex gap-2">
-                    <HugeiconsIcon icon={UserMultipleIcon} className="size-4"  />
+                    <HugeiconsIcon icon={UserMultipleIcon} className="size-4" />
                     Systemic Tracking
                   </TabsTrigger>
                   <TabsTrigger value="video" className="flex gap-2">
-                    <HugeiconsIcon icon={Video01Icon} className="size-4"  />
+                    <HugeiconsIcon icon={Video01Icon} className="size-4" />
                     Telehealth
                   </TabsTrigger>
                 </TabsList>
@@ -289,9 +301,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
 
                           <div className="grid grid-cols-1 gap-6 pt-4 md:grid-cols-3">
                             <div className="bg-muted/20 space-y-3 rounded-[calc(var(--radius)*1.8)] border p-4">
-                              <h4 className="font-medium text-primary">
-                                Structural Corrections
-                              </h4>
+                              <h4 className="text-primary font-medium">Structural Corrections</h4>
                               <Textarea
                                 placeholder="Cranial faults, spinal fixations, muscle spindle..."
                                 className="bg-background h-24 resize-none"
@@ -301,9 +311,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                             </div>
 
                             <div className="bg-muted/20 space-y-3 rounded-[calc(var(--radius)*1.8)] border p-4">
-                              <h4 className="font-medium text-success">
-                                Chemical / Nutritional
-                              </h4>
+                              <h4 className="text-success font-medium">Chemical / Nutritional</h4>
                               <Textarea
                                 placeholder="Testing vials, supplements indicated..."
                                 className="bg-background h-24 resize-none"
@@ -313,9 +321,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                             </div>
 
                             <div className="bg-muted/20 space-y-3 rounded-[calc(var(--radius)*1.8)] border p-4">
-                              <h4 className="font-medium text-muted-foreground">
-                                Emotional
-                              </h4>
+                              <h4 className="text-muted-foreground font-medium">Emotional</h4>
                               <Textarea
                                 placeholder="Neurovascular holding points, affirmations..."
                                 className="bg-background h-24 resize-none"

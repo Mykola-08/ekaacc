@@ -103,7 +103,7 @@
   }
 
   .text-body-lg {
-    @apply text-lg leading-relaxed text-muted-foreground sm:text-xl;
+    @apply text-muted-foreground text-lg leading-relaxed sm:text-xl;
     letter-spacing: -0.015em;
   }
 
@@ -135,7 +135,7 @@
       var(--font-inter),
       -apple-system,
       sans-serif;
-    @apply text-3xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl dark:text-white;
+    @apply text-foreground text-3xl sm:text-5xl md:text-6xl lg:text-7xl dark:text-white;
     font-weight: 600;
     letter-spacing: -0.04em;
     line-height: 1.05;
@@ -147,7 +147,7 @@
       var(--font-inter),
       -apple-system,
       sans-serif;
-    @apply text-2xl text-foreground sm:text-3xl md:text-4xl dark:text-white;
+    @apply text-foreground text-2xl sm:text-3xl md:text-4xl dark:text-white;
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.15;
@@ -155,7 +155,7 @@
 
   .apple-subtitle,
   .heading-3 {
-    @apply text-lg text-muted-foreground sm:text-xl md:text-2xl dark:text-gray-400;
+    @apply text-muted-foreground text-lg sm:text-xl md:text-2xl dark:text-gray-400;
     font-weight: 400;
     letter-spacing: -0.015em;
     line-height: 1.4;

@@ -11,7 +11,18 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { FloppyDiskIcon, ListViewIcon, SparklesIcon } from '@hugeicons/core-free-icons';
-import { Bold, Italic, Underline, Strikethrough, Code, Heading1, Heading2, Heading3, ListOrdered, Quote } from 'lucide-react';
+import {
+  Bold,
+  Italic,
+  Underline,
+  Strikethrough,
+  Code,
+  Heading1,
+  Heading2,
+  Heading3,
+  ListOrdered,
+  Quote,
+} from 'lucide-react';
 
 const HOTKEYS: Record<string, string> = {
   'mod+b': 'bold',
@@ -91,7 +102,7 @@ export function RichTextEditor({
             {showAIAssist && (
               <>
                 <Button variant="outline" size="sm" className="gap-2">
-                  <HugeiconsIcon icon={SparklesIcon} className="size-4"  />
+                  <HugeiconsIcon icon={SparklesIcon} className="size-4" />
                   AI Assist
                 </Button>
                 <Separator orientation="vertical" className="mx-1 h-6" />
@@ -101,7 +112,7 @@ export function RichTextEditor({
             {/* Save button */}
             {onSave && (
               <Button onClick={handleSave} size="sm" className="gap-2">
-                <HugeiconsIcon icon={FloppyDiskIcon} className="size-4"  />
+                <HugeiconsIcon icon={FloppyDiskIcon} className="size-4" />
                 Save
               </Button>
             )}

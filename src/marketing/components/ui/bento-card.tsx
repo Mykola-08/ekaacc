@@ -36,7 +36,7 @@ export function BentoCard({
         <Link
           href={href}
           onMouseMove={handleMouseMove}
-          className="group border-secondary/50 relative isolate block h-full w-full overflow-hidden rounded-[var(--radius)] border bg-background transition-shadow duration-500 outline-none"
+          className="group border-secondary/50 bg-background relative isolate block h-full w-full overflow-hidden rounded-[var(--radius)] border transition-shadow duration-500 outline-none"
         >
           {/* Spotlight overlay */}
           <motion.div

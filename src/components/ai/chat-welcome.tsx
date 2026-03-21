@@ -10,7 +10,14 @@
 import * as motion from 'motion/react-client';
 import { Suggestions, Suggestion } from '@/components/ai-elements/suggestion';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Brain01Icon, FavouriteIcon, Calendar03Icon, AnalyticsUpIcon, SparklesIcon, Message01Icon } from '@hugeicons/core-free-icons';
+import {
+  Brain01Icon,
+  FavouriteIcon,
+  Calendar03Icon,
+  AnalyticsUpIcon,
+  SparklesIcon,
+  Message01Icon,
+} from '@hugeicons/core-free-icons';
 
 interface ChatWelcomeProps {
   userName?: string | null;
@@ -62,7 +69,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-[calc(var(--radius)*0.8)]"
         >
-          <HugeiconsIcon icon={SparklesIcon} className="text-primary size-8"  />
+          <HugeiconsIcon icon={SparklesIcon} className="text-primary size-8" />
         </motion.div>
         <h1 className="text-foreground mb-1 text-2xl font-semibold tracking-tight">
           {greeting}
@@ -128,7 +135,7 @@ export function ChatWelcome({ userName, onSuggestion }: ChatWelcomeProps) {
         transition={{ duration: 0.4, delay: 0.6 }}
         className="text-muted-foreground flex items-center gap-1.5 text-xs"
       >
-        <HugeiconsIcon icon={Message01Icon} className="size-3"  />
+        <HugeiconsIcon icon={Message01Icon} className="size-3" />
         <span>Ask me anything about your wellness journey</span>
       </motion.div>
     </div>

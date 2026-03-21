@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Book02Icon, Add01Icon, Calendar03Icon, SmileIcon, Sad01Icon, MehIcon } from '@hugeicons/core-free-icons';
+import {
+  Book02Icon,
+  Add01Icon,
+  Calendar03Icon,
+  SmileIcon,
+  Sad01Icon,
+  MehIcon,
+} from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -167,13 +174,16 @@ export function JournalPage() {
       {loading ? (
         <div className="">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-muted h-32 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
+            <div
+              key={i}
+              className="bg-muted h-32 animate-pulse rounded-[calc(var(--radius)*0.8)]"
+            />
           ))}
         </div>
       ) : entries.length === 0 ? (
         <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] border-2 border-dashed py-20 text-center">
           <div className="bg-card mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-            <HugeiconsIcon icon={Book02Icon} className="size-8 text-muted-foreground/50" />
+            <HugeiconsIcon icon={Book02Icon} className="text-muted-foreground/50 size-8" />
           </div>
           <h3 className="text-foreground text-lg font-semibold">No entries yet</h3>
           <p className="text-muted-foreground mt-1 text-sm">

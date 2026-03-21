@@ -45,7 +45,7 @@ export default function TechniqueDetailContent({ id }: TechniqueDetailContentPro
           href="/#techniques"
           className="group mb-8 inline-flex items-center text-gray-600 transition-colors hover:text-blue-600"
         >
-          <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-5 transition-colors"  />
+          <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-5 transition-colors" />
           {t('common.back')}
         </Link>
 

@@ -32,20 +32,20 @@ function severityStyles(severity: string) {
   if (severity === 'critical') {
     return {
       border: 'border-destructive/20 bg-destructive/5',
-      icon: <HugeiconsIcon icon={Cancel01Icon} className="size-4 shrink-0 text-destructive" />,
+      icon: <HugeiconsIcon icon={Cancel01Icon} className="text-destructive size-4 shrink-0" />,
       badge: 'bg-destructive/10 text-destructive border-destructive/20',
     };
   }
   if (severity === 'warning') {
     return {
       border: 'border-warning/20 bg-warning/5',
-      icon: <HugeiconsIcon icon={Alert02Icon} className="size-4 shrink-0 text-warning" />,
+      icon: <HugeiconsIcon icon={Alert02Icon} className="text-warning size-4 shrink-0" />,
       badge: 'bg-warning/10 text-warning border-warning/20',
     };
   }
   return {
     border: 'border-primary/15 bg-primary/5',
-    icon: <HugeiconsIcon icon={SparklesIcon} className="size-4 shrink-0 text-primary" />,
+    icon: <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4 shrink-0" />,
     badge: 'bg-primary/10 text-primary border-primary/20',
   };
 }
@@ -57,21 +57,24 @@ export function AIInsightCards() {
   const [dismissing, setDismissing] = useState<Set<string>>(new Set());
   const { toast } = useToast();
 
-  const fetchInsights = useCallback(async (silent = false) => {
-    if (!silent) setLoading(true);
-    else setRefreshing(true);
-    try {
-      const res = await fetch('/api/ai/insights');
-      if (!res.ok) throw new Error('Failed to fetch insights');
-      const data: InsightsResponse = await res.json();
-      setInsights(data.insights ?? []);
-    } catch {
-      toast({ title: 'Could not load insights', variant: 'destructive' });
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, [toast]);
+  const fetchInsights = useCallback(
+    async (silent = false) => {
+      if (!silent) setLoading(true);
+      else setRefreshing(true);
+      try {
+        const res = await fetch('/api/ai/insights');
+        if (!res.ok) throw new Error('Failed to fetch insights');
+        const data: InsightsResponse = await res.json();
+        setInsights(data.insights ?? []);
+      } catch {
+        toast({ title: 'Could not load insights', variant: 'destructive' });
+      } finally {
+        setLoading(false);
+        setRefreshing(false);
+      }
+    },
+    [toast]
+  );
 
   useEffect(() => {
     fetchInsights();
@@ -104,7 +107,7 @@ export function AIInsightCards() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-          <HugeiconsIcon icon={SparklesIcon} className="size-4 text-primary" />
+          <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4" />
           Personalized Insights
         </CardTitle>
         <CardAction>
@@ -132,7 +135,7 @@ export function AIInsightCards() {
               {[0, 1, 2].map((i) => (
                 <div
                   key={i}
-                  className="h-16 animate-pulse rounded-[var(--radius)] bg-muted"
+                  className="bg-muted h-16 animate-pulse rounded-[var(--radius)]"
                   style={{ animationDelay: `${i * 80}ms` }}
                 />
               ))}
@@ -142,10 +145,10 @@ export function AIInsightCards() {
           {/* Empty state */}
           {!loading && insights.length === 0 && (
             <div className="flex flex-col items-center gap-2 py-6 text-center">
-              <div className="flex size-10 items-center justify-center rounded-[var(--radius)] bg-muted/60">
-                <HugeiconsIcon icon={SparklesIcon} className="size-5 text-muted-foreground/50" />
+              <div className="bg-muted/60 flex size-10 items-center justify-center rounded-[var(--radius)]">
+                <HugeiconsIcon icon={SparklesIcon} className="text-muted-foreground/50 size-5" />
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No insights yet — they'll appear as you use the app
               </p>
             </div>
@@ -160,9 +163,9 @@ export function AIInsightCards() {
                 <div
                   key={insight.id}
                   className={cn(
-                    'rounded-[var(--radius)] border p-3 transition-all duration-200 animate-in fade-in',
+                    'animate-in fade-in rounded-[var(--radius)] border p-3 transition-all duration-200',
                     styles.border,
-                    isDismissing && 'opacity-0 scale-95 pointer-events-none'
+                    isDismissing && 'pointer-events-none scale-95 opacity-0'
                   )}
                   style={{ animationDelay: `${i * 60}ms` }}
                 >
@@ -176,7 +179,7 @@ export function AIInsightCards() {
                         >
                           {insight.insight_type.replace(/_/g, ' ')}
                         </Badge>
-                        <p className="text-sm leading-snug text-foreground/90 line-clamp-3">
+                        <p className="text-foreground/90 line-clamp-3 text-sm leading-snug">
                           {insight.content}
                         </p>
                       </div>
@@ -184,7 +187,7 @@ export function AIInsightCards() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 shrink-0 px-2 text-[11px] text-muted-foreground hover:text-foreground"
+                      className="text-muted-foreground hover:text-foreground h-6 shrink-0 px-2 text-[11px]"
                       onClick={() => handleDismiss(insight.id)}
                       aria-label="Dismiss insight"
                     >
@@ -201,7 +204,7 @@ export function AIInsightCards() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="mt-1 h-7 w-full gap-1 text-xs text-muted-foreground hover:text-primary"
+                className="text-muted-foreground hover:text-primary mt-1 h-7 w-full gap-1 text-xs"
               >
                 View all insights
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />

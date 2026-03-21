@@ -57,10 +57,7 @@ function buildGenerateFreeformPrompt(messages: ChatMessage[]) {
   });
 }
 
-function buildGenerateContextPrompt(
-  editor: SlateEditor,
-  messages: ChatMessage[]
-) {
+function buildGenerateContextPrompt(editor: SlateEditor, messages: ChatMessage[]) {
   if (!isMultiBlocks(editor)) {
     addSelection(editor);
   }

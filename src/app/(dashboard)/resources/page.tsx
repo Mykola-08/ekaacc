@@ -5,7 +5,9 @@ import { getSavedResourceIds, getSavedResourceState } from '@/app/actions/resour
 
 export default async function ResourcesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const [{ data: resources }, savedResourceIds, savedState] = await Promise.all([

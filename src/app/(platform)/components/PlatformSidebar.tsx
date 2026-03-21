@@ -4,7 +4,18 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { DashboardSquare01Icon, UserCircleIcon, Book01Icon, Settings02Icon, Logout01Icon, ActivityIcon, Layout01Icon, Calendar03Icon, CreditCardIcon, Notification03Icon } from '@hugeicons/core-free-icons';
+import {
+  DashboardSquare01Icon,
+  UserCircleIcon,
+  Book01Icon,
+  Settings02Icon,
+  Logout01Icon,
+  ActivityIcon,
+  Layout01Icon,
+  Calendar03Icon,
+  CreditCardIcon,
+  Notification03Icon,
+} from '@hugeicons/core-free-icons';
 import {
   Sidebar,
   SidebarContent,

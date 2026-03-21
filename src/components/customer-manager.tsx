@@ -122,14 +122,11 @@ export const CustomerManager = () => {
           type="text"
           placeholder="Enter Payment ID"
           value={paymentId}
-          onChange={e => setPaymentId((e.target as HTMLInputElement).value as string)}
+          onChange={(e) => setPaymentId((e.target as HTMLInputElement).value as string)}
           className="bg-background border-input rounded-[calc(var(--radius)*0.6)] border p-2"
         />
 
-        <button
-          onClick={handleCreateRefund}
-          disabled={!paymentId || createRefund.loading}
-        >
+        <button onClick={handleCreateRefund} disabled={!paymentId || createRefund.loading}>
           {createRefund.loading ? 'Processing...' : 'Create $10 Refund'}
         </button>
       </section>

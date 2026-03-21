@@ -4,11 +4,7 @@ import * as React from 'react';
 
 import { type UseChatHelpers, useChat as useBaseChat } from '@ai-sdk/react';
 import { faker } from '@faker-js/faker';
-import {
-  AIChatPlugin,
-  aiCommentToRange,
-  applyTableCellSuggestion,
-} from '@platejs/ai/react';
+import { AIChatPlugin, aiCommentToRange, applyTableCellSuggestion } from '@platejs/ai/react';
 import { getCommentKey, getTransientCommentKey } from '@platejs/comment';
 import { deserializeMd } from '@platejs/markdown';
 import { BlockSelectionPlugin } from '@platejs/selection/react';
@@ -88,9 +84,7 @@ export const useChat = () => {
 
           try {
             const body = JSON.parse(init?.body as string);
-            const content = body.messages
-              .at(-1)
-              .parts.find((p: any) => p.type === 'text')?.text;
+            const content = body.messages.at(-1).parts.find((p: any) => p.type === 'text')?.text;
 
             if (content.includes('Generate a markdown sample')) {
               sample = 'markdown';
@@ -104,8 +98,7 @@ export const useChat = () => {
             // Single cell selection should use normal edit flow, only multi-cell uses table tool
             if (!sample) {
               // First check: selectedCells from TablePlugin (cell selection mode)
-              const selectedCells =
-                editor.getOption({ key: KEYS.table }, 'selectedCells') || [];
+              const selectedCells = editor.getOption({ key: KEYS.table }, 'selectedCells') || [];
 
               if (selectedCells.length > 1) {
                 sample = 'table';
@@ -199,8 +192,7 @@ export const useChat = () => {
 
         if (!range) return console.warn('No range found for AI comment');
 
-        const discussions =
-          editor.getOption(discussionPlugin, 'discussions') || [];
+        const discussions = editor.getOption(discussionPlugin, 'discussions') || [];
 
         // Generate a new discussion ID
         const discussionId = nanoid();
@@ -400,17 +392,13 @@ const fakeStreamText = ({
           // Add double newline after each block except the last one
           if (i < blocks.length - 1) {
             controller.enqueue(
-              encoder.encode(
-                `data: {"type":"text-delta","id":"${messageId}","delta":"\\n\\n"}\n\n`
-              )
+              encoder.encode(`data: {"type":"text-delta","id":"${messageId}","delta":"\\n\\n"}\n\n`)
             );
           }
         }
 
         // Send end events
-        controller.enqueue(
-          encoder.encode(`data: {"type":"text-end","id":"${messageId}"}\n\n`)
-        );
+        controller.enqueue(encoder.encode(`data: {"type":"text-end","id":"${messageId}"}\n\n`));
         await new Promise((resolve) => setTimeout(resolve, 10));
 
         controller.enqueue(encoder.encode('data: {"type":"finish-step"}\n\n'));
@@ -1462,8 +1450,7 @@ const mdxChunks = [
     },
     {
       delay,
-      texts:
-        'src="https://samplelib.com/lib/preview/mp3/sample-3s.mp3" width="80%" />\n\n',
+      texts: 'src="https://samplelib.com/lib/preview/mp3/sample-3s.mp3" width="80%" />\n\n',
     },
     {
       delay,
@@ -1539,10 +1526,7 @@ const createCommentChunks = (editor: PlateEditor) => {
     })
     .map(([block]) => block);
 
-  const isSelectingSome = editor.getOption(
-    BlockSelectionPlugin,
-    'isSelectingSome'
-  );
+  const isSelectingSome = editor.getOption(BlockSelectionPlugin, 'isSelectingSome');
 
   const blocks =
     selectedBlocks.length > 0 && (editor.api.isExpanded() || isSelectingSome)
@@ -1571,8 +1555,7 @@ const createCommentChunks = (editor: PlateEditor) => {
 
       const blockString = NodeApi.string(block);
       const endIndex = blockString.indexOf('.');
-      const content =
-        endIndex === -1 ? blockString : blockString.slice(0, endIndex);
+      const content = endIndex === -1 ? blockString : blockString.slice(0, endIndex);
 
       return [
         {
@@ -1593,29 +1576,23 @@ const createCommentChunks = (editor: PlateEditor) => {
 
 const createTableCellChunks = (editor: PlateEditor) => {
   // Get selected table cells from the TablePlugin
-  const selectedCells =
-    editor.getOption({ key: KEYS.table }, 'selectedCells') || [];
+  const selectedCells = editor.getOption({ key: KEYS.table }, 'selectedCells') || [];
 
   // If no cells selected, try to get cells from current selection
   let cellIds: string[] = [];
 
   if (selectedCells.length > 0) {
-    cellIds = selectedCells
-      .map((cell: { id?: string }) => cell.id)
-      .filter(Boolean);
+    cellIds = selectedCells.map((cell: { id?: string }) => cell.id).filter(Boolean);
   } else {
     // Try to find table cells in current selection
     const cells = Array.from(
       editor.api.nodes({
         at: editor.selection ?? undefined,
         match: (n) =>
-          (n as { type?: string }).type === KEYS.td ||
-          (n as { type?: string }).type === KEYS.th,
+          (n as { type?: string }).type === KEYS.td || (n as { type?: string }).type === KEYS.th,
       })
     );
-    cellIds = cells
-      .map(([node]) => (node as { id?: string }).id)
-      .filter(Boolean) as string[];
+    cellIds = cells.map(([node]) => (node as { id?: string }).id).filter(Boolean) as string[];
   }
 
   // If still no cells, return empty chunks

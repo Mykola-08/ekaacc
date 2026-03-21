@@ -6,7 +6,18 @@ import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { Button } from '@/marketing/components/ui/button';
 import PageLayout from '@/marketing/components/PageLayout';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
-import { ArrowLeft01Icon, ArrowRight01Icon, CheckmarkCircle01Icon, Activity01Icon, Brain01Icon, FavouriteIcon, ZapIcon, Moon01Icon, ShieldIcon, StethoscopeIcon } from '@hugeicons/core-free-icons';
+import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  CheckmarkCircle01Icon,
+  Activity01Icon,
+  Brain01Icon,
+  FavouriteIcon,
+  ZapIcon,
+  Moon01Icon,
+  ShieldIcon,
+  StethoscopeIcon,
+} from '@hugeicons/core-free-icons';
 
 interface ProblemConfig {
   icon: IconSvgElement;
@@ -36,7 +47,12 @@ export default function CasoDetailContent() {
   };
 
   const problemsConfig: Record<string, ProblemConfig> = {
-    'back-pain': { icon: Activity01Icon, color: 'blue', href: '/services/massage', key: 'backPain' },
+    'back-pain': {
+      icon: Activity01Icon,
+      color: 'blue',
+      href: '/services/massage',
+      key: 'backPain',
+    },
     'stress-anxiety': {
       icon: Brain01Icon,
       color: 'purple',
@@ -50,7 +66,12 @@ export default function CasoDetailContent() {
       key: 'digestive',
     },
     migraines: { icon: Brain01Icon, color: 'red', href: '/services/massage', key: 'migraines' },
-    'low-energy': { icon: ZapIcon, color: 'orange', href: '/services/kinesiology', key: 'lowEnergy' },
+    'low-energy': {
+      icon: ZapIcon,
+      color: 'orange',
+      href: '/services/kinesiology',
+      key: 'lowEnergy',
+    },
     'hormonal-problems': {
       icon: ShieldIcon,
       color: 'pink',
@@ -82,7 +103,7 @@ export default function CasoDetailContent() {
           </h1>
           <Link href="/cases">
             <Button variant="outline">
-              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4" />
               {t('common.back') || 'Back'}
             </Button>
           </Link>
@@ -118,7 +139,7 @@ export default function CasoDetailContent() {
           href="/cases"
           className="mb-10 inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-black"
         >
-          <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-1 size-4"  />
+          <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-1 size-4" />
           {t('casos.title')}
         </Link>
 
@@ -154,7 +175,10 @@ export default function CasoDetailContent() {
               </h2>
               <ul className="">
                 {symptoms.map((item, idx) => (
-                  <li key={idx} className="rounded-[var(--radius)] border border-gray-100/50 bg-gray-50 p-6">
+                  <li
+                    key={idx}
+                    className="rounded-[var(--radius)] border border-gray-100/50 bg-gray-50 p-6"
+                  >
                     <p className="text-lg leading-relaxed text-gray-700">{item}</p>
                   </li>
                 ))}
@@ -171,7 +195,10 @@ export default function CasoDetailContent() {
               </h2>
               <ul className="">
                 {causes.map((item, idx) => (
-                  <li key={idx} className="rounded-[var(--radius)] border border-gray-100 bg-white p-6">
+                  <li
+                    key={idx}
+                    className="rounded-[var(--radius)] border border-gray-100 bg-white p-6"
+                  >
                     <p className="text-lg leading-relaxed text-gray-600">{item}</p>
                   </li>
                 ))}
@@ -187,7 +214,7 @@ export default function CasoDetailContent() {
             <div className="relative z-10 grid grid-cols-1 gap-16 md:grid-cols-2">
               <div>
                 <h2 className="mb-6 flex items-center gap-3 text-2xl font-semibold text-white">
-                  <HugeiconsIcon icon={Activity01Icon} className="size-6 text-blue-400"  />
+                  <HugeiconsIcon icon={Activity01Icon} className="size-6 text-blue-400" />
                   {t('casos.treatment')}
                 </h2>
                 <p className="text-xl leading-relaxed font-light text-gray-300">{treatment}</p>
@@ -195,7 +222,7 @@ export default function CasoDetailContent() {
 
               <div>
                 <h2 className="mb-6 flex items-center gap-3 text-2xl font-semibold text-white">
-                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6 text-green-400"  />
+                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6 text-green-400" />
                   {t('casos.results')}
                 </h2>
                 <p className="text-xl leading-relaxed font-light text-gray-300">{results}</p>
@@ -210,7 +237,7 @@ export default function CasoDetailContent() {
                   className="h-auto rounded-full px-10 py-6 text-xl font-medium"
                 >
                   {t('common.bookNow')}
-                  <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-6"  />
+                  <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-6" />
                 </Button>
               </Link>
             </div>

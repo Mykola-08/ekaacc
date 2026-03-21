@@ -1,7 +1,4 @@
-import type {
-  ChatMessage,
-  ToolName,
-} from '@/components/use-chat';
+import type { ChatMessage, ToolName } from '@/components/use-chat';
 import type { NextRequest } from 'next/server';
 
 import { createGateway } from '@ai-sdk/gateway';
@@ -44,10 +41,7 @@ export async function POST(req: NextRequest) {
   const apiKey = key || process.env.AI_GATEWAY_API_KEY;
 
   if (!apiKey) {
-    return NextResponse.json(
-      { error: 'Missing AI Gateway API key.' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: 'Missing AI Gateway API key.' }, { status: 401 });
   }
 
   const isSelecting = editor.api.isExpanded();
@@ -169,10 +163,7 @@ export async function POST(req: NextRequest) {
 
     return createUIMessageStreamResponse({ stream });
   } catch {
-    return NextResponse.json(
-      { error: 'Failed to process AI request' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process AI request' }, { status: 500 });
   }
 }
 
@@ -199,9 +190,7 @@ const getCommentTool = (
           .describe(
             'The id of the starting block. If the comment spans multiple blocks, use the id of the first block.'
           ),
-        comment: z
-          .string()
-          .describe('A brief comment or explanation for this fragment.'),
+        comment: z.string().describe('A brief comment or explanation for this fragment.'),
         content: z
           .string()
           .describe(

@@ -9,7 +9,7 @@ export function CodeLeafStatic(props: SlateLeafProps) {
     <SlateLeaf
       {...props}
       as="code"
-      className="whitespace-pre-wrap rounded-[calc(var(--radius)*0.6)] bg-muted px-[0.3em] py-[0.2em] font-mono text-sm"
+      className="bg-muted rounded-[calc(var(--radius)*0.6)] px-[0.3em] py-[0.2em] font-mono text-sm whitespace-pre-wrap"
     >
       {props.children}
     </SlateLeaf>

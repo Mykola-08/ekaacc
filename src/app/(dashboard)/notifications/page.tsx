@@ -2,11 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  CheckmarkCircle02Icon,
-  InboxIcon,
-  Notification01Icon,
-} from '@hugeicons/core-free-icons';
+import { CheckmarkCircle02Icon, InboxIcon, Notification01Icon } from '@hugeicons/core-free-icons';
 import { NotificationItem } from './notification-item';
 import { markNotificationsRead } from './actions';
 import { redirect } from 'next/navigation';
@@ -36,10 +32,10 @@ export default async function NotificationsPage() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-            <HugeiconsIcon icon={Notification01Icon} className="size-5 text-muted-foreground" />
+            <HugeiconsIcon icon={Notification01Icon} className="text-muted-foreground size-5" />
             Notifications
           </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-0.5 text-sm">
             {unreadCount > 0
               ? `${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''}`
               : 'All caught up'}
@@ -60,18 +56,22 @@ export default async function NotificationsPage() {
       <div>
         {allNotifications.length === 0 ? (
           <div className="flex flex-col items-center gap-4 rounded-[var(--radius)] border border-dashed py-20 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-[var(--radius)] bg-muted">
-              <HugeiconsIcon icon={InboxIcon} className="size-7 text-muted-foreground/50" />
+            <div className="bg-muted flex h-14 w-14 items-center justify-center rounded-[var(--radius)]">
+              <HugeiconsIcon icon={InboxIcon} className="text-muted-foreground/50 size-7" />
             </div>
             <div>
               <p className="font-semibold">No notifications yet</p>
-              <p className="mt-1 max-w-xs text-sm text-muted-foreground">
-                When you have upcoming sessions, new assignments, or platform
-                updates, they will appear here.
+              <p className="text-muted-foreground mt-1 max-w-xs text-sm">
+                When you have upcoming sessions, new assignments, or platform updates, they will
+                appear here.
               </p>
             </div>
             <Link href="/bookings">
-              <Button variant="outline" size="sm" className="gap-2 rounded-[calc(var(--radius)*0.8)]">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-[calc(var(--radius)*0.8)]"
+              >
                 View Bookings
               </Button>
             </Link>
@@ -79,7 +79,7 @@ export default async function NotificationsPage() {
         ) : (
           <div className="flex flex-col gap-3">
             {unreadCount > 0 && (
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
                 Unread
               </p>
             )}
@@ -101,7 +101,7 @@ export default async function NotificationsPage() {
                 />
               ))}
             {allNotifications.some((n) => n.is_read) && (
-              <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="text-muted-foreground mt-2 text-xs font-semibold tracking-wider uppercase">
                 Earlier
               </p>
             )}

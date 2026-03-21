@@ -5,7 +5,16 @@ import { Badge } from '@/components/ui/badge';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar03Icon, Clock01Icon, Location01Icon, CancelCircleIcon, ArrowLeft01Icon, Cancel01Icon, Navigation01Icon, Calendar02Icon } from '@hugeicons/core-free-icons';
+import {
+  Calendar03Icon,
+  Clock01Icon,
+  Location01Icon,
+  CancelCircleIcon,
+  ArrowLeft01Icon,
+  Cancel01Icon,
+  Navigation01Icon,
+  Calendar02Icon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/morphing-toaster';
@@ -66,7 +75,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
     return (
       <div className="bg-card border-muted flex flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] border-2 border-dashed py-24 text-center">
         <div className="bg-background mb-6 rounded-full p-6">
-          <HugeiconsIcon icon={Calendar03Icon} className="size-8 text-muted-foreground" />
+          <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-8" />
         </div>
         <h3 className="text-foreground text-xl font-semibold tracking-tight">No bookings yet</h3>
         <p className="text-muted-foreground mt-2 max-w-xs font-medium">
@@ -99,7 +108,9 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
       {past.length > 0 && (
         <div className={cn('space-y-4', upcoming.length > 0 && 'mt-8')}>
-          <h2 className="text-muted-foreground text-base font-bold tracking-tight">Past Sessions</h2>
+          <h2 className="text-muted-foreground text-base font-bold tracking-tight">
+            Past Sessions
+          </h2>
           <div className="grid gap-4 opacity-70 transition-opacity duration-300 hover:opacity-100">
             {past.map((booking) => (
               <BookingCard key={booking.id} booking={booking} userId={userId} />

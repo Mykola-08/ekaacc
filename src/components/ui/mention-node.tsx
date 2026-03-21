@@ -7,12 +7,7 @@ import type { PlateElementProps } from 'platejs/react';
 
 import { getMentionOnSelectItem } from '@platejs/mention';
 import { IS_APPLE, KEYS } from 'platejs';
-import {
-  PlateElement,
-  useFocused,
-  useReadOnly,
-  useSelected,
-} from 'platejs/react';
+import { PlateElement, useFocused, useReadOnly, useSelected } from 'platejs/react';
 
 import { cn } from '@/lib/utils';
 import { useMounted } from '@/hooks/use-mounted';
@@ -42,9 +37,9 @@ export function MentionElement(
     <PlateElement
       {...props}
       className={cn(
-        'inline-block rounded-[calc(var(--radius)*0.6)] bg-muted px-1.5 py-0.5 align-baseline font-medium text-sm',
+        'bg-muted inline-block rounded-[calc(var(--radius)*0.6)] px-1.5 py-0.5 align-baseline text-sm font-medium',
         !readOnly && 'cursor-pointer',
-        selected && focused && 'ring-2 ring-ring',
+        selected && focused && 'ring-ring ring-2',
         element.children[0][KEYS.bold] === true && 'font-bold',
         element.children[0][KEYS.italic] === true && 'italic',
         element.children[0][KEYS.underline] === true && 'underline'
@@ -77,9 +72,7 @@ export function MentionElement(
 
 const onSelectItem = getMentionOnSelectItem();
 
-export function MentionInputElement(
-  props: PlateElementProps<TComboboxInputElement>
-) {
+export function MentionInputElement(props: PlateElementProps<TComboboxInputElement>) {
   const { editor, element } = props;
   const [search, setSearch] = React.useState('');
 
@@ -92,7 +85,7 @@ export function MentionInputElement(
         showTrigger={false}
         trigger="@"
       >
-        <span className="inline-block rounded-[calc(var(--radius)*0.6)] bg-muted px-1.5 py-0.5 align-baseline text-sm ring-ring focus-within:ring-2">
+        <span className="bg-muted ring-ring inline-block rounded-[calc(var(--radius)*0.6)] px-1.5 py-0.5 align-baseline text-sm focus-within:ring-2">
           <InlineComboboxInput />
         </span>
 

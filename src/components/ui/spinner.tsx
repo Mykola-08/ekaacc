@@ -9,7 +9,7 @@ function Spinner({ className, ...props }: Omit<React.ComponentProps<'svg'>, 'str
       strokeWidth={2}
       role="status"
       aria-label="Loading"
-      className={cn('size-4 animate-spin text-muted-foreground', className)}
+      className={cn('text-muted-foreground size-4 animate-spin', className)}
       {...(props as any)}
     />
   );

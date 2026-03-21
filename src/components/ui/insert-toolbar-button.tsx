@@ -37,10 +37,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  insertBlock,
-  insertInlineElement,
-} from '@/components/transforms';
+import { insertBlock, insertInlineElement } from '@/components/transforms';
 
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
 

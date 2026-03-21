@@ -5,11 +5,7 @@ import * as React from 'react';
 import type { TPlaceholderElement } from 'platejs';
 import type { PlateElementProps } from 'platejs/react';
 
-import {
-  PlaceholderPlugin,
-  PlaceholderProvider,
-  updateUploadHistory,
-} from '@platejs/media/react';
+import { PlaceholderPlugin, PlaceholderProvider, updateUploadHistory } from '@platejs/media/react';
 import { AudioLines, FileUp, Film, ImageIcon, Loader2Icon } from 'lucide-react';
 import { KEYS } from 'platejs';
 import { PlateElement, useEditorPlugin, withHOC } from 'platejs/react';
@@ -55,8 +51,7 @@ export const PlaceholderElement = withHOC(
 
     const { api } = useEditorPlugin(PlaceholderPlugin);
 
-    const { isUploading, progress, uploadedFile, uploadFile, uploadingFile } =
-      useUploadFile();
+    const { isUploading, progress, uploadedFile, uploadFile, uploadingFile } = useUploadFile();
 
     const loading = isUploading && uploadingFile;
 
@@ -66,14 +61,14 @@ export const PlaceholderElement = withHOC(
 
     const imageRef = React.useRef<HTMLImageElement>(null);
 
-  const { openFilePicker } = useFilePicker({
-    accept: currentContent.accept,
-    multiple: true,
-    onFilesSelected: (data) => {
-      if (!('plainFiles' in data) || !data.plainFiles?.length) return;
-      const updatedFiles = data.plainFiles;
-      const firstFile = updatedFiles[0];
-      const restFiles = updatedFiles.slice(1);
+    const { openFilePicker } = useFilePicker({
+      accept: currentContent.accept,
+      multiple: true,
+      onFilesSelected: (data) => {
+        if (!('plainFiles' in data) || !data.plainFiles?.length) return;
+        const updatedFiles = data.plainFiles;
+        const firstFile = updatedFiles[0];
+        const restFiles = updatedFiles.slice(1);
 
         replaceCurrentPlaceholder(firstFile);
 
@@ -127,9 +122,7 @@ export const PlaceholderElement = withHOC(
       if (isReplaced.current) return;
 
       isReplaced.current = true;
-      const currentFiles = api.placeholder.getUploadingFile(
-        element.id as string
-      );
+      const currentFiles = api.placeholder.getUploadingFile(element.id as string);
 
       if (!currentFiles) return;
 
@@ -143,25 +136,23 @@ export const PlaceholderElement = withHOC(
         {(!loading || !isImage) && (
           <div
             className={cn(
-              'flex cursor-pointer select-none items-center rounded-sm bg-muted p-3 pr-9 hover:bg-primary/10'
+              'bg-muted hover:bg-primary/10 flex cursor-pointer items-center rounded-sm p-3 pr-9 select-none'
             )}
             onClick={() => !loading && openFilePicker()}
             contentEditable={false}
           >
-            <div className="relative mr-3 flex text-muted-foreground/80 [&_svg]:size-6">
+            <div className="text-muted-foreground/80 relative mr-3 flex [&_svg]:size-6">
               {currentContent.icon}
             </div>
-            <div className="whitespace-nowrap text-muted-foreground text-sm">
-              <div>
-                {loading ? uploadingFile?.name : currentContent.content}
-              </div>
+            <div className="text-muted-foreground text-sm whitespace-nowrap">
+              <div>{loading ? uploadingFile?.name : currentContent.content}</div>
 
               {loading && !isImage && (
                 <div className="mt-1 flex items-center gap-1.5">
                   <div>{formatBytes(uploadingFile?.size ?? 0)}</div>
                   <div>–</div>
                   <div className="flex items-center">
-                    <Loader2Icon className="mr-1 size-3.5 animate-spin text-muted-foreground" />
+                    <Loader2Icon className="text-muted-foreground mr-1 size-3.5 animate-spin" />
                     {progress ?? 0}%
                   </div>
                 </div>
@@ -171,11 +162,7 @@ export const PlaceholderElement = withHOC(
         )}
 
         {isImage && loading && (
-          <ImageProgress
-            file={uploadingFile}
-            imageRef={imageRef}
-            progress={progress}
-          />
+          <ImageProgress file={uploadingFile} imageRef={imageRef} progress={progress} />
         )}
 
         {props.children}
@@ -220,10 +207,8 @@ export function ImageProgress({
       />
       {progress < 100 && (
         <div className="absolute right-1 bottom-1 flex items-center space-x-2 rounded-full bg-black/50 px-1 py-0.5">
-          <Loader2Icon className="size-3.5 animate-spin text-muted-foreground" />
-          <span className="font-medium text-white text-xs">
-            {Math.round(progress)}%
-          </span>
+          <Loader2Icon className="text-muted-foreground size-3.5 animate-spin" />
+          <span className="text-xs font-medium text-white">{Math.round(progress)}%</span>
         </div>
       )}
     </div>
@@ -247,8 +232,6 @@ function formatBytes(
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
 
   return `${(bytes / 1024 ** i).toFixed(decimals)} ${
-    sizeType === 'accurate'
-      ? (accurateSizes[i] ?? 'Bytest')
-      : (sizes[i] ?? 'Bytes')
+    sizeType === 'accurate' ? (accurateSizes[i] ?? 'Bytest') : (sizes[i] ?? 'Bytes')
   }`;
 }

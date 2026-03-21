@@ -52,7 +52,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
       className="bg-card w-full max-w-md rounded-[calc(var(--radius)*0.8)] border p-4"
     >
       <div className="mb-3 flex items-center gap-2">
-        <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4"  />
+        <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4" />
         <p className="text-sm font-semibold">Available Services</p>
       </div>
 
@@ -68,7 +68,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">{s.name}</p>
               <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                <HugeiconsIcon icon={Clock01Icon} className="size-3"  />
+                <HugeiconsIcon icon={Clock01Icon} className="size-3" />
                 <span>{s.duration} min</span>
               </div>
             </div>

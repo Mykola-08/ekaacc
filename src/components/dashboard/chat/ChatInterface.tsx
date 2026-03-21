@@ -10,7 +10,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { format } from 'date-fns';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { SentIcon, MoreVerticalIcon, TelephoneIcon, Video01Icon, Search01Icon, Message01Icon } from '@hugeicons/core-free-icons';
+import {
+  SentIcon,
+  MoreVerticalIcon,
+  TelephoneIcon,
+  Video01Icon,
+  Search01Icon,
+  Message01Icon,
+} from '@hugeicons/core-free-icons';
 
 type Channel = {
   id: string;
@@ -197,7 +204,10 @@ export function ChatInterface() {
       <div className="border-border w-full border-b md:w-80 md:border-r md:border-b-0">
         <div className="p-4">
           <div className="relative">
-            <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-2.5 left-2.5 size-4"  />
+            <HugeiconsIcon
+              icon={Search01Icon}
+              className="text-muted-foreground absolute top-2.5 left-2.5 size-4"
+            />
             <Input placeholder="Search messages..." className="bg-secondary/50 border-0 pl-9" />
           </div>
         </div>
@@ -273,21 +283,21 @@ export function ChatInterface() {
                   size="icon"
                   className="text-muted-foreground hover:text-primary h-8 w-8"
                 >
-                  <HugeiconsIcon icon={TelephoneIcon} className="size-4"  />
+                  <HugeiconsIcon icon={TelephoneIcon} className="size-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="text-muted-foreground hover:text-primary h-8 w-8"
                 >
-                  <HugeiconsIcon icon={Video01Icon} className="size-4"  />
+                  <HugeiconsIcon icon={Video01Icon} className="size-4" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="text-muted-foreground hover:text-primary h-8 w-8"
                 >
-                  <HugeiconsIcon icon={MoreVerticalIcon} className="size-4"  />
+                  <HugeiconsIcon icon={MoreVerticalIcon} className="size-4" />
                 </Button>
               </div>
             </header>
@@ -365,7 +375,7 @@ export function ChatInterface() {
                   disabled={!inputText.trim()}
                   className="shrink-0 rounded-[calc(var(--radius)*0.8)]"
                 >
-                  <HugeiconsIcon icon={SentIcon} className="size-4"  />
+                  <HugeiconsIcon icon={SentIcon} className="size-4" />
                 </Button>
               </form>
             </div>
@@ -373,7 +383,7 @@ export function ChatInterface() {
         ) : (
           <div className="text-muted-foreground flex h-full flex-col items-center justify-center p-8 text-center">
             <div className="bg-muted mb-4 rounded-full p-4">
-              <HugeiconsIcon icon={Message01Icon} className="size-8"  />
+              <HugeiconsIcon icon={Message01Icon} className="size-8" />
             </div>
             <h3 className="text-foreground mb-1 text-lg font-semibold">No Chat Selected</h3>
             <p className="max-w-xs text-sm">

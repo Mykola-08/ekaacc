@@ -5,13 +5,7 @@ import * as React from 'react';
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { PlaceholderPlugin } from '@platejs/media/react';
-import {
-  AudioLinesIcon,
-  FileUpIcon,
-  FilmIcon,
-  ImageIcon,
-  LinkIcon,
-} from 'lucide-react';
+import { AudioLinesIcon, FileUpIcon, FilmIcon, ImageIcon, LinkIcon } from 'lucide-react';
 import { isUrl, KEYS } from 'platejs';
 import { useEditorRef } from 'platejs/react';
 import { toast } from 'sonner';
@@ -111,25 +105,14 @@ export function MediaToolbarButton({
         }}
         pressed={open}
       >
-        <ToolbarSplitButtonPrimary>
-          {currentConfig.icon}
-        </ToolbarSplitButtonPrimary>
+        <ToolbarSplitButtonPrimary>{currentConfig.icon}</ToolbarSplitButtonPrimary>
 
-        <DropdownMenu
-          open={open}
-          onOpenChange={setOpen}
-          modal={false}
-          {...props}
-        >
+        <DropdownMenu open={open} onOpenChange={setOpen} modal={false} {...props}>
           <DropdownMenuTrigger asChild>
             <ToolbarSplitButtonSecondary />
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent
-            onClick={(e) => e.stopPropagation()}
-            align="start"
-            alignOffset={-32}
-          >
+          <DropdownMenuContent onClick={(e) => e.stopPropagation()} align="start" alignOffset={-32}>
             <DropdownMenuGroup>
               <DropdownMenuItem onSelect={() => openFilePicker()}>
                 {currentConfig.icon}
@@ -194,10 +177,10 @@ function MediaUrlDialogContent({
 
       <AlertDialogDescription className="group relative w-full">
         <label
-          className="-translate-y-1/2 absolute top-1/2 block cursor-text px-1 text-muted-foreground/70 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:font-medium group-focus-within:text-foreground group-focus-within:text-xs has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:font-medium has-[+input:not(:placeholder-shown)]:text-foreground has-[+input:not(:placeholder-shown)]:text-xs"
+          className="text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
           htmlFor="url"
         >
-          <span className="inline-flex bg-background px-2">URL</span>
+          <span className="bg-background inline-flex px-2">URL</span>
         </label>
         <Input
           id="url"

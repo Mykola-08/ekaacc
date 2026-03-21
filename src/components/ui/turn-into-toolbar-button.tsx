@@ -33,10 +33,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  getBlockType,
-  setBlockType,
-} from '@/components/transforms';
+import { getBlockType, setBlockType } from '@/components/transforms';
 
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
 
@@ -115,14 +112,7 @@ export const turnIntoItems = [
   },
   {
     icon: <Code2 />,
-    keywords: [
-      'code-drawing',
-      'diagram',
-      'plantuml',
-      'graphviz',
-      'flowchart',
-      'mermaid',
-    ],
+    keywords: ['code-drawing', 'diagram', 'plantuml', 'graphviz', 'flowchart', 'mermaid'],
     label: 'Code Drawing',
     value: KEYS.codeDrawing,
   },
@@ -148,21 +138,14 @@ export function TurnIntoToolbarButton(props: DropdownMenuProps) {
     getProp: (node) => getBlockType(node as TElement),
   });
   const selectedItem = React.useMemo(
-    () =>
-      turnIntoItems.find((item) => item.value === (value ?? KEYS.p)) ??
-      turnIntoItems[0],
+    () => turnIntoItems.find((item) => item.value === (value ?? KEYS.p)) ?? turnIntoItems[0],
     [value]
   );
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false} {...props}>
       <DropdownMenuTrigger asChild>
-        <ToolbarButton
-          className="min-w-[125px]"
-          pressed={open}
-          tooltip="Turn into"
-          isDropdown
-        >
+        <ToolbarButton className="min-w-[125px]" pressed={open} tooltip="Turn into" isDropdown>
           {selectedItem.label}
         </ToolbarButton>
       </DropdownMenuTrigger>

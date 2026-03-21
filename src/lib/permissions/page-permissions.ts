@@ -7,7 +7,13 @@ export interface PagePermission {
   action: PermissionAction;
 }
 
-export type SidebarSectionId = 'overview' | 'care' | 'therapist' | 'manage' | 'platform' | 'account';
+export type SidebarSectionId =
+  | 'overview'
+  | 'care'
+  | 'therapist'
+  | 'manage'
+  | 'platform'
+  | 'account';
 
 export interface PageConfig {
   path: string;
@@ -31,12 +37,12 @@ export interface SidebarSection {
 // → therapist tools → manage → admin platform → account
 
 export const SIDEBAR_SECTIONS: SidebarSection[] = [
-  { id: 'overview',   label: 'nav.section.overview' },
-  { id: 'care',       label: 'nav.section.care' },
-  { id: 'therapist',  label: 'nav.section.therapist' },
-  { id: 'manage',     label: 'nav.section.manage' },
-  { id: 'platform',   label: 'nav.section.platform' },
-  { id: 'account',    label: 'nav.section.account' },
+  { id: 'overview', label: 'nav.section.overview' },
+  { id: 'care', label: 'nav.section.care' },
+  { id: 'therapist', label: 'nav.section.therapist' },
+  { id: 'manage', label: 'nav.section.manage' },
+  { id: 'platform', label: 'nav.section.platform' },
+  { id: 'account', label: 'nav.section.account' },
 ];
 
 // ─── Sidebar navigation registry ──────────────────────────────────
@@ -86,7 +92,7 @@ export const SIDEBAR_NAV: PageConfig[] = [
     icon: 'bell',
     permission: null,
     section: 'overview',
-    hidden: true,   // accessible via bell icon in topbar
+    hidden: true, // accessible via bell icon in topbar
   },
 
   // ── My Care — personal wellness tools ─────────────────────────────
@@ -277,7 +283,7 @@ export const SIDEBAR_NAV: PageConfig[] = [
     icon: 'shield',
     permission: { group: 'user_management', action: 'manage' },
     section: 'platform',
-    hidden: true,   // advanced — accessed from users page
+    hidden: true, // advanced — accessed from users page
   },
   {
     path: '/console/cms',
@@ -293,7 +299,7 @@ export const SIDEBAR_NAV: PageConfig[] = [
     icon: 'database',
     permission: { group: 'system_settings', action: 'manage' },
     section: 'platform',
-    hidden: true,   // developer tool
+    hidden: true, // developer tool
   },
   {
     path: '/console/settings',
@@ -338,14 +344,14 @@ export const SIDEBAR_NAV: PageConfig[] = [
     label: 'Clients',
     icon: 'users',
     permission: { group: 'patient_data', action: 'view_all' },
-    hidden: true,   // use /therapist/patients instead
+    hidden: true, // use /therapist/patients instead
   },
   {
     path: '/therapist/resources',
     label: 'Clinical Resources',
     icon: 'folder',
     permission: { group: 'therapist_tools', action: 'create' },
-    hidden: true,   // use /resources
+    hidden: true, // use /resources
   },
   {
     path: '/reports',

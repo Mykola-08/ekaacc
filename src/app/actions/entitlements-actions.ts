@@ -57,7 +57,10 @@ export async function getEntitlementSummary() {
 
   const metadata = ((row as any)?.metadata ?? {}) as Record<string, unknown>;
 
-  const sessionsIncluded = toNumber(metadata.sessions_included ?? (row as any)?.sessions_included, 0);
+  const sessionsIncluded = toNumber(
+    metadata.sessions_included ?? (row as any)?.sessions_included,
+    0
+  );
   const sessionsUsed = toNumber(metadata.sessions_used ?? (row as any)?.sessions_used, 0);
   const sessionsRemaining = Math.max(0, sessionsIncluded - sessionsUsed);
 

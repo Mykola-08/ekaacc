@@ -21,7 +21,12 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Link01Icon, Copy01Icon, CheckmarkCircle01Icon, Loading03Icon } from '@hugeicons/core-free-icons';
+import {
+  Link01Icon,
+  Copy01Icon,
+  CheckmarkCircle01Icon,
+  Loading03Icon,
+} from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import {
   getActiveServicesAction,
@@ -117,7 +122,7 @@ export function BookingLinkGenerator() {
   if (isLoading) {
     return (
       <div className="dashboard-theme flex h-64 items-center justify-center">
-        <HugeiconsIcon icon={Loading03Icon} className="size-8 text-muted-foreground animate-spin" />
+        <HugeiconsIcon icon={Loading03Icon} className="text-muted-foreground size-8 animate-spin" />
       </div>
     );
   }
@@ -126,7 +131,7 @@ export function BookingLinkGenerator() {
     <Card className="dashboard-theme mx-auto w-full max-w-2xl transition-all">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-2xl font-bold">
-          <HugeiconsIcon icon={Link01Icon} className="size-5 text-primary" />
+          <HugeiconsIcon icon={Link01Icon} className="text-primary size-5" />
           Generate Booking Link
         </CardTitle>
         <CardDescription>Create a personalized booking link to send to a client.</CardDescription>
@@ -213,7 +218,11 @@ export function BookingLinkGenerator() {
               variant="outline"
               className={cn('shrink-0', isCopied && 'border-primary text-primary')}
             >
-              {isCopied ? <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" /> : <HugeiconsIcon icon={Copy01Icon} className="size-4" />}
+              {isCopied ? (
+                <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
+              ) : (
+                <HugeiconsIcon icon={Copy01Icon} className="size-4" />
+              )}
             </Button>
           </div>
         </div>

@@ -207,8 +207,7 @@ export default async function AIInsightsPage() {
   const totalAssignments = (assignments ?? []).length;
   const avgGoalProgress = (goals ?? []).length
     ? Math.round(
-        (goals ?? []).reduce((s, g) => s + (g.progress_percentage ?? 0), 0) /
-          (goals ?? []).length
+        (goals ?? []).reduce((s, g) => s + (g.progress_percentage ?? 0), 0) / (goals ?? []).length
       )
     : null;
 
@@ -406,7 +405,11 @@ export default async function AIInsightsPage() {
                   Start tracking your mood in journal entries to see trends here.
                 </p>
                 <Link href="/journal">
-                  <Button variant="outline" size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs"
+                  >
                     Open Journal
                     <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
                   </Button>
@@ -456,7 +459,10 @@ export default async function AIInsightsPage() {
           <CardContent className="space-y-3 pt-0">
             {(aiInsights ?? []).length > 0 ? (
               (aiInsights ?? []).map((insight) => (
-                <div key={insight.id} className="border-border/60 rounded-[var(--radius)] border p-3">
+                <div
+                  key={insight.id}
+                  className="border-border/60 rounded-[var(--radius)] border p-3"
+                >
                   <Badge variant="outline" className="mb-2 text-xs capitalize">
                     {(insight.insight_type ?? 'insight').replace(/_/g, ' ')}
                   </Badge>

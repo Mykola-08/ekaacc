@@ -54,7 +54,7 @@ export default function ForBusinessContent() {
           <Button asChild size="lg" className="hover: rounded-full px-8 transition-all">
             <Link href="/booking">
               {t('nav.bookNow')}
-              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
             </Link>
           </Button>
           <Button
@@ -68,7 +68,7 @@ export default function ForBusinessContent() {
         </div>
 
         {/* Apple-Style Bento Section */}
-        <section className="relative overflow-hidden bg-background py-20">
+        <section className="bg-background relative overflow-hidden py-20">
           <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -206,25 +206,37 @@ export default function ForBusinessContent() {
 
                 <ul className="relative z-10 mb-10 flex-grow">
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-500"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-500"
+                    />
                     <span className="leading-snug text-gray-700">
                       {t('personalized.business.plans.teams.feature1')}
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-500"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-500"
+                    />
                     <span className="leading-snug text-gray-700">
                       {t('personalized.business.plans.teams.feature2')}
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-500"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-500"
+                    />
                     <span className="leading-snug text-gray-700">
                       {t('personalized.business.plans.teams.feature3')}
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-500"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-500"
+                    />
                     <span className="leading-snug text-gray-700">
                       {t('personalized.business.plans.teams.feature4')}
                     </span>
@@ -263,25 +275,37 @@ export default function ForBusinessContent() {
 
                 <ul className="relative z-10 mb-10 flex-grow">
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-400"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-400"
+                    />
                     <span className="leading-snug text-gray-100">
                       {t('personalized.business.plans.enterprise.feature1')}
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-400"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-400"
+                    />
                     <span className="leading-snug text-gray-100">
                       {t('personalized.business.plans.enterprise.feature2')}
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-400"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-400"
+                    />
                     <span className="leading-snug text-gray-100">
                       {t('personalized.business.plans.enterprise.feature3')}
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 shrink-0 text-blue-400"  />
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
+                      className="mr-3 size-6 shrink-0 text-blue-400"
+                    />
                     <span className="leading-snug text-gray-100">
                       {t('personalized.business.plans.enterprise.feature4')}
                     </span>

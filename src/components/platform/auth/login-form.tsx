@@ -82,12 +82,12 @@ export function LoginForm({
 
   return (
     <div className={cn('mx-auto flex w-full max-w-sm flex-col gap-5', className)} {...props}>
-      <Card className="overflow-hidden rounded-[var(--radius)] border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
+      <Card className="border-border/30 bg-card/80 overflow-hidden rounded-[var(--radius)] border shadow-lg backdrop-blur-2xl">
         <CardContent className="p-7 sm:p-8">
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             {/* Logo + header */}
             <div className="mb-2 flex flex-col items-center gap-3 text-center">
-              <div className="rounded-[var(--radius)] border border-border/20 bg-card p-1.5 shadow-sm">
+              <div className="border-border/20 bg-card rounded-[var(--radius)] border p-1.5 shadow-sm">
                 <Image
                   src="/images/eka_logo.png"
                   alt="EKA Balance"
@@ -98,18 +98,14 @@ export function LoginForm({
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-foreground">
-                  Welcome back
-                </h1>
-                <p className="mt-0.5 text-sm text-muted-foreground">
-                  Sign in to your EKA account
-                </p>
+                <h1 className="text-foreground text-xl font-bold tracking-tight">Welcome back</h1>
+                <p className="text-muted-foreground mt-0.5 text-sm">Sign in to your EKA account</p>
               </div>
             </div>
 
             {/* Error */}
             {error && (
-              <div className="rounded-[var(--radius)] bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
+              <div className="bg-destructive/10 text-destructive rounded-[var(--radius)] px-4 py-3 text-center text-sm font-medium">
                 {error}
               </div>
             )}
@@ -138,7 +134,7 @@ export function LoginForm({
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+                    className="text-primary hover:text-primary/80 text-xs font-medium transition-colors"
                   >
                     Forgot password?
                   </Link>
@@ -156,14 +152,10 @@ export function LoginForm({
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showPassword ? (
-                      <EyeOff className="size-4" />
-                    ) : (
-                      <Eye className="size-4" />
-                    )}
+                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                   </button>
                 </div>
               </div>
@@ -186,30 +178,30 @@ export function LoginForm({
       </Card>
 
       {/* Sign-up link */}
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-center text-sm">
         Don&apos;t have an account?{' '}
         <Link
           href={nextUrl ? `/signup?next=${encodeURIComponent(nextUrl)}` : '/signup'}
-          className="font-semibold text-primary hover:underline"
+          className="text-primary font-semibold hover:underline"
         >
           Sign up
         </Link>
       </p>
 
       {/* Legal */}
-      <p className="px-4 text-center text-xs text-muted-foreground/70">
+      <p className="text-muted-foreground/70 px-4 text-center text-xs">
         By signing in, you agree to our{' '}
-        <Link href="/legal/terms" className="underline hover:text-foreground transition-colors">
+        <Link href="/legal/terms" className="hover:text-foreground underline transition-colors">
           Terms
         </Link>
         ,{' '}
-        <Link href="/legal/privacy" className="underline hover:text-foreground transition-colors">
+        <Link href="/legal/privacy" className="hover:text-foreground underline transition-colors">
           Privacy Policy
         </Link>{' '}
         and{' '}
         <Link
           href="/legal/cookie-policy"
-          className="underline hover:text-foreground transition-colors"
+          className="hover:text-foreground underline transition-colors"
         >
           Cookie Policy
         </Link>

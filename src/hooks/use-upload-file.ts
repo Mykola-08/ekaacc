@@ -1,10 +1,7 @@
 import * as React from 'react';
 
 import type { OurFileRouter } from '@/lib/uploadthing';
-import type {
-  ClientUploadedFileData,
-  UploadFilesOptions,
-} from 'uploadthing/types';
+import type { ClientUploadedFileData, UploadFilesOptions } from 'uploadthing/types';
 
 import { generateReactHelpers } from '@uploadthing/react';
 import { toast } from 'sonner';
@@ -12,11 +9,10 @@ import { z } from 'zod';
 
 export type UploadedFile<T = unknown> = ClientUploadedFileData<T>;
 
-interface UseUploadFileProps
-  extends Pick<
-    UploadFilesOptions<OurFileRouter['editorUploader']>,
-    'headers' | 'onUploadBegin' | 'onUploadProgress' | 'skipPolling'
-  > {
+interface UseUploadFileProps extends Pick<
+  UploadFilesOptions<OurFileRouter['editorUploader']>,
+  'headers' | 'onUploadBegin' | 'onUploadProgress' | 'skipPolling'
+> {
   onUploadComplete?: (file: UploadedFile) => void;
   onUploadError?: (error: unknown) => void;
 }
@@ -53,9 +49,7 @@ export function useUploadFile({
       const errorMessage = getErrorMessage(error);
 
       const message =
-        errorMessage.length > 0
-          ? errorMessage
-          : 'Something went wrong, please try again later.';
+        errorMessage.length > 0 ? errorMessage : 'Something went wrong, please try again later.';
 
       toast.error(message);
 
@@ -104,8 +98,7 @@ export function useUploadFile({
   };
 }
 
-export const { uploadFiles, useUploadThing } =
-  generateReactHelpers<OurFileRouter>();
+export const { uploadFiles, useUploadThing } = generateReactHelpers<OurFileRouter>();
 
 export function getErrorMessage(err: unknown) {
   const unknownError = 'Something went wrong, please try again later.';

@@ -1,7 +1,14 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -44,10 +51,10 @@ export default async function WalletPage() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-            <HugeiconsIcon icon={Wallet01Icon} className="size-5 text-muted-foreground" />
+            <HugeiconsIcon icon={Wallet01Icon} className="text-muted-foreground size-5" />
             Wallet
           </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-0.5 text-sm">
             Your balance and transaction history.
           </p>
         </div>
@@ -61,17 +68,21 @@ export default async function WalletPage() {
 
       {/* Balance card */}
       <div>
-        <Card className="rounded-[var(--radius)] border-primary/20">
+        <Card className="border-primary/20 rounded-[var(--radius)]">
           <CardHeader>
             <CardDescription>Available Balance</CardDescription>
             <CardTitle className="text-3xl font-semibold tabular-nums">
               {balance.toFixed(2)}{' '}
-              <span className="text-base font-normal text-muted-foreground">{currency}</span>
+              <span className="text-muted-foreground text-base font-normal">{currency}</span>
             </CardTitle>
           </CardHeader>
           <CardFooter className="gap-2">
             <Link href="/finances">
-              <Button variant="outline" size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs"
+              >
                 <HugeiconsIcon icon={CreditCardIcon} className="size-3.5" />
                 Manage Finances
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
@@ -98,12 +109,12 @@ export default async function WalletPage() {
           <CardContent className="pt-0">
             {(transactions ?? []).length === 0 ? (
               <div className="flex flex-col items-center gap-3 py-10 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius)] bg-muted">
-                  <HugeiconsIcon icon={Invoice01Icon} className="size-6 text-muted-foreground/50" />
+                <div className="bg-muted flex h-12 w-12 items-center justify-center rounded-[var(--radius)]">
+                  <HugeiconsIcon icon={Invoice01Icon} className="text-muted-foreground/50 size-6" />
                 </div>
                 <div>
                   <p className="text-sm font-medium">No transactions yet</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  <p className="text-muted-foreground mt-0.5 text-xs">
                     Your payment history will appear here.
                   </p>
                 </div>
@@ -112,13 +123,22 @@ export default async function WalletPage() {
               <div className="space-y-2">
                 {(transactions ?? []).map((t) => {
                   const amount = t.amount_cents / 100;
-                  const isCredit = t.type === 'credit' || t.type === 'deposit' || t.type === 'refund';
+                  const isCredit =
+                    t.type === 'credit' || t.type === 'deposit' || t.type === 'refund';
                   return (
-                    <div key={t.id} className="flex items-center justify-between rounded-[var(--radius)] border border-border/60 p-3">
+                    <div
+                      key={t.id}
+                      className="border-border/60 flex items-center justify-between rounded-[var(--radius)] border p-3"
+                    >
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium">{t.description ?? 'Transaction'}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(t.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                        <p className="truncate text-sm font-medium">
+                          {t.description ?? 'Transaction'}
+                        </p>
+                        <p className="text-muted-foreground text-xs">
+                          {new Date(t.created_at).toLocaleDateString(undefined, {
+                            month: 'short',
+                            day: 'numeric',
+                          })}
                         </p>
                       </div>
                       <div className="ml-3 flex shrink-0 items-center gap-2">
@@ -132,7 +152,9 @@ export default async function WalletPage() {
                         >
                           {t.status ?? 'pending'}
                         </Badge>
-                        <span className={`text-sm font-semibold tabular-nums ${isCredit ? 'text-success' : 'text-foreground'}`}>
+                        <span
+                          className={`text-sm font-semibold tabular-nums ${isCredit ? 'text-success' : 'text-foreground'}`}
+                        >
                           {isCredit ? '+' : '-'}
                           {amount.toFixed(2)} {t.currency ?? currency}
                         </span>

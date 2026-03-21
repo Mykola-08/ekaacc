@@ -22,7 +22,12 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { SYSTEM_ROLES } from '@/lib/platform/config/role-permissions';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Search01Icon, Refresh01Icon, MoreVerticalIcon, UserIcon } from '@hugeicons/core-free-icons';
+import {
+  Search01Icon,
+  Refresh01Icon,
+  MoreVerticalIcon,
+  UserIcon,
+} from '@hugeicons/core-free-icons';
 
 export function UserManagementHeadless() {
   const [users, setUsers] = useState<any[]>([]);
@@ -83,13 +88,19 @@ export function UserManagementHeadless() {
           />
         </div>
         <Button variant="outline" onClick={loadUsers} disabled={loading}>
-          <HugeiconsIcon icon={Refresh01Icon} className={cn('size-4', loading ? 'animate-spin' : '')} />
+          <HugeiconsIcon
+            icon={Refresh01Icon}
+            className={cn('size-4', loading ? 'animate-spin' : '')}
+          />
           Refresh
         </Button>
       </div>
 
       <div className="relative w-full sm:w-96">
-        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+        <HugeiconsIcon
+          icon={Search01Icon}
+          className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"
+        />
         <Input
           placeholder="Search users by email or ID..."
           className="pl-10"
@@ -130,7 +141,9 @@ export function UserManagementHeadless() {
                   <td className="py-4 pr-3 pl-6 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="border-background from-muted to-muted text-primary flex size-10 shrink-0 items-center justify-center rounded-full border-2 bg-linear-to-br font-semibold">
-                        {user.email?.charAt(0).toUpperCase() || <HugeiconsIcon icon={UserIcon} className="size-5" />}
+                        {user.email?.charAt(0).toUpperCase() || (
+                          <HugeiconsIcon icon={UserIcon} className="size-5" />
+                        )}
                       </div>
                       <div className="ml-4">
                         <div className="text-foreground font-medium">{user.email}</div>

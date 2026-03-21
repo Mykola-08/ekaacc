@@ -4,10 +4,7 @@ import {
   CodeLineElementDocx,
   CodeSyntaxLeafDocx,
 } from '@/components/ui/code-block-node-static';
-import {
-  ColumnElementDocx,
-  ColumnGroupElementDocx,
-} from '@/components/ui/column-node-static';
+import { ColumnElementDocx, ColumnGroupElementDocx } from '@/components/ui/column-node-static';
 import {
   EquationElementDocx,
   InlineEquationElementDocx,

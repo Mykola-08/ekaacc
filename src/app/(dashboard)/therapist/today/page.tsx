@@ -1,5 +1,12 @@
 import { createClient } from '@/lib/supabase/server';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardAction } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardAction,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -85,7 +92,11 @@ export default async function TherapistTodayPage() {
   const upcoming = upcomingBookings ?? [];
 
   const firstName = profile?.full_name?.split(' ')[0] || 'there';
-  const dayLabel = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  const dayLabel = today.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  });
   const completedToday = todaysSessions.filter((s: any) => s.status === 'completed').length;
   const remainingToday = todaysSessions.filter((s: any) => s.status === 'scheduled').length;
 
@@ -94,10 +105,8 @@ export default async function TherapistTodayPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-foreground">
-            Today, {firstName}
-          </h1>
-          <p className="text-sm text-muted-foreground">{dayLabel}</p>
+          <h1 className="text-foreground text-xl font-bold tracking-tight">Today, {firstName}</h1>
+          <p className="text-muted-foreground text-sm">{dayLabel}</p>
         </div>
         <Link href="/book">
           <Button size="sm" className="shrink-0 gap-1.5">
@@ -109,16 +118,16 @@ export default async function TherapistTodayPage() {
 
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-3">
-          <p className="text-xs text-muted-foreground">Scheduled</p>
+        <div className="border-border/60 bg-card rounded-[var(--radius)] border p-3">
+          <p className="text-muted-foreground text-xs">Scheduled</p>
           <p className="mt-1 text-2xl font-bold tabular-nums">{remainingToday}</p>
         </div>
-        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-3">
-          <p className="text-xs text-muted-foreground">Completed</p>
-          <p className="mt-1 text-2xl font-bold tabular-nums text-primary">{completedToday}</p>
+        <div className="border-border/60 bg-card rounded-[var(--radius)] border p-3">
+          <p className="text-muted-foreground text-xs">Completed</p>
+          <p className="text-primary mt-1 text-2xl font-bold tabular-nums">{completedToday}</p>
         </div>
-        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-3">
-          <p className="text-xs text-muted-foreground">Pending tasks</p>
+        <div className="border-border/60 bg-card rounded-[var(--radius)] border p-3">
+          <p className="text-muted-foreground text-xs">Pending tasks</p>
           <p className="mt-1 text-2xl font-bold tabular-nums">{activeAssignments.length}</p>
         </div>
       </div>
@@ -130,7 +139,7 @@ export default async function TherapistTodayPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
-                <HugeiconsIcon icon={Calendar03Icon} className="size-4 text-muted-foreground" />
+                <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-4" />
                 <CardTitle className="text-sm font-semibold">Today&apos;s Sessions</CardTitle>
               </div>
               <CardAction>
@@ -145,10 +154,10 @@ export default async function TherapistTodayPage() {
             <CardContent>
               {todaysSessions.length === 0 ? (
                 <div className="flex flex-col items-center gap-2 py-8 text-center">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                    <HugeiconsIcon icon={Calendar03Icon} className="size-5 text-muted-foreground" />
+                  <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
+                    <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-5" />
                   </div>
-                  <p className="text-sm text-muted-foreground">No sessions scheduled today</p>
+                  <p className="text-muted-foreground text-sm">No sessions scheduled today</p>
                   <Link href="/book">
                     <Button size="sm" variant="outline" className="mt-1">
                       Schedule a session
@@ -160,18 +169,18 @@ export default async function TherapistTodayPage() {
                   {todaysSessions.map((session: any) => (
                     <div
                       key={session.id}
-                      className="flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] border border-border/60 p-3"
+                      className="border-border/60 flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] border p-3"
                     >
-                      <div className="flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-muted text-center">
-                        <span className="text-xs font-semibold leading-none text-foreground">
+                      <div className="bg-muted flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] text-center">
+                        <span className="text-foreground text-xs leading-none font-semibold">
                           {session.starts_at ? formatTime(session.starts_at) : '—'}
                         </span>
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-foreground">
+                        <p className="text-foreground truncate text-sm font-medium">
                           {session.client_name ?? 'Client'}
                         </p>
-                        <p className="truncate text-xs text-muted-foreground">
+                        <p className="text-muted-foreground truncate text-xs">
                           {session.service_name ?? 'Session'}
                           {session.ends_at && ` · until ${formatTime(session.ends_at)}`}
                         </p>
@@ -184,7 +193,7 @@ export default async function TherapistTodayPage() {
                               ? 'default'
                               : 'outline'
                         }
-                        className="shrink-0 capitalize text-xs"
+                        className="shrink-0 text-xs capitalize"
                       >
                         {session.status ?? 'scheduled'}
                       </Badge>
@@ -216,7 +225,7 @@ export default async function TherapistTodayPage() {
                     size="sm"
                     className="h-9 w-full justify-start gap-2.5 rounded-[calc(var(--radius)*0.8)] px-3 text-xs font-medium"
                   >
-                    <HugeiconsIcon icon={icon} className="size-4 text-muted-foreground" />
+                    <HugeiconsIcon icon={icon} className="text-muted-foreground size-4" />
                     {label}
                   </Button>
                 </Link>
@@ -234,12 +243,14 @@ export default async function TherapistTodayPage() {
                 {upcoming.map((b: any) => (
                   <div
                     key={b.id}
-                    className="flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border border-border/60 p-2.5"
+                    className="border-border/60 flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border p-2.5"
                   >
                     <div className="min-w-0">
                       <p className="truncate text-xs font-medium">{b.client_name ?? 'Client'}</p>
-                      <p className="truncate text-xs text-muted-foreground">
-                        {b.starts_at ? formatDate(b.starts_at) + ' · ' + formatTime(b.starts_at) : '—'}
+                      <p className="text-muted-foreground truncate text-xs">
+                        {b.starts_at
+                          ? formatDate(b.starts_at) + ' · ' + formatTime(b.starts_at)
+                          : '—'}
                       </p>
                     </div>
                   </div>
@@ -255,7 +266,7 @@ export default async function TherapistTodayPage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <HugeiconsIcon icon={CheckListIcon} className="size-4 text-muted-foreground" />
+              <HugeiconsIcon icon={CheckListIcon} className="text-muted-foreground size-4" />
               <CardTitle className="text-sm font-semibold">Pending Assignment Reviews</CardTitle>
             </div>
             <CardAction>
@@ -272,17 +283,17 @@ export default async function TherapistTodayPage() {
               {activeAssignments.map((a: any) => (
                 <div
                   key={a.id}
-                  className="flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border border-border/60 p-3"
+                  className="border-border/60 flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border p-3"
                 >
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium">{a.title ?? 'Assignment'}</p>
                     {a.due_date && (
-                      <p className="text-xs text-muted-foreground">Due {formatDate(a.due_date)}</p>
+                      <p className="text-muted-foreground text-xs">Due {formatDate(a.due_date)}</p>
                     )}
                   </div>
                   <Badge
                     variant={a.status === 'in_progress' ? 'default' : 'outline'}
-                    className="ml-2 shrink-0 capitalize text-xs"
+                    className="ml-2 shrink-0 text-xs capitalize"
                   >
                     {a.status === 'in_progress' ? 'In Progress' : 'Pending'}
                   </Badge>

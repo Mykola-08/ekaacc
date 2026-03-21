@@ -11,22 +11,22 @@ export default async function TherapistResourcesPage() {
       {/* Page header */}
       <div className="px-4 lg:px-6">
         <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
-          <HugeiconsIcon icon={BookOpen02Icon} className="size-5 text-muted-foreground" />
+          <HugeiconsIcon icon={BookOpen02Icon} className="text-muted-foreground size-5" />
           Resources
         </h1>
-        <p className="mt-0.5 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-0.5 text-sm">
           Therapeutic tools, protocols, and materials for your practice.
         </p>
       </div>
 
       {resources.length === 0 ? (
         <div className="mx-4 flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-[var(--radius)] bg-muted p-4">
-            <HugeiconsIcon icon={BookOpen02Icon} className="size-8 text-muted-foreground/40" />
+          <div className="bg-muted rounded-[var(--radius)] p-4">
+            <HugeiconsIcon icon={BookOpen02Icon} className="text-muted-foreground/40 size-8" />
           </div>
           <div>
-            <p className="font-semibold text-foreground">No resources yet</p>
-            <p className="mt-1 max-w-xs text-sm text-muted-foreground">
+            <p className="text-foreground font-semibold">No resources yet</p>
+            <p className="text-muted-foreground mt-1 max-w-xs text-sm">
               Resources will appear here once they are added to the platform.
             </p>
           </div>

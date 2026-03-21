@@ -50,9 +50,7 @@ export function ConfirmStep({
     const startTime = new Date(selectedDate);
     const [hours, minutes] = selectedTime.split(':');
     startTime.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
-    const endTime = new Date(
-      startTime.getTime() + selectedService.duration_minutes * 60000
-    );
+    const endTime = new Date(startTime.getTime() + selectedService.duration_minutes * 60000);
 
     try {
       const res = await createNewBookingAction({
@@ -81,8 +79,8 @@ export function ConfirmStep({
   if (success) {
     return (
       <div className="flex min-h-80 flex-col items-center justify-center space-y-5 py-8 text-center">
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-12 text-primary" />
+        <div className="bg-primary/10 flex h-20 w-20 items-center justify-center rounded-full">
+          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-primary size-12" />
         </div>
         <div className="space-y-2">
           <h2 className="text-foreground text-2xl font-bold">Booking Confirmed!</h2>
@@ -111,7 +109,7 @@ export function ConfirmStep({
       </div>
 
       {/* Booking mini-summary */}
-      <div className="bg-muted/40 rounded-[var(--radius)] border border-border p-4">
+      <div className="bg-muted/40 border-border rounded-[var(--radius)] border p-4">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="flex items-center gap-2.5">
             <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
@@ -200,8 +198,7 @@ export function ConfirmStep({
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="phone" className="text-sm font-medium">
-            Phone{' '}
-            <span className="text-muted-foreground font-normal">(optional)</span>
+            Phone <span className="text-muted-foreground font-normal">(optional)</span>
           </Label>
           <Input
             type="tel"

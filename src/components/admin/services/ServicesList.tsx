@@ -1,7 +1,14 @@
 'use client';
 
 import { AdminService } from '@/server/admin/actions';
-import { Layers01Icon, Add01Icon, MoreHorizontalIcon, EyeIcon, ViewIcon, Tag01Icon } from '@hugeicons/core-free-icons';
+import {
+  Layers01Icon,
+  Add01Icon,
+  MoreHorizontalIcon,
+  EyeIcon,
+  ViewIcon,
+  Tag01Icon,
+} from '@hugeicons/core-free-icons';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -46,7 +53,7 @@ export function ServicesList({ services }: ServicesListProps) {
         actions={
           <Link href="/console/services/new">
             <Button className="hover: rounded-full transition-all hover:-translate-y-0.5">
-              <HugeiconsIcon icon={Add01Icon} className="mr-2 size-4"  />
+              <HugeiconsIcon icon={Add01Icon} className="mr-2 size-4" />
               Create Service
             </Button>
           </Link>
@@ -94,7 +101,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
               unoptimized
             />
           ) : (
-            <HugeiconsIcon icon={Layers01Icon} className="text-muted-foreground/50 size-8"  />
+            <HugeiconsIcon icon={Layers01Icon} className="text-muted-foreground/50 size-8" />
           )}
         </div>
         <div>
@@ -107,13 +114,13 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
 
       <div className="flex flex-wrap items-center gap-2">
         {service.isPublic ? (
-          <Badge variant="default" className="gap-1.5 bg-success/10 text-success">
-            <HugeiconsIcon icon={EyeIcon} className="size-3"  />
+          <Badge variant="default" className="bg-success/10 text-success gap-1.5">
+            <HugeiconsIcon icon={EyeIcon} className="size-3" />
             Public
           </Badge>
         ) : (
           <Badge variant="secondary" className="gap-1.5">
-            <HugeiconsIcon icon={ViewIcon} className="size-3"  />
+            <HugeiconsIcon icon={ViewIcon} className="size-3" />
             Hidden
           </Badge>
         )}
@@ -133,7 +140,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
               variant="outline"
               className="text-xs font-semibold tracking-wider uppercase"
             >
-              <HugeiconsIcon icon={Tag01Icon} className="mr-1 size-2"  />
+              <HugeiconsIcon icon={Tag01Icon} className="mr-1 size-2" />
               {tag}
             </Badge>
           ))}
@@ -146,7 +153,7 @@ function ServiceRow({ service, index }: { service: AdminService; index: number }
       <div className="border-border ml-auto flex items-center justify-end border-l pl-6 md:ml-0">
         <Link href={`/admin/services/${service.id}`}>
           <Button variant="ghost" size="icon" className="rounded-full">
-            <HugeiconsIcon icon={MoreHorizontalIcon} className="text-muted-foreground size-5"  />
+            <HugeiconsIcon icon={MoreHorizontalIcon} className="text-muted-foreground size-5" />
           </Button>
         </Link>
       </div>

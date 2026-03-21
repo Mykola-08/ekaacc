@@ -26,7 +26,11 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import type { UserProfile } from '@/lib/platform/types/auth-types';
-import { can } from '@/lib/permissions';
+// Simple client-side check
+const can = (permissions: any[], resource: string, action: string) => {
+  if (!permissions) return false;
+  return permissions.some((p: any) => p.resource === resource && p.action === action);
+};
 
 /* ─── Page title mapping ─────────────────────────── */
 const PAGE_TITLES: Record<string, string> = {
@@ -105,7 +109,7 @@ function AIToggle() {
       className={cn(
         'size-8 transition-colors duration-150',
         isOpen
-          ? 'bg-primary/10 text-primary ring-1 ring-primary/20'
+          ? 'bg-primary/10 text-primary ring-primary/20 ring-1'
           : 'text-muted-foreground hover:text-foreground'
       )}
       onClick={toggle}
@@ -155,8 +159,10 @@ export function UnifiedDashboardShell({
               <UnifiedSidebar profile={profile} permissions={permissions} />
 
               <SidebarInset>
-                <a href="#main-content" className="ux-skip-link">Skip to main content</a>
-                <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background/98 backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
+                <a href="#main-content" className="ux-skip-link">
+                  Skip to main content
+                </a>
+                <header className="border-border/60 bg-background/98 flex h-14 shrink-0 items-center gap-2 border-b backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
                   <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
                     <SidebarTrigger className="-ml-1" />
                     <Separator
@@ -203,11 +209,11 @@ export function UnifiedDashboardShell({
                           })
                         )
                       }
-                      className="hidden sm:flex items-center gap-2 rounded-[calc(var(--radius)*0.7)] border border-border/60 bg-muted/40 px-2.5 py-1.5 text-xs text-muted-foreground transition-all duration-150 hover:bg-muted/70 hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="border-border/60 bg-muted/40 text-muted-foreground hover:bg-muted/70 hover:border-border hover:text-foreground focus-visible:ring-ring hidden items-center gap-2 rounded-[calc(var(--radius)*0.7)] border px-2.5 py-1.5 text-xs transition-all duration-150 focus-visible:ring-2 focus-visible:outline-none sm:flex"
                       aria-label="Open command palette"
                     >
                       <span className="hidden md:inline">Search…</span>
-                      <kbd className="flex items-center gap-0.5 font-sans text-[10px] text-muted-foreground/70">
+                      <kbd className="text-muted-foreground/70 flex items-center gap-0.5 font-sans text-[10px]">
                         <span>⌘</span>
                         <span>K</span>
                       </kbd>
@@ -230,7 +236,7 @@ export function UnifiedDashboardShell({
                     >
                       <div
                         key={pathname}
-                        className="animate-in fade-in slide-in-from-bottom-2 duration-200 ease-out p-4 md:p-6"
+                        className="animate-in fade-in slide-in-from-bottom-2 p-4 duration-200 ease-out md:p-6"
                       >
                         {children}
                       </div>

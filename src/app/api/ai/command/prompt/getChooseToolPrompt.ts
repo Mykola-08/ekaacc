@@ -2,11 +2,7 @@ import type { ChatMessage } from '@/components/use-chat';
 
 import dedent from 'dedent';
 
-import {
-  buildStructuredPrompt,
-  formatTextFromMessages,
-  getLastUserInstruction,
-} from '../utils';
+import { buildStructuredPrompt, formatTextFromMessages, getLastUserInstruction } from '../utils';
 
 export function getChooseToolPrompt({
   isSelecting,

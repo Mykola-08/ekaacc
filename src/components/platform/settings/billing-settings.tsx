@@ -15,7 +15,15 @@ import { StatusBadge } from '@/components/ui/status-badge';
 import { createClient } from '@/lib/platform/supabase/client';
 import { useRouter } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Alert01Icon, ArrowUpRight01Icon, CreditCardIcon, Loading03Icon, ReceiptTextIcon, ShieldIcon, Tick02Icon } from '@hugeicons/core-free-icons';
+import {
+  Alert01Icon,
+  ArrowUpRight01Icon,
+  CreditCardIcon,
+  Loading03Icon,
+  ReceiptTextIcon,
+  ShieldIcon,
+  Tick02Icon,
+} from '@hugeicons/core-free-icons';
 import {
   getInvoices,
   getSubscription,
@@ -77,7 +85,7 @@ export function BillingSettings() {
   if (loading) {
     return (
       <div className="flex justify-center p-8">
-        <HugeiconsIcon icon={Loading03Icon} className="text-muted-foreground size-8 animate-spin"  />
+        <HugeiconsIcon icon={Loading03Icon} className="text-muted-foreground size-8 animate-spin" />
       </div>
     );
   }
@@ -136,7 +144,10 @@ export function BillingSettings() {
               <p className="text-muted-foreground mt-1 mb-4 text-sm">
                 Upgrade to unlock premium features and priority support.
               </p>
-              <Button onClick={() => router.push('/finances?tab=plans')} className="rounded-[var(--radius)]">
+              <Button
+                onClick={() => router.push('/finances?tab=plans')}
+                className="rounded-[var(--radius)]"
+              >
                 View Plans
               </Button>
             </div>
@@ -150,7 +161,9 @@ export function BillingSettings() {
               disabled={portalLoading}
               className="rounded-[var(--radius)]"
             >
-              {portalLoading && <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin"  />}
+              {portalLoading && (
+                <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin" />
+              )}
               Manage Subscription
             </Button>
           </CardFooter>
@@ -163,7 +176,7 @@ export function BillingSettings() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2">
-                <HugeiconsIcon icon={CreditCardIcon} className="text-primary size-5"  />
+                <HugeiconsIcon icon={CreditCardIcon} className="text-primary size-5" />
                 Payment Methods
               </CardTitle>
               <CardDescription>Cards on file for subscriptions and purchases</CardDescription>
@@ -209,7 +222,10 @@ export function BillingSettings() {
             </div>
           ) : (
             <div className="py-6 text-center">
-              <HugeiconsIcon icon={CreditCardIcon} className="text-muted-foreground/40 mx-auto mb-3 size-8"  />
+              <HugeiconsIcon
+                icon={CreditCardIcon}
+                className="text-muted-foreground/40 mx-auto mb-3 size-8"
+              />
               <p className="text-muted-foreground text-sm">
                 No payment methods on file.{' '}
                 {subscription
@@ -249,7 +265,7 @@ export function BillingSettings() {
                       }`}
                     >
                       {invoice.status === 'paid' ? (
-                        <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
+                        <HugeiconsIcon icon={Tick02Icon} className="size-4" />
                       ) : (
                         <HugeiconsIcon icon={ReceiptTextIcon} className="h-4 w-4" />
                       )}
@@ -292,7 +308,7 @@ export function BillingSettings() {
                           rel="noopener noreferrer"
                           title="View invoice"
                         >
-                          <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4"  />
+                          <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" />
                         </a>
                       </Button>
                     )}
@@ -302,7 +318,10 @@ export function BillingSettings() {
             </div>
           ) : (
             <div className="py-8 text-center">
-              <HugeiconsIcon icon={ReceiptTextIcon} className="text-muted-foreground/40 mx-auto mb-3 h-8 w-8" />
+              <HugeiconsIcon
+                icon={ReceiptTextIcon}
+                className="text-muted-foreground/40 mx-auto mb-3 h-8 w-8"
+              />
               <p className="text-foreground font-medium">No billing history yet</p>
               <p className="text-muted-foreground text-sm">
                 Invoices will appear here once you make a purchase.

@@ -5,7 +5,18 @@ import Link from 'next/link';
 import { Button } from '@/marketing/components/ui/button';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
-import { ArrowRight01Icon, ArrowLeft01Icon, FavouriteIcon, Brain01Icon, SparklesIcon, CheckmarkCircle01Icon, Location01Icon, GlobeIcon, Message01Icon, ClipboardIcon } from '@hugeicons/core-free-icons';
+import {
+  ArrowRight01Icon,
+  ArrowLeft01Icon,
+  FavouriteIcon,
+  Brain01Icon,
+  SparklesIcon,
+  CheckmarkCircle01Icon,
+  Location01Icon,
+  GlobeIcon,
+  Message01Icon,
+  ClipboardIcon,
+} from '@hugeicons/core-free-icons';
 
 interface FormData {
   location: string;
@@ -581,7 +592,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           <div className="mx-auto max-w-4xl px-4 sm:px-8">
             <div className="mb-12 text-center">
               <div className="mb-8 inline-flex items-center rounded-full bg-green-100 px-6 py-3">
-                <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-2 size-5 text-green-600"  />
+                <HugeiconsIcon
+                  icon={CheckmarkCircle01Icon}
+                  className="mr-2 size-5 text-green-600"
+                />
                 <span className="font-medium text-green-700">
                   {t('discovery.recommendation.badge')}
                 </span>
@@ -729,7 +743,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     onClick={handleBooking}
                     className="flex items-center justify-center rounded-full bg-[#25D366] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[#128C7E]"
                   >
-                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-5"  />
+                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-5" />
                     {t('booking.direct.button')}
                   </button>
                   <button
@@ -743,7 +757,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             ) : (
               <div className="mb-8 rounded-[var(--radius)] border border-gray-200 bg-white p-8 sm:p-12">
                 <h2 className="mb-8 flex items-center justify-center text-2xl font-semibold text-gray-900">
-                  <HugeiconsIcon icon={ClipboardIcon} className="mr-3 size-6 text-blue-600"  />
+                  <HugeiconsIcon icon={ClipboardIcon} className="mr-3 size-6 text-blue-600" />
                   {t('discovery.diagnosis.title')}
                 </h2>
 
@@ -812,7 +826,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     onClick={handleBooking}
                     className="flex items-center justify-center rounded-full bg-[#25D366] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[#128C7E]"
                   >
-                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-5"  />
+                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-5" />
                     {t('booking.direct.button')}
                   </button>
                   <button
@@ -985,7 +999,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       <div className="flex items-center justify-between">
                         <span className="font-medium text-gray-900">{option}</span>
                         {formData.tensionAreas.includes(option) && (
-                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-5 text-blue-600"  />
+                          <HugeiconsIcon
+                            icon={CheckmarkCircle01Icon}
+                            className="size-5 text-blue-600"
+                          />
                         )}
                       </div>
                     </button>
@@ -1086,7 +1103,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 }`}
                 disabled={currentStep === 0}
               >
-                <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
+                <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4" />
                 {t('discovery.back')}
               </button>
 
@@ -1101,7 +1118,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 className="w-auto"
               >
                 {currentStep === 6 ? t('discovery.seeRecommendation') : t('discovery.next')}
-                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4"  />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4" />
               </Button>
             </div>
           </div>

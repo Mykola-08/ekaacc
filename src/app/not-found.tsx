@@ -37,7 +37,7 @@ export default function NotFound() {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 shadow-primary/25 text-primary-foreground w-full rounded-[calc(var(--radius)*0.8)] border-none py-6"
               >
-                <HugeiconsIcon icon={Home01Icon} className="mr-2 size-5"  />
+                <HugeiconsIcon icon={Home01Icon} className="mr-2 size-5" />
                 Back to Home
               </Button>
             </Link>
@@ -46,7 +46,7 @@ export default function NotFound() {
               onClick={() => window.history.back()}
               className="text-muted-foreground hover:text-foreground flex w-full items-center justify-center py-2 text-sm font-medium transition-colors"
             >
-              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4" />
               Go Back
             </button>
           </div>

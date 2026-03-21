@@ -6,9 +6,22 @@ import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import PersonalizedServiceTemplate from '@/marketing/components/templates/PersonalizedServiceTemplate';
 import ForBusinessContent from '@/marketing/components/ForBusinessContent';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Brain01Icon, ComputerActivityIcon, ComputerIcon, MusicNote01Icon, UserMultipleIcon, ZapIcon } from '@hugeicons/core-free-icons';
+import {
+  Brain01Icon,
+  ComputerActivityIcon,
+  ComputerIcon,
+  MusicNote01Icon,
+  UserMultipleIcon,
+  ZapIcon,
+} from '@hugeicons/core-free-icons';
 
-export type PersonaType = 'athletes' | 'business' | 'musicians' | 'office-workers' | 'students' | 'parents';
+export type PersonaType =
+  | 'athletes'
+  | 'business'
+  | 'musicians'
+  | 'office-workers'
+  | 'students'
+  | 'parents';
 
 interface PersonaContentProps {
   persona: PersonaType;
@@ -46,9 +59,21 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
         },
       ],
       faqItems: [
-        { id: 'athlete-q1', question: t('personalized.athletes.faq.q1'), answer: t('personalized.athletes.faq.a1') },
-        { id: 'athlete-q2', question: t('personalized.athletes.faq.q2'), answer: t('personalized.athletes.faq.a2') },
-        { id: 'athlete-q3', question: t('personalized.athletes.faq.q3'), answer: t('personalized.athletes.faq.a3') },
+        {
+          id: 'athlete-q1',
+          question: t('personalized.athletes.faq.q1'),
+          answer: t('personalized.athletes.faq.a1'),
+        },
+        {
+          id: 'athlete-q2',
+          question: t('personalized.athletes.faq.q2'),
+          answer: t('personalized.athletes.faq.a2'),
+        },
+        {
+          id: 'athlete-q3',
+          question: t('personalized.athletes.faq.q3'),
+          answer: t('personalized.athletes.faq.a3'),
+        },
       ],
       showMethodology: true,
     },
@@ -76,9 +101,21 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
         },
       ],
       faqItems: [
-        { id: 'musician-q1', question: t('personalized.musicians.faq.q1'), answer: t('personalized.musicians.faq.a1') },
-        { id: 'musician-q2', question: t('personalized.musicians.faq.q2'), answer: t('personalized.musicians.faq.a2') },
-        { id: 'musician-q3', question: t('personalized.musicians.faq.q3'), answer: t('personalized.musicians.faq.a3') },
+        {
+          id: 'musician-q1',
+          question: t('personalized.musicians.faq.q1'),
+          answer: t('personalized.musicians.faq.a1'),
+        },
+        {
+          id: 'musician-q2',
+          question: t('personalized.musicians.faq.q2'),
+          answer: t('personalized.musicians.faq.a2'),
+        },
+        {
+          id: 'musician-q3',
+          question: t('personalized.musicians.faq.q3'),
+          answer: t('personalized.musicians.faq.a3'),
+        },
       ],
       showMethodology: true,
     },
@@ -106,9 +143,21 @@ export default function PersonaContent({ persona }: PersonaContentProps) {
         },
       ],
       faqItems: [
-        { id: 'office-q1', question: t('personalized.officeWorkers.faq.q1'), answer: t('personalized.officeWorkers.faq.a1') },
-        { id: 'office-q2', question: t('personalized.officeWorkers.faq.q2'), answer: t('personalized.officeWorkers.faq.a2') },
-        { id: 'office-q3', question: t('personalized.officeWorkers.faq.q3'), answer: t('personalized.officeWorkers.faq.a3') },
+        {
+          id: 'office-q1',
+          question: t('personalized.officeWorkers.faq.q1'),
+          answer: t('personalized.officeWorkers.faq.a1'),
+        },
+        {
+          id: 'office-q2',
+          question: t('personalized.officeWorkers.faq.q2'),
+          answer: t('personalized.officeWorkers.faq.a2'),
+        },
+        {
+          id: 'office-q3',
+          question: t('personalized.officeWorkers.faq.q3'),
+          answer: t('personalized.officeWorkers.faq.a3'),
+        },
       ],
       showMethodology: true,
     },

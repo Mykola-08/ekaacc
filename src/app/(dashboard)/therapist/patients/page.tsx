@@ -18,7 +18,12 @@ import { cn } from '@/lib/utils';
 
 function getInitials(name: string | null) {
   if (!name) return '?';
-  return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 const PALETTE = [
@@ -30,7 +35,9 @@ const PALETTE = [
 
 export default async function PatientManagerPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: therapist } = await supabase
@@ -44,7 +51,9 @@ export default async function PatientManagerPage() {
   // Get unique patients from bookings with last booking info
   const { data: bookings } = await supabase
     .from('bookings')
-    .select('client_id, status, starts_at, profiles:client_id(id, full_name, email, phone, created_at)')
+    .select(
+      'client_id, status, starts_at, profiles:client_id(id, full_name, email, phone, created_at)'
+    )
     .eq('therapist_id', therapist.id)
     .order('starts_at', { ascending: false });
 
@@ -71,12 +80,12 @@ export default async function PatientManagerPage() {
       <div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-semibold tracking-tight text-foreground">Patients</h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
+            <h1 className="text-foreground text-xl font-semibold tracking-tight">Patients</h1>
+            <p className="text-muted-foreground mt-0.5 text-sm">
               {totalActive} active client{totalActive !== 1 ? 's' : ''} in your caseload
             </p>
           </div>
-          <Button size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] shrink-0">
+          <Button size="sm" className="shrink-0 gap-1.5 rounded-[calc(var(--radius)*0.8)]">
             <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
             Add Patient
           </Button>
@@ -85,22 +94,22 @@ export default async function PatientManagerPage() {
 
       {/* ── Quick stats ─── */}
       <div className="grid grid-cols-3 gap-3">
-        <Card className="rounded-[var(--radius)] border-border/60">
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Total Clients</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">{totalActive}</p>
+            <p className="text-muted-foreground text-xs tracking-wide uppercase">Total Clients</p>
+            <p className="text-foreground mt-1 text-2xl font-bold tabular-nums">{totalActive}</p>
           </CardContent>
         </Card>
-        <Card className="rounded-[var(--radius)] border-primary/20 bg-primary/5">
+        <Card className="border-primary/20 bg-primary/5 rounded-[var(--radius)]">
           <CardContent className="p-4">
-            <p className="text-xs text-primary uppercase tracking-wide">Upcoming</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-primary">{scheduledCount}</p>
+            <p className="text-primary text-xs tracking-wide uppercase">Upcoming</p>
+            <p className="text-primary mt-1 text-2xl font-bold tabular-nums">{scheduledCount}</p>
           </CardContent>
         </Card>
-        <Card className="rounded-[var(--radius)] border-border/60">
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Avg Sessions</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
+            <p className="text-muted-foreground text-xs tracking-wide uppercase">Avg Sessions</p>
+            <p className="text-foreground mt-1 text-2xl font-bold tabular-nums">
               {totalActive > 0 ? Math.round((bookings?.length ?? 0) / totalActive) : 0}
             </p>
           </CardContent>
@@ -110,12 +119,12 @@ export default async function PatientManagerPage() {
       {/* ── Patient list ─── */}
       {patients.length === 0 ? (
         <div className="mx-4 flex flex-col items-center gap-4 rounded-[var(--radius)] border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-[var(--radius)] bg-muted p-5">
-            <HugeiconsIcon icon={UserGroupIcon} className="size-10 text-muted-foreground/40" />
+          <div className="bg-muted rounded-[var(--radius)] p-5">
+            <HugeiconsIcon icon={UserGroupIcon} className="text-muted-foreground/40 size-10" />
           </div>
           <div>
-            <p className="font-semibold text-foreground">No patients yet</p>
-            <p className="mt-1 text-sm text-muted-foreground max-w-xs">
+            <p className="text-foreground font-semibold">No patients yet</p>
+            <p className="text-muted-foreground mt-1 max-w-xs text-sm">
               Patients will appear here once you have bookings linked to your account.
             </p>
           </div>
@@ -128,8 +137,12 @@ export default async function PatientManagerPage() {
               lastBooking?.status === 'scheduled' && new Date(lastBooking.starts_at) > new Date();
 
             return (
-              <Link key={profile.id} href={`/therapist/patients/${profile.id}`} className="group block">
-                <Card className="h-full rounded-[var(--radius)] border border-border/60 transition-all hover:-translate-y-px hover:shadow-md">
+              <Link
+                key={profile.id}
+                href={`/therapist/patients/${profile.id}`}
+                className="group block"
+              >
+                <Card className="border-border/60 h-full rounded-[var(--radius)] border transition-all hover:-translate-y-px hover:shadow-md">
                   <CardHeader className="pb-3">
                     <div className="flex items-start gap-3">
                       <Avatar className="size-12 shrink-0">
@@ -137,9 +150,9 @@ export default async function PatientManagerPage() {
                           {getInitials(profile.full_name)}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
-                          <p className="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">
+                          <p className="text-foreground group-hover:text-primary truncate text-sm font-semibold transition-colors">
                             {profile.full_name ?? 'Unknown'}
                           </p>
                           <Badge
@@ -153,7 +166,7 @@ export default async function PatientManagerPage() {
                           </Badge>
                         </div>
                         {profile.email && (
-                          <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground truncate">
+                          <p className="text-muted-foreground mt-0.5 flex items-center gap-1 truncate text-xs">
                             <HugeiconsIcon icon={Mail01Icon} className="size-3 shrink-0" />
                             {profile.email}
                           </p>
@@ -164,15 +177,15 @@ export default async function PatientManagerPage() {
 
                   <CardContent className="pt-0 pb-4">
                     {/* Session meta */}
-                    <div className="flex items-center justify-between rounded-[var(--radius)] bg-muted/50 px-3 py-2">
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <div className="bg-muted/50 flex items-center justify-between rounded-[var(--radius)] px-3 py-2">
+                      <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
                         <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
                         <span>
                           {sessionCount} session{sessionCount !== 1 ? 's' : ''}
                         </span>
                       </div>
                       {lastBooking?.starts_at && (
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center gap-1 text-xs">
                           <span>
                             {new Date(lastBooking.starts_at).toLocaleDateString(undefined, {
                               month: 'short',
@@ -200,7 +213,11 @@ export default async function PatientManagerPage() {
                         </Button>
                       </Link>
                       <Link href="/chat" onClick={(e) => e.stopPropagation()}>
-                        <Button variant="outline" size="sm" className="rounded-[var(--radius)] px-2.5">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="rounded-[var(--radius)] px-2.5"
+                        >
                           <HugeiconsIcon icon={Message01Icon} className="size-4" />
                         </Button>
                       </Link>

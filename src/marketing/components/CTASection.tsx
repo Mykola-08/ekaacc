@@ -31,10 +31,10 @@ export default function CTASection() {
               <Button
                 onClick={() => navigateToBooking()}
                 size="lg"
-                className="h-auto w-full rounded-full bg-white px-10 py-6 text-lg font-medium text-foreground transition-all duration-300 hover:scale-[1.02] hover:bg-gray-50 sm:w-auto"
+                className="text-foreground h-auto w-full rounded-full bg-white px-10 py-6 text-lg font-medium transition-all duration-300 hover:scale-[1.02] hover:bg-gray-50 sm:w-auto"
               >
                 {t('common.bookNow')}
-                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
               </Button>
               <Link href="/booking" className="w-full sm:w-auto">
                 <Button

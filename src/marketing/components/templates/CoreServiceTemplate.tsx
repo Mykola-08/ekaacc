@@ -180,7 +180,7 @@ export default function CoreServiceTemplate({
                       <div
                         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius)] ${iconStyle} transition-transform duration-500 group-hover:scale-110`}
                       >
-                        <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6"  />
+                        <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6" />
                       </div>
                       <div className="flex min-h-[3rem] flex-1 items-center">
                         <h3 className="text-xl font-medium tracking-tight text-gray-900">
@@ -213,14 +213,14 @@ export default function CoreServiceTemplate({
               {pricing.options.map((option, index) => (
                 <div
                   key={index}
-                  className="group relative flex flex-col items-center overflow-hidden rounded-[2rem] border border-gray-100 bg-background p-6 text-center transition-all duration-500 hover:border-gray-200 sm:rounded-[2.5rem] sm:p-8 md:p-10"
+                  className="group bg-background relative flex flex-col items-center overflow-hidden rounded-[2rem] border border-gray-100 p-6 text-center transition-all duration-500 hover:border-gray-200 sm:rounded-[2.5rem] sm:p-8 md:p-10"
                 >
                   <div className="absolute top-0 right-0 z-0 h-32 w-32 rounded-bl-full bg-gray-100 opacity-50 transition-colors duration-500 group-hover:bg-blue-50" />
 
                   <div
                     className={`relative z-10 mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-[1.25rem] bg-white transition-transform duration-500 group-hover:scale-110 ${iconStyle}`}
                   >
-                    <HugeiconsIcon icon={Clock01Icon} className="size-7"  />
+                    <HugeiconsIcon icon={Clock01Icon} className="size-7" />
                   </div>
 
                   {option.nameKey && (
@@ -276,7 +276,7 @@ export default function CoreServiceTemplate({
                   >
                     <div className="mb-4 flex gap-1 text-yellow-400">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <HugeiconsIcon icon={StarIcon} key={i} className="size-5 fill-current"  />
+                        <HugeiconsIcon icon={StarIcon} key={i} className="size-5 fill-current" />
                       ))}
                     </div>
                     <p className="mb-6 flex-grow text-lg text-gray-600 italic">

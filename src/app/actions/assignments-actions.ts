@@ -5,7 +5,9 @@ import { revalidatePath } from 'next/cache';
 
 export async function getMyAssignments(status?: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: [], error: 'Unauthenticated' };
 
   // Get profile to get the profile id
@@ -29,7 +31,9 @@ export async function getMyAssignments(status?: string) {
 
 export async function updateAssignmentStatus(id: string, status: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase
@@ -45,18 +49,18 @@ export async function updateAssignmentStatus(id: string, status: string) {
 
 export async function submitAssignment(id: string, responseText: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   // Create submission
-  const { error: subError } = await supabase
-    .from('assignment_submissions')
-    .upsert({
-      assignment_id: id,
-      patient_id: user.id,
-      response_json: { text: responseText },
-      submitted_at: new Date().toISOString(),
-    });
+  const { error: subError } = await supabase.from('assignment_submissions').upsert({
+    assignment_id: id,
+    patient_id: user.id,
+    response_json: { text: responseText },
+    submitted_at: new Date().toISOString(),
+  });
 
   if (subError) return { success: false, error: subError.message };
 
@@ -81,7 +85,9 @@ export async function createAssignment(input: {
   priority?: string;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { data, error } = await supabase

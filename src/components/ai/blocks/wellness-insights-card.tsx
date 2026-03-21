@@ -9,7 +9,16 @@
 import * as motion from 'motion/react-client';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
-import { AnalyticsUpIcon, ArrowRight01Icon, Brain01Icon, BulbIcon, FavouriteIcon, Idea01Icon, Target01Icon, ZapIcon } from '@hugeicons/core-free-icons';
+import {
+  AnalyticsUpIcon,
+  ArrowRight01Icon,
+  Brain01Icon,
+  BulbIcon,
+  FavouriteIcon,
+  Idea01Icon,
+  Target01Icon,
+  ZapIcon,
+} from '@hugeicons/core-free-icons';
 
 interface Insight {
   type: string;
@@ -43,7 +52,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
       className="bg-card w-full max-w-md rounded-[calc(var(--radius)*0.8)] border p-4"
     >
       <div className="flex items-center gap-2">
-        <HugeiconsIcon icon={Brain01Icon} className="text-primary size-4"  />
+        <HugeiconsIcon icon={Brain01Icon} className="text-primary size-4" />
         <p className="text-sm font-semibold">Wellness Insights</p>
       </div>
 
@@ -70,7 +79,10 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
               <ul className="">
                 {insight.actionItems.map((item, j) => (
                   <li key={j} className="flex items-start gap-1.5 text-xs">
-                    <HugeiconsIcon icon={ArrowRight01Icon} className="text-primary mt-0.5 size-3 shrink-0"  />
+                    <HugeiconsIcon
+                      icon={ArrowRight01Icon}
+                      className="text-primary mt-0.5 size-3 shrink-0"
+                    />
                     <span>{item}</span>
                   </li>
                 ))}

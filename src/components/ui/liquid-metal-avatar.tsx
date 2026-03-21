@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LiquidMetal, LiquidMetalProps } from '@paper-design/shaders-react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -24,19 +20,16 @@ const avatarVariants = cva(
   }
 );
 
-const innerVariants = cva(
-  'absolute rounded-full bg-primary-foreground inset-shadow-lg',
-  {
-    variants: {
-      size: {
-        sm: 'inset-[1px]',
-        md: 'inset-[2px]',
-        lg: 'inset-[3px]',
-      },
+const innerVariants = cva('absolute rounded-full bg-primary-foreground inset-shadow-lg', {
+  variants: {
+    size: {
+      sm: 'inset-[1px]',
+      md: 'inset-[2px]',
+      lg: 'inset-[3px]',
     },
-    defaultVariants: { size: 'md' },
-  }
-);
+  },
+  defaultVariants: { size: 'md' },
+});
 
 type ShaderProps = Omit<LiquidMetalProps, 'className' | 'style' | 'shape'>;
 
@@ -63,13 +56,13 @@ function LiquidMetalAvatar({
 }: LiquidMetalAvatarProps) {
   return (
     <div
-      data-slot='liquid-metal-avatar'
+      data-slot="liquid-metal-avatar"
       className={cn(avatarVariants({ size }), className)}
       {...props}
     >
       <LiquidMetal
-        className='absolute inset-0 rounded-full'
-        shape='none'
+        className="absolute inset-0 rounded-full"
+        shape="none"
         speed={speed}
         repetition={repetition}
         softness={softness}
@@ -82,9 +75,7 @@ function LiquidMetalAvatar({
         offsetX={offsetX}
         offsetY={offsetY}
       />
-      <Avatar
-        className={cn(innerVariants({ size }), 'size-auto bg-transparent')}
-      >
+      <Avatar className={cn(innerVariants({ size }), 'size-auto bg-transparent')}>
         {children}
       </Avatar>
     </div>

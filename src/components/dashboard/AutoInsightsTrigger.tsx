@@ -42,9 +42,11 @@ export function AutoInsightsTrigger() {
     };
 
     if ('requestIdleCallback' in window) {
-      (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => {
-        void runSilentAiFlows();
-      });
+      (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(
+        () => {
+          void runSilentAiFlows();
+        }
+      );
       return;
     }
 

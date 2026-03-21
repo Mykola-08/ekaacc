@@ -43,9 +43,7 @@ export function LineHeightToolbarButton(props: DropdownMenuProps) {
         <DropdownMenuRadioGroup
           value={value}
           onValueChange={(newValue) => {
-            editor
-              .getTransforms(LineHeightPlugin)
-              .lineHeight.setNodes(Number(newValue));
+            editor.getTransforms(LineHeightPlugin).lineHeight.setNodes(Number(newValue));
             editor.tf.focus();
           }}
         >

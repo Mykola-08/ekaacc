@@ -28,10 +28,8 @@ export const editorVariants = cva(
       },
       variant: {
         ai: 'w-full px-0 text-base md:text-sm',
-        aiChat:
-          'max-h-[min(70vh,320px)] w-full overflow-y-auto px-5 py-3 text-base md:text-sm',
-        default:
-          'size-full px-16 pt-4 pb-72 text-base sm:px-[max(64px,calc(50%-350px))]',
+        aiChat: 'max-h-[min(70vh,320px)] w-full overflow-y-auto px-5 py-3 text-base md:text-sm',
+        default: 'size-full px-16 pt-4 pb-72 text-base sm:px-[max(64px,calc(50%-350px))]',
         demo: 'size-full px-16 pt-4 pb-72 text-base sm:px-[max(64px,calc(50%-350px))]',
         fullWidth: 'size-full px-16 pt-4 pb-72 text-base sm:px-24',
         none: '',
@@ -46,10 +44,5 @@ export function EditorStatic({
   variant,
   ...props
 }: PlateStaticProps & VariantProps<typeof editorVariants>) {
-  return (
-    <PlateStatic
-      className={cn(editorVariants({ variant }), className)}
-      {...props}
-    />
-  );
+  return <PlateStatic className={cn(editorVariants({ variant }), className)} {...props} />;
 }

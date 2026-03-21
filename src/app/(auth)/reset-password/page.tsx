@@ -13,7 +13,14 @@ import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Loading03Icon, LockIcon, CheckmarkCircle01Icon, ArrowLeft01Icon, SparklesIcon, ShieldIcon } from '@hugeicons/core-free-icons';
+import {
+  Loading03Icon,
+  LockIcon,
+  CheckmarkCircle01Icon,
+  ArrowLeft01Icon,
+  SparklesIcon,
+  ShieldIcon,
+} from '@hugeicons/core-free-icons';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -122,7 +129,10 @@ export default function ResetPasswordPage() {
                     ? 'Please wait while we verify your reset link'
                     : 'Taking you to password reset'}
                 </p>
-                <HugeiconsIcon icon={Loading03Icon} className="text-muted-foreground size-5 animate-spin"  />
+                <HugeiconsIcon
+                  icon={Loading03Icon}
+                  className="text-muted-foreground size-5 animate-spin"
+                />
               </div>
             </CardContent>
           </Card>
@@ -184,7 +194,10 @@ export default function ResetPasswordPage() {
                   New Password
                 </label>
                 <div className="relative">
-                  <HugeiconsIcon icon={LockIcon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"  />
+                  <HugeiconsIcon
+                    icon={LockIcon}
+                    className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"
+                  />
                   <Input
                     id="password"
                     type="password"
@@ -216,7 +229,10 @@ export default function ResetPasswordPage() {
                   Confirm New Password
                 </label>
                 <div className="relative">
-                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"  />
+                  <HugeiconsIcon
+                    icon={CheckmarkCircle01Icon}
+                    className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"
+                  />
                   <Input
                     id="confirmPassword"
                     type="password"
@@ -245,10 +261,10 @@ export default function ResetPasswordPage() {
                 />
                 <Button type="submit" className="auth-submit-btn" disabled={isLoading}>
                   {isLoading ? (
-                    <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  />
+                    <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin" />
                   ) : (
                     <span className="flex items-center gap-2">
-                      <HugeiconsIcon icon={SparklesIcon} className="size-4"  />
+                      <HugeiconsIcon icon={SparklesIcon} className="size-4" />
                       Update Password
                     </span>
                   )}
@@ -266,7 +282,7 @@ export default function ResetPasswordPage() {
                 href="/login"
                 className="text-foreground hover:text-primary inline-flex items-center gap-1 text-sm font-semibold transition-colors"
               >
-                <HugeiconsIcon icon={ArrowLeft01Icon} className="size-3"  />
+                <HugeiconsIcon icon={ArrowLeft01Icon} className="size-3" />
                 Back to Sign In
               </Link>
             </motion.div>

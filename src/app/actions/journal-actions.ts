@@ -5,7 +5,9 @@ import { revalidatePath } from 'next/cache';
 
 export async function getJournalEntries(limit = 20) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: [], error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -26,7 +28,9 @@ export async function createJournalEntry(input: {
   tags?: string[];
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -45,7 +49,9 @@ export async function updateJournalEntry(
   input: { title?: string; content?: string; mood?: string; mood_score?: number; tags?: string[] }
 ) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase
@@ -61,7 +67,9 @@ export async function updateJournalEntry(
 
 export async function deleteJournalEntry(id: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase

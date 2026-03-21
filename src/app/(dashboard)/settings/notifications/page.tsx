@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -48,23 +55,32 @@ export default function NotificationsSettingsPage() {
           <CardDescription>Choose what updates you receive and how frequently.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {([
-            ['email_enabled', 'Email notifications'],
-            ['push_enabled', 'Push notifications'],
-            ['in_app_enabled', 'In-app notifications'],
-            ['booking_reminders', 'Booking reminders'],
-            ['assignment_due', 'Assignment due reminders'],
-            ['ai_insights_weekly', 'Weekly AI insights digest'],
-          ] as Array<[keyof PrefsState, string]>).map(([key, label]) => (
-            <div key={key} className="flex items-center justify-between rounded-[var(--radius)] border border-border/60 p-3">
+          {(
+            [
+              ['email_enabled', 'Email notifications'],
+              ['push_enabled', 'Push notifications'],
+              ['in_app_enabled', 'In-app notifications'],
+              ['booking_reminders', 'Booking reminders'],
+              ['assignment_due', 'Assignment due reminders'],
+              ['ai_insights_weekly', 'Weekly AI insights digest'],
+            ] as Array<[keyof PrefsState, string]>
+          ).map(([key, label]) => (
+            <div
+              key={key}
+              className="border-border/60 flex items-center justify-between rounded-[var(--radius)] border p-3"
+            >
               <Label className="text-sm">{label}</Label>
               <Switch checked={prefs[key]} onCheckedChange={() => toggle(key)} />
             </div>
           ))}
         </CardContent>
         <CardFooter className="justify-end gap-2">
-          {saved && <span className="text-sm text-success">Saved</span>}
-          <Button onClick={onSave} disabled={isPending} className="rounded-[calc(var(--radius)*0.8)]">
+          {saved && <span className="text-success text-sm">Saved</span>}
+          <Button
+            onClick={onSave}
+            disabled={isPending}
+            className="rounded-[calc(var(--radius)*0.8)]"
+          >
             {isPending ? 'Saving…' : 'Save preferences'}
           </Button>
         </CardFooter>

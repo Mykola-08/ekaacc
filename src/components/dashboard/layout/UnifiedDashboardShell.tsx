@@ -102,7 +102,12 @@ function AIToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className={cn('size-8', isOpen && 'bg-accent')}
+      className={cn(
+        'size-8 transition-colors duration-150',
+        isOpen
+          ? 'bg-primary/10 text-primary ring-1 ring-primary/20'
+          : 'text-muted-foreground hover:text-foreground'
+      )}
       onClick={toggle}
       aria-label={isOpen ? 'Close AI Assistant' : 'Open AI Assistant'}
     >
@@ -143,7 +148,7 @@ export function UnifiedDashboardShell({
               style={
                 {
                   '--sidebar-width': 'calc(var(--spacing) * 72)',
-                  '--header-height': 'calc(var(--spacing) * 12)',
+                  '--header-height': 'calc(var(--spacing) * 14)',
                 } as React.CSSProperties
               }
             >
@@ -151,7 +156,7 @@ export function UnifiedDashboardShell({
 
               <SidebarInset>
                 <a href="#main-content" className="ux-skip-link">Skip to main content</a>
-                <header className="flex h-12 shrink-0 items-center gap-2 border-b border-border/70 bg-background/95 backdrop-blur-sm transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+                <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background/98 backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
                   <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
                     <SidebarTrigger className="-ml-1" />
                     <Separator
@@ -185,7 +190,7 @@ export function UnifiedDashboardShell({
                     </Breadcrumb>
                     <h1 className="text-base font-medium sm:hidden">{pageTitle}</h1>
 
-                    <div className="ml-auto flex items-center gap-1">
+                    <div className="ml-auto flex items-center gap-0.5 md:gap-1">
                       <TherapistSessionModeLauncher isTherapist={isTherapistTools} />
                       <NotificationDropdown />
                       <AIToggle />
@@ -193,10 +198,17 @@ export function UnifiedDashboardShell({
                   </div>
                 </header>
 
-                <div className="flex flex-1 flex-col">
-                  <div className="@container/main flex flex-1 flex-col gap-2">
-                    <main id="main-content" tabIndex={-1}>
-                      <div className="p-4 md:p-6">
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+                  <div className="@container/main flex flex-1 flex-col overflow-hidden">
+                    <main
+                      id="main-content"
+                      tabIndex={-1}
+                      className="flex-1 overflow-y-auto scroll-smooth focus-visible:outline-none"
+                    >
+                      <div
+                        key={pathname}
+                        className="animate-in fade-in slide-in-from-bottom-2 duration-200 ease-out p-4 md:p-6"
+                      >
                         {children}
                       </div>
                     </main>

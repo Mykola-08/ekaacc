@@ -36,6 +36,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Layout01Icon, Calendar03Icon, Wallet01Icon, UserCircleIcon, Settings01Icon, Clock01Icon, BookOpen01Icon, Shield01Icon, CreditCardIcon, UserGroupIcon, FolderOpenIcon, ChartBarLineIcon, Message01Icon, Edit02Icon, Wrench01Icon, SparklesIcon, HeartCheckIcon, UnfoldMoreIcon, UserCheck01Icon, Notification03Icon, Logout03Icon, CheckListIcon, ToggleOnIcon, Database01Icon, Refresh01Icon, AlertCircleIcon, Briefcase01Icon, FileAddIcon, Target01Icon } from '@hugeicons/core-free-icons';
 
@@ -117,15 +118,29 @@ function NavMain({
     <>
       {sections.map((section) => (
         <SidebarGroup key={section.id}>
-          <SidebarGroupLabel className="text-[10px] font-semibold text-muted-foreground/70 uppercase tracking-widest">{t(section.label)}</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-[0.12em] px-2 mb-0.5">{t(section.label)}</SidebarGroupLabel>
           <SidebarMenu>
             {section.items.map((item) => {
               const label = t(item.label);
+              const active = isActive(item.path);
               return (
                 <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton asChild isActive={isActive(item.path)} tooltip={label}>
-                    <Link href={item.path} aria-current={isActive(item.path) ? 'page' : undefined}>
-                      <NavIcon name={item.icon} />
+                  <SidebarMenuButton
+                    asChild
+                    isActive={active}
+                    tooltip={label}
+                    className="transition-colors duration-150 group/navitem"
+                  >
+                    <Link href={item.path} aria-current={active ? 'page' : undefined}>
+                      <NavIcon
+                        name={item.icon}
+                        className={cn(
+                          'shrink-0 transition-colors duration-150',
+                          active
+                            ? 'text-sidebar-primary'
+                            : 'text-muted-foreground group-hover/navitem:text-foreground'
+                        )}
+                      />
                       <span>{label}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -296,14 +311,14 @@ export function UnifiedSidebar({ profile, permissions }: { profile?: any; permis
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild tooltip="EKA Balance">
+            <SidebarMenuButton size="lg" asChild tooltip="EKA Balance" className="transition-colors duration-150">
               <Link href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-primary text-primary-foreground shadow-sm">
+                <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-primary text-primary-foreground shadow-sm transition-transform duration-150 group-hover/[data-slot=menu-button]:scale-105">
                   <HugeiconsIcon icon={HeartCheckIcon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-bold tracking-tight">EKA Balance</span>
-                  <span className="text-muted-foreground truncate text-xs">{t('nav.platformSubtitle')}</span>
+                  <span className="truncate font-semibold tracking-tight">EKA Balance</span>
+                  <span className="text-muted-foreground/70 truncate text-xs">{t('nav.platformSubtitle')}</span>
                 </div>
               </Link>
             </SidebarMenuButton>

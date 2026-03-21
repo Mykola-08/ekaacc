@@ -6,7 +6,7 @@ import type { TPlaceholderElement } from 'platejs';
 import type { PlateElementProps } from 'platejs/react';
 
 import { PlaceholderPlugin, PlaceholderProvider, updateUploadHistory } from '@platejs/media/react';
-import { AudioLines, FileUp, Film, ImageIcon, Loader2Icon } from 'lucide-react';
+import { AudioLinesIcon, FileUpIcon, FilmIcon, ImageIconIcon, Loader2IconIcon } from 'hugeicons-react';
 import { KEYS } from 'platejs';
 import { PlateElement, useEditorPlugin, withHOC } from 'platejs/react';
 import { useFilePicker } from 'use-file-picker';
@@ -25,22 +25,22 @@ const CONTENT: Record<
   [KEYS.audio]: {
     accept: ['audio/*'],
     content: 'Add an audio file',
-    icon: <AudioLines />,
+    icon: <AudioLinesIcon />,
   },
   [KEYS.file]: {
     accept: ['*'],
     content: 'Add a file',
-    icon: <FileUp />,
+    icon: <FileUpIcon />,
   },
   [KEYS.img]: {
     accept: ['image/*'],
     content: 'Add an image',
-    icon: <ImageIcon />,
+    icon: <ImageIconIcon />,
   },
   [KEYS.video]: {
     accept: ['video/*'],
     content: 'Add a video',
-    icon: <Film />,
+    icon: <FilmIcon />,
   },
 };
 
@@ -152,7 +152,7 @@ export const PlaceholderElement = withHOC(
                   <div>{formatBytes(uploadingFile?.size ?? 0)}</div>
                   <div>–</div>
                   <div className="flex items-center">
-                    <Loader2Icon className="text-muted-foreground mr-1 size-3.5 animate-spin" />
+                    <Loader2IconIcon className="text-muted-foreground mr-1 size-3.5 animate-spin" />
                     {progress ?? 0}%
                   </div>
                 </div>
@@ -207,7 +207,7 @@ export function ImageProgress({
       />
       {progress < 100 && (
         <div className="absolute right-1 bottom-1 flex items-center space-x-2 rounded-full bg-black/50 px-1 py-0.5">
-          <Loader2Icon className="text-muted-foreground size-3.5 animate-spin" />
+          <Loader2IconIcon className="text-muted-foreground size-3.5 animate-spin" />
           <span className="text-xs font-medium text-white">{Math.round(progress)}%</span>
         </div>
       )}

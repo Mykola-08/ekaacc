@@ -8,7 +8,7 @@ import type { PlateElementProps } from 'platejs/react';
 
 import { useEquationElement, useEquationInput } from '@platejs/math/react';
 import { BlockSelectionPlugin } from '@platejs/selection/react';
-import { CornerDownLeftIcon, RadicalIcon } from 'lucide-react';
+import { CornerDownLeftIconIcon, RadicalIconIcon } from 'hugeicons-react';
 import {
   createPrimitiveComponent,
   PlateElement,
@@ -61,7 +61,7 @@ export function EquationElement(props: PlateElementProps<TEquationElement>) {
               <span ref={katexRef} />
             ) : (
               <div className="text-muted-foreground flex h-7 w-full items-center gap-2 text-sm whitespace-nowrap">
-                <RadicalIcon className="text-muted-foreground/80 size-6" />
+                <RadicalIconIcon className="text-muted-foreground/80 size-6" />
                 <div>Add a Tex equation</div>
               </div>
             )}
@@ -137,7 +137,7 @@ export function InlineEquationElement(props: PlateElementProps<TEquationElement>
             />
             {element.texExpression.length === 0 && (
               <span>
-                <RadicalIcon className="mr-1 inline-block h-[19px] w-4 py-[1.5px] align-text-bottom" />
+                <RadicalIconIcon className="mr-1 inline-block h-[19px] w-4 py-[1.5px] align-text-bottom" />
                 New equation
               </span>
             )}
@@ -211,7 +211,7 @@ const EquationPopoverContent = ({
       />
 
       <Button variant="secondary" className="px-3" onClick={onClose}>
-        Done <CornerDownLeftIcon className="size-3.5" />
+        Done <CornerDownLeftIconIcon className="size-3.5" />
       </Button>
     </PopoverContent>
   );

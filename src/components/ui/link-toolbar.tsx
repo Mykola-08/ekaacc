@@ -27,7 +27,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowUpRight01Icon, Link01Icon } from '@hugeicons/core-free-icons';
-import { Text, Unlink } from 'lucide-react';
+import { TextIcon, UnlinkIcon } from 'hugeicons-react';
 
 const popoverVariants = cva(
   'z-50 w-auto rounded-[calc(var(--radius)*0.6)] border bg-popover p-1 text-popover-foreground shadow-md outline-hidden'
@@ -104,11 +104,11 @@ export function LinkFloatingToolbar({ state }: { state?: LinkFloatingToolbarStat
       <Separator className="my-1" />
       <div className="flex items-center">
         <div className="text-muted-foreground flex items-center pr-1 pl-2">
-          <Text className="size-4" />
+          <TextIcon className="size-4" />
         </div>
         <input
           className={inputVariants()}
-          placeholder="Text to display"
+          placeholder="TextIcon to display"
           data-plate-focus
           {...textInputProps}
         />
@@ -142,7 +142,7 @@ export function LinkFloatingToolbar({ state }: { state?: LinkFloatingToolbarStat
         type="button"
         {...unlinkButtonProps}
       >
-        <Unlink width={18} />
+        <UnlinkIcon width={18} />
       </button>
     </div>
   );

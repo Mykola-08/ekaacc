@@ -57,7 +57,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { CornerDownLeftIcon, ImageIcon, PlusIcon, SquareIcon, XIcon, Globe } from 'lucide-react';
+import { CornerDownLeftIconIcon, ImageIconIcon, PlusIconIcon, SquareIconIcon, XIconIcon, GlobalIcon } from 'hugeicons-react';
 
 // ============================================================================
 // Helpers
@@ -398,7 +398,7 @@ export const PromptInputActionAddAttachments = ({
 
   return (
     <DropdownMenuItem {...props} onSelect={handleSelect}>
-      <ImageIcon className="mr-2 size-4" /> {label}
+      <ImageIconIcon className="mr-2 size-4" /> {label}
     </DropdownMenuItem>
   );
 };
@@ -441,7 +441,7 @@ export const PromptInputActionAddScreenshot = ({
 
   return (
     <DropdownMenuItem {...props} onSelect={handleSelect}>
-      <Globe className="mr-2 size-4" />
+      <GlobalIcon className="mr-2 size-4" />
       {label}
     </DropdownMenuItem>
   );
@@ -1090,7 +1090,7 @@ export const PromptInputActionMenuTrigger = ({
 }: PromptInputActionMenuTriggerProps) => (
   <DropdownMenuTrigger asChild>
     <PromptInputButton className={className} {...props}>
-      {children ?? <PlusIcon className="size-4" />}
+      {children ?? <PlusIconIcon className="size-4" />}
     </PromptInputButton>
   </DropdownMenuTrigger>
 );
@@ -1129,14 +1129,14 @@ export const PromptInputSubmit = ({
 }: PromptInputSubmitProps) => {
   const isGenerating = status === 'submitted' || status === 'streaming';
 
-  let Icon = <CornerDownLeftIcon className="size-4" />;
+  let Icon = <CornerDownLeftIconIcon className="size-4" />;
 
   if (status === 'submitted') {
     Icon = <Spinner />;
   } else if (status === 'streaming') {
-    Icon = <SquareIcon className="size-4" />;
+    Icon = <SquareIconIcon className="size-4" />;
   } else if (status === 'error') {
-    Icon = <XIcon className="size-4" />;
+    Icon = <XIconIcon className="size-4" />;
   }
 
   const handleClick = useCallback(

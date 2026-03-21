@@ -4,15 +4,7 @@ import { Button } from '@/components/ui/button';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { cn } from '@/lib/utils';
 import type { FileUIPart, SourceDocumentUIPart } from 'ai';
-import {
-  FileTextIcon,
-  GlobeIcon,
-  ImageIcon,
-  Music2Icon,
-  PaperclipIcon,
-  VideoIcon,
-  XIcon,
-} from 'lucide-react';
+import { FileTextIconIcon, GlobeIconIcon, ImageIconIcon, Music2IconIcon, PaperclipIconIcon, VideoIconIcon, XIconIcon } from 'hugeicons-react';
 import type { ComponentProps, HTMLAttributes, ReactNode } from 'react';
 import { createContext, useCallback, useContext, useMemo } from 'react';
 
@@ -34,13 +26,13 @@ export type AttachmentMediaCategory =
 
 export type AttachmentVariant = 'grid' | 'inline' | 'list';
 
-const mediaCategoryIcons: Record<AttachmentMediaCategory, typeof ImageIcon> = {
-  audio: Music2Icon,
-  document: FileTextIcon,
-  image: ImageIcon,
-  source: GlobeIcon,
-  unknown: PaperclipIcon,
-  video: VideoIcon,
+const mediaCategoryIcons: Record<AttachmentMediaCategory, typeof ImageIconIcon> = {
+  audio: Music2IconIcon,
+  document: FileTextIconIcon,
+  image: ImageIconIcon,
+  source: GlobeIconIcon,
+  unknown: PaperclipIconIcon,
+  video: VideoIconIcon,
 };
 
 // ============================================================================
@@ -226,7 +218,7 @@ export const AttachmentPreview = ({
 
   const iconSize = variant === 'inline' ? 'size-3' : 'size-4';
 
-  const renderIcon = (Icon: typeof ImageIcon) => (
+  const renderIcon = (Icon: typeof ImageIconIcon) => (
     <Icon className={cn(iconSize, 'text-muted-foreground')} />
   );
 
@@ -341,7 +333,7 @@ export const AttachmentRemove = ({
       variant="ghost"
       {...props}
     >
-      {children ?? <XIcon />}
+      {children ?? <XIconIcon />}
       <span className="sr-only">{label}</span>
     </Button>
   );

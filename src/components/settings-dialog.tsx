@@ -5,15 +5,7 @@
 import * as React from 'react';
 
 import { CopilotPlugin } from '@platejs/ai/react';
-import {
-  Check,
-  ChevronsUpDown,
-  ExternalLinkIcon,
-  Eye,
-  EyeOff,
-  Settings,
-  Wand2Icon,
-} from 'lucide-react';
+import { CheckmarkBadge01Icon, ChevronsUpDownIcon, ExternalLinkIconIcon, ViewIcon, ViewOffIcon, Settings01Icon, Wand2IconIcon } from 'hugeicons-react';
 import { useEditorRef } from 'platejs/react';
 
 import { Button } from '@/components/ui/button';
@@ -276,7 +268,7 @@ export function SettingsDialog() {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <ExternalLinkIcon className="size-4" />
+            <ExternalLinkIconIcon className="size-4" />
             <span className="sr-only">Get {label}</span>
           </a>
         </Button>
@@ -298,7 +290,7 @@ export function SettingsDialog() {
         onClick={() => toggleKeyVisibility(service)}
         type="button"
       >
-        {showKey[service] ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+        {showKey[service] ? <ViewIconOff className="size-4" /> : <ViewIcon className="size-4" />}
         <span className="sr-only">
           {showKey[service] ? 'Hide' : 'Show'} {label}
         </span>
@@ -318,21 +310,21 @@ export function SettingsDialog() {
           )}
           // data-block-hide
         >
-          <Settings className="size-4" />
+          <Settings01Icon className="size-4" />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-xl">Settings</DialogTitle>
+          <DialogTitle className="text-xl">Settings01Icon</DialogTitle>
           <DialogDescription>Configure your API keys and preferences.</DialogDescription>
         </DialogHeader>
 
         <form className="space-y-10" onSubmit={handleSubmit}>
-          {/* AI Settings Group */}
+          {/* AI Settings01Icon Group */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="size-8 rounded-full bg-purple-100 p-2">
-                <Wand2Icon className="size-4 text-purple-600" />
+                <Wand2IconIcon className="size-4 text-purple-600" />
               </div>
               <h4 className="font-semibold">AI</h4>
             </div>
@@ -357,7 +349,7 @@ export function SettingsDialog() {
                       role="combobox"
                     >
                       <code>{tempModel.label}</code>
-                      <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+                      <ChevronsUpDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0">
@@ -375,7 +367,7 @@ export function SettingsDialog() {
                                 setOpenModel(false);
                               }}
                             >
-                              <Check
+                              <CheckmarkBadge01Icon
                                 className={cn(
                                   'mr-2 size-4',
                                   tempModel.value === m.value ? 'opacity-100' : 'opacity-0'
@@ -393,7 +385,7 @@ export function SettingsDialog() {
             </div>
           </div>
 
-          {/* Upload Settings Group */}
+          {/* Upload Settings01Icon Group */}
           {/* <div className="space-y-4">
  <div className="flex items-center gap-2">
  <div className="size-8 rounded-full bg-red-100 p-2">

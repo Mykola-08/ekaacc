@@ -4,30 +4,7 @@ import * as React from 'react';
 
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
-import {
-  CalendarIcon,
-  ChevronRightIcon,
-  Code2,
-  Columns3Icon,
-  FileCodeIcon,
-  FilmIcon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  ImageIcon,
-  Link2Icon,
-  ListIcon,
-  ListOrderedIcon,
-  MinusIcon,
-  PenToolIcon,
-  PilcrowIcon,
-  PlusIcon,
-  QuoteIcon,
-  RadicalIcon,
-  SquareIcon,
-  TableIcon,
-  TableOfContentsIcon,
-} from 'lucide-react';
+import { CalendarIconIcon, ChevronRightIconIcon, Code2Icon, Columns3IconIcon, FileCodeIconIcon, FilmIconIcon, Heading1IconIcon, Heading2IconIcon, Heading3IconIcon, ImageIconIcon, Link2IconIcon, ListIconIcon, ListOrderedIconIcon, MinusIconIcon, PenToolIconIcon, PilcrowIconIcon, PlusIconIcon, QuoteIconIcon, RadicalIconIcon, SquareIconIcon, TableIconIcon, TableOfContentsIconIcon } from 'hugeicons-react';
 import { KEYS } from 'platejs';
 import { type PlateEditor, useEditorRef } from 'platejs/react';
 
@@ -59,42 +36,42 @@ const groups: Group[] = [
     group: 'Basic blocks',
     items: [
       {
-        icon: <PilcrowIcon />,
+        icon: <PilcrowIconIcon />,
         label: 'Paragraph',
         value: KEYS.p,
       },
       {
-        icon: <Heading1Icon />,
+        icon: <Heading1IconIcon />,
         label: 'Heading 1',
         value: 'h1',
       },
       {
-        icon: <Heading2Icon />,
+        icon: <Heading2IconIcon />,
         label: 'Heading 2',
         value: 'h2',
       },
       {
-        icon: <Heading3Icon />,
+        icon: <Heading3IconIcon />,
         label: 'Heading 3',
         value: 'h3',
       },
       {
-        icon: <TableIcon />,
+        icon: <TableIconIcon />,
         label: 'Table',
         value: KEYS.table,
       },
       {
-        icon: <FileCodeIcon />,
+        icon: <FileCodeIconIcon />,
         label: 'Code',
         value: KEYS.codeBlock,
       },
       {
-        icon: <QuoteIcon />,
+        icon: <QuoteIconIcon />,
         label: 'Quote',
         value: KEYS.blockquote,
       },
       {
-        icon: <MinusIcon />,
+        icon: <MinusIconIcon />,
         label: 'Divider',
         value: KEYS.hr,
       },
@@ -109,22 +86,22 @@ const groups: Group[] = [
     group: 'Lists',
     items: [
       {
-        icon: <ListIcon />,
+        icon: <ListIconIcon />,
         label: 'Bulleted list',
         value: KEYS.ul,
       },
       {
-        icon: <ListOrderedIcon />,
+        icon: <ListOrderedIconIcon />,
         label: 'Numbered list',
         value: KEYS.ol,
       },
       {
-        icon: <SquareIcon />,
+        icon: <SquareIconIcon />,
         label: 'To-do list',
         value: KEYS.listTodo,
       },
       {
-        icon: <ChevronRightIcon />,
+        icon: <ChevronRightIconIcon />,
         label: 'Toggle list',
         value: KEYS.toggle,
       },
@@ -139,12 +116,12 @@ const groups: Group[] = [
     group: 'Media',
     items: [
       {
-        icon: <ImageIcon />,
+        icon: <ImageIconIcon />,
         label: 'Image',
         value: KEYS.img,
       },
       {
-        icon: <FilmIcon />,
+        icon: <FilmIconIcon />,
         label: 'Embed',
         value: KEYS.mediaEmbed,
       },
@@ -159,28 +136,28 @@ const groups: Group[] = [
     group: 'Advanced blocks',
     items: [
       {
-        icon: <TableOfContentsIcon />,
+        icon: <TableOfContentsIconIcon />,
         label: 'Table of contents',
         value: KEYS.toc,
       },
       {
-        icon: <Columns3Icon />,
+        icon: <Columns3IconIcon />,
         label: '3 columns',
         value: 'action_three_columns',
       },
       {
         focusEditor: false,
-        icon: <RadicalIcon />,
+        icon: <RadicalIconIcon />,
         label: 'Equation',
         value: KEYS.equation,
       },
       {
-        icon: <PenToolIcon />,
+        icon: <PenToolIconIcon />,
         label: 'Excalidraw',
         value: KEYS.excalidraw,
       },
       {
-        icon: <Code2 />,
+        icon: <Code2Icon />,
         label: 'Code Drawing',
         value: KEYS.codeDrawing,
       },
@@ -195,19 +172,19 @@ const groups: Group[] = [
     group: 'Inline',
     items: [
       {
-        icon: <Link2Icon />,
+        icon: <Link2IconIcon />,
         label: 'Link',
         value: KEYS.link,
       },
       {
         focusEditor: true,
-        icon: <CalendarIcon />,
+        icon: <CalendarIconIcon />,
         label: 'Date',
         value: KEYS.date,
       },
       {
         focusEditor: false,
-        icon: <RadicalIcon />,
+        icon: <RadicalIconIcon />,
         label: 'Inline Equation',
         value: KEYS.inlineEquation,
       },
@@ -228,7 +205,7 @@ export function InsertToolbarButton(props: DropdownMenuProps) {
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false} {...props}>
       <DropdownMenuTrigger asChild>
         <ToolbarButton pressed={open} tooltip="Insert" isDropdown>
-          <PlusIcon />
+          <PlusIconIcon />
         </ToolbarButton>
       </DropdownMenuTrigger>
 

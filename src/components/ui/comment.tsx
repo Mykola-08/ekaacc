@@ -7,14 +7,7 @@ import type { CreatePlateEditorOptions } from 'platejs/react';
 import { getCommentKey, getDraftCommentKey } from '@platejs/comment';
 import { CommentPlugin, useCommentId } from '@platejs/comment/react';
 import { differenceInDays, differenceInHours, differenceInMinutes, format } from 'date-fns';
-import {
-  ArrowUpIcon,
-  CheckIcon,
-  MoreHorizontalIcon,
-  PencilIcon,
-  TrashIcon,
-  XIcon,
-} from 'lucide-react';
+import { ArrowUpIconIcon, CheckIconIcon, MoreHorizontalIconIcon, PencilIconIcon, TrashIconIcon, XIconIcon } from 'hugeicons-react';
 import { type NodeEntry, type TCommentText, type Value, KEYS, nanoid, NodeApi } from 'platejs';
 import {
   Plate,
@@ -191,7 +184,7 @@ export function Comment(props: {
                 onClick={onResolveComment}
                 type="button"
               >
-                <CheckIcon className="size-4" />
+                <CheckIconIcon className="size-4" />
               </Button>
             )}
 
@@ -244,7 +237,7 @@ export function Comment(props: {
                   }}
                 >
                   <div className="bg-primary/40 flex size-5 shrink-0 items-center justify-center rounded-[50%]">
-                    <XIcon className="text-background size-3 stroke-[3px]" />
+                    <XIconIcon className="text-background size-3 stroke-[3px]" />
                   </div>
                 </Button>
 
@@ -257,7 +250,7 @@ export function Comment(props: {
                   }}
                 >
                   <div className="bg-brand flex size-5 shrink-0 items-center justify-center rounded-[50%]">
-                    <CheckIcon className="text-background size-3 stroke-[3px]" />
+                    <CheckIconIcon className="text-background size-3 stroke-[3px]" />
                   </div>
                 </Button>
               </div>
@@ -332,7 +325,7 @@ function CommentMoreDropdown(props: {
     <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen} modal={false}>
       <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
         <Button variant="ghost" className={cn('text-muted-foreground h-6 p-1')}>
-          <MoreHorizontalIcon className="size-4" />
+          <MoreHorizontalIconIcon className="size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -348,11 +341,11 @@ function CommentMoreDropdown(props: {
       >
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={onEditComment}>
-            <PencilIcon className="size-4" />
+            <PencilIconIcon className="size-4" />
             Edit comment
           </DropdownMenuItem>
           <DropdownMenuItem onClick={onDeleteComment}>
-            <TrashIcon className="size-4" />
+            <TrashIconIcon className="size-4" />
             Delete comment
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -552,7 +545,7 @@ export function CommentCreateForm({
               }}
             >
               <div className="flex size-6 items-center justify-center rounded-full">
-                <ArrowUpIcon />
+                <ArrowUpIconIcon />
               </div>
             </Button>
           </EditorContainer>

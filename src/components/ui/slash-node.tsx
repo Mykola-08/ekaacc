@@ -5,26 +5,7 @@ import * as React from 'react';
 import type { PlateEditor, PlateElementProps } from 'platejs/react';
 
 import { AIChatPlugin } from '@platejs/ai/react';
-import {
-  CalendarIcon,
-  ChevronRightIcon,
-  Code2,
-  Columns3Icon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  LightbulbIcon,
-  ListIcon,
-  ListOrdered,
-  PenToolIcon,
-  PilcrowIcon,
-  Quote,
-  RadicalIcon,
-  SparklesIcon,
-  Square,
-  Table,
-  TableOfContentsIcon,
-} from 'lucide-react';
+import { CalendarIconIcon, ChevronRightIconIcon, Code2Icon, Columns3IconIcon, Heading1IconIcon, Heading2IconIcon, Heading3IconIcon, LightbulbIconIcon, ListIconIcon, ListOrderedIcon, PenToolIconIcon, PilcrowIconIcon, QuoteIcon, RadicalIconIcon, SparklesIconIcon, SquareIcon, TableIcon, TableOfContentsIconIcon } from 'hugeicons-react';
 import { type TComboboxInputElement, KEYS } from 'platejs';
 import { PlateElement } from 'platejs/react';
 
@@ -59,7 +40,7 @@ const groups: Group[] = [
     items: [
       {
         focusEditor: false,
-        icon: <SparklesIcon />,
+        icon: <SparklesIconIcon />,
         value: 'AI',
         onSelect: (editor) => {
           editor.getApi(AIChatPlugin).aiChat.show();
@@ -71,73 +52,73 @@ const groups: Group[] = [
     group: 'Basic blocks',
     items: [
       {
-        icon: <PilcrowIcon />,
+        icon: <PilcrowIconIcon />,
         keywords: ['paragraph'],
         label: 'Text',
         value: KEYS.p,
       },
       {
-        icon: <Heading1Icon />,
+        icon: <Heading1IconIcon />,
         keywords: ['title', 'h1'],
         label: 'Heading 1',
         value: KEYS.h1,
       },
       {
-        icon: <Heading2Icon />,
+        icon: <Heading2IconIcon />,
         keywords: ['subtitle', 'h2'],
         label: 'Heading 2',
         value: KEYS.h2,
       },
       {
-        icon: <Heading3Icon />,
+        icon: <Heading3IconIcon />,
         keywords: ['subtitle', 'h3'],
         label: 'Heading 3',
         value: KEYS.h3,
       },
       {
-        icon: <ListIcon />,
+        icon: <ListIconIcon />,
         keywords: ['unordered', 'ul', '-'],
         label: 'Bulleted list',
         value: KEYS.ul,
       },
       {
-        icon: <ListOrdered />,
+        icon: <ListOrderedIcon />,
         keywords: ['ordered', 'ol', '1'],
         label: 'Numbered list',
         value: KEYS.ol,
       },
       {
-        icon: <Square />,
+        icon: <SquareIcon />,
         keywords: ['checklist', 'task', 'checkbox', '[]'],
         label: 'To-do list',
         value: KEYS.listTodo,
       },
       {
-        icon: <ChevronRightIcon />,
+        icon: <ChevronRightIconIcon />,
         keywords: ['collapsible', 'expandable'],
         label: 'Toggle',
         value: KEYS.toggle,
       },
       {
-        icon: <Code2 />,
+        icon: <Code2Icon />,
         keywords: ['```'],
         label: 'Code Block',
         value: KEYS.codeBlock,
       },
       {
-        icon: <Table />,
-        label: 'Table',
+        icon: <TableIcon />,
+        label: 'TableIcon',
         value: KEYS.table,
       },
       {
-        icon: <Quote />,
+        icon: <QuoteIcon />,
         keywords: ['citation', 'blockquote', 'quote', '>'],
         label: 'Blockquote',
         value: KEYS.blockquote,
       },
       {
         description: 'Insert a highlighted block.',
-        icon: <LightbulbIcon />,
+        icon: <LightbulbIconIcon />,
         keywords: ['note'],
         label: 'Callout',
         value: KEYS.callout,
@@ -153,30 +134,30 @@ const groups: Group[] = [
     group: 'Advanced blocks',
     items: [
       {
-        icon: <TableOfContentsIcon />,
+        icon: <TableIconOfContentsIcon />,
         keywords: ['toc'],
-        label: 'Table of contents',
+        label: 'TableIcon of contents',
         value: KEYS.toc,
       },
       {
-        icon: <Columns3Icon />,
+        icon: <Columns3IconIcon />,
         label: '3 columns',
         value: 'action_three_columns',
       },
       {
         focusEditor: false,
-        icon: <RadicalIcon />,
+        icon: <RadicalIconIcon />,
         label: 'Equation',
         value: KEYS.equation,
       },
       {
-        icon: <PenToolIcon />,
+        icon: <PenToolIconIcon />,
         keywords: ['excalidraw'],
         label: 'Excalidraw',
         value: KEYS.excalidraw,
       },
       {
-        icon: <Code2 />,
+        icon: <Code2Icon />,
         keywords: ['code-drawing', 'diagram', 'plantuml', 'graphviz', 'flowchart', 'mermaid'],
         label: 'Code Drawing',
         value: KEYS.codeDrawing,
@@ -193,14 +174,14 @@ const groups: Group[] = [
     items: [
       {
         focusEditor: true,
-        icon: <CalendarIcon />,
+        icon: <CalendarIconIcon />,
         keywords: ['time'],
         label: 'Date',
         value: KEYS.date,
       },
       {
         focusEditor: false,
-        icon: <RadicalIcon />,
+        icon: <RadicalIconIcon />,
         label: 'Inline Equation',
         value: KEYS.inlineEquation,
       },

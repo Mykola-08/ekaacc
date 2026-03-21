@@ -5,7 +5,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { MicIcon, SquareIcon } from 'lucide-react';
+import { MicIconIcon, SquareIconIcon } from 'hugeicons-react';
 
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
@@ -304,8 +304,8 @@ export const SpeechInput = ({
         {...props}
       >
         {isProcessing && <Spinner />}
-        {!isProcessing && isListening && <SquareIcon className="size-4" />}
-        {!(isProcessing || isListening) && <MicIcon className="size-4" />}
+        {!isProcessing && isListening && <SquareIconIcon className="size-4" />}
+        {!(isProcessing || isListening) && <MicIconIcon className="size-4" />}
       </Button>
     </div>
   );

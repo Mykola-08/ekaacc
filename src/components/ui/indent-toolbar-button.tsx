@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { useIndentButton, useOutdentButton } from '@platejs/indent/react';
-import { IndentIcon, OutdentIcon } from 'lucide-react';
+import { IndentIconIcon, OutdentIconIcon } from 'hugeicons-react';
 
 import { ToolbarButton } from './toolbar';
 
@@ -12,7 +12,7 @@ export function IndentToolbarButton(props: React.ComponentProps<typeof ToolbarBu
 
   return (
     <ToolbarButton {...props} {...buttonProps} tooltip="Indent">
-      <IndentIcon />
+      <IndentIconIcon />
     </ToolbarButton>
   );
 }
@@ -22,7 +22,7 @@ export function OutdentToolbarButton(props: React.ComponentProps<typeof ToolbarB
 
   return (
     <ToolbarButton {...props} {...buttonProps} tooltip="Outdent">
-      <OutdentIcon />
+      <OutdentIconIcon />
     </ToolbarButton>
   );
 }

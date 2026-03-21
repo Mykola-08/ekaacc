@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { ToolbarButton } from './toolbar';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Add01Icon } from '@hugeicons/core-free-icons';
-import { Minus } from 'lucide-react';
+import { MinusSignIcon } from 'hugeicons-react';
 
 const DEFAULT_FONT_SIZE = '16';
 
@@ -89,7 +89,7 @@ export function FontSizeToolbarButton() {
   return (
     <div className="bg-muted/60 flex h-7 items-center gap-1 rounded-[calc(var(--radius)*0.6)] p-0">
       <ToolbarButton onClick={() => handleFontSizeChange(-1)}>
-        <Minus />
+        <MinusSignIcon />
       </ToolbarButton>
 
       <Popover open={isFocused} modal={false}>

@@ -27,20 +27,7 @@ import {
   useTableMergeState,
   useTableValue,
 } from '@platejs/table/react';
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-  CombineIcon,
-  EraserIcon,
-  Grid2X2Icon,
-  GripVertical,
-  PaintBucketIcon,
-  SquareSplitHorizontalIcon,
-  Trash2Icon,
-  XIcon,
-} from 'lucide-react';
+import { ArrowDownIcon, ArrowLeft01Icon, ArrowRight01Icon, ArrowUpIcon, CombineIconIcon, EraserIconIcon, Grid2X2IconIcon, GripVerticalIcon, PaintBucketIconIcon, SquareSplitHorizontalIconIcon, Trash2IconIcon, XIconIcon } from 'hugeicons-react';
 import {
   type TElement,
   type TTableCellElement,
@@ -649,7 +636,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
         >
           <ToolbarGroup>
             <ColorDropdownMenu tooltip="Background color">
-              <PaintBucketIcon />
+              <PaintBucketIconIcon />
             </ColorDropdownMenu>
             {canMerge && (
               <ToolbarButton
@@ -657,7 +644,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Merge cells"
               >
-                <CombineIcon />
+                <CombineIconIcon />
               </ToolbarButton>
             )}
             {canSplit && (
@@ -666,14 +653,14 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Split cell"
               >
-                <SquareSplitHorizontalIcon />
+                <SquareSplitHorizontalIconIcon />
               </ToolbarButton>
             )}
 
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <ToolbarButton tooltip="Cell borders">
-                  <Grid2X2Icon />
+                  <Grid2X2IconIcon />
                 </ToolbarButton>
               </DropdownMenuTrigger>
 
@@ -685,7 +672,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
             {collapsedInside && (
               <ToolbarGroup>
                 <ToolbarButton tooltip="Delete table" {...buttonProps}>
-                  <Trash2Icon />
+                  <Trash2IconIcon />
                 </ToolbarButton>
               </ToolbarGroup>
             )}
@@ -700,7 +687,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Insert row before"
               >
-                <ArrowUp />
+                <ArrowUpIcon />
               </ToolbarButton>
               <ToolbarButton
                 onClick={() => {
@@ -709,7 +696,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Insert row after"
               >
-                <ArrowDown />
+                <ArrowDownIcon />
               </ToolbarButton>
               <ToolbarButton
                 onClick={() => {
@@ -718,7 +705,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Delete row"
               >
-                <XIcon />
+                <XIconIcon />
               </ToolbarButton>
             </ToolbarGroup>
           )}
@@ -732,7 +719,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Insert column before"
               >
-                <ArrowLeft />
+                <ArrowLeft01Icon />
               </ToolbarButton>
               <ToolbarButton
                 onClick={() => {
@@ -741,7 +728,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Insert column after"
               >
-                <ArrowRight />
+                <ArrowRight01Icon />
               </ToolbarButton>
               <ToolbarButton
                 onClick={() => {
@@ -750,7 +737,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Delete column"
               >
-                <XIcon />
+                <XIconIcon />
               </ToolbarButton>
             </ToolbarGroup>
           )}
@@ -873,7 +860,7 @@ function ColorDropdownMenu({ children, tooltip }: { children: React.ReactNode; t
         </ToolbarMenuGroup>
         <DropdownMenuGroup>
           <DropdownMenuItem className="p-2" onClick={onClearColor}>
-            <EraserIcon />
+            <EraserIconIcon />
             <span>Clear</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -997,7 +984,7 @@ function RowDragHandle({ dragRef }: { dragRef: React.Ref<any> }) {
         editor.tf.select(element);
       }}
     >
-      <GripVertical className="text-muted-foreground" />
+      <GripVerticalIcon className="text-muted-foreground" />
     </Button>
   );
 }

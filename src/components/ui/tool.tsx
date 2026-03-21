@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
-import { CheckCircle, ChevronDown, Loader2, Settings, XCircle } from 'lucide-react';
+import { CheckmarkCircle01Icon, ArrowDown01Icon, Loading02Icon, Settings01Icon, XCircleIcon } from 'hugeicons-react';
 import { useState } from 'react';
 
 export type ToolPart = {
@@ -29,15 +29,15 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
   const getStateIcon = () => {
     switch (state) {
       case 'input-streaming':
-        return <Loader2 className="h-4 w-4 animate-spin text-blue-500" />;
+        return <Loading02Icon className="h-4 w-4 animate-spin text-blue-500" />;
       case 'input-available':
-        return <Settings className="h-4 w-4 text-orange-500" />;
+        return <Settings01Icon className="h-4 w-4 text-orange-500" />;
       case 'output-available':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckmarkCircle01Icon className="h-4 w-4 text-green-500" />;
       case 'output-error':
-        return <XCircle className="h-4 w-4 text-red-500" />;
+        return <XCircleIcon className="h-4 w-4 text-red-500" />;
       default:
-        return <Settings className="text-muted-foreground h-4 w-4" />;
+        return <Settings01Icon className="text-muted-foreground h-4 w-4" />;
     }
   };
 
@@ -85,7 +85,7 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
               <span className="font-mono text-sm font-medium">{toolPart.type}</span>
               {getStateBadge()}
             </div>
-            <ChevronDown className={cn('h-4 w-4', isOpen && 'rotate-180')} />
+            <ArrowDown01Icon className={cn('h-4 w-4', isOpen && 'rotate-180')} />
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent

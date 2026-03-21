@@ -7,7 +7,7 @@ import type { ToolUIPart } from 'ai';
 import type { ComponentProps } from 'react';
 
 import { getStatusBadge } from './tool';
-import { ChevronDownIcon, CodeIcon as Code } from 'lucide-react';
+import { ChevronDownIconIcon, CodeIcon as Code } from 'hugeicons-react';
 
 export type SandboxRootProps = ComponentProps<typeof Collapsible>;
 
@@ -38,7 +38,7 @@ export const SandboxHeader = ({ className, title, state, ...props }: SandboxHead
       <span className="text-sm font-medium">{title}</span>
       {getStatusBadge(state)}
     </div>
-    <ChevronDownIcon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
+    <ChevronDownIconIcon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
   </CollapsibleTrigger>
 );
 

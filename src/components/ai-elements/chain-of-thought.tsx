@@ -4,7 +4,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
-import { type LucideIcon, BrainIcon, ChevronDownIcon, DotIcon } from 'lucide-react';
+import { type LucideIconIcon, BrainIconIcon, ChevronDownIconIcon, DotIconIcon } from 'hugeicons-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { createContext, memo, useContext, useMemo } from 'react';
 
@@ -71,9 +71,9 @@ export const ChainOfThoughtHeader = memo(
           )}
           {...props}
         >
-          <BrainIcon className="size-4" />
+          <BrainIconIcon className="size-4" />
           <span className="flex-1 text-left">{children ?? 'Chain of Thought'}</span>
-          <ChevronDownIcon
+          <ChevronDownIconIcon
             className={cn('size-4 transition-transform', isOpen ? 'rotate-180' : 'rotate-0')}
           />
         </CollapsibleTrigger>
@@ -98,7 +98,7 @@ const stepStatusStyles = {
 export const ChainOfThoughtStep = memo(
   ({
     className,
-    icon: Icon = DotIcon,
+    icon: Icon = DotIconIcon,
     label,
     description,
     status = 'complete',

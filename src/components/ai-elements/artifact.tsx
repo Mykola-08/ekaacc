@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { type LucideIcon, XIcon } from 'lucide-react';
+import { type LucideIconIcon, XIconIcon } from 'hugeicons-react';
 import type { ComponentProps, HTMLAttributes } from 'react';
 
 export type ArtifactProps = HTMLAttributes<HTMLDivElement>;
@@ -43,7 +43,7 @@ export const ArtifactClose = ({
     variant={variant}
     {...props}
   >
-    {children ?? <XIcon className="size-4" />}
+    {children ?? <XIconIcon className="size-4" />}
     <span className="sr-only">Close</span>
   </Button>
 );

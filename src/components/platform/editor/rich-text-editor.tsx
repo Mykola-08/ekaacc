@@ -11,18 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { FloppyDiskIcon, ListViewIcon, SparklesIcon } from '@hugeicons/core-free-icons';
-import {
-  Bold,
-  Italic,
-  Underline,
-  Strikethrough,
-  Code,
-  Heading1,
-  Heading2,
-  Heading3,
-  ListOrdered,
-  Quote,
-} from 'lucide-react';
+import { BoldIcon, ItalicIcon, UnderlineIcon, StrikethroughIcon, CodeIcon, Heading1Icon, Heading2Icon, Heading3Icon, ListOrderedIcon, QuoteIcon } from 'hugeicons-react';
 
 const HOTKEYS: Record<string, string> = {
   'mod+b': 'bold',
@@ -79,22 +68,22 @@ export function RichTextEditor({
         <div className="bg-muted/30 border-b p-2">
           <div className="flex flex-wrap items-center gap-1">
             {/* Text formatting */}
-            <MarkButton format="bold" icon={Bold} />
-            <MarkButton format="italic" icon={Italic} />
-            <MarkButton format="underline" icon={Underline} />
-            <MarkButton format="strikethrough" icon={Strikethrough} />
-            <MarkButton format="code" icon={Code} />
+            <MarkButton format="bold" icon={BoldIcon} />
+            <MarkButton format="italic" icon={ItalicIcon} />
+            <MarkButton format="underline" icon={UnderlineIcon} />
+            <MarkButton format="strikethrough" icon={StrikethroughIcon} />
+            <MarkButton format="code" icon={CodeIcon} />
 
             <Separator orientation="vertical" className="mx-1 h-6" />
 
             {/* Headings */}
-            <BlockButton format="heading-one" icon={Heading1} />
-            <BlockButton format="heading-two" icon={Heading2} />
-            <BlockButton format="heading-three" icon={Heading3} />
+            <BlockButton format="heading-one" icon={Heading1Icon} />
+            <BlockButton format="heading-two" icon={Heading2Icon} />
+            <BlockButton format="heading-three" icon={Heading3Icon} />
             <Separator orientation="vertical" className="mx-1 h-6" />
-            <BlockButton format="numbered-list" icon={ListOrdered} />
+            <BlockButton format="numbered-list" icon={ListOrderedIcon} />
             <BlockButton format="bulleted-list" icon={ListViewIcon} />
-            <BlockButton format="block-quote" icon={Quote} />
+            <BlockButton format="block-quote" icon={QuoteIcon} />
 
             <div className="flex-1" />
 

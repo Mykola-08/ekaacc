@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { SuggestionPlugin } from '@platejs/suggestion/react';
-import { PencilLineIcon } from 'lucide-react';
+import { PencilLineIconIcon } from 'hugeicons-react';
 import { useEditorPlugin, usePluginOption } from 'platejs/react';
 
 import { cn } from '@/lib/utils';
@@ -21,7 +21,7 @@ export function SuggestionToolbarButton() {
       onMouseDown={(e) => e.preventDefault()}
       tooltip={isSuggesting ? 'Turn off suggesting' : 'Suggestion edits'}
     >
-      <PencilLineIcon />
+      <PencilLineIconIcon />
     </ToolbarButton>
   );
 }

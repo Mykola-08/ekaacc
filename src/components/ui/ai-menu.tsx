@@ -7,23 +7,7 @@ import { getTransientCommentKey } from '@platejs/comment';
 import { BlockSelectionPlugin, useIsSelecting } from '@platejs/selection/react';
 import { getTransientSuggestionKey } from '@platejs/suggestion';
 import { Command as CommandPrimitive } from 'cmdk';
-import {
-  Album,
-  BadgeHelp,
-  BookOpenCheck,
-  Check,
-  CornerUpLeft,
-  FeatherIcon,
-  ListEnd,
-  ListMinus,
-  ListPlus,
-  Loader2Icon,
-  PauseIcon,
-  PenLine,
-  SmileIcon,
-  Wand,
-  X,
-} from 'lucide-react';
+import { AlbumIcon, BadgeHelpIcon, BookOpenCheckIcon, CheckmarkBadge01Icon, CornerUpLeftIcon, FeatherIconIcon, ListEndIcon, ListMinusIcon, ListPlusIcon, Loader2IconIcon, PauseIconIcon, PenLineIcon, SmileIconIcon, WandIcon, Cancel01Icon } from 'hugeicons-react';
 import { type NodeEntry, type SlateEditor, isHotkey, KEYS, NodeApi, TextApi } from 'platejs';
 import { useEditorPlugin, useFocusedLast, useHotkeys, usePluginOption } from 'platejs/react';
 import { type PlateEditor, useEditorRef } from 'platejs/react';
@@ -170,7 +154,7 @@ export function AIMenu() {
 
           {isLoading ? (
             <div className="text-muted-foreground flex grow items-center gap-2 p-2 text-sm select-none">
-              <Loader2Icon className="size-4 animate-spin" />
+              <Loader2IconIcon className="size-4 animate-spin" />
               {messages.length > 1 ? 'Editing...' : 'Thinking...'}
             </div>
           ) : (
@@ -238,7 +222,7 @@ const AICommentIcon = () => (
 
 const aiChatItems = {
   accept: {
-    icon: <Check />,
+    icon: <CheckmarkBadge01Icon />,
     label: 'Accept',
     value: 'accept',
     onSelect: ({ aiEditor, editor }) => {
@@ -266,7 +250,7 @@ const aiChatItems = {
     },
   },
   continueWrite: {
-    icon: <PenLine />,
+    icon: <PenLineIcon />,
     label: 'Continue writing',
     value: 'continueWrite',
     onSelect: ({ editor, input }) => {
@@ -289,7 +273,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   discard: {
-    icon: <X />,
+    icon: <Cancel01Icon />,
     label: 'Discard',
     shortcut: 'Escape',
     value: 'discard',
@@ -299,7 +283,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   emojify: {
-    icon: <SmileIcon />,
+    icon: <SmileIconIcon />,
     label: 'Emojify',
     value: 'emojify',
     onSelect: ({ editor, input }) => {
@@ -311,7 +295,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   explain: {
-    icon: <BadgeHelp />,
+    icon: <BadgeHelpIcon />,
     label: 'Explain',
     value: 'explain',
     onSelect: ({ editor, input }) => {
@@ -325,7 +309,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   fixSpelling: {
-    icon: <Check />,
+    icon: <CheckmarkBadge01Icon />,
     label: 'Fix spelling & grammar',
     value: 'fixSpelling',
     onSelect: ({ editor, input }) => {
@@ -337,7 +321,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   generateMarkdownSample: {
-    icon: <BookOpenCheck />,
+    icon: <BookOpenCheckIcon />,
     label: 'Generate Markdown sample',
     value: 'generateMarkdownSample',
     onSelect: ({ editor, input }) => {
@@ -348,7 +332,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   generateMdxSample: {
-    icon: <BookOpenCheck />,
+    icon: <BookOpenCheckIcon />,
     label: 'Generate MDX sample',
     value: 'generateMdxSample',
     onSelect: ({ editor, input }) => {
@@ -359,7 +343,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   improveWriting: {
-    icon: <Wand />,
+    icon: <WandIcon />,
     label: 'Improve writing',
     value: 'improveWriting',
     onSelect: ({ editor, input }) => {
@@ -371,7 +355,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   insertBelow: {
-    icon: <ListEnd />,
+    icon: <ListEndIcon />,
     label: 'Insert below',
     value: 'insertBelow',
     onSelect: ({ aiEditor, editor }) => {
@@ -380,7 +364,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   makeLonger: {
-    icon: <ListPlus />,
+    icon: <ListPlusIcon />,
     label: 'Make longer',
     value: 'makeLonger',
     onSelect: ({ editor, input }) => {
@@ -392,7 +376,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   makeShorter: {
-    icon: <ListMinus />,
+    icon: <ListMinusIcon />,
     label: 'Make shorter',
     value: 'makeShorter',
     onSelect: ({ editor, input }) => {
@@ -404,7 +388,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   replace: {
-    icon: <Check />,
+    icon: <CheckmarkBadge01Icon />,
     label: 'Replace selection',
     value: 'replace',
     onSelect: ({ aiEditor, editor }) => {
@@ -412,7 +396,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   simplifyLanguage: {
-    icon: <FeatherIcon />,
+    icon: <FeatherIconIcon />,
     label: 'Simplify language',
     value: 'simplifyLanguage',
     onSelect: ({ editor, input }) => {
@@ -424,7 +408,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   summarize: {
-    icon: <Album />,
+    icon: <AlbumIcon />,
     label: 'Add a summary',
     value: 'summarize',
     onSelect: ({ editor, input }) => {
@@ -439,7 +423,7 @@ Start writing a new paragraph AFTER <Document> ONLY ONE SENTENCE`
     },
   },
   tryAgain: {
-    icon: <CornerUpLeft />,
+    icon: <CornerUpLeftIcon />,
     label: 'Try again',
     value: 'tryAgain',
     onSelect: ({ editor }) => {
@@ -632,7 +616,7 @@ export function AILoadingBar() {
           className="flex items-center gap-1 text-xs"
           onClick={() => api.aiChat.stop()}
         >
-          <PauseIcon className="h-4 w-4" />
+          <PauseIconIcon className="h-4 w-4" />
           Stop
           <kbd className="bg-border text-muted-foreground ml-1 rounded px-1 font-mono text-xs shadow-[var(--shadow-xs)]">
             Esc

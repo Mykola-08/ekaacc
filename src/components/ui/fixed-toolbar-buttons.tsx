@@ -2,18 +2,7 @@
 
 import * as React from 'react';
 
-import {
-  ArrowUpToLineIcon,
-  BaselineIcon,
-  BoldIcon,
-  Code2Icon,
-  HighlighterIcon,
-  ItalicIcon,
-  PaintBucketIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-  WandSparklesIcon,
-} from 'lucide-react';
+import { ArrowUpToLineIconIcon, BaselineIconIcon, BoldIconIcon, Code2IconIcon, HighlighterIconIcon, ItalicIconIcon, PaintBucketIconIcon, StrikethroughIconIcon, UnderlineIconIcon, WandSparklesIconIcon } from 'hugeicons-react';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 
@@ -58,13 +47,13 @@ export function FixedToolbarButtons() {
 
           <ToolbarGroup>
             <AIToolbarButton tooltip="AI commands">
-              <WandSparklesIcon />
+              <WandSparklesIconIcon />
             </AIToolbarButton>
           </ToolbarGroup>
 
           <ToolbarGroup>
             <ExportToolbarButton>
-              <ArrowUpToLineIcon />
+              <ArrowUpToLineIconIcon />
             </ExportToolbarButton>
 
             <ImportToolbarButton />
@@ -78,31 +67,31 @@ export function FixedToolbarButtons() {
 
           <ToolbarGroup>
             <MarkToolbarButton nodeType={KEYS.bold} tooltip="Bold (⌘+B)">
-              <BoldIcon />
+              <BoldIconIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.italic} tooltip="Italic (⌘+I)">
-              <ItalicIcon />
+              <ItalicIconIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.underline} tooltip="Underline (⌘+U)">
-              <UnderlineIcon />
+              <UnderlineIconIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.strikethrough} tooltip="Strikethrough (⌘+⇧+M)">
-              <StrikethroughIcon />
+              <StrikethroughIconIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.code} tooltip="Code (⌘+E)">
-              <Code2Icon />
+              <Code2IconIcon />
             </MarkToolbarButton>
 
             <FontColorToolbarButton nodeType={KEYS.color} tooltip="Text color">
-              <BaselineIcon />
+              <BaselineIconIcon />
             </FontColorToolbarButton>
 
             <FontColorToolbarButton nodeType={KEYS.backgroundColor} tooltip="Background color">
-              <PaintBucketIcon />
+              <PaintBucketIconIcon />
             </FontColorToolbarButton>
           </ToolbarGroup>
 
@@ -144,7 +133,7 @@ export function FixedToolbarButtons() {
 
       <ToolbarGroup>
         <MarkToolbarButton nodeType={KEYS.highlight} tooltip="Highlight">
-          <HighlighterIcon />
+          <HighlighterIconIcon />
         </MarkToolbarButton>
         <CommentToolbarButton />
       </ToolbarGroup>

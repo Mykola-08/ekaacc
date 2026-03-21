@@ -15,7 +15,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { AlertTriangleIcon, CheckIcon, ChevronDownIcon, CopyIcon } from 'lucide-react';
+import { AlertTriangleIconIcon, CheckIconIcon, ChevronDownIconIcon, CopyIconIcon } from 'hugeicons-react';
 
 // Regex patterns for parsing stack traces
 const STACK_FRAME_WITH_PARENS_REGEX = /^at\s+(.+?)\s+\((.+):(\d+):(\d+)\)$/;
@@ -224,7 +224,7 @@ export type StackTraceErrorProps = ComponentProps<'div'>;
 
 export const StackTraceError = memo(({ className, children, ...props }: StackTraceErrorProps) => (
   <div className={cn('flex flex-1 items-center gap-2 overflow-hidden', className)} {...props}>
-    <AlertTriangleIcon className="text-destructive size-4 shrink-0" />
+    <AlertTriangleIconIcon className="text-destructive size-4 shrink-0" />
     {children}
   </div>
 ));
@@ -322,7 +322,7 @@ export const StackTraceCopyButton = memo(
       []
     );
 
-    const Icon = isCopied ? CheckIcon : CopyIcon;
+    const Icon = isCopied ? CheckIconIcon : CopyIconIcon;
 
     return (
       <Button
@@ -346,7 +346,7 @@ export const StackTraceExpandButton = memo(
 
     return (
       <div className={cn('flex size-7 items-center justify-center', className)} {...props}>
-        <ChevronDownIcon
+        <ChevronDownIconIcon
           className={cn(
             'text-muted-foreground size-4 transition-transform',
             isOpen ? 'rotate-180' : 'rotate-0'

@@ -102,7 +102,12 @@ function AIToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className={cn('size-8', isOpen && 'bg-accent')}
+      className={cn(
+        'size-8 transition-colors duration-150',
+        isOpen
+          ? 'bg-primary/10 text-primary ring-1 ring-primary/20'
+          : 'text-muted-foreground hover:text-foreground'
+      )}
       onClick={toggle}
       aria-label={isOpen ? 'Close AI Assistant' : 'Open AI Assistant'}
     >
@@ -136,14 +141,14 @@ export function UnifiedDashboardShell({
   return (
     <ProgressProvider>
       <RightPanelProvider>
-        <div className="dashboard-theme contents">
+        <div className="maia-theme dashboard-theme contents">
           <ImpersonationWrapper>
             <SidebarProvider
               className="dashboard-sidebar text-foreground font-sans"
               style={
                 {
                   '--sidebar-width': 'calc(var(--spacing) * 72)',
-                  '--header-height': 'calc(var(--spacing) * 12)',
+                  '--header-height': 'calc(var(--spacing) * 14)',
                 } as React.CSSProperties
               }
             >
@@ -151,7 +156,7 @@ export function UnifiedDashboardShell({
 
               <SidebarInset>
                 <a href="#main-content" className="ux-skip-link">Skip to main content</a>
-                <header className="flex h-12 shrink-0 items-center gap-2 border-b border-border bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+                <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background/98 backdrop-blur-md transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-14">
                   <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
                     <SidebarTrigger className="-ml-1" />
                     <Separator
@@ -185,7 +190,30 @@ export function UnifiedDashboardShell({
                     </Breadcrumb>
                     <h1 className="text-base font-medium sm:hidden">{pageTitle}</h1>
 
-                    <div className="ml-auto flex items-center gap-1">
+                    {/* ⌘K search trigger */}
+                    <button
+                      onClick={() =>
+                        window.dispatchEvent(
+                          new KeyboardEvent('keydown', {
+                            key: 'k',
+                            metaKey: true,
+                            ctrlKey: true,
+                            bubbles: true,
+                            cancelable: true,
+                          })
+                        )
+                      }
+                      className="hidden sm:flex items-center gap-2 rounded-[calc(var(--radius)*0.7)] border border-border/60 bg-muted/40 px-2.5 py-1.5 text-xs text-muted-foreground transition-all duration-150 hover:bg-muted/70 hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      aria-label="Open command palette"
+                    >
+                      <span className="hidden md:inline">Search…</span>
+                      <kbd className="flex items-center gap-0.5 font-sans text-[10px] text-muted-foreground/70">
+                        <span>⌘</span>
+                        <span>K</span>
+                      </kbd>
+                    </button>
+
+                    <div className="ml-auto flex items-center gap-0.5 md:gap-1">
                       <TherapistSessionModeLauncher isTherapist={isTherapistTools} />
                       <NotificationDropdown />
                       <AIToggle />
@@ -193,10 +221,17 @@ export function UnifiedDashboardShell({
                   </div>
                 </header>
 
-                <div className="flex flex-1 flex-col">
-                  <div className="@container/main flex flex-1 flex-col gap-2">
-                    <main id="main-content" tabIndex={-1}>
-                      <div className="p-4 md:p-6">
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+                  <div className="@container/main flex flex-1 flex-col overflow-hidden">
+                    <main
+                      id="main-content"
+                      tabIndex={-1}
+                      className="flex-1 overflow-y-auto scroll-smooth focus-visible:outline-none"
+                    >
+                      <div
+                        key={pathname}
+                        className="animate-in fade-in slide-in-from-bottom-2 duration-200 ease-out p-4 md:p-6"
+                      >
                         {children}
                       </div>
                     </main>

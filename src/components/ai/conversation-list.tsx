@@ -48,7 +48,7 @@ export function ConversationList({
               key={conv.id}
               onClick={() => onSelect(conv.id)}
               className={cn(
-                'group flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm transition-colors',
+                'group flex w-full items-center gap-2 rounded-[calc(var(--radius)*0.8)] px-2.5 py-2 text-left text-sm transition-colors',
                 activeId === conv.id
                   ? 'bg-primary/10 text-primary'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'

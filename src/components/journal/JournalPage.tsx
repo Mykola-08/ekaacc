@@ -104,12 +104,12 @@ export function JournalPage() {
       <div className="mb-6 flex items-center justify-end gap-2">
         <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
           <DialogTrigger asChild>
-            <Button className="h-12 rounded-lg px-6 text-sm font-semibold transition-all">
+            <Button className="h-12 rounded-[calc(var(--radius)*0.8)] px-6 text-sm font-semibold transition-all">
               <HugeiconsIcon icon={Add01Icon} className="mr-2 size-5" />
               New Entry
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-card rounded-lg border-0 p-8 sm:max-w-150">
+          <DialogContent className="bg-card rounded-[calc(var(--radius)*0.8)] border-0 p-8 sm:max-w-150">
             <DialogHeader>
               <DialogTitle className="text-foreground text-2xl font-black tracking-tight">
                 New Reflection
@@ -143,19 +143,19 @@ export function JournalPage() {
                 placeholder="Title (optional)"
                 value={newEntry.title}
                 onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
-                className="bg-secondary placeholder:text-muted-foreground text-foreground h-14 rounded-xl border-none px-6 py-4 text-lg font-semibold focus-visible:ring-0"
+                className="bg-secondary placeholder:text-muted-foreground text-foreground h-14 rounded-[var(--radius)] border-none px-6 py-4 text-lg font-semibold focus-visible:ring-0"
               />
               <Textarea
                 placeholder="How are you feeling today?"
                 value={newEntry.text}
                 onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
-                className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-50 resize-none rounded-xl border-none p-6 text-base leading-relaxed focus-visible:ring-0"
+                className="bg-secondary placeholder:text-muted-foreground text-foreground min-h-50 resize-none rounded-[var(--radius)] border-none p-6 text-base leading-relaxed focus-visible:ring-0"
               />
             </div>
             <DialogFooter>
               <Button
                 onClick={handleSave}
-                className="h-14 w-full rounded-xl text-lg font-semibold transition-transform active:scale-95"
+                className="h-14 w-full rounded-[var(--radius)] text-lg font-semibold transition-transform active:scale-95"
               >
                 Save Entry
               </Button>
@@ -167,11 +167,11 @@ export function JournalPage() {
       {loading ? (
         <div className="">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-muted h-32 animate-pulse rounded-lg" />
+            <div key={i} className="bg-muted h-32 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
           ))}
         </div>
       ) : entries.length === 0 ? (
-        <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-20 text-center">
+        <div className="border-border bg-muted/30 flex flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] border-2 border-dashed py-20 text-center">
           <div className="bg-card mb-4 flex h-16 w-16 items-center justify-center rounded-full">
             <HugeiconsIcon icon={Book02Icon} className="size-8 text-muted-foreground/50" />
           </div>
@@ -188,13 +188,13 @@ export function JournalPage() {
             return (
               <div
                 key={entry.id}
-                className="group bg-card hover:border-border rounded-lg border border-transparent p-8 transition-all duration-500 hover:-translate-y-1"
+                className="group bg-card hover:border-border rounded-[calc(var(--radius)*0.8)] border border-transparent p-8 transition-all duration-500 hover:-translate-y-1"
               >
                 <div className="mb-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-5">
                     <div
                       className={cn(
-                        'flex h-14 w-14 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110',
+                        'flex h-14 w-14 items-center justify-center rounded-[var(--radius)] transition-transform duration-500 group-hover:scale-110',
                         m.bg
                       )}
                     >

@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { HeartCheckIcon, CheckmarkCircle01Icon } from '@hugeicons/core-free-icons';
+import { HeartCheckIcon, CheckmarkCircle01Icon, Edit02Icon } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import { logMoodEntry } from '@/app/actions/mood-actions';
 
@@ -29,10 +29,17 @@ function scoreColor(score: number) {
 }
 
 function scoreBg(score: number) {
-  if (score >= 8) return 'bg-success/10 border-success/30';
-  if (score >= 6) return 'bg-primary/10 border-primary/30';
-  if (score >= 4) return 'bg-warning/10 border-warning/30';
-  return 'bg-destructive/10 border-destructive/30';
+  if (score >= 8) return 'bg-success/8 border-success/20';
+  if (score >= 6) return 'bg-primary/8 border-primary/20';
+  if (score >= 4) return 'bg-warning/8 border-warning/20';
+  return 'bg-destructive/8 border-destructive/20';
+}
+
+function scoreBarColor(score: number) {
+  if (score >= 8) return 'bg-success';
+  if (score >= 6) return 'bg-primary';
+  if (score >= 4) return 'bg-warning';
+  return 'bg-destructive';
 }
 
 export type MoodQuickLogProps = {
@@ -44,6 +51,7 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
   const [logged, setLogged] = useState<number | null>(initialScore);
   const [hovered, setHovered] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [updating, setUpdating] = useState(false);
 
   const display = hovered ?? logged;
   const step = display ? MOOD_STEPS[display - 1] : null;
@@ -52,81 +60,118 @@ export function MoodQuickLog({ todayScore: initialScore }: MoodQuickLogProps) {
     startTransition(async () => {
       await logMoodEntry(score);
       setLogged(score);
+      setUpdating(false);
     });
   };
 
-  if (logged !== null) {
+  // Logged state — show confirmation card
+  if (logged !== null && !updating) {
     const s = MOOD_STEPS[logged - 1];
+    const fillWidth = `${(logged / 10) * 100}%`;
     return (
-      <Card className={cn('border rounded-2xl transition-all', scoreBg(logged))}>
-        <CardContent className="flex items-center gap-3 p-4">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl text-2xl">
-            {s.emoji}
+      <Card className={cn('border transition-all duration-300', scoreBg(logged))}>
+        <CardContent className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] text-2xl">
+              {s.emoji}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <p className={cn('text-sm font-semibold', scoreColor(logged))}>
+                  Feeling {s.label.toLowerCase()} · {logged}/10
+                </p>
+                <HugeiconsIcon icon={CheckmarkCircle01Icon} className={cn('size-4 shrink-0', scoreColor(logged))} />
+              </div>
+              <p className="mt-0.5 text-xs text-muted-foreground">Today's mood logged</p>
+              {/* Mood bar */}
+              <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted/60">
+                <div
+                  className={cn('h-full rounded-full transition-all duration-500', scoreBarColor(logged))}
+                  style={{ width: fillWidth }}
+                />
+              </div>
+            </div>
           </div>
-          <div className="min-w-0 flex-1">
-            <p className={cn('text-sm font-semibold', scoreColor(logged))}>
-              Mood: {logged}/10 · {s.label}
-            </p>
-            <p className="text-xs text-muted-foreground">Today's check-in logged</p>
-          </div>
-          <HugeiconsIcon icon={CheckmarkCircle01Icon} className={cn('size-4 shrink-0', scoreColor(logged))} />
+          {/* Update button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-2 h-7 w-full gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            onClick={() => setUpdating(true)}
+          >
+            <HugeiconsIcon icon={Edit02Icon} className="size-3" />
+            Update mood
+          </Button>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-border/60 rounded-xl">
-      <CardContent className="p-4">
-        <div className="mb-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <HugeiconsIcon icon={HeartCheckIcon} className="size-4 text-muted-foreground" />
-            <p className="text-sm font-semibold">How are you feeling?</p>
-          </div>
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center gap-2 text-sm font-semibold">
+          <HugeiconsIcon icon={HeartCheckIcon} className="size-4 text-muted-foreground" />
+          How are you feeling today?
           {step && (
-            <span className={cn('text-xs font-medium tabular-nums', scoreColor(hovered ?? 0))}>
+            <span className={cn('ml-auto text-xs font-medium tabular-nums', scoreColor(hovered ?? logged ?? 0))}>
               {step.emoji} {step.label}
             </span>
           )}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-0">
+        {/* Emoji row */}
+        <div className="flex items-center gap-0.5">
+          {MOOD_STEPS.map(({ score, emoji }) => {
+            const isActive = hovered !== null ? score <= hovered : logged !== null ? score <= logged : false;
+            return (
+              <button
+                key={score}
+                disabled={isPending}
+                onClick={() => handleLog(score)}
+                onMouseEnter={() => setHovered(score)}
+                onMouseLeave={() => setHovered(null)}
+                title={`${MOOD_STEPS[score - 1].label} (${score}/10)`}
+                className={cn(
+                  'flex flex-1 flex-col items-center gap-0.5 rounded-[calc(var(--radius)*0.6)] py-2 transition-all duration-100',
+                  'hover:scale-110 active:scale-95',
+                  isPending && 'cursor-wait opacity-50',
+                  isActive
+                    ? score >= 8
+                      ? 'bg-success/10'
+                      : score >= 6
+                        ? 'bg-primary/10'
+                        : score >= 4
+                          ? 'bg-warning/10'
+                          : 'bg-destructive/10'
+                    : 'hover:bg-muted/60'
+                )}
+              >
+                <span
+                  className={cn(
+                    'text-sm leading-none transition-all duration-100',
+                    isActive ? 'scale-125 opacity-100' : 'opacity-50'
+                  )}
+                >
+                  {emoji}
+                </span>
+                <span
+                  className={cn(
+                    'text-[9px] font-medium tabular-nums leading-none transition-opacity duration-100',
+                    isActive ? 'opacity-70' : 'opacity-0'
+                  )}
+                >
+                  {score}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="flex items-center gap-1">
-          {MOOD_STEPS.map(({ score, emoji }) => (
-            <button
-              key={score}
-              disabled={isPending}
-              onClick={() => handleLog(score)}
-              onMouseEnter={() => setHovered(score)}
-              onMouseLeave={() => setHovered(null)}
-              title={`Log mood ${score}/10`}
-              className={cn(
-                'flex flex-1 items-center justify-center rounded-lg py-2 text-base transition-all',
-                'hover:bg-muted/60 hover:scale-110 active:scale-95',
-                isPending && 'opacity-50 cursor-wait',
-                hovered !== null && score <= hovered
-                  ? score >= 8
-                    ? 'bg-success/10'
-                    : score >= 6
-                      ? 'bg-primary/10'
-                      : score >= 4
-                        ? 'bg-warning/10'
-                        : 'bg-destructive/10'
-                  : 'bg-transparent'
-              )}
-            >
-              <span className={cn(
-                'text-xs leading-none transition-transform',
-                hovered !== null && score <= hovered ? 'scale-125' : 'opacity-60'
-              )}>
-                {emoji}
-              </span>
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-1 flex justify-between px-1">
-          <span className="text-xs text-muted-foreground">😔 Low</span>
-          <span className="text-xs text-muted-foreground">Great 🌟</span>
+        <div className="mt-1.5 flex justify-between px-1">
+          <span className="text-[10px] text-muted-foreground">😔 Struggling</span>
+          <span className="text-[10px] text-muted-foreground">Thriving 🌟</span>
         </div>
       </CardContent>
     </Card>

@@ -96,7 +96,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                   transition={{ delay: 0.6 }}
                   className="absolute right-0 -bottom-4 z-20 flex items-center gap-4 rounded-[2rem] border border-white/20 bg-white/90 p-5 backdrop-blur-xl md:-right-4 md:bottom-12"
                 >
-                  <div className="bg-primary-50 text-primary-600 flex h-12 w-12 items-center justify-center rounded-2xl">
+                  <div className="bg-primary-50 text-primary-600 flex h-12 w-12 items-center justify-center rounded-[var(--radius)]">
                     <HugeiconsIcon icon={Leaf01Icon} className="size-6"  />
                   </div>
                   <div>
@@ -214,7 +214,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
-              <div className="rounded-2xl border border-gray-100 bg-white p-8 md:p-10">
+              <div className="rounded-[var(--radius)] border border-gray-100 bg-white p-8 md:p-10">
                 <h3 className="mb-6 text-2xl font-light text-gray-900">
                   {t('agenyz.aboutProduct') || 'About the Formula'}
                 </h3>
@@ -224,7 +224,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               </div>
 
               {translatedIngredients.length > 0 && (
-                <div className="rounded-2xl border border-gray-100 bg-white p-8 md:p-10">
+                <div className="rounded-[var(--radius)] border border-gray-100 bg-white p-8 md:p-10">
                   <h3 className="mb-8 flex items-center text-2xl font-light text-gray-900">
                     <HugeiconsIcon icon={Leaf01Icon} className="mr-3 size-6 text-green-500"  />
                     {t('agenyz.ingredients') || 'Active Interactions'}
@@ -233,7 +233,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                     {translatedIngredients.map((ing, i) => (
                       <div
                         key={i}
-                        className="flex items-center rounded-2xl border border-gray-100 bg-gray-50 p-4"
+                        className="flex items-center rounded-[var(--radius)] border border-gray-100 bg-gray-50 p-4"
                       >
                         <div className="mr-4 h-2 w-2 rounded-full bg-green-400" />
                         <span className="font-medium text-gray-700">{ing}</span>
@@ -246,7 +246,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
 
             <div className="">
               {translatedBenefits.length > 0 && (
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#000035] to-[#000060] p-8 text-white">
+                <div className="relative overflow-hidden rounded-[var(--radius)] bg-gradient-to-br from-[#000035] to-[#000060] p-8 text-white">
                   <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-blue-500/20 blur-2xl" />
                   <h3 className="relative z-10 mb-6 flex items-center text-xl font-medium">
                     <HugeiconsIcon icon={ZapIcon} className="mr-2 size-5 text-yellow-400"  />
@@ -267,7 +267,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
               )}
 
               {translatedUsage && (
-                <div className="rounded-2xl border border-purple-100 bg-purple-50 p-8">
+                <div className="rounded-[var(--radius)] border border-purple-100 bg-purple-50 p-8">
                   <h3 className="mb-4 flex items-center text-lg font-medium text-purple-900">
                     <HugeiconsIcon icon={Clock01Icon} className="mr-2 size-5 text-purple-600"  />
                     {t('agenyz.usage') || 'How to Use'}
@@ -276,7 +276,7 @@ export default function AgenyzProductContent({ id }: { id: string }) {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-gray-100 bg-white p-6">
+              <div className="grid grid-cols-2 gap-4 rounded-[var(--radius)] border border-gray-100 bg-white p-6">
                 <div className="p-2 text-center">
                   <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 text-gray-400">
                     <HugeiconsIcon icon={ShieldIcon} className="size-5" />

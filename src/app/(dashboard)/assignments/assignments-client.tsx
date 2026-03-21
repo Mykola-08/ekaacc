@@ -65,11 +65,11 @@ function AssignmentCard({
   const isCompleted = assignment.status === 'completed';
 
   return (
-    <Card className={cn('rounded-xl transition-shadow hover:shadow-sm', isCompleted && 'opacity-70')}>
+    <Card className={cn('rounded-[var(--radius)] transition-shadow hover:shadow-sm', isCompleted && 'opacity-70')}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 min-w-0">
-            <div className={cn('mt-0.5 shrink-0 rounded-xl p-2', isCompleted ? 'bg-success/10' : 'bg-primary/10')}>
+            <div className={cn('mt-0.5 shrink-0 rounded-[var(--radius)] p-2', isCompleted ? 'bg-success/10' : 'bg-primary/10')}>
               <HugeiconsIcon
                 icon={isCompleted ? TaskDone02Icon : NoteIcon}
                 className={cn('size-4', isCompleted ? 'text-success' : 'text-primary')}
@@ -108,7 +108,7 @@ function AssignmentCard({
         ) : (
           <Button
             variant="outline"
-            className="w-full gap-2 rounded-xl"
+            className="w-full gap-2 rounded-[var(--radius)]"
             size="sm"
             onClick={() => onSubmit(assignment)}
           >
@@ -162,8 +162,8 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
       </div>
 
       {assignments.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-xl bg-muted p-4">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-[var(--radius)] bg-muted p-4">
             <HugeiconsIcon icon={NoteIcon} className="size-8 text-muted-foreground/50" />
           </div>
           <div>
@@ -174,19 +174,19 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
       ) : (
         <div className="px-4 lg:px-6">
           <Tabs defaultValue="pending">
-            <TabsList className="mb-4 rounded-xl" variant="line">
-              <TabsTrigger value="pending" className="rounded-lg gap-1.5">
+            <TabsList className="mb-4 rounded-[var(--radius)]" variant="line">
+              <TabsTrigger value="pending" className="rounded-[calc(var(--radius)*0.8)] gap-1.5">
                 Pending
                 {pending.length > 0 && (
-                  <span className="rounded-lg bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary tabular-nums">
+                  <span className="rounded-[calc(var(--radius)*0.8)] bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary tabular-nums">
                     {pending.length}
                   </span>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="completed" className="rounded-lg gap-1.5">
+              <TabsTrigger value="completed" className="rounded-[calc(var(--radius)*0.8)] gap-1.5">
                 Completed
                 {completed.length > 0 && (
-                  <span className="rounded-lg bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground tabular-nums">
+                  <span className="rounded-[calc(var(--radius)*0.8)] bg-muted px-1.5 py-0.5 text-xs font-medium text-muted-foreground tabular-nums">
                     {completed.length}
                   </span>
                 )}
@@ -195,7 +195,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
 
             <TabsContent value="pending">
               {pending.length === 0 ? (
-                <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-12 text-center">
+                <div className="flex flex-col items-center gap-2 rounded-[var(--radius)] border border-dashed py-12 text-center">
                   <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-8 text-success/50" />
                   <p className="text-sm text-muted-foreground">All caught up! No pending assignments.</p>
                 </div>
@@ -210,7 +210,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
 
             <TabsContent value="completed">
               {completed.length === 0 ? (
-                <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-12 text-center">
+                <div className="flex flex-col items-center gap-2 rounded-[var(--radius)] border border-dashed py-12 text-center">
                   <p className="text-sm text-muted-foreground">No completed assignments yet.</p>
                 </div>
               ) : (
@@ -227,7 +227,7 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
 
       {/* Submit Dialog */}
       <Dialog open={!!submitTarget} onOpenChange={(open) => { if (!open) { setSubmitTarget(null); setResponseText(''); setSubmitError(null); } }}>
-        <DialogContent className="rounded-xl">
+        <DialogContent className="rounded-[var(--radius)]">
           <DialogHeader>
             <DialogTitle>{submitTarget?.title}</DialogTitle>
             {submitTarget?.description && (
@@ -240,15 +240,15 @@ export function AssignmentsPageClient({ assignments: initial }: { assignments: A
               value={responseText}
               onChange={(e) => setResponseText(e.target.value)}
               placeholder="Write your response, reflections, or notes here…"
-              className="min-h-36 resize-none rounded-xl"
+              className="min-h-36 resize-none rounded-[var(--radius)]"
             />
             {submitError && (
               <Alert variant="destructive"><AlertDescription>{submitError}</AlertDescription></Alert>
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-lg" onClick={() => setSubmitTarget(null)}>Cancel</Button>
-            <Button onClick={handleSubmit} disabled={submitting} className="gap-2 rounded-lg">
+            <Button variant="ghost" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => setSubmitTarget(null)}>Cancel</Button>
+            <Button onClick={handleSubmit} disabled={submitting} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
               {submitting && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {submitting ? 'Submitting…' : 'Submit Response'}
             </Button>

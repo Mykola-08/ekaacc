@@ -72,13 +72,13 @@ export default async function TelegramDashboardPage() {
       <div className="flex-1 space-y-6 p-4">
         {/* Actions */}
         <div className="grid grid-cols-2 gap-3">
-          <Button asChild size="lg" className="h-14 w-full rounded-2xl">
+          <Button asChild size="lg" className="h-14 w-full rounded-[var(--radius)]">
             <Link href="/booking">
               <HugeiconsIcon icon={Calendar03Icon} className="mr-2 size-5" />
               Nova Reserva
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="bg-card h-14 w-full rounded-2xl">
+          <Button asChild variant="outline" size="lg" className="bg-card h-14 w-full rounded-[var(--radius)]">
             <Link href="/dashboard/wallet">
               <HugeiconsIcon icon={WorkHistoryIcon} className="mr-2 size-5"  />
               El meu Moneder

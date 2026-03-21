@@ -192,7 +192,7 @@ function MorphNotificationItem({
       exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.15 } }}
       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
       className={cn(
-        'pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border px-4 py-3 backdrop-blur-sm',
+        'pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-[var(--radius)] border px-4 py-3 backdrop-blur-sm',
         config.bgColor,
         config.borderColor
       )}
@@ -231,7 +231,7 @@ function MorphNotificationItem({
       <button
         onClick={onDismiss}
         className={cn(
-          'shrink-0 rounded-md p-0.5 opacity-60 transition-opacity hover:opacity-100',
+          'shrink-0 rounded-[calc(var(--radius)*0.6)] p-0.5 opacity-60 transition-opacity hover:opacity-100',
           config.color
         )}
       >

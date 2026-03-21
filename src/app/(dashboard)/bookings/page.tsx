@@ -20,7 +20,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 
-const STATS_CARD_CLASS = 'rounded-xl border-border/60 bg-card';
+const STATS_CARD_CLASS = 'border-border/60';
 const STATS_LABEL_CLASS = 'text-muted-foreground text-xs uppercase tracking-wide';
 const STATS_VALUE_CLASS = 'text-foreground mt-1 text-2xl font-bold tabular-nums';
 
@@ -137,12 +137,12 @@ export default async function BookingsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
       <div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-foreground text-xl font-bold tracking-tight">Bookings</h1>
+            <h1 className="text-foreground text-xl font-semibold tracking-tight">Bookings</h1>
             <p className="text-muted-foreground mt-0.5 text-sm">
               {upcomingBookings.length
                 ? `${upcomingBookings.length} upcoming session${upcomingBookings.length !== 1 ? 's' : ''}`
@@ -150,7 +150,7 @@ export default async function BookingsPage() {
             </p>
           </div>
           <Link href="/book">
-            <Button size="sm" className="shrink-0 gap-1.5 rounded-lg">
+            <Button size="sm" className="shrink-0 gap-1.5 rounded-[calc(var(--radius)*0.8)]">
               <HugeiconsIcon icon={PlusSignIcon} className="size-3.5" />
               Book Session
             </Button>
@@ -186,19 +186,19 @@ export default async function BookingsPage() {
 
       <div>
         <Tabs defaultValue="upcoming">
-          <TabsList className="h-10 rounded-xl" variant="line">
-            <TabsTrigger value="upcoming" className="gap-1.5 rounded-lg text-xs">
+          <TabsList className="h-10 rounded-[var(--radius)]" variant="line">
+            <TabsTrigger value="upcoming" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
               Upcoming
               {upcomingBookings.length > 0 && (
-                <span className="bg-primary/10 text-primary rounded-lg px-1.5 py-0.5 text-xs tabular-nums">
+                <span className="bg-primary/10 text-primary rounded-[calc(var(--radius)*0.8)] px-1.5 py-0.5 text-xs tabular-nums">
                   {upcomingBookings.length}
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="past" className="gap-1.5 rounded-lg text-xs">
+            <TabsTrigger value="past" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
               History
               {pastBookings.length > 0 && (
-                <span className="bg-muted text-muted-foreground rounded-lg px-1.5 py-0.5 text-xs tabular-nums">
+                <span className="bg-muted text-muted-foreground rounded-[calc(var(--radius)*0.8)] px-1.5 py-0.5 text-xs tabular-nums">
                   {pastBookings.length}
                 </span>
               )}
@@ -230,8 +230,8 @@ export default async function BookingsPage() {
           {/* Past */}
           <TabsContent value="past" className="mt-4">
             {pastBookings.length === 0 ? (
-              <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed py-14 text-center">
-                <div className="bg-muted rounded-xl p-4">
+              <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-14 text-center">
+                <div className="bg-muted rounded-[var(--radius)] p-4">
                   <HugeiconsIcon
                     icon={Calendar03Icon}
                     className="text-muted-foreground/40 size-8"
@@ -262,7 +262,7 @@ function BookingCard({ booking: b, isTherapist }: { booking: any; isTherapist: b
   const duration = getDuration(b.starts_at, b.ends_at);
 
   return (
-    <Card className="border-border/60 overflow-hidden rounded-xl border transition-all hover:shadow-md">
+    <Card className="border-border/60 overflow-hidden rounded-[var(--radius)] border transition-all hover:shadow-md">
       <CardContent className="p-0">
         <div className="flex flex-col sm:flex-row">
           {/* Date/time column */}
@@ -329,14 +329,14 @@ function BookingCard({ booking: b, isTherapist }: { booking: any; isTherapist: b
             <div className="flex shrink-0 flex-col items-end gap-2">
               {b.meeting_url && b.status === 'scheduled' && (
                 <a href={b.meeting_url} target="_blank" rel="noopener noreferrer">
-                  <Button size="sm" className="gap-1.5 rounded-lg text-xs">
+                  <Button size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
                     <HugeiconsIcon icon={Video01Icon} className="size-3.5" />
                     Join
                   </Button>
                 </a>
               )}
               {b.status === 'scheduled' && (
-                <Button variant="outline" size="sm" className="gap-1.5 rounded-lg text-xs">
+                <Button variant="outline" size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
                   <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" />
                   Cancel
                 </Button>
@@ -355,10 +355,10 @@ function PastBookingRow({ booking: b, isTherapist }: { booking: any; isTherapist
   const duration = getDuration(b.starts_at, b.ends_at);
 
   return (
-    <div className="border-border/60 hover:bg-muted/30 flex items-center gap-3 rounded-xl border p-4 transition-colors">
+    <div className="border-border/60 hover:bg-muted/30 flex items-center gap-3 rounded-[var(--radius)] border p-4 transition-colors">
       <div
         className={cn(
-          'flex size-9 shrink-0 items-center justify-center rounded-xl',
+          'flex size-9 shrink-0 items-center justify-center rounded-[var(--radius)]',
           b.status === 'completed' ? 'bg-success/10' : 'bg-muted'
         )}
       >
@@ -394,7 +394,7 @@ function PastBookingRow({ booking: b, isTherapist }: { booking: any; isTherapist
         <Button
           variant="ghost"
           size="sm"
-          className="text-muted-foreground shrink-0 gap-1 rounded-lg text-xs"
+          className="text-muted-foreground shrink-0 gap-1 rounded-[calc(var(--radius)*0.8)] text-xs"
         >
           Notes
           <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
@@ -406,8 +406,8 @@ function PastBookingRow({ booking: b, isTherapist }: { booking: any; isTherapist
 
 function EmptyBookings({ onBook }: { onBook: string }) {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed py-16 text-center">
-      <div className="bg-muted rounded-xl p-5">
+    <div className="flex flex-col items-center gap-4 rounded-[var(--radius)] border border-dashed py-16 text-center">
+      <div className="bg-muted rounded-[var(--radius)] p-5">
         <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground/40 size-10" />
       </div>
       <div>
@@ -417,7 +417,7 @@ function EmptyBookings({ onBook }: { onBook: string }) {
         </p>
       </div>
       <Link href={onBook}>
-        <Button className="gap-2 rounded-lg">
+        <Button className="gap-2 rounded-[calc(var(--radius)*0.8)]">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           Book a Session
         </Button>

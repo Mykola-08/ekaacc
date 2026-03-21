@@ -137,14 +137,14 @@ export default function ReportsPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-        <div className="px-4 lg:px-6">
-          <h1 className="text-xl font-bold tracking-tight">My Reports</h1>
+      <div className="flex flex-col gap-4 md:gap-6">
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight">My Reports</h1>
           <p className="text-sm text-muted-foreground mt-1">Your personal progress summary.</p>
         </div>
-        <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+        <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-muted h-32 animate-pulse rounded-lg" />
+            <div key={i} className="bg-muted h-32 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
           ))}
         </div>
       </div>
@@ -152,10 +152,10 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center px-4 lg:px-6">
+    <div className="flex flex-col gap-4 md:gap-6">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-xl font-bold tracking-tight">My Reports</h1>
+          <h1 className="text-xl font-semibold tracking-tight">My Reports</h1>
           <p className="text-sm text-muted-foreground mt-1">Your personal progress summary for the last 30 days.</p>
         </div>
         <Badge variant="outline" className="w-fit">
@@ -165,7 +165,7 @@ export default function ReportsPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 *:data-[slot=card]:shadow-xs">
+      <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 *:data-[slot=card]:shadow-xs">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Sessions Completed</CardTitle>
@@ -263,7 +263,7 @@ export default function ReportsPage() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="border bg-background rounded-lg p-2">
+                          <div className="border bg-background rounded-[calc(var(--radius)*0.8)] p-2">
                             <p className="text-muted-foreground mb-1 text-xs">{label}</p>
                             <p className="text-primary text-sm font-bold">Mood: {payload[0].value}/10</p>
                           </div>
@@ -316,7 +316,7 @@ export default function ReportsPage() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="border bg-background rounded-lg p-2">
+                          <div className="border bg-background rounded-[calc(var(--radius)*0.8)] p-2">
                             <p className="text-muted-foreground mb-1 text-xs">{label}</p>
                             {payload.map((p: any) => (
                               <p key={p.dataKey} className="text-sm font-medium" style={{ color: p.color }}>
@@ -377,7 +377,7 @@ export default function ReportsPage() {
 
       {/* Empty State */}
       {!stats && (
-        <div className="mx-4 lg:mx-6 rounded-lg border-2 border-dashed py-20 text-center">
+        <div className="mx-4 lg:mx-6 rounded-[calc(var(--radius)*0.8)] border-2 border-dashed py-20 text-center">
           <HugeiconsIcon icon={BarChartIcon} className="text-muted-foreground mx-auto mb-4 size-10" />
           <h3 className="text-lg font-semibold">No report data yet</h3>
           <p className="text-muted-foreground mt-1 text-sm">

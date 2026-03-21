@@ -37,7 +37,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-card w-full max-w-sm rounded-lg border p-4"
+        className="bg-card w-full max-w-sm rounded-[calc(var(--radius)*0.8)] border p-4"
       >
         <p className="text-muted-foreground text-sm">No services found.</p>
       </motion.div>
@@ -49,7 +49,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card w-full max-w-md rounded-lg border p-4"
+      className="bg-card w-full max-w-md rounded-[calc(var(--radius)*0.8)] border p-4"
     >
       <div className="mb-3 flex items-center gap-2">
         <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4"  />
@@ -63,7 +63,7 @@ export function ServicesListCard({ services }: ServicesListProps) {
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: i * 0.06 }}
-            className="bg-muted/50 group hover:bg-muted flex items-center justify-between rounded-xl p-3 transition-colors"
+            className="bg-muted/50 group hover:bg-muted flex items-center justify-between rounded-[var(--radius)] p-3 transition-colors"
           >
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium">{s.name}</p>

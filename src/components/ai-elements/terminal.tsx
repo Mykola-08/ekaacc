@@ -247,7 +247,7 @@ export const Terminal = ({
     <TerminalContext.Provider value={contextValue}>
       <div
         className={cn(
-          "flex flex-col overflow-hidden rounded-lg border bg-zinc-950 text-zinc-100",
+          "flex flex-col overflow-hidden rounded-[calc(var(--radius)*0.8)] border bg-zinc-950 text-zinc-100",
           className
         )}
         {...props}

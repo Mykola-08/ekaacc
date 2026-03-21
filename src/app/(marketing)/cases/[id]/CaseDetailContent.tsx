@@ -108,7 +108,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
           </Link>
 
           <div
-            className={`mx-auto h-20 w-20 rounded-2xl ${colorClass.bg} mb-6 flex items-center justify-center`}
+            className={`mx-auto h-20 w-20 rounded-[var(--radius)] ${colorClass.bg} mb-6 flex items-center justify-center`}
           >
             <HugeiconsIcon icon={Icon} className={`h-10 w-10 ${colorClass.text}`} />
           </div>
@@ -136,7 +136,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
             </h2>
             <ul className="">
               {symptoms.map((item, idx) => (
-                <li key={idx} className="flex items-start rounded-xl bg-gray-50 p-4">
+                <li key={idx} className="flex items-start rounded-[var(--radius)] bg-gray-50 p-4">
                   <span className="mt-2 mr-3 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-400" />
                   <span className="text-gray-700">{item}</span>
                 </li>
@@ -155,7 +155,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
             </h2>
             <ul className="">
               {causes.map((item, idx) => (
-                <li key={idx} className="flex items-start rounded-xl bg-gray-50 p-4">
+                <li key={idx} className="flex items-start rounded-[var(--radius)] bg-gray-50 p-4">
                   <span className="mt-2 mr-3 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-400" />
                   <span className="text-gray-700">{item}</span>
                 </li>

@@ -223,7 +223,7 @@ const ComparativeTable = () => {
           </h2>
         </div>
 
-        <div className="overflow-x-auto rounded-2xl border border-gray-100 bg-white">
+        <div className="overflow-x-auto rounded-[var(--radius)] border border-gray-100 bg-white">
           <table className="w-full min-w-[600px] border-collapse">
             <thead>
               <tr className="bg-gray-50/50">
@@ -314,9 +314,9 @@ export default function VIPContent() {
               return (
                 <div
                   key={idx}
-                  className="group rounded-2xl border border-gray-100 bg-gray-50 p-8 transition-colors hover:border-amber-100"
+                  className="group rounded-[var(--radius)] border border-gray-100 bg-gray-50 p-8 transition-colors hover:border-amber-100"
                 >
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-gray-100 bg-white transition-colors">
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-[var(--radius)] border border-gray-100 bg-white transition-colors">
                     <HugeiconsIcon icon={Icon} className="size-7 text-amber-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-bold text-gray-900">{t(feature.title)}</h3>
@@ -347,7 +347,7 @@ export default function VIPContent() {
                 className="rounded-apple-xl border border-gray-100 bg-white p-10 transition-shadow duration-300"
               >
                 <div className="flex items-start gap-6">
-                  <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-amber-50">
+                  <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-[var(--radius)] bg-amber-50">
                     <HugeiconsIcon icon={service.icon} className="h-8 w-8 text-amber-600" />
                   </div>
                   <div>
@@ -412,7 +412,7 @@ export default function VIPContent() {
                 </div>
 
                 <button
-                  className={`h-14 w-full rounded-2xl border-none text-lg font-bold transition ${
+                  className={`h-14 w-full rounded-[var(--radius)] border-none text-lg font-bold transition ${
                     plan.popular
                       ? 'bg-amber-500 text-white hover:bg-amber-600'
                       : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
@@ -440,7 +440,7 @@ export default function VIPContent() {
             {testimonials.map((test, i) => (
               <div
                 key={i}
-                className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-md"
+                className="rounded-[var(--radius)] border border-white/10 bg-white/5 p-8 backdrop-blur-md"
               >
                 <div className="mb-6 flex gap-1">
                   {[...Array(test.rating)].map((_, j) => (

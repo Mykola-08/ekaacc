@@ -97,11 +97,11 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
 
   return (
     <div className="mx-auto w-full max-w-sm">
-      <Card className="overflow-hidden rounded-2xl border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
+      <Card className="overflow-hidden rounded-[var(--radius)] border border-border/30 bg-card/80 shadow-lg backdrop-blur-2xl">
         <CardContent className="p-7 sm:p-8">
           {/* Header */}
           <div className="mb-6 flex flex-col items-center gap-3 text-center">
-            <div className="rounded-xl border border-border/20 bg-card p-1.5 shadow-sm">
+            <div className="rounded-[var(--radius)] border border-border/20 bg-card p-1.5 shadow-sm">
               <Image
                 src="/images/eka_logo.png"
                 alt="EKA Balance"
@@ -135,7 +135,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                         <Input
                           placeholder="Jane Smith"
                           autoComplete="name"
-                          className="h-10 rounded-xl"
+                          className="h-10 rounded-[var(--radius)]"
                           {...field}
                         />
                       </FormControl>
@@ -153,7 +153,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                         <Input
                           placeholder="janesmith"
                           autoComplete="username"
-                          className="h-10 rounded-xl"
+                          className="h-10 rounded-[var(--radius)]"
                           {...field}
                         />
                       </FormControl>
@@ -174,7 +174,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                         type="email"
                         placeholder="name@example.com"
                         autoComplete="email"
-                        className="h-10 rounded-xl"
+                        className="h-10 rounded-[var(--radius)]"
                         {...field}
                       />
                     </FormControl>
@@ -195,7 +195,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                           type="password"
                           placeholder="••••••••"
                           autoComplete="new-password"
-                          className="h-10 rounded-xl"
+                          className="h-10 rounded-[var(--radius)]"
                           {...field}
                         />
                       </FormControl>
@@ -214,7 +214,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                           type="password"
                           placeholder="••••••••"
                           autoComplete="new-password"
-                          className="h-10 rounded-xl"
+                          className="h-10 rounded-[var(--radius)]"
                           {...field}
                         />
                       </FormControl>
@@ -236,7 +236,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     <FormControl>
                       <Input
                         placeholder="ABCD1234"
-                        className="h-10 rounded-xl font-mono tracking-wider uppercase"
+                        className="h-10 rounded-[var(--radius)] font-mono tracking-wider uppercase"
                         {...field}
                         onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                       />
@@ -250,7 +250,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
               />
 
               {form.formState.errors.root && (
-                <div className="rounded-xl bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
+                <div className="rounded-[var(--radius)] bg-destructive/10 px-4 py-3 text-center text-sm font-medium text-destructive">
                   {form.formState.errors.root.message}
                 </div>
               )}

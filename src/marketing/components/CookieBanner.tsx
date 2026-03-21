@@ -117,7 +117,7 @@ export default function CookieBanner() {
                   <div className="flex w-full flex-wrap items-center gap-2 pt-1">
                     <Button
                       onClick={acceptCookies}
-                      className="bg-gold -primary h-9 flex-1 rounded-xl px-5 text-xs font-medium transition-all hover:bg-[#e8a204] sm:flex-none"
+                      className="bg-gold -primary h-9 flex-1 rounded-[var(--radius)] px-5 text-xs font-medium transition-all hover:bg-[#e8a204] sm:flex-none"
                     >
                       {t('cookies.accept')}
                     </Button>
@@ -125,7 +125,7 @@ export default function CookieBanner() {
                     <Button
                       onClick={rejectCookies}
                       variant="outline"
-                      className="h-9 flex-1 rounded-xl border-gray-300 px-4 text-xs font-medium text-gray-600 transition-all hover:bg-gray-100 sm:flex-none"
+                      className="h-9 flex-1 rounded-[var(--radius)] border-gray-300 px-4 text-xs font-medium text-gray-600 transition-all hover:bg-gray-100 sm:flex-none"
                     >
                       {t('cookies.reject')}
                     </Button>

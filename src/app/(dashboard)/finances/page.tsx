@@ -85,24 +85,23 @@ export default async function FinancesPage() {
 
   return (
     <PaykitWrapper>
-      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-        <div className="flex items-center justify-between px-4 lg:px-6">
+      <div className="flex flex-col gap-4 md:gap-6">
+        <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold tracking-tight">Finances & Wallet</h1>
+            <h1 className="text-xl font-semibold tracking-tight">Finances & Wallet</h1>
             <p className="text-muted-foreground text-sm mt-0.5">
               Manage your balance, payment methods, and transaction history.
             </p>
           </div>
           <AddFundsDialog>
-            <Button className="gap-2">
+            <Button size="sm" className="gap-2">
               <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
               <span>Add Funds</span>
             </Button>
           </AddFundsDialog>
         </div>
 
-        <div className="px-4 lg:px-6">
-          <Tabs defaultValue="overview" className="w-full">
+        <Tabs defaultValue="overview" className="w-full">
             <TabsList className="mb-6 w-full max-w-md grid grid-cols-3" variant="line">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="transactions">Transactions</TabsTrigger>
@@ -279,7 +278,6 @@ export default async function FinancesPage() {
               </Card>
             </TabsContent>
           </Tabs>
-        </div>
       </div>
     </PaykitWrapper>
   );

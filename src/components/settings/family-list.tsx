@@ -24,7 +24,7 @@ export function FamilyList({ members }: { members: any[] }) {
 
   if (!members || members.length === 0) {
     return (
-      <div className="text-muted-foreground animate-in fade-in zoom-in rounded-lg border border-dashed p-8 text-center duration-500">
+      <div className="text-muted-foreground animate-in fade-in zoom-in rounded-[calc(var(--radius)*0.8)] border border-dashed p-8 text-center duration-500">
         <HugeiconsIcon icon={UserIcon} className="text-muted-foreground/30 mx-auto mb-3 size-12"  />
         <p>No family members added yet.</p>
         <p className="text-muted-foreground/70 mt-1 text-xs">
@@ -53,7 +53,7 @@ export function FamilyList({ members }: { members: any[] }) {
         {members.map((member) => (
           <div
             key={member.id}
-            className="group bg-card border-border/60 hover:border-border hover: relative flex items-start gap-4 rounded-lg border p-5 transition-all hover:-translate-y-1"
+            className="group bg-card border-border/60 hover:border-border hover: relative flex items-start gap-4 rounded-[calc(var(--radius)*0.8)] border p-5 transition-all hover:-translate-y-1"
           >
             <Avatar className="border-border/60 bg-muted/40 h-12 w-12 border">
               <AvatarFallback className="bg-muted/50 text-muted-foreground font-serif text-lg">
@@ -78,7 +78,7 @@ export function FamilyList({ members }: { members: any[] }) {
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground/50 hover:bg-destructive/10 hover:text-destructive absolute top-3 right-3 h-9 w-9 rounded-xl opacity-0 transition-all group-hover:opacity-100"
+              className="text-muted-foreground/50 hover:bg-destructive/10 hover:text-destructive absolute top-3 right-3 h-9 w-9 rounded-[var(--radius)] opacity-0 transition-all group-hover:opacity-100"
               onClick={() => setDeletingId(member.id)}
             >
               <HugeiconsIcon icon={Delete01Icon} className="size-4"  />
@@ -88,7 +88,7 @@ export function FamilyList({ members }: { members: any[] }) {
       </div>
 
       <Dialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
-        <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 sm:max-w-100">
+        <DialogContent className="bg-card overflow-hidden rounded-[calc(var(--radius)*0.8)] border-none p-0 sm:max-w-100">
           <div className="flex flex-col items-center p-8 pb-6 text-center">
             <div className="bg-destructive/10 mb-6 flex h-16 w-16 items-center justify-center rounded-full">
               <HugeiconsIcon icon={Alert01Icon} className="text-destructive size-8"  />
@@ -105,14 +105,14 @@ export function FamilyList({ members }: { members: any[] }) {
             <Button
               variant="outline"
               onClick={() => setDeletingId(null)}
-              className="border-border hover:bg-card hover:text-foreground h-11 flex-1 rounded-xl"
+              className="border-border hover:bg-card hover:text-foreground h-11 flex-1 rounded-[var(--radius)]"
             >
               Cancel
             </Button>
             <Button
               variant="destructive"
               onClick={handleDelete}
-              className="bg-destructive shadow-destructive/20 hover:bg-destructive/90 h-11 flex-1 rounded-xl"
+              className="bg-destructive shadow-destructive/20 hover:bg-destructive/90 h-11 flex-1 rounded-[var(--radius)]"
             >
               Remove Member
             </Button>

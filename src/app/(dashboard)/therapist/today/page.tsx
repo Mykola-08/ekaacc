@@ -90,7 +90,7 @@ export default async function TherapistTodayPage() {
   const remainingToday = todaysSessions.filter((s: any) => s.status === 'scheduled').length;
 
   return (
-    <div className="flex flex-col gap-5 p-4 lg:p-6">
+    <div className="flex flex-col gap-5">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -109,15 +109,15 @@ export default async function TherapistTodayPage() {
 
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-xl border border-border/60 bg-card p-3">
+        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-3">
           <p className="text-xs text-muted-foreground">Scheduled</p>
           <p className="mt-1 text-2xl font-bold tabular-nums">{remainingToday}</p>
         </div>
-        <div className="rounded-xl border border-border/60 bg-card p-3">
+        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-3">
           <p className="text-xs text-muted-foreground">Completed</p>
           <p className="mt-1 text-2xl font-bold tabular-nums text-primary">{completedToday}</p>
         </div>
-        <div className="rounded-xl border border-border/60 bg-card p-3">
+        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-3">
           <p className="text-xs text-muted-foreground">Pending tasks</p>
           <p className="mt-1 text-2xl font-bold tabular-nums">{activeAssignments.length}</p>
         </div>
@@ -160,9 +160,9 @@ export default async function TherapistTodayPage() {
                   {todaysSessions.map((session: any) => (
                     <div
                       key={session.id}
-                      className="flex items-center gap-3 rounded-lg border border-border/60 p-3"
+                      className="flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] border border-border/60 p-3"
                     >
-                      <div className="flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-lg bg-muted text-center">
+                      <div className="flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-muted text-center">
                         <span className="text-xs font-semibold leading-none text-foreground">
                           {session.starts_at ? formatTime(session.starts_at) : '—'}
                         </span>
@@ -214,7 +214,7 @@ export default async function TherapistTodayPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-9 w-full justify-start gap-2.5 rounded-lg px-3 text-xs font-medium"
+                    className="h-9 w-full justify-start gap-2.5 rounded-[calc(var(--radius)*0.8)] px-3 text-xs font-medium"
                   >
                     <HugeiconsIcon icon={icon} className="size-4 text-muted-foreground" />
                     {label}
@@ -234,7 +234,7 @@ export default async function TherapistTodayPage() {
                 {upcoming.map((b: any) => (
                   <div
                     key={b.id}
-                    className="flex items-center justify-between rounded-lg border border-border/60 p-2.5"
+                    className="flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border border-border/60 p-2.5"
                   >
                     <div className="min-w-0">
                       <p className="truncate text-xs font-medium">{b.client_name ?? 'Client'}</p>
@@ -272,7 +272,7 @@ export default async function TherapistTodayPage() {
               {activeAssignments.map((a: any) => (
                 <div
                   key={a.id}
-                  className="flex items-center justify-between rounded-lg border border-border/60 p-3"
+                  className="flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border border-border/60 p-3"
                 >
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium">{a.title ?? 'Assignment'}</p>

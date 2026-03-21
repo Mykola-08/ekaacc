@@ -56,7 +56,7 @@ export function PlansTab() {
     return (
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-muted h-80 animate-pulse rounded-3xl" />
+          <div key={i} className="bg-muted h-80 animate-pulse rounded-[calc(var(--radius)*2.2)]" />
         ))}
       </div>
     );
@@ -64,7 +64,7 @@ export function PlansTab() {
 
   if (plans.length === 0) {
     return (
-      <div className="border-border bg-muted/30 rounded-3xl border-2 border-dashed py-20 text-center">
+      <div className="border-border bg-muted/30 rounded-[calc(var(--radius)*2.2)] border-2 border-dashed py-20 text-center">
         <HugeiconsIcon icon={CrownIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
         <h3 className="text-foreground text-lg font-semibold">No plans available</h3>
         <p className="text-muted-foreground mt-1 text-sm">
@@ -79,7 +79,7 @@ export function PlansTab() {
       {plans.map((plan, idx) => (
         <Card
           key={plan.id}
-          className="border-border bg-card relative rounded-3xl transition-all hover:-translate-y-0.5"
+          className="border-border bg-card relative rounded-[calc(var(--radius)*2.2)] transition-all hover:-translate-y-0.5"
         >
           {idx === Math.floor(plans.length / 2) && (
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -121,7 +121,7 @@ export function PlansTab() {
           </CardContent>
           <div className="flex justify-center p-4">
             <Button
-              className="w-full rounded-3xl font-semibold"
+              className="w-full rounded-[calc(var(--radius)*2.2)] font-semibold"
               onClick={() => router.push(`/subscribe?plan=${plan.id}`)}
             >
               Get {plan.name}

@@ -223,12 +223,12 @@ export default async function AIInsightsPage() {
   });
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="px-4 lg:px-6">
+      <div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+            <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
               <HugeiconsIcon icon={SparklesIcon} className="text-primary size-5" />
               AI Insights
             </h1>
@@ -244,11 +244,11 @@ export default async function AIInsightsPage() {
       </div>
 
       {/* Key metrics row */}
-      <div className="grid grid-cols-2 gap-3 px-4 lg:px-6 @xl/main:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 @xl/main:grid-cols-4">
         {/* Mood */}
         <Card
           className={cn(
-            'rounded-xl',
+            'rounded-[var(--radius)]',
             avgMood != null ? 'border-primary/20 bg-primary/5' : 'border-border/60'
           )}
         >
@@ -275,7 +275,7 @@ export default async function AIInsightsPage() {
         </Card>
 
         {/* Journal Streak */}
-        <Card className="border-border/60 rounded-xl">
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardContent className="p-4">
             <div className="mb-2 flex items-center justify-between">
               <p className="text-muted-foreground text-xs tracking-wide uppercase">Journal Days</p>
@@ -289,7 +289,7 @@ export default async function AIInsightsPage() {
         </Card>
 
         {/* Assignments */}
-        <Card className="border-border/60 rounded-xl">
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardContent className="p-4">
             <div className="mb-2 flex items-center justify-between">
               <p className="text-muted-foreground text-xs tracking-wide uppercase">Assignments</p>
@@ -304,7 +304,7 @@ export default async function AIInsightsPage() {
         </Card>
 
         {/* Goals */}
-        <Card className="border-border/60 rounded-xl">
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardContent className="p-4">
             <div className="mb-2 flex items-center justify-between">
               <p className="text-muted-foreground text-xs tracking-wide uppercase">Goal Progress</p>
@@ -326,8 +326,8 @@ export default async function AIInsightsPage() {
         </Card>
       </div>
 
-      <div className="px-4 lg:px-6">
-        <Card className="border-border/60 rounded-xl">
+      <div>
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm font-semibold">
               <HugeiconsIcon icon={SparklesIcon} className="text-muted-foreground size-4" />
@@ -340,7 +340,7 @@ export default async function AIInsightsPage() {
                 <Link
                   key={block.id}
                   href={block.href}
-                  className="border-border/60 hover:bg-muted/30 rounded-xl border p-3 transition"
+                  className="border-border/60 hover:bg-muted/30 rounded-[var(--radius)] border p-3 transition"
                 >
                   <div className="mb-2 flex items-center gap-2">
                     <HugeiconsIcon
@@ -368,9 +368,9 @@ export default async function AIInsightsPage() {
       </div>
 
       {/* Main content */}
-      <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 @xl/main:grid-cols-2">
         {/* Mood trend card */}
-        <Card className="border-border/60 rounded-xl">
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2 text-sm font-semibold">
@@ -406,7 +406,7 @@ export default async function AIInsightsPage() {
                   Start tracking your mood in journal entries to see trends here.
                 </p>
                 <Link href="/journal">
-                  <Button variant="outline" size="sm" className="gap-1.5 rounded-lg text-xs">
+                  <Button variant="outline" size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
                     Open Journal
                     <HugeiconsIcon icon={ArrowRight01Icon} className="size-3" />
                   </Button>
@@ -446,7 +446,7 @@ export default async function AIInsightsPage() {
         </Card>
 
         {/* AI Insights / Recommendations */}
-        <Card className="border-border/60 rounded-xl">
+        <Card className="border-border/60 rounded-[var(--radius)]">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-sm font-semibold">
               <HugeiconsIcon icon={Brain02Icon} className="text-muted-foreground size-4" />
@@ -456,7 +456,7 @@ export default async function AIInsightsPage() {
           <CardContent className="space-y-3 pt-0">
             {(aiInsights ?? []).length > 0 ? (
               (aiInsights ?? []).map((insight) => (
-                <div key={insight.id} className="border-border/60 rounded-xl border p-3">
+                <div key={insight.id} className="border-border/60 rounded-[var(--radius)] border p-3">
                   <Badge variant="outline" className="mb-2 text-xs capitalize">
                     {(insight.insight_type ?? 'insight').replace(/_/g, ' ')}
                   </Badge>
@@ -523,7 +523,7 @@ export default async function AIInsightsPage() {
                       Start journaling and tracking your mood to unlock personalized insights.
                     </p>
                     <Link href="/journal">
-                      <Button size="sm" className="gap-2 rounded-lg">
+                      <Button size="sm" className="gap-2 rounded-[calc(var(--radius)*0.8)]">
                         <HugeiconsIcon icon={BookOpen01Icon} className="size-4" />
                         Start Journaling
                       </Button>
@@ -538,8 +538,8 @@ export default async function AIInsightsPage() {
 
       {/* Active Goals preview */}
       {(goals ?? []).length > 0 && (
-        <div className="px-4 lg:px-6">
-          <Card className="border-border/60 rounded-xl">
+        <div>
+          <Card className="border-border/60 rounded-[var(--radius)]">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-sm font-semibold">
@@ -578,7 +578,7 @@ export default async function AIInsightsPage() {
 
 function InsightChip({ icon, color, text }: { icon: any; color: string; text: string }) {
   return (
-    <div className="bg-muted/40 flex items-start gap-3 rounded-xl p-3">
+    <div className="bg-muted/40 flex items-start gap-3 rounded-[var(--radius)] p-3">
       <HugeiconsIcon icon={icon} className={cn('mt-0.5 size-4 shrink-0', color)} />
       <p className="text-foreground text-sm leading-relaxed">{text}</p>
     </div>

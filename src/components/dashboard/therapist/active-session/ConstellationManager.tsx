@@ -208,7 +208,7 @@ export function ConstellationManager() {
 
   return (
     <div className="flex h-full gap-4">
-      <div className="bg-muted/10 relative flex flex-1 flex-col overflow-hidden rounded-xl border">
+      <div className="bg-muted/10 relative flex flex-1 flex-col overflow-hidden rounded-[var(--radius)] border">
         <div className="bg-background flex items-center justify-between border-b p-3">
           <div className="flex items-center gap-2 text-sm font-medium">
             <HugeiconsIcon icon={UserIcon} className="text-primary size-4" />
@@ -336,7 +336,7 @@ export function ConstellationManager() {
             </CardContent>
           </Card>
         ) : (
-          <div className="text-muted-foreground flex flex-1 items-center justify-center rounded-xl border p-4 text-center text-sm">
+          <div className="text-muted-foreground flex flex-1 items-center justify-center rounded-[var(--radius)] border p-4 text-center text-sm">
             Select a role from the map to edit.
           </div>
         )}

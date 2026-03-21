@@ -30,7 +30,7 @@ const VideoCallPanel = dynamic(
     ),
   {
     ssr: false,
-    loading: () => <div className="bg-muted h-full min-h-100 w-full animate-pulse rounded-xl" />,
+    loading: () => <div className="bg-muted h-full min-h-100 w-full animate-pulse rounded-[var(--radius)]" />,
   }
 );
 
@@ -102,7 +102,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
           <p className="text-muted-foreground text-sm">Patient Session: {bookingId}</p>
         </div>
 
-        <div className="bg-muted/30 flex items-center gap-4 rounded-xl border px-4 py-2">
+        <div className="bg-muted/30 flex items-center gap-4 rounded-[var(--radius)] border px-4 py-2">
           <HugeiconsIcon icon={Clock01Icon}
             className={`size-5 ${isRunning ? 'text-primary animate-pulse' : 'text-muted-foreground'}`}
            />
@@ -123,7 +123,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
         </div>
       </header>
 
-      <div className="bg-background flex-1 overflow-hidden rounded-xl border">
+      <div className="bg-background flex-1 overflow-hidden rounded-[var(--radius)] border">
         <ResizablePanelGroup orientation="horizontal" className="h-full items-stretch">
           {/* LEFT PANEL: Client Context & Anamnesis */}
           <ResizablePanel defaultSize={30} minSize={25} maxSize={40} className="bg-muted/10">
@@ -140,7 +140,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                     <h3 className="text-muted-foreground text-sm font-medium tracking-wider uppercase">
                       Demographics
                     </h3>
-                    <div className="bg-card flex flex-col gap-2 rounded-2xl border p-3 text-sm">
+                    <div className="bg-card flex flex-col gap-2 rounded-[calc(var(--radius)*1.8)] border p-3 text-sm">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Age:</span>
                         <span className="font-medium">34</span>
@@ -156,7 +156,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                     <h3 className="text-muted-foreground pr-2 text-sm font-medium tracking-wider uppercase">
                       Medical History
                     </h3>
-                    <div className="bg-card space-y-3 rounded-2xl border p-3 text-sm">
+                    <div className="bg-card space-y-3 rounded-[calc(var(--radius)*1.8)] border p-3 text-sm">
                       <div>
                         <span className="mb-1 inline-block font-medium">Primary Diagnosis</span>
                         <p className="text-muted-foreground">
@@ -177,7 +177,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                     <h3 className="text-muted-foreground text-sm font-medium tracking-wider uppercase">
                       Recent Notes & Goals
                     </h3>
-                    <div className="bg-card text-muted-foreground rounded-2xl border p-3 text-sm">
+                    <div className="bg-card text-muted-foreground rounded-[calc(var(--radius)*1.8)] border p-3 text-sm">
                       <ul className="list-disc space-y-1 pl-4">
                         <li>Practice 4-7-8 breathing</li>
                         <li>Identify anxiety triggers at work</li>
@@ -225,7 +225,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                   value="notes"
                   className="mt-0 flex-1 flex-col data-[state=active]:flex"
                 >
-                  <div className="bg-background flex flex-1 flex-col overflow-hidden rounded-2xl border">
+                  <div className="bg-background flex flex-1 flex-col overflow-hidden rounded-[calc(var(--radius)*1.8)] border">
                     <div className="bg-muted/40 text-muted-foreground flex items-center justify-between border-b p-2 text-xs">
                       <span>Raw notes are formatted via AI post-session</span>
                       <Badge variant="outline" className="bg-background font-mono">
@@ -288,7 +288,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                           </div>
 
                           <div className="grid grid-cols-1 gap-6 pt-4 md:grid-cols-3">
-                            <div className="bg-muted/20 space-y-3 rounded-2xl border p-4">
+                            <div className="bg-muted/20 space-y-3 rounded-[calc(var(--radius)*1.8)] border p-4">
                               <h4 className="font-medium text-primary">
                                 Structural Corrections
                               </h4>
@@ -300,7 +300,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                               />
                             </div>
 
-                            <div className="bg-muted/20 space-y-3 rounded-2xl border p-4">
+                            <div className="bg-muted/20 space-y-3 rounded-[calc(var(--radius)*1.8)] border p-4">
                               <h4 className="font-medium text-success">
                                 Chemical / Nutritional
                               </h4>
@@ -312,7 +312,7 @@ export default function ActiveSessionClient({ bookingId, protocols }: Props) {
                               />
                             </div>
 
-                            <div className="bg-muted/20 space-y-3 rounded-2xl border p-4">
+                            <div className="bg-muted/20 space-y-3 rounded-[calc(var(--radius)*1.8)] border p-4">
                               <h4 className="font-medium text-muted-foreground">
                                 Emotional
                               </h4>

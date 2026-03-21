@@ -186,7 +186,7 @@ export function UserImpersonationDialog({
               />
             </div>
 
-            <ScrollArea className="h-75 rounded-lg border">
+            <ScrollArea className="h-75 rounded-[calc(var(--radius)*0.8)] border">
               <div className="p-4">
                 {loading ? (
                   <div className="flex h-32 items-center justify-center">

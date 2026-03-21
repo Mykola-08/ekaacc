@@ -6,7 +6,7 @@ const RichTextEditor = dynamic(
   () => import('@/components/platform/editor/rich-text-editor').then((m) => m.RichTextEditor),
   {
     ssr: false,
-    loading: () => <div className="bg-muted h-75 w-full animate-pulse rounded-lg" />,
+    loading: () => <div className="bg-muted h-75 w-full animate-pulse rounded-[calc(var(--radius)*0.8)]" />,
   }
 );
 import { cn } from '@/lib/utils';
@@ -197,8 +197,8 @@ export default function SessionNotesPage() {
   }, [handleSave]);
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <div className="px-4 lg:px-6">
+    <div className="flex flex-col gap-4 md:gap-6">
+      <div>
       <PageSection
         title="Session Notes"
         description="Document your therapy session with comprehensive notes"
@@ -249,7 +249,7 @@ export default function SessionNotesPage() {
                   <div
                     key={note.id}
                     className={cn(
-                      'hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors',
+                      'hover:bg-muted/50 flex cursor-pointer items-center justify-between rounded-[calc(var(--radius)*0.8)] border p-3 transition-colors',
                       editingNoteId === note.id && 'border-primary bg-muted'
                     )}
                     onClick={() => handleLoadNote(note)}
@@ -395,7 +395,7 @@ export default function SessionNotesPage() {
       </Card>
 
       {/* Notes Tabs */}
-      <div className="px-4 lg:px-6">
+      <div>
       <Tabs defaultValue="notes" className="">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="notes" className="gap-2">

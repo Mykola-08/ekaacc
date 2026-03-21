@@ -21,7 +21,7 @@ function NativeSelect({ className, size ='default', ...props }: NativeSelectProp
  <select
  data-slot="native-select"
  data-size={size}
- className="border-input bg-input/30 selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 h-9 w-full min-w-0 appearance-none rounded-4xl border py-1 pr-8 pl-3 text-sm transition-colors outline-none select-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed aria-invalid:ring-[3px] data-[size=sm]:h-8"
+ className="border-input bg-input/30 selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 h-9 w-full min-w-0 appearance-none rounded-full border py-1 pr-8 pl-3 text-sm transition-colors outline-none select-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed aria-invalid:ring-[3px] data-[size=sm]:h-8"
  {...props}
  />
  <HugeiconsIcon

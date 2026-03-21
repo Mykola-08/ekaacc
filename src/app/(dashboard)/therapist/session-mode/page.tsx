@@ -104,7 +104,7 @@ export default async function TherapistSessionModePage({
               )}
               {(bookings ?? []).map((booking) => (
                 <Link key={booking.id} href={`/therapist/active-session/${booking.id}`}>
-                  <div className="hover:bg-muted/40 flex items-center justify-between rounded-lg border p-2 transition-colors">
+                  <div className="hover:bg-muted/40 flex items-center justify-between rounded-[calc(var(--radius)*0.8)] border p-2 transition-colors">
                     <span>{new Date(booking.starts_at).toLocaleString()}</span>
                     <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
                   </div>

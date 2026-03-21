@@ -33,7 +33,7 @@ export const CheckoutForm = () => {
       <button
         disabled={create.loading}
         onClick={handleCreateCheckout}
-        className="bg-primary text-primary-foreground rounded-md px-4 py-2"
+        className="bg-primary text-primary-foreground rounded-[calc(var(--radius)*0.6)] px-4 py-2"
       >
         {create.loading ? 'Creating...' : 'Create $29.99 Checkout'}
       </button>

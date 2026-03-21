@@ -594,7 +594,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               <p className="mb-8 text-xl text-gray-600">{t('discovery.recommendation.subtitle')}</p>
 
               {recommendation.analysis && (
-                <div className="mx-auto mb-12 max-w-2xl rounded-2xl border border-blue-100 bg-blue-50 p-6 text-center">
+                <div className="mx-auto mb-12 max-w-2xl rounded-[var(--radius)] border border-blue-100 bg-blue-50 p-6 text-center">
                   <p className="text-lg leading-relaxed text-gray-700">
                     {t('discovery.analysis.intro')}
                     {recommendation.analysis.problem && (
@@ -630,10 +630,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               )}
 
               {/* Toggle */}
-              <div className="mb-8 inline-flex rounded-xl bg-gray-100 p-1">
+              <div className="mb-8 inline-flex rounded-[var(--radius)] bg-gray-100 p-1">
                 <button
                   onClick={() => setViewMode('basic')}
-                  className={`rounded-lg px-6 py-2 text-sm font-medium transition ${
+                  className={`rounded-[calc(var(--radius)*0.8)] px-6 py-2 text-sm font-medium transition ${
                     viewMode === 'basic'
                       ? 'bg-white text-gray-900'
                       : 'text-gray-500 hover:text-gray-700'
@@ -643,7 +643,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 </button>
                 <button
                   onClick={() => setViewMode('advanced')}
-                  className={`rounded-lg px-6 py-2 text-sm font-medium transition ${
+                  className={`rounded-[calc(var(--radius)*0.8)] px-6 py-2 text-sm font-medium transition ${
                     viewMode === 'advanced'
                       ? 'bg-white text-gray-900'
                       : 'text-gray-500 hover:text-gray-700'
@@ -656,7 +656,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
 
             {viewMode === 'basic' ? (
               <div
-                className={`rounded-2xl border-2 bg-white ${getColorClasses(recommendation.color)} mb-8 p-8 sm:p-12`}
+                className={`rounded-[var(--radius)] border-2 bg-white ${getColorClasses(recommendation.color)} mb-8 p-8 sm:p-12`}
               >
                 <div className="mb-8 text-center">
                   {Icon && (
@@ -674,11 +674,11 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </p>
 
                   <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <div className="rounded-2xl bg-gray-50 p-4 text-center">
+                    <div className="rounded-[var(--radius)] bg-gray-50 p-4 text-center">
                       <h4 className="mb-2 font-semibold text-gray-900">{t('common.price')}</h4>
                       <p className="text-2xl font-bold text-gray-800">{recommendation.price}</p>
                     </div>
-                    <div className="rounded-2xl bg-gray-50 p-4 text-center">
+                    <div className="rounded-[var(--radius)] bg-gray-50 p-4 text-center">
                       <h4 className="mb-2 font-semibold text-gray-900">{t('common.duration')}</h4>
                       <p className="text-2xl font-bold text-gray-800">{recommendation.duration}</p>
                     </div>
@@ -705,7 +705,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                         <button
                           key={slot}
                           onClick={() => setSelectedTime(t(`booking.options.timeSlot.${slot}`))}
-                          className={`rounded-xl border-2 px-4 py-2 text-sm font-medium transition duration-200 ${
+                          className={`rounded-[var(--radius)] border-2 px-4 py-2 text-sm font-medium transition duration-200 ${
                             selectedTime === t(`booking.options.timeSlot.${slot}`)
                               ? 'border-blue-500 bg-blue-50 text-blue-700'
                               : 'border-gray-200 text-gray-600 hover:border-gray-300'
@@ -718,7 +718,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   {formData.location === 'online' && (
-                    <div className="mb-6 rounded-xl bg-yellow-50 p-4 text-sm text-yellow-800">
+                    <div className="mb-6 rounded-[var(--radius)] bg-yellow-50 p-4 text-sm text-yellow-800">
                       {t('discovery.recommendation.online.note')}
                     </div>
                   )}
@@ -741,7 +741,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 </div>
               </div>
             ) : (
-              <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-8 sm:p-12">
+              <div className="mb-8 rounded-[var(--radius)] border border-gray-200 bg-white p-8 sm:p-12">
                 <h2 className="mb-8 flex items-center justify-center text-2xl font-semibold text-gray-900">
                   <HugeiconsIcon icon={ClipboardIcon} className="mr-3 size-6 text-blue-600"  />
                   {t('discovery.diagnosis.title')}
@@ -749,7 +749,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
 
                 <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
                   {/* Profile */}
-                  <div className="rounded-2xl bg-gray-50 p-6">
+                  <div className="rounded-[var(--radius)] bg-gray-50 p-6">
                     <h3 className="mb-3 text-sm font-semibold tracking-wider text-gray-500 uppercase">
                       {t('discovery.diagnosis.profile')}
                     </h3>
@@ -759,7 +759,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   {/* Symptoms */}
-                  <div className="rounded-2xl bg-gray-50 p-6">
+                  <div className="rounded-[var(--radius)] bg-gray-50 p-6">
                     <h3 className="mb-3 text-sm font-semibold tracking-wider text-gray-500 uppercase">
                       {t('discovery.diagnosis.symptoms')}
                     </h3>
@@ -776,7 +776,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   {/* Root Cause */}
-                  <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6">
+                  <div className="rounded-[var(--radius)] border border-blue-100 bg-blue-50 p-6">
                     <h3 className="mb-3 text-sm font-semibold tracking-wider text-blue-600 uppercase">
                       {t('discovery.diagnosis.rootCause')}
                     </h3>
@@ -786,7 +786,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   {/* Strategy */}
-                  <div className="rounded-2xl border border-purple-100 bg-purple-50 p-6">
+                  <div className="rounded-[var(--radius)] border border-purple-100 bg-purple-50 p-6">
                     <h3 className="mb-3 text-sm font-semibold tracking-wider text-purple-600 uppercase">
                       {t('discovery.diagnosis.strategy')}
                     </h3>
@@ -797,7 +797,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 </div>
 
                 {/* Frequency */}
-                <div className="mb-12 rounded-2xl border border-green-100 bg-green-50 p-6 text-center">
+                <div className="mb-12 rounded-[var(--radius)] border border-green-100 bg-green-50 p-6 text-center">
                   <h3 className="mb-3 text-sm font-semibold tracking-wider text-green-600 uppercase">
                     {t('discovery.diagnosis.frequency')}
                   </h3>
@@ -872,7 +872,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           </div>
 
           {/* Form */}
-          <div className="rounded-2xl border border-gray-100 bg-white p-8 sm:p-12">
+          <div className="rounded-[var(--radius)] border border-gray-100 bg-white p-8 sm:p-12">
             {/* Step 0: Location */}
             {currentStep === 0 && (
               <div>
@@ -888,7 +888,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       <button
                         key={loc.id}
                         onClick={() => setFormData({ ...formData, location: loc.id })}
-                        className={`flex flex-col items-center justify-center rounded-2xl border-2 p-6 text-center transition duration-200 ${
+                        className={`flex flex-col items-center justify-center rounded-[var(--radius)] border-2 p-6 text-center transition duration-200 ${
                           formData.location === loc.id
                             ? 'border-blue-500 bg-blue-50'
                             : 'border-gray-200 hover:border-gray-300'
@@ -923,7 +923,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder={t('discovery.step.description.placeholder')}
-                  className="h-40 w-full resize-none rounded-2xl border-2 border-gray-200 p-4 text-lg focus:border-blue-500 focus:ring-0"
+                  className="h-40 w-full resize-none rounded-[var(--radius)] border-2 border-gray-200 p-4 text-lg focus:border-blue-500 focus:ring-0"
                 />
                 <p className="mt-2 text-right text-sm text-gray-500">
                   {formData.description.length}/3 {t('discovery.step.description.minChars')}
@@ -944,7 +944,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     <button
                       key={type.id}
                       onClick={() => setFormData({ ...formData, userType: type.id })}
-                      className={`w-full rounded-2xl border-2 p-6 text-left transition duration-200 ${
+                      className={`w-full rounded-[var(--radius)] border-2 p-6 text-left transition duration-200 ${
                         formData.userType === type.id
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
@@ -976,7 +976,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           : [...formData.tensionAreas, option];
                         setFormData({ ...formData, tensionAreas: newAreas });
                       }}
-                      className={`w-full rounded-2xl border-2 p-4 text-left transition duration-200 ${
+                      className={`w-full rounded-[var(--radius)] border-2 p-4 text-left transition duration-200 ${
                         formData.tensionAreas.includes(option)
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
@@ -1007,7 +1007,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     <button
                       key={state.id}
                       onClick={() => setFormData({ ...formData, emotionalState: state.id })}
-                      className={`w-full rounded-2xl border-2 p-6 text-left transition duration-200 ${
+                      className={`w-full rounded-[var(--radius)] border-2 p-6 text-left transition duration-200 ${
                         formData.emotionalState === state.id
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
@@ -1034,7 +1034,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     <button
                       key={time.id}
                       onClick={() => setFormData({ ...formData, timeCommitment: time.id })}
-                      className={`w-full rounded-2xl border-2 p-6 text-left transition duration-200 ${
+                      className={`w-full rounded-[var(--radius)] border-2 p-6 text-left transition duration-200 ${
                         formData.timeCommitment === time.id
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
@@ -1061,7 +1061,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     <button
                       key={budget.id}
                       onClick={() => setFormData({ ...formData, budget: budget.id })}
-                      className={`w-full rounded-2xl border-2 p-6 text-left transition duration-200 ${
+                      className={`w-full rounded-[var(--radius)] border-2 p-6 text-left transition duration-200 ${
                         formData.budget === budget.id
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'

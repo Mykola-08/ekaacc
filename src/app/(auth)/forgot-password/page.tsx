@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
         transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         className="relative z-10 mx-auto w-full max-w-md"
       >
-        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-2xl border backdrop-blur-2xl">
+        <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-[var(--radius)] border backdrop-blur-2xl">
           <CardContent className="relative p-8 md:p-10">
             {/* Header */}
             <motion.div
@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
               className="mb-8 flex flex-col items-center gap-4 text-center"
             >
               <div className="relative">
-                <div className="border-border/10 bg-card relative overflow-hidden rounded-2xl border p-1">
+                <div className="border-border/10 bg-card relative overflow-hidden rounded-[var(--radius)] border p-1">
                   <AnimatePresence mode="wait">
                     {emailSent ? (
                       <motion.div
@@ -127,7 +127,7 @@ export default function ForgotPasswordPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="text-muted-foreground border-border/50 bg-muted/50 rounded-lg border p-4 text-center text-sm"
+                    className="text-muted-foreground border-border/50 bg-muted/50 rounded-[calc(var(--radius)*0.8)] border p-4 text-center text-sm"
                   >
                     <p className="font-medium">
                       Click the link in the email to reset your password.
@@ -137,7 +137,7 @@ export default function ForgotPasswordPage() {
                   <Button
                     variant="outline"
                     onClick={() => setEmailSent(false)}
-                    className="border-border/50 bg-muted/20 hover:bg-muted/40 h-9 w-full rounded-lg transition-all"
+                    className="border-border/50 bg-muted/20 hover:bg-muted/40 h-9 w-full rounded-[calc(var(--radius)*0.8)] transition-all"
                   >
                     <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
                     Try another email
@@ -173,7 +173,7 @@ export default function ForgotPasswordPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="bg-muted/40 border-border/50 focus:bg-background h-10 rounded-lg pl-10 transition-colors"
+                        className="bg-muted/40 border-border/50 focus:bg-background h-10 rounded-[calc(var(--radius)*0.8)] pl-10 transition-colors"
                       />
                     </div>
                   </motion.div>

@@ -41,8 +41,8 @@ export default function IdentitySettingsPage() {
   };
 
   return (
-    <div className="space-y-4 p-4 lg:p-6">
-      <Card className="rounded-xl">
+    <div className="space-y-4">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle>Identity Settings</CardTitle>
           <CardDescription>
@@ -87,7 +87,7 @@ export default function IdentitySettingsPage() {
           )}
         </CardContent>
         <CardFooter className="justify-end">
-          <Button onClick={onSave} disabled={isPending} className="rounded-lg">
+          <Button onClick={onSave} disabled={isPending} className="rounded-[calc(var(--radius)*0.8)]">
             {isPending ? 'Saving…' : 'Save changes'}
           </Button>
         </CardFooter>

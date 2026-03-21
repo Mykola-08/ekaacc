@@ -66,7 +66,7 @@ export function StatsCard({
           {icon && (
             <div
               className={cn(
-                'pf-icon-well-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+                'pf-icon-well-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius)]',
                 colorClass
               )}
             >

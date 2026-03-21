@@ -131,91 +131,80 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
   // ── Write view ──────────────────────────────────────────
   if (view === 'write') {
     return (
-      <div className="flex flex-col gap-4 py-4 md:py-6">
-        <div className="flex items-center gap-3 px-4 lg:px-6">
-          <Button variant="ghost" size="sm" onClick={() => setView('list')} className="gap-1.5 rounded-lg">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="sm" onClick={() => setView('list')} className="gap-1.5">
             <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" /> Back
           </Button>
-          <h1 className="text-lg font-bold tracking-tight">New Entry</h1>
+          <h1 className="text-base font-semibold tracking-tight">New Entry</h1>
         </div>
 
-        <div className="px-4 lg:px-6">
-          <Card className="rounded-xl">
-            <CardContent className="p-6 space-y-4">
-              <div className="space-y-1.5">
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Entry title (optional)"
-                  className="h-11 rounded-xl text-base font-semibold"
-                />
-              </div>
+        <Card>
+          <CardContent className="p-5 space-y-4">
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Entry title (optional)"
+              className="h-10 text-sm font-medium"
+            />
 
-              <div className="space-y-1.5">
-                <Label className="text-xs uppercase tracking-wider text-muted-foreground">How are you feeling?</Label>
-                <Select value={mood} onValueChange={setMood}>
-                  <SelectTrigger className="h-10 rounded-xl">
-                    <SelectValue placeholder="Select mood…" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {MOOD_OPTIONS.map((o) => (
-                      <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="space-y-1">
+              <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Mood</Label>
+              <Select value={mood} onValueChange={setMood}>
+                <SelectTrigger>
+                  <SelectValue placeholder="How are you feeling?" />
+                </SelectTrigger>
+                <SelectContent>
+                  {MOOD_OPTIONS.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-              <div className="space-y-1.5">
-                <Textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="How are you feeling today? Take a deep breath and start writing…"
-                  className="min-h-64 resize-none rounded-xl text-base leading-relaxed"
-                />
-              </div>
+            <Textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Take a deep breath and start writing…"
+              className="min-h-56 resize-none text-sm leading-relaxed"
+            />
 
-              {error && (
-                <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription className="text-sm">{error}</AlertDescription>
+              </Alert>
+            )}
 
-              <div className="flex justify-between items-center border-t border-border/60 pt-4">
-                <Button variant="ghost" onClick={() => setView('list')} className="rounded-lg">
-                  Discard
-                </Button>
-                <Button onClick={handleSave} disabled={saving} className="gap-2 rounded-lg px-6">
-                  {saving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
-                  {saving ? 'Saving…' : 'Save Entry'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            <div className="flex items-center justify-between border-t border-border/50 pt-4">
+              <Button variant="ghost" size="sm" onClick={() => setView('list')}>
+                Discard
+              </Button>
+              <Button size="sm" onClick={handleSave} disabled={saving} className="gap-2 px-5">
+                {saving && <HugeiconsIcon icon={Loading03Icon} className="size-3.5 animate-spin" />}
+                {saving ? 'Saving…' : 'Save Entry'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   // ── List / detail view ──────────────────────────────────
   return (
-    <div className="flex flex-col gap-4 py-4 md:py-6">
-      <div className="flex flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between lg:px-6">
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
-            <HugeiconsIcon icon={BookOpen02Icon} className="size-5 text-muted-foreground" />
-            My Journal
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            A private space for self-reflection.
-          </p>
+          <h1 className="text-xl font-semibold tracking-tight">My Journal</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">A private space for self-reflection.</p>
         </div>
-        <Button onClick={() => setView('write')} className="shrink-0 gap-2 rounded-lg">
+        <Button size="sm" onClick={() => setView('write')} className="shrink-0 gap-2">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           New Entry
         </Button>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[288px_1fr]">
+      <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
         {/* Entry list */}
         <div className="space-y-3">
           <div className="relative">
@@ -224,12 +213,12 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search entries…"
-              className="pl-9 rounded-lg"
+              className="pl-9 rounded-[calc(var(--radius)*0.8)]"
             />
           </div>
 
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed py-12 text-center">
+            <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-12 text-center">
               <HugeiconsIcon icon={BookOpen02Icon} className="size-10 text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">
                 {search ? 'No entries match your search.' : 'No entries yet. Write your first one!'}
@@ -242,7 +231,7 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
                   key={entry.id}
                   onClick={() => setSelected(entry)}
                   className={cn(
-                    'group w-full rounded-xl border px-4 py-3 text-left transition-all',
+                    'group w-full rounded-[var(--radius)] border px-4 py-3 text-left transition-all',
                     selected?.id === entry.id
                       ? 'border-primary bg-primary/5'
                       : 'border-border hover:border-primary/40 hover:bg-muted/30'
@@ -313,7 +302,7 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
         {/* Entry detail / empty state */}
         <div>
           {selected ? (
-            <Card className="rounded-xl">
+            <Card className="rounded-[var(--radius)]">
               <CardHeader className="flex flex-row items-start justify-between gap-4 pb-3">
                 <div className="space-y-1 min-w-0">
                   <CardTitle className="text-lg font-bold">{selected.title || 'Untitled'}</CardTitle>
@@ -329,7 +318,7 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
                     )}
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="shrink-0 rounded-lg" onClick={() => setSelected(null)}>
+                <Button variant="ghost" size="icon" className="shrink-0 rounded-[calc(var(--radius)*0.8)]" onClick={() => setSelected(null)}>
                   <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />
                 </Button>
               </CardHeader>
@@ -347,10 +336,10 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
               </CardContent>
             </Card>
           ) : (
-            <div className="flex h-full min-h-64 flex-col items-center justify-center gap-3 rounded-xl border border-dashed text-center">
+            <div className="flex h-full min-h-64 flex-col items-center justify-center gap-3 rounded-[var(--radius)] border border-dashed text-center">
               <HugeiconsIcon icon={PencilEdit01Icon} className="size-10 text-muted-foreground/30" />
               <p className="text-sm text-muted-foreground">Select an entry to read it, or write a new one.</p>
-              <Button variant="outline" onClick={() => setView('write')} className="rounded-lg gap-1.5">
+              <Button variant="outline" onClick={() => setView('write')} className="rounded-[calc(var(--radius)*0.8)] gap-1.5">
                 <HugeiconsIcon icon={PlusSignIcon} className="size-4" /> Write Entry
               </Button>
             </div>

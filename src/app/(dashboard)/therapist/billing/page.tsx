@@ -50,7 +50,7 @@ function BillingSkeleton() {
     <Card className="p-4">
       <div className="">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="flex items-center justify-between rounded-xl border p-4">
+          <div key={i} className="flex items-center justify-between rounded-[var(--radius)] border p-4">
             <div className="flex-1">
               <Skeleton className="h-4 w-1/4" />
               <Skeleton className="h-3 w-1/2" />
@@ -228,8 +228,8 @@ export default function TherapistBillingPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <div className="px-4 lg:px-6">
+    <div className="flex flex-col gap-4 md:gap-6">
+      <div>
         <PageSection
           title="Client Billing"
           description="Manage invoices and payments for your clients."

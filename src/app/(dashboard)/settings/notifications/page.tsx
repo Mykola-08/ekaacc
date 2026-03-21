@@ -41,8 +41,8 @@ export default function NotificationsSettingsPage() {
   };
 
   return (
-    <div className="space-y-4 p-4 lg:p-6">
-      <Card className="rounded-xl">
+    <div className="space-y-4">
+      <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle>Notification Settings</CardTitle>
           <CardDescription>Choose what updates you receive and how frequently.</CardDescription>
@@ -56,7 +56,7 @@ export default function NotificationsSettingsPage() {
             ['assignment_due', 'Assignment due reminders'],
             ['ai_insights_weekly', 'Weekly AI insights digest'],
           ] as Array<[keyof PrefsState, string]>).map(([key, label]) => (
-            <div key={key} className="flex items-center justify-between rounded-xl border border-border/60 p-3">
+            <div key={key} className="flex items-center justify-between rounded-[var(--radius)] border border-border/60 p-3">
               <Label className="text-sm">{label}</Label>
               <Switch checked={prefs[key]} onCheckedChange={() => toggle(key)} />
             </div>
@@ -64,7 +64,7 @@ export default function NotificationsSettingsPage() {
         </CardContent>
         <CardFooter className="justify-end gap-2">
           {saved && <span className="text-sm text-success">Saved</span>}
-          <Button onClick={onSave} disabled={isPending} className="rounded-lg">
+          <Button onClick={onSave} disabled={isPending} className="rounded-[calc(var(--radius)*0.8)]">
             {isPending ? 'Saving…' : 'Save preferences'}
           </Button>
         </CardFooter>

@@ -29,13 +29,13 @@ export function WalletBalanceCard({ balance, currency }: WalletBalanceProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="from-primary/10 via-primary/5 relative w-full max-w-sm overflow-hidden rounded-lg border bg-linear-to-br to-transparent p-4"
+      className="from-primary/10 via-primary/5 relative w-full max-w-sm overflow-hidden rounded-[calc(var(--radius)*0.8)] border bg-linear-to-br to-transparent p-4"
     >
       {/* Decorative circle */}
       <div className="bg-primary/5 absolute -top-6 -right-6 h-24 w-24 rounded-full" />
 
       <div className="relative flex items-center gap-3">
-        <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
+        <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-[var(--radius)]">
           <HugeiconsIcon icon={Wallet01Icon} className="text-primary size-5"  />
         </div>
         <div>

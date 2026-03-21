@@ -20,8 +20,8 @@ export default async function TherapistResourcesPage() {
       </div>
 
       {resources.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-xl border border-dashed py-16 text-center lg:mx-6">
-          <div className="rounded-xl bg-muted p-4">
+        <div className="mx-4 flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center lg:mx-6">
+          <div className="rounded-[var(--radius)] bg-muted p-4">
             <HugeiconsIcon icon={BookOpen02Icon} className="size-8 text-muted-foreground/40" />
           </div>
           <div>

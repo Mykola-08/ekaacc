@@ -123,7 +123,7 @@ export default function CasoDetailContent() {
         </Link>
 
         <div
-          className={`mx-auto h-24 w-24 rounded-2xl ${accentColorClass} mb-8 flex items-center justify-center`}
+          className={`mx-auto h-24 w-24 rounded-[var(--radius)] ${accentColorClass} mb-8 flex items-center justify-center`}
         >
           <HugeiconsIcon icon={Icon} className="h-12 w-12" />
         </div>
@@ -154,7 +154,7 @@ export default function CasoDetailContent() {
               </h2>
               <ul className="">
                 {symptoms.map((item, idx) => (
-                  <li key={idx} className="rounded-2xl border border-gray-100/50 bg-gray-50 p-6">
+                  <li key={idx} className="rounded-[var(--radius)] border border-gray-100/50 bg-gray-50 p-6">
                     <p className="text-lg leading-relaxed text-gray-700">{item}</p>
                   </li>
                 ))}
@@ -171,7 +171,7 @@ export default function CasoDetailContent() {
               </h2>
               <ul className="">
                 {causes.map((item, idx) => (
-                  <li key={idx} className="rounded-2xl border border-gray-100 bg-white p-6">
+                  <li key={idx} className="rounded-[var(--radius)] border border-gray-100 bg-white p-6">
                     <p className="text-lg leading-relaxed text-gray-600">{item}</p>
                   </li>
                 ))}

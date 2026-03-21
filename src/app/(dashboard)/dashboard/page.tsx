@@ -224,34 +224,33 @@ export default async function DashboardPage() {
   const streakDays = getConsecutiveDays((data.activityForStreak ?? []).map((entry: any) => entry.created_at));
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* ── Welcome Banner ────────────────────────────────────────── */}
-      <div>
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-              {getGreeting()}, {firstName} {getMoodEmoji()}
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              {new Date().toLocaleDateString('en-US', {
-                weekday: 'long',
-                month: 'long',
-                day: 'numeric',
-              })}
+      <div className="flex items-center justify-between gap-4 rounded-[var(--radius)] border border-border/40 bg-muted/30 px-4 py-3.5 md:px-5 md:py-4">
+        <div>
+          <h1 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+            {getGreeting()}, {firstName} {getMoodEmoji()}
+          </h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            {new Date().toLocaleDateString('en-US', {
+              weekday: 'long',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </p>
+          {!canManageUsers && !canUseTherapistTools && streakDays > 0 && (
+            <p className="mt-1 flex items-center gap-1 text-xs font-medium text-primary">
+              <span>🔥</span> {streakDays}-day streak
             </p>
-            {!canManageUsers && !canUseTherapistTools && (
-              <p className="mt-1 text-xs text-muted-foreground">
-                {streakDays > 0 ? `${streakDays}-day journal streak` : 'Start your first wellness streak today'}
-              </p>
-            )}
-          </div>
-          <Link href="/book">
-            <Button size="sm" className="shrink-0 rounded-lg gap-1.5 hidden sm:flex">
-              <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
-              Book Session
-            </Button>
-          </Link>
+          )}
         </div>
+        <Link href="/book" className="shrink-0">
+          <Button size="sm" className="rounded-[calc(var(--radius)*0.8)] gap-1.5">
+            <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
+            <span className="hidden sm:inline">Book Session</span>
+            <span className="sm:hidden">Book</span>
+          </Button>
+        </Link>
       </div>
 
       {/* ── Mood Quick-Log (non-admin, non-therapist only) ───────── */}
@@ -291,51 +290,25 @@ export default async function DashboardPage() {
       {/* ── Platform Stats (admin/manager only) ─────────────────── */}
       {canManageUsers && (
         <div className="grid grid-cols-2 gap-3 @xl/main:grid-cols-4">
-          <DashStatsCard
-            label="Total Users"
-            value={data.totalUsers}
-            icon={UserGroupIcon}
-          />
-          <DashStatsCard
-            label="All Bookings"
-            value={data.totalBookings}
-            icon={Calendar03Icon}
-          />
-          <DashStatsCard
-            label="Today's Sessions"
-            value={data.todayBookings}
-            icon={ChartUpIcon}
-            accent
-          />
-          <DashStatsCard
-            label="Active Plans"
-            value={data.activeSubs}
-            icon={Target01Icon}
-          />
+          <DashStatsCard label="Total Users" value={data.totalUsers} icon={UserGroupIcon} delay={0} />
+          <DashStatsCard label="All Bookings" value={data.totalBookings} icon={Calendar03Icon} delay={50} />
+          <DashStatsCard label="Today's Sessions" value={data.todayBookings} icon={ChartUpIcon} accent delay={100} />
+          <DashStatsCard label="Active Plans" value={data.activeSubs} icon={Target01Icon} delay={150} />
         </div>
       )}
 
       {/* ── Therapist quick stats ────────────────────────────────── */}
       {canUseTherapistTools && !canManageUsers && (
         <div className="grid grid-cols-2 gap-3">
-          <DashStatsCard
-            label="Today's Sessions"
-            value={data.todayClients}
-            icon={Calendar03Icon}
-            accent
-          />
-          <DashStatsCard
-            label="Upcoming"
-            value={data.nextBooking?.length || 0}
-            icon={Clock01Icon}
-          />
+          <DashStatsCard label="Today's Sessions" value={data.todayClients} icon={Calendar03Icon} accent delay={0} />
+          <DashStatsCard label="Upcoming" value={data.nextBooking?.length || 0} icon={Clock01Icon} delay={50} />
         </div>
       )}
 
       {/* ── Main content row ─────────────────────────────────────── */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {/* Upcoming Appointments */}
-        <Card className="lg:col-span-2">
+        <Card className="md:col-span-2 lg:col-span-2">
           <CardHeader>
             <CardTitle className="text-sm font-semibold">Upcoming Appointments</CardTitle>
             <CardAction>
@@ -358,10 +331,10 @@ export default async function DashboardPage() {
                   return (
                     <div
                       key={b.id}
-                      className="group flex items-center gap-3 rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/40"
+                      className="group flex items-center gap-3 rounded-[var(--radius)] border border-border/50 bg-card p-3 transition-all duration-150 hover:border-primary/20 hover:bg-muted/40 hover:shadow-sm"
                     >
                       {/* Color accent bar */}
-                      <div className="h-9 w-1 shrink-0 rounded-full bg-primary" />
+                      <div className="h-9 w-1 shrink-0 rounded-full bg-primary transition-transform duration-150 group-hover:scale-y-110" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-semibold text-foreground">
                           {otherPerson || 'Appointment'}
@@ -396,16 +369,16 @@ export default async function DashboardPage() {
                 })}
               </div>
             ) : (
-              <div className="flex flex-col items-center gap-3 py-10 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-                  <HugeiconsIcon icon={Calendar03Icon} className="size-6 text-muted-foreground" />
+              <div className="flex flex-col items-center gap-3 py-8 text-center">
+                <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius)] bg-muted/70">
+                  <HugeiconsIcon icon={Calendar03Icon} className="size-5 text-muted-foreground" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-foreground">No upcoming appointments</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Book a session to get started</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">Book a session to get started</p>
                 </div>
                 <Link href="/book">
-                  <Button size="sm" className="mt-1 rounded-lg">
+                  <Button size="sm" className="mt-0.5 rounded-[calc(var(--radius)*0.8)]">
                     Book a Session
                   </Button>
                 </Link>
@@ -424,7 +397,7 @@ export default async function DashboardPage() {
                   <CardTitle className="text-sm font-semibold">Quick Actions</CardTitle>
                   <CardDescription className="text-xs">Right-click for AI assist options</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-1.5">
+                <CardContent className="grid gap-1">
                   <QuickAction href="/book" icon={Calendar03Icon} label="Book Session" />
                   <QuickAction href="/journal" icon={BookOpen01Icon} label="Write Journal" />
                   <QuickAction href="/chat" icon={Message01Icon} label="Send Message" />
@@ -463,7 +436,7 @@ export default async function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardDescription>Your Plan</CardDescription>
-                <CardTitle className="text-xl font-bold tabular-nums">
+                <CardTitle className="text-xl font-semibold tabular-nums">
                   {data.plan?.name || 'Free'}
                 </CardTitle>
                 <CardAction>
@@ -475,7 +448,7 @@ export default async function DashboardPage() {
               {!data.plan && (
                 <CardFooter>
                   <Link href="/settings?section=billing" className="w-full">
-                    <Button variant="outline" size="sm" className="w-full rounded-lg text-xs">
+                    <Button variant="outline" size="sm" className="w-full rounded-[calc(var(--radius)*0.8)] text-xs">
                       Upgrade Plan
                     </Button>
                   </Link>
@@ -489,7 +462,7 @@ export default async function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardDescription>Balance</CardDescription>
-                <CardTitle className="text-xl font-bold tabular-nums">
+                <CardTitle className="text-xl font-semibold tabular-nums">
                   {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
                   <span className="text-sm font-normal text-muted-foreground">
                     {data.wallet.currency}
@@ -504,7 +477,7 @@ export default async function DashboardPage() {
               </CardHeader>
               <CardFooter>
                 <Link href="/wallet" className="w-full">
-                  <Button variant="outline" size="sm" className="w-full rounded-lg text-xs">
+                  <Button variant="outline" size="sm" className="w-full rounded-[calc(var(--radius)*0.8)] text-xs">
                     View Wallet
                   </Button>
                 </Link>
@@ -531,12 +504,14 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {data.goals.map((goal: any) => (
-                  <div key={goal.id} className="rounded-xl border border-border/60 p-3.5">
+                {data.goals.map((goal: any, i: number) => (
+                  <div
+                    key={goal.id}
+                    className="animate-in fade-in zoom-in-95 rounded-[var(--radius)] border border-border/50 p-3.5 transition-all duration-150 hover:border-border hover:shadow-sm"
+                    style={{ animationDelay: `${i * 40}ms` }}
+                  >
                     <div className="mb-2.5 flex items-center justify-between">
-                      <span className="truncate text-sm font-semibold text-foreground">
-                        {goal.title}
-                      </span>
+                      <span className="truncate text-sm font-medium text-foreground">{goal.title}</span>
                       <span className="ml-2 shrink-0 text-xs font-semibold text-primary">
                         {goal.progress_percentage ?? 0}%
                       </span>
@@ -552,7 +527,7 @@ export default async function DashboardPage() {
 
       {/* ── Journal & Assignments ────────────────────────────────── */}
       {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {data.journalEntries?.length > 0 && (
             <Card>
               <CardHeader>
@@ -574,7 +549,7 @@ export default async function DashboardPage() {
                   {data.journalEntries.map((entry: any) => (
                     <div
                       key={entry.id}
-                      className="flex items-center justify-between rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/30"
+                      className="flex items-center justify-between rounded-[var(--radius)] border border-border/50 p-3 transition-all duration-150 hover:border-border hover:bg-muted/30 hover:shadow-sm"
                     >
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-foreground">
@@ -620,7 +595,7 @@ export default async function DashboardPage() {
                   {data.assignments.map((a: any) => (
                     <div
                       key={a.id}
-                      className="flex items-center justify-between rounded-xl border border-border/60 p-3 transition-colors hover:bg-muted/30"
+                      className="flex items-center justify-between rounded-[var(--radius)] border border-border/50 p-3 transition-all duration-150 hover:border-border hover:bg-muted/30 hover:shadow-sm"
                     >
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-foreground">{a.title}</p>
@@ -680,9 +655,9 @@ export default async function DashboardPage() {
 
 function MoodTrendSkeleton() {
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-xs">
+    <div className="rounded-[var(--radius)] border border-border bg-card p-5 shadow-xs">
       <div className="mb-3 h-4 w-24 animate-pulse rounded bg-muted" />
-      <div className="h-16 animate-pulse rounded-lg bg-muted" />
+      <div className="h-16 animate-pulse rounded-[calc(var(--radius)*0.8)] bg-muted" />
     </div>
   );
 }
@@ -692,24 +667,32 @@ function DashStatsCard({
   value,
   icon,
   accent,
+  delay,
 }: {
   label: string;
   value: number | null | undefined;
   icon: any;
   accent?: boolean;
+  delay?: number;
 }) {
   return (
-    <Card className={cn(accent && 'border-primary/20')}>
+    <Card
+      className={cn(
+        'animate-in fade-in zoom-in-95 duration-300 transition-shadow hover:shadow-sm',
+        accent && 'border-primary/20'
+      )}
+      style={delay ? { animationDelay: `${delay}ms` } : undefined}
+    >
       <CardHeader className="pb-2">
-        <CardDescription className="text-xs uppercase tracking-wider">{label}</CardDescription>
+        <CardDescription className="text-[11px] font-medium uppercase tracking-wider">{label}</CardDescription>
         <CardTitle
           className={cn(
-            'text-2xl font-bold tabular-nums',
+            'text-2xl font-semibold tabular-nums',
             accent && 'text-primary'
           )}
         >
           {value == null ? (
-            <div className="mt-1 h-8 w-16 animate-pulse rounded-lg bg-muted" />
+            <div className="mt-1 h-8 w-16 animate-pulse rounded-[calc(var(--radius)*0.8)] bg-muted" />
           ) : (
             value
           )}
@@ -717,7 +700,7 @@ function DashStatsCard({
         <CardAction>
           <div
             className={cn(
-              'flex h-8 w-8 items-center justify-center rounded-xl',
+              'flex h-8 w-8 items-center justify-center rounded-[var(--radius)]',
               accent
                 ? 'bg-primary/10 text-primary'
                 : 'bg-muted text-muted-foreground'
@@ -745,9 +728,12 @@ function QuickAction({
       <Button
         variant="ghost"
         size="sm"
-        className="h-9 w-full justify-start gap-2.5 rounded-lg px-3 text-xs font-medium hover:bg-muted/60"
+        className="group/qa h-9 w-full justify-start gap-2.5 rounded-[calc(var(--radius)*0.8)] px-3 text-xs font-medium transition-all duration-150 hover:bg-muted/60"
       >
-        <HugeiconsIcon icon={icon} className="size-4 text-muted-foreground" />
+        <HugeiconsIcon
+          icon={icon}
+          className="size-4 text-muted-foreground transition-colors duration-150 group-hover/qa:text-primary"
+        />
         {label}
       </Button>
     </Link>
@@ -767,9 +753,9 @@ function AdminQuickLink({
 }) {
   return (
     <Link href={href}>
-      <Card className="group h-full cursor-pointer hover:bg-muted/30">
+      <Card className="group h-full cursor-pointer transition-all duration-150 hover:bg-muted/30 hover:shadow-sm">
         <CardHeader>
-          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-[var(--radius)] bg-primary/10 text-primary transition-all duration-150 group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground">
             <HugeiconsIcon icon={icon} className="size-4" />
           </div>
           <CardTitle className="text-sm font-semibold">{title}</CardTitle>

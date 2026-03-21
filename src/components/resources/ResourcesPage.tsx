@@ -55,7 +55,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
             placeholder="Search library..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-card text-foreground placeholder:text-muted-foreground focus-visible:ring-primary/20 h-16 rounded-lg border-none pl-14 text-lg font-medium focus-visible:ring-2"
+            className="bg-card text-foreground placeholder:text-muted-foreground focus-visible:ring-primary/20 h-16 rounded-[calc(var(--radius)*0.8)] border-none pl-14 text-lg font-medium focus-visible:ring-2"
           />
         </div>
         <div className="hide-scrollbar flex w-full gap-2 overflow-x-auto px-1 pb-2 md:w-auto md:pb-0">
@@ -81,7 +81,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
           <div
             key={resource.id}
           >
-            <Card className="bg-card text-foreground group border-border/50 hover: relative flex h-full flex-col overflow-hidden rounded-lg border border-none transition-all duration-700 hover:-translate-y-3">
+            <Card className="bg-card text-foreground group border-border/50 hover: relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius)*0.8)] border border-none transition-all duration-700 hover:-translate-y-3">
               <div className="bg-muted relative h-64 overflow-hidden">
                 {resource.imageUrl ? (
                   <Image
@@ -120,7 +120,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                   </Badge>
                 </div>
                 {resource.isPremium && (
-                  <div className="bg-warning text-warning-foreground absolute top-6 right-6 rounded-lg p-3">
+                  <div className="bg-warning text-warning-foreground absolute top-6 right-6 rounded-[calc(var(--radius)*0.8)] p-3">
                     <HugeiconsIcon icon={LockIcon} size={16} strokeWidth={3} />
                   </div>
                 )}
@@ -134,7 +134,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                 </CardDescription>
               </CardHeader>
               <CardFooter className="mt-auto p-8 pt-0">
-                <Button className="bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground hover: h-10 w-full rounded-lg text-lg font-semibold transition-all duration-500">
+                <Button className="bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground hover: h-10 w-full rounded-[calc(var(--radius)*0.8)] text-lg font-semibold transition-all duration-500">
                   View Content
                 </Button>
               </CardFooter>

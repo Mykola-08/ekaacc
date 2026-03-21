@@ -215,7 +215,7 @@ export function TherapistSessionModeLauncher({ isTherapist }: { isTherapist: boo
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="hidden gap-2 rounded-lg md:flex">
+        <Button size="sm" className="hidden gap-2 rounded-[calc(var(--radius)*0.8)] md:flex">
           <HugeiconsIcon icon={PlayIcon} className="size-3.5" />
           Session Mode
         </Button>

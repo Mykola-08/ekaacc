@@ -10,33 +10,31 @@
 
 :root {
   /* ─── abVKEfg Preset Tokens & Unified Brand ─── */
-  --background: oklch(0.985 0 0); /* Canvas */
-  --foreground: oklch(0.145 0 0); /* Soft Black */
-  --card: #FFFFFF; /* Pure White Surface */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
-  --popover: #FFFFFF;
+  --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #0071e3; /* Apple Blue Action */
-  --primary-foreground: oklch(1 0 0);
+  /* Apple Blue primary — #0071e3 ≈ oklch(0.549 0.226 259.5) */
+  --primary: oklch(0.549 0.226 259.5);
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: #6e6e73; /* Muted Gray */
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --accent-light: oklch(0.98 0 0);
-  --accent-dark: oklch(0.3 0 0);
-  --primary-600: #3b82f6; /* Adjust primary deeper shade */
-  --destructive: oklch(0.58 0.22 27);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.96 0.015 259.5);
+  --accent-foreground: oklch(0.30 0.10 259.5);
+  --accent-light: oklch(0.98 0.005 259.5);
+  --accent-dark: oklch(0.28 0.06 259.5);
+  --primary-600: oklch(0.44 0.19 259.5);
+  --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0 0); /* Refined Border */
-  --input: oklch(0.94 0 0);
-  --ring: #0071e3;
-  --radius: 0.625rem; /* maia minimalist */
-  --border-strong: rgba(0, 0, 0, 0.14);
-  --surface-elevated: #FFFFFF;
-  --surface-container: oklch(0.96 0 0);
-  
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.549 0.226 259.5);
+  --radius: 0.875rem; /* squircle preset */
+
   /* ─── Standardized Shadows ─── */
   --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.04);
   --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
@@ -56,12 +54,15 @@
   --chart-5: oklch(0.424 0.199 265.638);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: oklch(0.549 0.226 259.5);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent: oklch(0.96 0.015 259.5);
+  --sidebar-accent-foreground: oklch(0.30 0.10 259.5);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.549 0.226 259.5);
+  --border-strong: rgba(0, 0, 0, 0.09);
+  --surface-elevated: oklch(1 0 0);
+  --surface-container: oklch(0.97 0 0);
 
   /* ─── Brand Tokens ─── */
   --whatsapp: oklch(0.648 0.17 155);
@@ -93,44 +94,45 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.19 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: #0071e3;
-  --primary-foreground: oklch(1 0 0);
+  /* Apple Blue (lighter for dark mode) */
+  --primary: oklch(0.62 0.21 259.5);
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --accent-light: oklch(0.3 0 0);
-  --accent-dark: oklch(0.2 0 0);
-  --primary-600: #3b82f6;
+  --accent: oklch(0.28 0.06 259.5);
+  --accent-foreground: oklch(0.85 0.08 259.5);
+  --accent-light: oklch(0.32 0.07 259.5);
+  --accent-dark: oklch(0.22 0.04 259.5);
+  --primary-600: oklch(0.549 0.226 259.5);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.25 0 0);
-  --input: oklch(0.27 0 0);
-  --ring: oklch(0.8 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.62 0.21 259.5);
   --success: oklch(0.55 0.15 145);
   --success-foreground: oklch(0.985 0 0);
   --warning: oklch(0.7 0.16 75);
   --warning-foreground: oklch(0.145 0 0);
-  --info: oklch(0.55 0.15 250);
+  --info: oklch(0.62 0.21 259.5);
   --info-foreground: oklch(0.985 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
+  --chart-1: oklch(0.62 0.21 259.5);
+  --chart-2: oklch(0.55 0.15 145);
+  --chart-3: oklch(0.70 0.16 75);
+  --chart-4: oklch(0.704 0.191 22.216);
+  --chart-5: oklch(0.556 0 0);
+  --sidebar: oklch(0.175 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.62 0.21 259.5);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.28 0.06 259.5);
+  --sidebar-accent-foreground: oklch(0.85 0.08 259.5);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-  --border-strong: rgba(255, 255, 255, 0.12);
+  --sidebar-ring: oklch(0.62 0.21 259.5);
+  --border-strong: rgba(255, 255, 255, 0.09);
   --surface-elevated: oklch(0.22 0 0);
-  --surface-container: oklch(0.2 0 0);
+  --surface-container: oklch(0.20 0 0);
 
   /* ─── Brand Tokens ─── */
   --whatsapp: oklch(0.648 0.17 155);
@@ -164,12 +166,12 @@
   --text-2xs: 0.625rem;
   --text-2xs--line-height: 0.875rem;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 16px);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -247,6 +249,28 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    background-color: oklch(1 0 0);
+  }
+
+  /* ── Squircle enforcement: every popup/overlay surface ── */
+  [data-slot="popover-content"],
+  [data-slot="dropdown-menu-content"],
+  [data-slot="dropdown-menu-sub-content"],
+  [data-slot="select-content"],
+  [data-slot="command"],
+  [data-slot="dialog-content"],
+  [data-slot="alert-dialog-content"],
+  [data-slot="tooltip-content"],
+  [data-slot="card"],
+  [data-radix-popper-content-wrapper] > * {
+    border-radius: var(--radius) !important;
+  }
+
+  /* ── Input / textarea base shape ── */
+  [data-slot="input"],
+  [data-slot="textarea"],
+  [data-slot="select-trigger"] {
+    border-radius: calc(var(--radius) * 0.8);
   }
 
   /* UX baseline: clear focus signifiers and touch-friendly target sizes */
@@ -282,7 +306,8 @@
 
 @layer utilities {
   .app-shell {
-    @apply bg-background min-h-screen p-2 md:p-4;
+    @apply min-h-screen p-2 md:p-4;
+    background-color: oklch(1 0 0);
   }
 
   .app-shell-inset {
@@ -331,8 +356,8 @@
   }
 
   .dashboard-sidebar-panel {
-    @apply border-r border-dashed;
-    border-color: var(--border);
+    @apply border-r;
+    border-color: color-mix(in oklab, var(--border) 70%, transparent);
     background-color: var(--sidebar);
   }
 
@@ -379,7 +404,7 @@
   /* Dashboard main area */
   .dashboard-inset {
     @apply flex min-h-screen flex-col;
-    background-color: var(--background);
+    background-color: oklch(1 0 0);
   }
 
   .dashboard-header {
@@ -398,7 +423,7 @@
   }
 
   .dashboard-main {
-    @apply flex flex-1 flex-col overflow-y-auto p-6 pt-4;
+    @apply flex flex-1 flex-col overflow-y-auto p-5 pt-4;
   }
 
   /* Dashboard user profile block in sidebar footer */
@@ -501,48 +526,46 @@
    ============================================================ */
 
 @layer components {
-  /* UNIFIED CARD SYSTEM — Nova */
+  /* UNIFIED CARD SYSTEM */
   .card,
   .apple-card {
     @apply bg-card text-card-foreground;
     @apply border;
-    @apply transition-colors duration-200;
+    @apply transition-shadow duration-200;
     border-radius: var(--radius);
     border-color: var(--border);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-xs);
   }
 
   .card:hover,
   .apple-card:hover {
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
   }
 
   .card-interactive {
-    @apply transition-colors duration-200;
+    @apply transition-shadow duration-200;
   }
 
   .card-interactive:hover {
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
   }
 
   .apple-card-flat {
     @apply bg-card;
     @apply border;
-    @apply transition-colors duration-200;
+    @apply transition-shadow duration-200;
     border-radius: var(--radius);
     border-color: var(--border);
-    box-shadow: var(--shadow-sm);
   }
 
   .apple-card-glass {
     @apply bg-background/80;
     @apply border;
     @apply backdrop-blur-xl;
-    @apply transition-colors duration-200;
+    @apply transition-shadow duration-200;
     border-radius: var(--radius);
-    border-color: var(--border);
-    box-shadow: var(--shadow-base);
+    border-color: color-mix(in oklab, var(--border) 60%, transparent);
+    box-shadow: var(--shadow-xs);
   }
 
   .card-hover {
@@ -550,7 +573,7 @@
   }
 
   .card-hover:hover {
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
   }
 
   /* DEPRECATED: Use the <Button> React component from @/components/ui/button instead */
@@ -1562,51 +1585,56 @@
 
   /* ── Porcelain & Flow card variants ─── */
   .pf-card {
-    @apply bg-card rounded-xl border shadow-sm transition-shadow duration-200;
+    @apply bg-card border shadow-xs transition-shadow duration-200;
+    border-radius: var(--radius);
     border-color: var(--border);
   }
 
   .pf-card:hover {
-    box-shadow: 0 4px 16px color-mix(in oklab, var(--foreground) 6%, transparent);
+    box-shadow: var(--shadow-sm);
   }
 
   .pf-card-flat {
-    @apply bg-muted/30 rounded-xl border transition-colors duration-200;
+    @apply bg-muted/30 border transition-colors duration-200;
+    border-radius: var(--radius);
     border-color: color-mix(in oklab, var(--border) 60%, transparent);
   }
 
   .pf-card-elevated {
-    @apply bg-card rounded-xl border;
-    box-shadow:
-      0 2px 8px color-mix(in oklab, var(--foreground) 5%, transparent),
-      0 0 0 1px var(--border);
+    @apply bg-card border;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--border);
   }
 
   /* ── Stat tile ─── */
   .pf-stat-tile {
-    @apply bg-card rounded-xl border p-5 transition-all duration-200;
+    @apply bg-card border p-5 transition-all duration-200;
+    border-radius: var(--radius);
     border-color: var(--border);
   }
 
   .pf-stat-tile:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px color-mix(in oklab, var(--foreground) 6%, transparent);
+    box-shadow: var(--shadow-sm);
   }
 
   /* ── Receipt / summary card ─── */
   .pf-receipt {
-    @apply bg-muted/30 overflow-hidden rounded-xl border;
+    @apply bg-muted/30 overflow-hidden border;
+    border-radius: var(--radius);
     border-color: var(--border);
   }
 
   /* ── Soft icon container ─── */
   .pf-icon-well {
-    @apply bg-muted flex items-center justify-center rounded-xl;
+    @apply bg-muted flex items-center justify-center;
+    border-radius: calc(var(--radius) * 0.8);
   }
 
   .pf-icon-well-primary {
-    @apply flex items-center justify-center rounded-xl;
-    background-color: color-mix(in oklab, var(--primary) 12%, transparent);
+    @apply flex items-center justify-center;
+    border-radius: calc(var(--radius) * 0.8);
+    background-color: color-mix(in oklab, var(--primary) 10%, transparent);
     color: var(--primary);
   }
 

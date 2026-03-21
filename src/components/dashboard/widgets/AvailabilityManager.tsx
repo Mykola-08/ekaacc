@@ -67,7 +67,7 @@ export function AvailabilityManager() {
           onClick={handleSave}
           disabled={!hasChanges}
           className={cn(
-            'h-10 rounded-lg px-6 font-semibold transition-all',
+            'h-10 rounded-[calc(var(--radius)*0.8)] px-6 font-semibold transition-all',
             hasChanges
               ? 'bg-foreground text-background hover:bg-foreground/90'
               : 'bg-secondary text-muted-foreground cursor-not-allowed opacity-50'
@@ -94,7 +94,7 @@ export function AvailabilityManager() {
         />
       </div>
 
-      <div className="bg-card border-border overflow-hidden rounded-xl border p-6">
+      <div className="bg-card border-border overflow-hidden rounded-[var(--radius)] border p-6">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -125,7 +125,7 @@ export function AvailabilityManager() {
                         <button
                           onClick={() => toggleSlot(day, hour)}
                           className={cn(
-                            'flex h-10 w-full items-center justify-center rounded-lg border-2 transition-all duration-200',
+                            'flex h-10 w-full items-center justify-center rounded-[calc(var(--radius)*0.8)] border-2 transition-all duration-200',
                             isAvailable
                               ? 'bg-card hover:border-primary text-primary border-transparent'
                               : 'border-border text-muted hover:bg-secondary bg-transparent'
@@ -148,13 +148,13 @@ export function AvailabilityManager() {
       </div>
       <div className="text-muted-foreground mt-8 flex items-center justify-center gap-8 text-sm font-semibold">
         <div className="flex items-center gap-3">
-          <div className="bg-primary/10 border-primary/20 text-primary flex h-5 w-5 items-center justify-center rounded-xl border-2">
+          <div className="bg-primary/10 border-primary/20 text-primary flex h-5 w-5 items-center justify-center rounded-[var(--radius)] border-2">
             <HugeiconsIcon icon={Tick02Icon} className="size-3"  />
           </div>
           <span className="text-foreground">Available</span>
         </div>
         <div className="flex items-center gap-3">
-          <div className="bg-border h-5 w-5 rounded-xl border-2 border-transparent"></div>
+          <div className="bg-border h-5 w-5 rounded-[var(--radius)] border-2 border-transparent"></div>
           <span>Blocked</span>
         </div>
       </div>

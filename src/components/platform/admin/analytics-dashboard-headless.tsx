@@ -285,7 +285,7 @@ export function AnalyticsDashboardHeadless() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-card ring-border rounded-lg p-6 ring-1">
+        <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">
               Total UserMultipleIcon
@@ -304,7 +304,7 @@ export function AnalyticsDashboardHeadless() {
           </div>
         </div>
 
-        <div className="bg-card ring-border rounded-lg p-6 ring-1">
+        <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Active Users</span>
             <HugeiconsIcon icon={Activity01Icon} className="text-success h-5 w-5" />
@@ -318,7 +318,7 @@ export function AnalyticsDashboardHeadless() {
           </div>
         </div>
 
-        <div className="bg-card ring-border rounded-lg p-6 ring-1">
+        <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Conversion Rate</span>
             <HugeiconsIcon icon={BarChartIcon} className="text-warning h-5 w-5" />
@@ -335,7 +335,7 @@ export function AnalyticsDashboardHeadless() {
           </div>
         </div>
 
-        <div className="bg-card ring-border rounded-lg p-6 ring-1">
+        <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-6 ring-1">
           <div className="mb-4 flex items-start justify-between">
             <span className="text-muted-foreground text-sm font-medium">Avg Session</span>
             <HugeiconsIcon icon={Clock01Icon} className="text-chart-4 size-5" />
@@ -349,7 +349,7 @@ export function AnalyticsDashboardHeadless() {
       </div>
 
       {/* System Health */}
-      <div className="bg-card ring-border rounded-lg p-8 ring-1">
+      <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
           <div>
             <h3 className="text-foreground text-lg font-semibold">System Health</h3>
@@ -423,7 +423,7 @@ export function AnalyticsDashboardHeadless() {
           <TabsContent value="overview" className="focus:outline-none">
             {/* Overview Panel Content */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="bg-card ring-border rounded-lg p-8 ring-1">
+              <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">User Growth Trend</h3>
                   <p className="text-muted-foreground text-sm">User acquisition over time</p>
@@ -477,7 +477,7 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
 
-              <div className="bg-card ring-border rounded-lg p-8 ring-1">
+              <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">Activity by Hour</h3>
                   <p className="text-muted-foreground text-sm">Peak usage times</p>
@@ -520,7 +520,7 @@ export function AnalyticsDashboardHeadless() {
 
           <TabsContent value="growth" className="focus:outline-none">
             {/* Users Panel - just duplication for tabs demo */}
-            <div className="bg-card ring-border rounded-lg p-8 ring-1">
+            <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
               <div className="mb-6">
                 <h3 className="text-foreground text-lg font-semibold">User Growth Details</h3>
                 <p className="text-muted-foreground text-sm">Detailed user acquisition metrics</p>
@@ -561,7 +561,7 @@ export function AnalyticsDashboardHeadless() {
 
           <TabsContent value="activity" className="focus:outline-none">
             {/* Activity Panel */}
-            <div className="bg-card ring-border rounded-lg p-8 ring-1">
+            <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
               <div className="mb-6">
                 <h3 className="text-foreground text-lg font-semibold">
                   Hourly Activity01Icon Pattern
@@ -584,7 +584,7 @@ export function AnalyticsDashboardHeadless() {
 
           <TabsContent value="pages" className="focus:outline-none">
             {/* Top Pages */}
-            <div className="bg-card ring-border rounded-lg p-8 ring-1">
+            <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
               <div className="mb-6">
                 <h3 className="text-foreground text-lg font-semibold">Most Visited Pages</h3>
                 <p className="text-muted-foreground text-sm">Top performing content</p>
@@ -593,7 +593,7 @@ export function AnalyticsDashboardHeadless() {
                 {analytics.topPages.map((page, index) => (
                   <div
                     key={page.path}
-                    className="hover:bg-muted/30/50 -mx-2 flex items-center justify-between rounded-xl px-2 py-4 transition-colors first:pt-0 last:pb-0"
+                    className="hover:bg-muted/30/50 -mx-2 flex items-center justify-between rounded-[var(--radius)] px-2 py-4 transition-colors first:pt-0 last:pb-0"
                   >
                     <div className="flex items-center gap-4">
                       <span className="bg-muted text-muted-foreground flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold">
@@ -623,7 +623,7 @@ export function AnalyticsDashboardHeadless() {
           <TabsContent value="segments" className="focus:outline-none">
             {/* Segments */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="bg-card ring-border rounded-lg p-8 ring-1">
+              <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">User Segments</h3>
                   <p className="text-muted-foreground text-sm">User distribution by segment</p>
@@ -663,7 +663,7 @@ export function AnalyticsDashboardHeadless() {
                 </div>
               </div>
 
-              <div className="bg-card ring-border rounded-lg p-8 ring-1">
+              <div className="bg-card ring-border rounded-[calc(var(--radius)*0.8)] p-8 ring-1">
                 <div className="mb-6">
                   <h3 className="text-foreground text-lg font-semibold">Segment Details</h3>
                   <p className="text-muted-foreground text-sm">Breakdown by user segments</p>
@@ -672,7 +672,7 @@ export function AnalyticsDashboardHeadless() {
                   {analytics.userSegments.map((segment, index) => (
                     <div
                       key={segment.segment}
-                      className="bg-muted/30 hover:bg-muted flex items-center justify-between rounded-lg p-3 transition-colors"
+                      className="bg-muted/30 hover:bg-muted flex items-center justify-between rounded-[calc(var(--radius)*0.8)] p-3 transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <div

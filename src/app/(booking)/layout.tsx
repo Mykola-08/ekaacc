@@ -12,7 +12,7 @@ export default function BookingLayout({ children }: { children: React.ReactNode 
             href="/"
             className="flex items-center gap-2 text-sm font-semibold tracking-tight transition-opacity hover:opacity-80"
           >
-            <div className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+            <div className="flex size-7 items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-primary text-primary-foreground shadow-sm">
               <svg viewBox="0 0 24 24" className="size-4 fill-current" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
               </svg>

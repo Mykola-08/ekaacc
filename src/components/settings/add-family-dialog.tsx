@@ -57,12 +57,12 @@ export function AddFamilyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-5 py-6 transition-all">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-[calc(var(--radius)*0.8)] px-5 py-6 transition-all">
           <HugeiconsIcon icon={UserAdd01Icon} className="mr-2 size-4"  />
           Add Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card overflow-hidden rounded-lg border-none p-0 sm:max-w-106.25">
+      <DialogContent className="bg-card overflow-hidden rounded-[calc(var(--radius)*0.8)] border-none p-0 sm:max-w-106.25">
         <div className="bg-muted/40 border-border/60 border-b p-6 pb-4">
           <DialogHeader className="text-left">
             <DialogTitle className="text-foreground font-serif text-xl">
@@ -87,7 +87,7 @@ export function AddFamilyDialog() {
                   name="full_name"
                   required
                   placeholder="e.g. Maya V."
-                  className="bg-muted/40 border-border focus:ring-border h-9 rounded-lg pl-10 focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border focus:ring-border h-9 rounded-[calc(var(--radius)*0.8)] pl-10 focus-visible:ring-offset-0"
                 />
               </div>
             </div>
@@ -102,7 +102,7 @@ export function AddFamilyDialog() {
                   id="dob"
                   name="dob"
                   type="date"
-                  className="bg-muted/40 border-border focus:ring-border block h-9 w-full rounded-lg pl-10 focus-visible:ring-offset-0"
+                  className="bg-muted/40 border-border focus:ring-border block h-9 w-full rounded-[calc(var(--radius)*0.8)] pl-10 focus-visible:ring-offset-0"
                 />
               </div>
             </div>
@@ -112,10 +112,10 @@ export function AddFamilyDialog() {
                 Relationship
               </Label>
               <Select name="relationship" required defaultValue="child">
-                <SelectTrigger className="bg-muted/40 border-border focus:ring-border h-9 rounded-lg">
+                <SelectTrigger className="bg-muted/40 border-border focus:ring-border h-9 rounded-[calc(var(--radius)*0.8)]">
                   <SelectValue placeholder="Select relationship" />
                 </SelectTrigger>
-                <SelectContent className="border-border/60 rounded-lg">
+                <SelectContent className="border-border/60 rounded-[calc(var(--radius)*0.8)]">
                   <SelectItem value="child">Child</SelectItem>
                   <SelectItem value="spouse">Spouse</SelectItem>
                   <SelectItem value="parent">Parent</SelectItem>
@@ -135,7 +135,7 @@ export function AddFamilyDialog() {
             <Button
               type="submit"
               disabled={loading}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 w-full rounded-lg text-base font-medium"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 w-full rounded-[calc(var(--radius)*0.8)] text-base font-medium"
             >
               {loading ? (
                 <>

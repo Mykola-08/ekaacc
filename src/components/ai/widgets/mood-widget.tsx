@@ -141,7 +141,7 @@ export function MoodWidget({ className }: { className?: string }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-      className={cn('bg-card rounded-lg border p-5', className)}
+      className={cn('bg-card rounded-[calc(var(--radius)*0.8)] border p-5', className)}
     >
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold">How are you feeling?</h3>
@@ -178,7 +178,7 @@ export function MoodWidget({ className }: { className?: string }) {
 
       {/* Sparkline + stats */}
       {loading ? (
-        <div className="bg-muted/50 h-12 animate-pulse rounded-lg" />
+        <div className="bg-muted/50 h-12 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
       ) : recentScores.length >= 2 ? (
         <div>
           <MiniSparkline scores={recentScores} />

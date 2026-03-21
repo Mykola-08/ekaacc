@@ -29,7 +29,7 @@ export function FeatureOverrideList({ userId, enrollments, allFeatures }: any) {
         return (
           <div
             key={feature.id}
-            className="bg-card flex items-center justify-between rounded-xl border p-3"
+            className="bg-card flex items-center justify-between rounded-[var(--radius)] border p-3"
           >
             <div className="flex flex-col">
               <span className="font-mono text-sm font-medium">{feature.key}</span>

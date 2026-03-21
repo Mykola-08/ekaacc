@@ -182,7 +182,7 @@ function BadgeOverflow<T = string>(props: BadgeOverflowProps<T>) {
         {renderOverflow ? (
           renderOverflow(99)
         ) : (
-          <div className="inline-flex h-5 shrink-0 items-center rounded-md border px-1.5 text-xs font-semibold">
+          <div className="inline-flex h-5 shrink-0 items-center rounded-[calc(var(--radius)*0.6)] border px-1.5 text-xs font-semibold">
             +99
           </div>
         )}
@@ -205,7 +205,7 @@ function BadgeOverflow<T = string>(props: BadgeOverflowProps<T>) {
             (renderOverflow ? (
               renderOverflow(hiddenCount)
             ) : (
-              <div className="inline-flex h-5 shrink-0 items-center rounded-md border px-1.5 text-xs font-semibold">
+              <div className="inline-flex h-5 shrink-0 items-center rounded-[calc(var(--radius)*0.6)] border px-1.5 text-xs font-semibold">
                 +{hiddenCount}
               </div>
             ))}

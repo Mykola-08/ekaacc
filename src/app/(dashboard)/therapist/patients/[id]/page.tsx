@@ -46,7 +46,7 @@ function formatDateTime(d: string) {
 function StatBadge({ value, label, accent }: { value: string | number; label: string; accent?: boolean }) {
   return (
     <div className={cn(
-      'flex flex-col items-center rounded-2xl border px-5 py-4 text-center',
+      'flex flex-col items-center rounded-[calc(var(--radius)*1.8)] border px-5 py-4 text-center',
       accent ? 'border-primary/20 bg-primary/5' : 'border-border bg-muted/30'
     )}>
       <span className={cn('text-2xl font-bold tabular-nums', accent && 'text-primary')}>{value}</span>
@@ -132,7 +132,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
 
       {/* ── Hero profile card ─── */}
       <div className="px-4 lg:px-6">
-        <Card className="overflow-hidden rounded-2xl border border-border/60">
+        <Card className="overflow-hidden rounded-[calc(var(--radius)*1.8)] border border-border/60">
           {/* Top color band */}
           <div className="h-20 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent" />
           <CardContent className="-mt-10 pb-6">
@@ -211,9 +211,9 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
       {(nextSession || lastSession) && (
         <div className="grid grid-cols-1 gap-3 px-4 lg:px-6 sm:grid-cols-2">
           {nextSession && (
-            <Card className="rounded-2xl border border-primary/20 bg-primary/5">
+            <Card className="rounded-[calc(var(--radius)*1.8)] border border-primary/20 bg-primary/5">
               <CardContent className="flex items-center gap-3 p-4">
-                <div className="rounded-xl bg-primary/10 p-2.5 text-primary shrink-0">
+                <div className="rounded-[var(--radius)] bg-primary/10 p-2.5 text-primary shrink-0">
                   <HugeiconsIcon icon={Calendar03Icon} className="size-4" />
                 </div>
                 <div className="min-w-0">
@@ -224,9 +224,9 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
             </Card>
           )}
           {lastSession && (
-            <Card className="rounded-2xl border border-border bg-muted/20">
+            <Card className="rounded-[calc(var(--radius)*1.8)] border border-border bg-muted/20">
               <CardContent className="flex items-center gap-3 p-4">
-                <div className="rounded-xl bg-muted p-2.5 text-muted-foreground shrink-0">
+                <div className="rounded-[var(--radius)] bg-muted p-2.5 text-muted-foreground shrink-0">
                   <HugeiconsIcon icon={Clock01Icon} className="size-4" />
                 </div>
                 <div className="min-w-0">
@@ -242,8 +242,8 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
       {/* ── Tabs ─── */}
       <div className="px-4 lg:px-6">
         <Tabs defaultValue="journal">
-          <TabsList className="w-full sm:w-auto rounded-xl h-10">
-            <TabsTrigger value="journal" className="gap-1.5 rounded-lg text-xs">
+          <TabsList className="w-full sm:w-auto rounded-[var(--radius)] h-10">
+            <TabsTrigger value="journal" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
               <HugeiconsIcon icon={BookOpen01Icon} className="size-3.5" />
               Journal
               {(journals?.length ?? 0) > 0 && (
@@ -252,7 +252,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="assignments" className="gap-1.5 rounded-lg text-xs">
+            <TabsTrigger value="assignments" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
               <HugeiconsIcon icon={CheckListIcon} className="size-3.5" />
               Assignments
               {totalAssignments > 0 && (
@@ -261,11 +261,11 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="sessions" className="gap-1.5 rounded-lg text-xs">
+            <TabsTrigger value="sessions" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
               <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
               Sessions
             </TabsTrigger>
-            <TabsTrigger value="notes" className="gap-1.5 rounded-lg text-xs">
+            <TabsTrigger value="notes" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
               <HugeiconsIcon icon={NoteIcon} className="size-3.5" />
               Notes
             </TabsTrigger>
@@ -282,7 +282,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
             ) : (
               <div className="space-y-3">
                 {journals!.map((entry) => (
-                  <Card key={entry.id} className="rounded-2xl border border-border/60">
+                  <Card key={entry.id} className="rounded-[calc(var(--radius)*1.8)] border border-border/60">
                     <CardHeader className="pb-2">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
@@ -347,10 +347,10 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                 {assignments!.map((a) => (
                   <div
                     key={a.id}
-                    className="flex items-start gap-3 rounded-2xl border border-border/60 p-4 transition-colors hover:bg-muted/30"
+                    className="flex items-start gap-3 rounded-[calc(var(--radius)*1.8)] border border-border/60 p-4 transition-colors hover:bg-muted/30"
                   >
                     <div className={cn(
-                      'mt-0.5 shrink-0 rounded-xl p-2',
+                      'mt-0.5 shrink-0 rounded-[var(--radius)] p-2',
                       a.status === 'completed' ? 'bg-success/10' : 'bg-primary/10'
                     )}>
                       <HugeiconsIcon
@@ -400,7 +400,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                 {bookings!.map((b) => (
                   <div
                     key={b.id}
-                    className="flex items-center gap-3 rounded-2xl border border-border/60 p-4 transition-colors hover:bg-muted/30"
+                    className="flex items-center gap-3 rounded-[calc(var(--radius)*1.8)] border border-border/60 p-4 transition-colors hover:bg-muted/30"
                   >
                     <div className="h-10 w-1 shrink-0 rounded-full bg-primary/40" />
                     <div className="flex-1 min-w-0">
@@ -439,11 +439,11 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
             ) : (
               <div className="space-y-3">
                 {sessionNotes!.map((note) => (
-                  <Card key={note.id} className="rounded-2xl border border-border/60">
+                  <Card key={note.id} className="rounded-[calc(var(--radius)*1.8)] border border-border/60">
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="rounded-lg bg-muted p-1.5">
+                          <div className="rounded-[calc(var(--radius)*0.8)] bg-muted p-1.5">
                             <HugeiconsIcon icon={File01Icon} className="size-3.5 text-muted-foreground" />
                           </div>
                           <p className="text-xs font-medium text-muted-foreground">
@@ -480,8 +480,8 @@ function EmptyTabState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed py-14 text-center">
-      <div className="rounded-2xl bg-muted p-4">
+    <div className="flex flex-col items-center gap-3 rounded-[calc(var(--radius)*1.8)] border border-dashed py-14 text-center">
+      <div className="rounded-[calc(var(--radius)*1.8)] bg-muted p-4">
         <HugeiconsIcon icon={icon} className="size-8 text-muted-foreground/40" />
       </div>
       <div>

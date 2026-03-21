@@ -46,7 +46,7 @@ export function TelegramConnectButton({ botUsername = 'ekabalancebot' }: { botUs
           </DialogHeader>
 
           <div className="flex flex-col items-center justify-center gap-6 py-6 text-center">
-            <div className="bg-muted/50 max-w-[280px] rounded-xl p-4">
+            <div className="bg-muted/50 max-w-[280px] rounded-[var(--radius)] p-4">
               <p className="text-muted-foreground mb-4 text-sm">
                 Click below to open Telegram. The bot will automatically link your account.
               </p>
@@ -66,7 +66,7 @@ export function TelegramConnectButton({ botUsername = 'ekabalancebot' }: { botUs
             <p className="text-muted-foreground max-w-[250px] text-xs">
               Or send this command directly to <strong>@{botUsername}</strong>:
             </p>
-            <code className="bg-muted rounded-xl px-3 py-2 font-mono text-sm tracking-wider break-all select-all">
+            <code className="bg-muted rounded-[var(--radius)] px-3 py-2 font-mono text-sm tracking-wider break-all select-all">
               /link {code}
             </code>
           </div>

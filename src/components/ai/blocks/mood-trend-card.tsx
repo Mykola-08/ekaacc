@@ -86,7 +86,7 @@ export function MoodTrendCard({ moods, averageScore, trend, days }: MoodTrendPro
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card w-full max-w-sm rounded-lg border p-4"
+      className="bg-card w-full max-w-sm rounded-[calc(var(--radius)*0.8)] border p-4"
     >
       <div className="mb-3 flex items-center justify-between">
         <div>
@@ -108,15 +108,15 @@ export function MoodTrendCard({ moods, averageScore, trend, days }: MoodTrendPro
       {scores.length >= 2 && <Sparkline data={scores} />}
 
       <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-        <div className="bg-muted/50 rounded-lg p-2">
+        <div className="bg-muted/50 rounded-[calc(var(--radius)*0.8)] p-2">
           <p className="text-foreground text-lg font-semibold tabular-nums">{averageScore}</p>
           <p className="text-muted-foreground text-2xs">Avg Score</p>
         </div>
-        <div className="bg-muted/50 rounded-lg p-2">
+        <div className="bg-muted/50 rounded-[calc(var(--radius)*0.8)] p-2">
           <p className="text-foreground text-lg font-semibold tabular-nums">{moods.length}</p>
           <p className="text-muted-foreground text-2xs">Entries</p>
         </div>
-        <div className="bg-muted/50 rounded-lg p-2">
+        <div className="bg-muted/50 rounded-[calc(var(--radius)*0.8)] p-2">
           <p className="text-foreground text-lg font-semibold tabular-nums">
             {scores.length > 0 ? Math.max(...scores) : '-'}
           </p>

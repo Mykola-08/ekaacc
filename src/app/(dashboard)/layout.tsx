@@ -66,7 +66,7 @@ export default function UnifiedDashboardLayout({ children }: { children: React.R
             <div className="bg-muted h-8 w-48 animate-pulse rounded" />
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="bg-muted h-32 animate-pulse rounded-xl border" />
+                <div key={i} className="bg-muted h-32 animate-pulse rounded-[var(--radius)] border" />
               ))}
             </div>
           </div>

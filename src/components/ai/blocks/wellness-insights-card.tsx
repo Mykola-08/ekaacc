@@ -40,7 +40,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
       initial={{ opacity: 0, y: 12, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card w-full max-w-md rounded-lg border p-4"
+      className="bg-card w-full max-w-md rounded-[calc(var(--radius)*0.8)] border p-4"
     >
       <div className="flex items-center gap-2">
         <HugeiconsIcon icon={Brain01Icon} className="text-primary size-4"  />
@@ -57,7 +57,7 @@ export function WellnessInsightsCard({ insights }: WellnessInsightsProps) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: i * 0.1 }}
-            className="bg-muted/50 rounded-xl p-3"
+            className="bg-muted/50 rounded-[var(--radius)] p-3"
           >
             <div className="mb-1.5 flex items-center gap-2">
               <HugeiconsIcon icon={Icon} className={cn('h-4 w-4', cfg.color)} />

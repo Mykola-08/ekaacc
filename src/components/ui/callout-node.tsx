@@ -39,7 +39,7 @@ export function CalloutElement({
       }}
       {...props}
     >
-      <div className="flex w-full gap-2 rounded-md">
+      <div className="flex w-full gap-2 rounded-[calc(var(--radius)*0.6)]">
         <EmojiPopover
           {...emojiToolbarDropdownProps}
           control={

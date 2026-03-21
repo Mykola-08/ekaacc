@@ -44,7 +44,7 @@ export default function DonationReportsPage() {
         <p className="text-muted-foreground mt-2 text-lg">Your donation and payment history.</p>
         <div className="mt-8 space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-muted h-20 animate-pulse rounded-xl" />
+            <div key={i} className="bg-muted h-20 animate-pulse rounded-[var(--radius)]" />
           ))}
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function DonationReportsPage() {
 
       {/* Summary Card */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <Card className="border-border rounded-xl">
+        <Card className="border-border rounded-[var(--radius)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
             <HugeiconsIcon icon={InvoiceIcon} className="text-primary size-4"  />
@@ -76,7 +76,7 @@ export default function DonationReportsPage() {
             <p className="text-muted-foreground text-xs">All-time payment records</p>
           </CardContent>
         </Card>
-        <Card className="border-border rounded-xl">
+        <Card className="border-border rounded-[var(--radius)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Amount</CardTitle>
             <HugeiconsIcon icon={FavouriteIcon} className="text-destructive size-4"  />
@@ -91,14 +91,14 @@ export default function DonationReportsPage() {
       </div>
 
       {/* Transaction List */}
-      <Card className="mt-8 border-border rounded-xl">
+      <Card className="mt-8 border-border rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle>Transaction History</CardTitle>
           <CardDescription>All your payments and donations</CardDescription>
         </CardHeader>
         <CardContent>
           {transactions.length === 0 ? (
-            <div className="border-border bg-muted/30 rounded-xl border-2 border-dashed py-12 text-center">
+            <div className="border-border bg-muted/30 rounded-[var(--radius)] border-2 border-dashed py-12 text-center">
               <HugeiconsIcon icon={FavouriteIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
               <h3 className="text-foreground text-lg font-semibold">No transactions yet</h3>
               <p className="text-muted-foreground mt-1 text-sm">
@@ -110,7 +110,7 @@ export default function DonationReportsPage() {
               {transactions.map((txn) => (
                 <div
                   key={txn.id}
-                  className="flex items-center justify-between rounded-xl border p-4"
+                  className="flex items-center justify-between rounded-[var(--radius)] border p-4"
                 >
                   <div className="flex items-center gap-3">
                     {txn.amount >= 0 ? (

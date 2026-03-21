@@ -75,7 +75,7 @@ export function VideoCallPanel({ roomUrl }: VideoCallPanelProps) {
 
   if (!roomUrl) {
     return (
-      <div className="bg-muted/20 border-muted-foreground/30 text-muted-foreground flex h-full items-center justify-center rounded-lg border border-dashed p-8 text-center">
+      <div className="bg-muted/20 border-muted-foreground/30 text-muted-foreground flex h-full items-center justify-center rounded-[calc(var(--radius)*0.8)] border border-dashed p-8 text-center">
         <p>No video room linked to this session yet.</p>
       </div>
     );
@@ -92,7 +92,7 @@ export function VideoCallPanel({ roomUrl }: VideoCallPanelProps) {
       {/* The Daily iframe container */}
       <div
         ref={containerRef}
-        className="relative w-full flex-1 overflow-hidden rounded-lg bg-black"
+        className="relative w-full flex-1 overflow-hidden rounded-[calc(var(--radius)*0.8)] bg-black"
       >
         {!hasJoined && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/80">
@@ -105,7 +105,7 @@ export function VideoCallPanel({ roomUrl }: VideoCallPanelProps) {
       </div>
 
       {hasJoined && (
-        <div className="bg-muted/30 flex justify-center gap-4 rounded-lg border p-2">
+        <div className="bg-muted/30 flex justify-center gap-4 rounded-[calc(var(--radius)*0.8)] border p-2">
           {/* Native controls shown via Daily frame, but you can build custom wrappers if needed. */}
           <Button variant="destructive" onClick={leaveCall}>
             End Call

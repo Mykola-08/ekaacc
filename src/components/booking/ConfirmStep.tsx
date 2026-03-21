@@ -93,7 +93,7 @@ export function ConfirmStep({
         <Button
           onClick={() => router.push('/bookings')}
           size="lg"
-          className="mt-2 rounded-lg px-8"
+          className="mt-2 rounded-[calc(var(--radius)*0.8)] px-8"
         >
           View My Bookings
         </Button>
@@ -111,10 +111,10 @@ export function ConfirmStep({
       </div>
 
       {/* Booking mini-summary */}
-      <div className="bg-muted/40 rounded-xl border border-border p-4">
+      <div className="bg-muted/40 rounded-[var(--radius)] border border-border p-4">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="flex items-center gap-2.5">
-            <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+            <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
               <HugeiconsIcon icon={UserCircleIcon} className="size-4" />
             </div>
             <div className="min-w-0">
@@ -125,7 +125,7 @@ export function ConfirmStep({
             </div>
           </div>
           <div className="flex items-center gap-2.5">
-            <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+            <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
               <HugeiconsIcon icon={Calendar03Icon} className="size-4" />
             </div>
             <div className="min-w-0">
@@ -140,7 +140,7 @@ export function ConfirmStep({
             </div>
           </div>
           <div className="flex items-center gap-2.5">
-            <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+            <div className="pf-icon-well-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
               <HugeiconsIcon icon={Clock01Icon} className="size-4" />
             </div>
             <div className="min-w-0">
@@ -152,7 +152,7 @@ export function ConfirmStep({
       </div>
 
       {error && (
-        <div className="bg-destructive/10 text-destructive flex items-center gap-3 rounded-lg p-4 text-sm">
+        <div className="bg-destructive/10 text-destructive flex items-center gap-3 rounded-[calc(var(--radius)*0.8)] p-4 text-sm">
           <HugeiconsIcon icon={Alert01Icon} className="size-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -169,7 +169,7 @@ export function ConfirmStep({
               id="firstName"
               name="firstName"
               placeholder="Jane"
-              className="h-10 rounded-lg"
+              className="h-10 rounded-[calc(var(--radius)*0.8)]"
             />
           </div>
           <div className="space-y-1.5">
@@ -181,7 +181,7 @@ export function ConfirmStep({
               id="lastName"
               name="lastName"
               placeholder="Smith"
-              className="h-10 rounded-lg"
+              className="h-10 rounded-[calc(var(--radius)*0.8)]"
             />
           </div>
         </div>
@@ -195,7 +195,7 @@ export function ConfirmStep({
             id="email"
             name="email"
             placeholder="jane@example.com"
-            className="h-10 rounded-lg"
+            className="h-10 rounded-[calc(var(--radius)*0.8)]"
           />
         </div>
         <div className="space-y-1.5">
@@ -208,7 +208,7 @@ export function ConfirmStep({
             id="phone"
             name="phone"
             placeholder="+1 555 000 0000"
-            className="h-10 rounded-lg"
+            className="h-10 rounded-[calc(var(--radius)*0.8)]"
           />
         </div>
 
@@ -218,7 +218,7 @@ export function ConfirmStep({
             size="lg"
             disabled={loading}
             className={cn(
-              'h-12 w-full rounded-lg text-base font-semibold transition-all',
+              'h-12 w-full rounded-[calc(var(--radius)*0.8)] text-base font-semibold transition-all',
               loading && 'opacity-70'
             )}
           >

@@ -37,7 +37,7 @@ const PageContainer = ({ children, className }: any) => (
   <div className={`container mx-auto p-6 ${className || ''}`}>{children}</div>
 );
 const SurfacePanel = ({ children, className }: any) => (
-  <div className={`bg-card rounded-xl border p-6 ${className || ''}`}>{children}</div>
+  <div className={`bg-card rounded-[var(--radius)] border p-6 ${className || ''}`}>{children}</div>
 );
 const PageHeader = ({ title, description }: any) => (
   <div className="mb-8">
@@ -783,7 +783,7 @@ export default function PrivacyControlsPage() {
                         privacyAudit.map((audit) => (
                           <div
                             key={audit.id}
-                            className="bg-muted/40 flex items-start rounded-xl p-3"
+                            className="bg-muted/40 flex items-start rounded-[var(--radius)] p-3"
                           >
                             <div className="bg-primary mt-2 h-2 w-2 rounded-full"></div>
                             <div className="flex-1">
@@ -828,7 +828,7 @@ export default function PrivacyControlsPage() {
                         </p>
                       ) : (
                         accessLogs.map((log) => (
-                          <div key={log.id} className="bg-muted/40 flex items-start rounded-xl p-3">
+                          <div key={log.id} className="bg-muted/40 flex items-start rounded-[var(--radius)] p-3">
                             <div className="bg-success mt-2 h-2 w-2 rounded-full"></div>
                             <div className="flex-1">
                               <p className="text-foreground text-sm font-medium">

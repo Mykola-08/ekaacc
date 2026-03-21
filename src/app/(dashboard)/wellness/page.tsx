@@ -33,7 +33,7 @@ function TabSkeleton() {
   return (
     <div className="space-y-4 py-6">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-muted h-24 animate-pulse rounded-lg" />
+        <div key={i} className="bg-muted h-24 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
       ))}
     </div>
   );
@@ -92,11 +92,11 @@ function WellnessContent() {
   const mood = moodTone(todaysMood);
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <div className="px-4 lg:px-6">
+    <div className="flex flex-col gap-4 md:gap-6">
+      <div>
         <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
           <div>
-            <h1 className="text-foreground text-xl font-bold tracking-tight">Wellness</h1>
+            <h1 className="text-foreground text-xl font-semibold tracking-tight">Wellness</h1>
             <p className="text-muted-foreground text-sm">
               Track your progress, journal, and wellness resources.
             </p>

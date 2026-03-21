@@ -50,7 +50,7 @@ export function PurchaseLog({ userId, purchases }: any) {
           type="submit"
           status={status}
           idleLabel="Log Purchase"
-          icon={<HugeiconsIcon icon={Add01Icon} className="size-4"  />}
+          icon={<HugeiconsIcon icon={Add01Icon} className="size-4" />}
           className="w-full md:w-auto"
         />
       </form>

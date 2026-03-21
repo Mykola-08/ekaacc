@@ -17,7 +17,7 @@ export default function FirstTimeContent() {
           t('onboarding.welcome.description') ||
           'Descubre tu plan personalizado respondiendo unas breves preguntas.',
         badge: t('hero.firstTime') || 'First Time',
-        icon: <HugeiconsIcon icon={SparklesIcon} className="size-4"  />,
+        icon: <HugeiconsIcon icon={SparklesIcon} className="size-4" />,
       }}
       className="bg-secondary"
     >

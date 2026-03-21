@@ -9,9 +9,7 @@ export function CrisisPageContent() {
   const { t } = useLanguage();
 
   return (
-    <div
-      className="mx-auto max-w-4xl px-4 py-8 md:px-8"
-    >
+    <div className="mx-auto max-w-4xl px-4 py-8 md:px-8">
       <Card className="border-destructive/30 bg-destructive/5 rounded-[var(--radius)] border">
         <CardContent className="p-8">
           <p className="text-foreground text-base">

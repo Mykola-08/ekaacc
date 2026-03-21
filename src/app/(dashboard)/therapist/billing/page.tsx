@@ -50,7 +50,10 @@ function BillingSkeleton() {
     <Card className="p-4">
       <div className="">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="flex items-center justify-between rounded-[var(--radius)] border p-4">
+          <div
+            key={i}
+            className="flex items-center justify-between rounded-[var(--radius)] border p-4"
+          >
             <div className="flex-1">
               <Skeleton className="h-4 w-1/4" />
               <Skeleton className="h-3 w-1/2" />
@@ -197,11 +200,19 @@ export default function TherapistBillingPage() {
   const createInvoice = async () => {
     const amount = parseFloat(newAmount);
     if (!newAmount || isNaN(amount) || amount <= 0) {
-      toast({ variant: 'destructive', title: 'Invalid amount', description: 'Enter a valid amount greater than 0.' });
+      toast({
+        variant: 'destructive',
+        title: 'Invalid amount',
+        description: 'Enter a valid amount greater than 0.',
+      });
       return;
     }
     if (!newDescription.trim()) {
-      toast({ variant: 'destructive', title: 'Missing description', description: 'Add a description for this invoice.' });
+      toast({
+        variant: 'destructive',
+        title: 'Missing description',
+        description: 'Add a description for this invoice.',
+      });
       return;
     }
 
@@ -382,7 +393,11 @@ export default function TherapistBillingPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateDialogOpen(false)} disabled={creating}>
+            <Button
+              variant="outline"
+              onClick={() => setCreateDialogOpen(false)}
+              disabled={creating}
+            >
               Cancel
             </Button>
             <Button onClick={createInvoice} disabled={creating}>
@@ -393,7 +408,12 @@ export default function TherapistBillingPage() {
       </Dialog>
 
       {/* View Invoice Dialog */}
-      <Dialog open={!!viewInvoice} onOpenChange={(open) => { if (!open) setViewInvoice(null); }}>
+      <Dialog
+        open={!!viewInvoice}
+        onOpenChange={(open) => {
+          if (!open) setViewInvoice(null);
+        }}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Invoice Details</DialogTitle>
@@ -425,7 +445,9 @@ export default function TherapistBillingPage() {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setViewInvoice(null)}>Close</Button>
+            <Button variant="outline" onClick={() => setViewInvoice(null)}>
+              Close
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -103,11 +103,11 @@ export default async function DashboardPage() {
   const today = new Date().toISOString().split('T')[0];
   const now = new Date().toISOString();
 
-  const canViewAllPatients = can(permissions, 'patient_data', 'view_all');
-  const canManageAppointments = can(permissions, 'appointment_management', 'manage');
-  const canManageSystem = can(permissions, 'system_settings', 'manage');
-  const canManageUsers = can(permissions, 'user_management', 'manage');
-  const canUseTherapistTools = can(permissions, 'therapist_tools', 'create');
+  const canViewAllPatients = can(permissions as any, 'patient_data', 'view_all');
+  const canManageAppointments = can(permissions as any, 'appointment_management', 'manage');
+  const canManageSystem = can(permissions as any, 'system_settings', 'manage');
+  const canManageUsers = can(permissions as any, 'user_management', 'manage');
+  const canUseTherapistTools = can(permissions as any, 'therapist_tools', 'create');
 
   const queries: Record<string, PromiseLike<any>> = {};
 
@@ -181,7 +181,10 @@ export default async function DashboardPage() {
     .order('logged_at', { ascending: false })
     .limit(1)
     .single()
-    .then((r) => r.data?.score ?? null, () => null);
+    .then(
+      (r) => r.data?.score ?? null,
+      () => null
+    );
 
   if (canManageUsers) {
     queries.totalUsers = supabase
@@ -221,17 +224,19 @@ export default async function DashboardPage() {
   const values = await Promise.all(Object.values(queries));
   const data: Record<string, any> = {};
   keys.forEach((k, i) => (data[k] = values[i]));
-  const streakDays = getConsecutiveDays((data.activityForStreak ?? []).map((entry: any) => entry.created_at));
+  const streakDays = getConsecutiveDays(
+    (data.activityForStreak ?? []).map((entry: any) => entry.created_at)
+  );
 
   return (
     <div className="flex flex-col gap-6">
       {/* ── Welcome Banner ────────────────────────────────────────── */}
-      <div className="flex items-center justify-between gap-4 rounded-[var(--radius)] border border-border/40 bg-muted/30 px-4 py-3.5 md:px-5 md:py-4">
+      <div className="border-border/40 bg-muted/30 flex items-center justify-between gap-8 rounded-2xl border px-4 py-3.5 md:px-5 md:py-4">
         <div>
-          <h1 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+          <h1 className="text-foreground text-lg font-semibold tracking-tight sm:text-xl">
             {getGreeting()}, {firstName} {getMoodEmoji()}
           </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-0.5 text-sm">
             {new Date().toLocaleDateString('en-US', {
               weekday: 'long',
               month: 'long',
@@ -239,13 +244,13 @@ export default async function DashboardPage() {
             })}
           </p>
           {!canManageUsers && !canUseTherapistTools && streakDays > 0 && (
-            <p className="mt-1 flex items-center gap-1 text-xs font-medium text-primary">
+            <p className="text-primary mt-1 flex items-center gap-1 text-xs font-medium">
               <span>🔥</span> {streakDays}-day streak
             </p>
           )}
         </div>
         <Link href="/book" className="shrink-0">
-          <Button size="sm" className="rounded-[calc(var(--radius)*0.8)] gap-1.5">
+          <Button size="sm" className="gap-1.5 rounded-full">
             <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
             <span className="hidden sm:inline">Book Session</span>
             <span className="sm:hidden">Book</span>
@@ -262,11 +267,11 @@ export default async function DashboardPage() {
 
       {/* ── AI Widgets (patient/client only) ────────────────────── */}
       {!canManageUsers && !canUseTherapistTools && (
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <AIDailySummary />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-8">
             <AIQuickActions />
           </div>
         </div>
@@ -290,23 +295,55 @@ export default async function DashboardPage() {
       {/* ── Platform Stats (admin/manager only) ─────────────────── */}
       {canManageUsers && (
         <div className="grid grid-cols-2 gap-3 @xl/main:grid-cols-4">
-          <DashStatsCard label="Total Users" value={data.totalUsers} icon={UserGroupIcon} delay={0} />
-          <DashStatsCard label="All Bookings" value={data.totalBookings} icon={Calendar03Icon} delay={50} />
-          <DashStatsCard label="Today's Sessions" value={data.todayBookings} icon={ChartUpIcon} accent delay={100} />
-          <DashStatsCard label="Active Plans" value={data.activeSubs} icon={Target01Icon} delay={150} />
+          <DashStatsCard
+            label="Total Users"
+            value={data.totalUsers}
+            icon={UserGroupIcon}
+            delay={0}
+          />
+          <DashStatsCard
+            label="All Bookings"
+            value={data.totalBookings}
+            icon={Calendar03Icon}
+            delay={50}
+          />
+          <DashStatsCard
+            label="Today's Sessions"
+            value={data.todayBookings}
+            icon={ChartUpIcon}
+            accent
+            delay={100}
+          />
+          <DashStatsCard
+            label="Active Plans"
+            value={data.activeSubs}
+            icon={Target01Icon}
+            delay={150}
+          />
         </div>
       )}
 
       {/* ── Therapist quick stats ────────────────────────────────── */}
       {canUseTherapistTools && !canManageUsers && (
         <div className="grid grid-cols-2 gap-3">
-          <DashStatsCard label="Today's Sessions" value={data.todayClients} icon={Calendar03Icon} accent delay={0} />
-          <DashStatsCard label="Upcoming" value={data.nextBooking?.length || 0} icon={Clock01Icon} delay={50} />
+          <DashStatsCard
+            label="Today's Sessions"
+            value={data.todayClients}
+            icon={Calendar03Icon}
+            accent
+            delay={0}
+          />
+          <DashStatsCard
+            label="Upcoming"
+            value={data.nextBooking?.length || 0}
+            icon={Clock01Icon}
+            delay={50}
+          />
         </div>
       )}
 
       {/* ── Main content row ─────────────────────────────────────── */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {/* Upcoming Appointments */}
         <Card className="md:col-span-2 lg:col-span-2">
           <CardHeader>
@@ -331,15 +368,15 @@ export default async function DashboardPage() {
                   return (
                     <div
                       key={b.id}
-                      className="group flex items-center gap-3 rounded-[var(--radius)] border border-border/50 bg-card p-3 transition-all duration-150 hover:border-primary/20 hover:bg-muted/40 hover:shadow-sm"
+                      className="group border-border/50 bg-card hover:border-primary/20 hover:bg-muted/40 flex items-center gap-3 rounded-2xl border p-3 transition-all duration-150 hover:shadow-sm"
                     >
                       {/* Color accent bar */}
-                      <div className="h-9 w-1 shrink-0 rounded-full bg-primary transition-transform duration-150 group-hover:scale-y-110" />
+                      <div className="bg-primary h-9 w-1 shrink-0 rounded-full transition-transform duration-150 group-hover:scale-y-110" />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold text-foreground">
+                        <p className="text-foreground truncate text-sm font-semibold">
                           {otherPerson || 'Appointment'}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {startDate.toLocaleDateString(undefined, {
                             weekday: 'short',
                             month: 'short',
@@ -360,7 +397,7 @@ export default async function DashboardPage() {
                               ? 'secondary'
                               : 'outline'
                         }
-                        className="shrink-0 capitalize text-xs"
+                        className="shrink-0 text-xs capitalize"
                       >
                         {b.status}
                       </Badge>
@@ -370,15 +407,17 @@ export default async function DashboardPage() {
               </div>
             ) : (
               <div className="flex flex-col items-center gap-3 py-8 text-center">
-                <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius)] bg-muted/70">
-                  <HugeiconsIcon icon={Calendar03Icon} className="size-5 text-muted-foreground" />
+                <div className="bg-muted/70 flex h-11 w-11 items-center justify-center rounded-2xl">
+                  <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground size-5" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-foreground">No upcoming appointments</p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">Book a session to get started</p>
+                  <p className="text-foreground text-sm font-medium">No upcoming appointments</p>
+                  <p className="text-muted-foreground mt-0.5 text-xs">
+                    Book a session to get started
+                  </p>
                 </div>
                 <Link href="/book">
-                  <Button size="sm" className="mt-0.5 rounded-[calc(var(--radius)*0.8)]">
+                  <Button size="sm" className="mt-0.5 rounded-full">
                     Book a Session
                   </Button>
                 </Link>
@@ -388,14 +427,16 @@ export default async function DashboardPage() {
         </Card>
 
         {/* Right column */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
           {/* Quick Actions */}
           <ContextMenu>
             <ContextMenuTrigger asChild>
               <Card>
                 <CardHeader>
                   <CardTitle className="text-sm font-semibold">Quick Actions</CardTitle>
-                  <CardDescription className="text-xs">Right-click for AI assist options</CardDescription>
+                  <CardDescription className="text-xs">
+                    Right-click for AI assist options
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-1">
                   <QuickAction href="/book" icon={Calendar03Icon} label="Book Session" />
@@ -404,13 +445,21 @@ export default async function DashboardPage() {
                   <QuickAction href="/wellness" icon={HeartCheckIcon} label="Wellness" />
                   {canUseTherapistTools && (
                     <>
-                      <QuickAction href="/therapist/clients" icon={UserGroupIcon} label="Client Directory" />
+                      <QuickAction
+                        href="/therapist/clients"
+                        icon={UserGroupIcon}
+                        label="Client Directory"
+                      />
                       <QuickAction href="/availability" icon={Clock01Icon} label="Availability" />
                     </>
                   )}
                   {canManageUsers && (
                     <>
-                      <QuickAction href="/console/users" icon={UserGroupIcon} label="Manage Users" />
+                      <QuickAction
+                        href="/console/users"
+                        icon={UserGroupIcon}
+                        label="Manage Users"
+                      />
                       <QuickAction href="/console/analytics" icon={ChartUpIcon} label="Analytics" />
                     </>
                   )}
@@ -420,13 +469,19 @@ export default async function DashboardPage() {
             <ContextMenuContent className="w-56">
               <ContextMenuLabel>AI Context Menu</ContextMenuLabel>
               <ContextMenuItem asChild inset>
-                <Link href="/chat?prompt=Summarize%20my%20wellness%20signals%20for%20today">Summarize my day</Link>
+                <Link href="/chat?prompt=Summarize%20my%20wellness%20signals%20for%20today">
+                  Summarize my day
+                </Link>
               </ContextMenuItem>
               <ContextMenuItem asChild inset>
-                <Link href="/chat?prompt=Give%20me%203%20personalized%20actions%20for%20today">Suggest 3 personalized actions</Link>
+                <Link href="/chat?prompt=Give%20me%203%20personalized%20actions%20for%20today">
+                  Suggest 3 personalized actions
+                </Link>
               </ContextMenuItem>
               <ContextMenuItem asChild inset>
-                <Link href="/chat?prompt=Analyze%20my%20recent%20mood%20and%20journal%20trends">Analyze mood & journal trends</Link>
+                <Link href="/chat?prompt=Analyze%20my%20recent%20mood%20and%20journal%20trends">
+                  Analyze mood & journal trends
+                </Link>
               </ContextMenuItem>
             </ContextMenuContent>
           </ContextMenu>
@@ -448,7 +503,7 @@ export default async function DashboardPage() {
               {!data.plan && (
                 <CardFooter>
                   <Link href="/settings?section=billing" className="w-full">
-                    <Button variant="outline" size="sm" className="w-full rounded-[calc(var(--radius)*0.8)] text-xs">
+                    <Button variant="outline" size="sm" className="w-full rounded-full text-xs">
                       Upgrade Plan
                     </Button>
                   </Link>
@@ -464,7 +519,7 @@ export default async function DashboardPage() {
                 <CardDescription>Balance</CardDescription>
                 <CardTitle className="text-xl font-semibold tabular-nums">
                   {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
-                  <span className="text-sm font-normal text-muted-foreground">
+                  <span className="text-muted-foreground text-sm font-normal">
                     {data.wallet.currency}
                   </span>
                 </CardTitle>
@@ -477,7 +532,7 @@ export default async function DashboardPage() {
               </CardHeader>
               <CardFooter>
                 <Link href="/wallet" className="w-full">
-                  <Button variant="outline" size="sm" className="w-full rounded-[calc(var(--radius)*0.8)] text-xs">
+                  <Button variant="outline" size="sm" className="w-full rounded-full text-xs">
                     View Wallet
                   </Button>
                 </Link>
@@ -507,12 +562,14 @@ export default async function DashboardPage() {
                 {data.goals.map((goal: any, i: number) => (
                   <div
                     key={goal.id}
-                    className="animate-in fade-in zoom-in-95 rounded-[var(--radius)] border border-border/50 p-3.5 transition-all duration-150 hover:border-border hover:shadow-sm"
+                    className="animate-in fade-in zoom-in-95 border-border/50 hover:border-border rounded-2xl border p-3.5 transition-all duration-150 hover:shadow-sm"
                     style={{ animationDelay: `${i * 40}ms` }}
                   >
                     <div className="mb-2.5 flex items-center justify-between">
-                      <span className="truncate text-sm font-medium text-foreground">{goal.title}</span>
-                      <span className="ml-2 shrink-0 text-xs font-semibold text-primary">
+                      <span className="text-foreground truncate text-sm font-medium">
+                        {goal.title}
+                      </span>
+                      <span className="text-primary ml-2 shrink-0 text-xs font-semibold">
                         {goal.progress_percentage ?? 0}%
                       </span>
                     </div>
@@ -527,12 +584,12 @@ export default async function DashboardPage() {
 
       {/* ── Journal & Assignments ────────────────────────────────── */}
       {(data.journalEntries?.length > 0 || data.assignments?.length > 0) && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {data.journalEntries?.length > 0 && (
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <HugeiconsIcon icon={BookOpen01Icon} className="size-4 text-muted-foreground" />
+                  <HugeiconsIcon icon={BookOpen01Icon} className="text-muted-foreground size-4" />
                   <CardTitle className="text-sm font-semibold">Recent Journal</CardTitle>
                 </div>
                 <CardAction>
@@ -549,13 +606,13 @@ export default async function DashboardPage() {
                   {data.journalEntries.map((entry: any) => (
                     <div
                       key={entry.id}
-                      className="flex items-center justify-between rounded-[var(--radius)] border border-border/50 p-3 transition-all duration-150 hover:border-border hover:bg-muted/30 hover:shadow-sm"
+                      className="border-border/50 hover:border-border hover:bg-muted/30 flex items-center justify-between rounded-2xl border p-3 transition-all duration-150 hover:shadow-sm"
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-foreground">
+                        <p className="text-foreground truncate text-sm font-medium">
                           {entry.title || 'Untitled'}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {new Date(entry.created_at).toLocaleDateString(undefined, {
                             month: 'short',
                             day: 'numeric',
@@ -578,7 +635,7 @@ export default async function DashboardPage() {
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <HugeiconsIcon icon={CheckListIcon} className="size-4 text-muted-foreground" />
+                  <HugeiconsIcon icon={CheckListIcon} className="text-muted-foreground size-4" />
                   <CardTitle className="text-sm font-semibold">Assignments</CardTitle>
                 </div>
                 <CardAction>
@@ -595,12 +652,12 @@ export default async function DashboardPage() {
                   {data.assignments.map((a: any) => (
                     <div
                       key={a.id}
-                      className="flex items-center justify-between rounded-[var(--radius)] border border-border/50 p-3 transition-all duration-150 hover:border-border hover:bg-muted/30 hover:shadow-sm"
+                      className="border-border/50 hover:border-border hover:bg-muted/30 flex items-center justify-between rounded-2xl border p-3 transition-all duration-150 hover:shadow-sm"
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-foreground">{a.title}</p>
+                        <p className="text-foreground truncate text-sm font-medium">{a.title}</p>
                         {a.due_date && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-muted-foreground text-xs">
                             Due{' '}
                             {new Date(a.due_date).toLocaleDateString(undefined, {
                               month: 'short',
@@ -655,9 +712,9 @@ export default async function DashboardPage() {
 
 function MoodTrendSkeleton() {
   return (
-    <div className="rounded-[var(--radius)] border border-border bg-card p-5 shadow-xs">
-      <div className="mb-3 h-4 w-24 animate-pulse rounded bg-muted" />
-      <div className="h-16 animate-pulse rounded-[calc(var(--radius)*0.8)] bg-muted" />
+    <div className="border-border bg-card rounded-2xl border p-5 shadow-xs">
+      <div className="bg-muted mb-3 h-4 w-24 animate-pulse rounded" />
+      <div className="bg-muted h-16 animate-pulse rounded-full" />
     </div>
   );
 }
@@ -678,21 +735,18 @@ function DashStatsCard({
   return (
     <Card
       className={cn(
-        'animate-in fade-in zoom-in-95 duration-300 transition-shadow hover:shadow-sm',
+        'animate-in fade-in zoom-in-95 transition-shadow duration-300 hover:shadow-sm',
         accent && 'border-primary/20'
       )}
       style={delay ? { animationDelay: `${delay}ms` } : undefined}
     >
       <CardHeader className="pb-2">
-        <CardDescription className="text-[11px] font-medium uppercase tracking-wider">{label}</CardDescription>
-        <CardTitle
-          className={cn(
-            'text-2xl font-semibold tabular-nums',
-            accent && 'text-primary'
-          )}
-        >
+        <CardDescription className="text-[11px] font-medium tracking-wider uppercase">
+          {label}
+        </CardDescription>
+        <CardTitle className={cn('text-2xl font-semibold tabular-nums', accent && 'text-primary')}>
           {value == null ? (
-            <div className="mt-1 h-8 w-16 animate-pulse rounded-[calc(var(--radius)*0.8)] bg-muted" />
+            <div className="bg-muted mt-1 h-8 w-16 animate-pulse rounded-full" />
           ) : (
             value
           )}
@@ -700,10 +754,8 @@ function DashStatsCard({
         <CardAction>
           <div
             className={cn(
-              'flex h-8 w-8 items-center justify-center rounded-[var(--radius)]',
-              accent
-                ? 'bg-primary/10 text-primary'
-                : 'bg-muted text-muted-foreground'
+              'flex h-8 w-8 items-center justify-center rounded-2xl',
+              accent ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
             )}
           >
             <HugeiconsIcon icon={icon} className="size-4" />
@@ -714,25 +766,17 @@ function DashStatsCard({
   );
 }
 
-function QuickAction({
-  href,
-  icon,
-  label,
-}: {
-  href: string;
-  icon: any;
-  label: string;
-}) {
+function QuickAction({ href, icon, label }: { href: string; icon: any; label: string }) {
   return (
     <Link href={href}>
       <Button
         variant="ghost"
         size="sm"
-        className="group/qa h-9 w-full justify-start gap-2.5 rounded-[calc(var(--radius)*0.8)] px-3 text-xs font-medium transition-all duration-150 hover:bg-muted/60"
+        className="group/qa hover:bg-muted/60 h-9 w-full justify-start gap-2.5 rounded-full px-3 text-xs font-medium transition-all duration-150"
       >
         <HugeiconsIcon
           icon={icon}
-          className="size-4 text-muted-foreground transition-colors duration-150 group-hover/qa:text-primary"
+          className="text-muted-foreground group-hover/qa:text-primary size-4 transition-colors duration-150"
         />
         {label}
       </Button>
@@ -753,9 +797,9 @@ function AdminQuickLink({
 }) {
   return (
     <Link href={href}>
-      <Card className="group h-full cursor-pointer transition-all duration-150 hover:bg-muted/30 hover:shadow-sm">
+      <Card className="group hover:bg-muted/30 h-full cursor-pointer transition-all duration-150 hover:shadow-sm">
         <CardHeader>
-          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-[var(--radius)] bg-primary/10 text-primary transition-all duration-150 group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground">
+          <div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground mb-2 flex h-9 w-9 items-center justify-center rounded-2xl transition-all duration-150 group-hover:scale-105">
             <HugeiconsIcon icon={icon} className="size-4" />
           </div>
           <CardTitle className="text-sm font-semibold">{title}</CardTitle>

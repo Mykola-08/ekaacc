@@ -9,7 +9,7 @@ export default function SessionsLoading() {
       </div>
       <div className="grid grid-cols-3 gap-3">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="rounded-[var(--radius)] border border-border/60 p-3">
+          <div key={i} className="border-border/60 rounded-[var(--radius)] border p-3">
             <Skeleton className="h-3 w-24" />
             <Skeleton className="mt-2 h-7 w-12" />
           </div>
@@ -17,7 +17,10 @@ export default function SessionsLoading() {
       </div>
       <div className="space-y-2">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="flex items-center gap-3 rounded-[var(--radius)] border border-border/60 p-3">
+          <div
+            key={i}
+            className="border-border/60 flex items-center gap-3 rounded-[var(--radius)] border p-3"
+          >
             <Skeleton className="h-9 w-9 shrink-0 rounded-[calc(var(--radius)*0.8)]" />
             <div className="flex-1 space-y-1.5">
               <Skeleton className="h-4 w-36" />

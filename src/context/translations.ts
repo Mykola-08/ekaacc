@@ -61,7 +61,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'nav.payments': 'Pagaments',
     'nav.telegram': 'Telegram',
     'nav.featureFlags': 'Indicadors de Funció',
-    'nav.auditLog': 'Registre d\'Auditoria',
+    'nav.auditLog': "Registre d'Auditoria",
     'nav.platformSettings': 'Configuració de Plataforma',
     'nav.permissions': 'Permisos',
     'nav.content': 'Contingut',

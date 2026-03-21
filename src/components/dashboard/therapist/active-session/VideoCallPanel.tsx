@@ -97,7 +97,7 @@ export function VideoCallPanel({ roomUrl }: VideoCallPanelProps) {
         {!hasJoined && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/80">
             <Button onClick={joinCall} size="lg" className="gap-2">
-              <HugeiconsIcon icon={Video01Icon} className="size-5"  />
+              <HugeiconsIcon icon={Video01Icon} className="size-5" />
               Join Patient Video Call
             </Button>
           </div>

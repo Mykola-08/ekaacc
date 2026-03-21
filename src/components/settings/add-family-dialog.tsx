@@ -25,7 +25,12 @@ import { useMorphingFeedback } from '@/hooks/useMorphingFeedback';
 import { InlineFeedback } from '@/components/ui/inline-feedback';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { PlusSignCircleIcon, UserAdd01Icon, Calendar03Icon, UserIcon } from '@hugeicons/core-free-icons';
+import {
+  PlusSignCircleIcon,
+  UserAdd01Icon,
+  Calendar03Icon,
+  UserIcon,
+} from '@hugeicons/core-free-icons';
 
 export function AddFamilyDialog() {
   const [open, setOpen] = useState(false);
@@ -58,7 +63,7 @@ export function AddFamilyDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-[calc(var(--radius)*0.8)] px-5 py-6 transition-all">
-          <HugeiconsIcon icon={UserAdd01Icon} className="mr-2 size-4"  />
+          <HugeiconsIcon icon={UserAdd01Icon} className="mr-2 size-4" />
           Add Member
         </Button>
       </DialogTrigger>
@@ -81,7 +86,10 @@ export function AddFamilyDialog() {
                 Full Name
               </Label>
               <div className="relative">
-                <HugeiconsIcon icon={UserIcon} className="text-muted-foreground/80 absolute top-1/2 left-3 size-4 -translate-y-1/2"  />
+                <HugeiconsIcon
+                  icon={UserIcon}
+                  className="text-muted-foreground/80 absolute top-1/2 left-3 size-4 -translate-y-1/2"
+                />
                 <Input
                   id="full_name"
                   name="full_name"
@@ -97,7 +105,10 @@ export function AddFamilyDialog() {
                 Date of Birth
               </Label>
               <div className="relative">
-                <HugeiconsIcon icon={Calendar03Icon} className="text-muted-foreground/80 absolute top-1/2 left-3 size-4 -translate-y-1/2"  />
+                <HugeiconsIcon
+                  icon={Calendar03Icon}
+                  className="text-muted-foreground/80 absolute top-1/2 left-3 size-4 -translate-y-1/2"
+                />
                 <Input
                   id="dob"
                   name="dob"

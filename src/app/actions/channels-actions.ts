@@ -5,7 +5,9 @@ import { revalidatePath } from 'next/cache';
 
 export async function getMyChannels() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: [], error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -20,7 +22,9 @@ export async function getMyChannels() {
 
 export async function getPublicChannels() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: [], error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -36,7 +40,9 @@ export async function getPublicChannels() {
 
 export async function getChannelMessages(channelId: string, limit = 50) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: [], error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -51,7 +57,9 @@ export async function getChannelMessages(channelId: string, limit = 50) {
 
 export async function sendChannelMessage(channelId: string, content: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -78,7 +86,9 @@ export async function createChannel(input: {
   type?: 'group' | 'announcement';
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { data: channel, error } = await supabase
@@ -100,7 +110,9 @@ export async function createChannel(input: {
 
 export async function joinChannel(channelId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase
@@ -114,7 +126,9 @@ export async function joinChannel(channelId: string) {
 
 export async function editChannelMessage(messageId: string, content: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase
@@ -129,7 +143,9 @@ export async function editChannelMessage(messageId: string, content: string) {
 
 export async function deleteChannelMessage(messageId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase

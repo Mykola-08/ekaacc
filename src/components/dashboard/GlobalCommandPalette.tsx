@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 import { Dialog as RadixDialog } from 'radix-ui';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -45,30 +46,162 @@ type CommandEntry = {
 };
 
 const COMMANDS: CommandEntry[] = [
-  { label: 'Home', description: 'Dashboard overview', href: '/dashboard', section: 'Core', icon: Layout01Icon },
-  { label: 'Messages', description: 'Chat & conversations', href: '/messages', section: 'Core', icon: Message01Icon },
-  { label: 'Bookings', description: 'Sessions & appointments', href: '/bookings', section: 'Core', icon: Calendar03Icon },
-  { label: 'Wallet', description: 'Balance & transactions', href: '/finances', section: 'Core', icon: Wallet01Icon },
-  { label: 'Notifications', description: 'Alerts & updates', href: '/notifications', section: 'Core', icon: Notification03Icon },
-  { label: 'Settings', description: 'Account preferences', href: '/settings', section: 'Core', shortcut: '⇧S', icon: Settings01Icon },
+  {
+    label: 'Home',
+    description: 'Dashboard overview',
+    href: '/dashboard',
+    section: 'Core',
+    icon: Layout01Icon,
+  },
+  {
+    label: 'Messages',
+    description: 'Chat & conversations',
+    href: '/messages',
+    section: 'Core',
+    icon: Message01Icon,
+  },
+  {
+    label: 'Bookings',
+    description: 'Sessions & appointments',
+    href: '/bookings',
+    section: 'Core',
+    icon: Calendar03Icon,
+  },
+  {
+    label: 'Wallet',
+    description: 'Balance & transactions',
+    href: '/finances',
+    section: 'Core',
+    icon: Wallet01Icon,
+  },
+  {
+    label: 'Notifications',
+    description: 'Alerts & updates',
+    href: '/notifications',
+    section: 'Core',
+    icon: Notification03Icon,
+  },
+  {
+    label: 'Settings',
+    description: 'Account preferences',
+    href: '/settings',
+    section: 'Core',
+    shortcut: '⇧S',
+    icon: Settings01Icon,
+  },
 
-  { label: 'Journal', description: 'Write & reflect', href: '/journal', section: 'Care', icon: Edit02Icon, keywords: 'write diary' },
-  { label: 'Wellness', description: 'Goals & progress', href: '/wellness', section: 'Care', icon: HeartCheckIcon, keywords: 'health goals' },
-  { label: 'AI Insights', description: 'Personalized AI analysis', href: '/ai-insights', section: 'Care', icon: SparklesIcon, keywords: 'artificial intelligence' },
-  { label: 'Resources', description: 'Articles & guides', href: '/resources', section: 'Care', icon: BookOpen01Icon },
-  { label: 'Assignments', description: 'Homework & tasks', href: '/assignments', section: 'Care', icon: CheckListIcon },
-  { label: 'Goals', description: 'Track active goals', href: '/wellness', section: 'Care', icon: Target01Icon },
-  { label: 'Mood Tracker', description: 'Log & view mood trends', href: '/wellness', section: 'Care', icon: Pulse01Icon, keywords: 'mood feelings' },
-  { label: 'Book Session', description: 'Schedule a new appointment', href: '/book', section: 'Care', icon: Calendar03Icon, keywords: 'book appointment schedule' },
+  {
+    label: 'Journal',
+    description: 'Write & reflect',
+    href: '/journal',
+    section: 'Care',
+    icon: Edit02Icon,
+    keywords: 'write diary',
+  },
+  {
+    label: 'Wellness',
+    description: 'Goals & progress',
+    href: '/wellness',
+    section: 'Care',
+    icon: HeartCheckIcon,
+    keywords: 'health goals',
+  },
+  {
+    label: 'AI Insights',
+    description: 'Personalized AI analysis',
+    href: '/ai-insights',
+    section: 'Care',
+    icon: SparklesIcon,
+    keywords: 'artificial intelligence',
+  },
+  {
+    label: 'Resources',
+    description: 'Articles & guides',
+    href: '/resources',
+    section: 'Care',
+    icon: BookOpen01Icon,
+  },
+  {
+    label: 'Assignments',
+    description: 'Homework & tasks',
+    href: '/assignments',
+    section: 'Care',
+    icon: CheckListIcon,
+  },
+  {
+    label: 'Goals',
+    description: 'Track active goals',
+    href: '/wellness',
+    section: 'Care',
+    icon: Target01Icon,
+  },
+  {
+    label: 'Mood Tracker',
+    description: 'Log & view mood trends',
+    href: '/wellness',
+    section: 'Care',
+    icon: Pulse01Icon,
+    keywords: 'mood feelings',
+  },
+  {
+    label: 'Book Session',
+    description: 'Schedule a new appointment',
+    href: '/book',
+    section: 'Care',
+    icon: Calendar03Icon,
+    keywords: 'book appointment schedule',
+  },
 
-  { label: 'Client Directory', description: 'Manage your clients', href: '/therapist/clients', section: 'Therapist', icon: UserGroupIcon },
-  { label: 'Session Notes', description: 'Record session details', href: '/therapist/session-notes', section: 'Therapist', icon: DocumentValidationIcon },
-  { label: 'Availability', description: 'Set working hours', href: '/availability', section: 'Therapist', icon: Clock01Icon },
+  {
+    label: 'Client Directory',
+    description: 'Manage your clients',
+    href: '/therapist/clients',
+    section: 'Therapist',
+    icon: UserGroupIcon,
+  },
+  {
+    label: 'Session Notes',
+    description: 'Record session details',
+    href: '/therapist/session-notes',
+    section: 'Therapist',
+    icon: DocumentValidationIcon,
+  },
+  {
+    label: 'Availability',
+    description: 'Set working hours',
+    href: '/availability',
+    section: 'Therapist',
+    icon: Clock01Icon,
+  },
 
-  { label: 'Users Console', description: 'Manage platform users', href: '/console/users', section: 'Admin', icon: UserGroupIcon },
-  { label: 'Analytics', description: 'Platform performance', href: '/console/analytics', section: 'Admin', icon: ChartBarLineIcon },
-  { label: 'Feature Flags', description: 'Toggle features', href: '/console/features', section: 'Admin', icon: Shield01Icon },
-  { label: 'Audit Log', description: 'System event history', href: '/console/audit', section: 'Admin', icon: CheckListIcon },
+  {
+    label: 'Users Console',
+    description: 'Manage platform users',
+    href: '/console/users',
+    section: 'Admin',
+    icon: UserGroupIcon,
+  },
+  {
+    label: 'Analytics',
+    description: 'Platform performance',
+    href: '/console/analytics',
+    section: 'Admin',
+    icon: ChartBarLineIcon,
+  },
+  {
+    label: 'Feature Flags',
+    description: 'Toggle features',
+    href: '/console/features',
+    section: 'Admin',
+    icon: Shield01Icon,
+  },
+  {
+    label: 'Audit Log',
+    description: 'System event history',
+    href: '/console/audit',
+    section: 'Admin',
+    icon: CheckListIcon,
+  },
 ];
 
 const SECTION_ORDER: Section[] = ['Core', 'Care', 'Therapist', 'Admin'];
@@ -100,7 +233,9 @@ function Highlight({ text, query }: { text: string; query: string }) {
   return (
     <>
       {text.slice(0, idx)}
-      <mark className="bg-primary/20 text-primary rounded-[2px]">{text.slice(idx, idx + query.length)}</mark>
+      <mark className="bg-primary/20 text-primary rounded-[2px]">
+        {text.slice(idx, idx + query.length)}
+      </mark>
       {text.slice(idx + query.length)}
     </>
   );
@@ -110,11 +245,11 @@ function Highlight({ text, query }: { text: string; query: string }) {
 
 function ThinkingDots() {
   return (
-    <span className="inline-flex items-center gap-0.5 ml-1">
+    <span className="ml-1 inline-flex items-center gap-0.5">
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="size-1 rounded-full bg-primary animate-pulse"
+          className="bg-primary size-1 animate-pulse rounded-full"
           style={{ animationDelay: `${i * 150}ms` }}
         />
       ))}
@@ -135,31 +270,34 @@ export function GlobalCommandPalette() {
   const resultsRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const { messages, append, isLoading: aiLoading, setMessages } = useChat({
-    api: '/api/ai/chat',
+  const { messages, sendMessage, status, setMessages } = useChat({
+    transport: new DefaultChatTransport({ api: '/api/ai/command' }),
   });
 
   const aiResponse = useMemo(() => {
     const last = [...messages].reverse().find((m) => m.role === 'assistant');
-    return typeof last?.content === 'string' ? last.content : '';
+    return last?.parts?.[0]?.type === 'text' ? last.parts[0].text : '';
   }, [messages]);
 
   // ── Open / close ──────────────────────────────────────────────
 
-  const handleOpen = useCallback((value: boolean) => {
-    setOpen(value);
-    if (!value) {
-      setTimeout(() => {
-        setQuery('');
-        setMode('navigate');
-        setSelectedIndex(0);
-        setMessages([]);
-      }, 150);
-    } else {
-      setRecent(getRecent());
-      setTimeout(() => inputRef.current?.focus(), 50);
-    }
-  }, [setMessages]);
+  const handleOpen = useCallback(
+    (value: boolean) => {
+      setOpen(value);
+      if (!value) {
+        setTimeout(() => {
+          setQuery('');
+          setMode('navigate');
+          setSelectedIndex(0);
+          setMessages([]);
+        }, 150);
+      } else {
+        setRecent(getRecent());
+        setTimeout(() => inputRef.current?.focus(), 50);
+      }
+    },
+    [setMessages]
+  );
 
   // ── Global ⌘K listener ────────────────────────────────────────
 
@@ -182,8 +320,8 @@ export function GlobalCommandPalette() {
     const matched = COMMANDS.filter(
       (c) =>
         c.label.toLowerCase().includes(q) ||
-        (c.description?.toLowerCase().includes(q)) ||
-        (c.keywords?.toLowerCase().includes(q)) ||
+        c.description?.toLowerCase().includes(q) ||
+        c.keywords?.toLowerCase().includes(q) ||
         c.href.includes(q)
     );
     const bySection = new Map<Section, CommandEntry[]>();
@@ -222,7 +360,7 @@ export function GlobalCommandPalette() {
         const q = query.replace(/^\?/, '').trim();
         saveRecent(q);
         setRecent(getRecent());
-        append({ role: 'user', content: q });
+        sendMessage({ text: q });
       }
       if (e.key === 'Tab') {
         e.preventDefault();
@@ -294,7 +432,7 @@ export function GlobalCommandPalette() {
             }}
             className={cn(
               'w-full max-w-2xl overflow-hidden rounded-2xl',
-              'border border-border/40 bg-background/98 shadow-2xl',
+              'border-border/40 bg-background/98 border shadow-2xl',
               'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
               'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
               'duration-150 outline-none'
@@ -306,13 +444,13 @@ export function GlobalCommandPalette() {
             </RadixDialog.Description>
 
             {/* ── Search input ──────────────────────────────── */}
-            <div className="flex items-center gap-3 border-b border-border/40 px-4 py-0">
+            <div className="border-border/40 flex items-center gap-3 border-b px-4 py-0">
               {/* Mode icon */}
               <div className="shrink-0">
                 {mode === 'ai' ? (
-                  <HugeiconsIcon icon={SparklesIcon} className="size-5 text-primary" />
+                  <HugeiconsIcon icon={SparklesIcon} className="text-primary size-5" />
                 ) : (
-                  <HugeiconsIcon icon={SearchIcon} className="size-5 text-muted-foreground" />
+                  <HugeiconsIcon icon={SearchIcon} className="text-muted-foreground size-5" />
                 )}
               </div>
 
@@ -322,8 +460,12 @@ export function GlobalCommandPalette() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={mode === 'ai' ? 'Ask AI anything… (press Enter to send)' : 'Search pages, features… (? for AI)'}
-                className="h-14 flex-1 bg-transparent text-base text-foreground placeholder:text-muted-foreground/50 outline-none"
+                placeholder={
+                  mode === 'ai'
+                    ? 'Ask AI anything… (press Enter to send)'
+                    : 'Search pages, features… (? for AI)'
+                }
+                className="text-foreground placeholder:text-muted-foreground/50 h-14 flex-1 bg-transparent text-base outline-none"
                 aria-label="Search"
                 autoComplete="off"
                 spellCheck={false}
@@ -333,8 +475,12 @@ export function GlobalCommandPalette() {
               <div className="flex items-center gap-1.5">
                 {query ? (
                   <button
-                    onClick={() => { setQuery(''); setMode('navigate'); inputRef.current?.focus(); }}
-                    className="flex size-6 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground"
+                    onClick={() => {
+                      setQuery('');
+                      setMode('navigate');
+                      inputRef.current?.focus();
+                    }}
+                    className="bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground flex size-6 items-center justify-center rounded-full transition-colors"
                     aria-label="Clear"
                   >
                     <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" />
@@ -357,53 +503,57 @@ export function GlobalCommandPalette() {
             </div>
 
             {/* ── Body ─────────────────────────────────────── */}
-            <div className="max-h-[56vh] min-h-[120px] overflow-y-auto overscroll-contain" ref={resultsRef}>
-
+            <div
+              className="max-h-[56vh] min-h-[120px] overflow-y-auto overscroll-contain"
+              ref={resultsRef}
+            >
               {/* AI mode */}
               {mode === 'ai' && (
                 <div className="p-4">
-                  {!aiResponse && !aiLoading && !cleanQuery && (
-                    <div className="flex flex-col items-center gap-3 py-8 text-center">
-                      <div className="flex size-12 items-center justify-center rounded-[var(--radius)] bg-primary/10">
-                        <HugeiconsIcon icon={SparklesIcon} className="size-6 text-primary" />
+                  {!aiResponse &&
+                    !(status === 'submitted' || status === 'streaming') &&
+                    !cleanQuery && (
+                      <div className="flex flex-col items-center gap-3 py-8 text-center">
+                        <div className="bg-primary/10 flex size-12 items-center justify-center rounded-[var(--radius)]">
+                          <HugeiconsIcon icon={SparklesIcon} className="text-primary size-6" />
+                        </div>
+                        <div>
+                          <p className="text-foreground text-sm font-medium">Ask me anything</p>
+                          <p className="text-muted-foreground mt-0.5 text-xs">
+                            Try "What's my mood average?" or "Suggest a journaling topic"
+                          </p>
+                        </div>
+                        {/* Suggestion chips */}
+                        <div className="flex flex-wrap justify-center gap-2">
+                          {[
+                            'Summarize my week',
+                            'How is my mood trending?',
+                            'Suggest a journal topic',
+                            'What goals should I focus on?',
+                          ].map((suggestion) => (
+                            <button
+                              key={suggestion}
+                              onClick={() => {
+                                setQuery(suggestion);
+                                sendMessage({ text: suggestion });
+                                saveRecent(suggestion);
+                                setRecent(getRecent());
+                              }}
+                              className="border-border/60 bg-muted/50 text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-primary rounded-full border px-3 py-1.5 text-xs transition-all"
+                            >
+                              {suggestion}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Ask me anything</p>
-                        <p className="mt-0.5 text-xs text-muted-foreground">
-                          Try "What's my mood average?" or "Suggest a journaling topic"
-                        </p>
-                      </div>
-                      {/* Suggestion chips */}
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {[
-                          'Summarize my week',
-                          'How is my mood trending?',
-                          'Suggest a journal topic',
-                          'What goals should I focus on?',
-                        ].map((suggestion) => (
-                          <button
-                            key={suggestion}
-                            onClick={() => {
-                              setQuery(suggestion);
-                              append({ role: 'user', content: suggestion });
-                              saveRecent(suggestion);
-                              setRecent(getRecent());
-                            }}
-                            className="rounded-full border border-border/60 bg-muted/50 px-3 py-1.5 text-xs text-muted-foreground transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
-                          >
-                            {suggestion}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                  {(aiLoading || aiResponse) && (
+                  {(status === 'submitted' || status === 'streaming' || aiResponse) && (
                     <div className="space-y-3">
                       {/* User query display */}
                       {cleanQuery && (
                         <div className="flex justify-end">
-                          <div className="max-w-[80%] rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-primary-foreground">
+                          <div className="bg-primary text-primary-foreground max-w-[80%] rounded-2xl rounded-br-sm px-3.5 py-2 text-sm">
                             {cleanQuery}
                           </div>
                         </div>
@@ -411,20 +561,22 @@ export function GlobalCommandPalette() {
 
                       {/* AI response */}
                       <div className="flex items-start gap-2.5">
-                        <div className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                          <HugeiconsIcon icon={SparklesIcon} className="size-3.5 text-primary" />
+                        <div className="bg-primary/10 mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full">
+                          <HugeiconsIcon icon={SparklesIcon} className="text-primary size-3.5" />
                         </div>
                         <div className="flex-1">
-                          {aiLoading && !aiResponse ? (
+                          {(status === 'submitted' || status === 'streaming') && !aiResponse ? (
                             <div className="flex flex-col gap-2 pt-1">
-                              <div className="h-3 w-full animate-pulse rounded-full bg-muted" />
-                              <div className="h-3 w-4/5 animate-pulse rounded-full bg-muted" />
-                              <div className="h-3 w-3/5 animate-pulse rounded-full bg-muted" />
+                              <div className="bg-muted h-3 w-full animate-pulse rounded-full" />
+                              <div className="bg-muted h-3 w-4/5 animate-pulse rounded-full" />
+                              <div className="bg-muted h-3 w-3/5 animate-pulse rounded-full" />
                             </div>
                           ) : (
-                            <p className="text-sm leading-relaxed text-foreground/90 whitespace-pre-wrap">
+                            <p className="text-foreground/90 text-sm leading-relaxed whitespace-pre-wrap">
                               {aiResponse}
-                              {aiLoading && <ThinkingDots />}
+                              {(status === 'submitted' || status === 'streaming') && (
+                                <ThinkingDots />
+                              )}
                             </p>
                           )}
                         </div>
@@ -439,7 +591,7 @@ export function GlobalCommandPalette() {
                 <div className="p-3">
                   {recent.length > 0 ? (
                     <>
-                      <p className="px-2 pb-1.5 pt-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+                      <p className="text-muted-foreground/50 px-2 pt-1 pb-1.5 text-[10px] font-semibold tracking-wider uppercase">
                         Recent
                       </p>
                       {recent.map((r) => (
@@ -449,19 +601,25 @@ export function GlobalCommandPalette() {
                             setQuery(r);
                             inputRef.current?.focus();
                           }}
-                          className="flex w-full items-center gap-2.5 rounded-[calc(var(--radius)*0.8)] px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+                          className="text-muted-foreground hover:bg-muted/60 hover:text-foreground flex w-full items-center gap-2.5 rounded-[calc(var(--radius)*0.8)] px-3 py-2 text-sm transition-colors"
                         >
-                          <HugeiconsIcon icon={SearchIcon} className="size-3.5 shrink-0 opacity-50" />
+                          <HugeiconsIcon
+                            icon={SearchIcon}
+                            className="size-3.5 shrink-0 opacity-50"
+                          />
                           {r}
                         </button>
                       ))}
                     </>
                   ) : (
                     <div className="flex flex-col items-center gap-2 py-8 text-center">
-                      <HugeiconsIcon icon={SearchIcon} className="size-8 text-muted-foreground/20" />
-                      <p className="text-sm text-muted-foreground">Start typing to search</p>
-                      <p className="text-xs text-muted-foreground/50">
-                        Type <kbd className="rounded bg-muted px-1 font-mono">?</kbd> to ask AI
+                      <HugeiconsIcon
+                        icon={SearchIcon}
+                        className="text-muted-foreground/20 size-8"
+                      />
+                      <p className="text-muted-foreground text-sm">Start typing to search</p>
+                      <p className="text-muted-foreground/50 text-xs">
+                        Type <kbd className="bg-muted rounded px-1 font-mono">?</kbd> to ask AI
                       </p>
                     </div>
                   )}
@@ -473,14 +631,19 @@ export function GlobalCommandPalette() {
                 <>
                   {filteredBySection.length === 0 ? (
                     <div className="flex flex-col items-center gap-2.5 py-10 text-center">
-                      <HugeiconsIcon icon={SearchIcon} className="size-8 text-muted-foreground/20" />
-                      <p className="text-sm text-muted-foreground">No results for &ldquo;{query}&rdquo;</p>
+                      <HugeiconsIcon
+                        icon={SearchIcon}
+                        className="text-muted-foreground/20 size-8"
+                      />
+                      <p className="text-muted-foreground text-sm">
+                        No results for &ldquo;{query}&rdquo;
+                      </p>
                       <button
                         onClick={() => {
                           setMode('ai');
                           setQuery(`?${query}`);
                         }}
-                        className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs text-primary transition-colors hover:bg-primary/20"
+                        className="bg-primary/10 text-primary hover:bg-primary/20 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-colors"
                       >
                         <HugeiconsIcon icon={SparklesIcon} className="size-3" />
                         Ask AI instead
@@ -492,7 +655,7 @@ export function GlobalCommandPalette() {
                         let globalIndex = 0;
                         return filteredBySection.map(({ section, items }) => (
                           <div key={section}>
-                            <p className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+                            <p className="text-muted-foreground/50 px-3 py-1.5 text-[10px] font-semibold tracking-wider uppercase">
                               {section}
                             </p>
                             {items.map((item) => {
@@ -501,7 +664,9 @@ export function GlobalCommandPalette() {
                               return (
                                 <button
                                   key={item.href}
-                                  ref={(el) => { itemRefs.current[idx] = el; }}
+                                  ref={(el) => {
+                                    itemRefs.current[idx] = el;
+                                  }}
                                   onClick={() => navigateTo(item)}
                                   onMouseEnter={() => setSelectedIndex(idx)}
                                   className={cn(
@@ -509,29 +674,36 @@ export function GlobalCommandPalette() {
                                     isSelected ? 'bg-muted/70' : 'hover:bg-muted/40'
                                   )}
                                 >
-                                  <div className={cn(
-                                    'flex size-7 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.6)] transition-colors',
-                                    isSelected ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'
-                                  )}>
+                                  <div
+                                    className={cn(
+                                      'flex size-7 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.6)] transition-colors',
+                                      isSelected
+                                        ? 'bg-primary/15 text-primary'
+                                        : 'bg-muted text-muted-foreground'
+                                    )}
+                                  >
                                     <HugeiconsIcon icon={item.icon} className="size-3.5" />
                                   </div>
                                   <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-medium leading-tight text-foreground">
+                                    <p className="text-foreground text-sm leading-tight font-medium">
                                       <Highlight text={item.label} query={query} />
                                     </p>
                                     {item.description && (
-                                      <p className="text-xs text-muted-foreground leading-tight">
+                                      <p className="text-muted-foreground text-xs leading-tight">
                                         {item.description}
                                       </p>
                                     )}
                                   </div>
                                   {item.shortcut && (
-                                    <kbd className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+                                    <kbd className="bg-muted text-muted-foreground shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px]">
                                       {item.shortcut}
                                     </kbd>
                                   )}
                                   {isSelected && (
-                                    <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5 shrink-0 text-muted-foreground" />
+                                    <HugeiconsIcon
+                                      icon={ArrowRight01Icon}
+                                      className="text-muted-foreground size-3.5 shrink-0"
+                                    />
                                   )}
                                 </button>
                               );
@@ -546,33 +718,34 @@ export function GlobalCommandPalette() {
             </div>
 
             {/* ── Footer ───────────────────────────────────── */}
-            <div className="flex items-center justify-between border-t border-border/40 px-4 py-2">
-              <div className="flex items-center gap-3 text-[10px] text-muted-foreground/50">
+            <div className="border-border/40 flex items-center justify-between border-t px-4 py-2">
+              <div className="text-muted-foreground/50 flex items-center gap-3 text-[10px]">
                 {mode === 'navigate' ? (
                   <>
                     <span className="flex items-center gap-1">
-                      <kbd className="rounded bg-muted px-1 font-mono text-[10px]">↑↓</kbd> navigate
+                      <kbd className="bg-muted rounded px-1 font-mono text-[10px]">↑↓</kbd> navigate
                     </span>
                     <span className="flex items-center gap-1">
-                      <kbd className="rounded bg-muted px-1 font-mono text-[10px]">↵</kbd> open
+                      <kbd className="bg-muted rounded px-1 font-mono text-[10px]">↵</kbd> open
                     </span>
                     <span className="flex items-center gap-1">
-                      <kbd className="rounded bg-muted px-1 font-mono text-[10px]">Tab</kbd> ask AI
+                      <kbd className="bg-muted rounded px-1 font-mono text-[10px]">Tab</kbd> ask AI
                     </span>
                   </>
                 ) : (
                   <>
                     <span className="flex items-center gap-1">
-                      <kbd className="rounded bg-muted px-1 font-mono text-[10px]">↵</kbd> send
+                      <kbd className="bg-muted rounded px-1 font-mono text-[10px]">↵</kbd> send
                     </span>
                     <span className="flex items-center gap-1">
-                      <kbd className="rounded bg-muted px-1 font-mono text-[10px]">Tab</kbd> navigate
+                      <kbd className="bg-muted rounded px-1 font-mono text-[10px]">Tab</kbd>{' '}
+                      navigate
                     </span>
                   </>
                 )}
               </div>
-              <span className="flex items-center gap-1 text-[10px] text-muted-foreground/40">
-                <kbd className="rounded bg-muted px-1 font-mono text-[10px]">Esc</kbd> close
+              <span className="text-muted-foreground/40 flex items-center gap-1 text-[10px]">
+                <kbd className="bg-muted rounded px-1 font-mono text-[10px]">Esc</kbd> close
               </span>
             </div>
           </RadixDialog.Content>

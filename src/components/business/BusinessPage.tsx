@@ -6,7 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { AnalyticsUpIcon, ArrowRight01Icon, Building02Icon, CheckmarkCircle01Icon, UserIcon, UserMultipleIcon } from '@hugeicons/core-free-icons';
+import {
+  AnalyticsUpIcon,
+  ArrowRight01Icon,
+  Building02Icon,
+  CheckmarkCircle01Icon,
+  UserIcon,
+  UserMultipleIcon,
+} from '@hugeicons/core-free-icons';
 
 export function BusinessPage() {
   return (
@@ -26,7 +33,7 @@ export function BusinessPage() {
             variant="outline"
             className="border-primary-foreground/20 text-primary-foreground bg-primary-foreground/10 mb-8 px-3 py-1.5 tracking-wider uppercase"
           >
-            <HugeiconsIcon icon={Building02Icon} className="mr-2 size-3"  />
+            <HugeiconsIcon icon={Building02Icon} className="mr-2 size-3" />
             Corporate Solutions
           </Badge>
 
@@ -47,7 +54,7 @@ export function BusinessPage() {
                 className="bg-background text-foreground hover:bg-background/90 h-14 rounded-full px-8 text-lg"
               >
                 Contact Sales
-                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4"  />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4" />
               </Button>
             </Link>
             <Link href="/pricing">
@@ -88,7 +95,7 @@ export function BusinessPage() {
               className="border-border p-10 transition-transform duration-500 hover:-translate-y-2"
             >
               <div className="bg-primary/10 text-primary mb-6 flex h-16 w-16 items-center justify-center rounded-[calc(var(--radius)*0.8)]">
-              <HugeiconsIcon icon={feature.icon} className="h-8 w-8" />
+                <HugeiconsIcon icon={feature.icon} className="h-8 w-8" />
               </div>
               <h3 className="text-foreground mb-4 font-serif text-2xl">{feature.title}</h3>
               <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>

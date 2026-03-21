@@ -7,7 +7,14 @@ import { Button } from '@/components/ui/button';
 
 import { markNotificationRead, deleteNotification } from './actions';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { InformationCircleIcon, CheckmarkCircle01Icon, Alert01Icon, Clock01Icon, Tick02Icon, Delete01Icon } from '@hugeicons/core-free-icons';
+import {
+  InformationCircleIcon,
+  CheckmarkCircle01Icon,
+  Alert01Icon,
+  Clock01Icon,
+  Tick02Icon,
+  Delete01Icon,
+} from '@hugeicons/core-free-icons';
 
 interface Notification {
   id: string;
@@ -21,11 +28,11 @@ interface Notification {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  info: <HugeiconsIcon icon={InformationCircleIcon} className="size-6"  />,
-  success: <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6"  />,
-  warning: <HugeiconsIcon icon={Alert01Icon} className="size-6"  />,
-  error: <HugeiconsIcon icon={Alert01Icon} className="size-6"  />,
-  reminder: <HugeiconsIcon icon={Clock01Icon} className="size-6"  />,
+  info: <HugeiconsIcon icon={InformationCircleIcon} className="size-6" />,
+  success: <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-6" />,
+  warning: <HugeiconsIcon icon={Alert01Icon} className="size-6" />,
+  error: <HugeiconsIcon icon={Alert01Icon} className="size-6" />,
+  reminder: <HugeiconsIcon icon={Clock01Icon} className="size-6" />,
 };
 
 const styleMap: Record<string, string> = {
@@ -64,50 +71,56 @@ export function NotificationItem({ notification }: { notification: Notification 
     <div
       onClick={handleClick}
       className={cn(
-        'group border-border bg-card relative overflow-hidden rounded-[var(--radius)] border p-5 sm:p-6 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5',
+        'group border-border bg-card hover:shadow-card-hover relative overflow-hidden rounded-[var(--radius)] border p-5 transition-all duration-300 hover:-translate-y-0.5 sm:p-6',
         !notification.is_read ? 'border-primary/20 bg-primary/[0.02]' : 'shadow-sm',
         notification.link && 'cursor-pointer',
-        isPending && 'opacity-60 pointer-events-none'
+        isPending && 'pointer-events-none opacity-60'
       )}
     >
       <div className="flex gap-4 sm:gap-5">
         <div
           className={cn(
-            'flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-105',
+            'flex h-10 w-10 shrink-0 items-center justify-center rounded-full border shadow-sm transition-transform duration-300 group-hover:scale-105 sm:h-12 sm:w-12',
             styleMap[notification.type] || 'border-muted bg-muted text-muted-foreground'
           )}
         >
-          {iconMap[notification.type] || <HugeiconsIcon icon={InformationCircleIcon} className="size-5 sm:h-6 sm:w-6"  />}
+          {iconMap[notification.type] || (
+            <HugeiconsIcon icon={InformationCircleIcon} className="size-5 sm:h-6 sm:w-6" />
+          )}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 mb-1">
+          <div className="mb-1 flex flex-col justify-between gap-1 sm:flex-row sm:items-center sm:gap-3">
             <div className="flex items-center gap-2">
-              <h3 className="text-foreground text-base sm:text-lg font-semibold tracking-tight text-balance">
+              <h3 className="text-foreground text-base font-semibold tracking-tight text-balance sm:text-lg">
                 {notification.title}
               </h3>
-              {!notification.is_read && <span className="bg-primary h-2 w-2 rounded-full shadow-[0_0_8px_rgba(var(--primary),0.5)]" />}
+              {!notification.is_read && (
+                <span className="bg-primary h-2 w-2 rounded-full shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
+              )}
             </div>
             <span className="text-muted-foreground shrink-0 text-xs font-medium tabular-nums">
-              {new Date(notification.created_at).toLocaleDateString(undefined, { 
-                month: 'short', day: 'numeric', year: 'numeric' 
+              {new Date(notification.created_at).toLocaleDateString(undefined, {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
               })}
             </span>
           </div>
-          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-2xl text-pretty">
+          <p className="text-muted-foreground max-w-2xl text-sm leading-relaxed text-pretty sm:text-base">
             {notification.message}
           </p>
         </div>
-        <div className="flex shrink-0 flex-col sm:flex-row items-center sm:items-start gap-1 sm:opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <div className="flex shrink-0 flex-col items-center gap-1 transition-opacity duration-200 group-hover:opacity-100 sm:flex-row sm:items-start sm:opacity-0">
           {!notification.is_read && (
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-[calc(var(--radius)*0.8)]"
+              className="text-muted-foreground hover:text-primary hover:bg-primary/5 h-8 w-8 rounded-[calc(var(--radius)*0.8)]"
               onClick={handleMarkRead}
               disabled={isPending}
               title="Mark as read"
             >
-              <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
+              <HugeiconsIcon icon={Tick02Icon} className="size-4" />
             </Button>
           )}
           <Button
@@ -118,7 +131,7 @@ export function NotificationItem({ notification }: { notification: Notification 
             disabled={isPending}
             title="Delete notification"
           >
-            <HugeiconsIcon icon={Delete01Icon} className="size-4"  />
+            <HugeiconsIcon icon={Delete01Icon} className="size-4" />
           </Button>
         </div>
       </div>

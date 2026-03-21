@@ -77,7 +77,10 @@ export function AdminBookingTable() {
     <div className="">
       <div className="flex items-center gap-4">
         <div className="relative max-w-sm flex-1">
-          <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-2.5 left-2.5 size-4"  />
+          <HugeiconsIcon
+            icon={Search01Icon}
+            className="text-muted-foreground absolute top-2.5 left-2.5 size-4"
+          />
           <Input
             placeholder="Search by name, email or ID..."
             className="pl-8"
@@ -120,7 +123,7 @@ export function AdminBookingTable() {
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center">
                   <div className="flex items-center justify-center">
-                    <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-6 animate-spin"  />
+                    <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-6 animate-spin" />
                     Loading...
                   </div>
                 </TableCell>
@@ -172,7 +175,10 @@ export function AdminBookingTable() {
                         onClick={() => handleCancel(booking.id)}
                         title="Cancel Booking"
                       >
-                        <HugeiconsIcon icon={CancelCircleIcon} className="text-destructive size-4"  />
+                        <HugeiconsIcon
+                          icon={CancelCircleIcon}
+                          className="text-destructive size-4"
+                        />
                       </Button>
                     )}
                   </TableCell>

@@ -107,7 +107,11 @@ export default function PersonalizedOnboarding() {
           )}
         </div>
 
-        <Button type="submit" disabled={isSubmitting} className="w-full rounded-[var(--radius)] py-3">
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full rounded-[var(--radius)] py-3"
+        >
           {isSubmitting ? 'Saving Profile...' : 'Complete Onboarding'}
         </Button>
       </form>

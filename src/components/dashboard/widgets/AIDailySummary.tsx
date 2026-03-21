@@ -100,13 +100,13 @@ export function AIDailySummary() {
     <Card aria-label="AI Daily Briefing">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-          <HugeiconsIcon icon={SparklesIcon} className="size-4 text-primary" />
+          <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4" />
           AI Daily Briefing
           {!loading && summary !== null && (
             <Badge
               variant="outline"
               className={cn(
-                'ml-1 text-[10px] py-0 h-4',
+                'ml-1 h-4 py-0 text-[10px]',
                 cached
                   ? 'text-muted-foreground border-border/60'
                   : 'text-primary border-primary/30 bg-primary/5'
@@ -139,17 +139,17 @@ export function AIDailySummary() {
         {/* Loading state */}
         {loading && (
           <div className="flex flex-col gap-2.5" aria-busy="true" aria-label="Loading summary">
-            <div className="h-3 w-full animate-pulse rounded-full bg-muted" />
-            <div className="h-3 w-11/12 animate-pulse rounded-full bg-muted" />
-            <div className="h-3 w-4/5 animate-pulse rounded-full bg-muted" />
-            <div className="mt-1 h-3 w-3/5 animate-pulse rounded-full bg-muted" />
+            <div className="bg-muted h-3 w-full animate-pulse rounded-full" />
+            <div className="bg-muted h-3 w-11/12 animate-pulse rounded-full" />
+            <div className="bg-muted h-3 w-4/5 animate-pulse rounded-full" />
+            <div className="bg-muted mt-1 h-3 w-3/5 animate-pulse rounded-full" />
           </div>
         )}
 
         {/* Error state */}
         {!loading && error && (
           <div className="flex flex-col items-start gap-3 py-1">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <HugeiconsIcon icon={InformationCircleIcon} className="size-4 shrink-0" />
               Could not load your AI briefing
             </div>
@@ -162,9 +162,9 @@ export function AIDailySummary() {
         {/* Empty state — no summary yet */}
         {!loading && !error && summary === null && (
           <div className="flex flex-col items-start gap-3 py-1">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              No briefing yet. Generate your first AI insight to get personalised
-              wellness recommendations based on your activity.
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              No briefing yet. Generate your first AI insight to get personalised wellness
+              recommendations based on your activity.
             </p>
             <Button size="sm" onClick={handleGenerate} disabled={generating}>
               {generating ? (
@@ -185,21 +185,21 @@ export function AIDailySummary() {
         {/* Main content */}
         {!loading && !error && summary !== null && (
           <>
-            <p className="text-sm text-muted-foreground leading-relaxed">{summary}</p>
+            <p className="text-muted-foreground text-sm leading-relaxed">{summary}</p>
 
             {visibleRecs.length > 0 && (
               <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
+                <p className="text-muted-foreground/60 mb-2 text-xs font-semibold tracking-wider uppercase">
                   Recommendations
                 </p>
                 <ol className="flex flex-col gap-2">
                   {visibleRecs.map((rec, i) => (
                     <li
                       key={i}
-                      className="flex items-start gap-2.5 text-sm animate-in fade-in duration-200"
+                      className="animate-in fade-in flex items-start gap-2.5 text-sm duration-200"
                       style={{ animationDelay: `${i * 60}ms` }}
                     >
-                      <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <div className="bg-primary/10 text-primary mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full">
                         <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-3" />
                       </div>
                       <span className="text-foreground/90 leading-snug">{rec}</span>
@@ -210,12 +210,10 @@ export function AIDailySummary() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="mt-1 h-7 px-1 text-xs text-muted-foreground"
+                    className="text-muted-foreground mt-1 h-7 px-1 text-xs"
                     onClick={() => setShowAllRecs((v) => !v)}
                   >
-                    {showAllRecs
-                      ? 'Show less'
-                      : `+${recommendations.length - 3} more`}
+                    {showAllRecs ? 'Show less' : `+${recommendations.length - 3} more`}
                   </Button>
                 )}
               </div>
@@ -224,9 +222,8 @@ export function AIDailySummary() {
             {moodTrend && <TrendBadge trend={moodTrend} />}
 
             {lastUpdated && (
-              <p className="border-t border-border/40 pt-2 text-xs text-muted-foreground/60">
-                Updated{' '}
-                {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              <p className="border-border/40 text-muted-foreground/60 border-t pt-2 text-xs">
+                Updated {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </p>
             )}
           </>

@@ -83,7 +83,10 @@ export function DailySummaryWidget({ className }: { className?: string }) {
             onClick={handleRefresh}
             disabled={refreshing}
           >
-            <HugeiconsIcon icon={Refresh01Icon} className={cn('h-3.5 w-3.5', refreshing && 'animate-spin')}  />
+            <HugeiconsIcon
+              icon={Refresh01Icon}
+              className={cn('h-3.5 w-3.5', refreshing && 'animate-spin')}
+            />
           </Button>
         </div>
 

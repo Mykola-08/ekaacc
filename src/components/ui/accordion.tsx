@@ -11,7 +11,10 @@ function Accordion({ className, ...props }: React.ComponentProps<typeof Accordio
   return (
     <AccordionPrimitive.Root
       data-slot="accordion"
-      className={cn('flex w-full flex-col overflow-hidden rounded-[var(--radius)] border', className)}
+      className={cn(
+        'flex w-full flex-col overflow-hidden rounded-[var(--radius)] border',
+        className
+      )}
       {...props}
     />
   );

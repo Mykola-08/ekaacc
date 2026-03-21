@@ -33,7 +33,7 @@ export default function MarketingError({
         className="mx-auto max-w-md space-y-6"
       >
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/20">
-          <HugeiconsIcon icon={Alert01Icon} className="size-10 text-red-600 dark:text-red-500"  />
+          <HugeiconsIcon icon={Alert01Icon} className="size-10 text-red-600 dark:text-red-500" />
         </div>
 
         <div className="space-y-2">

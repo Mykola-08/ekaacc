@@ -74,7 +74,7 @@ export async function MoodTrendWidget() {
         <CardContent>
           <div className="flex flex-col items-center gap-2 py-6 text-center">
             <div className="text-3xl opacity-40">📈</div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               No mood logs yet. Log your first mood to start tracking trends.
             </p>
           </div>
@@ -91,32 +91,46 @@ export async function MoodTrendWidget() {
   const linePath = toLinePath(coords);
   const areaPath = toAreaPath(coords);
 
-  const trendLabel = trend.direction === 'up' ? '↑ Improving' : trend.direction === 'down' ? '↓ Declining' : '→ Stable';
-  const firstDate = new Date(points[0].date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-  const lastDate = new Date(points[points.length - 1].date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const trendLabel =
+    trend.direction === 'up'
+      ? '↑ Improving'
+      : trend.direction === 'down'
+        ? '↓ Declining'
+        : '→ Stable';
+  const firstDate = new Date(points[0].date).toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+  });
+  const lastDate = new Date(points[points.length - 1].date).toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+  });
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-sm font-semibold">Mood Trend</CardTitle>
-        <CardDescription>Last 14 days · {points.length} {points.length === 1 ? 'entry' : 'entries'}</CardDescription>
+        <CardDescription>
+          Last 14 days · {points.length} {points.length === 1 ? 'entry' : 'entries'}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         {/* Stats row */}
         <div className="flex items-center justify-between">
           <div className="flex items-end gap-1">
-            <p className="text-2xl font-bold tabular-nums leading-none">{avgMood}</p>
-            <p className="mb-0.5 text-sm text-muted-foreground">/5 avg</p>
+            <p className="text-2xl leading-none font-bold tabular-nums">{avgMood}</p>
+            <p className="text-muted-foreground mb-0.5 text-sm">/5 avg</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground tabular-nums">
+            <span className="text-muted-foreground text-xs tabular-nums">
               {minMood}–{maxMood}
             </span>
             <Badge
               className={cn(
-                'capitalize text-xs',
+                'text-xs capitalize',
                 trend.direction === 'up' && 'bg-success/10 text-success border-success/20',
-                trend.direction === 'down' && 'bg-destructive/10 text-destructive border-destructive/20',
+                trend.direction === 'down' &&
+                  'bg-destructive/10 text-destructive border-destructive/20',
                 trend.direction === 'stable' && 'bg-muted text-muted-foreground'
               )}
               variant="outline"
@@ -127,7 +141,7 @@ export async function MoodTrendWidget() {
         </div>
 
         {/* SVG Chart */}
-        <div className="rounded-[calc(var(--radius)*0.8)] border border-border/50 bg-muted/20 px-2 pt-2 pb-0 overflow-hidden">
+        <div className="border-border/50 bg-muted/20 overflow-hidden rounded-[calc(var(--radius)*0.8)] border px-2 pt-2 pb-0">
           <svg
             viewBox={`0 0 ${W} ${H + 6}`}
             role="img"
@@ -142,9 +156,37 @@ export async function MoodTrendWidget() {
             </defs>
 
             {/* Axis guides */}
-            <line x1="0" y1={H} x2={W} y2={H} stroke="currentColor" strokeOpacity="0.08" strokeWidth="1" className="text-foreground" />
-            <line x1="0" y1={H / 2} x2={W} y2={H / 2} stroke="currentColor" strokeOpacity="0.06" strokeWidth="1" strokeDasharray="4 3" className="text-foreground" />
-            <line x1="0" y1="0" x2={W} y2="0" stroke="currentColor" strokeOpacity="0.08" strokeWidth="1" className="text-foreground" />
+            <line
+              x1="0"
+              y1={H}
+              x2={W}
+              y2={H}
+              stroke="currentColor"
+              strokeOpacity="0.08"
+              strokeWidth="1"
+              className="text-foreground"
+            />
+            <line
+              x1="0"
+              y1={H / 2}
+              x2={W}
+              y2={H / 2}
+              stroke="currentColor"
+              strokeOpacity="0.06"
+              strokeWidth="1"
+              strokeDasharray="4 3"
+              className="text-foreground"
+            />
+            <line
+              x1="0"
+              y1="0"
+              x2={W}
+              y2="0"
+              stroke="currentColor"
+              strokeOpacity="0.08"
+              strokeWidth="1"
+              className="text-foreground"
+            />
 
             {/* Area fill */}
             <path d={areaPath} fill="url(#mood-area-gradient)" className="text-primary" />
@@ -170,23 +212,27 @@ export async function MoodTrendWidget() {
                   r={score === maxMood || score === minMood ? 2.5 : 1.75}
                   fill="currentColor"
                   className={cn(
-                    score === maxMood ? 'text-success' : score === minMood ? 'text-destructive' : 'text-primary'
+                    score === maxMood
+                      ? 'text-success'
+                      : score === minMood
+                        ? 'text-destructive'
+                        : 'text-primary'
                   )}
                 />
               ))}
           </svg>
 
           {/* Date range labels */}
-          <div className="flex justify-between px-0.5 pb-1.5 pt-0.5">
-            <span className="text-[10px] text-muted-foreground/60">{firstDate}</span>
-            <span className="text-[10px] text-muted-foreground/60">{lastDate}</span>
+          <div className="flex justify-between px-0.5 pt-0.5 pb-1.5">
+            <span className="text-muted-foreground/60 text-[10px]">{firstDate}</span>
+            <span className="text-muted-foreground/60 text-[10px]">{lastDate}</span>
           </div>
         </div>
 
         {/* Scale reference */}
         <div className="flex justify-between px-0.5">
-          <span className="text-[10px] text-muted-foreground/50">1 = Low</span>
-          <span className="text-[10px] text-muted-foreground/50">5 = High</span>
+          <span className="text-muted-foreground/50 text-[10px]">1 = Low</span>
+          <span className="text-muted-foreground/50 text-[10px]">5 = High</span>
         </div>
       </CardContent>
     </Card>

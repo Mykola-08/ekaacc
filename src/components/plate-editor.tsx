@@ -106,9 +106,7 @@ const value = normalizeNodeId([
       },
       { text: '. Discuss changes using ' },
       {
-        children: [
-          { comment: true, comment_discussion1: true, text: 'comments' },
-        ],
+        children: [{ comment: true, comment_discussion1: true, text: 'comments' }],
         type: 'a',
         url: '/docs/comment',
       },
@@ -169,17 +167,13 @@ const value = normalizeNodeId([
     type: 'p',
   },
   {
-    children: [
-      { text: 'Generate content (continue writing, summarize, explain)' },
-    ],
+    children: [{ text: 'Generate content (continue writing, summarize, explain)' }],
     indent: 1,
     listStyleType: 'disc',
     type: 'p',
   },
   {
-    children: [
-      { text: 'Edit existing text (improve, fix grammar, change tone)' },
-    ],
+    children: [{ text: 'Edit existing text (improve, fix grammar, change tone)' }],
     indent: 1,
     listStyleType: 'disc',
     type: 'p',
@@ -320,9 +314,7 @@ const value = normalizeNodeId([
       {
         children: [
           {
-            children: [
-              { children: [{ bold: true, text: 'Feature' }], type: 'p' },
-            ],
+            children: [{ children: [{ bold: true, text: 'Feature' }], type: 'p' }],
             type: 'th',
           },
           {
@@ -335,9 +327,7 @@ const value = normalizeNodeId([
             type: 'th',
           },
           {
-            children: [
-              { children: [{ bold: true, text: 'Tiptap' }], type: 'p' },
-            ],
+            children: [{ children: [{ bold: true, text: 'Tiptap' }], type: 'p' }],
             type: 'th',
           },
         ],
@@ -406,9 +396,7 @@ const value = normalizeNodeId([
             type: 'td',
           },
           {
-            children: [
-              { children: [{ text: 'Paid (Comments Pro)' }], type: 'p' },
-            ],
+            children: [{ children: [{ text: 'Paid (Comments Pro)' }], type: 'p' }],
             type: 'td',
           },
         ],
@@ -440,9 +428,7 @@ const value = normalizeNodeId([
       {
         children: [
           {
-            children: [
-              { children: [{ text: 'Table of Contents' }], type: 'p' },
-            ],
+            children: [{ children: [{ text: 'Table of Contents' }], type: 'p' }],
             type: 'td',
           },
           {
@@ -488,9 +474,7 @@ const value = normalizeNodeId([
       {
         children: [
           {
-            children: [
-              { children: [{ text: 'Collaboration (Yjs)' }], type: 'p' },
-            ],
+            children: [{ children: [{ text: 'Collaboration (Yjs)' }], type: 'p' }],
             type: 'td',
           },
           {
@@ -504,9 +488,7 @@ const value = normalizeNodeId([
             type: 'td',
           },
           {
-            children: [
-              { children: [{ text: 'Hocuspocus (OSS/Paid)' }], type: 'p' },
-            ],
+            children: [{ children: [{ text: 'Hocuspocus (OSS/Paid)' }], type: 'p' }],
             type: 'td',
           },
         ],

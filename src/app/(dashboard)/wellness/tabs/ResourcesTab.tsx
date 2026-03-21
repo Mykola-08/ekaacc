@@ -44,8 +44,8 @@ export function ResourcesTab() {
   if (error) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center">
-        <p className="text-sm font-medium text-foreground">Failed to load resources</p>
-        <p className="text-xs text-muted-foreground">Check your connection and try again.</p>
+        <p className="text-foreground text-sm font-medium">Failed to load resources</p>
+        <p className="text-muted-foreground text-xs">Check your connection and try again.</p>
         <Button variant="outline" size="sm" onClick={fetchResources}>
           Try Again
         </Button>

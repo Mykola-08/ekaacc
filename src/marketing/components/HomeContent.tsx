@@ -51,11 +51,11 @@ export default function HomeContent() {
                 key={index}
                 className="flex flex-col items-center justify-center rounded-[var(--radius)] p-6 text-center transition-colors duration-300"
               >
-                <div className="mb-3 text-4xl font-semibold tracking-tighter text-foreground tabular-nums md:text-5xl lg:text-6xl">
+                <div className="text-foreground mb-3 text-4xl font-semibold tracking-tighter tabular-nums md:text-5xl lg:text-6xl">
                   {stat.value}
                   {stat.suffix}
                 </div>
-                <span className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
+                <span className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
                   {stat.label}
                 </span>
               </div>
@@ -103,7 +103,7 @@ export default function HomeContent() {
               delay={0.1}
               className="md:col-span-2 md:row-span-1"
             >
-              <div className="absolute inset-0 z-0 bg-background"></div>
+              <div className="bg-background absolute inset-0 z-0"></div>
               <div className="absolute top-0 right-0 bottom-0 z-0 w-[60%] overflow-hidden md:w-1/2">
                 <Image
                   src="https://images.pexels.com/photos/4506105/pexels-photo-4506105.jpeg?auto=compress&cs=tinysrgb&w=800"
@@ -115,13 +115,13 @@ export default function HomeContent() {
               </div>
               <div className="absolute inset-0 z-20 flex items-center p-8 md:p-10">
                 <div className="w-full max-w-[60%] md:max-w-[70%] lg:max-w-[60%]">
-                  <h3 className="mb-3 text-[1.75rem] leading-tight font-bold tracking-tighter text-foreground">
+                  <h3 className="text-foreground mb-3 text-[1.75rem] leading-tight font-bold tracking-tighter">
                     {t('home.bento.kinesiology.title')}
                   </h3>
-                  <p className="mb-6 text-sm leading-relaxed font-normal text-muted-foreground md:text-base">
+                  <p className="text-muted-foreground mb-6 text-sm leading-relaxed font-normal md:text-base">
                     {t('home.bento.kinesiology.desc')}
                   </p>
-                  <span className="inline-flex items-center text-sm font-medium text-foreground transition-opacity group-hover:opacity-70">
+                  <span className="text-foreground inline-flex items-center text-sm font-medium transition-opacity group-hover:opacity-70">
                     {t('home.bento.explore')}
                   </span>
                 </div>
@@ -153,25 +153,25 @@ export default function HomeContent() {
 
             {/* Bottom right split - 2 */}
             <BentoCard href="/cases" delay={0.3} className="md:col-span-1 md:row-span-1">
-              <div className="absolute inset-0 z-0 bg-background"></div>
+              <div className="bg-background absolute inset-0 z-0"></div>
               <div className="absolute inset-0 z-20 flex flex-col p-8">
                 <div className="flex-1">
                   <svg
-                    className="mb-4 h-8 w-8 text-foreground opacity-20"
+                    className="text-foreground mb-4 h-8 w-8 opacity-20"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                   </svg>
-                  <p className="text-[1.1rem] leading-snug font-normal text-foreground">
+                  <p className="text-foreground text-[1.1rem] leading-snug font-normal">
                     {t('home.bento.testimonial.quote')}
                   </p>
                 </div>
                 <div className="mt-auto pt-4">
-                  <p className="text-xs font-semibold tracking-widest text-foreground uppercase">
+                  <p className="text-foreground text-xs font-semibold tracking-widest uppercase">
                     {t('home.bento.testimonial.author')}
                   </p>
-                  <p className="mt-1 text-xs font-normal text-muted-foreground">
+                  <p className="text-muted-foreground mt-1 text-xs font-normal">
                     {t('home.bento.testimonial.role')}
                   </p>
                 </div>
@@ -213,12 +213,12 @@ export default function HomeContent() {
               className="text-center lg:col-span-7 lg:text-left"
             >
               <div className="mb-6 flex flex-col items-center space-y-4 lg:items-start">
-                <h2 className="text-[2.5rem] leading-[1.05] font-semibold tracking-tighter text-foreground sm:text-[3.5rem] lg:text-[4.5rem]">
+                <h2 className="text-foreground text-[2.5rem] leading-[1.05] font-semibold tracking-tighter sm:text-[3.5rem] lg:text-[4.5rem]">
                   {t('elena.greeting')}
                 </h2>
               </div>
 
-              <div className="mx-auto max-w-2xl space-y-6 text-[1.2rem] leading-relaxed font-normal text-muted-foreground lg:mx-0">
+              <div className="text-muted-foreground mx-auto max-w-2xl space-y-6 text-[1.2rem] leading-relaxed font-normal lg:mx-0">
                 <p>{t('elena.bio')}</p>
                 <p>{t('elena.approach')}</p>
               </div>
@@ -241,10 +241,10 @@ export default function HomeContent() {
       <section className="bg-background py-32">
         <div className="section-container">
           <div className="mx-auto mb-20 max-w-3xl text-center">
-            <h2 className="mb-6 text-[2.5rem] leading-[1.05] font-semibold tracking-tighter text-foreground sm:text-[3.5rem] lg:text-[4rem]">
+            <h2 className="text-foreground mb-6 text-[2.5rem] leading-[1.05] font-semibold tracking-tighter sm:text-[3.5rem] lg:text-[4rem]">
               {t('services.featuredTitle')}
             </h2>
-            <p className="mx-auto max-w-2xl text-[1.2rem] leading-relaxed font-normal text-muted-foreground">
+            <p className="text-muted-foreground mx-auto max-w-2xl text-[1.2rem] leading-relaxed font-normal">
               {t('services.featuredSubtitle')}
             </p>
           </div>

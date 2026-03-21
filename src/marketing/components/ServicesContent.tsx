@@ -27,7 +27,7 @@ export default function ServicesContent() {
           badge: t('services.integralWellbeingFor'),
           title: `${t('services.ourServices')} ${t('services.ourServices2')}`.trim(),
           subtitle: t('services.wellnessPath'),
-          icon: <HugeiconsIcon icon={FavouriteIcon} className="size-4"  />,
+          icon: <HugeiconsIcon icon={FavouriteIcon} className="size-4" />,
         }}
         className="bg-background"
         mainClassName="bg-transparent"

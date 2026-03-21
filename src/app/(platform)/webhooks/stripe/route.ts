@@ -34,9 +34,7 @@ async function persistInvoice(invoice: Stripe.Invoice, status: 'paid' | 'failed'
         period_start: invoice.period_start
           ? new Date(invoice.period_start * 1000).toISOString()
           : null,
-        period_end: invoice.period_end
-          ? new Date(invoice.period_end * 1000).toISOString()
-          : null,
+        period_end: invoice.period_end ? new Date(invoice.period_end * 1000).toISOString() : null,
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'stripe_invoice_id' }
@@ -82,8 +80,7 @@ export async function POST(req: NextRequest) {
         console.log('Checkout session completed:', checkoutSession.id);
         try {
           const admin = await getSupabaseAdmin();
-          const userId =
-            checkoutSession.client_reference_id || checkoutSession.metadata?.userId;
+          const userId = checkoutSession.client_reference_id || checkoutSession.metadata?.userId;
           if (userId && checkoutSession.subscription) {
             const subscriptionId =
               typeof checkoutSession.subscription === 'string'
@@ -214,18 +211,14 @@ export async function POST(req: NextRequest) {
           const amountPaid = amount / 100;
           if (amountCredits > 0) {
             try {
-              const { walletService } = await import(
-                '@/lib/platform/services/wallet-service'
-              );
+              const { walletService } = await import('@/lib/platform/services/wallet-service');
               await walletService.processStripeTopUp(
                 piUserId,
                 amountCredits,
                 paymentIntent.id,
                 amountPaid
               );
-              console.log(
-                `Processed wallet top-up for user ${piUserId}: ${amountCredits} credits`
-              );
+              console.log(`Processed wallet top-up for user ${piUserId}: ${amountCredits} credits`);
             } catch (e) {
               console.warn('Wallet service unavailable during top-up processing:', e);
             }
@@ -318,10 +311,7 @@ export async function POST(req: NextRequest) {
         try {
           const admin = await getSupabaseAdmin();
           // Notify admins about the dispute
-          const { data: admins } = await admin
-            .from('profiles')
-            .select('id')
-            .eq('role', 'admin');
+          const { data: admins } = await admin.from('profiles').select('id').eq('role', 'admin');
 
           for (const adminUser of admins ?? []) {
             await admin.from('notifications').insert({

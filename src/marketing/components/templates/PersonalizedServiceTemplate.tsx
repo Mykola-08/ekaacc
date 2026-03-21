@@ -209,7 +209,7 @@ export default function PersonalizedServiceTemplate({
               href={`/booking?service=${encodeURIComponent(t(`${translationKey}.hero.title`))}`}
             >
               {t('nav.bookNow')}
-              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
             </Link>
           </Button>
           <Link href="/booking">

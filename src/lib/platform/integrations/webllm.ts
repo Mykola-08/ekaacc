@@ -51,9 +51,7 @@ export class WebLLMChatTransport implements ChatTransport<UIMessage> {
     abortSignal: AbortSignal | undefined;
   } & ChatRequestOptions): Promise<ReadableStream<UIMessageChunk>> {
     if (!isWebLLMAvailable()) {
-      throw new Error(
-        'WebLLM is not available. Please install the WebLLM browser extension.'
-      );
+      throw new Error('WebLLM is not available. Please install the WebLLM browser extension.');
     }
 
     // Convert UIMessage parts to simple message format

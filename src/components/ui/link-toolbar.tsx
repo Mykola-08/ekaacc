@@ -4,11 +4,7 @@ import * as React from 'react';
 
 import type { TLinkElement } from 'platejs';
 
-import {
-  type UseVirtualFloatingOptions,
-  flip,
-  offset,
-} from '@platejs/floating';
+import { type UseVirtualFloatingOptions, flip, offset } from '@platejs/floating';
 import { getLinkAttributes } from '@platejs/link';
 import {
   type LinkFloatingToolbarState,
@@ -41,16 +37,9 @@ const inputVariants = cva(
   'flex h-[28px] w-full rounded-[calc(var(--radius)*0.6)] border-none bg-transparent px-1.5 py-1 text-base placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-transparent md:text-sm'
 );
 
-export function LinkFloatingToolbar({
-  state,
-}: {
-  state?: LinkFloatingToolbarState;
-}) {
+export function LinkFloatingToolbar({ state }: { state?: LinkFloatingToolbarState }) {
   const activeCommentId = usePluginOption({ key: KEYS.comment }, 'activeId');
-  const activeSuggestionId = usePluginOption(
-    { key: KEYS.suggestion },
-    'activeId'
-  );
+  const activeSuggestionId = usePluginOption({ key: KEYS.suggestion }, 'activeId');
 
   const floatingOptions: UseVirtualFloatingOptions = React.useMemo(
     () => ({
@@ -61,8 +50,7 @@ export function LinkFloatingToolbar({
           padding: 12,
         }),
       ],
-      placement:
-        activeSuggestionId || activeCommentId ? 'top-start' : 'bottom-start',
+      placement: activeSuggestionId || activeCommentId ? 'top-start' : 'bottom-start',
     }),
     [activeCommentId, activeSuggestionId]
   );
@@ -103,8 +91,8 @@ export function LinkFloatingToolbar({
   const input = (
     <div className="flex w-[330px] flex-col" {...inputProps}>
       <div className="flex items-center">
-        <div className="flex items-center pr-1 pl-2 text-muted-foreground">
-          <HugeiconsIcon icon={Link01Icon} className="size-4"  />
+        <div className="text-muted-foreground flex items-center pr-1 pl-2">
+          <HugeiconsIcon icon={Link01Icon} className="size-4" />
         </div>
 
         <FloatingLinkUrlInput
@@ -115,7 +103,7 @@ export function LinkFloatingToolbar({
       </div>
       <Separator className="my-1" />
       <div className="flex items-center">
-        <div className="flex items-center pr-1 pl-2 text-muted-foreground">
+        <div className="text-muted-foreground flex items-center pr-1 pl-2">
           <Text className="size-4" />
         </div>
         <input
@@ -204,7 +192,7 @@ function LinkOpenButton() {
       aria-label="Open link in a new tab"
       target="_blank"
     >
-      <HugeiconsIcon icon={ArrowUpRight01Icon} width={18}  />
+      <HugeiconsIcon icon={ArrowUpRight01Icon} width={18} />
     </a>
   );
 }

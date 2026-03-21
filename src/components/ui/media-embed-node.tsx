@@ -16,11 +16,7 @@ import { cn } from '@/lib/utils';
 
 import { Caption, CaptionTextarea } from './caption';
 import { MediaToolbar } from './media-toolbar';
-import {
-  mediaResizeHandleVariants,
-  Resizable,
-  ResizeHandle,
-} from './resize-handle';
+import { mediaResizeHandleVariants, Resizable, ResizeHandle } from './resize-handle';
 
 export const MediaEmbedElement = withHOC(
   ResizableProvider,
@@ -43,10 +39,7 @@ export const MediaEmbedElement = withHOC(
     return (
       <MediaToolbar plugin={MediaEmbedPlugin}>
         <PlateElement className="py-2.5" {...props}>
-          <figure
-            className="group relative m-0 w-full cursor-default"
-            contentEditable={false}
-          >
+          <figure className="group relative m-0 w-full cursor-default" contentEditable={false}>
             <Resizable
               align={align}
               options={{
@@ -96,7 +89,7 @@ export const MediaEmbedElement = withHOC(
                       className={cn(
                         'absolute top-0 left-0 size-full rounded-sm',
                         isVideo && 'border-0',
-                        focused && selected && 'ring-2 ring-ring ring-offset-2'
+                        focused && selected && 'ring-ring ring-2 ring-offset-2'
                       )}
                       title="embed"
                       src={embed!.url}
@@ -112,7 +105,7 @@ export const MediaEmbedElement = withHOC(
                     '[&_.react-tweet-theme]:my-0',
                     !readOnly &&
                       selected &&
-                      '[&_.react-tweet-theme]:ring-2 [&_.react-tweet-theme]:ring-ring [&_.react-tweet-theme]:ring-offset-2'
+                      '[&_.react-tweet-theme]:ring-ring [&_.react-tweet-theme]:ring-2 [&_.react-tweet-theme]:ring-offset-2'
                   )}
                 >
                   <Tweet id={embed!.id!} />

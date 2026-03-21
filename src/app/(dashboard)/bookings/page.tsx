@@ -187,7 +187,10 @@ export default async function BookingsPage() {
       <div>
         <Tabs defaultValue="upcoming">
           <TabsList className="h-10 rounded-[var(--radius)]" variant="line">
-            <TabsTrigger value="upcoming" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
+            <TabsTrigger
+              value="upcoming"
+              className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs"
+            >
               Upcoming
               {upcomingBookings.length > 0 && (
                 <span className="bg-primary/10 text-primary rounded-[calc(var(--radius)*0.8)] px-1.5 py-0.5 text-xs tabular-nums">
@@ -266,7 +269,7 @@ function BookingCard({ booking: b, isTherapist }: { booking: any; isTherapist: b
       <CardContent className="p-0">
         <div className="flex flex-col sm:flex-row">
           {/* Date/time column */}
-          <div className="border-border/40 flex shrink-0 justify-center gap-3 border-b px-4 py-4 sm:w-36 sm:flex-col sm:justify-start sm:gap-1 sm:border-r sm:border-b-0 sm:border-l-2 sm:border-l-primary sm:pl-4 sm:py-5">
+          <div className="border-border/40 sm:border-l-primary flex shrink-0 justify-center gap-3 border-b px-4 py-4 sm:w-36 sm:flex-col sm:justify-start sm:gap-1 sm:border-r sm:border-b-0 sm:border-l-2 sm:py-5 sm:pl-4">
             <div className="text-primary flex items-center gap-2 text-sm font-semibold sm:flex-col sm:items-start sm:gap-0.5">
               <HugeiconsIcon icon={Calendar03Icon} className="size-4 sm:hidden" />
               <span>{formatDate(b.starts_at)}</span>
@@ -336,7 +339,11 @@ function BookingCard({ booking: b, isTherapist }: { booking: any; isTherapist: b
                 </a>
               )}
               {b.status === 'scheduled' && (
-                <Button variant="outline" size="sm" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs"
+                >
                   <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" />
                   Cancel
                 </Button>

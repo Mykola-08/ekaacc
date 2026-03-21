@@ -5,7 +5,9 @@ import { revalidatePath } from 'next/cache';
 
 export async function getSessionTemplates() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { data: [], error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -24,7 +26,9 @@ export async function createSessionTemplate(input: {
   type?: string;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { data, error } = await supabase
@@ -43,7 +47,9 @@ export async function updateSessionTemplate(
   input: { name?: string; content?: Record<string, any>; type?: string }
 ) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase
@@ -59,7 +65,9 @@ export async function updateSessionTemplate(
 
 export async function deleteSessionTemplate(id: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthenticated' };
 
   const { error } = await supabase

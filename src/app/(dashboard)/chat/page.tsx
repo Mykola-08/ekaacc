@@ -4,7 +4,9 @@ import { ChatPageClient } from './chat-client';
 
 export default async function ChatPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   // Get channels the user is a member of

@@ -24,12 +24,7 @@ import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/morphing-toaster';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Cancel01Icon, PanelLeftIcon, Add01Icon, GlobeIcon } from '@hugeicons/core-free-icons';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface ConversationItem {
   id: string;
@@ -191,9 +186,7 @@ export function AIRightPanel() {
   return (
     <>
       {isOpen && (
-        <aside
-          className="bg-background relative flex h-svh shrink-0 flex-col overflow-hidden border-l"
-        >
+        <aside className="bg-background relative flex h-svh shrink-0 flex-col overflow-hidden border-l">
           <div className="flex w-95 flex-1 flex-col">
             <PanelContent
               hasMessages={hasMessages}
@@ -287,7 +280,7 @@ function PanelContent({
         <Sheet open={historyOpen} onOpenChange={setHistoryOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="size-8">
-              <HugeiconsIcon icon={PanelLeftIcon} className="size-4"  />
+              <HugeiconsIcon icon={PanelLeftIcon} className="size-4" />
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-72 p-0">
@@ -319,7 +312,11 @@ function PanelContent({
                   className="size-8"
                   onClick={onToggleWebLLM}
                 >
-                  {useWebLLM ? <HugeiconsIcon icon={GlobeIcon} className="size-4"  /> : <HugeiconsIcon icon={GlobeIcon} className="size-4"  />}
+                  {useWebLLM ? (
+                    <HugeiconsIcon icon={GlobeIcon} className="size-4" />
+                  ) : (
+                    <HugeiconsIcon icon={GlobeIcon} className="size-4" />
+                  )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -329,11 +326,11 @@ function PanelContent({
           </TooltipProvider>
         )}
         <Button variant="ghost" size="icon" className="size-8" onClick={handleNewConversation}>
-          <HugeiconsIcon icon={Add01Icon} className="size-4"  />
+          <HugeiconsIcon icon={Add01Icon} className="size-4" />
           <span className="sr-only">New conversation</span>
         </Button>
         <Button variant="ghost" size="icon" className="size-8" onClick={onClose}>
-          <HugeiconsIcon icon={Cancel01Icon} className="size-4"  />
+          <HugeiconsIcon icon={Cancel01Icon} className="size-4" />
           <span className="sr-only">Close panel</span>
         </Button>
       </div>

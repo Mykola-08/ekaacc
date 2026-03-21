@@ -57,13 +57,13 @@ export default function AppleHero() {
         </AnimateIn>
 
         <AnimateIn delay={0.2} duration={0.8} from="bottom">
-          <h1 className="mb-6 text-5xl leading-[1.05] font-semibold tracking-tighter text-foreground md:text-7xl lg:text-[6rem]">
+          <h1 className="text-foreground mb-6 text-5xl leading-[1.05] font-semibold tracking-tighter md:text-7xl lg:text-[6rem]">
             {t('hero.title')}
           </h1>
         </AnimateIn>
 
         <AnimateIn delay={0.3} duration={0.8} from="bottom">
-          <p className="mx-auto mb-10 max-w-2xl text-[1.35rem] leading-relaxed font-normal text-balance text-muted-foreground">
+          <p className="text-muted-foreground mx-auto mb-10 max-w-2xl text-[1.35rem] leading-relaxed font-normal text-balance">
             {t('hero.subtitle')}
           </p>
         </AnimateIn>
@@ -86,7 +86,7 @@ export default function AppleHero() {
               asChild
               variant="outline"
               size="lg"
-              className="h-auto w-full rounded-full border-none bg-black/[0.03] px-8 py-6 text-lg font-medium text-foreground backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:bg-black/[0.08] sm:w-auto"
+              className="text-foreground h-auto w-full rounded-full border-none bg-black/[0.03] px-8 py-6 text-lg font-medium backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:bg-black/[0.08] sm:w-auto"
               onClick={() => logEvent('hero_services_click')}
             >
               <Link href="/services">{t('hero.discoverServices')}</Link>

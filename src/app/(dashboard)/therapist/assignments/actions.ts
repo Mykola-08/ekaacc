@@ -25,7 +25,7 @@ export async function createAssignment(formData: FormData) {
     title,
     description,
     patient_id: patientAuthId, // auth.users(id) reference
-    therapist_id: user.id,     // auth.users(id) reference
+    therapist_id: user.id, // auth.users(id) reference
     due_date: dueDate,
     type,
     status: 'pending',

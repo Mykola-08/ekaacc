@@ -124,7 +124,10 @@ export function RoleManagementPanelHeadless() {
       </div>
 
       <div className="relative w-full sm:w-96">
-        <HugeiconsIcon icon={Search01Icon} className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+        <HugeiconsIcon
+          icon={Search01Icon}
+          className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"
+        />
         <Input
           placeholder="Search users..."
           className="pl-10"
@@ -203,9 +206,7 @@ export function RoleManagementPanelHeadless() {
             <div className="space-y-2">
               <Label>User ID</Label>
               <Input {...register('userId')} placeholder="Select user..." />
-              {errors.userId && (
-                <p className="text-destructive text-xs">{errors.userId.message}</p>
-              )}
+              {errors.userId && <p className="text-destructive text-xs">{errors.userId.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -220,9 +221,7 @@ export function RoleManagementPanelHeadless() {
                   <SelectItem value="user">User</SelectItem>
                 </SelectContent>
               </Select>
-              {errors.role && (
-                <p className="text-destructive text-xs">{errors.role.message}</p>
-              )}
+              {errors.role && <p className="text-destructive text-xs">{errors.role.message}</p>}
             </div>
 
             <div className="space-y-2">
@@ -232,9 +231,7 @@ export function RoleManagementPanelHeadless() {
                 rows={3}
                 placeholder="Why is this role being assigned?"
               />
-              {errors.reason && (
-                <p className="text-destructive text-xs">{errors.reason.message}</p>
-              )}
+              {errors.reason && <p className="text-destructive text-xs">{errors.reason.message}</p>}
             </div>
 
             <DialogFooter>

@@ -38,11 +38,7 @@ function List(props: SlateRenderElementProps) {
   const marginLeft = indent ? `${indent * 24}px` : undefined;
 
   return (
-    <List
-      className="relative m-0 p-0"
-      style={{ listStyleType, marginLeft }}
-      start={listStart}
-    >
+    <List className="relative m-0 p-0" style={{ listStyleType, marginLeft }} start={listStart}>
       {Marker && <Marker {...props} />}
       {Li ? <Li {...props} /> : <li>{props.children}</li>}
     </List>
@@ -56,7 +52,7 @@ function TodoMarkerStatic(props: SlateRenderElementProps) {
     <div contentEditable={false}>
       <button
         className={cn(
-          'peer -left-6 pointer-events-none absolute top-1 size-4 shrink-0 rounded-sm border border-primary bg-background ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground',
+          'peer border-primary bg-background ring-offset-background focus-visible:ring-ring data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground pointer-events-none absolute top-1 -left-6 size-4 shrink-0 rounded-sm border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
           props.className
         )}
         data-state={checked ? 'checked' : 'unchecked'}
@@ -75,8 +71,7 @@ function TodoLiStatic(props: SlateRenderElementProps) {
     <li
       className={cn(
         'list-none',
-        (props.element.checked as boolean) &&
-          'text-muted-foreground line-through'
+        (props.element.checked as boolean) && 'text-muted-foreground line-through'
       )}
     >
       {props.children}

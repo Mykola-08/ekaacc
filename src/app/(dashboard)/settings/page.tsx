@@ -19,11 +19,5 @@ export default async function SettingsPage() {
       .then((r) => ({ data: r.data ?? null })),
   ]);
 
-  return (
-    <SettingsClient
-      profile={profile}
-      email={user.email ?? ''}
-      notifPrefs={notifPrefs}
-    />
-  );
+  return <SettingsClient profile={profile} email={user.email ?? ''} notifPrefs={notifPrefs} />;
 }

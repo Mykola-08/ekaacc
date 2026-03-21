@@ -8,7 +8,17 @@ import SEOUpdater from '@/marketing/components/SEOUpdater';
 
 import ParallaxBackground from '@/marketing/components/ParallaxBackground';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
-import { ArrowRight01Icon, Activity01Icon, Brain01Icon, FavouriteIcon, Moon01Icon, ShieldIcon, StethoscopeIcon, ZapIcon, Search01Icon } from '@hugeicons/core-free-icons';
+import {
+  ArrowRight01Icon,
+  Activity01Icon,
+  Brain01Icon,
+  FavouriteIcon,
+  Moon01Icon,
+  ShieldIcon,
+  StethoscopeIcon,
+  ZapIcon,
+  Search01Icon,
+} from '@hugeicons/core-free-icons';
 
 interface Problem {
   id: string;
@@ -131,7 +141,7 @@ export default function CasosContent() {
           title: t('casos.title'),
           subtitle: t('casos.subtitle'),
           badge: t('casos.hero.badge') || 'Solutions',
-          icon: <HugeiconsIcon icon={Search01Icon} className="size-4"  />,
+          icon: <HugeiconsIcon icon={Search01Icon} className="size-4" />,
         }}
         className="bg-secondary"
       >
@@ -169,7 +179,7 @@ export default function CasosContent() {
 
                     <div className="mt-auto flex items-center text-sm font-medium text-blue-600">
                       <span>{t('casos.seeDetails')}</span>
-                      <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4"  />
+                      <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4" />
                     </div>
                   </Link>
                 );

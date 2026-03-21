@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import AnimateIn from './AnimateIn';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
-import { ArrowRight01Icon, Activity01Icon, Brain01Icon, FavouriteIcon, ZapIcon, Moon01Icon } from '@hugeicons/core-free-icons';
+import {
+  ArrowRight01Icon,
+  Activity01Icon,
+  Brain01Icon,
+  FavouriteIcon,
+  ZapIcon,
+  Moon01Icon,
+} from '@hugeicons/core-free-icons';
 
 interface Problem {
   id: string;
@@ -73,11 +80,11 @@ export default function CasosSection() {
     <section className="bg-white py-24">
       <div className="section-container">
         <div className="mx-auto mb-20 max-w-4xl text-center">
-          <h2 className="mb-6 text-[2.5rem] leading-[1.05] font-semibold tracking-tighter text-foreground sm:text-[3.5rem] lg:text-[4rem]">
+          <h2 className="text-foreground mb-6 text-[2.5rem] leading-[1.05] font-semibold tracking-tighter sm:text-[3.5rem] lg:text-[4rem]">
             {t('casos.section.title')}
           </h2>
 
-          <p className="mx-auto max-w-2xl text-[1.2rem] leading-relaxed font-normal text-balance text-muted-foreground">
+          <p className="text-muted-foreground mx-auto max-w-2xl text-[1.2rem] leading-relaxed font-normal text-balance">
             {t('casos.section.subtitle')}
           </p>
         </div>
@@ -91,21 +98,24 @@ export default function CasosSection() {
                   href={problem.href}
                   className="group apple-card block h-full p-8 transition-colors duration-300"
                 >
-                  <div className="text-primary group-hover:bg-primary mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-background transition-colors duration-300 group-hover:text-white">
+                  <div className="text-primary group-hover:bg-primary bg-background mb-6 flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-300 group-hover:text-white">
                     <HugeiconsIcon icon={ProblemIcon} className="h-6 w-6 stroke-[1.5px]" />
                   </div>
 
-                  <h3 className="mb-3 text-[1.25rem] font-semibold tracking-tight text-foreground">
+                  <h3 className="text-foreground mb-3 text-[1.25rem] font-semibold tracking-tight">
                     {t(problem.titleKey)}
                   </h3>
 
-                  <p className="mb-6 line-clamp-3 text-[1.05rem] leading-relaxed font-normal text-muted-foreground">
+                  <p className="text-muted-foreground mb-6 line-clamp-3 text-[1.05rem] leading-relaxed font-normal">
                     {t(problem.descriptionKey)}
                   </p>
 
-                  <div className="mt-auto flex items-center text-sm font-medium text-foreground transition-opacity group-hover:opacity-70">
+                  <div className="text-foreground mt-auto flex items-center text-sm font-medium transition-opacity group-hover:opacity-70">
                     {t('casos.section.readMore')}
-                    <HugeiconsIcon icon={ArrowRight01Icon} className="ml-1 size-4 transition-transform group-hover:translate-x-1"  />
+                    <HugeiconsIcon
+                      icon={ArrowRight01Icon}
+                      className="ml-1 size-4 transition-transform group-hover:translate-x-1"
+                    />
                   </div>
                 </Link>
               </AnimateIn>
@@ -115,7 +125,7 @@ export default function CasosSection() {
 
         {/* Other Cases List */}
         <div className="mx-auto mb-20 max-w-4xl text-center">
-          <h3 className="mb-8 text-[1.5rem] font-medium tracking-tight text-foreground">
+          <h3 className="text-foreground mb-8 text-[1.5rem] font-medium tracking-tight">
             {t('casos.other.title')}
           </h3>
           <div className="flex flex-wrap justify-center gap-3">
@@ -129,7 +139,7 @@ export default function CasosSection() {
             ].map((key) => (
               <span
                 key={key}
-                className="cursor-default rounded-full border border-black/5 bg-background px-5 py-2.5 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:border-black/10 hover:text-foreground"
+                className="bg-background text-muted-foreground hover:text-foreground cursor-default rounded-full border border-black/5 px-5 py-2.5 text-sm font-medium transition-colors duration-200 hover:border-black/10"
               >
                 {t(key)}
               </span>
@@ -145,7 +155,7 @@ export default function CasosSection() {
               className="inline-flex items-center rounded-full bg-[#0071e3] px-8 py-4 font-medium text-white transition duration-200 hover:bg-[#0077ED] active:scale-[0.97]"
             >
               {t('casos.section.viewAll')}
-              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
             </Link>
             <Link
               href="/first-time"

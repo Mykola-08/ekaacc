@@ -113,18 +113,14 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
   };
 
   return (
-    <div
-      className="mx-auto flex w-full max-w-md flex-col gap-6"
-    >
+    <div className="mx-auto flex w-full max-w-md flex-col gap-6">
       <Card className="border-border/20 bg-card/70 relative overflow-hidden rounded-[calc(var(--radius)*0.8)] border backdrop-blur-2xl">
         <CardContent className="relative p-8 md:p-10">
           {/* Header */}
-          <div
-            className="mb-8 flex flex-col items-center gap-4 text-center"
-          >
+          <div className="mb-8 flex flex-col items-center gap-4 text-center">
             <div className="relative mb-2">
               <div className="border-border/10 bg-primary/10 relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[calc(var(--radius)*0.8)] border">
-                <HugeiconsIcon icon={ShieldIcon} className="text-primary size-7"  />
+                <HugeiconsIcon icon={ShieldIcon} className="text-primary size-7" />
               </div>
             </div>
             <div className="">
@@ -138,9 +134,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
           </div>
 
           {/* Code Input */}
-          <div
-            className="mb-6"
-          >
+          <div className="mb-6">
             <div className="flex justify-center gap-3" onPaste={handlePaste}>
               {code.map((digit, i) => (
                 <Input
@@ -162,26 +156,25 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
           </div>
 
           {/* Error */}
-          
-            {error && (
-              <div
-                className="bg-destructive/10 text-destructive mb-4 rounded-[var(--radius)] px-4 py-3 text-center text-sm font-medium"
-              >
-                {error}
-              </div>
-            )}
-          
+
+          {error && (
+            <div className="bg-destructive/10 text-destructive mb-4 rounded-[var(--radius)] px-4 py-3 text-center text-sm font-medium">
+              {error}
+            </div>
+          )}
 
           {/* Submit */}
-          <div
-            className=""
-          >
+          <div className="">
             <Button
               onClick={() => handleSubmit()}
               className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 w-full rounded-full text-sm font-semibold transition-all hover:shadow active:scale-[0.98] disabled:opacity-70"
               disabled={loading || code.some((d) => !d)}
             >
-              {loading ? <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin"  /> : 'Verify'}
+              {loading ? (
+                <HugeiconsIcon icon={Loading03Icon} className="size-5 animate-spin" />
+              ) : (
+                'Verify'
+              )}
             </Button>
 
             {onCancel && (
@@ -190,7 +183,7 @@ export function MFAVerifyForm({ factorId, onSuccess, onCancel }: MFAVerifyFormPr
                 onClick={onCancel}
                 className="text-muted-foreground hover:text-foreground h-10 w-full rounded-full text-sm font-medium"
               >
-                <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
+                <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4" />
                 Back to login
               </Button>
             )}

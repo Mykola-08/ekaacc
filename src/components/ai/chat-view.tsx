@@ -27,12 +27,7 @@ import { useWebLLMAvailable } from '@/hooks/use-webllm';
 import { WebLLMChatTransport } from '@/lib/platform/integrations/webllm';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { PanelLeftIcon, GlobeIcon } from '@hugeicons/core-free-icons';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface ConversationItem {
   id: string;
@@ -157,7 +152,7 @@ export function AIChatView() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex h-[calc(100dvh-6rem)] max-h-225 overflow-hidden rounded-[calc(var(--radius)*0.8)] border">
+    <div className="flex h-[calc(100dvh-6rem)] max-h-225 overflow-hidden rounded-2xl border">
       {/* Desktop sidebar */}
       <div className="bg-muted/30 hidden w-64 shrink-0 border-r lg:block">
         <ConversationList
@@ -177,7 +172,7 @@ export function AIChatView() {
           <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8 lg:hidden">
-                <HugeiconsIcon icon={PanelLeftIcon} className="size-4"  />
+                <HugeiconsIcon icon={PanelLeftIcon} className="size-4" />
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-72 p-0">
@@ -211,9 +206,9 @@ export function AIChatView() {
                     onClick={() => setUseWebLLM(!useWebLLM)}
                   >
                     {useWebLLM ? (
-                      <HugeiconsIcon icon={GlobeIcon} className="size-4"  />
+                      <HugeiconsIcon icon={GlobeIcon} className="size-4" />
                     ) : (
-                      <HugeiconsIcon icon={GlobeIcon} className="size-4"  />
+                      <HugeiconsIcon icon={GlobeIcon} className="size-4" />
                     )}
                   </Button>
                 </TooltipTrigger>

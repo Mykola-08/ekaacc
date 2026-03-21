@@ -4,7 +4,16 @@ import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { ChartIncreaseIcon, ChartDecreaseIcon, HeartCheckIcon, Target01Icon, BarChartIcon, Moon01Icon, ZapIcon, Brain02Icon } from '@hugeicons/core-free-icons';
+import {
+  ChartIncreaseIcon,
+  ChartDecreaseIcon,
+  HeartCheckIcon,
+  Target01Icon,
+  BarChartIcon,
+  Moon01Icon,
+  ZapIcon,
+  Brain02Icon,
+} from '@hugeicons/core-free-icons';
 
 import { createClient } from '@/lib/supabase/client';
 import {
@@ -73,10 +82,7 @@ export default function ReportsPage() {
           .eq('client_id', user.id)
           .eq('status', 'completed'),
         supabase.from('goals').select('id, status').eq('user_id', user.id),
-        supabase
-          .from('journal_entries')
-          .select('id', { count: 'exact' })
-          .eq('user_id', user.id),
+        supabase.from('journal_entries').select('id', { count: 'exact' }).eq('user_id', user.id),
       ]);
 
       if (entriesRes.data) setWellnessEntries(entriesRes.data);
@@ -111,7 +117,14 @@ export default function ReportsPage() {
         ? sleepEntries.reduce((a, b) => a + (b.sleep_quality || 0), 0) / sleepEntries.length
         : 0;
 
-    return { avgMood, moodTrend, avgEnergy, avgStress, avgSleep, totalEntries: wellnessEntries.length };
+    return {
+      avgMood,
+      moodTrend,
+      avgEnergy,
+      avgStress,
+      avgSleep,
+      totalEntries: wellnessEntries.length,
+    };
   }, [wellnessEntries]);
 
   const weeklyData = useMemo(() => {
@@ -140,11 +153,14 @@ export default function ReportsPage() {
       <div className="flex flex-col gap-4 md:gap-6">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">My Reports</h1>
-          <p className="text-sm text-muted-foreground mt-1">Your personal progress summary.</p>
+          <p className="text-muted-foreground mt-1 text-sm">Your personal progress summary.</p>
         </div>
         <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-muted h-32 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
+            <div
+              key={i}
+              className="bg-muted h-32 animate-pulse rounded-[calc(var(--radius)*0.8)]"
+            />
           ))}
         </div>
       </div>
@@ -156,7 +172,9 @@ export default function ReportsPage() {
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">My Reports</h1>
-          <p className="text-sm text-muted-foreground mt-1">Your personal progress summary for the last 30 days.</p>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Your personal progress summary for the last 30 days.
+          </p>
         </div>
         <Badge variant="outline" className="w-fit">
           <HugeiconsIcon icon={BarChartIcon} className="mr-1 size-3" />
@@ -165,11 +183,11 @@ export default function ReportsPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 *:data-[slot=card]:shadow-xs">
+      <div className="grid gap-4 *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Sessions Completed</CardTitle>
-            <HugeiconsIcon icon={HeartCheckIcon} className="size-4 text-muted-foreground" />
+            <HugeiconsIcon icon={HeartCheckIcon} className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{sessionsCompleted}</div>
@@ -179,10 +197,12 @@ export default function ReportsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Goals Achieved</CardTitle>
-            <HugeiconsIcon icon={Target01Icon} className="size-4 text-muted-foreground" />
+            <HugeiconsIcon icon={Target01Icon} className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-semibold">{completedGoals}/{totalGoals}</div>
+            <div className="text-2xl font-semibold">
+              {completedGoals}/{totalGoals}
+            </div>
             <p className="text-muted-foreground text-xs">
               {totalGoals > 0
                 ? `${Math.round((completedGoals / totalGoals) * 100)}% completion rate`
@@ -193,7 +213,7 @@ export default function ReportsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Journal Entries</CardTitle>
-            <HugeiconsIcon icon={Brain02Icon} className="size-4 text-muted-foreground" />
+            <HugeiconsIcon icon={Brain02Icon} className="text-muted-foreground size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{journalCount}</div>
@@ -204,9 +224,9 @@ export default function ReportsPage() {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Mood Trend</CardTitle>
             {stats && stats.moodTrend >= 0 ? (
-              <HugeiconsIcon icon={ChartIncreaseIcon} className="size-4 text-muted-foreground" />
+              <HugeiconsIcon icon={ChartIncreaseIcon} className="text-muted-foreground size-4" />
             ) : (
-              <HugeiconsIcon icon={ChartDecreaseIcon} className="size-4 text-muted-foreground" />
+              <HugeiconsIcon icon={ChartDecreaseIcon} className="text-muted-foreground size-4" />
             )}
           </CardHeader>
           <CardContent>
@@ -263,9 +283,11 @@ export default function ReportsPage() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="border bg-background rounded-[calc(var(--radius)*0.8)] p-2">
+                          <div className="bg-background rounded-[calc(var(--radius)*0.8)] border p-2">
                             <p className="text-muted-foreground mb-1 text-xs">{label}</p>
-                            <p className="text-primary text-sm font-bold">Mood: {payload[0].value}/10</p>
+                            <p className="text-primary text-sm font-bold">
+                              Mood: {payload[0].value}/10
+                            </p>
                           </div>
                         );
                       }
@@ -316,10 +338,14 @@ export default function ReportsPage() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="border bg-background rounded-[calc(var(--radius)*0.8)] p-2">
+                          <div className="bg-background rounded-[calc(var(--radius)*0.8)] border p-2">
                             <p className="text-muted-foreground mb-1 text-xs">{label}</p>
                             {payload.map((p: any) => (
-                              <p key={p.dataKey} className="text-sm font-medium" style={{ color: p.color }}>
+                              <p
+                                key={p.dataKey}
+                                className="text-sm font-medium"
+                                style={{ color: p.color }}
+                              >
                                 {p.dataKey}: {p.value}/10
                               </p>
                             ))}
@@ -356,7 +382,7 @@ export default function ReportsPage() {
               ].map((metric) => (
                 <div key={metric.label} className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <HugeiconsIcon icon={metric.icon} className="size-4 text-muted-foreground" />
+                    <HugeiconsIcon icon={metric.icon} className="text-muted-foreground size-4" />
                     <span className="text-sm font-medium">{metric.label}</span>
                   </div>
                   <div className="text-2xl font-semibold">
@@ -364,7 +390,7 @@ export default function ReportsPage() {
                   </div>
                   <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
                     <div
-                      className="h-full rounded-full bg-primary transition-all duration-500"
+                      className="bg-primary h-full rounded-full transition-all duration-500"
                       style={{ width: `${(metric.value / metric.max) * 100}%` }}
                     />
                   </div>
@@ -377,8 +403,11 @@ export default function ReportsPage() {
 
       {/* Empty State */}
       {!stats && (
-        <div className="mx-4 lg:mx-6 rounded-[calc(var(--radius)*0.8)] border-2 border-dashed py-20 text-center">
-          <HugeiconsIcon icon={BarChartIcon} className="text-muted-foreground mx-auto mb-4 size-10" />
+        <div className="mx-4 rounded-[calc(var(--radius)*0.8)] border-2 border-dashed py-20 text-center lg:mx-6">
+          <HugeiconsIcon
+            icon={BarChartIcon}
+            className="text-muted-foreground mx-auto mb-4 size-10"
+          />
           <h3 className="text-lg font-semibold">No report data yet</h3>
           <p className="text-muted-foreground mt-1 text-sm">
             Start tracking your wellness to see reports and trends here.

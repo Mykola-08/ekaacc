@@ -52,10 +52,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
         </ToolbarButton>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent
-        className="flex w-[180px] min-w-0 flex-col"
-        align="start"
-      >
+      <DropdownMenuContent className="flex w-[180px] min-w-0 flex-col" align="start">
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="gap-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
@@ -221,8 +218,7 @@ function TablePicker() {
 
     for (let i = 0; i < newGrid.length; i++) {
       for (let j = 0; j < newGrid[i].length; j++) {
-        newGrid[i][j] =
-          i >= 0 && i <= rowIndex && j >= 0 && j <= colIndex ? 1 : 0;
+        newGrid[i][j] = i >= 0 && i <= rowIndex && j >= 0 && j <= colIndex ? 1 : 0;
       }
     }
 
@@ -234,7 +230,7 @@ function TablePicker() {
 
   return (
     <div
-      className="flex! m-0 flex-col p-0"
+      className="m-0 flex! flex-col p-0"
       onClick={() => {
         tf.insert.table(tablePicker.size, { select: true });
         editor.tf.focus();
@@ -247,7 +243,7 @@ function TablePicker() {
             <div
               key={`(${rowIndex},${columIndex})`}
               className={cn(
-                'col-span-1 size-3 border border-solid bg-secondary',
+                'bg-secondary col-span-1 size-3 border border-solid',
                 !!value && 'border-current'
               )}
               onMouseMove={() => {
@@ -258,7 +254,7 @@ function TablePicker() {
         )}
       </div>
 
-      <div className="text-center text-current text-xs">
+      <div className="text-center text-xs text-current">
         {tablePicker.size.rowCount} x {tablePicker.size.colCount}
       </div>
     </div>

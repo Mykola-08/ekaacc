@@ -4,11 +4,7 @@ import type { SlateEditor } from 'platejs';
 import { getMarkdown } from '@platejs/ai';
 import dedent from 'dedent';
 
-import {
-  buildStructuredPrompt,
-  formatTextFromMessages,
-  getLastUserInstruction,
-} from '../utils';
+import { buildStructuredPrompt, formatTextFromMessages, getLastUserInstruction } from '../utils';
 
 export function buildEditTableMultiCellPrompt(
   editor: SlateEditor,

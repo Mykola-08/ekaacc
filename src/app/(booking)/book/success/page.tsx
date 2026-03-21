@@ -22,7 +22,7 @@ export default function BookingSuccessPage() {
   return (
     <main className="flex min-h-[60vh] items-center justify-center p-4">
       <Card className="w-full max-w-lg overflow-hidden rounded-[calc(var(--radius)*0.8)] border-2 p-8 text-center sm:p-12">
-        <div className="mx-auto mb-6 flex size-24 items-center justify-center rounded-full bg-primary/20 text-primary">
+        <div className="bg-primary/20 text-primary mx-auto mb-6 flex size-24 items-center justify-center rounded-full">
           <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-12" />
         </div>
 

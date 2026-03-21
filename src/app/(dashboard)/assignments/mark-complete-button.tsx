@@ -10,7 +10,11 @@ export function MarkCompleteButton({ assignmentId }: { assignmentId: string }) {
   return (
     <Button
       disabled={isPending}
-      onClick={() => startTransition(async () => { await markAssignmentComplete(assignmentId); })}
+      onClick={() =>
+        startTransition(async () => {
+          await markAssignmentComplete(assignmentId);
+        })
+      }
     >
       {isPending ? 'Saving...' : 'Mark Complete'}
     </Button>

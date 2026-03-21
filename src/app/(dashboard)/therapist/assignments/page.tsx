@@ -27,7 +27,9 @@ export default async function AssignmentManagerPage() {
 
   const normalizedAssignments = (assignments ?? []).map((assignment: any) => ({
     ...assignment,
-    patient: Array.isArray(assignment.patient) ? (assignment.patient[0] ?? null) : assignment.patient,
+    patient: Array.isArray(assignment.patient)
+      ? (assignment.patient[0] ?? null)
+      : assignment.patient,
   }));
 
   // Fetch patients (profiles with role = 'client' or 'patient') for the dropdown
@@ -37,10 +39,5 @@ export default async function AssignmentManagerPage() {
     .in('role', ['client', 'patient'])
     .order('full_name');
 
-  return (
-    <AssignmentManager
-      assignments={normalizedAssignments}
-      patients={patients ?? []}
-    />
-  );
+  return <AssignmentManager assignments={normalizedAssignments} patients={patients ?? []} />;
 }

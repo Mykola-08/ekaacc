@@ -34,22 +34,18 @@ export function StatsCard({
     <Card
       className={cn(
         'relative overflow-hidden transition-all duration-200 hover:-translate-y-px',
-        accent && 'border-primary/20 bg-gradient-to-br from-primary/5 to-card',
+        accent && 'border-primary/20 from-primary/5 to-card bg-gradient-to-br',
         className
       )}
     >
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-muted-foreground truncate text-xs font-medium uppercase tracking-wider">
+            <p className="text-muted-foreground truncate text-xs font-medium tracking-wider uppercase">
               {label}
             </p>
-            <div className="mt-1.5 text-2xl font-bold tracking-tight tabular-nums">
-              {value}
-            </div>
-            {subLabel && (
-              <p className="text-muted-foreground mt-1 text-xs">{subLabel}</p>
-            )}
+            <div className="mt-1.5 text-2xl font-bold tracking-tight tabular-nums">{value}</div>
+            {subLabel && <p className="text-muted-foreground mt-1 text-xs">{subLabel}</p>}
             {trend && (
               <span
                 className={cn(
@@ -74,7 +70,7 @@ export function StatsCard({
             </div>
           )}
         </div>
-        {action && <div className="mt-3 border-t border-border/50 pt-3">{action}</div>}
+        {action && <div className="border-border/50 mt-3 border-t pt-3">{action}</div>}
       </CardContent>
     </Card>
   );

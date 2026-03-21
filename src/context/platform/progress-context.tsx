@@ -79,7 +79,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
                 className="bg-background/80 fixed inset-0 z-40 flex items-center justify-center backdrop-blur-sm"
               >
                 <div className="text-center">
-                  <HugeiconsIcon icon={Loading03Icon} className="text-primary mx-auto size-12 animate-spin"  />
+                  <HugeiconsIcon
+                    icon={Loading03Icon}
+                    className="text-primary mx-auto size-12 animate-spin"
+                  />
                   <p className="text-muted-foreground text-sm">{message}</p>
                   <p className="text-primary text-xs font-semibold">{Math.round(progress)}%</p>
                 </div>

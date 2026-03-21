@@ -31,10 +31,7 @@ export async function updateNotificationPreferences(
 
   const { error } = await supabase
     .from('notification_preferences')
-    .upsert(
-      { user_id: user.id, ...input },
-      { onConflict: 'user_id' }
-    );
+    .upsert({ user_id: user.id, ...input }, { onConflict: 'user_id' });
 
   if (error) return { success: false, error: error.message };
 

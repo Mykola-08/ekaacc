@@ -15,8 +15,7 @@ import { cn } from '@/lib/utils';
 
 type ShaderProps = Omit<LiquidMetalProps, 'className' | 'style' | 'shape'>;
 
-type LiquidMetalCardProps = React.ComponentProps<typeof Card> &
-  Partial<ShaderProps>;
+type LiquidMetalCardProps = React.ComponentProps<typeof Card> & Partial<ShaderProps>;
 
 function LiquidMetalCard({
   className,
@@ -36,16 +35,13 @@ function LiquidMetalCard({
 }: LiquidMetalCardProps) {
   return (
     <Card
-      data-slot='liquid-metal-card'
-      className={cn(
-        'relative overflow-hidden bg-transparent ring-0',
-        className
-      )}
+      data-slot="liquid-metal-card"
+      className={cn('relative overflow-hidden bg-transparent ring-0', className)}
       {...props}
     >
       <LiquidMetal
-        className='absolute inset-0 rounded-[var(--radius)]'
-        shape='none'
+        className="absolute inset-0 rounded-[var(--radius)]"
+        shape="none"
         speed={speed}
         repetition={repetition}
         softness={softness}
@@ -58,10 +54,8 @@ function LiquidMetalCard({
         offsetX={offsetX}
         offsetY={offsetY}
       />
-      <div className='absolute inset-0.75 rounded-[calc(1rem-1px)] bg-card inset-shadow-lg' />
-      <div className='relative flex flex-col gap-6 group-data-[size=sm]/card:gap-4'>
-        {children}
-      </div>
+      <div className="bg-card inset-shadow-lg absolute inset-0.75 rounded-[calc(1rem-1px)]" />
+      <div className="relative flex flex-col gap-6 group-data-[size=sm]/card:gap-4">{children}</div>
     </Card>
   );
 }

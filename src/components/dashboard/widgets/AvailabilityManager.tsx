@@ -6,7 +6,13 @@ import { cn } from '@/lib/utils';
 import { toast } from '@/components/ui/morphing-toaster';
 import { StatsCard } from './StatsCard';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Calendar03Icon, Cancel01Icon, Clock01Icon, FloppyDiskIcon, Tick02Icon } from '@hugeicons/core-free-icons';
+import {
+  Calendar03Icon,
+  Cancel01Icon,
+  Clock01Icon,
+  FloppyDiskIcon,
+  Tick02Icon,
+} from '@hugeicons/core-free-icons';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const HOURS = [
@@ -73,7 +79,7 @@ export function AvailabilityManager() {
               : 'bg-secondary text-muted-foreground cursor-not-allowed opacity-50'
           )}
         >
-          <HugeiconsIcon icon={FloppyDiskIcon} className="mr-2 size-4"  />
+          <HugeiconsIcon icon={FloppyDiskIcon} className="mr-2 size-4" />
           Save Changes
         </Button>
       </div>
@@ -132,9 +138,9 @@ export function AvailabilityManager() {
                           )}
                         >
                           {isAvailable ? (
-                            <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
+                            <HugeiconsIcon icon={Tick02Icon} className="size-4" />
                           ) : (
-                            <HugeiconsIcon icon={Cancel01Icon} className="size-4"  />
+                            <HugeiconsIcon icon={Cancel01Icon} className="size-4" />
                           )}
                         </button>
                       </td>
@@ -149,7 +155,7 @@ export function AvailabilityManager() {
       <div className="text-muted-foreground mt-8 flex items-center justify-center gap-8 text-sm font-semibold">
         <div className="flex items-center gap-3">
           <div className="bg-primary/10 border-primary/20 text-primary flex h-5 w-5 items-center justify-center rounded-[var(--radius)] border-2">
-            <HugeiconsIcon icon={Tick02Icon} className="size-3"  />
+            <HugeiconsIcon icon={Tick02Icon} className="size-3" />
           </div>
           <span className="text-foreground">Available</span>
         </div>

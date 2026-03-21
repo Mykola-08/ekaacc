@@ -48,10 +48,7 @@ export function MediaPreviewDialog() {
 
   return (
     <div
-      className={cn(
-        'fixed top-0 left-0 z-50 h-screen w-screen select-none',
-        !isOpen && 'hidden'
-      )}
+      className={cn('fixed top-0 left-0 z-50 h-screen w-screen select-none', !isOpen && 'hidden')}
       onContextMenu={(e) => e.stopPropagation()}
       {...maskLayerProps}
     >
@@ -65,7 +62,7 @@ export function MediaPreviewDialog() {
             )}
           />
           <div
-            className="-translate-x-1/2 absolute bottom-0 left-1/2 z-40 flex w-fit justify-center gap-4 p-2 text-center text-white"
+            className="absolute bottom-0 left-1/2 z-40 flex w-fit -translate-x-1/2 justify-center gap-4 p-2 text-center text-white"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex gap-1">
@@ -131,11 +128,7 @@ export function MediaPreviewDialog() {
             <button className={cn(buttonVariants())} type="button">
               <Download className="size-4" />
             </button>
-            <button
-              {...closeProps}
-              className={cn(buttonVariants())}
-              type="button"
-            >
+            <button {...closeProps} className={cn(buttonVariants())} type="button">
               <X className="size-4" />
             </button>
           </div>

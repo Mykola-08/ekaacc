@@ -26,18 +26,10 @@ import { useEditorPlugin, usePluginOption } from 'platejs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-  type TDiscussion,
-  discussionPlugin,
-} from '@/components/discussion-kit';
+import { type TDiscussion, discussionPlugin } from '@/components/discussion-kit';
 import { suggestionPlugin } from '@/components/suggestion-kit';
 
-import {
-  type TComment,
-  Comment,
-  CommentCreateForm,
-  formatCommentDate,
-} from './comment';
+import { type TComment, Comment, CommentCreateForm, formatCommentDate } from './comment';
 
 export interface ResolvedSuggestion extends TResolvedSuggestion {
   comments: TComment[];
@@ -124,13 +116,9 @@ export function BlockSuggestionCard({
             <AvatarImage alt={userInfo?.name} src={userInfo?.avatarUrl} />
             <AvatarFallback>{userInfo?.name?.[0]}</AvatarFallback>
           </Avatar>
-          <h4 className="mx-2 font-semibold text-sm leading-none">
-            {userInfo?.name}
-          </h4>
+          <h4 className="mx-2 text-sm leading-none font-semibold">{userInfo?.name}</h4>
           <div className="text-muted-foreground/80 text-xs leading-none">
-            <span className="mr-1">
-              {formatCommentDate(new Date(suggestion.createdAt))}
-            </span>
+            <span className="mr-1">{formatCommentDate(new Date(suggestion.createdAt))}</span>
           </div>
         </div>
 
@@ -160,19 +148,14 @@ export function BlockSuggestionCard({
 
             {suggestion.type === 'replace' && (
               <div className="flex flex-col gap-2">
-                {suggestionText2Array(suggestion.newText!).map(
-                  (text, index) => (
-                    <React.Fragment key={index}>
-                      <div
-                        key={index}
-                        className="flex items-start gap-2 text-brand/80"
-                      >
-                        <span className="text-sm">with:</span>
-                        <span className="text-sm">{text || 'line breaks'}</span>
-                      </div>
-                    </React.Fragment>
-                  )
-                )}
+                {suggestionText2Array(suggestion.newText!).map((text, index) => (
+                  <React.Fragment key={index}>
+                    <div key={index} className="text-brand/80 flex items-start gap-2">
+                      <span className="text-sm">with:</span>
+                      <span className="text-sm">{text || 'line breaks'}</span>
+                    </div>
+                  </React.Fragment>
+                ))}
 
                 {suggestionText2Array(suggestion.text!).map((text, index) => (
                   <React.Fragment key={index}>
@@ -195,9 +178,7 @@ export function BlockSuggestionCard({
                   ))}
 
                   {Object.keys(suggestion.newProperties).map((key) => (
-                    <span key={key}>
-                      {key.charAt(0).toUpperCase() + key.slice(1)}
-                    </span>
+                    <span key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</span>
                   ))}
                 </span>
                 <span className="text-sm">{suggestion.newText}</span>
@@ -222,7 +203,7 @@ export function BlockSuggestionCard({
           <div className="absolute top-4 right-4 flex gap-2">
             <Button
               variant="ghost"
-              className="size-6 p-1 text-muted-foreground"
+              className="text-muted-foreground size-6 p-1"
               onClick={() => accept(suggestion)}
             >
               <CheckIcon className="size-4" />
@@ -230,7 +211,7 @@ export function BlockSuggestionCard({
 
             <Button
               variant="ghost"
-              className="size-6 p-1 text-muted-foreground"
+              className="text-muted-foreground size-6 p-1"
               onClick={() => reject(suggestion)}
             >
               <XIcon className="size-4" />
@@ -241,7 +222,7 @@ export function BlockSuggestionCard({
         <CommentCreateForm discussionId={suggestion.suggestionId} />
       </div>
 
-      {!isLast && <div className="h-px w-full bg-muted" />}
+      {!isLast && <div className="bg-muted h-px w-full" />}
     </div>
   );
 }
@@ -252,8 +233,7 @@ export const useResolveSuggestion = (
 ) => {
   const discussions = usePluginOption(discussionPlugin, 'discussions');
 
-  const { api, editor, getOption, setOption } =
-    useEditorPlugin(suggestionPlugin);
+  const { api, editor, getOption, setOption } = useEditorPlugin(suggestionPlugin);
 
   suggestionNodes.forEach(([node]) => {
     const id = api.suggestion.nodeId(node);
@@ -291,17 +271,13 @@ export const useResolveSuggestion = (
         .flatMap(([node]) => {
           if (TextApi.isText(node)) {
             const dataList = api.suggestion.dataList(node);
-            const includeUpdate = dataList.some(
-              (data) => data.type === 'update'
-            );
+            const includeUpdate = dataList.some((data) => data.type === 'update');
 
             if (!includeUpdate) {
               return api.suggestion.nodeId(node) ?? [];
             }
 
-            return dataList
-              .filter((data) => data.type === 'update')
-              .map((d) => d.id);
+            return dataList.filter((data) => data.type === 'update').map((d) => d.id);
           }
           if (ElementApi.isElement(node)) {
             return api.suggestion.nodeId(node) ?? [];
@@ -333,9 +309,7 @@ export const useResolveSuggestion = (
       ];
 
       // move line break to the end
-      entries.sort(([, path1], [, path2]) =>
-        PathApi.isChild(path1, path2) ? -1 : 1
-      );
+      entries.sort(([, path1], [, path2]) => (PathApi.isChild(path1, path2) ? -1 : 1));
 
       let newText = '';
       let text = '';
@@ -405,8 +379,7 @@ export const useResolveSuggestion = (
       if (!nodeData) return;
 
       // const comments = data?.discussions.find((d) => d.id === id)?.comments;
-      const comments =
-        discussions.find((s: TDiscussion) => s.id === id)?.comments || [];
+      const comments = discussions.find((s: TDiscussion) => s.id === id)?.comments || [];
       const createdAt = new Date(nodeData.createdAt);
 
       const keyId = getSuggestionKey(id);
@@ -458,14 +431,7 @@ export const useResolveSuggestion = (
     });
 
     return res;
-  }, [
-    api.suggestion,
-    blockPath,
-    discussions,
-    editor.api,
-    getOption,
-    suggestionNodes,
-  ]);
+  }, [api.suggestion, blockPath, discussions, editor.api, getOption, suggestionNodes]);
 
   return resolvedSuggestion;
 };

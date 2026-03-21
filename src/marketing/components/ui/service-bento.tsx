@@ -66,7 +66,7 @@ export function ServiceBentoItem({
         <button
           onClick={() => setIsOpen(true)}
           onMouseMove={handleMouseMove}
-          className="group border-secondary/50 relative isolate flex h-full min-h-[420px] w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border bg-background text-left transition-all duration-500 will-change-transform outline-none active:scale-[0.98]"
+          className="group border-secondary/50 bg-background relative isolate flex h-full min-h-[420px] w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border text-left transition-all duration-500 will-change-transform outline-none active:scale-[0.98]"
         >
           {/* Spotlight overlay */}
           <motion.div
@@ -175,7 +175,7 @@ export function ServiceBentoItem({
                       onClick={() => setIsOpen(false)}
                       className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-xl transition-colors hover:bg-black/40 sm:top-5 sm:right-5"
                     >
-                      <HugeiconsIcon icon={Cancel01Icon} size={18}  />
+                      <HugeiconsIcon icon={Cancel01Icon} size={18} />
                     </button>
 
                     <div className="flex h-full w-full flex-col md:flex-row">
@@ -201,7 +201,11 @@ export function ServiceBentoItem({
                                 {readMoreUrl && (
                                   <Link href={readMoreUrl} className="flex-1">
                                     <span className="flex w-full items-center justify-center rounded-full border border-white/20 bg-black/40 px-4 py-2 text-xs font-semibold whitespace-nowrap text-white backdrop-blur-md transition hover:bg-black/60">
-                                      {readMoreText} <HugeiconsIcon icon={ArrowRight01Icon} className="ml-1.5 size-3"  />
+                                      {readMoreText}{' '}
+                                      <HugeiconsIcon
+                                        icon={ArrowRight01Icon}
+                                        className="ml-1.5 size-3"
+                                      />
                                     </span>
                                   </Link>
                                 )}
@@ -228,7 +232,11 @@ export function ServiceBentoItem({
                               {readMoreUrl && (
                                 <Link href={readMoreUrl} className="w-full">
                                   <span className="flex w-full items-center justify-center rounded-[var(--radius)] bg-gray-100 px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-black transition hover:bg-gray-200">
-                                    {readMoreText} <HugeiconsIcon icon={ArrowRight01Icon} className="ml-1.5 size-3"  />
+                                    {readMoreText}{' '}
+                                    <HugeiconsIcon
+                                      icon={ArrowRight01Icon}
+                                      className="ml-1.5 size-3"
+                                    />
                                   </span>
                                 </Link>
                               )}
@@ -258,7 +266,8 @@ export function ServiceBentoItem({
                             {readMoreUrl && (
                               <Link href={readMoreUrl} className="flex-1">
                                 <span className="flex w-full items-center justify-center rounded-full bg-gray-100 px-6 py-3.5 text-base font-medium whitespace-nowrap text-black transition hover:bg-gray-200">
-                                  {readMoreText} <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4"  />
+                                  {readMoreText}{' '}
+                                  <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-4" />
                                 </span>
                               </Link>
                             )}

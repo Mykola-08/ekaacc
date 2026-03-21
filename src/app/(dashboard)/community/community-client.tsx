@@ -105,7 +105,10 @@ function PostCard({
   onLike: (id: string) => void;
   onReact: (id: string, reaction: 'like' | 'heart' | 'pray') => void;
   onReply: (id: string, content: string) => Promise<void>;
-  onReport: (id: string, reason: 'spam' | 'harassment' | 'misinformation' | 'unsafe' | 'other') => void;
+  onReport: (
+    id: string,
+    reason: 'spam' | 'harassment' | 'misinformation' | 'unsafe' | 'other'
+  ) => void;
 }) {
   const [replyText, setReplyText] = useState('');
   const [showReply, setShowReply] = useState(false);
@@ -114,14 +117,19 @@ function PostCard({
     <Card className="rounded-[var(--radius)]">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-sm font-semibold leading-snug text-foreground">{post.title}</h3>
+          <h3 className="text-foreground text-sm leading-snug font-semibold">{post.title}</h3>
           {post.category && (
-            <span className={cn('shrink-0 rounded-full px-2 py-0.5 text-xs font-medium capitalize', CATEGORY_COLORS[post.category] ?? 'bg-muted text-muted-foreground')}>
+            <span
+              className={cn(
+                'shrink-0 rounded-full px-2 py-0.5 text-xs font-medium capitalize',
+                CATEGORY_COLORS[post.category] ?? 'bg-muted text-muted-foreground'
+              )}
+            >
               {post.category}
             </span>
           )}
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
           <HugeiconsIcon icon={UserCircleIcon} className="size-3.5" />
           <span>
             {post.is_anonymous ? 'Anonymous' : (post.author?.full_name ?? 'Community Member')}
@@ -131,11 +139,13 @@ function PostCard({
         </div>
       </CardHeader>
       <CardContent className="pb-3">
-        <p className="line-clamp-3 text-sm text-muted-foreground leading-relaxed">{post.content}</p>
+        <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">{post.content}</p>
         {post.tags && post.tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {post.tags.map((t) => (
-              <Badge key={t} variant="secondary" className="text-xs">{t}</Badge>
+              <Badge key={t} variant="secondary" className="text-xs">
+                {t}
+              </Badge>
             ))}
           </div>
         )}
@@ -144,20 +154,24 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground hover:text-primary rounded-[calc(var(--radius)*0.8)] transition-colors"
+          className="text-muted-foreground hover:text-primary gap-1.5 rounded-[calc(var(--radius)*0.8)] transition-colors"
           onClick={() => onLike(post.id)}
         >
           <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
           <span className="text-xs tabular-nums">{post.likes_count ?? 0}</span>
         </Button>
-        <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)] ml-1">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-muted-foreground ml-1 gap-1.5 rounded-[calc(var(--radius)*0.8)]"
+        >
           <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
           <span className="text-xs">Discuss {replies.length > 0 ? `(${replies.length})` : ''}</span>
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)]"
+          className="text-muted-foreground gap-1.5 rounded-[calc(var(--radius)*0.8)]"
           onClick={() => onReact(post.id, 'heart')}
         >
           <HugeiconsIcon icon={ThumbsUpIcon} className="size-3.5" />
@@ -166,7 +180,7 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)]"
+          className="text-muted-foreground gap-1.5 rounded-[calc(var(--radius)*0.8)]"
           onClick={() => onReact(post.id, 'pray')}
         >
           <HugeiconsIcon icon={Comment01Icon} className="size-3.5" />
@@ -175,22 +189,30 @@ function PostCard({
         <Button
           variant="ghost"
           size="sm"
-          className="gap-1.5 text-muted-foreground rounded-[calc(var(--radius)*0.8)]"
+          className="text-muted-foreground gap-1.5 rounded-[calc(var(--radius)*0.8)]"
           onClick={() => onReport(post.id, 'other')}
         >
           <span className="text-xs">Report</span>
         </Button>
       </CardFooter>
-      <CardContent className="pt-0 space-y-2">
-        <Button variant="ghost" size="sm" className="text-xs rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowReply((v) => !v)}>
+      <CardContent className="space-y-2 pt-0">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="rounded-[calc(var(--radius)*0.8)] text-xs"
+          onClick={() => setShowReply((v) => !v)}
+        >
           {showReply ? 'Hide replies' : 'Reply'}
         </Button>
         {showReply && (
           <div className="space-y-2">
             {replies.map((reply) => (
-              <div key={reply.id} className="rounded-[var(--radius)] border border-border/60 p-2 text-xs text-muted-foreground">
-                <span className="font-medium text-foreground mr-1">
-                  {reply.is_anonymous ? 'Anonymous' : reply.author?.full_name ?? 'Member'}:
+              <div
+                key={reply.id}
+                className="border-border/60 text-muted-foreground rounded-[var(--radius)] border p-2 text-xs"
+              >
+                <span className="text-foreground mr-1 font-medium">
+                  {reply.is_anonymous ? 'Anonymous' : (reply.author?.full_name ?? 'Member')}:
                 </span>
                 {reply.content}
               </div>
@@ -247,8 +269,14 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
   });
 
   const handleCreate = async () => {
-    if (!newTitle.trim()) { setCreateError('Please enter a title.'); return; }
-    if (!newContent.trim()) { setCreateError('Please enter some content.'); return; }
+    if (!newTitle.trim()) {
+      setCreateError('Please enter a title.');
+      return;
+    }
+    if (!newContent.trim()) {
+      setCreateError('Please enter some content.');
+      return;
+    }
     setCreating(true);
     setCreateError(null);
     const res = await createCommunityPost({
@@ -258,9 +286,15 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
       is_anonymous: isAnonymous,
     });
     setCreating(false);
-    if (!res.success) { setCreateError(res.error ?? 'Failed to post'); return; }
+    if (!res.success) {
+      setCreateError(res.error ?? 'Failed to post');
+      return;
+    }
     setPosts((prev) => [res.data as Post, ...prev]);
-    setNewTitle(''); setNewContent(''); setNewCategory(''); setIsAnonymous(false);
+    setNewTitle('');
+    setNewContent('');
+    setNewCategory('');
+    setIsAnonymous(false);
     setShowNewDialog(false);
     router.refresh();
   };
@@ -269,7 +303,7 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
     startTransition(async () => {
       await likePost(id);
       setPosts((prev) =>
-        prev.map((p) => p.id === id ? { ...p, likes_count: (p.likes_count ?? 0) + 1 } : p)
+        prev.map((p) => (p.id === id ? { ...p, likes_count: (p.likes_count ?? 0) + 1 } : p))
       );
     });
   };
@@ -310,14 +344,17 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-            <HugeiconsIcon icon={UserGroupIcon} className="size-5 text-muted-foreground" />
+            <HugeiconsIcon icon={UserGroupIcon} className="text-muted-foreground size-5" />
             Community Forums
           </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-0.5 text-sm">
             Connect with others, share experiences, and get support.
           </p>
         </div>
-        <Button onClick={() => setShowNewDialog(true)} className="shrink-0 gap-2 rounded-[calc(var(--radius)*0.8)]">
+        <Button
+          onClick={() => setShowNewDialog(true)}
+          className="shrink-0 gap-2 rounded-[calc(var(--radius)*0.8)]"
+        >
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
           New Topic
         </Button>
@@ -328,23 +365,32 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
         <div className="space-y-4 @xl/main:col-span-8">
           {/* Search */}
           <div className="relative">
-            <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <HugeiconsIcon
+              icon={Search01Icon}
+              className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"
+            />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search posts…"
-              className="pl-9 rounded-[var(--radius)]"
+              className="rounded-[var(--radius)] pl-9"
             />
           </div>
 
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-16 text-center">
-              <HugeiconsIcon icon={UserGroupIcon} className="size-10 text-muted-foreground/30" />
-              <p className="text-sm text-muted-foreground">
-                {search || categoryFilter !== 'all' ? 'No posts match your search.' : 'No posts yet. Be the first to start a discussion!'}
+              <HugeiconsIcon icon={UserGroupIcon} className="text-muted-foreground/30 size-10" />
+              <p className="text-muted-foreground text-sm">
+                {search || categoryFilter !== 'all'
+                  ? 'No posts match your search.'
+                  : 'No posts yet. Be the first to start a discussion!'}
               </p>
               {!search && categoryFilter === 'all' && (
-                <Button onClick={() => setShowNewDialog(true)} variant="outline" className="rounded-[calc(var(--radius)*0.8)] gap-2">
+                <Button
+                  onClick={() => setShowNewDialog(true)}
+                  variant="outline"
+                  className="gap-2 rounded-[calc(var(--radius)*0.8)]"
+                >
                   <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
                   Start a Discussion
                 </Button>
@@ -379,12 +425,12 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
                 className={cn(
                   'w-full rounded-[var(--radius)] px-3 py-2 text-left text-sm transition-colors',
                   categoryFilter === 'all'
-                    ? 'bg-primary/10 font-medium text-primary'
+                    ? 'bg-primary/10 text-primary font-medium'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 )}
               >
                 All Topics
-                <span className="float-right tabular-nums text-xs">{posts.length}</span>
+                <span className="float-right text-xs tabular-nums">{posts.length}</span>
               </button>
               {categoryCounts.map((c) => (
                 <button
@@ -393,22 +439,23 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
                   className={cn(
                     'w-full rounded-[var(--radius)] px-3 py-2 text-left text-sm capitalize transition-colors',
                     categoryFilter === c.value
-                      ? 'bg-primary/10 font-medium text-primary'
+                      ? 'bg-primary/10 text-primary font-medium'
                       : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                   )}
                 >
                   {c.label}
-                  <span className="float-right tabular-nums text-xs">{c.count}</span>
+                  <span className="float-right text-xs tabular-nums">{c.count}</span>
                 </button>
               ))}
             </CardContent>
           </Card>
 
-          <Card className="rounded-[var(--radius)] border-primary/20 bg-primary/5">
-            <CardContent className="p-4 text-sm text-muted-foreground">
-              <p className="font-medium text-foreground mb-1">Community Guidelines</p>
+          <Card className="border-primary/20 bg-primary/5 rounded-[var(--radius)]">
+            <CardContent className="text-muted-foreground p-4 text-sm">
+              <p className="text-foreground mb-1 font-medium">Community Guidelines</p>
               <p className="text-xs leading-relaxed">
-                Be respectful, supportive, and kind. This is a safe space for everyone. If you're in crisis, please contact emergency services.
+                Be respectful, supportive, and kind. This is a safe space for everyone. If you're in
+                crisis, please contact emergency services.
               </p>
             </CardContent>
           </Card>
@@ -423,7 +470,9 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <Label>Title <span className="text-destructive">*</span></Label>
+              <Label>
+                Title <span className="text-destructive">*</span>
+              </Label>
               <Input
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
@@ -432,7 +481,9 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Content <span className="text-destructive">*</span></Label>
+              <Label>
+                Content <span className="text-destructive">*</span>
+              </Label>
               <Textarea
                 value={newContent}
                 onChange={(e) => setNewContent(e.target.value)}
@@ -449,14 +500,19 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
                   </SelectTrigger>
                   <SelectContent>
                     {CATEGORIES.map((c) => (
-                      <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
+                      <SelectItem key={c.value} value={c.value}>
+                        {c.label}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-1.5">
                 <Label>Visibility</Label>
-                <Select value={isAnonymous ? 'anonymous' : 'public'} onValueChange={(v) => setIsAnonymous(v === 'anonymous')}>
+                <Select
+                  value={isAnonymous ? 'anonymous' : 'public'}
+                  onValueChange={(v) => setIsAnonymous(v === 'anonymous')}
+                >
                   <SelectTrigger className="h-10 rounded-[var(--radius)]">
                     <SelectValue />
                   </SelectTrigger>
@@ -468,12 +524,24 @@ export function CommunityPageClient({ posts: initial }: { posts: Post[] }) {
               </div>
             </div>
             {createError && (
-              <Alert variant="destructive"><AlertDescription>{createError}</AlertDescription></Alert>
+              <Alert variant="destructive">
+                <AlertDescription>{createError}</AlertDescription>
+              </Alert>
             )}
           </div>
           <DialogFooter>
-            <Button variant="ghost" className="rounded-[calc(var(--radius)*0.8)]" onClick={() => setShowNewDialog(false)}>Cancel</Button>
-            <Button onClick={handleCreate} disabled={creating} className="gap-2 rounded-[calc(var(--radius)*0.8)]">
+            <Button
+              variant="ghost"
+              className="rounded-[calc(var(--radius)*0.8)]"
+              onClick={() => setShowNewDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleCreate}
+              disabled={creating}
+              className="gap-2 rounded-[calc(var(--radius)*0.8)]"
+            >
               {creating && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
               {creating ? 'Posting…' : 'Post'}
             </Button>

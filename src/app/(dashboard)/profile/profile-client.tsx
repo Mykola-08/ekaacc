@@ -59,7 +59,10 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
       specialties: specialties.length > 0 ? specialties : undefined,
     });
     setSaving(false);
-    if (!res.success) { setError(res.error ?? 'Failed to save'); return; }
+    if (!res.success) {
+      setError(res.error ?? 'Failed to save');
+      return;
+    }
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
     router.refresh();
@@ -86,10 +89,10 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
       {/* Header */}
       <div>
         <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-          <HugeiconsIcon icon={UserCircleIcon} className="size-5 text-muted-foreground" />
+          <HugeiconsIcon icon={UserCircleIcon} className="text-muted-foreground size-5" />
           My Profile
         </h1>
-        <p className="mt-0.5 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-0.5 text-sm">
           Manage your personal information and preferences.
         </p>
       </div>
@@ -120,9 +123,9 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   id="email"
                   value={user.email}
                   disabled
-                  className="h-10 rounded-[var(--radius)] bg-muted/40 text-muted-foreground"
+                  className="bg-muted/40 text-muted-foreground h-10 rounded-[var(--radius)]"
                 />
-                <p className="text-xs text-muted-foreground">Email cannot be changed here.</p>
+                <p className="text-muted-foreground text-xs">Email cannot be changed here.</p>
               </div>
 
               <div className="space-y-1.5">
@@ -149,14 +152,19 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
               </div>
 
               {error && (
-                <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
 
               <div className="flex justify-end">
                 <Button
                   onClick={handleSave}
                   disabled={saving}
-                  className={cn('gap-2 rounded-[calc(var(--radius)*0.8)]', saved && 'bg-success text-success-foreground')}
+                  className={cn(
+                    'gap-2 rounded-[calc(var(--radius)*0.8)]',
+                    saved && 'bg-success text-success-foreground'
+                  )}
                 >
                   {saving && <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />}
                   {saved && <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />}
@@ -174,18 +182,22 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
             <CardContent className="space-y-4">
               <div className="flex flex-wrap gap-2">
                 {specialties.map((s) => (
-                  <Badge key={s} variant="secondary" className="gap-1.5 rounded-[calc(var(--radius)*0.8)] pr-1">
+                  <Badge
+                    key={s}
+                    variant="secondary"
+                    className="gap-1.5 rounded-[calc(var(--radius)*0.8)] pr-1"
+                  >
                     {s}
                     <button
                       onClick={() => removeSpecialty(s)}
-                      className="rounded-[calc(var(--radius)*0.8)] p-0.5 hover:bg-destructive/10 hover:text-destructive transition-colors"
+                      className="hover:bg-destructive/10 hover:text-destructive rounded-[calc(var(--radius)*0.8)] p-0.5 transition-colors"
                     >
                       <HugeiconsIcon icon={Cancel01Icon} className="size-3" />
                     </button>
                   </Badge>
                 ))}
                 {specialties.length === 0 && (
-                  <p className="text-sm text-muted-foreground">No specialties added yet.</p>
+                  <p className="text-muted-foreground text-sm">No specialties added yet.</p>
                 )}
               </div>
               <Separator />
@@ -197,7 +209,11 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
                   placeholder="Add a specialty (e.g. Anxiety)"
                   className="h-10 flex-1 rounded-[var(--radius)]"
                 />
-                <Button variant="outline" onClick={addSpecialty} className="h-10 gap-1.5 rounded-[var(--radius)]">
+                <Button
+                  variant="outline"
+                  onClick={addSpecialty}
+                  className="h-10 gap-1.5 rounded-[var(--radius)]"
+                >
                   <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
                   Add
                 </Button>
@@ -211,37 +227,48 @@ export function ProfilePageClient({ profile, user }: { profile: Profile | null; 
           <Card className="rounded-[var(--radius)]">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center gap-4 text-center">
-                <div className={cn(
-                  'size-24 rounded-[var(--radius)] bg-muted flex items-center justify-center overflow-hidden',
-                  profile?.avatar_url && 'p-0'
-                )}>
+                <div
+                  className={cn(
+                    'bg-muted flex size-24 items-center justify-center overflow-hidden rounded-[var(--radius)]',
+                    profile?.avatar_url && 'p-0'
+                  )}
+                >
                   {profile?.avatar_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={profile.avatar_url} alt={fullName} className="size-full object-cover" />
+                    <img
+                      src={profile.avatar_url}
+                      alt={fullName}
+                      className="size-full object-cover"
+                    />
                   ) : (
-                    <HugeiconsIcon icon={UserIcon} className="size-12 text-muted-foreground/50" />
+                    <HugeiconsIcon icon={UserIcon} className="text-muted-foreground/50 size-12" />
                   )}
                 </div>
                 <div>
                   <p className="font-semibold">{fullName || 'Your Name'}</p>
-                  <p className="text-sm text-muted-foreground">{user.email}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">Member since {memberSince}</p>
+                  <p className="text-muted-foreground text-sm">{user.email}</p>
+                  <p className="text-muted-foreground mt-1 text-xs">Member since {memberSince}</p>
                 </div>
-                <Button variant="outline" size="sm" className="w-full rounded-[var(--radius)]" disabled>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full rounded-[var(--radius)]"
+                  disabled
+                >
                   Change Avatar
                 </Button>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-[var(--radius)] bg-muted/40">
-            <CardContent className="p-4 space-y-2 text-sm">
+          <Card className="bg-muted/40 rounded-[var(--radius)]">
+            <CardContent className="space-y-2 p-4 text-sm">
               <p className="font-medium">Account</p>
-              <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="text-muted-foreground flex justify-between text-xs">
                 <span>Email verified</span>
                 <span className="text-success font-medium">Yes</span>
               </div>
-              <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="text-muted-foreground flex justify-between text-xs">
                 <span>Member since</span>
                 <span>{memberSince}</span>
               </div>

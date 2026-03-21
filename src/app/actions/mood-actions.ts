@@ -95,9 +95,9 @@ export async function getTodayMood(): Promise<number | null> {
 /**
  * Get mood entries for a date range.
  */
-export async function getMoodHistory(days = 30): Promise<
-  Array<{ score: number; logged_at: string; note: string | null }>
-> {
+export async function getMoodHistory(
+  days = 30
+): Promise<Array<{ score: number; logged_at: string; note: string | null }>> {
   const supabase = await createClient();
   const {
     data: { user },

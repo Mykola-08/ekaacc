@@ -107,15 +107,27 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
   );
 
   const handleSave = async () => {
-    if (!content.trim()) { setError('Please write something before saving.'); return; }
+    if (!content.trim()) {
+      setError('Please write something before saving.');
+      return;
+    }
     setSaving(true);
     setError(null);
-    const res = await createJournalEntry({ title: title || undefined, content, mood: mood || undefined });
+    const res = await createJournalEntry({
+      title: title || undefined,
+      content,
+      mood: mood || undefined,
+    });
     setSaving(false);
-    if (!res.success) { setError(res.error ?? 'Failed to save'); return; }
+    if (!res.success) {
+      setError(res.error ?? 'Failed to save');
+      return;
+    }
     // Optimistically prepend
     setEntries((prev) => [res.data as JournalEntry, ...prev]);
-    setTitle(''); setContent(''); setMood('');
+    setTitle('');
+    setContent('');
+    setMood('');
     setView('list');
     router.refresh();
   };
@@ -140,7 +152,7 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
         </div>
 
         <Card>
-          <CardContent className="p-5 space-y-4">
+          <CardContent className="space-y-4 p-5">
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -149,14 +161,18 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
             />
 
             <div className="space-y-1">
-              <Label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Mood</Label>
+              <Label className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
+                Mood
+              </Label>
               <Select value={mood} onValueChange={setMood}>
                 <SelectTrigger>
                   <SelectValue placeholder="How are you feeling?" />
                 </SelectTrigger>
                 <SelectContent>
                   {MOOD_OPTIONS.map((o) => (
-                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -175,7 +191,7 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
               </Alert>
             )}
 
-            <div className="flex items-center justify-between border-t border-border/50 pt-4">
+            <div className="border-border/50 flex items-center justify-between border-t pt-4">
               <Button variant="ghost" size="sm" onClick={() => setView('list')}>
                 Discard
               </Button>
@@ -196,7 +212,9 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">My Journal</h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">A private space for self-reflection.</p>
+          <p className="text-muted-foreground mt-0.5 text-sm">
+            A private space for self-reflection.
+          </p>
         </div>
         <Button size="sm" onClick={() => setView('write')} className="shrink-0 gap-2">
           <HugeiconsIcon icon={PlusSignIcon} className="size-4" />
@@ -208,19 +226,22 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
         {/* Entry list */}
         <div className="space-y-3">
           <div className="relative">
-            <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <HugeiconsIcon
+              icon={Search01Icon}
+              className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2"
+            />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search entries…"
-              className="pl-9 rounded-[calc(var(--radius)*0.8)]"
+              className="rounded-[calc(var(--radius)*0.8)] pl-9"
             />
           </div>
 
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-12 text-center">
-              <HugeiconsIcon icon={BookOpen02Icon} className="size-10 text-muted-foreground/30" />
-              <p className="text-sm text-muted-foreground">
+              <HugeiconsIcon icon={BookOpen02Icon} className="text-muted-foreground/30 size-10" />
+              <p className="text-muted-foreground text-sm">
                 {search ? 'No entries match your search.' : 'No entries yet. Write your first one!'}
               </p>
             </div>
@@ -238,14 +259,17 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <h4 className="truncate text-sm font-semibold text-foreground">
+                    <h4 className="text-foreground truncate text-sm font-semibold">
                       {entry.title || 'Untitled'}
                     </h4>
                     <AlertDialog>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                          <button className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <HugeiconsIcon icon={MoreVerticalIcon} className="size-4 text-muted-foreground" />
+                          <button className="shrink-0 opacity-0 transition-opacity group-hover:opacity-100">
+                            <HugeiconsIcon
+                              icon={MoreVerticalIcon}
+                              className="text-muted-foreground size-4"
+                            />
                           </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
@@ -270,7 +294,10 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
                           <AlertDialogAction
                             variant="destructive"
-                            onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(entry.id);
+                            }}
                           >
                             Delete
                           </AlertDialogAction>
@@ -279,17 +306,22 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
                     </AlertDialog>
                   </div>
                   <div className="mt-1 flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground tabular-nums">
+                    <span className="text-muted-foreground text-xs tabular-nums">
                       {formatRelative(entry.created_at)}
                     </span>
                     {entry.mood && (
-                      <span className={cn('rounded-full px-1.5 py-0.5 text-xs font-medium capitalize', MOOD_BADGE[entry.mood] ?? 'bg-muted text-muted-foreground')}>
+                      <span
+                        className={cn(
+                          'rounded-full px-1.5 py-0.5 text-xs font-medium capitalize',
+                          MOOD_BADGE[entry.mood] ?? 'bg-muted text-muted-foreground'
+                        )}
+                      >
                         {entry.mood}
                       </span>
                     )}
                   </div>
                   {!selected || selected.id !== entry.id ? (
-                    <p className="mt-1.5 line-clamp-2 text-xs text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground mt-1.5 line-clamp-2 text-xs leading-relaxed">
                       {entry.content}
                     </p>
                   ) : null}
@@ -304,32 +336,49 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
           {selected ? (
             <Card className="rounded-[var(--radius)]">
               <CardHeader className="flex flex-row items-start justify-between gap-4 pb-3">
-                <div className="space-y-1 min-w-0">
-                  <CardTitle className="text-lg font-bold">{selected.title || 'Untitled'}</CardTitle>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="min-w-0 space-y-1">
+                  <CardTitle className="text-lg font-bold">
+                    {selected.title || 'Untitled'}
+                  </CardTitle>
+                  <div className="text-muted-foreground flex items-center gap-2 text-xs">
                     <HugeiconsIcon icon={Calendar03Icon} className="size-3.5" />
                     {new Date(selected.created_at).toLocaleDateString(undefined, {
-                      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
                     })}
                     {selected.mood && (
-                      <span className={cn('rounded-full px-2 py-0.5 font-medium capitalize', MOOD_BADGE[selected.mood] ?? '')}>
+                      <span
+                        className={cn(
+                          'rounded-full px-2 py-0.5 font-medium capitalize',
+                          MOOD_BADGE[selected.mood] ?? ''
+                        )}
+                      >
                         {selected.mood}
                       </span>
                     )}
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="shrink-0 rounded-[calc(var(--radius)*0.8)]" onClick={() => setSelected(null)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="shrink-0 rounded-[calc(var(--radius)*0.8)]"
+                  onClick={() => setSelected(null)}
+                >
                   <HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" />
                 </Button>
               </CardHeader>
               <CardContent>
-                <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                <p className="text-foreground text-sm leading-relaxed whitespace-pre-wrap">
                   {selected.content}
                 </p>
                 {selected.tags && selected.tags.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-1.5">
                     {selected.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                      <Badge key={tag} variant="secondary" className="text-xs">
+                        {tag}
+                      </Badge>
                     ))}
                   </div>
                 )}
@@ -337,9 +386,15 @@ export function JournalPageClient({ entries: initial }: { entries: JournalEntry[
             </Card>
           ) : (
             <div className="flex h-full min-h-64 flex-col items-center justify-center gap-3 rounded-[var(--radius)] border border-dashed text-center">
-              <HugeiconsIcon icon={PencilEdit01Icon} className="size-10 text-muted-foreground/30" />
-              <p className="text-sm text-muted-foreground">Select an entry to read it, or write a new one.</p>
-              <Button variant="outline" onClick={() => setView('write')} className="rounded-[calc(var(--radius)*0.8)] gap-1.5">
+              <HugeiconsIcon icon={PencilEdit01Icon} className="text-muted-foreground/30 size-10" />
+              <p className="text-muted-foreground text-sm">
+                Select an entry to read it, or write a new one.
+              </p>
+              <Button
+                variant="outline"
+                onClick={() => setView('write')}
+                className="gap-1.5 rounded-[calc(var(--radius)*0.8)]"
+              >
                 <HugeiconsIcon icon={PlusSignIcon} className="size-4" /> Write Entry
               </Button>
             </div>

@@ -7,7 +7,19 @@ import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import SEOUpdater from '@/marketing/components/SEOUpdater';
 import CTASection from '@/marketing/components/CTASection';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { CrownIcon, Home01Icon, Clock01Icon, SparklesIcon, Tick02Icon, ShieldIcon, StarIcon, ZapIcon, GlobeIcon, Award01Icon, Diamond01Icon } from '@hugeicons/core-free-icons';
+import {
+  CrownIcon,
+  Home01Icon,
+  Clock01Icon,
+  SparklesIcon,
+  Tick02Icon,
+  ShieldIcon,
+  StarIcon,
+  ZapIcon,
+  GlobeIcon,
+  Award01Icon,
+  Diamond01Icon,
+} from '@hugeicons/core-free-icons';
 
 // --- Constants & Data ---
 
@@ -202,7 +214,7 @@ const ComparativeTable = () => {
   const renderValue = (val: string | boolean) => {
     if (typeof val === 'boolean') {
       return val ? (
-        <HugeiconsIcon icon={Tick02Icon} className="mx-auto size-5 text-amber-600"  />
+        <HugeiconsIcon icon={Tick02Icon} className="mx-auto size-5 text-amber-600" />
       ) : (
         <div className="mx-auto h-1.5 w-1.5 rounded-full bg-gray-300" />
       );
@@ -405,7 +417,10 @@ export default function VIPContent() {
                 <div className="mb-8">
                   {plan.features.map((feature: string, i: number) => (
                     <div key={i} className="flex items-start gap-3">
-                      <HugeiconsIcon icon={Tick02Icon} className="mt-0.5 size-5 flex-shrink-0 text-amber-500"  />
+                      <HugeiconsIcon
+                        icon={Tick02Icon}
+                        className="mt-0.5 size-5 flex-shrink-0 text-amber-500"
+                      />
                       <span className="text-sm text-gray-700">{t(feature)}</span>
                     </div>
                   ))}
@@ -444,7 +459,11 @@ export default function VIPContent() {
               >
                 <div className="mb-6 flex gap-1">
                   {[...Array(test.rating)].map((_, j) => (
-                    <HugeiconsIcon icon={StarIcon} key={j} className="size-4 fill-amber-400 text-amber-400"  />
+                    <HugeiconsIcon
+                      icon={StarIcon}
+                      key={j}
+                      className="size-4 fill-amber-400 text-amber-400"
+                    />
                   ))}
                 </div>
                 <p className="mb-8 leading-relaxed text-gray-300 italic">"{t(test.comment)}"</p>

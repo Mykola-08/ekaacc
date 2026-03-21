@@ -81,7 +81,11 @@ function Spinner() {
   return (
     <svg className="size-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+      />
     </svg>
   );
 }
@@ -93,8 +97,7 @@ export function AIQuickActions() {
   const [copied, setCopied] = useState(false);
   const [dialog, setDialog] = useState<DialogState>({ open: false, title: '', content: '' });
 
-  const showDialog = (title: string, content: string) =>
-    setDialog({ open: true, title, content });
+  const showDialog = (title: string, content: string) => setDialog({ open: true, title, content });
   const closeDialog = () => setDialog((prev) => ({ ...prev, open: false }));
 
   const handleCopy = async () => {
@@ -114,7 +117,10 @@ export function AIQuickActions() {
           const res = await fetch('/api/ai/summary?range=week', { method: 'POST' });
           if (!res.ok) throw new Error('Failed to generate weekly summary');
           const data = await res.json();
-          showDialog('Weekly Summary', data.summary ?? data.content ?? JSON.stringify(data, null, 2));
+          showDialog(
+            'Weekly Summary',
+            data.summary ?? data.content ?? JSON.stringify(data, null, 2)
+          );
           break;
         }
         case 'mood': {
@@ -135,7 +141,7 @@ export function AIQuickActions() {
           const content =
             Array.isArray(data.insights) && data.insights.length > 0
               ? data.insights.map((i: { content: string }) => i.content).join('\n\n')
-              : data.content ?? data.summary ?? JSON.stringify(data, null, 2);
+              : (data.content ?? data.summary ?? JSON.stringify(data, null, 2));
           showDialog('Smart Goal Tips', content);
           break;
         }
@@ -149,7 +155,8 @@ export function AIQuickActions() {
         }
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+      const message =
+        err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       toast({ title: message, variant: 'destructive' });
     } finally {
       setLoadingKey(null);
@@ -161,7 +168,7 @@ export function AIQuickActions() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-            <HugeiconsIcon icon={SparklesIcon} className="size-4 text-primary" />
+            <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4" />
             AI Actions
           </CardTitle>
         </CardHeader>
@@ -185,12 +192,19 @@ export function AIQuickActions() {
                   onClick={() => handleAction(key)}
                   aria-label={label}
                 >
-                  <div className={cn('flex size-8 items-center justify-center rounded-[var(--radius-sm)] transition-colors duration-150', color)}>
+                  <div
+                    className={cn(
+                      'flex size-8 items-center justify-center rounded-[var(--radius-sm)] transition-colors duration-150',
+                      color
+                    )}
+                  >
                     {isLoading ? <Spinner /> : <HugeiconsIcon icon={icon} className="size-4" />}
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-xs font-medium leading-tight">{label}</span>
-                    <span className="text-[10px] text-muted-foreground leading-tight">{description}</span>
+                    <span className="text-xs leading-tight font-medium">{label}</span>
+                    <span className="text-muted-foreground text-[10px] leading-tight">
+                      {description}
+                    </span>
                   </div>
                 </Button>
               );
@@ -203,25 +217,20 @@ export function AIQuickActions() {
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <HugeiconsIcon icon={SparklesIcon} className="size-4 text-primary" />
+              <HugeiconsIcon icon={SparklesIcon} className="text-primary size-4" />
               {dialog.title}
             </DialogTitle>
           </DialogHeader>
-          <div className="max-h-72 overflow-y-auto rounded-[var(--radius)] bg-muted/30 p-3">
-            <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
+          <div className="bg-muted/30 max-h-72 overflow-y-auto rounded-[var(--radius)] p-3">
+            <p className="text-foreground/90 text-sm leading-relaxed whitespace-pre-wrap">
               {dialog.content}
             </p>
           </div>
           <DialogFooter className="flex-row items-center justify-between">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5"
-              onClick={handleCopy}
-            >
+            <Button variant="outline" size="sm" className="gap-1.5" onClick={handleCopy}>
               {copied ? (
                 <>
-                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-3.5 text-success" />
+                  <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success size-3.5" />
                   Copied
                 </>
               ) : (

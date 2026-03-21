@@ -67,7 +67,7 @@ export function MorphingActionButton({
             exit={{ opacity: 0, y: -10 }}
             className="flex items-center gap-2"
           >
-            <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin"  />
+            <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" />
             <span>{loadingLabel}</span>
           </motion.div>
         )}
@@ -79,7 +79,7 @@ export function MorphingActionButton({
             animate={{ opacity: 1, scale: 1 }}
             className="flex items-center gap-2"
           >
-            <HugeiconsIcon icon={Tick02Icon} className="size-4"  />
+            <HugeiconsIcon icon={Tick02Icon} className="size-4" />
             <span>{successLabel}</span>
           </motion.div>
         )}
@@ -91,7 +91,7 @@ export function MorphingActionButton({
             animate={{ opacity: 1, scale: 1 }}
             className="flex items-center gap-2"
           >
-            <HugeiconsIcon icon={Cancel01Icon} className="size-4"  />
+            <HugeiconsIcon icon={Cancel01Icon} className="size-4" />
             <span>{errorLabel}</span>
           </motion.div>
         )}

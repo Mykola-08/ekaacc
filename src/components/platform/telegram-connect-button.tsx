@@ -32,7 +32,9 @@ export function TelegramConnectButton({ botUsername = 'ekabalancebot' }: { botUs
   return (
     <>
       <Button variant="outline" size="sm" onClick={handleConnect} disabled={loading}>
-        {loading ? <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin"  /> : null}
+        {loading ? (
+          <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-4 animate-spin" />
+        ) : null}
         Connect Telegram
       </Button>
 
@@ -57,7 +59,8 @@ export function TelegramConnectButton({ botUsername = 'ekabalancebot' }: { botUs
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Open Telegram <HugeiconsIcon icon={ArrowUpRight01Icon} className="ml-2 size-4"  />
+                    Open Telegram{' '}
+                    <HugeiconsIcon icon={ArrowUpRight01Icon} className="ml-2 size-4" />
                   </a>
                 </Button>
               )}

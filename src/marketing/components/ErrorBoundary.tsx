@@ -56,7 +56,7 @@ export default class ErrorBoundary extends Component<Props, State> {
         <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
           <div className="w-full max-w-md rounded-[var(--radius)] bg-white p-8 text-center">
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
-              <HugeiconsIcon icon={Alert01Icon} className="size-10 text-red-500"  />
+              <HugeiconsIcon icon={Alert01Icon} className="size-10 text-red-500" />
             </div>
 
             <h1 className="mb-4 text-2xl font-bold text-gray-900">
@@ -86,7 +86,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Button onClick={this.handleRetry} variant="default" className="w-full sm:w-auto">
-                <HugeiconsIcon icon={Refresh01Icon} className="mr-2 size-4"  />
+                <HugeiconsIcon icon={Refresh01Icon} className="mr-2 size-4" />
                 Tornar a intentar
               </Button>
 
@@ -95,7 +95,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                 variant="outline"
                 className="w-full sm:w-auto"
               >
-                <HugeiconsIcon icon={Home01Icon} className="mr-2 size-4"  />
+                <HugeiconsIcon icon={Home01Icon} className="mr-2 size-4" />
                 Anar a l'inici
               </Button>
             </div>
@@ -113,7 +113,7 @@ export function ErrorFallback({ error, resetError }: { error: Error; resetError:
   return (
     <div className="rounded-[var(--radius)] border border-red-200 bg-red-50 p-8">
       <div className="mb-4 flex items-center">
-        <HugeiconsIcon icon={Alert01Icon} className="mr-3 size-6 text-red-500"  />
+        <HugeiconsIcon icon={Alert01Icon} className="mr-3 size-6 text-red-500" />
         <h2 className="text-lg font-medium text-red-900">Error en aquesta secció</h2>
       </div>
 

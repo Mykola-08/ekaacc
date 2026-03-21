@@ -7,7 +7,23 @@ import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { Button } from '@/marketing/components/ui/button';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { SentIcon, TelephoneIcon, Mail01Icon, Location01Icon, CheckmarkCircle01Icon, Loading03Icon, Clock01Icon, Message01Icon, UserIcon, Calendar03Icon, ShieldIcon, GlobeIcon, UserMultipleIcon, HelpCircleIcon, InstagramIcon } from '@hugeicons/core-free-icons';
+import {
+  SentIcon,
+  TelephoneIcon,
+  Mail01Icon,
+  Location01Icon,
+  CheckmarkCircle01Icon,
+  Loading03Icon,
+  Clock01Icon,
+  Message01Icon,
+  UserIcon,
+  Calendar03Icon,
+  ShieldIcon,
+  GlobeIcon,
+  UserMultipleIcon,
+  HelpCircleIcon,
+  InstagramIcon,
+} from '@hugeicons/core-free-icons';
 
 // Zod Schema for Validation
 const createContactSchema = (t: (key: string) => string) =>
@@ -182,7 +198,7 @@ export default function ContactFormOptimized() {
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
             className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-green-100"
           >
-            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-12 text-green-600"  />
+            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-12 text-green-600" />
           </motion.div>
           <h3 className="mb-4 text-3xl font-light text-gray-900">{t('contact.success.title')}</h3>
           <p className="mb-8 text-lg leading-relaxed text-gray-600">
@@ -281,7 +297,10 @@ export default function ContactFormOptimized() {
             className="rounded-[var(--radius)] border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6"
           >
             <div className="flex items-start">
-              <HugeiconsIcon icon={Clock01Icon} className="mt-1 size-6 flex-shrink-0 text-blue-600"  />
+              <HugeiconsIcon
+                icon={Clock01Icon}
+                className="mt-1 size-6 flex-shrink-0 text-blue-600"
+              />
               <div>
                 <h4 className="mb-3 text-lg font-medium text-gray-900">
                   {t('contact.hours.title')}
@@ -334,7 +353,7 @@ export default function ContactFormOptimized() {
                     animate={{ opacity: 1, height: 'auto' }}
                     className="flex items-center rounded-[var(--radius)] border border-red-200 bg-red-50 p-4"
                   >
-                    <HugeiconsIcon icon={ShieldIcon} className="mr-3 size-5 text-red-500"  />
+                    <HugeiconsIcon icon={ShieldIcon} className="mr-3 size-5 text-red-500" />
                     <p className="text-sm text-red-600">{serverError}</p>
                   </motion.div>
                 )}
@@ -345,7 +364,10 @@ export default function ContactFormOptimized() {
                       {t('contact.form.name')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <HugeiconsIcon icon={UserIcon} className="absolute top-3.5 left-4 size-5 text-gray-400"  />
+                      <HugeiconsIcon
+                        icon={UserIcon}
+                        className="absolute top-3.5 left-4 size-5 text-gray-400"
+                      />
                       <input
                         type="text"
                         id="name"
@@ -364,7 +386,10 @@ export default function ContactFormOptimized() {
                       {t('contact.form.email')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <HugeiconsIcon icon={Mail01Icon} className="absolute top-3.5 left-4 size-5 text-gray-400"  />
+                      <HugeiconsIcon
+                        icon={Mail01Icon}
+                        className="absolute top-3.5 left-4 size-5 text-gray-400"
+                      />
                       <input
                         type="email"
                         id="email"
@@ -385,7 +410,10 @@ export default function ContactFormOptimized() {
                       {t('contact.form.phone')}
                     </label>
                     <div className="relative">
-                      <HugeiconsIcon icon={TelephoneIcon} className="absolute top-3.5 left-4 size-5 text-gray-400"  />
+                      <HugeiconsIcon
+                        icon={TelephoneIcon}
+                        className="absolute top-3.5 left-4 size-5 text-gray-400"
+                      />
                       <input
                         type="tel"
                         id="phone"
@@ -483,7 +511,8 @@ export default function ContactFormOptimized() {
                             onChange={handleChange}
                             className="sr-only"
                           />
-                          <HugeiconsIcon icon={option.icon}
+                          <HugeiconsIcon
+                            icon={option.icon}
                             className={`mb-1 h-5 w-5 ${formData.preferred_contact === option.value ? 'text-blue-600' : 'text-gray-500'}`}
                           />
                           <span className="text-xs font-medium">{option.label}</span>
@@ -500,7 +529,10 @@ export default function ContactFormOptimized() {
                       {t('contact.form.preferredTime')}
                     </label>
                     <div className="relative">
-                      <HugeiconsIcon icon={Calendar03Icon} className="absolute top-3.5 left-4 size-5 text-gray-400"  />
+                      <HugeiconsIcon
+                        icon={Calendar03Icon}
+                        className="absolute top-3.5 left-4 size-5 text-gray-400"
+                      />
                       <select
                         id="preferred_time"
                         name="preferred_time"
@@ -598,12 +630,12 @@ export default function ContactFormOptimized() {
                 >
                   {isSubmitting ? (
                     <>
-                      <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-5 animate-spin"  />
+                      <HugeiconsIcon icon={Loading03Icon} className="mr-2 size-5 animate-spin" />
                       {t('contact.form.submitting')}
                     </>
                   ) : (
                     <>
-                      <HugeiconsIcon icon={SentIcon} className="mr-2 size-5"  />
+                      <HugeiconsIcon icon={SentIcon} className="mr-2 size-5" />
                       {t('contact.form.submit')}
                     </>
                   )}
@@ -620,14 +652,14 @@ export default function ContactFormOptimized() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-green-700"
                   >
-                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-4"  />
+                    <HugeiconsIcon icon={Message01Icon} className="mr-2 size-4" />
                     WhatsApp
                   </a>
                   <a
                     href="tel:+34658867133"
                     className="inline-flex items-center justify-center rounded-[calc(var(--radius)*0.8)] bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-200"
                   >
-                    <HugeiconsIcon icon={TelephoneIcon} className="mr-2 size-4"  />
+                    <HugeiconsIcon icon={TelephoneIcon} className="mr-2 size-4" />
                     {t('contact.quick.call')}
                   </a>
                 </div>

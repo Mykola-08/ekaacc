@@ -110,11 +110,7 @@ export interface PermissionRecord {
  * group/action pair. An entry with action "manage" grants access to any action
  * within the same group.
  */
-export function can(
-  permissions: PermissionRecord[],
-  group: string,
-  action: string
-): boolean {
+export function can(permissions: PermissionRecord[], group: string, action: string): boolean {
   return permissions.some(
     (p) => p.group === group && (p.action === action || p.action === 'manage')
   );

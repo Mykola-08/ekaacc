@@ -65,7 +65,7 @@ export function AddFundsDialog({ children }: { children: React.ReactNode }) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <HugeiconsIcon icon={CreditCardAddIcon} className="h-5 w-5 text-primary" />
+            <HugeiconsIcon icon={CreditCardAddIcon} className="text-primary h-5 w-5" />
             Add Funds to Wallet
           </DialogTitle>
           <DialogDescription>
@@ -89,7 +89,7 @@ export function AddFundsDialog({ children }: { children: React.ReactNode }) {
           <div className="grid gap-2">
             <Label htmlFor="amount">Custom Amount (USD)</Label>
             <div className="relative">
-              <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
+              <span className="text-muted-foreground absolute top-2.5 left-3">$</span>
               <Input
                 id="amount"
                 type="number"

@@ -3,10 +3,7 @@
 
 import React from 'react';
 
-import type {
-  DropdownMenuItemProps,
-  DropdownMenuProps,
-} from '@radix-ui/react-dropdown-menu';
+import type { DropdownMenuItemProps, DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { useComposedRef } from '@udecode/cn';
 import debounce from 'lodash/debounce.js';
@@ -20,12 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
@@ -40,15 +32,9 @@ export function FontColorToolbarButton({
 } & DropdownMenuProps) {
   const editor = useEditorRef();
 
-  const selectionDefined = useEditorSelector(
-    (editor) => !!editor.selection,
-    []
-  );
+  const selectionDefined = useEditorSelector((editor) => !!editor.selection, []);
 
-  const color = useEditorSelector(
-    (editor) => editor.api.mark(nodeType) as string,
-    [nodeType]
-  );
+  const color = useEditorSelector((editor) => editor.api.mark(nodeType) as string, [nodeType]);
 
   const [selectedColor, setSelectedColor] = React.useState<string>();
   const [open, setOpen] = React.useState(false);
@@ -232,18 +218,13 @@ function ColorCustom({
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const updateCustomColorDebounced = React.useCallback(
-    debounce(updateCustomColor, 100),
-    [updateCustomColor]
-  );
+  const updateCustomColorDebounced = React.useCallback(debounce(updateCustomColor, 100), [
+    updateCustomColor,
+  ]);
 
   return (
     <div className={cn('relative flex flex-col gap-4', className)} {...props}>
-      <ColorDropdownMenuItems
-        color={color}
-        colors={computedColors}
-        updateColor={updateColor}
-      >
+      <ColorDropdownMenuItems color={color} colors={computedColors} updateColor={updateColor}>
         <ColorInput
           value={value}
           onChange={(e) => {
@@ -333,9 +314,9 @@ function ColorDropdownMenuItem({
           size: 'icon',
           variant: 'outline',
         }),
-        'my-1 flex size-6 items-center justify-center rounded-full border border-muted border-solid p-0 transition-all hover:scale-125',
+        'border-muted my-1 flex size-6 items-center justify-center rounded-full border border-solid p-0 transition-all hover:scale-125',
         !isBrightColor && 'border-transparent',
-        isSelected && 'border-2 border-primary',
+        isSelected && 'border-primary border-2',
         className
       )}
       style={{ backgroundColor: value }}
@@ -370,10 +351,7 @@ export function ColorDropdownMenuItems({
 } & React.ComponentProps<'div'>) {
   return (
     <div
-      className={cn(
-        'grid grid-cols-[repeat(10,1fr)] place-items-center gap-x-1',
-        className
-      )}
+      className={cn('grid grid-cols-[repeat(10,1fr)] place-items-center gap-x-1', className)}
       {...props}
     >
       <TooltipProvider>

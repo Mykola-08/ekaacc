@@ -3,10 +3,7 @@
 import * as React from 'react';
 
 import { useDraggable, useDropLine } from '@platejs/dnd';
-import {
-  BlockSelectionPlugin,
-  useBlockSelected,
-} from '@platejs/selection/react';
+import { BlockSelectionPlugin, useBlockSelected } from '@platejs/selection/react';
 import { resizeLengthClampStatic } from '@platejs/resizable';
 import {
   setCellBackground,
@@ -79,18 +76,11 @@ import {
   DropdownMenuPortal,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-} from '@/components/ui/popover';
+import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
 import { blockSelectionVariants } from './block-selection';
-import {
-  ColorDropdownMenuItems,
-  DEFAULT_COLORS,
-} from './font-color-toolbar-button';
+import { ColorDropdownMenuItems, DEFAULT_COLORS } from './font-color-toolbar-button';
 import {
   BorderAllIcon,
   BorderBottomIcon,
@@ -99,12 +89,7 @@ import {
   BorderRightIcon,
   BorderTopIcon,
 } from './table-icons';
-import {
-  Toolbar,
-  ToolbarButton,
-  ToolbarGroup,
-  ToolbarMenuGroup,
-} from './toolbar';
+import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarMenuGroup } from './toolbar';
 
 type TableResizeDirection = 'bottom' | 'left' | 'right';
 
@@ -140,9 +125,7 @@ type TableResizeContextValue = {
 const TABLE_CONTROL_COLUMN_WIDTH = 8;
 const TABLE_DEFERRED_COLUMN_RESIZE_CELL_COUNT = 1200;
 
-const TableResizeContext = React.createContext<TableResizeContextValue | null>(
-  null
-);
+const TableResizeContext = React.createContext<TableResizeContextValue | null>(null);
 
 function useTableResizeContext() {
   const context = React.useContext(TableResizeContext);
@@ -252,8 +235,7 @@ function useTableResizeController({
 
       const handleRect = event.currentTarget.getBoundingClientRect();
       const wrapperRect = wrapper.getBoundingClientRect();
-      const boundaryOffset =
-        handleRect.left - wrapperRect.left + handleRect.width / 2;
+      const boundaryOffset = handleRect.left - wrapperRect.left + handleRect.width / 2;
 
       showResizeIndicatorAtOffset(boundaryOffset);
     },
@@ -261,10 +243,7 @@ function useTableResizeController({
   );
 
   const setResizePreview = React.useCallback(
-    (
-      event: React.PointerEvent<HTMLDivElement>,
-      options: TableResizeStartOptions
-    ) => {
+    (event: React.PointerEvent<HTMLDivElement>, options: TableResizeStartOptions) => {
       if (activeHandleKeyRef.current) return;
 
       previewHandleKeyRef.current = options.handleKey;
@@ -302,11 +281,7 @@ function useTableResizeController({
 
   const commitMarginLeft = React.useCallback(
     (nextMarginLeft: number) => {
-      setTableMarginLeft(
-        editor,
-        { marginLeft: nextMarginLeft },
-        { at: tablePath }
-      );
+      setTableMarginLeft(editor, { marginLeft: nextMarginLeft }, { at: tablePath });
       setTimeout(() => overrideMarginLeft(null), 0);
     },
     [editor, overrideMarginLeft, tablePath]
@@ -315,9 +290,7 @@ function useTableResizeController({
   const getColumnBoundaryOffset = React.useCallback(
     (colIndex: number, currentWidth: number) =>
       controlColumnWidth +
-      colSizesRef.current
-        .slice(0, colIndex)
-        .reduce((total, colSize) => total + colSize, 0) +
+      colSizesRef.current.slice(0, colIndex).reduce((total, colSize) => total + colSize, 0) +
       currentWidth,
     [controlColumnWidth]
   );
@@ -328,15 +301,11 @@ function useTableResizeController({
 
       if (!dragState) return;
 
-      const currentPosition =
-        dragState.direction === 'bottom' ? event.clientY : event.clientX;
+      const currentPosition = dragState.direction === 'bottom' ? event.clientY : event.clientX;
       const delta = currentPosition - dragState.initialPosition;
 
       if (dragState.direction === 'bottom') {
-        const newHeight = roundCellSizeToStep(
-          dragState.initialSize + delta,
-          undefined
-        );
+        const newHeight = roundCellSizeToStep(dragState.initialSize + delta, undefined);
 
         if (finished) {
           commitRowSize(dragState.rowIndex, newHeight);
@@ -348,10 +317,8 @@ function useTableResizeController({
       }
 
       if (dragState.direction === 'left') {
-        const initial =
-          colSizesRef.current[dragState.colIndex] ?? dragState.initialSize;
-        const complement = (width: number) =>
-          initial + dragState.marginLeft - width;
+        const initial = colSizesRef.current[dragState.colIndex] ?? dragState.initialSize;
+        const complement = (width: number) => initial + dragState.marginLeft - width;
         const nextMarginLeft = roundCellSizeToStep(
           resizeLengthClampStatic(dragState.marginLeft + delta, {
             max: complement(minColumnWidth),
@@ -365,13 +332,9 @@ function useTableResizeController({
           commitMarginLeft(nextMarginLeft);
           commitColSize(dragState.colIndex, nextWidth);
         } else if (deferColumnResize) {
-          showDeferredResizeIndicator(
-            controlColumnWidth + (nextMarginLeft - dragState.marginLeft)
-          );
+          showDeferredResizeIndicator(controlColumnWidth + (nextMarginLeft - dragState.marginLeft));
         } else {
-          showResizeIndicatorAtOffset(
-            controlColumnWidth + (nextMarginLeft - dragState.marginLeft)
-          );
+          showResizeIndicatorAtOffset(controlColumnWidth + (nextMarginLeft - dragState.marginLeft));
           overrideMarginLeft(nextMarginLeft);
           overrideColSize(dragState.colIndex, nextWidth);
         }
@@ -379,11 +342,9 @@ function useTableResizeController({
         return;
       }
 
-      const currentInitial =
-        colSizesRef.current[dragState.colIndex] ?? dragState.initialSize;
+      const currentInitial = colSizesRef.current[dragState.colIndex] ?? dragState.initialSize;
       const nextInitial = colSizesRef.current[dragState.colIndex + 1];
-      const complement = (width: number) =>
-        currentInitial + nextInitial - width;
+      const complement = (width: number) => currentInitial + nextInitial - width;
       const currentWidth = roundCellSizeToStep(
         resizeLengthClampStatic(currentInitial + delta, {
           max: nextInitial ? complement(minColumnWidth) : undefined,
@@ -400,13 +361,9 @@ function useTableResizeController({
           commitColSize(dragState.colIndex + 1, nextWidth);
         }
       } else if (deferColumnResize) {
-        showDeferredResizeIndicator(
-          getColumnBoundaryOffset(dragState.colIndex, currentWidth)
-        );
+        showDeferredResizeIndicator(getColumnBoundaryOffset(dragState.colIndex, currentWidth));
       } else {
-        showResizeIndicatorAtOffset(
-          getColumnBoundaryOffset(dragState.colIndex, currentWidth)
-        );
+        showResizeIndicatorAtOffset(getColumnBoundaryOffset(dragState.colIndex, currentWidth));
         overrideColSize(dragState.colIndex, currentWidth);
 
         if (nextWidth !== undefined) {
@@ -453,18 +410,13 @@ function useTableResizeController({
       event: React.PointerEvent<HTMLDivElement>,
       { colIndex, direction, handleKey, rowIndex }: TableResizeStartOptions
     ) => {
-      const rowHeight =
-        tableRef.current?.rows.item(rowIndex)?.getBoundingClientRect().height ??
-        0;
+      const rowHeight = tableRef.current?.rows.item(rowIndex)?.getBoundingClientRect().height ?? 0;
 
       dragStateRef.current = {
         colIndex,
         direction,
         initialPosition: direction === 'bottom' ? event.clientY : event.clientX,
-        initialSize:
-          direction === 'bottom'
-            ? rowHeight
-            : (colSizesRef.current[colIndex] ?? 0),
+        initialSize: direction === 'bottom' ? rowHeight : (colSizesRef.current[colIndex] ?? 0),
         marginLeft: marginLeftRef.current,
         rowIndex,
       };
@@ -473,10 +425,7 @@ function useTableResizeController({
 
       const rowElement = tableRef.current?.rows.item(rowIndex) ?? null;
 
-      if (
-        activeRowElementRef.current &&
-        activeRowElementRef.current !== rowElement
-      ) {
+      if (activeRowElementRef.current && activeRowElementRef.current !== rowElement) {
         delete activeRowElementRef.current.dataset.tableResizing;
       }
 
@@ -512,10 +461,7 @@ function useTableResizeController({
         showDeferredResizeIndicator(
           direction === 'left'
             ? controlColumnWidth
-            : getColumnBoundaryOffset(
-                colIndex,
-                colSizesRef.current[colIndex] ?? 0
-              )
+            : getColumnBoundaryOffset(colIndex, colSizesRef.current[colIndex] ?? 0)
         );
       } else {
         showResizeIndicator({ direction, event });
@@ -550,28 +496,17 @@ function useTableResizeController({
 
 export const TableElement = withHOC(
   TableProvider,
-  function TableElement({
-    children,
-    ...props
-  }: PlateElementProps<TTableElement>) {
+  function TableElement({ children, ...props }: PlateElementProps<TTableElement>) {
     const readOnly = useReadOnly();
-    const isSelectionAreaVisible = usePluginOption(
-      BlockSelectionPlugin,
-      'isSelectionAreaVisible'
-    );
+    const isSelectionAreaVisible = usePluginOption(BlockSelectionPlugin, 'isSelectionAreaVisible');
     const hasControls = !readOnly && !isSelectionAreaVisible;
-    const {
-      isSelectingCell,
-      marginLeft,
-      props: tableProps,
-    } = useTableElement();
+    const { isSelectingCell, marginLeft, props: tableProps } = useTableElement();
     const colSizes = useTableColSizes();
     const controlColumnWidth = hasControls ? TABLE_CONTROL_COLUMN_WIDTH : 0;
     const dragIndicatorRef = React.useRef<HTMLDivElement>(null);
     const hoverIndicatorRef = React.useRef<HTMLDivElement>(null);
     const deferColumnResize =
-      colSizes.length * props.element.children.length >
-      TABLE_DEFERRED_COLUMN_RESIZE_CELL_COUNT;
+      colSizes.length * props.element.children.length > TABLE_DEFERRED_COLUMN_RESIZE_CELL_COUNT;
     const tablePath = useElementSelector(([, path]) => path, [], {
       key: KEYS.table,
     });
@@ -594,10 +529,7 @@ export const TableElement = withHOC(
 
       return {
         ...Object.fromEntries(
-          colSizes.map((colSize, index) => [
-            `--table-col-${index}`,
-            `${colSize}px`,
-          ])
+          colSizes.map((colSize, index) => [`--table-col-${index}`, `${colSize}px`])
         ),
       } as React.CSSProperties;
     }, [colSizes]);
@@ -605,8 +537,7 @@ export const TableElement = withHOC(
       () =>
         ({
           width: `${
-            colSizes.reduce((total, colSize) => total + colSize, 0) +
-            controlColumnWidth
+            colSizes.reduce((total, colSize) => total + colSize, 0) + controlColumnWidth
           }px`,
         }) as React.CSSProperties,
       [colSizes, controlColumnWidth]
@@ -624,19 +555,15 @@ export const TableElement = withHOC(
         style={{ paddingLeft: marginLeft }}
       >
         <TableResizeContext.Provider value={resizeController}>
-          <div
-            ref={wrapperRef}
-            className="group/table relative w-fit"
-            style={tableVariableStyle}
-          >
+          <div ref={wrapperRef} className="group/table relative w-fit" style={tableVariableStyle}>
             <div
               ref={dragIndicatorRef}
-              className="-translate-x-[1.5px] pointer-events-none absolute inset-y-0 z-36 hidden w-[3px] bg-ring/70"
+              className="bg-ring/70 pointer-events-none absolute inset-y-0 z-36 hidden w-[3px] -translate-x-[1.5px]"
               contentEditable={false}
             />
             <div
               ref={hoverIndicatorRef}
-              className="-translate-x-[1.5px] pointer-events-none absolute inset-y-0 z-35 hidden w-[3px] bg-ring/80"
+              className="bg-ring/80 pointer-events-none absolute inset-y-0 z-35 hidden w-[3px] -translate-x-[1.5px]"
               contentEditable={false}
             />
             <table
@@ -679,10 +606,7 @@ export const TableElement = withHOC(
             </table>
 
             {isSelectingTable && (
-              <div
-                className={blockSelectionVariants()}
-                contentEditable={false}
-              />
+              <div className={blockSelectionVariants()} contentEditable={false} />
             )}
           </div>
         </TableResizeContext.Provider>
@@ -697,10 +621,7 @@ export const TableElement = withHOC(
   }
 );
 
-function TableFloatingToolbar({
-  children,
-  ...props
-}: React.ComponentProps<typeof PopoverContent>) {
+function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeof PopoverContent>) {
   const { tf } = useEditorPlugin(TablePlugin);
   const selected = useSelected();
   const element = useElement<TTableElement>();
@@ -714,10 +635,7 @@ function TableFloatingToolbar({
   const { canMerge, canSplit } = useTableMergeState();
 
   return (
-    <Popover
-      open={isFocusedLast && (canMerge || canSplit || collapsedInside)}
-      modal={false}
-    >
+    <Popover open={isFocusedLast && (canMerge || canSplit || collapsedInside)} modal={false}>
       <PopoverAnchor asChild>{children}</PopoverAnchor>
       <PopoverContent
         asChild
@@ -726,7 +644,7 @@ function TableFloatingToolbar({
         {...props}
       >
         <Toolbar
-          className="scrollbar-hide flex w-auto max-w-[80vw] flex-row overflow-x-auto rounded-[calc(var(--radius)*0.6)] border bg-popover p-1 shadow-md print:hidden"
+          className="scrollbar-hide bg-popover flex w-auto max-w-[80vw] flex-row overflow-x-auto rounded-[calc(var(--radius)*0.6)] border p-1 shadow-md print:hidden"
           contentEditable={false}
         >
           <ToolbarGroup>
@@ -842,9 +760,7 @@ function TableFloatingToolbar({
   );
 }
 
-function TableBordersDropdownMenuContent(
-  props: React.ComponentProps<typeof DropdownMenuContent>
-) {
+function TableBordersDropdownMenuContent(props: React.ComponentProps<typeof DropdownMenuContent>) {
   const editor = useEditorRef();
   const {
     getOnSelectTableBorder,
@@ -919,19 +835,11 @@ function TableBordersDropdownMenuContent(
   );
 }
 
-function ColorDropdownMenu({
-  children,
-  tooltip,
-}: {
-  children: React.ReactNode;
-  tooltip: string;
-}) {
+function ColorDropdownMenu({ children, tooltip }: { children: React.ReactNode; tooltip: string }) {
   const [open, setOpen] = React.useState(false);
 
   const editor = useEditorRef();
-  const selectedCells = usePluginOption(TablePlugin, 'selectedCells') as
-    | TElement[]
-    | null;
+  const selectedCells = usePluginOption(TablePlugin, 'selectedCells') as TElement[] | null;
 
   const onUpdateColor = React.useCallback(
     (color: string) => {
@@ -974,10 +882,7 @@ function ColorDropdownMenu({
   );
 }
 
-export function TableRowElement({
-  children,
-  ...props
-}: PlateElementProps<TTableRowElement>) {
+export function TableRowElement({ children, ...props }: PlateElementProps<TTableRowElement>) {
   const { element } = props;
   const readOnly = useReadOnly();
   const selected = useSelected();
@@ -985,29 +890,19 @@ export function TableRowElement({
   const rowIndex = useElementSelector(([, path]) => path.at(-1) as number, [], {
     key: KEYS.tr,
   });
-  const rowSize = useElementSelector(
-    ([node]) => (node as TTableRowElement).size,
-    [],
-    {
-      key: KEYS.tr,
-    }
-  );
+  const rowSize = useElementSelector(([node]) => (node as TTableRowElement).size, [], {
+    key: KEYS.tr,
+  });
   const rowSizeOverrides = useTableValue('rowSizeOverrides');
   const rowMinHeight = rowSizeOverrides.get?.(rowIndex) ?? rowSize;
-  const isSelectionAreaVisible = usePluginOption(
-    BlockSelectionPlugin,
-    'isSelectionAreaVisible'
-  );
+  const isSelectionAreaVisible = usePluginOption(BlockSelectionPlugin, 'isSelectionAreaVisible');
   const hasControls = !readOnly && !isSelectionAreaVisible;
 
   const { isDragging, nodeRef, previewRef, handleRef } = useDraggable({
     element,
     type: element.type,
     canDropNode: ({ dragEntry, dropEntry }) =>
-      PathApi.equals(
-        PathApi.parent(dragEntry[1]),
-        PathApi.parent(dropEntry[1])
-      ),
+      PathApi.equals(PathApi.parent(dragEntry[1]), PathApi.parent(dropEntry[1])),
     onDropHandler: (_, { dragItem }) => {
       const dragElement = (dragItem as { element: TElement }).element;
 
@@ -1035,10 +930,7 @@ export function TableRowElement({
       }}
     >
       {hasControls && (
-        <td
-          className="w-2 min-w-2 max-w-2 select-none p-0"
-          contentEditable={false}
-        >
+        <td className="w-2 max-w-2 min-w-2 p-0 select-none" contentEditable={false}>
           <RowDragHandle dragRef={handleRef} />
           <RowDropLine />
         </td>
@@ -1054,14 +946,10 @@ function useTableCellPresentation(element: TTableCellElement) {
   const borders = useTableCellBorders({ element });
   const { col, row } = useCellIndices();
   const selected = useIsCellSelected(element);
-  const selectedCells = usePluginOption(TablePlugin, 'selectedCells') as
-    | TElement[]
-    | null;
+  const selectedCells = usePluginOption(TablePlugin, 'selectedCells') as TElement[] | null;
 
   React.useEffect(() => {
-    if (
-      selectedCells?.some((cell) => cell.id === element.id && cell !== element)
-    ) {
+    if (selectedCells?.some((cell) => cell.id === element.id && cell !== element)) {
       setOption(
         'selectedCells',
         selectedCells.map((cell) => (cell.id === element.id ? element : cell))
@@ -1101,7 +989,7 @@ function RowDragHandle({ dragRef }: { dragRef: React.Ref<any> }) {
       ref={dragRef}
       variant="outline"
       className={cn(
-        '-translate-y-1/2 absolute top-1/2 left-0 z-51 h-6 w-4 p-0 focus-visible:ring-0 focus-visible:ring-offset-0',
+        'absolute top-1/2 left-0 z-51 h-6 w-4 -translate-y-1/2 p-0 focus-visible:ring-0 focus-visible:ring-offset-0',
         'cursor-grab active:cursor-grabbing',
         'opacity-0 transition-opacity duration-100 group-hover/row:opacity-100 group-data-[table-resizing=true]/row:opacity-0'
       )}
@@ -1122,7 +1010,7 @@ function RowDropLine() {
   return (
     <div
       className={cn(
-        'absolute inset-x-0 left-2 z-50 h-0.5 bg-brand/50',
+        'bg-brand/50 absolute inset-x-0 left-2 z-50 h-0.5',
         dropLine === 'top' ? '-top-px' : '-bottom-px'
       )}
     />
@@ -1146,10 +1034,7 @@ export function TableCellElement({
   });
   const isSelectingTable = useBlockSelected(tableId);
   const isSelectingRow = useBlockSelected(rowId) || isSelectingTable;
-  const isSelectionAreaVisible = usePluginOption(
-    BlockSelectionPlugin,
-    'isSelectionAreaVisible'
-  );
+  const isSelectionAreaVisible = usePluginOption(BlockSelectionPlugin, 'isSelectionAreaVisible');
 
   const {
     borders,
@@ -1166,16 +1051,16 @@ export function TableCellElement({
       {...props}
       as={isHeader ? 'th' : 'td'}
       className={cn(
-        'relative h-full overflow-visible border-none bg-background p-0',
+        'bg-background relative h-full overflow-visible border-none p-0',
         element.background ? 'bg-(--cellBackground)' : 'bg-background',
         isHeader && 'text-left *:m-0',
         'before:size-full',
-        cellSelected && 'before:z-10 before:bg-brand/5',
-        "before:absolute before:box-border before:select-none before:content-['']",
-        borders.bottom?.size && 'before:border-b before:border-b-border',
-        borders.right?.size && 'before:border-r before:border-r-border',
-        borders.left?.size && 'before:border-l before:border-l-border',
-        borders.top?.size && 'before:border-t before:border-t-border'
+        cellSelected && 'before:bg-brand/5 before:z-10',
+        "before:absolute before:box-border before:content-[''] before:select-none",
+        borders.bottom?.size && 'before:border-b-border before:border-b',
+        borders.right?.size && 'before:border-r-border before:border-r',
+        borders.left?.size && 'before:border-l-border before:border-l',
+        borders.top?.size && 'before:border-t-border before:border-t'
       )}
       style={
         {
@@ -1192,11 +1077,7 @@ export function TableCellElement({
     >
       <div
         className="relative z-20 box-border h-full px-3 py-2"
-        style={
-          rowSpan === 1
-            ? { minHeight: 'var(--tableRowMinHeight, 0px)' }
-            : undefined
-        }
+        style={rowSpan === 1 ? { minHeight: 'var(--tableRowMinHeight, 0px)' } : undefined}
       >
         {props.children}
       </div>
@@ -1205,16 +1086,12 @@ export function TableCellElement({
         <TableCellResizeControls colIndex={colIndex} rowIndex={rowIndex} />
       )}
 
-      {isSelectingRow && (
-        <div className={blockSelectionVariants()} contentEditable={false} />
-      )}
+      {isSelectingRow && <div className={blockSelectionVariants()} contentEditable={false} />}
     </PlateElement>
   );
 }
 
-export function TableCellHeaderElement(
-  props: React.ComponentProps<typeof TableCellElement>
-) {
+export function TableCellHeaderElement(props: React.ComponentProps<typeof TableCellElement>) {
   return <TableCellElement {...props} isHeader />;
 }
 
@@ -1225,12 +1102,8 @@ const TableCellResizeControls = React.memo(function TableCellResizeControls({
   colIndex: number;
   rowIndex: number;
 }) {
-  const {
-    clearResizePreview,
-    disableMarginLeft,
-    setResizePreview,
-    startResize,
-  } = useTableResizeContext();
+  const { clearResizePreview, disableMarginLeft, setResizePreview, startResize } =
+    useTableResizeContext();
   const rightHandleKey = `right:${rowIndex}:${colIndex}`;
   const bottomHandleKey = `bottom:${rowIndex}:${colIndex}`;
   const leftHandleKey = `left:${rowIndex}:${colIndex}`;
@@ -1243,7 +1116,7 @@ const TableCellResizeControls = React.memo(function TableCellResizeControls({
       suppressContentEditableWarning={true}
     >
       <div
-        className="-top-2 -right-1 pointer-events-auto absolute z-40 h-[calc(100%_+_8px)] w-2 cursor-col-resize touch-none"
+        className="pointer-events-auto absolute -top-2 -right-1 z-40 h-[calc(100%_+_8px)] w-2 cursor-col-resize touch-none"
         onPointerEnter={(event) => {
           setResizePreview(event, {
             colIndex,
@@ -1265,7 +1138,7 @@ const TableCellResizeControls = React.memo(function TableCellResizeControls({
         }}
       />
       <div
-        className="-bottom-1 pointer-events-auto absolute left-0 z-40 h-2 w-full cursor-row-resize touch-none"
+        className="pointer-events-auto absolute -bottom-1 left-0 z-40 h-2 w-full cursor-row-resize touch-none"
         onPointerEnter={(event) => {
           setResizePreview(event, {
             colIndex,
@@ -1288,7 +1161,7 @@ const TableCellResizeControls = React.memo(function TableCellResizeControls({
       />
       {isLeftHandle && (
         <div
-          className="-left-1 pointer-events-auto absolute top-0 z-40 h-full w-2 cursor-col-resize touch-none"
+          className="pointer-events-auto absolute top-0 -left-1 z-40 h-full w-2 cursor-col-resize touch-none"
           onPointerEnter={(event) => {
             setResizePreview(event, {
               colIndex,

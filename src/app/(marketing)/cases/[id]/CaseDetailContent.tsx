@@ -4,7 +4,18 @@ import Link from 'next/link';
 import { useLanguage } from '@/marketing/contexts/LanguageContext';
 import { Button } from '@/marketing/components/ui/button';
 import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
-import { ArrowLeft01Icon, ArrowRight01Icon, CheckmarkCircle01Icon, FavouriteIcon, Brain01Icon, ZapIcon, Moon01Icon, Activity01Icon, StethoscopeIcon, ShieldIcon } from '@hugeicons/core-free-icons';
+import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  CheckmarkCircle01Icon,
+  FavouriteIcon,
+  Brain01Icon,
+  ZapIcon,
+  Moon01Icon,
+  Activity01Icon,
+  StethoscopeIcon,
+  ShieldIcon,
+} from '@hugeicons/core-free-icons';
 
 interface ProblemConfig {
   icon: IconSvgElement;
@@ -15,7 +26,12 @@ interface ProblemConfig {
 
 export const problemsConfig: Record<string, ProblemConfig> = {
   'back-pain': { icon: Activity01Icon, color: 'blue', href: '/services/massage', key: 'backPain' },
-  'stress-anxiety': { icon: Brain01Icon, color: 'purple', href: '/services/kinesiology', key: 'stress' },
+  'stress-anxiety': {
+    icon: Brain01Icon,
+    color: 'purple',
+    href: '/services/kinesiology',
+    key: 'stress',
+  },
   'digestive-problems': {
     icon: FavouriteIcon,
     color: 'green',
@@ -68,7 +84,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
         <h1 className="mb-4 text-2xl font-bold">{t('common.notFound') || 'Case not found'}</h1>
         <Link href="/cases">
           <Button variant="outline">
-            <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
+            <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4" />
             {t('common.back') || 'Back'}
           </Button>
         </Link>
@@ -103,7 +119,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
             href="/cases"
             className="mb-8 inline-flex items-center rounded-full border border-gray-100 bg-white px-4 py-2 text-sm font-medium text-gray-500 transition-colors hover:text-blue-600 hover:shadow"
           >
-            <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4"  />
+            <HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4" />
             {t('casos.title')}
           </Link>
 
@@ -173,7 +189,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
           <div className="relative z-10 grid grid-cols-1 gap-12 md:grid-cols-2">
             <div>
               <h2 className="mb-6 flex items-center text-2xl font-light text-white">
-                <HugeiconsIcon icon={Activity01Icon} className="mr-3 size-6 text-blue-400"  />
+                <HugeiconsIcon icon={Activity01Icon} className="mr-3 size-6 text-blue-400" />
                 {t('casos.treatment')}
               </h2>
               <p className="text-lg leading-relaxed font-light text-gray-300">{treatment}</p>
@@ -181,7 +197,10 @@ export default function CaseDetailContent({ id }: { id: string }) {
 
             <div>
               <h2 className="mb-6 flex items-center text-2xl font-light text-white">
-                <HugeiconsIcon icon={CheckmarkCircle01Icon} className="mr-3 size-6 text-green-400"  />
+                <HugeiconsIcon
+                  icon={CheckmarkCircle01Icon}
+                  className="mr-3 size-6 text-green-400"
+                />
                 {t('casos.results')}
               </h2>
               <p className="text-lg leading-relaxed font-light text-gray-300">{results}</p>
@@ -192,7 +211,7 @@ export default function CaseDetailContent({ id }: { id: string }) {
             <Link href={config.href}>
               <Button size="lg" variant="secondary" className="border-none px-8 py-4 font-bold">
                 {t('common.bookNow')}
-                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5"  />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2 size-5" />
               </Button>
             </Link>
           </div>

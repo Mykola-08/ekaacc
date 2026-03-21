@@ -107,11 +107,11 @@ export default function AboutElenaContent() {
           className="flex flex-wrap justify-center gap-4"
         >
           <div className="bg-secondary inline-flex items-center rounded-full border border-gray-200/50 px-6 py-3">
-            <HugeiconsIcon icon={StarIcon} className="mr-2 size-4 text-yellow-500"  />
+            <HugeiconsIcon icon={StarIcon} className="mr-2 size-4 text-yellow-500" />
             <span className="font-medium text-gray-700">15+ {t('hero.stats.experience')}</span>
           </div>
           <div className="bg-secondary inline-flex items-center rounded-full border border-gray-200/50 px-6 py-3">
-            <HugeiconsIcon icon={FavouriteIcon} className="mr-2 size-4 text-red-500"  />
+            <HugeiconsIcon icon={FavouriteIcon} className="mr-2 size-4 text-red-500" />
             <span className="font-medium text-gray-700">96% {t('hero.stats.clients')}</span>
           </div>
         </motion.div>

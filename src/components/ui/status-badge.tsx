@@ -3,7 +3,16 @@ import { Badge, type BadgeProps } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { HugeiconsIcon } from '@hugeicons/react';
 import type { IconSvgElement } from '@hugeicons/react';
-import { CheckmarkCircle02Icon, Clock01Icon, Cancel01Icon, Alert02Icon, CancelCircleIcon, CircleIcon, Loading03Icon, ShieldCheck } from '@hugeicons/core-free-icons';
+import {
+  CheckmarkCircle02Icon,
+  Clock01Icon,
+  Cancel01Icon,
+  Alert02Icon,
+  CancelCircleIcon,
+  CircleIcon,
+  Loading03Icon,
+  ShieldCheck,
+} from '@hugeicons/core-free-icons';
 
 /**
  * Canonical status → badge variant + icon mapping.

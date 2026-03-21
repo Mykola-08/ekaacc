@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -57,7 +64,11 @@ export default function IdentitySettingsPage() {
 
           <div className="space-y-1.5">
             <Label>Date of birth</Label>
-            <Input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
+            <Input
+              type="date"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+            />
           </div>
 
           <div className="space-y-1.5">
@@ -87,7 +98,11 @@ export default function IdentitySettingsPage() {
           )}
         </CardContent>
         <CardFooter className="justify-end">
-          <Button onClick={onSave} disabled={isPending} className="rounded-[calc(var(--radius)*0.8)]">
+          <Button
+            onClick={onSave}
+            disabled={isPending}
+            className="rounded-[calc(var(--radius)*0.8)]"
+          >
             {isPending ? 'Saving…' : 'Save changes'}
           </Button>
         </CardFooter>

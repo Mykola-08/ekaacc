@@ -54,17 +54,16 @@ export function ChatInput({
   return (
     <div className="flex flex-col gap-2">
       {/* Suggestions */}
-      
-        {showSuggestions && (
-          <div>
-            <Suggestions>
-              {SUGGESTIONS.map((s) => (
-                <Suggestion key={s} suggestion={s} onClick={() => onSuggestion?.(s)} />
-              ))}
-            </Suggestions>
-          </div>
-        )}
-      
+
+      {showSuggestions && (
+        <div>
+          <Suggestions>
+            {SUGGESTIONS.map((s) => (
+              <Suggestion key={s} suggestion={s} onClick={() => onSuggestion?.(s)} />
+            ))}
+          </Suggestions>
+        </div>
+      )}
 
       {/* Input bar */}
       <PromptInput
@@ -80,7 +79,7 @@ export function ChatInput({
         <PromptInputFooter>
           <PromptInputTools>
             <PromptInputButton tooltip="Attach file">
-              <HugeiconsIcon icon={Attachment01Icon} className="size-4"  />
+              <HugeiconsIcon icon={Attachment01Icon} className="size-4" />
             </PromptInputButton>
           </PromptInputTools>
           <PromptInputSubmit status={chatStatus} onStop={onStop} />

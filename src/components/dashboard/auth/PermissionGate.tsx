@@ -78,7 +78,7 @@ export function PermissionGate({
       fallback || (
         <div className="flex min-h-100 items-center justify-center">
           <Alert className="max-w-md">
-            <HugeiconsIcon icon={ShieldIcon} className="size-4"  />
+            <HugeiconsIcon icon={ShieldIcon} className="size-4" />
             <AlertTitle>Authentication Required</AlertTitle>
             <AlertDescription>Please sign in to access this content.</AlertDescription>
             <div className="mt-4">
@@ -97,7 +97,7 @@ export function PermissionGate({
       fallback || (
         <div className="flex min-h-100 items-center justify-center">
           <Alert className="max-w-md" variant="destructive">
-            <HugeiconsIcon icon={ShieldIcon} className="size-4"  />
+            <HugeiconsIcon icon={ShieldIcon} className="size-4" />
             <AlertTitle>Access Denied</AlertTitle>
             <AlertDescription>
               You don&apos;t have the required permission to access this page.

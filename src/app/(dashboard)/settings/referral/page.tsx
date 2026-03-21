@@ -34,26 +34,26 @@ export default function ReferralSettingsPage() {
       <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle>Referral Program</CardTitle>
-          <CardDescription>
-            Share your referral link and track successful invites.
-          </CardDescription>
+          <CardDescription>Share your referral link and track successful invites.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="rounded-[var(--radius)] border border-border/60 p-4">
-            <p className="text-sm text-muted-foreground">Your referral code</p>
+          <div className="border-border/60 rounded-[var(--radius)] border p-4">
+            <p className="text-muted-foreground text-sm">Your referral code</p>
             <p className="mt-1 text-2xl font-semibold tracking-wide">{overview.code ?? '—'}</p>
           </div>
 
           <div className="space-y-1.5">
-            <p className="text-sm text-muted-foreground">Referral link</p>
+            <p className="text-muted-foreground text-sm">Referral link</p>
             <div className="flex items-center gap-2">
               <Input value={link} readOnly />
-              <Button variant="outline" onClick={onCopy}>Copy</Button>
+              <Button variant="outline" onClick={onCopy}>
+                Copy
+              </Button>
             </div>
           </div>
 
-          <div className="rounded-[var(--radius)] border border-border/60 p-4">
-            <p className="text-sm text-muted-foreground">Successful referrals</p>
+          <div className="border-border/60 rounded-[var(--radius)] border p-4">
+            <p className="text-muted-foreground text-sm">Successful referrals</p>
             <p className="mt-1 text-2xl font-semibold">{overview.count}</p>
           </div>
         </CardContent>

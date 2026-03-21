@@ -14,7 +14,13 @@ interface MoodEntry {
 }
 
 import { HugeiconsIcon } from '@hugeicons/react';
-import { AnalyticsUpIcon, ArrowTurnDownIcon, Pulse01Icon, Target01Icon, SmilePlusIcon } from '@hugeicons/core-free-icons';
+import {
+  AnalyticsUpIcon,
+  ArrowTurnDownIcon,
+  Pulse01Icon,
+  Target01Icon,
+  SmilePlusIcon,
+} from '@hugeicons/core-free-icons';
 import {
   Area,
   AreaChart,
@@ -115,7 +121,10 @@ export function ProgressTab() {
   if (!stats) {
     return (
       <div className="border-border bg-muted/30 rounded-[var(--radius)] border-2 border-dashed py-20 text-center">
-        <HugeiconsIcon icon={SmilePlusIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
+        <HugeiconsIcon
+          icon={SmilePlusIcon}
+          className="text-muted-foreground/50 mx-auto mb-4 size-10"
+        />
         <h3 className="text-foreground text-lg font-semibold">No wellness data yet</h3>
         <p className="text-muted-foreground mt-1 text-sm">
           Start tracking your mood and wellness to see progress here.
@@ -132,9 +141,9 @@ export function ProgressTab() {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Avg. Mood</CardTitle>
             {stats.moodTrend >= 0 ? (
-              <HugeiconsIcon icon={AnalyticsUpIcon} className="text-success size-4"  />
+              <HugeiconsIcon icon={AnalyticsUpIcon} className="text-success size-4" />
             ) : (
-              <HugeiconsIcon icon={ArrowTurnDownIcon} className="text-destructive size-4"  />
+              <HugeiconsIcon icon={ArrowTurnDownIcon} className="text-destructive size-4" />
             )}
           </CardHeader>
           <CardContent>
@@ -154,13 +163,15 @@ export function ProgressTab() {
         <Card className="border-border rounded-[var(--radius)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Avg. Energy</CardTitle>
-            <HugeiconsIcon icon={AnalyticsUpIcon} className="text-primary size-4"  />
+            <HugeiconsIcon icon={AnalyticsUpIcon} className="text-primary size-4" />
           </CardHeader>
           <CardContent>
             {stats.avgEnergy > 0 ? (
               <>
                 <div className="text-2xl font-semibold">{stats.avgEnergy.toFixed(1)}/10</div>
-                <p className="text-muted-foreground text-xs">Based on {stats.totalEntries} entries</p>
+                <p className="text-muted-foreground text-xs">
+                  Based on {stats.totalEntries} entries
+                </p>
                 <div className="bg-muted mt-2 h-2 w-full overflow-hidden rounded-full">
                   <div
                     className="bg-primary h-full transition-all duration-300"
@@ -176,7 +187,7 @@ export function ProgressTab() {
         <Card className="border-border rounded-[var(--radius)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Sessions</CardTitle>
-            <HugeiconsIcon icon={Pulse01Icon} className="text-destructive size-4"  />
+            <HugeiconsIcon icon={Pulse01Icon} className="text-destructive size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{sessionsCompleted}</div>
@@ -186,7 +197,7 @@ export function ProgressTab() {
         <Card className="border-border rounded-[var(--radius)]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Goals</CardTitle>
-            <HugeiconsIcon icon={Target01Icon} className="text-warning size-4"  />
+            <HugeiconsIcon icon={Target01Icon} className="text-warning size-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">

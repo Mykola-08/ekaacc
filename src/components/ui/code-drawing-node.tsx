@@ -2,11 +2,7 @@
 
 import * as React from 'react';
 
-import type {
-  CodeDrawingType,
-  TCodeDrawingElement,
-  ViewMode,
-} from '@platejs/code-drawing';
+import type { CodeDrawingType, TCodeDrawingElement, ViewMode } from '@platejs/code-drawing';
 import {
   VIEW_MODE,
   DEFAULT_MIN_HEIGHT,
@@ -31,11 +27,7 @@ import debounce from 'lodash/debounce.js';
 
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-} from '@/components/ui/popover';
+import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Delete01Icon } from '@hugeicons/core-free-icons';
 import { DownloadIcon } from 'lucide-react';
@@ -59,45 +51,39 @@ function useCodeDrawingElement({ element }: { element: TCodeDrawingElement }) {
   // Debounced render when code or type changes
   const debouncedRender = React.useMemo(
     () =>
-      debounce(
-        async (code: string | undefined, drawingType: string | undefined) => {
-          lastRequestRef.current += 1;
-          const requestId = lastRequestRef.current;
+      debounce(async (code: string | undefined, drawingType: string | undefined) => {
+        lastRequestRef.current += 1;
+        const requestId = lastRequestRef.current;
 
-          if (!code || !code.trim() || !drawingType) {
-            setImage('');
-            setLoading(false);
-            setError(null);
-            return;
-          }
-
-          setLoading(true);
+        if (!code || !code.trim() || !drawingType) {
+          setImage('');
+          setLoading(false);
           setError(null);
+          return;
+        }
 
-          try {
-            const imageData = await renderCodeDrawing(
-              drawingType as CodeDrawingType,
-              code
-            );
+        setLoading(true);
+        setError(null);
 
-            // Only update if this is still the latest request
-            if (lastRequestRef.current === requestId) {
-              setImage(imageData);
-              setError(null);
-            }
-          } catch (err) {
-            if (lastRequestRef.current === requestId) {
-              setError(err instanceof Error ? err.message : 'Rendering failed');
-              setImage('');
-            }
-          } finally {
-            if (lastRequestRef.current === requestId) {
-              setLoading(false);
-            }
+        try {
+          const imageData = await renderCodeDrawing(drawingType as CodeDrawingType, code);
+
+          // Only update if this is still the latest request
+          if (lastRequestRef.current === requestId) {
+            setImage(imageData);
+            setError(null);
           }
-        },
-        RENDER_DEBOUNCE_DELAY
-      ),
+        } catch (err) {
+          if (lastRequestRef.current === requestId) {
+            setError(err instanceof Error ? err.message : 'Rendering failed');
+            setImage('');
+          }
+        } finally {
+          if (lastRequestRef.current === requestId) {
+            setLoading(false);
+          }
+        }
+      }, RENDER_DEBOUNCE_DELAY),
     []
   );
 
@@ -126,9 +112,7 @@ function useCodeDrawingElement({ element }: { element: TCodeDrawingElement }) {
   };
 }
 
-export function CodeDrawingElement(
-  props: PlateElementProps<TCodeDrawingElement>
-) {
+export function CodeDrawingElement(props: PlateElementProps<TCodeDrawingElement>) {
   const isMobile = useIsMobile();
   const editor = useEditorRef();
   const readOnly = useReadOnly();
@@ -200,10 +184,7 @@ export function CodeDrawingElement(
   const drawingType = element.data?.drawingType ?? 'Mermaid';
   const drawingMode = element.data?.drawingMode ?? 'Both';
 
-  const selectionCollapsed = useEditorSelector(
-    (editor) => !editor.api.isExpanded(),
-    []
-  );
+  const selectionCollapsed = useEditorSelector((editor) => !editor.api.isExpanded(), []);
 
   const open = isFocusedLast && !readOnly && selected && selectionCollapsed;
 
@@ -257,7 +238,7 @@ export function CodeDrawingElement(
             onClick={removeNode}
             title="Delete"
           >
-            <HugeiconsIcon icon={Delete01Icon} className="size-4"  />
+            <HugeiconsIcon icon={Delete01Icon} className="size-4" />
           </Button>
         </div>
       </PopoverContent>
@@ -312,7 +293,7 @@ function CodeDrawingPreview({
 
   return (
     <div
-      className={`flex ${isMobile ? 'flex-col-reverse' : 'flex-col'} group my-4 w-full items-stretch border bg-muted/50 md:flex-row`}
+      className={`flex ${isMobile ? 'flex-col-reverse' : 'flex-col'} group bg-muted/50 my-4 w-full items-stretch border md:flex-row`}
       style={{
         minHeight: `${DEFAULT_MIN_HEIGHT}px`,
       }}
@@ -392,7 +373,7 @@ function CodeDrawingToolbar({
           onOpenChange={setLanguageSelectOpen}
         >
           <SelectTrigger
-            className={`h-8 w-[120px] border-0 bg-muted/50 text-xs shadow-none ${
+            className={`bg-muted/50 h-8 w-[120px] border-0 text-xs shadow-none ${
               isMobile ? '' : 'transition-colors hover:bg-zinc-200'
             }`}
           >
@@ -416,7 +397,7 @@ function CodeDrawingToolbar({
           onOpenChange={setViewModeSelectOpen}
         >
           <SelectTrigger
-            className={`h-8 w-[80px] border-0 bg-muted/50 text-xs shadow-none ${
+            className={`bg-muted/50 h-8 w-[80px] border-0 text-xs shadow-none ${
               isMobile ? '' : 'transition-colors hover:bg-zinc-200'
             }`}
           >
@@ -484,11 +465,7 @@ function CodeDrawingTextarea({
     >
       {toolbar && isCodeOnlyMode && (
         <div
-          className={
-            isMobile
-              ? 'mt-2 mb-2 flex justify-end px-2'
-              : 'absolute right-2 z-10 mt-2'
-          }
+          className={isMobile ? 'mt-2 mb-2 flex justify-end px-2' : 'absolute right-2 z-10 mt-2'}
         >
           {toolbar}
         </div>
@@ -548,11 +525,7 @@ function CodeDrawingPreviewArea({
     >
       {toolbar && (
         <div
-          className={
-            isMobile
-              ? 'mt-2 mb-2 flex justify-end px-2'
-              : 'absolute right-2 z-10 mt-2'
-          }
+          className={isMobile ? 'mt-2 mb-2 flex justify-end px-2' : 'absolute right-2 z-10 mt-2'}
         >
           {toolbar}
         </div>
@@ -561,16 +534,12 @@ function CodeDrawingPreviewArea({
       {showImage ? (
         <div
           className={
-            'flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.6)] bg-muted/30 p-4'
+            'bg-muted/30 flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.6)] p-4'
           }
         >
           {loading && <div className="text-muted-foreground">Loading...</div>}
           {!loading && image && (
-            <img
-              src={image}
-              alt="Code drawing"
-              className="max-h-full max-w-full object-contain"
-            />
+            <img src={image} alt="Code drawing" className="max-h-full max-w-full object-contain" />
           )}
           {!loading && !image && (
             <div className="text-muted-foreground">
@@ -579,7 +548,7 @@ function CodeDrawingPreviewArea({
           )}
         </div>
       ) : (
-        <div className="pointer-events-none flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.6)] border bg-muted/30 p-4 opacity-0">
+        <div className="bg-muted/30 pointer-events-none flex flex-1 items-center justify-center rounded-[calc(var(--radius)*0.6)] border p-4 opacity-0">
           {/* Placeholder to maintain height */}
         </div>
       )}

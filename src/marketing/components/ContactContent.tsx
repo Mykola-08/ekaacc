@@ -26,7 +26,7 @@ export default function ContactContent() {
             t('contact.hero.description') ||
             "Estem aquí per ajudar-te. Envia'ns un missatge i et respondrem el més aviat possible.",
           badge: t('contact.hero.badge') || 'Contacte',
-          icon: <HugeiconsIcon icon={Message01Icon} className="size-4"  />,
+          icon: <HugeiconsIcon icon={Message01Icon} className="size-4" />,
         }}
       >
         {/* Contact Layout Section */}

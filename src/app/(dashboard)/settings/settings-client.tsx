@@ -78,7 +78,7 @@ function getInitials(name: string | null) {
 function SaveFeedback({ saved }: { saved: boolean }) {
   if (!saved) return null;
   return (
-    <span className="flex items-center gap-1 text-sm text-success">
+    <span className="text-success flex items-center gap-1 text-sm">
       <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
       Saved
     </span>
@@ -132,17 +132,26 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
           </Avatar>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="gap-2 rounded-[calc(var(--radius)*0.8)]" disabled>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 rounded-[calc(var(--radius)*0.8)]"
+                disabled
+              >
                 <HugeiconsIcon icon={Upload01Icon} className="size-3.5" />
                 Upload Photo
               </Button>
               {profile?.avatar_url && (
-                <Button variant="ghost" size="sm" className="rounded-[calc(var(--radius)*0.8)] text-destructive hover:text-destructive">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-destructive hover:text-destructive rounded-[calc(var(--radius)*0.8)]"
+                >
                   Remove
                 </Button>
               )}
             </div>
-            <p className="text-xs text-muted-foreground">JPG, PNG or GIF · Max 2 MB</p>
+            <p className="text-muted-foreground text-xs">JPG, PNG or GIF · Max 2 MB</p>
           </div>
         </CardContent>
       </Card>
@@ -169,9 +178,9 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
               type="email"
               value={email}
               disabled
-              className="h-10 rounded-[var(--radius)] bg-muted"
+              className="bg-muted h-10 rounded-[var(--radius)]"
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Email cannot be changed here. Contact support to update.
             </p>
           </div>
@@ -194,10 +203,12 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
               className="min-h-24 resize-none rounded-[var(--radius)]"
               maxLength={300}
             />
-            <p className="text-right text-xs text-muted-foreground">{bio.length}/300</p>
+            <p className="text-muted-foreground text-right text-xs">{bio.length}/300</p>
           </div>
           {error && (
-            <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
           )}
         </CardContent>
         <CardFooter className="justify-between border-t px-6 py-4">
@@ -221,7 +232,9 @@ function ProfileTab({ profile, email }: { profile: Profile | null; email: string
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-base">Account Role</CardTitle>
-                <CardDescription>Your role determines what features you can access.</CardDescription>
+                <CardDescription>
+                  Your role determines what features you can access.
+                </CardDescription>
               </div>
               <Badge className="capitalize">{profile.role}</Badge>
             </div>
@@ -246,8 +259,8 @@ function ToggleRow({ label, description, checked, onToggle, disabled }: ToggleRo
   return (
     <div className="flex items-start justify-between gap-4 py-3">
       <div className="min-w-0">
-        <p className="text-sm font-medium leading-none">{label}</p>
-        <p className="mt-1 text-xs text-muted-foreground">{description}</p>
+        <p className="text-sm leading-none font-medium">{label}</p>
+        <p className="text-muted-foreground mt-1 text-xs">{description}</p>
       </div>
       <Switch
         checked={checked}
@@ -301,7 +314,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
           <CardTitle className="text-base">Delivery Channels</CardTitle>
           <CardDescription>Choose how you receive notifications.</CardDescription>
         </CardHeader>
-        <CardContent className="divide-y divide-border/50 pt-0">
+        <CardContent className="divide-border/50 divide-y pt-0">
           <ToggleRow
             label="Email Notifications"
             description="Receive notifications via your registered email."
@@ -335,7 +348,7 @@ function NotificationsTab({ prefs: initialPrefs }: { prefs: NotifPrefs }) {
           <CardTitle className="text-base">Notification Types</CardTitle>
           <CardDescription>Control which events trigger a notification.</CardDescription>
         </CardHeader>
-        <CardContent className="divide-y divide-border/50 pt-0">
+        <CardContent className="divide-border/50 divide-y pt-0">
           <ToggleRow
             label="Booking Reminders"
             description="Get reminded before your upcoming sessions."
@@ -451,7 +464,7 @@ function SecurityTab({ email }: { email: string }) {
       <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <HugeiconsIcon icon={Key01Icon} className="size-4 text-muted-foreground" />
+            <HugeiconsIcon icon={Key01Icon} className="text-muted-foreground size-4" />
             <CardTitle className="text-base">Change Password</CardTitle>
           </div>
           <CardDescription>
@@ -480,16 +493,18 @@ function SecurityTab({ email }: { email: string }) {
             />
           </div>
           {pwError && (
-            <Alert variant="destructive"><AlertDescription>{pwError}</AlertDescription></Alert>
+            <Alert variant="destructive">
+              <AlertDescription>{pwError}</AlertDescription>
+            </Alert>
           )}
           {pwSaved && (
-            <span className="flex items-center gap-1.5 text-sm text-success">
+            <span className="text-success flex items-center gap-1.5 text-sm">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
               Password updated successfully.
             </span>
           )}
         </CardContent>
-        <CardFooter className="border-t px-6 py-4 justify-end">
+        <CardFooter className="justify-end border-t px-6 py-4">
           <Button
             onClick={handlePasswordChange}
             disabled={isPending || !newPw || !confirmPw}
@@ -506,19 +521,20 @@ function SecurityTab({ email }: { email: string }) {
       <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <HugeiconsIcon icon={SecurityCheckIcon} className="size-4 text-muted-foreground" />
+            <HugeiconsIcon icon={SecurityCheckIcon} className="text-muted-foreground size-4" />
             <CardTitle className="text-base">Two-Factor Authentication</CardTitle>
           </div>
-          <CardDescription>
-            Add an extra layer of security to your account.
-          </CardDescription>
+          <CardDescription>Add an extra layer of security to your account.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-start gap-3 rounded-[var(--radius)] border border-border/60 p-4">
-            <HugeiconsIcon icon={Mail01Icon} className="mt-0.5 size-5 text-muted-foreground shrink-0" />
-            <div className="flex-1 min-w-0">
+          <div className="border-border/60 flex items-start gap-3 rounded-[var(--radius)] border p-4">
+            <HugeiconsIcon
+              icon={Mail01Icon}
+              className="text-muted-foreground mt-0.5 size-5 shrink-0"
+            />
+            <div className="min-w-0 flex-1">
               <p className="text-sm font-medium">Authenticator App</p>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-muted-foreground mt-0.5 text-xs">
                 Use an authenticator app (e.g., Google Authenticator) to generate one-time codes.
               </p>
             </div>
@@ -526,11 +542,14 @@ function SecurityTab({ email }: { email: string }) {
               Coming soon
             </Badge>
           </div>
-          <div className="flex items-start gap-3 rounded-[var(--radius)] border border-border/60 p-4">
-            <HugeiconsIcon icon={Mail01Icon} className="mt-0.5 size-5 text-muted-foreground shrink-0" />
-            <div className="flex-1 min-w-0">
+          <div className="border-border/60 flex items-start gap-3 rounded-[var(--radius)] border p-4">
+            <HugeiconsIcon
+              icon={Mail01Icon}
+              className="text-muted-foreground mt-0.5 size-5 shrink-0"
+            />
+            <div className="min-w-0 flex-1">
               <p className="text-sm font-medium">Email Verification</p>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-muted-foreground mt-0.5 text-xs">
                 Receive a one-time code via email when logging in from a new device.
               </p>
             </div>
@@ -542,22 +561,26 @@ function SecurityTab({ email }: { email: string }) {
       </Card>
 
       {/* Sessions */}
-      <Card className="rounded-[var(--radius)] border-destructive/20">
+      <Card className="border-destructive/20 rounded-[var(--radius)]">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <HugeiconsIcon icon={Logout03Icon} className="size-4 text-destructive" />
-            <CardTitle className="text-base text-destructive">Danger Zone</CardTitle>
+            <HugeiconsIcon icon={Logout03Icon} className="text-destructive size-4" />
+            <CardTitle className="text-destructive text-base">Danger Zone</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center justify-between rounded-[var(--radius)] border border-destructive/20 bg-destructive/5 p-4">
+          <div className="border-destructive/20 bg-destructive/5 flex items-center justify-between rounded-[var(--radius)] border p-4">
             <div>
               <p className="text-sm font-medium">Sign out all sessions</p>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-muted-foreground mt-0.5 text-xs">
                 Log out from all devices and browsers.
               </p>
             </div>
-            <Button variant="outline" size="sm" className="shrink-0 rounded-[calc(var(--radius)*0.8)] border-destructive/30 text-destructive hover:bg-destructive/10">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-destructive/30 text-destructive hover:bg-destructive/10 shrink-0 rounded-[calc(var(--radius)*0.8)]"
+            >
               Sign Out All
             </Button>
           </div>
@@ -592,9 +615,7 @@ function LanguageTab() {
       <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle className="text-base">Display Language</CardTitle>
-          <CardDescription>
-            Choose the language used throughout the platform.
-          </CardDescription>
+          <CardDescription>Choose the language used throughout the platform.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           {LANGUAGE_OPTIONS.map(({ code, nativeLabel, label }) => (
@@ -605,18 +626,18 @@ function LanguageTab() {
               className={cn(
                 'flex w-full items-center justify-between rounded-[var(--radius)] border px-4 py-3 text-sm transition-colors',
                 selected === code
-                  ? 'border-primary bg-primary/5 font-medium text-primary'
+                  ? 'border-primary bg-primary/5 text-primary font-medium'
                   : 'border-border/60 hover:border-border hover:bg-muted/50'
               )}
             >
               <span>{nativeLabel}</span>
-              <span className="text-xs text-muted-foreground">{label}</span>
+              <span className="text-muted-foreground text-xs">{label}</span>
             </button>
           ))}
         </CardContent>
         <CardFooter className="justify-between border-t px-6 py-4">
           {saved ? (
-            <span className="flex items-center gap-1 text-sm text-success">
+            <span className="text-success flex items-center gap-1 text-sm">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
               Language updated
             </span>
@@ -677,10 +698,10 @@ export function SettingsClient({
       {/* Header */}
       <div>
         <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
-          <HugeiconsIcon icon={Settings01Icon} className="size-5 text-muted-foreground" />
+          <HugeiconsIcon icon={Settings01Icon} className="text-muted-foreground size-5" />
           Settings
         </h1>
-        <p className="mt-0.5 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-0.5 text-sm">
           Manage your profile, notifications, and security preferences.
         </p>
       </div>
@@ -699,7 +720,11 @@ export function SettingsClient({
         <Tabs value={resolvedTab} onValueChange={setActiveTab}>
           <TabsList className="mb-6 h-auto min-h-10 flex-wrap rounded-[var(--radius)]">
             {filteredTabs.map((tab) => (
-              <TabsTrigger key={tab.value} value={tab.value} className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs">
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="gap-1.5 rounded-[calc(var(--radius)*0.8)] text-xs"
+              >
                 <HugeiconsIcon icon={tab.icon} className="size-3.5" />
                 {tab.label}
               </TabsTrigger>
@@ -707,25 +732,39 @@ export function SettingsClient({
           </TabsList>
 
           {filteredTabs.length === 0 && (
-            <div className="mb-6 rounded-[var(--radius)] border border-dashed p-4 text-sm text-muted-foreground">
-              No matching settings sections. Try terms like <span className="font-medium">profile</span>,{' '}
-              <span className="font-medium">notifications</span>, or <span className="font-medium">security</span>.
+            <div className="text-muted-foreground mb-6 rounded-[var(--radius)] border border-dashed p-4 text-sm">
+              No matching settings sections. Try terms like{' '}
+              <span className="font-medium">profile</span>,{' '}
+              <span className="font-medium">notifications</span>, or{' '}
+              <span className="font-medium">security</span>.
             </div>
           )}
 
-          <TabsContent value="profile" className={cn('mt-0', !visibleTabValues.has('profile') && 'hidden')}>
+          <TabsContent
+            value="profile"
+            className={cn('mt-0', !visibleTabValues.has('profile') && 'hidden')}
+          >
             <ProfileTab profile={profile} email={email} />
           </TabsContent>
 
-          <TabsContent value="notifications" className={cn('mt-0', !visibleTabValues.has('notifications') && 'hidden')}>
+          <TabsContent
+            value="notifications"
+            className={cn('mt-0', !visibleTabValues.has('notifications') && 'hidden')}
+          >
             <NotificationsTab prefs={notifPrefs} />
           </TabsContent>
 
-          <TabsContent value="security" className={cn('mt-0', !visibleTabValues.has('security') && 'hidden')}>
+          <TabsContent
+            value="security"
+            className={cn('mt-0', !visibleTabValues.has('security') && 'hidden')}
+          >
             <SecurityTab email={email} />
           </TabsContent>
 
-          <TabsContent value="language" className={cn('mt-0', !visibleTabValues.has('language') && 'hidden')}>
+          <TabsContent
+            value="language"
+            className={cn('mt-0', !visibleTabValues.has('language') && 'hidden')}
+          >
             <LanguageTab />
           </TabsContent>
         </Tabs>

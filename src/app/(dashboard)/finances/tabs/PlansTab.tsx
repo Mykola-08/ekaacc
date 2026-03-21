@@ -65,7 +65,7 @@ export function PlansTab() {
   if (plans.length === 0) {
     return (
       <div className="border-border bg-muted/30 rounded-[calc(var(--radius)*2.2)] border-2 border-dashed py-20 text-center">
-        <HugeiconsIcon icon={CrownIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10"  />
+        <HugeiconsIcon icon={CrownIcon} className="text-muted-foreground/50 mx-auto mb-4 size-10" />
         <h3 className="text-foreground text-lg font-semibold">No plans available</h3>
         <p className="text-muted-foreground mt-1 text-sm">
           Check back soon for subscription options.
@@ -103,18 +103,18 @@ export function PlansTab() {
           </CardHeader>
           <CardContent className="">
             <div className="flex items-center gap-2 text-sm">
-              <HugeiconsIcon icon={Tick02Icon} className="text-success size-4"  />
+              <HugeiconsIcon icon={Tick02Icon} className="text-success size-4" />
               {plan.credits_total} session credit{plan.credits_total !== 1 ? 's' : ''}
             </div>
             {plan.validity_days && (
               <div className="flex items-center gap-2 text-sm">
-                <HugeiconsIcon icon={Tick02Icon} className="text-success size-4"  />
+                <HugeiconsIcon icon={Tick02Icon} className="text-success size-4" />
                 Valid for {plan.validity_days} days
               </div>
             )}
             {plan.features?.map((feature, fidx) => (
               <div key={fidx} className="flex items-center gap-2 text-sm">
-                <HugeiconsIcon icon={Tick02Icon} className="text-success size-4"  />
+                <HugeiconsIcon icon={Tick02Icon} className="text-success size-4" />
                 {feature}
               </div>
             ))}

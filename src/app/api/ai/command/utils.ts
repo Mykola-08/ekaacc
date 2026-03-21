@@ -148,8 +148,7 @@ export const buildStructuredPrompt = ({
     // Not needed with structured output
     outputFormatting && tag('outputFormatting', outputFormatting),
     // Not needed with structured output
-    (prefilledResponse ?? null) !== null &&
-      tag('prefilledResponse', prefilledResponse ?? ''),
+    (prefilledResponse ?? null) !== null && tag('prefilledResponse', prefilledResponse ?? ''),
   ]);
 };
 
@@ -171,9 +170,7 @@ export function formatTextFromMessages(
   // No history needed if no messages or only one message
   if (!messages || messages.length <= 1) return '';
 
-  const historyMessages = options?.limit
-    ? messages.slice(-options.limit)
-    : messages;
+  const historyMessages = options?.limit ? messages.slice(-options.limit) : messages;
 
   return historyMessages
     .map((message) => {
@@ -195,9 +192,7 @@ export function formatTextFromMessages(
 export function getLastUserInstruction(messages: ChatMessage[]): string {
   if (!messages || messages.length === 0) return '';
 
-  const lastUserMessage = [...messages]
-    .reverse()
-    .find((m) => m.role === 'user');
+  const lastUserMessage = [...messages].reverse().find((m) => m.role === 'user');
 
   if (!lastUserMessage) return '';
 

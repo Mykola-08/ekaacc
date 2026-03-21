@@ -13,7 +13,7 @@ export default function UnsubscribePage() {
           <CardDescription>Manage your email preferences</CardDescription>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<div className="h-20 animate-pulse rounded bg-muted" />}>
+          <Suspense fallback={<div className="bg-muted h-20 animate-pulse rounded" />}>
             <UnsubscribeContent />
           </Suspense>
         </CardContent>

@@ -22,10 +22,7 @@ const buttonVariants = cva(
 
 type ShaderProps = Omit<LiquidMetalProps, 'className' | 'style' | 'shape'>;
 
-type LiquidMetalButtonProps = Omit<
-  React.ComponentProps<typeof Button>,
-  'variant' | 'size'
-> &
+type LiquidMetalButtonProps = Omit<React.ComponentProps<typeof Button>, 'variant' | 'size'> &
   Partial<ShaderProps> &
   VariantProps<typeof buttonVariants>;
 
@@ -50,13 +47,13 @@ export function LiquidMetalButton({
   return (
     <Button
       ref={ref}
-      data-slot='liquid-metal-button'
+      data-slot="liquid-metal-button"
       className={cn(buttonVariants({ size }), className)}
       {...props}
     >
       <LiquidMetal
-        className='absolute inset-0 rounded-full'
-        shape='none'
+        className="absolute inset-0 rounded-full"
+        shape="none"
         speed={speed}
         repetition={repetition}
         softness={softness}
@@ -69,8 +66,8 @@ export function LiquidMetalButton({
         offsetX={offsetX}
         offsetY={offsetY}
       />
-      <div className='absolute inset-[calc(var(--spacing)*0.68)] rounded-full bg-primary-foreground inset-shadow-lg' />
-      <span className='relative'>{children}</span>
+      <div className="bg-primary-foreground inset-shadow-lg absolute inset-[calc(var(--spacing)*0.68)] rounded-full" />
+      <span className="relative">{children}</span>
     </Button>
   );
 }

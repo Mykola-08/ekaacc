@@ -28,9 +28,26 @@ import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from '@/components/ui/morphing-toaster';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { ShieldIcon, LockIcon, EyeIcon, ViewIcon, Download01Icon, Delete01Icon, Alert01Icon, CheckmarkCircle01Icon, Clock01Icon, UserCheck01Icon, Key01Icon, Activity01Icon, Settings01Icon, GlobeIcon, Mail01Icon, FileLockIcon, Database01Icon, SmartPhoneIcon } from '@hugeicons/core-free-icons';
-
-
+import {
+  ShieldIcon,
+  LockIcon,
+  EyeIcon,
+  ViewIcon,
+  Download01Icon,
+  Delete01Icon,
+  Alert01Icon,
+  CheckmarkCircle01Icon,
+  Clock01Icon,
+  UserCheck01Icon,
+  Key01Icon,
+  Activity01Icon,
+  Settings01Icon,
+  GlobeIcon,
+  Mail01Icon,
+  FileLockIcon,
+  Database01Icon,
+  SmartPhoneIcon,
+} from '@hugeicons/core-free-icons';
 
 // Polyfill EKA components locally
 const PageContainer = ({ children, className }: any) => (
@@ -379,7 +396,7 @@ export default function PrivacyControlsPage() {
             <Card className="border-muted">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
-                  <HugeiconsIcon icon={ShieldIcon} className="text-primary mr-3 size-6"  />
+                  <HugeiconsIcon icon={ShieldIcon} className="text-primary mr-3 size-6" />
                   Privacy Overview
                 </CardTitle>
               </CardHeader>
@@ -387,7 +404,7 @@ export default function PrivacyControlsPage() {
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                   <div className="text-center">
                     <div className="bg-success/20 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
-                      <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success size-6"  />
+                      <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-success size-6" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Data Protection</h3>
                     <p className="text-muted-foreground text-sm">
@@ -396,14 +413,14 @@ export default function PrivacyControlsPage() {
                   </div>
                   <div className="text-center">
                     <div className="bg-primary/10 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
-                      <HugeiconsIcon icon={EyeIcon} className="text-primary size-6"  />
+                      <HugeiconsIcon icon={EyeIcon} className="text-primary size-6" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Transparency</h3>
                     <p className="text-muted-foreground text-sm">Full visibility into data usage</p>
                   </div>
                   <div className="text-center">
                     <div className="bg-accent/20 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full">
-                      <HugeiconsIcon icon={Settings01Icon} className="text-accent size-6"  />
+                      <HugeiconsIcon icon={Settings01Icon} className="text-accent size-6" />
                     </div>
                     <h3 className="text-foreground mb-1 font-semibold">Control</h3>
                     <p className="text-muted-foreground text-sm">
@@ -528,7 +545,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <HugeiconsIcon icon={GlobeIcon} className="text-success mr-2 size-5"  />
+                      <HugeiconsIcon icon={GlobeIcon} className="text-success mr-2 size-5" />
                       Visibility Controls
                     </CardTitle>
                     <CardDescription>
@@ -630,7 +647,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <HugeiconsIcon icon={LockIcon} className="text-destructive mr-2 size-5"  />
+                      <HugeiconsIcon icon={LockIcon} className="text-destructive mr-2 size-5" />
                       Security Settings
                     </CardTitle>
                     <CardDescription>
@@ -719,7 +736,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <HugeiconsIcon icon={Activity01Icon} className="text-accent mr-2 size-5"  />
+                      <HugeiconsIcon icon={Activity01Icon} className="text-accent mr-2 size-5" />
                       Quick Actions
                     </CardTitle>
                   </CardHeader>
@@ -729,7 +746,7 @@ export default function PrivacyControlsPage() {
                       variant="outline"
                       onClick={() => setShowDataExport(true)}
                     >
-                      <HugeiconsIcon icon={Download01Icon} className="mr-2 size-4"  />
+                      <HugeiconsIcon icon={Download01Icon} className="mr-2 size-4" />
                       Export My Data
                     </Button>
                     <Button
@@ -745,7 +762,7 @@ export default function PrivacyControlsPage() {
                       variant="outline"
                       onClick={() => window.open('/legal/terms', '_blank')}
                     >
-                      <HugeiconsIcon icon={Key01Icon} className="mr-2 size-4"  />
+                      <HugeiconsIcon icon={Key01Icon} className="mr-2 size-4" />
                       Terms of Service
                     </Button>
                     <Button
@@ -753,7 +770,7 @@ export default function PrivacyControlsPage() {
                       variant="destructive"
                       onClick={() => setShowDeleteConfirm(true)}
                     >
-                      <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4"  />
+                      <HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" />
                       Delete Account
                     </Button>
                   </CardContent>
@@ -769,7 +786,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <HugeiconsIcon icon={Clock01Icon} className="text-warning mr-2 size-5"  />
+                      <HugeiconsIcon icon={Clock01Icon} className="text-warning mr-2 size-5" />
                       Recent Privacy Activity01Icon
                     </CardTitle>
                   </CardHeader>
@@ -816,7 +833,7 @@ export default function PrivacyControlsPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <HugeiconsIcon icon={UserCheck01Icon} className="text-success mr-2 size-5"  />
+                      <HugeiconsIcon icon={UserCheck01Icon} className="text-success mr-2 size-5" />
                       Data Access Log
                     </CardTitle>
                   </CardHeader>
@@ -828,7 +845,10 @@ export default function PrivacyControlsPage() {
                         </p>
                       ) : (
                         accessLogs.map((log) => (
-                          <div key={log.id} className="bg-muted/40 flex items-start rounded-[var(--radius)] p-3">
+                          <div
+                            key={log.id}
+                            className="bg-muted/40 flex items-start rounded-[var(--radius)] p-3"
+                          >
                             <div className="bg-success mt-2 h-2 w-2 rounded-full"></div>
                             <div className="flex-1">
                               <p className="text-foreground text-sm font-medium">
@@ -966,7 +986,7 @@ export default function PrivacyControlsPage() {
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle className="text-destructive flex items-center gap-2">
-                <HugeiconsIcon icon={Alert01Icon} className="text-destructive size-5"  />
+                <HugeiconsIcon icon={Alert01Icon} className="text-destructive size-5" />
                 Delete Account
               </DialogTitle>
               <DialogDescription>

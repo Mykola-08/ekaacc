@@ -1,13 +1,6 @@
 'use client';
 
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import {
   MeshGradient,
@@ -117,21 +110,16 @@ const MeshGradientCardContext = createContext<{ messageIndex: number }>({
   messageIndex: 0,
 });
 
-type MeshGradientCardProps = Partial<
-  Omit<MeshGradientProps, 'width' | 'height'>
-> & {
+type MeshGradientCardProps = Partial<Omit<MeshGradientProps, 'width' | 'height'>> & {
   steps?: GradientStep[];
   interval?: number;
   children?: React.ReactNode;
 };
 
-function MeshGradientCardRoot({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
+function MeshGradientCardRoot({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
-      data-slot='mesh-gradient-card'
+      data-slot="mesh-gradient-card"
       className={cn('relative overflow-hidden rounded-full', className)}
       {...props}
     />
@@ -151,13 +139,7 @@ function MeshGradientCard({
   return (
     <MeshGradientCardContext.Provider value={{ messageIndex }}>
       <MeshGradientCardRoot className={className}>
-        <MeshGradient
-          width='100%'
-          height='100%'
-          colors={colors}
-          {...config}
-          {...shaderProps}
-        />
+        <MeshGradient width="100%" height="100%" colors={colors} {...config} {...shaderProps} />
         {children}
       </MeshGradientCardRoot>
     </MeshGradientCardContext.Provider>
@@ -176,8 +158,8 @@ function MeshGradientCardMessages({
   const active = items[messageIndex % items.length];
 
   return (
-    <span data-slot='mesh-gradient-card-messages' className={className}>
-      <AnimatePresence mode='wait'>
+    <span data-slot="mesh-gradient-card-messages" className={className}>
+      <AnimatePresence mode="wait">
         {React.isValidElement(active)
           ? React.cloneElement(active, {
               key: messageIndex,
@@ -197,7 +179,7 @@ function MeshGradientCardMessage({
 }) {
   return (
     <motion.span
-      data-slot='mesh-gradient-card-message'
+      data-slot="mesh-gradient-card-message"
       initial={{ opacity: 0, filter: 'blur(8px)' }}
       animate={{ opacity: 1, filter: 'blur(0px)' }}
       exit={{ opacity: 0, filter: 'blur(8px)' }}
@@ -215,10 +197,7 @@ function MeshGradientCardMessage({
   );
 }
 
-function useGradientCycler(
-  steps: GradientStep[] = DEFAULT_STEPS,
-  interval: number = 4000
-) {
+function useGradientCycler(steps: GradientStep[] = DEFAULT_STEPS, interval: number = 4000) {
   const [stepIndex, setStepIndex] = useState(0);
   const [config, setConfig] = useState<GradientStep>(steps[0]);
   const animationRef = useRef<ReturnType<typeof animate> | null>(null);

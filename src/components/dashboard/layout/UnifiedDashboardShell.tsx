@@ -190,6 +190,29 @@ export function UnifiedDashboardShell({
                     </Breadcrumb>
                     <h1 className="text-base font-medium sm:hidden">{pageTitle}</h1>
 
+                    {/* ⌘K search trigger */}
+                    <button
+                      onClick={() =>
+                        window.dispatchEvent(
+                          new KeyboardEvent('keydown', {
+                            key: 'k',
+                            metaKey: true,
+                            ctrlKey: true,
+                            bubbles: true,
+                            cancelable: true,
+                          })
+                        )
+                      }
+                      className="hidden sm:flex items-center gap-2 rounded-[calc(var(--radius)*0.7)] border border-border/60 bg-muted/40 px-2.5 py-1.5 text-xs text-muted-foreground transition-all duration-150 hover:bg-muted/70 hover:border-border hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      aria-label="Open command palette"
+                    >
+                      <span className="hidden md:inline">Search…</span>
+                      <kbd className="flex items-center gap-0.5 font-sans text-[10px] text-muted-foreground/70">
+                        <span>⌘</span>
+                        <span>K</span>
+                      </kbd>
+                    </button>
+
                     <div className="ml-auto flex items-center gap-0.5 md:gap-1">
                       <TherapistSessionModeLauncher isTherapist={isTherapistTools} />
                       <NotificationDropdown />

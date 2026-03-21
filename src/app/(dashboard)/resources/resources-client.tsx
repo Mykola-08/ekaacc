@@ -92,30 +92,28 @@ export function ResourcesPageClient({
   const usedTypes = ['all', ...Array.from(new Set(displayResources.map((r) => r.type).filter(Boolean)))];
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="px-4 lg:px-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-foreground">Resource Library</h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Self-guided materials, exercises, and therapeutic tools.
-            </p>
-          </div>
-          <div className="relative w-full sm:w-64">
-            <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search resources…"
-              className="h-9 pl-9 rounded-[var(--radius)]"
-            />
-          </div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight text-foreground">Resource Library</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Self-guided materials, exercises, and therapeutic tools.
+          </p>
+        </div>
+        <div className="relative w-full sm:w-64">
+          <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search resources…"
+            className="h-9 pl-9 rounded-[var(--radius)]"
+          />
         </div>
       </div>
 
       {/* Type filter chips */}
-      <div className="flex flex-wrap gap-2 px-4 lg:px-6">
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setSavedOnly((current) => !current)}
           className={cn(
@@ -167,7 +165,7 @@ export function ResourcesPageClient({
 
       {/* Resource grid */}
       {filtered.length === 0 ? (
-        <div className="mx-4 flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-14 text-center lg:mx-6">
+        <div className="flex flex-col items-center gap-3 rounded-[var(--radius)] border border-dashed py-14 text-center">
           <HugeiconsIcon icon={File01Icon} className="size-8 text-muted-foreground/30" />
           <div>
             <p className="font-semibold">No resources found</p>
@@ -178,7 +176,7 @@ export function ResourcesPageClient({
           </Button>
         </div>
       ) : (
-        <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
+        <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
           {filtered.map((r) => {
             const cfg = TYPE_CONFIG[r.type ?? 'article'] ?? TYPE_CONFIG.article;
             const isSaved = savedIds.has(r.id);

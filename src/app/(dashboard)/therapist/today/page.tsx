@@ -90,7 +90,7 @@ export default async function TherapistTodayPage() {
   const remainingToday = todaysSessions.filter((s: any) => s.status === 'scheduled').length;
 
   return (
-    <div className="flex flex-col gap-5 p-4 lg:p-6">
+    <div className="flex flex-col gap-5">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>

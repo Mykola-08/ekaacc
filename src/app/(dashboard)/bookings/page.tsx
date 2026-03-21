@@ -137,12 +137,12 @@ export default async function BookingsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
       <div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-foreground text-xl font-bold tracking-tight">Bookings</h1>
+            <h1 className="text-foreground text-xl font-semibold tracking-tight">Bookings</h1>
             <p className="text-muted-foreground mt-0.5 text-sm">
               {upcomingBookings.length
                 ? `${upcomingBookings.length} upcoming session${upcomingBookings.length !== 1 ? 's' : ''}`

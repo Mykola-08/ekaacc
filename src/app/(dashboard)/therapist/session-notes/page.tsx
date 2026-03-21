@@ -197,8 +197,8 @@ export default function SessionNotesPage() {
   }, [handleSave]);
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <div className="px-4 lg:px-6">
+    <div className="flex flex-col gap-4 md:gap-6">
+      <div>
       <PageSection
         title="Session Notes"
         description="Document your therapy session with comprehensive notes"
@@ -395,7 +395,7 @@ export default function SessionNotesPage() {
       </Card>
 
       {/* Notes Tabs */}
-      <div className="px-4 lg:px-6">
+      <div>
       <Tabs defaultValue="notes" className="">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="notes" className="gap-2">

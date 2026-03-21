@@ -36,9 +36,9 @@ export default async function WorkspaceSettingsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
+    <div className="mx-auto max-w-4xl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Workspace Settings</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Workspace Settings</h1>
         <p className="text-muted-foreground mt-2">
           Manage integrations and modules enabled for your clinic.
         </p>

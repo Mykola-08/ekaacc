@@ -673,10 +673,10 @@ export function SettingsClient({
     : (filteredTabs[0]?.value ?? 'profile');
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex flex-col gap-4 md:gap-6">
       {/* Header */}
-      <div className="px-4 lg:px-6">
-        <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+      <div>
+        <h1 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
           <HugeiconsIcon icon={Settings01Icon} className="size-5 text-muted-foreground" />
           Settings
         </h1>
@@ -685,7 +685,7 @@ export function SettingsClient({
         </p>
       </div>
 
-      <div className="px-4 lg:px-6">
+      <div>
         <div className="mb-3">
           <Input
             value={query}

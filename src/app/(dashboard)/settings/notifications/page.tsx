@@ -41,7 +41,7 @@ export default function NotificationsSettingsPage() {
   };
 
   return (
-    <div className="space-y-4 p-4 lg:p-6">
+    <div className="space-y-4">
       <Card className="rounded-[var(--radius)]">
         <CardHeader>
           <CardTitle>Notification Settings</CardTitle>

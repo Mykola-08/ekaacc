@@ -66,12 +66,12 @@ export default async function PatientManagerPage() {
   const scheduledCount = (bookings ?? []).filter((b) => b.status === 'scheduled').length;
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* ── Page header ─── */}
-      <div className="px-4 lg:px-6">
+      <div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-foreground">Patients</h1>
+            <h1 className="text-xl font-semibold tracking-tight text-foreground">Patients</h1>
             <p className="mt-0.5 text-sm text-muted-foreground">
               {totalActive} active client{totalActive !== 1 ? 's' : ''} in your caseload
             </p>
@@ -84,7 +84,7 @@ export default async function PatientManagerPage() {
       </div>
 
       {/* ── Quick stats ─── */}
-      <div className="grid grid-cols-3 gap-3 px-4 lg:px-6">
+      <div className="grid grid-cols-3 gap-3">
         <Card className="rounded-[var(--radius)] border-border/60">
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground uppercase tracking-wide">Total Clients</p>
@@ -121,7 +121,7 @@ export default async function PatientManagerPage() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-3 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 @xl/main:grid-cols-2 @5xl/main:grid-cols-3">
           {patients.map(({ profile, lastBooking, sessionCount }, idx) => {
             const avatarClass = PALETTE[idx % PALETTE.length];
             const hasUpcoming =

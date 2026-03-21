@@ -224,12 +224,12 @@ export default async function DashboardPage() {
   const streakDays = getConsecutiveDays((data.activityForStreak ?? []).map((entry: any) => entry.created_at));
 
   return (
-    <div className="flex flex-col gap-6 py-4 md:py-6">
+    <div className="flex flex-col gap-6">
       {/* ── Welcome Banner ────────────────────────────────────────── */}
       <div>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+            <h1 className="text-xl font-semibold tracking-tight text-foreground">
               {getGreeting()}, {firstName} {getMoodEmoji()}
             </h1>
             <p className="mt-0.5 text-sm text-muted-foreground">
@@ -463,7 +463,7 @@ export default async function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardDescription>Your Plan</CardDescription>
-                <CardTitle className="text-xl font-bold tabular-nums">
+                <CardTitle className="text-xl font-semibold tabular-nums">
                   {data.plan?.name || 'Free'}
                 </CardTitle>
                 <CardAction>
@@ -489,7 +489,7 @@ export default async function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardDescription>Balance</CardDescription>
-                <CardTitle className="text-xl font-bold tabular-nums">
+                <CardTitle className="text-xl font-semibold tabular-nums">
                   {(data.wallet.balance_cents / 100).toFixed(2)}{' '}
                   <span className="text-sm font-normal text-muted-foreground">
                     {data.wallet.currency}
@@ -704,7 +704,7 @@ function DashStatsCard({
         <CardDescription className="text-xs uppercase tracking-wider">{label}</CardDescription>
         <CardTitle
           className={cn(
-            'text-2xl font-bold tabular-nums',
+            'text-2xl font-semibold tabular-nums',
             accent && 'text-primary'
           )}
         >

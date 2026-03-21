@@ -137,12 +137,12 @@ export default function ReportsPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-        <div className="px-4 lg:px-6">
-          <h1 className="text-xl font-bold tracking-tight">My Reports</h1>
+      <div className="flex flex-col gap-4 md:gap-6">
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight">My Reports</h1>
           <p className="text-sm text-muted-foreground mt-1">Your personal progress summary.</p>
         </div>
-        <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+        <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="bg-muted h-32 animate-pulse rounded-[calc(var(--radius)*0.8)]" />
           ))}
@@ -152,10 +152,10 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center px-4 lg:px-6">
+    <div className="flex flex-col gap-4 md:gap-6">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-xl font-bold tracking-tight">My Reports</h1>
+          <h1 className="text-xl font-semibold tracking-tight">My Reports</h1>
           <p className="text-sm text-muted-foreground mt-1">Your personal progress summary for the last 30 days.</p>
         </div>
         <Badge variant="outline" className="w-fit">
@@ -165,7 +165,7 @@ export default function ReportsPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 *:data-[slot=card]:shadow-xs">
+      <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 *:data-[slot=card]:shadow-xs">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Sessions Completed</CardTitle>

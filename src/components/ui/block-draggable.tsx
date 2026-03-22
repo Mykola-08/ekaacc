@@ -5,7 +5,7 @@ import * as React from 'react';
 import { DndPlugin, useDraggable, useDropLine } from '@platejs/dnd';
 import { expandListItemsWithChildren } from '@platejs/list';
 import { BlockSelectionPlugin } from '@platejs/selection/react';
-import { GripVerticalIcon } from 'hugeicons-react';
+import { HandGripIcon } from 'hugeicons-react';
 import { type TElement, getPluginByType, isType, KEYS } from 'platejs';
 import {
   type PlateEditor,
@@ -295,7 +295,7 @@ const DragHandle = React.memo(function DragHandle({
           data-plate-prevent-deselect
           role="button"
         >
-          <GripVerticalIcon className="text-muted-foreground" />
+          <HandGripIcon className="text-muted-foreground" />
         </div>
       </TooltipTrigger>
       <TooltipContent>Drag to move</TooltipContent>

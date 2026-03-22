@@ -6,7 +6,7 @@ import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 import type { TElement } from 'platejs';
 
 import { DropdownMenuItemIndicator } from '@radix-ui/react-dropdown-menu';
-import { CheckIconIcon, ChevronRightIconIcon, Code2Icon, Columns3IconIcon, FileCodeIconIcon, Heading1IconIcon, Heading2IconIcon, Heading3IconIcon, Heading4IconIcon, Heading5IconIcon, Heading6IconIcon, ListIconIcon, ListOrderedIconIcon, PilcrowIconIcon, QuoteIconIcon, SquareIconIcon } from 'hugeicons-react';
+import { Tick01Icon, ArrowRight01Icon, BinaryCodeIcon, ColumnInsertIcon, FileAttachmentIcon, Heading01Icon, Heading02Icon, Heading03Icon, Heading04Icon, Heading05Icon, Heading06Icon, LeftToRightListBulletIcon, LeftToRightListNumberIcon, ParagraphBulletsPoint01Icon, QuoteDownIcon, SquareIcon } from 'hugeicons-react';
 import { KEYS } from 'platejs';
 import { useEditorRef, useSelectionFragmentProp } from 'platejs/react';
 
@@ -22,91 +22,91 @@ import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
 
 export const turnIntoItems = [
   {
-    icon: <PilcrowIconIcon />,
+    icon: <ParagraphBulletsPoint01Icon />,
     keywords: ['paragraph'],
     label: 'Text',
     value: KEYS.p,
   },
   {
-    icon: <Heading1IconIcon />,
+    icon: <Heading01Icon />,
     keywords: ['title', 'h1'],
     label: 'Heading 1',
     value: 'h1',
   },
   {
-    icon: <Heading2IconIcon />,
+    icon: <Heading02Icon />,
     keywords: ['subtitle', 'h2'],
     label: 'Heading 2',
     value: 'h2',
   },
   {
-    icon: <Heading3IconIcon />,
+    icon: <Heading03Icon />,
     keywords: ['subtitle', 'h3'],
     label: 'Heading 3',
     value: 'h3',
   },
   {
-    icon: <Heading4IconIcon />,
+    icon: <Heading04Icon />,
     keywords: ['subtitle', 'h4'],
     label: 'Heading 4',
     value: 'h4',
   },
   {
-    icon: <Heading5IconIcon />,
+    icon: <Heading05Icon />,
     keywords: ['subtitle', 'h5'],
     label: 'Heading 5',
     value: 'h5',
   },
   {
-    icon: <Heading6IconIcon />,
+    icon: <Heading06Icon />,
     keywords: ['subtitle', 'h6'],
     label: 'Heading 6',
     value: 'h6',
   },
   {
-    icon: <ListIconIcon />,
+    icon: <LeftToRightListBulletIcon />,
     keywords: ['unordered', 'ul', '-'],
     label: 'Bulleted list',
     value: KEYS.ul,
   },
   {
-    icon: <ListOrderedIconIcon />,
+    icon: <LeftToRightListNumberIcon />,
     keywords: ['ordered', 'ol', '1'],
     label: 'Numbered list',
     value: KEYS.ol,
   },
   {
-    icon: <SquareIconIcon />,
+    icon: <SquareIcon />,
     keywords: ['checklist', 'task', 'checkbox', '[]'],
     label: 'To-do list',
     value: KEYS.listTodo,
   },
   {
-    icon: <ChevronRightIconIcon />,
+    icon: <ArrowRight01Icon />,
     keywords: ['collapsible', 'expandable'],
     label: 'Toggle list',
     value: KEYS.toggle,
   },
   {
-    icon: <FileCodeIconIcon />,
+    icon: <FileAttachmentIcon />,
     keywords: ['```'],
     label: 'Code',
     value: KEYS.codeBlock,
   },
   {
-    icon: <Code2Icon />,
+    icon: <BinaryCodeIcon />,
     keywords: ['code-drawing', 'diagram', 'plantuml', 'graphviz', 'flowchart', 'mermaid'],
     label: 'Code Drawing',
     value: KEYS.codeDrawing,
   },
   {
-    icon: <QuoteIconIcon />,
+    icon: <QuoteDownIcon />,
     keywords: ['citation', 'blockquote', '>'],
     label: 'Quote',
     value: KEYS.blockquote,
   },
   {
-    icon: <Columns3IconIcon />,
+    icon: <ColumnInsertIcon />,
     label: '3 columns',
     value: 'action_three_columns',
   },
@@ -156,7 +156,7 @@ export function TurnIntoToolbarButton(props: DropdownMenuProps) {
             >
               <span className="pointer-events-none absolute right-2 flex size-3.5 items-center justify-center">
                 <DropdownMenuItemIndicator>
-                  <CheckIconIcon />
+                  <Tick01Icon />
                 </DropdownMenuItemIndicator>
               </span>
               {icon}

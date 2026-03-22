@@ -30,7 +30,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Delete01Icon } from '@hugeicons/core-free-icons';
-import { DownloadIconIcon } from 'hugeicons-react';
+import { Download01Icon } from 'hugeicons-react';
 import {
   Select,
   SelectContent,
@@ -228,7 +228,7 @@ export function CodeDrawingElement(props: PlateElementProps<TCodeDrawingElement>
               onClick={handleDownload}
               title="Export"
             >
-              <DownloadIconIcon className="size-4" />
+              <Download01Icon className="size-4" />
             </Button>
           )}
           <Button

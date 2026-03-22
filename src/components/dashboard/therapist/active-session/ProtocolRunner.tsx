@@ -12,7 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { ListChecksIcon } from 'hugeicons-react';
+import { CheckListIcon } from 'hugeicons-react';
 
 interface ProtocolProps {
   protocols: any[];
@@ -40,7 +40,7 @@ export function ProtocolRunner({ protocols }: ProtocolProps) {
   return (
     <div className="flex h-full flex-col space-y-4">
       <div className="flex items-center gap-4">
-        <ListChecksIcon className="text-primary h-5 w-5" />
+        <CheckListIcon className="text-primary h-5 w-5" />
         <Select value={selectedId} onValueChange={setSelectedId}>
           <SelectTrigger className="w-[300px]">
             <SelectValue placeholder="Select a Clinical Protocol..." />

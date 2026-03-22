@@ -14,7 +14,7 @@ import {
 } from 'react';
 import type { TProps as JsxParserProps } from 'react-jsx-parser';
 import JsxParser from 'react-jsx-parser';
-import { AlertTriangleIconIcon } from 'hugeicons-react';
+import { Alert02Icon } from 'hugeicons-react';
 
 interface JSXPreviewContextValue {
   jsx: string;
@@ -278,7 +278,7 @@ export const JSXPreviewError = memo(({ className, children, ...props }: JSXPrevi
         renderChildren(children, error)
       ) : (
         <>
-          <AlertTriangleIconIcon className="size-4 shrink-0" />
+          <Alert02Icon className="size-4 shrink-0" />
           <span>{error.message}</span>
         </>
       )}

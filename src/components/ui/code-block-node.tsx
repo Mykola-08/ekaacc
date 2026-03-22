@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { formatCodeBlock, isLangSupported } from '@platejs/code-block';
-import { BracesIconIcon, CheckmarkBadge01Icon, CheckIconIcon, CopyIconIcon } from 'hugeicons-react';
+import { BinaryCodeIcon, CheckmarkBadge01Icon, Tick01Icon, Copy01Icon } from 'hugeicons-react';
 import { type TCodeBlockElement, type TCodeSyntaxLeaf, NodeApi } from 'platejs';
 import {
   type PlateElementProps,
@@ -50,7 +50,7 @@ export function CodeBlockElement(props: PlateElementProps<TCodeBlockElement>) {
               onClick={() => formatCodeBlock(editor, { element })}
               title="Format code"
             >
-              <BracesIconIcon className="text-muted-foreground !size-3.5" />
+              <BinaryCodeIcon className="text-muted-foreground !size-3.5" />
             </Button>
           )}
 
@@ -156,7 +156,7 @@ function CopyButton({
       {...props}
     >
       <span className="sr-only">Copy</span>
-      {hasCopied ? <CheckmarkBadge01IconIcon className="!size-3" /> : <CopyIconIcon className="!size-3" />}
+      {hasCopied ? <CheckmarkBadge01Icon className="!size-3" /> : <Copy01Icon className="!size-3" />}
     </Button>
   );
 }

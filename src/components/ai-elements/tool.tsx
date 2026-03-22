@@ -8,7 +8,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import { isValidElement } from 'react';
 
 import { CodeBlock } from './code-block';
-import { CheckCircleIconIcon, ChevronDownIconIcon, CircleIconIcon, ClockIconIcon, WrenchIconIcon, XCircleIconIcon } from 'hugeicons-react';
+import { CheckmarkCircle01Icon, ArrowDown01Icon, CircleIcon, Clock01Icon, Wrench01Icon, Cancel02Icon } from 'hugeicons-react';
 
 export type ToolProps = ComponentProps<typeof Collapsible>;
 
@@ -47,13 +47,13 @@ const statusLabels: Record<ToolPart['state'], string> = {
 };
 
 const statusIcons: Record<ToolPart['state'], ReactNode> = {
-  'approval-requested': <ClockIconIcon className="size-4 text-yellow-600" />,
-  'approval-responded': <CheckCircleIconIcon className="size-4 text-blue-600" />,
-  'input-available': <ClockIconIcon className="size-4 animate-pulse" />,
-  'input-streaming': <CircleIconIcon className="size-4" />,
-  'output-available': <CheckCircleIconIcon className="size-4 text-green-600" />,
-  'output-denied': <XCircleIconIcon className="size-4 text-orange-600" />,
-  'output-error': <XCircleIconIcon className="size-4 text-red-600" />,
+  'approval-requested': <Clock01Icon className="size-4 text-yellow-600" />,
+  'approval-responded': <CheckmarkCircle01Icon className="size-4 text-blue-600" />,
+  'input-available': <Clock01Icon className="size-4 animate-pulse" />,
+  'input-streaming': <CircleIcon className="size-4" />,
+  'output-available': <CheckmarkCircle01Icon className="size-4 text-green-600" />,
+  'output-denied': <Cancel02Icon className="size-4 text-orange-600" />,
+  'output-error': <Cancel02Icon className="size-4 text-red-600" />,
 };
 
 export const getStatusBadge = (status: ToolPart['state']) => (
@@ -79,11 +79,11 @@ export const ToolHeader = ({
       {...props}
     >
       <div className="flex items-center gap-2">
-        <WrenchIconIcon className="text-muted-foreground size-4" />
+        <Wrench01Icon className="text-muted-foreground size-4" />
         <span className="text-sm font-medium">{title ?? derivedName}</span>
         {getStatusBadge(state)}
       </div>
-      <ChevronDownIconIcon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
+      <ArrowDown01Icon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
     </CollapsibleTrigger>
   );
 };

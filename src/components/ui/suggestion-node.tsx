@@ -6,7 +6,7 @@ import type { TSuggestionData, TSuggestionText } from 'platejs';
 import type { PlateLeafProps, RenderNodeWrapper } from 'platejs/react';
 
 import { cva } from 'class-variance-authority';
-import { CornerDownLeftIconIcon } from 'hugeicons-react';
+import { ArrowDown01Icon } from 'hugeicons-react';
 import { PlateLeaf, useEditorPlugin, usePluginOption } from 'platejs/react';
 
 import { cn } from '@/lib/utils';
@@ -130,7 +130,7 @@ function SuggestionLineBreakContent({
             }}
             contentEditable={false}
           >
-            <CornerDownLeftIconIcon className="mt-0.5 size-4" />
+            <ArrowDown01Icon className="mt-0.5 size-4" />
           </span>
         </>
       ) : (

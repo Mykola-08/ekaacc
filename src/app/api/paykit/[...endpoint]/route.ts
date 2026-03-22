@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { endpoints } from '@/lib/paykit';
 import type { EndpointArgs, EndpointHandler, EndpointPath } from '@paykit-sdk/core';
 import { NextResponse, NextRequest } from 'next/server';

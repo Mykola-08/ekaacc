@@ -6,7 +6,7 @@ import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { importDocx } from '@platejs/docx-io';
 import { MarkdownPlugin } from '@platejs/markdown';
-import { ArrowUpToLineIconIcon } from 'hugeicons-react';
+import { ArrowUp01Icon } from 'hugeicons-react';
 import { getEditorDOMFromHtmlString } from 'platejs/static';
 import { useEditorRef } from 'platejs/react';
 import { useFilePicker } from 'use-file-picker';
@@ -89,7 +89,7 @@ export function ImportToolbarButton(props: DropdownMenuProps) {
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false} {...props}>
       <DropdownMenuTrigger asChild>
         <ToolbarButton pressed={open} tooltip="Import" isDropdown>
-          <ArrowUpToLineIconIcon className="size-4" />
+          <ArrowUp01Icon className="size-4" />
         </ToolbarButton>
       </DropdownMenuTrigger>
 

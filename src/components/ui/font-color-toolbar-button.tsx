@@ -7,7 +7,7 @@ import type { DropdownMenuItemProps, DropdownMenuProps } from '@radix-ui/react-d
 
 import { useComposedRef } from '@udecode/cn';
 import debounce from 'lodash/debounce.js';
-import { EraserIconIcon, PlusIconIcon } from 'hugeicons-react';
+import { EraserIcon, Add01Icon } from 'hugeicons-react';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import { buttonVariants } from '@/components/ui/button';
@@ -155,7 +155,7 @@ function PureColorPicker({
       {color && (
         <ToolbarMenuGroup>
           <DropdownMenuItem className="p-2" onClick={clearColor}>
-            <EraserIconIcon />
+            <EraserIcon />
             <span>Clear</span>
           </DropdownMenuItem>
         </ToolbarMenuGroup>
@@ -245,7 +245,7 @@ function ColorCustom({
             }}
           >
             <span className="sr-only">Custom</span>
-            <PlusIconIcon />
+            <Add01Icon />
           </DropdownMenuItem>
         </ColorInput>
       </ColorDropdownMenuItems>

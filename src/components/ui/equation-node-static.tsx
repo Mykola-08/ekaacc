@@ -4,7 +4,7 @@ import type { TEquationElement } from 'platejs';
 import type { SlateElementProps } from 'platejs/static';
 
 import { getEquationHtml } from '@platejs/math';
-import { RadicalIconIcon } from 'hugeicons-react';
+import { SquareIcon } from 'hugeicons-react';
 import { SlateElement } from 'platejs/static';
 
 import { cn } from '@/lib/utils';
@@ -43,7 +43,7 @@ export function EquationElementStatic(props: SlateElementProps<TEquationElement>
           />
         ) : (
           <div className="text-muted-foreground flex h-7 w-full items-center gap-2 text-sm whitespace-nowrap">
-            <RadicalIconIcon className="text-muted-foreground/80 size-6" />
+            <SquareIcon className="text-muted-foreground/80 size-6" />
             <div>Add a Tex equation</div>
           </div>
         )}

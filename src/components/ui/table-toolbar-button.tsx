@@ -5,7 +5,7 @@ import * as React from 'react';
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { TablePlugin, useTableMergeState } from '@platejs/table/react';
-import { ArrowDownIcon, ArrowLeft01Icon, ArrowRight01Icon, ArrowUpIcon, CombineIcon, Grid3x3IconIcon, TableIcon, Trash2IconIcon, UngroupIcon, XIconIcon } from 'hugeicons-react';
+import { ArrowDown01Icon, ArrowLeft01Icon, ArrowRight01Icon, ArrowUp01Icon, LayerIcon, Grid02Icon, TableIcon, Delete01Icon, UngroupItemsIcon, Cancel01Icon } from 'hugeicons-react';
 import { KEYS } from 'platejs';
 import { useEditorPlugin, useEditorSelector } from 'platejs/react';
 
@@ -45,11 +45,11 @@ export function TableToolbarButton(props: DropdownMenuProps) {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="gap-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-              <Grid3x3IconIcon className="size-4" />
+              <Grid02Icon className="size-4" />
               <span>TableIcon</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent className="m-0 p-0">
-              <TableIconPicker />
+              <TablePicker />
             </DropdownMenuSubContent>
           </DropdownMenuSub>
 
@@ -70,7 +70,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
                   editor.tf.focus();
                 }}
               >
-                <CombineIcon />
+                <LayerIcon />
                 Merge cells
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -81,7 +81,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
                   editor.tf.focus();
                 }}
               >
-                <UngroupIcon />
+                <UngroupItemsIcon />
                 Split cell
               </DropdownMenuItem>
             </DropdownMenuSubContent>
@@ -104,7 +104,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
                   editor.tf.focus();
                 }}
               >
-                <ArrowUpIcon />
+                <ArrowUp01Icon />
                 Insert row before
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -115,7 +115,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
                   editor.tf.focus();
                 }}
               >
-                <ArrowDownIcon />
+                <ArrowDown01Icon />
                 Insert row after
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -126,7 +126,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
                   editor.tf.focus();
                 }}
               >
-                <XIconIcon />
+                <Cancel01Icon />
                 Delete row
               </DropdownMenuItem>
             </DropdownMenuSubContent>
@@ -171,7 +171,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
                   editor.tf.focus();
                 }}
               >
-                <XIconIcon />
+                <Cancel01Icon />
                 Delete column
               </DropdownMenuItem>
             </DropdownMenuSubContent>
@@ -185,7 +185,7 @@ export function TableToolbarButton(props: DropdownMenuProps) {
               editor.tf.focus();
             }}
           >
-            <Trash2IconIcon />
+            <Delete01Icon />
             Delete table
           </DropdownMenuItem>
         </DropdownMenuGroup>

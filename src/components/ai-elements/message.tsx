@@ -12,7 +12,7 @@ import type { UIMessage } from 'ai';
 import type { ComponentProps, HTMLAttributes, ReactElement } from 'react';
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Streamdown } from 'streamdown';
-import { ChevronLeftIconIcon, ChevronRightIconIcon } from 'hugeicons-react';
+import { ArrowLeft01Icon, ArrowRight01Icon } from 'hugeicons-react';
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage['role'];
@@ -228,7 +228,7 @@ export const MessageBranchPrevious = ({ children, ...props }: MessageBranchPrevi
       variant="ghost"
       {...props}
     >
-      {children ?? <ChevronLeftIconIcon size={14} />}
+      {children ?? <ArrowLeft01Icon size={14} />}
     </Button>
   );
 };
@@ -248,7 +248,7 @@ export const MessageBranchNext = ({ children, ...props }: MessageBranchNextProps
       variant="ghost"
       {...props}
     >
-      {children ?? <ChevronRightIconIcon size={14} />}
+      {children ?? <ArrowRight01Icon size={14} />}
     </Button>
   );
 };

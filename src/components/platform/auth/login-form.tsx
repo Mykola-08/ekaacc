@@ -155,7 +155,7 @@ export function LoginForm({
                     className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showPassword ? <ViewIconOff className="size-4" /> : <ViewIcon className="size-4" />}
+                    {showPassword ? <ViewOffIcon className="size-4" /> : <ViewIcon className="size-4" />}
                   </button>
                 </div>
               </div>

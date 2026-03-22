@@ -5,7 +5,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from 'react';
-import { ChevronDownIconIcon, PaperclipIconIcon } from 'hugeicons-react';
+import { ArrowDown01Icon, Attachment01Icon } from 'hugeicons-react';
 
 export interface QueueMessagePart {
   type: string;
@@ -144,7 +144,7 @@ export const QueueItemFile = ({ children, className, ...props }: QueueItemFilePr
     className={cn('bg-muted flex items-center gap-1 rounded border px-2 py-1 text-xs', className)}
     {...props}
   >
-    <PaperclipIconIcon size={12} />
+    <Attachment01Icon size={12} />
     <span className="max-w-[100px] truncate">{children}</span>
   </span>
 );
@@ -203,7 +203,7 @@ export const QueueSectionLabel = ({
   ...props
 }: QueueSectionLabelProps) => (
   <span className={cn('flex items-center gap-2', className)} {...props}>
-    <ChevronDownIconIcon className="size-4 transition-transform group-data-[state=closed]:-rotate-90" />
+    <ArrowDown01Icon className="size-4 transition-transform group-data-[state=closed]:-rotate-90" />
     {icon}
     <span>
       {count} {label}

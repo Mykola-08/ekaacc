@@ -5,7 +5,7 @@
 import * as React from 'react';
 
 import { CopilotPlugin } from '@platejs/ai/react';
-import { CheckmarkBadge01Icon, ChevronsUpDownIcon, ExternalLinkIconIcon, ViewIcon, ViewOffIcon, Settings01Icon, Wand2IconIcon } from 'hugeicons-react';
+import { CheckmarkBadge01Icon, ArrowShrink01Icon, ExternalDriveIcon, ViewIcon, ViewOffIcon, Settings01Icon, MagicWand01Icon } from 'hugeicons-react';
 import { useEditorRef } from 'platejs/react';
 
 import { Button } from '@/components/ui/button';
@@ -268,7 +268,7 @@ export function SettingsDialog() {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <ExternalLinkIconIcon className="size-4" />
+            <ExternalDriveIcon className="size-4" />
             <span className="sr-only">Get {label}</span>
           </a>
         </Button>
@@ -290,7 +290,7 @@ export function SettingsDialog() {
         onClick={() => toggleKeyVisibility(service)}
         type="button"
       >
-        {showKey[service] ? <ViewIconOff className="size-4" /> : <ViewIcon className="size-4" />}
+        {showKey[service] ? <ViewOffIcon className="size-4" /> : <ViewIcon className="size-4" />}
         <span className="sr-only">
           {showKey[service] ? 'Hide' : 'Show'} {label}
         </span>
@@ -324,7 +324,7 @@ export function SettingsDialog() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="size-8 rounded-full bg-purple-100 p-2">
-                <Wand2IconIcon className="size-4 text-purple-600" />
+                <MagicWand01Icon className="size-4 text-purple-600" />
               </div>
               <h4 className="font-semibold">AI</h4>
             </div>
@@ -349,7 +349,7 @@ export function SettingsDialog() {
                       role="combobox"
                     >
                       <code>{tempModel.label}</code>
-                      <ChevronsUpDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
+                      <ArrowShrink01Icon className="ml-2 size-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0">

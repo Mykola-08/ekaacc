@@ -10,8 +10,8 @@ import { setColumns } from '@platejs/layout';
 import { ResizableProvider } from '@platejs/resizable';
 import { BlockSelectionPlugin } from '@platejs/selection/react';
 import { useComposedRef } from '@udecode/cn';
-import { type LucidePropsIcon, Trash2IconIcon } from 'hugeicons-react';
-import { GripHorizontalIcon } from 'hugeicons-react';
+import { Delete01Icon } from 'hugeicons-react';
+import { HandGripIcon } from 'hugeicons-react';
 import { PathApi } from 'platejs';
 import {
   PlateElement,
@@ -90,7 +90,7 @@ const ColumnDragHandle = React.memo(function ColumnDragHandle() {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="ghost" className="h-5 !px-1">
-            <GripHorizontalIcon
+            <HandGripIcon
               className="text-muted-foreground"
               onClick={(event) => {
                 event.stopPropagation();
@@ -188,7 +188,7 @@ function ColumnFloatingToolbar({ children }: React.PropsWithChildren) {
 
           <Separator orientation="vertical" className="mx-1 h-6" />
           <Button variant="ghost" className="size-8" {...buttonProps}>
-            <Trash2IconIcon />
+            <Delete01Icon />
           </Button>
         </div>
       </PopoverContent>
@@ -196,7 +196,7 @@ function ColumnFloatingToolbar({ children }: React.PropsWithChildren) {
   );
 }
 
-const DoubleColumnOutlined = (props: LucideProps) => (
+const DoubleColumnOutlined = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     fill="none"
     height="16"
@@ -214,7 +214,7 @@ const DoubleColumnOutlined = (props: LucideProps) => (
   </svg>
 );
 
-const ThreeColumnOutlined = (props: LucideProps) => (
+const ThreeColumnOutlined = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     fill="none"
     height="16"
@@ -232,7 +232,7 @@ const ThreeColumnOutlined = (props: LucideProps) => (
   </svg>
 );
 
-const RightSideDoubleColumnOutlined = (props: LucideProps) => (
+const RightSideDoubleColumnOutlined = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     fill="none"
     height="16"
@@ -250,7 +250,7 @@ const RightSideDoubleColumnOutlined = (props: LucideProps) => (
   </svg>
 );
 
-const LeftSideDoubleColumnOutlined = (props: LucideProps) => (
+const LeftSideDoubleColumnOutlined = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     fill="none"
     height="16"
@@ -268,7 +268,7 @@ const LeftSideDoubleColumnOutlined = (props: LucideProps) => (
   </svg>
 );
 
-const DoubleSideDoubleColumnOutlined = (props: LucideProps) => (
+const DoubleSideDoubleColumnOutlined = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     fill="none"
     height="16"

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Redo2IconIcon, Undo2IconIcon } from 'hugeicons-react';
+import { Redo02Icon, Undo02Icon } from 'hugeicons-react';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import { ToolbarButton } from './toolbar';
@@ -19,7 +19,7 @@ export function RedoToolbarButton(props: React.ComponentProps<typeof ToolbarButt
       onMouseDown={(e) => e.preventDefault()}
       tooltip="Redo"
     >
-      <Redo2IconIcon />
+      <Redo02Icon />
     </ToolbarButton>
   );
 }
@@ -36,7 +36,7 @@ export function UndoToolbarButton(props: React.ComponentProps<typeof ToolbarButt
       onMouseDown={(e) => e.preventDefault()}
       tooltip="Undo"
     >
-      <Undo2IconIcon />
+      <Undo02Icon />
     </ToolbarButton>
   );
 }

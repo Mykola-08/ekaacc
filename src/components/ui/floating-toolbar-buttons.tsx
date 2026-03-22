@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { BoldIconIcon, Code2IconIcon, ItalicIconIcon, StrikethroughIconIcon, UnderlineIconIcon, WandSparklesIconIcon } from 'hugeicons-react';
+import { TextBoldIcon, BinaryCodeIcon, TextItalicIcon, TextStrikethroughIcon, TextUnderlineIcon, MagicWand02Icon } from 'hugeicons-react';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 
@@ -25,7 +25,7 @@ export function FloatingToolbarButtons() {
         <>
           <ToolbarGroup>
             <AIToolbarButton tooltip="AI commands">
-              <WandSparklesIconIcon />
+              <MagicWand02Icon />
               Ask AI
             </AIToolbarButton>
           </ToolbarGroup>
@@ -34,23 +34,23 @@ export function FloatingToolbarButtons() {
             <TurnIntoToolbarButton />
 
             <MarkToolbarButton nodeType={KEYS.bold} tooltip="Bold (⌘+B)">
-              <BoldIconIcon />
+              <TextBoldIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.italic} tooltip="Italic (⌘+I)">
-              <ItalicIconIcon />
+              <TextItalicIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.underline} tooltip="Underline (⌘+U)">
-              <UnderlineIconIcon />
+              <TextUnderlineIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.strikethrough} tooltip="Strikethrough (⌘+⇧+M)">
-              <StrikethroughIconIcon />
+              <TextStrikethroughIcon />
             </MarkToolbarButton>
 
             <MarkToolbarButton nodeType={KEYS.code} tooltip="Code (⌘+E)">
-              <Code2IconIcon />
+              <BinaryCodeIcon />
             </MarkToolbarButton>
 
             <InlineEquationToolbarButton />

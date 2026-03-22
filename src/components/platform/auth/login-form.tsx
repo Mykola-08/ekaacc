@@ -13,7 +13,7 @@ import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Loading03Icon } from '@hugeicons/core-free-icons';
-import { Eye, EyeOff } from 'lucide-react';
+import { ViewIcon, ViewOffIcon } from 'hugeicons-react';
 
 type LoginFormProps = React.ComponentProps<'div'> & {
   enabledProviders?: {
@@ -155,7 +155,7 @@ export function LoginForm({
                     className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                    {showPassword ? <ViewIconOff className="size-4" /> : <ViewIcon className="size-4" />}
                   </button>
                 </div>
               </div>

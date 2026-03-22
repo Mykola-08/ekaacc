@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
-import { KeyboardIcon, MoreHorizontalIcon, SubscriptIcon, SuperscriptIcon } from 'lucide-react';
+import { KeyboardIconIcon, MoreHorizontalIconIcon, SubscriptIconIcon, SuperscriptIconIcon } from 'hugeicons-react';
 import { KEYS } from 'platejs';
 import { useEditorRef } from 'platejs/react';
 
@@ -26,7 +26,7 @@ export function MoreToolbarButton(props: DropdownMenuProps) {
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false} {...props}>
       <DropdownMenuTrigger asChild>
         <ToolbarButton pressed={open} tooltip="Insert">
-          <MoreHorizontalIcon />
+          <MoreHorizontalIconIcon />
         </ToolbarButton>
       </DropdownMenuTrigger>
 
@@ -42,7 +42,7 @@ export function MoreToolbarButton(props: DropdownMenuProps) {
               editor.tf.focus();
             }}
           >
-            <KeyboardIcon />
+            <KeyboardIconIcon />
             Keyboard input
           </DropdownMenuItem>
 
@@ -54,7 +54,7 @@ export function MoreToolbarButton(props: DropdownMenuProps) {
               editor.tf.focus();
             }}
           >
-            <SuperscriptIcon />
+            <SuperscriptIconIcon />
             Superscript
             {/* (⌘+,) */}
           </DropdownMenuItem>
@@ -66,7 +66,7 @@ export function MoreToolbarButton(props: DropdownMenuProps) {
               editor.tf.focus();
             }}
           >
-            <SubscriptIcon />
+            <SubscriptIconIcon />
             Subscript
             {/* (⌘+.) */}
           </DropdownMenuItem>

@@ -16,7 +16,7 @@ import type { ComponentProps } from 'react';
 import { createContext, useContext, useMemo } from 'react';
 
 import { Shimmer } from './shimmer';
-import { ChevronsUpDownIcon } from 'lucide-react';
+import { ChevronsUpDownIconIcon } from 'hugeicons-react';
 
 interface PlanContextValue {
   isStreaming: boolean;
@@ -121,7 +121,7 @@ export const PlanTrigger = ({ className, ...props }: PlanTriggerProps) => (
       variant="ghost"
       {...props}
     >
-      <ChevronsUpDownIcon className="size-4" />
+      <ChevronsUpDownIconIcon className="size-4" />
       <span className="sr-only">Toggle plan</span>
     </Button>
   </CollapsibleTrigger>

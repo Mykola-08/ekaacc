@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils';
 import type { ComponentProps, ReactNode } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIconIcon } from 'hugeicons-react';
 
 export interface WebPreviewContextValue {
   url: string;
@@ -210,7 +210,7 @@ export const WebPreviewConsole = ({
           variant="ghost"
         >
           Console
-          <ChevronDownIcon
+          <ChevronDownIconIcon
             className={cn('h-4 w-4 transition-transform duration-200', consoleOpen && 'rotate-180')}
           />
         </Button>

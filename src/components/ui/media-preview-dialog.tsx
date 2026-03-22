@@ -7,7 +7,7 @@ import {
   useScaleInput,
 } from '@platejs/media/react';
 import { cva } from 'class-variance-authority';
-import { ArrowLeft, ArrowRight, Download, Minus, Plus, X } from 'lucide-react';
+import { ArrowLeft01Icon, ArrowRight01Icon, Download01Icon, MinusSignIcon, PlusSignIcon, Cancel01Icon } from 'hugeicons-react';
 import { useEditorRef } from 'platejs/react';
 
 import { cn } from '@/lib/utils';
@@ -75,7 +75,7 @@ export function MediaPreviewDialog() {
                 )}
                 type="button"
               >
-                <ArrowLeft />
+                <ArrowLeft01Icon />
               </button>
               {(currentUrlIndex ?? 0) + 1}
               <button
@@ -87,7 +87,7 @@ export function MediaPreviewDialog() {
                 )}
                 type="button"
               >
-                <ArrowRight />
+                <ArrowRight01Icon />
               </button>
             </div>
             <div className="flex">
@@ -100,7 +100,7 @@ export function MediaPreviewDialog() {
                 {...zommOutProps}
                 type="button"
               >
-                <Minus className="size-4" />
+                <MinusSignIcon className="size-4" />
               </button>
               <div className="mx-px">
                 {isEditingScale ? (
@@ -121,15 +121,15 @@ export function MediaPreviewDialog() {
                 {...zoomInProps}
                 type="button"
               >
-                <Plus className="size-4" />
+                <PlusSignIcon className="size-4" />
               </button>
             </div>
             {/* TODO: downLoad the image */}
             <button className={cn(buttonVariants())} type="button">
-              <Download className="size-4" />
+              <Download01Icon className="size-4" />
             </button>
             <button {...closeProps} className={cn(buttonVariants())} type="button">
-              <X className="size-4" />
+              <Cancel01Icon className="size-4" />
             </button>
           </div>
         </div>

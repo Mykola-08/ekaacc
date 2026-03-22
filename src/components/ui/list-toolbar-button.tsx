@@ -16,7 +16,7 @@ import {
 
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ListViewIcon } from '@hugeicons/core-free-icons';
-import { ListOrdered, ListTodoIcon } from 'lucide-react';
+import { ListOrderedIcon, ListTodoIconIcon } from 'hugeicons-react';
 import {
   ToolbarButton,
   ToolbarSplitButton,
@@ -124,7 +124,7 @@ export function NumberedListToolbarButton() {
         }
         data-state={pressed ? 'on' : 'off'}
       >
-        <ListOrdered className="size-4" />
+        <ListOrderedIcon className="size-4" />
       </ToolbarSplitButtonPrimary>
 
       <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
@@ -192,7 +192,7 @@ export function TodoListToolbarButton(props: React.ComponentProps<typeof Toolbar
 
   return (
     <ToolbarButton {...props} {...buttonProps} tooltip="Todo">
-      <ListTodoIcon />
+      <ListTodoIconIcon />
     </ToolbarButton>
   );
 }

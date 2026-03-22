@@ -4,7 +4,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { cn } from '@/lib/utils';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { ChevronRightIcon, FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
+import { ChevronRightIconIcon, FileIconIcon, FolderIconIcon, FolderOpenIconIcon } from 'hugeicons-react';
 
 interface FileTreeContextType {
   expandedPaths: Set<string>;
@@ -148,7 +148,7 @@ export const FileTreeFolder = ({
                 className="flex shrink-0 cursor-pointer items-center border-none bg-transparent p-0"
                 type="button"
               >
-                <ChevronRightIcon
+                <ChevronRightIconIcon
                   className={cn(
                     'text-muted-foreground size-4 shrink-0 transition-transform',
                     isExpanded && 'rotate-90'
@@ -163,9 +163,9 @@ export const FileTreeFolder = ({
             >
               <FileTreeIcon>
                 {isExpanded ? (
-                  <FolderOpenIcon className="size-4 text-blue-500" />
+                  <FolderOpenIconIcon className="size-4 text-blue-500" />
                 ) : (
-                  <FolderIcon className="size-4 text-blue-500" />
+                  <FolderIconIcon className="size-4 text-blue-500" />
                 )}
               </FileTreeIcon>
               <FileTreeName>{name}</FileTreeName>
@@ -241,7 +241,7 @@ export const FileTreeFile = ({
             {/* Spacer for alignment */}
             <span className="size-4 shrink-0" />
             <FileTreeIcon>
-              {icon ?? <FileIcon className="text-muted-foreground size-4" />}
+              {icon ?? <FileIconIcon className="text-muted-foreground size-4" />}
             </FileTreeIcon>
             <FileTreeName>{name}</FileTreeName>
           </>

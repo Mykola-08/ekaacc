@@ -10,8 +10,8 @@ import { setColumns } from '@platejs/layout';
 import { ResizableProvider } from '@platejs/resizable';
 import { BlockSelectionPlugin } from '@platejs/selection/react';
 import { useComposedRef } from '@udecode/cn';
-import { type LucideProps, Trash2Icon } from 'lucide-react';
-import { GripHorizontal } from 'lucide-react';
+import { type LucidePropsIcon, Trash2IconIcon } from 'hugeicons-react';
+import { GripHorizontalIcon } from 'hugeicons-react';
 import { PathApi } from 'platejs';
 import {
   PlateElement,
@@ -90,7 +90,7 @@ const ColumnDragHandle = React.memo(function ColumnDragHandle() {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="ghost" className="h-5 !px-1">
-            <GripHorizontal
+            <GripHorizontalIcon
               className="text-muted-foreground"
               onClick={(event) => {
                 event.stopPropagation();
@@ -188,7 +188,7 @@ function ColumnFloatingToolbar({ children }: React.PropsWithChildren) {
 
           <Separator orientation="vertical" className="mx-1 h-6" />
           <Button variant="ghost" className="size-8" {...buttonProps}>
-            <Trash2Icon />
+            <Trash2IconIcon />
           </Button>
         </div>
       </PopoverContent>

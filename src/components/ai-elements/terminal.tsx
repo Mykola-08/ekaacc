@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from 'lucide-react';
+import { CheckIconIcon, CopyIconIcon, TerminalIconIcon, Trash2IconIcon } from 'hugeicons-react';
 
 interface TerminalContextType {
   output: string;
@@ -46,7 +46,7 @@ export type TerminalTitleProps = HTMLAttributes<HTMLDivElement>;
 
 export const TerminalTitle = ({ className, children, ...props }: TerminalTitleProps) => (
   <div className={cn('flex items-center gap-2 text-sm text-zinc-400', className)} {...props}>
-    <TerminalIcon className="size-4" />
+    <TerminalIconIcon className="size-4" />
     {children ?? 'Terminal'}
   </div>
 );
@@ -116,7 +116,7 @@ export const TerminalCopyButton = ({
     []
   );
 
-  const Icon = isCopied ? CheckIcon : CopyIcon;
+  const Icon = isCopied ? CheckIconIcon : CopyIconIcon;
 
   return (
     <Button
@@ -158,7 +158,7 @@ export const TerminalClearButton = ({
       variant="ghost"
       {...props}
     >
-      {children ?? <Trash2Icon size={14} />}
+      {children ?? <Trash2IconIcon size={14} />}
     </Button>
   );
 };

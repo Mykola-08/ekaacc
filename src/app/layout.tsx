@@ -1,3 +1,6 @@
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
 export const dynamic = 'force-dynamic';
 import type { Metadata, Viewport } from 'next';
 import { GeistSans } from 'geist/font/sans';

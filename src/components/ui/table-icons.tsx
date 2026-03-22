@@ -1,6 +1,7 @@
 'use client';
 
-import type { LucideProps } from 'lucide-react';
+import type { SVGProps } from 'react';
+type LucideProps = SVGProps<SVGSVGElement>;
 
 export function BorderAllIcon(props: LucideProps) {
   return (

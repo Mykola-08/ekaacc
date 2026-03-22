@@ -11,7 +11,7 @@ import {
   rejectSuggestion,
 } from '@platejs/suggestion';
 import { SuggestionPlugin } from '@platejs/suggestion/react';
-import { CheckIcon, XIcon } from 'lucide-react';
+import { CheckIconIcon, XIconIcon } from 'hugeicons-react';
 import {
   type NodeEntry,
   type Path,
@@ -206,7 +206,7 @@ export function BlockSuggestionCard({
               className="text-muted-foreground size-6 p-1"
               onClick={() => accept(suggestion)}
             >
-              <CheckIcon className="size-4" />
+              <CheckIconIcon className="size-4" />
             </Button>
 
             <Button
@@ -214,7 +214,7 @@ export function BlockSuggestionCard({
               className="text-muted-foreground size-6 p-1"
               onClick={() => reject(suggestion)}
             >
-              <XIcon className="size-4" />
+              <XIconIcon className="size-4" />
             </Button>
           </div>
         )}

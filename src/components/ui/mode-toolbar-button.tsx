@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { SuggestionPlugin } from '@platejs/suggestion/react';
 import { type DropdownMenuProps, DropdownMenuItemIndicator } from '@radix-ui/react-dropdown-menu';
-import { CheckIcon, EyeIcon, PencilLineIcon, PenIcon } from 'lucide-react';
+import { CheckIconIcon, EyeIconIcon, PencilLineIconIcon, PenIconIcon } from 'hugeicons-react';
 import { useEditorRef, usePlateState, usePluginOption } from 'platejs/react';
 
 import {
@@ -32,15 +32,15 @@ export function ModeToolbarButton(props: DropdownMenuProps) {
 
   const item: Record<string, { icon: React.ReactNode; label: string }> = {
     editing: {
-      icon: <PenIcon />,
+      icon: <PenIconIcon />,
       label: 'Editing',
     },
     suggestion: {
-      icon: <PencilLineIcon />,
+      icon: <PencilLineIconIcon />,
       label: 'Suggestion',
     },
     viewing: {
-      icon: <EyeIcon />,
+      icon: <EyeIconIcon />,
       label: 'Viewing',
     },
   };
@@ -115,7 +115,7 @@ function Indicator() {
   return (
     <span className="pointer-events-none absolute right-2 flex size-3.5 items-center justify-center">
       <DropdownMenuItemIndicator>
-        <CheckIcon />
+        <CheckIconIcon />
       </DropdownMenuItemIndicator>
     </span>
   );

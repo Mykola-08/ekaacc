@@ -18,17 +18,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import type { ComponentProps, ReactNode } from 'react';
 import { createContext, useCallback, useContext, useMemo } from 'react';
-import {
-  CircleSmallIcon,
-  MarsIcon,
-  MarsStrokeIcon,
-  NonBinaryIcon,
-  PauseIcon,
-  PlayIcon,
-  TransgenderIcon,
-  VenusAndMarsIcon,
-  VenusIcon,
-} from 'lucide-react';
+import { CircleSmallIconIcon, MarsIconIcon, MarsStrokeIconIcon, NonBinaryIconIcon, PauseIconIcon, PlayIconIcon, TransgenderIconIcon, VenusAndMarsIconIcon, VenusIconIcon } from 'hugeicons-react';
 
 interface VoiceSelectorContextValue {
   value: string | undefined;
@@ -167,31 +157,31 @@ export const VoiceSelectorGender = ({
 
   switch (value) {
     case 'male': {
-      icon = <MarsIcon className="size-4" />;
+      icon = <MarsIconIcon className="size-4" />;
       break;
     }
     case 'female': {
-      icon = <VenusIcon className="size-4" />;
+      icon = <VenusIconIcon className="size-4" />;
       break;
     }
     case 'transgender': {
-      icon = <TransgenderIcon className="size-4" />;
+      icon = <TransgenderIconIcon className="size-4" />;
       break;
     }
     case 'androgyne': {
-      icon = <MarsStrokeIcon className="size-4" />;
+      icon = <MarsStrokeIconIcon className="size-4" />;
       break;
     }
     case 'non-binary': {
-      icon = <NonBinaryIcon className="size-4" />;
+      icon = <NonBinaryIconIcon className="size-4" />;
       break;
     }
     case 'intersex': {
-      icon = <VenusAndMarsIcon className="size-4" />;
+      icon = <VenusAndMarsIconIcon className="size-4" />;
       break;
     }
     default: {
-      icon = <CircleSmallIcon className="size-4" />;
+      icon = <CircleSmallIconIcon className="size-4" />;
     }
   }
 
@@ -442,12 +432,12 @@ export const VoiceSelectorPreview = ({
     [onClick, onPlay]
   );
 
-  let icon = <PlayIcon className="size-3" />;
+  let icon = <PlayIconIcon className="size-3" />;
 
   if (loading) {
     icon = <Spinner className="size-3" />;
   } else if (playing) {
-    icon = <PauseIcon className="size-3" />;
+    icon = <PauseIconIcon className="size-3" />;
   }
 
   return (

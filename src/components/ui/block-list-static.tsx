@@ -4,7 +4,7 @@ import type { RenderStaticNodeWrapper, TListElement } from 'platejs';
 import type { SlateRenderElementProps } from 'platejs/static';
 
 import { isOrderedList } from '@platejs/list';
-import { CheckIconIcon } from 'hugeicons-react';
+import { Tick01Icon } from 'hugeicons-react';
 
 import { cn } from '@/lib/utils';
 
@@ -59,7 +59,7 @@ function TodoMarkerStatic(props: SlateRenderElementProps) {
         type="button"
       >
         <div className={cn('flex items-center justify-center text-current')}>
-          {checked && <CheckIconIcon className="size-4" />}
+          {checked && <Tick01Icon className="size-4" />}
         </div>
       </button>
     </div>

@@ -11,7 +11,7 @@ import {
   useImagePreviewValue,
 } from '@platejs/media/react';
 import { cva } from 'class-variance-authority';
-import { Link01Icon, Trash2IconIcon } from 'hugeicons-react';
+import { Link01Icon, Delete01Icon } from 'hugeicons-react';
 import {
   useEditorRef,
   useEditorSelector,
@@ -92,7 +92,7 @@ export function MediaToolbar({
             <Separator orientation="vertical" className="mx-1 h-6" />
 
             <Button size="sm" variant="ghost" {...buttonProps}>
-              <Trash2IconIcon />
+              <Delete01Icon />
             </Button>
           </div>
         )}

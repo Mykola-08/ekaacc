@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
-import { CheckmarkCircle01Icon, ArrowDown01Icon, Loading02Icon, Settings01Icon, XCircleIcon } from 'hugeicons-react';
+import { CheckmarkCircle01Icon, ArrowDown01Icon, Loading02Icon, Settings01Icon, Cancel02Icon } from 'hugeicons-react';
 import { useState } from 'react';
 
 export type ToolPart = {
@@ -35,7 +35,7 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
       case 'output-available':
         return <CheckmarkCircle01Icon className="h-4 w-4 text-green-500" />;
       case 'output-error':
-        return <XCircleIcon className="h-4 w-4 text-red-500" />;
+        return <Cancel02Icon className="h-4 w-4 text-red-500" />;
       default:
         return <Settings01Icon className="text-muted-foreground h-4 w-4" />;
     }

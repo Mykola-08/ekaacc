@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { ChevronDownIconIcon } from 'hugeicons-react';
+import { ArrowDown01Icon } from 'hugeicons-react';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Markdown } from './markdown';
 
@@ -81,7 +81,7 @@ function ReasoningTrigger({ children, className, ...props }: ReasoningTriggerPro
     >
       <span className="text-primary">{children}</span>
       <div className={cn('transform transition-transform', isOpen ? 'rotate-180' : '')}>
-        <ChevronDownIconIcon className="size-4" />
+        <ArrowDown01Icon className="size-4" />
       </div>
     </button>
   );

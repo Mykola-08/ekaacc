@@ -5,7 +5,7 @@ import * as React from 'react';
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { PlaceholderPlugin } from '@platejs/media/react';
-import { AudioLinesIconIcon, FileUpIconIcon, FilmIconIcon, ImageIconIcon, LinkIconIcon } from 'hugeicons-react';
+import { AiAudioIcon, FileUploadIcon, Film01Icon, Image01Icon, Link01Icon } from 'hugeicons-react';
 import { isUrl, KEYS } from 'platejs';
 import { useEditorRef } from 'platejs/react';
 import { toast } from 'sonner';
@@ -47,25 +47,25 @@ const MEDIA_CONFIG: Record<
 > = {
   [KEYS.audio]: {
     accept: ['audio/*'],
-    icon: <AudioLinesIconIcon className="size-4" />,
+    icon: <AiAudioIcon className="size-4" />,
     title: 'Insert Audio',
     tooltip: 'Audio',
   },
   [KEYS.file]: {
     accept: ['*'],
-    icon: <FileUpIconIcon className="size-4" />,
+    icon: <FileUploadIcon className="size-4" />,
     title: 'Insert File',
     tooltip: 'File',
   },
   [KEYS.img]: {
     accept: ['image/*'],
-    icon: <ImageIconIcon className="size-4" />,
+    icon: <Image01Icon className="size-4" />,
     title: 'Insert Image',
     tooltip: 'Image',
   },
   [KEYS.video]: {
     accept: ['video/*'],
-    icon: <FilmIconIcon className="size-4" />,
+    icon: <Film01Icon className="size-4" />,
     title: 'Insert Video',
     tooltip: 'Video',
   },
@@ -119,7 +119,7 @@ export function MediaToolbarButton({
                 Upload from computer
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setDialogOpen(true)}>
-                <LinkIconIcon />
+                <Link01Icon />
                 Insert via URL
               </DropdownMenuItem>
             </DropdownMenuGroup>

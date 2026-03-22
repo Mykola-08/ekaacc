@@ -22,7 +22,7 @@ import {
 } from 'react';
 import type { BundledLanguage, BundledTheme, HighlighterGeneric, ThemedToken } from 'shiki';
 import { createHighlighter } from 'shiki';
-import { CheckIconIcon, CopyIconIcon } from 'hugeicons-react';
+import { Tick01Icon, Copy01Icon } from 'hugeicons-react';
 
 // Shiki uses bitflags for font styles: 1=italic, 2=bold, 4=underline
 // oxlint-disable-next-line eslint(no-bitwise)
@@ -468,7 +468,7 @@ export const CodeBlockCopyButton = ({
     []
   );
 
-  const Icon = isCopied ? CheckIconIcon : CopyIconIcon;
+  const Icon = isCopied ? Tick01Icon : Copy01Icon;
 
   return (
     <Button

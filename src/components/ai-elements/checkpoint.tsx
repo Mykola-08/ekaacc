@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { type LucidePropsIcon, BookmarkIconIcon } from 'hugeicons-react';
-import type { ComponentProps, HTMLAttributes } from 'react';
+import { BookmarkAdd01Icon } from 'hugeicons-react';
+import type { ComponentProps, HTMLAttributes, ReactNode } from 'react';
 
 export type CheckpointProps = HTMLAttributes<HTMLDivElement>;
 
@@ -19,10 +19,10 @@ export const Checkpoint = ({ className, children, ...props }: CheckpointProps) =
   </div>
 );
 
-export type CheckpointIconProps = LucideProps;
+export type CheckpointIconProps = { className?: string; children?: ReactNode };
 
-export const CheckpointIcon = ({ className, children, ...props }: CheckpointIconProps) =>
-  children ?? <BookmarkIconIcon className={cn('size-4 shrink-0', className)} {...props} />;
+export const CheckpointIcon = ({ className, children }: CheckpointIconProps) =>
+  children ?? <BookmarkAdd01Icon className={cn('size-4 shrink-0', className)} />;
 
 export type CheckpointTriggerProps = ComponentProps<typeof Button> & {
   tooltip?: string;

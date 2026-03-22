@@ -7,7 +7,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from 'react';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { ArrowLeftIconIcon, ArrowRightIconIcon } from 'hugeicons-react';
+import { ArrowLeft01Icon, ArrowRight01Icon } from 'hugeicons-react';
 
 export type InlineCitationProps = ComponentProps<'span'>;
 
@@ -178,7 +178,7 @@ export const InlineCitationCarouselPrev = ({
       type="button"
       {...props}
     >
-      <ArrowLeftIconIcon className="text-muted-foreground size-4" />
+      <ArrowLeft01Icon className="text-muted-foreground size-4" />
     </button>
   );
 };
@@ -205,7 +205,7 @@ export const InlineCitationCarouselNext = ({
       type="button"
       {...props}
     >
-      <ArrowRightIconIcon className="text-muted-foreground size-4" />
+      <ArrowRight01Icon className="text-muted-foreground size-4" />
     </button>
   );
 };

@@ -6,7 +6,7 @@ import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { exportToDocx } from '@platejs/docx-io';
 import { MarkdownPlugin } from '@platejs/markdown';
-import { ArrowDownToLineIconIcon } from 'hugeicons-react';
+import { ArrowDown01Icon } from 'hugeicons-react';
 import type { SlatePlugin } from 'platejs';
 import { createSlateEditor } from 'platejs';
 import { useEditorRef } from 'platejs/react';
@@ -167,7 +167,7 @@ export function ExportToolbarButton(props: DropdownMenuProps) {
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false} {...props}>
       <DropdownMenuTrigger asChild>
         <ToolbarButton pressed={open} tooltip="Export" isDropdown>
-          <ArrowDownToLineIconIcon className="size-4" />
+          <ArrowDown01Icon className="size-4" />
         </ToolbarButton>
       </DropdownMenuTrigger>
 

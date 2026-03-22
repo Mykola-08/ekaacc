@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { MessageSquareTextIconIcon } from 'hugeicons-react';
+import { Message01Icon } from 'hugeicons-react';
 import { useEditorRef } from 'platejs/react';
 
 import { commentPlugin } from '@/components/comment-kit';
@@ -20,7 +20,7 @@ export function CommentToolbarButton() {
       data-plate-prevent-overlay
       tooltip="Comment"
     >
-      <MessageSquareTextIconIcon />
+      <Message01Icon />
     </ToolbarButton>
   );
 }

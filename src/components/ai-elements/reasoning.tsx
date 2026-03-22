@@ -21,7 +21,7 @@ import {
 import { Streamdown } from 'streamdown';
 
 import { Shimmer } from './shimmer';
-import { BrainIconIcon, ChevronDownIconIcon } from 'hugeicons-react';
+import { BrainIcon, ArrowDown01Icon } from 'hugeicons-react';
 
 interface ReasoningContextValue {
   isStreaming: boolean;
@@ -172,9 +172,9 @@ export const ReasoningTrigger = memo(
       >
         {children ?? (
           <>
-            <BrainIconIcon className="size-4" />
+            <BrainIcon className="size-4" />
             {getThinkingMessage(isStreaming, duration)}
-            <ChevronDownIconIcon
+            <ArrowDown01Icon
               className={cn('size-4 transition-transform', isOpen ? 'rotate-180' : 'rotate-0')}
             />
           </>

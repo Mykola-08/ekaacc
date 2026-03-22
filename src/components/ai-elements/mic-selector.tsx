@@ -21,7 +21,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { ChevronsUpDownIconIcon } from 'hugeicons-react';
+import { ArrowShrink01Icon } from 'hugeicons-react';
 
 const deviceIdRegex = /\(([\da-fA-F]{4}:[\da-fA-F]{4})\)$/;
 
@@ -220,7 +220,7 @@ export const MicSelectorTrigger = ({ children, ...props }: MicSelectorTriggerPro
     <PopoverTrigger asChild>
       <Button variant="outline" {...props} ref={ref}>
         {children}
-        <ChevronsUpDownIconIcon className="text-muted-foreground shrink-0" size={16} />
+        <ArrowShrink01Icon className="text-muted-foreground shrink-0" size={16} />
       </Button>
     </PopoverTrigger>
   );

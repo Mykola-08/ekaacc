@@ -18,7 +18,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import type { ComponentProps, ReactNode } from 'react';
 import { createContext, useCallback, useContext, useMemo } from 'react';
-import { CircleSmallIconIcon, MarsIconIcon, MarsStrokeIconIcon, NonBinaryIconIcon, PauseIconIcon, PlayIconIcon, TransgenderIconIcon, VenusAndMarsIconIcon, VenusIconIcon } from 'hugeicons-react';
+import { CircleIcon, Male02Icon, Female02Icon, PauseIcon, PlayIcon } from 'hugeicons-react';
 
 interface VoiceSelectorContextValue {
   value: string | undefined;
@@ -157,31 +157,31 @@ export const VoiceSelectorGender = ({
 
   switch (value) {
     case 'male': {
-      icon = <MarsIconIcon className="size-4" />;
+      icon = <Male02Icon className="size-4" />;
       break;
     }
     case 'female': {
-      icon = <VenusIconIcon className="size-4" />;
+      icon = <Female02Icon className="size-4" />;
       break;
     }
     case 'transgender': {
-      icon = <TransgenderIconIcon className="size-4" />;
+      icon = <Female02Icon className="size-4" />;
       break;
     }
     case 'androgyne': {
-      icon = <MarsStrokeIconIcon className="size-4" />;
+      icon = <Male02Icon className="size-4" />;
       break;
     }
     case 'non-binary': {
-      icon = <NonBinaryIconIcon className="size-4" />;
+      icon = <Female02Icon className="size-4" />;
       break;
     }
     case 'intersex': {
-      icon = <VenusAndMarsIconIcon className="size-4" />;
+      icon = <Female02Icon className="size-4" />;
       break;
     }
     default: {
-      icon = <CircleSmallIconIcon className="size-4" />;
+      icon = <CircleIcon className="size-4" />;
     }
   }
 
@@ -432,12 +432,12 @@ export const VoiceSelectorPreview = ({
     [onClick, onPlay]
   );
 
-  let icon = <PlayIconIcon className="size-3" />;
+  let icon = <PlayIcon className="size-3" />;
 
   if (loading) {
     icon = <Spinner className="size-3" />;
   } else if (playing) {
-    icon = <PauseIconIcon className="size-3" />;
+    icon = <PauseIcon className="size-3" />;
   }
 
   return (

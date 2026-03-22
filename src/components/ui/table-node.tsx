@@ -27,7 +27,7 @@ import {
   useTableMergeState,
   useTableValue,
 } from '@platejs/table/react';
-import { ArrowDownIcon, ArrowLeft01Icon, ArrowRight01Icon, ArrowUpIcon, CombineIconIcon, EraserIconIcon, Grid2X2IconIcon, GripVerticalIcon, PaintBucketIconIcon, SquareSplitHorizontalIconIcon, Trash2IconIcon, XIconIcon } from 'hugeicons-react';
+import { ArrowDown01Icon, ArrowLeft01Icon, ArrowRight01Icon, ArrowUp01Icon, LayerIcon, EraserIcon, Grid02Icon, HandGripIcon, PaintBucketIcon, ColumnInsertIcon, Delete01Icon, Cancel01Icon } from 'hugeicons-react';
 import {
   type TElement,
   type TTableCellElement,
@@ -636,7 +636,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
         >
           <ToolbarGroup>
             <ColorDropdownMenu tooltip="Background color">
-              <PaintBucketIconIcon />
+              <PaintBucketIcon />
             </ColorDropdownMenu>
             {canMerge && (
               <ToolbarButton
@@ -644,7 +644,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Merge cells"
               >
-                <CombineIconIcon />
+                <LayerIcon />
               </ToolbarButton>
             )}
             {canSplit && (
@@ -653,14 +653,14 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Split cell"
               >
-                <SquareSplitHorizontalIconIcon />
+                <ColumnInsertIcon />
               </ToolbarButton>
             )}
 
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <ToolbarButton tooltip="Cell borders">
-                  <Grid2X2IconIcon />
+                  <Grid02Icon />
                 </ToolbarButton>
               </DropdownMenuTrigger>
 
@@ -672,7 +672,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
             {collapsedInside && (
               <ToolbarGroup>
                 <ToolbarButton tooltip="Delete table" {...buttonProps}>
-                  <Trash2IconIcon />
+                  <Delete01Icon />
                 </ToolbarButton>
               </ToolbarGroup>
             )}
@@ -687,7 +687,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Insert row before"
               >
-                <ArrowUpIcon />
+                <ArrowUp01Icon />
               </ToolbarButton>
               <ToolbarButton
                 onClick={() => {
@@ -696,7 +696,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Insert row after"
               >
-                <ArrowDownIcon />
+                <ArrowDown01Icon />
               </ToolbarButton>
               <ToolbarButton
                 onClick={() => {
@@ -705,7 +705,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Delete row"
               >
-                <XIconIcon />
+                <Cancel01Icon />
               </ToolbarButton>
             </ToolbarGroup>
           )}
@@ -737,7 +737,7 @@ function TableFloatingToolbar({ children, ...props }: React.ComponentProps<typeo
                 onMouseDown={(e) => e.preventDefault()}
                 tooltip="Delete column"
               >
-                <XIconIcon />
+                <Cancel01Icon />
               </ToolbarButton>
             </ToolbarGroup>
           )}
@@ -860,7 +860,7 @@ function ColorDropdownMenu({ children, tooltip }: { children: React.ReactNode; t
         </ToolbarMenuGroup>
         <DropdownMenuGroup>
           <DropdownMenuItem className="p-2" onClick={onClearColor}>
-            <EraserIconIcon />
+            <EraserIcon />
             <span>Clear</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -984,7 +984,7 @@ function RowDragHandle({ dragRef }: { dragRef: React.Ref<any> }) {
         editor.tf.select(element);
       }}
     >
-      <GripVerticalIcon className="text-muted-foreground" />
+      <HandGripIcon className="text-muted-foreground" />
     </Button>
   );
 }

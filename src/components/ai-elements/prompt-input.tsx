@@ -57,7 +57,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { CornerDownLeftIconIcon, ImageIconIcon, PlusIconIcon, SquareIconIcon, XIconIcon, GlobalIcon } from 'hugeicons-react';
+import { ArrowDown01Icon, Image01Icon, Add01Icon, SquareIcon, Cancel01Icon, GlobalIcon } from 'hugeicons-react';
 
 // ============================================================================
 // Helpers
@@ -398,7 +398,7 @@ export const PromptInputActionAddAttachments = ({
 
   return (
     <DropdownMenuItem {...props} onSelect={handleSelect}>
-      <ImageIconIcon className="mr-2 size-4" /> {label}
+      <Image01Icon className="mr-2 size-4" /> {label}
     </DropdownMenuItem>
   );
 };
@@ -1090,7 +1090,7 @@ export const PromptInputActionMenuTrigger = ({
 }: PromptInputActionMenuTriggerProps) => (
   <DropdownMenuTrigger asChild>
     <PromptInputButton className={className} {...props}>
-      {children ?? <PlusIconIcon className="size-4" />}
+      {children ?? <Add01Icon className="size-4" />}
     </PromptInputButton>
   </DropdownMenuTrigger>
 );
@@ -1129,14 +1129,14 @@ export const PromptInputSubmit = ({
 }: PromptInputSubmitProps) => {
   const isGenerating = status === 'submitted' || status === 'streaming';
 
-  let Icon = <CornerDownLeftIconIcon className="size-4" />;
+  let Icon = <ArrowDown01Icon className="size-4" />;
 
   if (status === 'submitted') {
     Icon = <Spinner />;
   } else if (status === 'streaming') {
-    Icon = <SquareIconIcon className="size-4" />;
+    Icon = <SquareIcon className="size-4" />;
   } else if (status === 'error') {
-    Icon = <XIconIcon className="size-4" />;
+    Icon = <Cancel01Icon className="size-4" />;
   }
 
   const handleClick = useCallback(

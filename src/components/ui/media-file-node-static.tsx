@@ -3,7 +3,7 @@ import * as React from 'react';
 import type { TFileElement } from 'platejs';
 import type { SlateElementProps } from 'platejs/static';
 
-import { FileUpIcon } from 'hugeicons-react';
+import { FileUploadIcon } from 'hugeicons-react';
 import { SlateElement } from 'platejs/static';
 
 export function FileElementStatic(props: SlateElementProps<TFileElement>) {
@@ -21,7 +21,7 @@ export function FileElementStatic(props: SlateElementProps<TFileElement>) {
         target="_blank"
       >
         <div className="flex items-center gap-1 p-1">
-          <FileUpIcon className="size-5" />
+          <FileUploadIcon className="size-5" />
           <div>{name}</div>
         </div>
       </a>

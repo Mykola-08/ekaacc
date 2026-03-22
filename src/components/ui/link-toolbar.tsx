@@ -27,7 +27,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowUpRight01Icon, Link01Icon } from '@hugeicons/core-free-icons';
-import { TextIcon, UnlinkIcon } from 'hugeicons-react';
+import { TextIcon, Unlink01Icon } from 'hugeicons-react';
 
 const popoverVariants = cva(
   'z-50 w-auto rounded-[calc(var(--radius)*0.6)] border bg-popover p-1 text-popover-foreground shadow-md outline-hidden'
@@ -142,7 +142,7 @@ export function LinkFloatingToolbar({ state }: { state?: LinkFloatingToolbarStat
         type="button"
         {...unlinkButtonProps}
       >
-        <UnlinkIcon width={18} />
+        <Unlink01Icon width={18} />
       </button>
     </div>
   );

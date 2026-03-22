@@ -8,7 +8,7 @@ import { getDraftCommentKey } from '@platejs/comment';
 import { CommentPlugin } from '@platejs/comment/react';
 import { getTransientSuggestionKey } from '@platejs/suggestion';
 import { SuggestionPlugin } from '@platejs/suggestion/react';
-import { MessageSquareTextIconIcon, MessagesSquareIconIcon, PencilLineIconIcon } from 'hugeicons-react';
+import { Message01Icon, PencilEdit01Icon } from 'hugeicons-react';
 import {
   type AnyPluginConfig,
   type NodeEntry,
@@ -223,15 +223,15 @@ const BlockCommentContent = ({
                 contentEditable={false}
               >
                 {suggestionsCount > 0 && discussionsCount === 0 && (
-                  <PencilLineIconIcon className="size-4 shrink-0" />
+                  <PencilEdit01Icon className="size-4 shrink-0" />
                 )}
 
                 {suggestionsCount === 0 && discussionsCount > 0 && (
-                  <MessageSquareTextIconIcon className="size-4 shrink-0" />
+                  <Message01Icon className="size-4 shrink-0" />
                 )}
 
                 {suggestionsCount > 0 && discussionsCount > 0 && (
-                  <MessagesSquareIconIcon className="size-4 shrink-0" />
+                  <Message01Icon className="size-4 shrink-0" />
                 )}
 
                 <span className="text-xs font-semibold">{totalCount}</span>

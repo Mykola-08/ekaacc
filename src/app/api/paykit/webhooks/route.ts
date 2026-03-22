@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { paykit } from '@/lib/paykit';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';

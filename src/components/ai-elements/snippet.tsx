@@ -18,7 +18,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { CheckIconIcon, CopyIconIcon } from 'hugeicons-react';
+import { Tick01Icon, Copy01Icon } from 'hugeicons-react';
 
 interface SnippetContextType {
   code: string;
@@ -112,7 +112,7 @@ export const SnippetCopyButton = ({
     []
   );
 
-  const Icon = isCopied ? CheckIconIcon : CopyIconIcon;
+  const Icon = isCopied ? Tick01Icon : Copy01Icon;
 
   return (
     <InputGroupButton

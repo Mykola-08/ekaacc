@@ -41,7 +41,7 @@ function updateSlider() {
     // Range: primary
     content = content.replace(
         /className="absolute h-full bg-primary"/,
-        `className="absolute h-full bg-primary"`
+        `className="absolute h-full bg-primary/80"`
     );
     // Thumb: circular
     content = content.replace(
